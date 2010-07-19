@@ -28,5 +28,10 @@ namespace Commencement.Controllers
             FormsAuthentication.SignOut();
             return Redirect("https://cas.ucdavis.edu/cas/logout");
         }
+
+        public ActionResult NotCAESStudent()
+        {
+            return View();
+        }
     }
 }
