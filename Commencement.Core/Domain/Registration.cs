@@ -9,6 +9,7 @@ namespace Commencement.Core.Domain
         public virtual Student Student { get; set; }
         [NotNull]
         public virtual MajorCode Major { get; set; }
+        
         public virtual string Address1 { get; set; }
         public virtual string Address2 { get; set; }
         public virtual string Address3 { get; set; }

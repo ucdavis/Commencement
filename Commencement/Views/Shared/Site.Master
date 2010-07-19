@@ -45,15 +45,14 @@
 </div>
 
 <body>
-        <div id="logindisplay">
+<%--        <div id="logindisplay">
             <% Html.RenderPartial("LogOnUserControl"); %>
-        </div> 
+        </div> --%>
 
     <div class="main">
         <div id="messagecontainer">
             <h3><span style="color:Blue;"><%= TempData["Message"] %></span></h3>
         </div>
-
     
         <asp:ContentPlaceHolder ID="MainContent" runat="server" />
     </div>    
