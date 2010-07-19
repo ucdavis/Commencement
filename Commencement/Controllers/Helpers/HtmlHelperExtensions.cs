@@ -8,7 +8,7 @@ using Telerik.Web.Mvc.UI;
 
 namespace Commencement.Controllers.Helpers
 {
-    public class HtmlHelperExtensions
+    public static class HtmlHelperExtensions
     {
         public static CustomGridBuilder<T> Grid<T>(this HtmlHelper htmlHelper, IEnumerable<T> dataModel) where T : class
         {
