@@ -129,10 +129,15 @@
   <ItemGroup>
     <Compile Include="ComponentRegistrar.asax.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\CommencementController.cs" />
     <Compile Include="Controllers\Filters\StudentsOnlyFilter.cs" />
+    <Compile Include="Controllers\Helpers\CustomGridBuilder.cs" />
+    <Compile Include="Controllers\Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\ViewModels\CommencementViewModel.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -156,6 +161,8 @@
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\xVal.jquery.validate.js" />
+    <Content Include="Views\Commencement\Index.aspx" />
+    <Content Include="Views\Student\Index.aspx" />
     <Content Include="Web.config" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\MicrosoftAjax.js" />
