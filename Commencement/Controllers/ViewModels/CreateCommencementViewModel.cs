@@ -9,6 +9,7 @@ namespace Commencement.Controllers.ViewModels
     {
         // list of majors
         public IEnumerable<MajorCode> MajorCodes { get; set; }
+        public Core.Domain.Commencement Commencement { get; set; }
 
         public static CreateCommencementViewModel Create(IRepository repository)
         {
