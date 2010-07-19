@@ -37,11 +37,11 @@
   <ItemGroup>
     <Reference Include="NHibernate.Validator, Version=1.2.0.2002, Culture=neutral, PublicKeyToken=70154e18752585bd, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Commencement\Bin\NHibernate.Validator.dll</HintPath>
+      <HintPath>..\Bin\NHibernate.Validator.dll</HintPath>
     </Reference>
     <Reference Include="Spring.Core, Version=0.0.0.20110, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Commencement\Bin\Spring.Core.dll</HintPath>
+      <HintPath>..\Bin\Spring.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
