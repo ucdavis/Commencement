@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 
 namespace Commencement.Core.Domain
 {
     public class Registration : DomainObject
     {
+        [NotNull]
         public virtual Student Student { get; set; }
+        [NotNull]
         public virtual MajorCode Major { get; set; }
         public virtual string Address1 { get; set; }
         public virtual string Address2 { get; set; }
@@ -19,7 +18,9 @@ namespace Commencement.Core.Domain
         public virtual string Email { get; set; }
         public virtual int NumberTickets { get; set; }
         public virtual bool MailTickets { get; set; }
+        [NotNull]
         public virtual TermCode TermCode { get; set; }
+        [NotNull]
         public virtual Commencement Commencement { get; set; }
     }
 }
