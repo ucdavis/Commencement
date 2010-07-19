@@ -13,6 +13,18 @@
     <property name="TicketsPerStudent" column="TicketsPerStudent" />
     <property name="TotalTickets" column="TotalTickets" />
     <property name="RegistrationDeadline" column="RegistrationDeadline" />
+
+    <many-to-one name="TermCode" class="TermCode" column="TermCode"></many-to-one>
+    
+    <bag name="Registrations" cascade="all-delete-orphan">
+      <key column="CommencementId"></key>
+      <one-to-many class="Registration"/>
+    </bag>
+
+    <bag name="Majors" cascade="save-update">
+      <key column="CommencementId"></key>
+      <many-to-many column="MajorCode" class="MajorCode"></many-to-many>
+    </bag>
     
   </class>
 </hibernate-mapping>

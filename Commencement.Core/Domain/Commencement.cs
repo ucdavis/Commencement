@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UCDArch.Core.NHibernateValidator.Extensions;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
@@ -7,6 +8,17 @@ namespace Commencement.Core.Domain
 {
     public class Commencement : DomainObject
     {
+        public Commencement()
+        {
+            SetDefaults();
+        }
+
+        private void SetDefaults()
+        {
+            Registrations = new List<Registration>();
+            Majors = new List<MajorCode>();
+        }
+
         [Required]
         [Length(200)]
         public virtual string Location { get; set; }
@@ -24,5 +36,11 @@ namespace Commencement.Core.Domain
         
         [NotNull]
         public virtual DateTime RegistrationDeadline { get; set; }
+
+        [NotNull]
+        public virtual TermCode TermCode { get; set; }
+
+        public virtual IList<Registration> Registrations { get; set; }
+        public virtual IList<MajorCode> Majors { get; set; }
     }
 }

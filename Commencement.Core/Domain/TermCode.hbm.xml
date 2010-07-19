@@ -8,5 +8,10 @@
     <property name="Name" column="Name" />
     <property name="IsActive" column="IsActive" />
 
+    <bag name="Commencements" cascade="none">
+      <key column="TermCode"></key>
+      <one-to-many class="Commencement"/>
+    </bag>
+    
   </class>
 </hibernate-mapping>
