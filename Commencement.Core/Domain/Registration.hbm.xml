@@ -11,7 +11,7 @@
     <property name="Address2" column="Address2" />
     <property name="Address3" column="Address3" />
     <property name="City" column="City" />
-    <property name="State" column="State" />
+    <many-to-one name="State" class="State" column="State" />
     <property name="Zip" column="Zip" />
     <property name="Email" column="Email" />
     <property name="NumberTickets" column="NumberTickets" />
