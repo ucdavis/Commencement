@@ -1,5 +1,6 @@
 using System.Web.Mvc;
 using Commencement.Controllers.ViewModels;
+using MvcContrib.Attributes;
 using UCDArch.Web.Controller;
 
 namespace Commencement.Controllers
@@ -23,5 +24,12 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
+        [AcceptPost]
+        public ActionResult Create(Core.Domain.Commencement commencement)
+        {
+                      
+
+            return View();
+        }
     }
 }

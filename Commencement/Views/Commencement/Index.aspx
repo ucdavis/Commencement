@@ -1,5 +1,6 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.CommencementViewModel>" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
+<%@ Import Namespace="Commencement.Controllers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Index
@@ -9,6 +10,7 @@
 
     <h2>Index</h2>
 
+    <%= Html.ActionLink<CommencementController>(a=>a.Create(), "Create New") %>
 
     <% Html.Grid(Model.Commencements)
            .Transactional()

@@ -13,7 +13,11 @@ namespace Commencement.Core.Domain
         
         [NotNull]
         public virtual DateTime DateTime { get; set; }
-        
+
+        [NotNull]
+        [Min(1)]
+        public virtual int TicketsPerStudent { get; set; }
+
         [NotNull]
         [Min(1)]
         public virtual int TotalTickets { get; set; }

@@ -10,6 +10,7 @@
 
     <property name="Location" column="Location" />
     <property name="DateTime" column="DateTime" />
+    <property name="TicketsPerStudent" column="TicketsPerStudent" />
     <property name="TotalTickets" column="TotalTickets" />
     <property name="RegistrationDeadline" column="RegistrationDeadline" />
     

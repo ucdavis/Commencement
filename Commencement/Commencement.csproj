@@ -167,6 +167,7 @@
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\ui.multiselect.js" />
     <Content Include="Scripts\xVal.jquery.validate.js" />
     <Content Include="Views\Commencement\Create.aspx" />
     <Content Include="Views\Commencement\Index.aspx" />
