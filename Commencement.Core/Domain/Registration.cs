@@ -19,7 +19,7 @@ namespace Commencement.Core.Domain
         public virtual int NumberTickets { get; set; }
         public virtual bool MailTickets { get; set; }
         [NotNull]
-        public virtual TermCode TermCode { get; set; }
+        public virtual vTermCode TermCode { get; set; }
         [NotNull]
         public virtual Commencement Commencement { get; set; }
     }

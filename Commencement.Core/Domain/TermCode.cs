@@ -1,12 +1,14 @@
-﻿using System;
+﻿using NHibernate.Validator.Constraints;
+using Spring.Objects.Factory.Attributes;
 using UCDArch.Core.DomainModel;
 
 namespace Commencement.Core.Domain
 {
     public class TermCode : DomainObjectWithTypedId<string>
     {
-        public virtual string Description { get; set; }
-        public virtual DateTime StartDate { get; set; }
-        public virtual DateTime EndDate { get; set; }
+        [Required]
+        [Length(50)]
+        public virtual string Name { get; set; }
+        public virtual bool IsActive { get; set; }
     }
 }

@@ -39,6 +39,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Commencement\Bin\NHibernate.Validator.dll</HintPath>
     </Reference>
+    <Reference Include="Spring.Core, Version=0.0.0.20110, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Commencement\Bin\Spring.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -72,6 +76,7 @@
     <Compile Include="Domain\State.cs" />
     <Compile Include="Domain\Student.cs" />
     <Compile Include="Domain\TermCode.cs" />
+    <Compile Include="Domain\vTermCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -83,13 +88,16 @@
     <EmbeddedResource Include="Domain\School.hbm.xml" />
     <EmbeddedResource Include="Domain\State.hbm.xml" />
     <EmbeddedResource Include="Domain\Student.hbm.xml" />
-    <EmbeddedResource Include="Domain\TermCode.hbm.xml" />
+    <EmbeddedResource Include="Domain\vTermCode.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Domain\Commencement.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Domain\CommencementEditors.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Domain\TermCode.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

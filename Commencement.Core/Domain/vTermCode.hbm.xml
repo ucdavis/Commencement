@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Commencement.Core" namespace="Commencement.Core.Domain">
-  <class name="TermCode" table="TermCodes" >
+  <class name="vTermCode" table="vTermCodes" mutable="false" >
     <id name="Id" column="id" unsaved-value="0">
       <generator class="assigned" />
     </id>
 
-    <property name="Name" column="Name" />
-    <property name="IsActive" column="IsActive" />
+    <property name="Description" column="Description" />
+    <property name="StartDate" column="StartDate" />
+    <property name="EndDate" column="EndDate" />
 
   </class>
 </hibernate-mapping>
