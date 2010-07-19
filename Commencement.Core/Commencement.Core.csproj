@@ -62,12 +62,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\ExtraTicketPetition.cs" />
+    <Compile Include="Domain\MajorCode.cs" />
     <Compile Include="Domain\Petition.cs" />
+    <Compile Include="Domain\Registration.cs" />
     <Compile Include="Domain\RegistrationPetition.cs" />
+    <Compile Include="Domain\School.cs" />
+    <Compile Include="Domain\State.cs" />
+    <Compile Include="Domain\Student.cs" />
+    <Compile Include="Domain\TermCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Domain\Petition.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Domain\MajorCode.hbm.xml" />
+    <Content Include="Domain\Registration.hbm.xml" />
+    <Content Include="Domain\School.hbm.xml" />
+    <Content Include="Domain\State.hbm.xml" />
+    <Content Include="Domain\Student.hbm.xml" />
+    <Content Include="Domain\TermCode.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

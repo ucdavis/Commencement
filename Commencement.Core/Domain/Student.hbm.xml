@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Commencement.Core" namespace="Commencement.Core.Domain">
+  <class name="Student" table="Students" >
+    <id name="Id" column="id" unsaved-value="0">
+      <generator class="assigned" />
+    </id>
+
+    <property name="StudentId" column="StudentId" />
+    <property name="FirstName" column="FirstName" />
+    <property name="LastName" column="LastName" />
+    <property name="Units" column="Units" />
+    <property name="Email" column="Email" />
+    <property name="Login" column="Login" />
+
+    <bag name="Majors" table="StudentMajors" cascade="save-update">
+      <key column="Pidm" />
+      <many-to-many column="MajorCode" class="MajorCode" />
+    </bag>
+    
+  </class>
+</hibernate-mapping>

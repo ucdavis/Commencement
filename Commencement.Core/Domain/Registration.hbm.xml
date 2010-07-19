@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Commencement.Core" namespace="Commencement.Core.Domain">
+  <class name="Registration" table="Registrations" >
+    <id name="Id" column="id" unsaved-value="0">
+      <generator class="assigned" />
+    </id>
+
+    <property name="Pidm" column="Pidm" />
+    <property name="MajorCode" column="MajorCode" />
+    <property name="Address1" column="Address1" />
+    <property name="Address2" column="Address2" />
+    <property name="Address3" column="Address3" />
+    <property name="City" column="City" />
+    <property name="State" column="State" />
+    <property name="Zip" column="Zip" />
+    <property name="Email" column="Email" />
+    <property name="NumberTickets" column="NumberTickets" />
+    <property name="MailTickets" column="MailTickets" />
+    <property name="TermCode" column="TermCode" />
+    <property name="CommencementId" column="CommencementId" />
+
+  </class>
+</hibernate-mapping>
