@@ -3,7 +3,7 @@ using UCDArch.Web.Attributes;
 
 namespace Commencement.Controllers
 {
-    [HandleTransactionsManually]
+    //[HandleTransactionsManually]
     public class HomeController : ApplicationController
     {
         public ActionResult Index()

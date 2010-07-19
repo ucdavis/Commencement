@@ -169,6 +169,12 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Commencement.Core\Commencement.Core.csproj">
+      <Project>{0BB21F7B-8340-4B6E-A168-7929B0AB8C75}</Project>
+      <Name>Commencement.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\" />
     <Folder Include="Models\" />
