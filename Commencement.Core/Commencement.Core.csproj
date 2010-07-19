@@ -61,6 +61,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Commencement.cs" />
+    <Compile Include="Domain\CommencementEditor.cs" />
     <Compile Include="Domain\ExtraTicketPetition.cs" />
     <Compile Include="Domain\MajorCode.cs" />
     <Compile Include="Domain\Petition.cs" />
@@ -76,12 +78,18 @@
     <EmbeddedResource Include="Domain\Petition.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Domain\MajorCode.hbm.xml" />
-    <Content Include="Domain\Registration.hbm.xml" />
-    <Content Include="Domain\School.hbm.xml" />
-    <Content Include="Domain\State.hbm.xml" />
-    <Content Include="Domain\Student.hbm.xml" />
-    <Content Include="Domain\TermCode.hbm.xml" />
+    <EmbeddedResource Include="Domain\MajorCode.hbm.xml" />
+    <EmbeddedResource Include="Domain\Registration.hbm.xml" />
+    <EmbeddedResource Include="Domain\School.hbm.xml" />
+    <EmbeddedResource Include="Domain\State.hbm.xml" />
+    <EmbeddedResource Include="Domain\Student.hbm.xml" />
+    <EmbeddedResource Include="Domain\TermCode.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Domain\Commencement.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Domain\CommencementEditors.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
