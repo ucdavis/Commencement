@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" 
+                   assembly="Commencement.Core" namespace="Commencement.Core.Domain">
+  <class
+    name="Petition"
+    table="Petitions">
+    <id name="Id" column="ID">
+      <generator class="identity" />
+    </id>
+
+    <property name="Pidm" column="Pidm" />
+    <property name="Address1" column="Address1" />
+    <property name="Address2" column="Address2" />
+    <property name="Address3" column="Address3" />
+    <property name="City" column="City" />
+    <property name="State" column="State" />
+    <property name="Zip" column="Zip" />
+    <property name="Email" column="Email" />
+    <property name="NumberTickets" column="NumberTickets" />
+    <property name="MailTickets" column="MailTickets" />
+    <property name="Pending" column="Pending" />
+    <property name="Approved" column="Approved" />
+    
+    <joined-subclass name="RegistrationPetition" table="RegistrationPetitions">
+      <key column="ID"></key>
+
+      <property name="StudentId" column="StudentId" />
+      <property name="FirstName" column="FirstName" />
+      <property name="LastName" column="LastName" />
+      <property name="MajorCode" column="MajorCode" />
+      <property name="Units" column="Units" />
+      <property name="ExceptionReason" column="ExceptionReason" />
+      <property name="CompletionTerm" column="CompletionTerm" />
+      
+    </joined-subclass>
+
+    <joined-subclass name="ExtraTicketPetition" table="ExtraTicketPetitions">
+      <key column="ID"></key>
+    </joined-subclass>
+
+  </class>
+</hibernate-mapping>
