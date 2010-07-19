@@ -138,6 +138,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\ViewModels\CommencementViewModel.cs" />
+    <Compile Include="Controllers\ViewModels\CreateCommencementViewModel.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -149,11 +150,17 @@
     <Compile Include="RouteConfigurator.asax.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\font.css" />
+    <Content Include="Content\main.css" />
     <Content Include="Content\telerik.common.css" />
     <Content Include="Content\telerik.vista.css" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\branding.jpg" />
+    <Content Include="Images\logo-caes.png" />
+    <Content Include="Images\logo-ucdavis.png" />
+    <Content Include="Images\logo.jpg" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
@@ -161,6 +168,7 @@
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\xVal.jquery.validate.js" />
+    <Content Include="Views\Commencement\Create.aspx" />
     <Content Include="Views\Commencement\Index.aspx" />
     <Content Include="Views\Student\Index.aspx" />
     <Content Include="Web.config" />
@@ -184,8 +192,37 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\font\Cicle_Fina-webfont.eot" />
+    <None Include="Content\font\Cicle_Fina-webfont.svg" />
+    <None Include="Content\font\Cicle_Fina-webfont.ttf" />
+    <None Include="Content\font\Cicle_Fina-webfont.woff" />
+    <None Include="Content\font\Cicle_Fina_Italic-webfont.eot" />
+    <None Include="Content\font\Cicle_Fina_Italic-webfont.svg" />
+    <None Include="Content\font\Cicle_Fina_Italic-webfont.ttf" />
+    <None Include="Content\font\Cicle_Fina_Italic-webfont.woff" />
+    <None Include="Content\font\Cicle_Gordita-webfont.eot" />
+    <None Include="Content\font\Cicle_Gordita-webfont.svg" />
+    <None Include="Content\font\Cicle_Gordita-webfont.ttf" />
+    <None Include="Content\font\Cicle_Gordita-webfont.woff" />
+    <None Include="Content\font\Cicle_Gordita_Italic-webfont.eot" />
+    <None Include="Content\font\Cicle_Gordita_Italic-webfont.svg" />
+    <None Include="Content\font\Cicle_Gordita_Italic-webfont.ttf" />
+    <None Include="Content\font\Cicle_Gordita_Italic-webfont.woff" />
+    <None Include="Content\font\Cicle_Semi-webfont.eot" />
+    <None Include="Content\font\Cicle_Semi-webfont.svg" />
+    <None Include="Content\font\Cicle_Semi-webfont.ttf" />
+    <None Include="Content\font\Cicle_Semi-webfont.woff" />
+    <None Include="Content\font\Cicle_Semi_Italic-webfont.eot" />
+    <None Include="Content\font\Cicle_Semi_Italic-webfont.svg" />
+    <None Include="Content\font\Cicle_Semi_Italic-webfont.ttf" />
+    <None Include="Content\font\Cicle_Semi_Italic-webfont.woff" />
+    <None Include="Content\font\Cicle_Shadow-webfont.eot" />
+    <None Include="Content\font\Cicle_Shadow-webfont.svg" />
+    <None Include="Content\font\Cicle_Shadow-webfont.ttf" />
+    <None Include="Content\font\Cicle_Shadow-webfont.woff" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

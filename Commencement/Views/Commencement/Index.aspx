@@ -1,4 +1,5 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.CommencementViewModel>" %>
+<%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Index
@@ -8,7 +9,21 @@
 
     <h2>Index</h2>
 
-    
+
+    <% Html.Grid(Model.Commencements)
+           .Transactional()
+           .Name("Commencements")
+           .Columns(col =>
+                        {
+                            col.Command(commands => commands.Select());
+                            col.Bound(a => a.DateTime);
+                            col.Bound(a => a.Location);
+                            col.Bound(a => a.TotalTickets);
+                            col.Bound(a => a.RegistrationDeadline);
+                        } )
+           .Render();
+        
+           %>    
 
 </asp:Content>
 

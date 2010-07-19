@@ -1,0 +1,50 @@
+/* ---------------- */
+/*    reset         */
+/* ---------------- */
+
+* {padding:0; margin:0;}
+a img {border:none;}
+
+/* ---------------- */
+/*    branding      */
+/* ---------------- */
+#portal-logo img {margin: 0px;}
+#branding {background: url(../Images/branding.jpg) repeat-x top center; height: 70px; margin: 0 auto;}
+#branding span.logos {width: 937px; padding: 22px 0px 0px 30px; margin: 0px auto; display: block;}
+#branding span.ucdavis {margin-right: 5px;}
+
+/* ---------------- */
+/*    main          */
+/* ---------------- */
+.main {width:937px; margin:0 auto;}
+
+/* ---------------- */
+/*    font          */
+/* ---------------- */
+
+h1 {font: 40px/48px 'CicleSemi', Arial, sans-serif;letter-spacing: 0; text-align:center;}
+h2 {font: 30px/38px 'CicleSemi', Arial, sans-serif;letter-spacing: 0; margin:0.25em 0;}
+h3 {font: 14px/24px 'CicleSemiItalic', Arial, sans-serif;letter-spacing: 0; text-align:center; margin-top:3em;}
+body {font: 16px/25px 'CicleFina', Arial, sans-serif;}
+b, strong {font: 18px/27px 'CicleGordita', Arial, sans-serif; font-weight:normal;}
+
+
+/* ---------------- */
+/*   h1 {font: 40px/48px 'CicleGordita', Arial, sans-serif;letter-spacing: 0; text-align:center;}
+p.style1 {font: 18px/27px 'CicleFina', Arial, sans-serif;}
+p.style2 {font: 18px/27px 'CicleFinaItalic', Arial, sans-serif;}
+p.style3 {font: 18px/27px 'CicleGordita', Arial, sans-serif;}
+p.style4 {font: 18px/27px 'CicleGorditaItalic', Arial, sans-serif;}
+p.style5 {font: 18px/27px 'CicleSemi', Arial, sans-serif;}
+p.style6 {font: 18px/27px 'CicleSemiItalic', Arial, sans-serif;}
+p.style7 {font: 18px/27px 'CicleShadow', Arial, sans-serif;}       */
+/* ---------------- */
+
+
+/* ---------------- */
+/*  form formatting */
+/* ---------------- */
+.registration_form li{list-style:none; margin-left:1em; letter-spacing:2px; margin-top:0.25em;}
+.prefilled span {color:#333;}
+.registration_form input {}
+.registration_form li strong {width:200px; display:inline-block;}
