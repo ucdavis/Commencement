@@ -177,6 +177,7 @@
     <Content Include="Scripts\xVal.jquery.validate.js" />
     <Content Include="Views\Ceremony\Create.aspx" />
     <Content Include="Views\Ceremony\Index.aspx" />
+    <Content Include="Views\Student\ChooseCeremony.aspx" />
     <Content Include="Views\Student\Index.aspx" />
     <Content Include="Views\Student\Register.aspx" />
     <Content Include="Web.config" />
