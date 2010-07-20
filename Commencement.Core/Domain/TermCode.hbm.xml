@@ -8,7 +8,7 @@
     <property name="Name" column="Name" />
     <property name="IsActive" column="IsActive" />
 
-    <many-to-one name="VTermCode" class="vTermCode" column="TermCode"></many-to-one>
+    <many-to-one name="VTermCode" class="vTermCode" column="Id"></many-to-one>
     
     <bag name="Ceremonies" cascade="none">
       <key column="TermCode"></key>

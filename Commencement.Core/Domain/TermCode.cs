@@ -7,6 +7,15 @@ namespace Commencement.Core.Domain
 {
     public class TermCode : DomainObjectWithTypedId<string>
     {
+        public TermCode(vTermCode vTermCode)
+        {
+            Id = vTermCode.Id;
+            Name = vTermCode.Description;
+            VTermCode = vTermCode;
+
+            SetDefaults();
+        }
+
         public TermCode()
         {
             SetDefaults();
@@ -14,6 +23,7 @@ namespace Commencement.Core.Domain
 
         private void SetDefaults()
         {
+            IsActive = true;
             Ceremonies = new List<Ceremony>();
         }
 

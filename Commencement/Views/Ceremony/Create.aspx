@@ -18,7 +18,9 @@
     <ul class="registration_form">
         <li>
             <strong>Term Code:</strong>
-            <%= this.Select("vTermCode").Options(Model.TermCodes, x=>x.Id, x=>x.Description).FirstOption("--Select a Term--") %>
+            <%= this.Select("term").Options(Model.TermCodes, x => x.Id, x => x.Description).FirstOption("--Select a Term--")%>
+            
+            <%--<%= Html.DropDownList("term", Model.TermCodes.Select(x=>new SelectListItem(){Text = x.Description, Value = x.Id})) %>--%>
         </li>
         <li>
             <strong>Date/Time:</strong>
@@ -43,7 +45,7 @@
         </li>
         <li>
             <strong>Registration Deadline:</strong>
-            <%= Html.TextBoxFor(x=>x.Ceremony.RegistrationDeadline) %>
+            <%= Html.TextBoxFor(x => x.Ceremony.RegistrationDeadline.ToString("d"))%>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.RegistrationDeadline) %>
         </li>
         
@@ -72,8 +74,8 @@
     
     <script type="text/javascript">
         $(function() {
-            $("#DateTime").datetimepicker();
-            $("#RegistrationDeadline").datepicker();
+            $("#Ceremony_DateTime").datetimepicker();
+            $("#Ceremony_RegistrationDeadline").datepicker();
 
             $("#AvailableMajors").multiselect();
         });

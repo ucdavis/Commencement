@@ -9,6 +9,7 @@ Begin DataProject = "Commencement.SQL"
    Begin Folder = "Change Scripts"
    End
    Begin Folder = "Create Scripts"
+      Script = "usp_DownloadStudents.sql"
    End
    Begin DBRefFolder = "Database References"
       Begin DBRefNode = "vogel.Commencement.dbo"

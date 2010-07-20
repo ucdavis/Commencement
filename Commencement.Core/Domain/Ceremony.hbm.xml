@@ -14,7 +14,7 @@
     <property name="TotalTickets" column="TotalTickets" />
     <property name="RegistrationDeadline" column="RegistrationDeadline" />
 
-    <many-to-one name="TermCode" class="TermCode" column="TermCode"></many-to-one>
+    <many-to-one name="TermCode" class="TermCode" column="TermCode" ></many-to-one>
     
     <bag name="Registrations" cascade="all-delete-orphan">
       <key column="CeremonyId"></key>
