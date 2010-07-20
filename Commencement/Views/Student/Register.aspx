@@ -55,14 +55,15 @@
         <li class="prefilled"><strong>Email Address 1:</strong> <span>student@ucdavis.edu</span>
         </li>
         <li><strong>Email Address 2:</strong>
-            <input />
+            <%= Html.TextBoxFor(x=>x.Registration.Email) %>
+            <%= Html.ValidationMessageFor(x=>x.Registration.Email) %>
         </li>
     </ul>
     <h2>
         Ceremony Information</h2>
     <ul class="registration_form">
         <li><strong>Tickets Requested:</strong>
-            <select>
+            <select id="Registration_NumberTickets" name="Registration.NumberTickets">
                 <% for (int i = 1; i <= Model.Ceremony.TicketsPerStudent; i++)
                    { %>
                 <option value="<%= i %>"><%= string.Format("{0:00}", i) %></option>

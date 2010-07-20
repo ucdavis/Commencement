@@ -8,6 +8,8 @@ using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using MvcContrib;
+using MvcContrib.Attributes;
+using UCDArch.Web.Helpers;
 
 namespace Commencement.Controllers
 {
@@ -55,6 +57,27 @@ namespace Commencement.Controllers
             
             //Get student info and create registration model
             var viewModel = RegistrationModel.Create(Repository, GetCurrentStudent(), ceremony);
+
+            return View(viewModel);
+        }
+
+        [AcceptPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(int id, Registration registration)
+        {
+            registration.Student = GetCurrentStudent();
+            registration.Ceremony = _ceremonyRepository.GetNullableById(id);
+            
+            registration.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                Message = "Testing:  Save Successful";
+                return RedirectToAction("Register");
+            }
+            
+            var viewModel = RegistrationModel.Create(Repository, registration.Student, registration.Ceremony);
+            viewModel.Registration = registration;
 
             return View(viewModel);
         }

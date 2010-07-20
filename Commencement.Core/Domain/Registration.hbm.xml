@@ -16,7 +16,6 @@
     <property name="Email" column="Email" />
     <property name="NumberTickets" column="NumberTickets" />
     <property name="MailTickets" column="MailTickets" />
-    <many-to-one name="TermCode" class="TermCode" column="TermCode" />
     <many-to-one name="Ceremony" class="Ceremony" column="CeremonyId" />
 
   </class>

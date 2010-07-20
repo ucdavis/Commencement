@@ -1,5 +1,6 @@
 ﻿using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
+using UCDArch.Core.NHibernateValidator.Extensions;
 
 namespace Commencement.Core.Domain
 {
@@ -9,18 +10,33 @@ namespace Commencement.Core.Domain
         public virtual Student Student { get; set; }
         [NotNull]
         public virtual MajorCode Major { get; set; }
-        
+
+        [Required]
+        [Length(200)]
         public virtual string Address1 { get; set; }
+        [Length(200)]
         public virtual string Address2 { get; set; }
+        [Length(200)]
         public virtual string Address3 { get; set; }
+        [Required]
+        [Length(100)]
         public virtual string City { get; set; }
-        public virtual State State { get; set; }
+        [Required]
+        [Length(2)]
+        public virtual string State { get; set; }
+        [Required]
+        [Length(15)]
         public virtual string Zip { get; set; }
+
+        [Length(100)]
+        [Email]
         public virtual string Email { get; set; }
+        
+        [Min(1)]
         public virtual int NumberTickets { get; set; }
+        
         public virtual bool MailTickets { get; set; }
-        [NotNull]
-        public virtual vTermCode TermCode { get; set; }
+        
         [NotNull]
         public virtual Ceremony Ceremony { get; set; }
     }
