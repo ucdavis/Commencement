@@ -65,8 +65,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Commencement.cs" />
-    <Compile Include="Domain\CommencementEditor.cs" />
+    <Compile Include="Domain\Ceremony.cs" />
+    <Compile Include="Domain\CeremonyEditor.cs" />
     <Compile Include="Domain\ExtraTicketPetition.cs" />
     <Compile Include="Domain\MajorCode.cs" />
     <Compile Include="Domain\Petition.cs" />
@@ -91,10 +91,10 @@
     <EmbeddedResource Include="Domain\vTermCode.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Domain\Commencement.hbm.xml" />
+    <EmbeddedResource Include="Domain\Ceremony.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Domain\CommencementEditors.hbm.xml" />
+    <EmbeddedResource Include="Domain\CeremonyEditors.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Domain\TermCode.hbm.xml" />

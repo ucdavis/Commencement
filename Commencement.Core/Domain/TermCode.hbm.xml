@@ -8,9 +8,9 @@
     <property name="Name" column="Name" />
     <property name="IsActive" column="IsActive" />
 
-    <bag name="Commencements" cascade="none">
+    <bag name="Ceremonies" cascade="none">
       <key column="TermCode"></key>
-      <one-to-many class="Commencement"/>
+      <one-to-many class="Ceremony"/>
     </bag>
     
   </class>

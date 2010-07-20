@@ -17,7 +17,7 @@
     <property name="NumberTickets" column="NumberTickets" />
     <property name="MailTickets" column="MailTickets" />
     <many-to-one name="TermCode" class="TermCode" column="TermCode" />
-    <many-to-one name="Commencement" class="Commencement" column="CommencementId" />
+    <many-to-one name="Ceremony" class="Ceremony" column="CeremonyId" />
 
   </class>
 </hibernate-mapping>

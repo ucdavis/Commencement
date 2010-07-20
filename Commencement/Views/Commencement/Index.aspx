@@ -12,9 +12,9 @@
 
     <%= Html.ActionLink<CommencementController>(a=>a.Create(), "Create New") %>
 
-    <% Html.Grid(Model.Commencements)
+    <% Html.Grid(Model.Ceremonies)
            .Transactional()
-           .Name("Commencements")
+           .Name("Ceremonies")
            .Columns(col =>
                         {
                             col.Command(commands => commands.Select());

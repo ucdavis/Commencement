@@ -6,9 +6,9 @@ using UCDArch.Core.DomainModel;
 
 namespace Commencement.Core.Domain
 {
-    public class Commencement : DomainObject
+    public class Ceremony : DomainObject
     {
-        public Commencement()
+        public Ceremony()
         {
             SetDefaults();
         }

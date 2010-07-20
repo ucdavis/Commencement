@@ -22,6 +22,6 @@ namespace Commencement.Core.Domain
         [NotNull]
         public virtual vTermCode TermCode { get; set; }
         [NotNull]
-        public virtual Commencement Commencement { get; set; }
+        public virtual Ceremony Ceremony { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace Commencement.Controllers.ViewModels
     public class CommencementViewModel
     {
         public IEnumerable<TermCode> TermCodes { get; set; }
-        public IEnumerable<Core.Domain.Commencement> Commencements { get; set; }
+        public IEnumerable<Core.Domain.Ceremony> Ceremonies { get; set; }
 
         public static CommencementViewModel Create(IRepository repository)
         {
@@ -17,7 +17,7 @@ namespace Commencement.Controllers.ViewModels
             var viewModel = new CommencementViewModel()
                                 {
                                     TermCodes = repository.OfType<TermCode>().GetAll(),
-                                    Commencements = repository.OfType<Core.Domain.Commencement>().GetAll()
+                                    Ceremonies = repository.OfType<Core.Domain.Ceremony>().GetAll()
                                 };
 
             return viewModel;

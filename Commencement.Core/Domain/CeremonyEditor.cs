@@ -4,7 +4,7 @@ using UCDArch.Core.DomainModel;
 
 namespace Commencement.Core.Domain
 {
-    public class CommencementEditor : DomainObject
+    public class CeremonyEditor : DomainObject
     {
         [Required]
         [Length(50)]
@@ -12,6 +12,6 @@ namespace Commencement.Core.Domain
         
         public virtual bool Owner { get; set; }
 
-        public virtual Commencement Commencement { get; set; }
+        public virtual Ceremony Ceremony { get; set; }
     }
 }

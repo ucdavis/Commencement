@@ -2,8 +2,8 @@
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" 
                    assembly="Commencement.Core" namespace="Commencement.Core.Domain">
   <class
-    name="Commencement"
-    table="Commencements">
+    name="Ceremony"
+    table="Ceremonies">
     <id name="Id" column="ID">
       <generator class="identity" />
     </id>
@@ -17,12 +17,12 @@
     <many-to-one name="TermCode" class="TermCode" column="TermCode"></many-to-one>
     
     <bag name="Registrations" cascade="all-delete-orphan">
-      <key column="CommencementId"></key>
+      <key column="CeremonyId"></key>
       <one-to-many class="Registration"/>
     </bag>
 
-    <bag name="Majors" cascade="save-update">
-      <key column="CommencementId"></key>
+    <bag name="Majors" table="CeremonyMajors" cascade="save-update">
+      <key column="CeremonyId"></key>
       <many-to-many column="MajorCode" class="MajorCode"></many-to-many>
     </bag>
     

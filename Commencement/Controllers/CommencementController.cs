@@ -27,14 +27,14 @@ namespace Commencement.Controllers
         }
 
         [AcceptPost]
-        public ActionResult Create(Core.Domain.Commencement commencement)
+        public ActionResult Create(Core.Domain.Ceremony ceremony)
         {
-            commencement.TransferValidationMessagesTo(ModelState);
+            ceremony.TransferValidationMessagesTo(ModelState);
 
             if (ModelState.IsValid)
             {
                 // save
-                Repository.OfType<Core.Domain.Commencement>().EnsurePersistent(commencement);
+                Repository.OfType<Core.Domain.Ceremony>().EnsurePersistent(ceremony);
 
                 // redirect to the list
                 return this.RedirectToAction(a => a.Index());
@@ -42,7 +42,7 @@ namespace Commencement.Controllers
 
             // redirect back to the page
             var viewModel = CreateCommencementViewModel.Create(Repository);
-            viewModel.Commencement = commencement;
+            viewModel.Ceremony = ceremony;
 
             return View(viewModel);
         }
