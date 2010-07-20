@@ -36,6 +36,17 @@ namespace Commencement.Controllers
             return this.RedirectToAction(x=>x.Register(ceremony.Id));
         }
 
+        public ActionResult ChooseCeremony(int[] ceremonies)
+        {
+            ceremonies = new int[] { 1, 2 };//TODO: For testing only
+
+            if (ceremonies == null || ceremonies.Count() == 0) return this.RedirectToAction(x => x.Index());
+
+            var possibleCeremonies = _ceremonyRepository.Queryable.Where(x => new List<int>(ceremonies).Contains(x.Id));
+
+            return View(possibleCeremonies.ToList());
+        }
+
         public ActionResult Register(int id /* ceremony id */)
         {
             var ceremony = _ceremonyRepository.GetNullableById(id);
