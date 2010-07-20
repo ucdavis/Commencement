@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NHibernate.Validator.Constraints;
-using Spring.Objects.Factory.Attributes;
 using UCDArch.Core.DomainModel;
+using UCDArch.Core.NHibernateValidator.Extensions;
 
 namespace Commencement.Core.Domain
 {
