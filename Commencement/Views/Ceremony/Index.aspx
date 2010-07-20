@@ -10,7 +10,7 @@
 
     <h2>Index</h2>
 
-    <%= Html.ActionLink<CommencementController>(a=>a.Create(), "Create New") %>
+    <%= Html.ActionLink<CeremonyController>(a=>a.Create(), "Create New") %>
 
     <% Html.Grid(Model.Ceremonies)
            .Transactional()

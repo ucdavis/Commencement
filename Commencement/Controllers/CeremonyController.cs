@@ -1,5 +1,6 @@
 using System.Web.Mvc;
 using Commencement.Controllers.ViewModels;
+using Commencement.Core.Domain;
 using MvcContrib.Attributes;
 using UCDArch.Web.Controller;
 using UCDArch.Web.Helpers;
@@ -7,7 +8,7 @@ using MvcContrib;
 
 namespace Commencement.Controllers
 {
-    public class CommencementController : SuperController
+    public class CeremonyController : ApplicationController
     {
         //
         // GET: /Commencement/
@@ -27,7 +28,7 @@ namespace Commencement.Controllers
         }
 
         [AcceptPost]
-        public ActionResult Create(Core.Domain.Ceremony ceremony)
+        public ActionResult Create(Ceremony ceremony)
         {
             ceremony.TransferValidationMessagesTo(ModelState);
 

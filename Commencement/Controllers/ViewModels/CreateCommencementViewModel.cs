@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -9,7 +11,8 @@ namespace Commencement.Controllers.ViewModels
     {
         // list of majors
         public IEnumerable<MajorCode> MajorCodes { get; set; }
-        public Core.Domain.Ceremony Ceremony { get; set; }
+        public Ceremony Ceremony { get; set; }
+        public IEnumerable<vTermCode> TermCodes { get; set; }
 
         public static CreateCommencementViewModel Create(IRepository repository)
         {
@@ -17,7 +20,8 @@ namespace Commencement.Controllers.ViewModels
 
             var viewModel = new CreateCommencementViewModel()
                                 {
-                                    MajorCodes = repository.OfType<MajorCode>().GetAll()
+                                    MajorCodes = repository.OfType<MajorCode>().GetAll(),
+                                    TermCodes = repository.OfType<vTermCode>().Queryable.Where(a=>a.EndDate > DateTime.Now)
                                 };
 
             return viewModel;

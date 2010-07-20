@@ -21,6 +21,8 @@ namespace Commencement.Core.Domain
         [Length(50)]
         public virtual string Name { get; set; }
         public virtual bool IsActive { get; set; }
+        [NotNull]
+        public virtual vTermCode VTermCode { get; set; }
 
         public virtual IList<Ceremony> Ceremonies { get; set; }
     }

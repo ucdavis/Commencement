@@ -135,7 +135,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
-    <Compile Include="Controllers\CommencementController.cs" />
+    <Compile Include="Controllers\CeremonyController.cs" />
     <Compile Include="Controllers\Filters\StudentsOnlyFilter.cs" />
     <Compile Include="Controllers\Helpers\CustomGridBuilder.cs" />
     <Compile Include="Controllers\Helpers\HtmlHelperExtensions.cs" />
@@ -169,13 +169,14 @@
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
+    <Content Include="Scripts\jquery.ui.datetimepicker.min.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\ui.multiselect.js" />
     <Content Include="Scripts\xVal.jquery.validate.js" />
-    <Content Include="Views\Commencement\Create.aspx" />
-    <Content Include="Views\Commencement\Index.aspx" />
+    <Content Include="Views\Ceremony\Create.aspx" />
+    <Content Include="Views\Ceremony\Index.aspx" />
     <Content Include="Views\Student\Index.aspx" />
     <Content Include="Views\Student\Register.aspx" />
     <Content Include="Web.config" />

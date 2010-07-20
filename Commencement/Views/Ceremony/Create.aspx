@@ -8,9 +8,15 @@
 
     <h2>Create</h2>
 
-    <% using(Html.BeginForm("Create", "Commencement", FormMethod.Post)) { %>
+    <% using(Html.BeginForm("Create", "Ceremony", FormMethod.Post)) { %>
+
+        <%= Html.AntiForgeryToken() %>
 
     <ul class="registration_form">
+        <li>
+            <strong>Term Code:</strong>
+            <%= this.Select("vTermCode").Options(Model.TermCodes, x=>x.Id, x=>x.Description) %>
+        </li>
         <li>
             <strong>Date/Time:</strong>
             <%= Html.TextBox("DateTime") %>
@@ -36,7 +42,7 @@
             <strong>Majors:</strong>
             <span>
             
-                <%= Html.ListBox("AvailableMajors", Model.MajorCodes.Select(a=> new SelectListItem(){Text = a.Name, Value = a.Id}))%>
+                <%= Html.ListBox("Majors", Model.MajorCodes.Select(a=> new SelectListItem(){Text = a.Name, Value = a.Id}))%>
             
             </span>
         </li>
@@ -52,12 +58,21 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
 
-    <script src="<%= Url.Content("~/Scripts/ui.multiselect.js") %>" type="text/javascript"></script>
+    <script src="<%= Url.Content("~/Scripts/jquery.ui.datetimepicker.min.js") %>" type="text/javascript"></script>
+    
+    <script type="text/javascript">
+        $(function() {
+            $("#DateTime").datetimepicker();
+            $("#RegistrationDeadline").datepicker();
+        });
+    </script>
+
+<%--    <script src="<%= Url.Content("~/Scripts/ui.multiselect.js") %>" type="text/javascript"></script>
 
     <script type="text/javascript">
         $(function() {
             $("#AvailableMajors").multiselect();
         });
-    </script>
+    </script>--%>
 
 </asp:Content>

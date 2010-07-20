@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Commencement.Core" namespace="Commencement.Core.Domain">
-  <class name="TermCode" table="TermCodes" >
+  <class name="TermCode" table="TermCodes">
     <id name="Id" column="id" unsaved-value="0">
       <generator class="assigned" />
     </id>
@@ -8,6 +8,8 @@
     <property name="Name" column="Name" />
     <property name="IsActive" column="IsActive" />
 
+    <many-to-one name="VTermCode" class="vTermCode" column="TermCode"></many-to-one>
+    
     <bag name="Ceremonies" cascade="none">
       <key column="TermCode"></key>
       <one-to-many class="Ceremony"/>
