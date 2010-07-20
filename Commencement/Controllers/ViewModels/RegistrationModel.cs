@@ -7,22 +7,22 @@ namespace Commencement.Controllers.ViewModels
     public class RegistrationModel
     {
         public Registration Registration { get; set; }
-        
-        //public string Address1 { get; set; }
-        //public string Address2 { get; set; }
-        //public string Address3 { get; set; }
-        
-        //public string City { get; set; }
-        //public string Zip { get; set; }
-        //public string Email { get; set; }
 
+        public Student Student { get; private set; }
+
+        public Ceremony Ceremony { get; private set; }
+        
         public IEnumerable<State> States { get; set; }
         
-        public static RegistrationModel Create(IRepository repository)
+        public static RegistrationModel Create(IRepository repository, Student student, Ceremony ceremony)
         {
-            var viewModel = new RegistrationModel {States = repository.OfType<State>().GetAll()};
-
-            viewModel.Registration = new Registration(); //TODO: Get registration info
+            var viewModel = new RegistrationModel
+                                {
+                                    States = repository.OfType<State>().GetAll(),
+                                    Registration = new Registration(),
+                                    Ceremony = ceremony,
+                                    Student = student
+                                };
 
             return viewModel;
         }
