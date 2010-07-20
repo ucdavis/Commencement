@@ -140,8 +140,11 @@
     <Compile Include="Controllers\Helpers\CustomGridBuilder.cs" />
     <Compile Include="Controllers\Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PetitionController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\ViewModels\CommencementViewModel.cs" />
+    <Compile Include="Controllers\ViewModels\ExtraTicketPetitionModel.cs" />
+    <Compile Include="Controllers\ViewModels\RegistrationPetitionModel.cs" />
     <Compile Include="Controllers\ViewModels\CreateCommencementViewModel.cs" />
     <Compile Include="Controllers\ViewModels\RegistrationModel.cs" />
     <Compile Include="Default.aspx.cs">
@@ -177,6 +180,8 @@
     <Content Include="Scripts\xVal.jquery.validate.js" />
     <Content Include="Views\Ceremony\Create.aspx" />
     <Content Include="Views\Ceremony\Index.aspx" />
+    <Content Include="Views\ExtraTicketPetition.aspx" />
+    <Content Include="Views\Register.aspx" />
     <Content Include="Views\Student\ChooseCeremony.aspx" />
     <Content Include="Views\Student\Index.aspx" />
     <Content Include="Views\Student\MajorSelection.ascx" />
