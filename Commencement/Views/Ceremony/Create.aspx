@@ -8,6 +8,9 @@
 
     <h2>Create</h2>
 
+    <%= Html.ValidationSummary("Please correct all errors below") %>
+    <%= Html.ClientSideValidation<Commencement.Core.Domain.Ceremony>("Ceremony") %>
+
     <% using(Html.BeginForm("Create", "Ceremony", FormMethod.Post)) { %>
 
         <%= Html.AntiForgeryToken() %>
@@ -15,27 +18,33 @@
     <ul class="registration_form">
         <li>
             <strong>Term Code:</strong>
-            <%= this.Select("vTermCode").Options(Model.TermCodes, x=>x.Id, x=>x.Description) %>
+            <%= this.Select("vTermCode").Options(Model.TermCodes, x=>x.Id, x=>x.Description).FirstOption("--Select a Term--") %>
         </li>
         <li>
             <strong>Date/Time:</strong>
-            <%= Html.TextBox("DateTime") %>
+            <%= Html.TextBoxFor(x=>x.Ceremony.DateTime) %>
+            <%= Html.ValidationMessageFor(x=>x.Ceremony.DateTime) %>
         </li>
         <li>
             <strong>Location:</strong>
-            <%= Html.TextBox("Location") %>
+            <%= Html.TextBoxFor(x=>x.Ceremony.Location) %>
+            <%= Html.ValidationMessageFor(x=>x.Ceremony.Location) %>
         </li>
         <li>
             <strong>Tickets per Student:</strong>
-            <%= Html.TextBox("TicketsPerStudent") %>
+            <%= Html.TextBoxFor(x=>x.Ceremony.TicketsPerStudent) %>
+            <%= Html.ValidationMessageFor(x=>x.Ceremony.TicketsPerStudent) %>
         </li>
         <li>
             <strong>Total Tickets:</strong>
-            <%= Html.TextBox("TotalTickets") %>
+            <%= Html.TextBoxFor(x=>x.Ceremony.TotalTickets) %>
+            <%= Html.ValidationMessageFor(x=>x.Ceremony.TotalTickets) %>
+            
         </li>
         <li>
             <strong>Registration Deadline:</strong>
-            <%= Html.TextBox("RegistrationDeadline") %>
+            <%= Html.TextBoxFor(x=>x.Ceremony.RegistrationDeadline) %>
+            <%= Html.ValidationMessageFor(x=>x.Ceremony.RegistrationDeadline) %>
         </li>
         
         <li>
@@ -59,20 +68,15 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
 
     <script src="<%= Url.Content("~/Scripts/jquery.ui.datetimepicker.min.js") %>" type="text/javascript"></script>
+    <script src="<%= Url.Content("~/Scripts/ui.multiselect.js") %>" type="text/javascript"></script>
     
     <script type="text/javascript">
         $(function() {
             $("#DateTime").datetimepicker();
             $("#RegistrationDeadline").datepicker();
-        });
-    </script>
 
-<%--    <script src="<%= Url.Content("~/Scripts/ui.multiselect.js") %>" type="text/javascript"></script>
-
-    <script type="text/javascript">
-        $(function() {
             $("#AvailableMajors").multiselect();
         });
-    </script>--%>
+    </script>
 
 </asp:Content>

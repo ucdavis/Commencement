@@ -17,6 +17,8 @@ namespace Commencement.Core.Domain
         {
             Registrations = new List<Registration>();
             Majors = new List<MajorCode>();
+            DateTime = DateTime.Now;
+            RegistrationDeadline = DateTime.Now;
         }
 
         [Required]
@@ -24,6 +26,7 @@ namespace Commencement.Core.Domain
         public virtual string Location { get; set; }
         
         [NotNull]
+        [Future]
         public virtual DateTime DateTime { get; set; }
 
         [NotNull]

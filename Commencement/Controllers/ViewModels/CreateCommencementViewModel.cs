@@ -21,7 +21,8 @@ namespace Commencement.Controllers.ViewModels
             var viewModel = new CreateCommencementViewModel()
                                 {
                                     MajorCodes = repository.OfType<MajorCode>().GetAll(),
-                                    TermCodes = repository.OfType<vTermCode>().Queryable.Where(a=>a.EndDate > DateTime.Now)
+                                    TermCodes = repository.OfType<vTermCode>().Queryable.Where(a=>a.EndDate > DateTime.Now),
+                                    Ceremony = new Ceremony()
                                 };
 
             return viewModel;
