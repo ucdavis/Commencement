@@ -19,11 +19,11 @@
     <h2>
         Student Information</h2>
     <ul class="registration_form">
-        <li class="prefilled"><strong>Name:</strong> <span>john jacob jingleheimer schmidt</span>
+        <li class="prefilled"><strong>Name:</strong> <span><%= Html.Encode(Model.Student.FullName) %></span>
         </li>
-        <li class="prefilled"><strong>Student ID:</strong> <span>123456789</span> </li>
-        <li class="prefilled"><strong>Major:</strong> <span>Life-ology</span> </li>
-        <li class="prefilled"><strong>Units Complted:</strong> <span>224.5</span> </li>
+        <li class="prefilled"><strong>Student ID:</strong> <span><%= Html.Encode(Model.Student.StudentId) %></span> </li>
+        <li class="prefilled"><strong>Major:</strong> <span><%= Html.Encode(Model.Student.StrMajors) %></span> </li>
+        <li class="prefilled"><strong>Units Complted:</strong> <span><%= Html.Encode(Model.Student.Units) %></span> </li>
     </ul>
     <h2>
         Contact Information</h2>
@@ -63,21 +63,13 @@
     <ul class="registration_form">
         <li><strong>Tickets Requested:</strong>
             <select>
-                <option value="">--</option>
-                <option value="01">01</option>
-                <option value="02">02</option>
-                <option value="03">03</option>
-                <option value="04">04</option>
-                <option value="05">05</option>
-                <option value="06">06</option>
-                <option value="07">07</option>
-                <option value="08">08</option>
-                <option value="09">09</option>
-                <option value="10">10</option>
+                <% for (int i = 1; i <= Model.Ceremony.TicketsPerStudent; i++)
+                   { %>
+                <option value="<%= i %>"><%= string.Format("{0:00}", i) %></option>
+                <% } %>
             </select>
         </li>
-        </li>
-        <li class="prefilled"><strong>AM or PM Ceremony:</strong> <span>AM</span> </li>
+        <li class="prefilled"><strong>AM or PM Ceremony:</strong> <span><%= Html.Encode(string.Format("{0}", Model.Ceremony.DateTime)) %></span> </li>
     </ul>
     
     <input type="submit" value="Register for Commencement" />

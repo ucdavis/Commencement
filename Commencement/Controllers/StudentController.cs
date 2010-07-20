@@ -61,7 +61,8 @@ namespace Commencement.Controllers
 
         private Student GetCurrentStudent()
         {
-            var currentStudent = _studentRepository.Queryable.SingleOrDefault(x => x.Login == CurrentUser.Identity.Name);
+            var currentStudent = _studentRepository.Queryable.FirstOrDefault(); //TODO: Testing only
+            //var currentStudent = _studentRepository.Queryable.SingleOrDefault(x => x.Login == CurrentUser.Identity.Name);
 
             if (currentStudent == null)
             {
