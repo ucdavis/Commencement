@@ -179,6 +179,7 @@
     <Content Include="Views\Ceremony\Index.aspx" />
     <Content Include="Views\Student\ChooseCeremony.aspx" />
     <Content Include="Views\Student\Index.aspx" />
+    <Content Include="Views\Student\MajorSelection.ascx" />
     <Content Include="Views\Student\Register.aspx" />
     <Content Include="Web.config" />
     <Content Include="Content\Site.css" />

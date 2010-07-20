@@ -16,20 +16,24 @@
     <%= Html.ValidationSummary("Please correct all errors below") %>
     <%= Html.ClientSideValidation<Commencement.Core.Domain.Registration>("Registration") %>
     
+    <% using (Html.BeginForm()) { %>
+        <%= Html.AntiForgeryToken() %>
+    
     <h2>
         Student Information</h2>
     <ul class="registration_form">
         <li class="prefilled"><strong>Name:</strong> <span><%= Html.Encode(Model.Student.FullName) %></span>
         </li>
         <li class="prefilled"><strong>Student ID:</strong> <span><%= Html.Encode(Model.Student.StudentId) %></span> </li>
-        <li class="prefilled"><strong>Major:</strong> <span><%= Html.Encode(Model.Student.StrMajors) %></span> </li>
         <li class="prefilled"><strong>Units Complted:</strong> <span><%= Html.Encode(Model.Student.Units) %></span> </li>
+        <li class="prefilled">
+            <strong>Major:</strong> 
+            <% Html.RenderPartial("MajorSelection", Model.Student); %>
+        </li>
+        
     </ul>
     <h2>
-        Contact Information</h2>
-        
-    <% using (Html.BeginForm()) { %>
-        <%= Html.AntiForgeryToken() %>
+        Contact Information</h2>    
         
     <ul class="registration_form">
         <li><strong>Address Line 1:</strong>
