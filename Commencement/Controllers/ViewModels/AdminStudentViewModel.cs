@@ -35,6 +35,7 @@ namespace Commencement.Controllers.ViewModels
                                     majorCodeFilter = majorCode
                                 };
 
+            // get the list of students with optional filters
             var students = repository.OfType<Student>().Queryable.Where(a =>
                 a.TermCode == termCode
                 && (a.StudentId.Contains(string.IsNullOrEmpty(studentid) ? string.Empty : studentid))
@@ -42,13 +43,12 @@ namespace Commencement.Controllers.ViewModels
                 && (a.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName))
                 ).ToList();
 
+            // get all active registrations
             var registrations = repository.OfType<Registration>().Queryable.Where(a => 
                 a.Ceremony.TermCode == termCode).Select(a=>a.Student).ToList();
 
-            if (!string.IsNullOrEmpty(majorCode))
-            {
-                students = students.Where(a => a.StrMajorCodes.Contains(majorCode)).ToList();
-            }
+            // filter student by majors if requested.
+            if (!string.IsNullOrEmpty(majorCode)) students = students.Where(a => a.StrMajorCodes.Contains(majorCode)).ToList();
 
             viewModel.StudentRegistrationModels = new List<StudentRegistrationModel>();
 

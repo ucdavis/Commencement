@@ -43,5 +43,11 @@ namespace Commencement.Controllers
             throw new NotImplementedException();
         }
 
+        public ActionResult Registrations(string studentid, string lastName, string firstName, string majorCode)
+        {
+            var term = Repository.OfType<TermCode>().Queryable.Where(a => a.IsActive).OrderByDescending(a => a.Id).FirstOrDefault();
+            var viewModel = AdminRegistrationViewModel.Create(Repository, term, studentid, lastName, firstName, majorCode);
+            return View(viewModel);
+        }
     }
 }
