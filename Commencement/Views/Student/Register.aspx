@@ -29,9 +29,9 @@
         <li class="prefilled">
             <strong>Major:</strong>
             <span>
-                <%=Html.Encode(Model.Registration.Major.Name)%>
+                <%= Html.Encode(Model.Registration.Major.Name)%>
             </span>
-                <%= Html.Hidden("Registration.Major", Model.Registration.Major.Id)%>
+                <input type="hidden" value="<%= Model.Registration.Major.Id %>" name="Registration.Major" id="Registration_Major">
         </li>
         
     </ul>
@@ -64,6 +64,11 @@
         <li><strong>Secondary Email Address:</strong>
             <%= Html.TextBoxFor(x=>x.Registration.Email) %>
             <%= Html.ValidationMessageFor(x=>x.Registration.Email) %>
+        </li>
+        <li>
+            <strong>Ticket Acquisition:</strong>
+            <input type="radio" id="rMailTickets" name="Registration.MailTickets" checked="checked" value="true" /><label for="rMailTickets">Mail tickets to this address</label>
+            <input type="radio" id="rPickupTickets" name="Registration.MailTickets" value="false" /><label for="rPickupTickets">I will pick up my tickets</label>
         </li>
     </ul>
     <h2>
