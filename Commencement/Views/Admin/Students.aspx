@@ -13,7 +13,7 @@
     <h2>Students</h2>
 
     <div id="filter_container">
-        
+        <h3><a href="#">Filters</a></h3>
         <% using (Html.BeginForm("Students", "Admin", FormMethod.Post)) { %>
             <%= Html.AntiForgeryToken() %>
         <ul>
@@ -32,22 +32,33 @@
         <% } %>
     </div>
 
-    <% Html.Grid(Model.Students)
+    <% Html.Grid(Model.StudentRegistrationModels)
            .Transactional()
            .Name("Students")
            .Columns(col=>
                         {
-                            col.Bound(x => x.StudentId).Title("Student Id");
-                            col.Bound(x => x.LastName).Title("Last Name");
-                            col.Bound(x => x.FirstName).Title("First Name");
-                            col.Bound(x => x.Units);
-                            col.Bound(x => x.Email);
+                            col.Add(a =>
+                                        { %>
+                                        <%= Html.ActionLink<AdminController>(b=>b.StudentDetails(), "Select") %>
+                                        <% });
+                            col.Bound(x => x.Student.StudentId).Title("Student Id");
+                            col.Bound(x => x.Student.LastName).Title("Last Name");
+                            col.Bound(x => x.Student.FirstName).Title("First Name");
+                            col.Bound(x => x.Student.Units);
+                            col.Bound(x => x.Student.Email);
+                            col.Bound(x => x.Registration).Title("Registered").Width(40);
                         })
-           .Sortable(s=>s.OrderBy(a=>a.Add(b=>b.LastName))).Pageable(p=>p.PageSize(100))
+           .Sortable(s=>s.OrderBy(a=>a.Add(b=>b.Student.LastName))).Pageable(p=>p.PageSize(100))
            .Render(); 
            %>
 
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
+
+    <script type="text/javascript">
+        $(function() {
+            $("#filter_container").accordion({collapsible:true});
+        });
+    </script>
 </asp:Content>
