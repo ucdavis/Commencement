@@ -8,7 +8,7 @@
             //$("#Ceremony_DateTime").datetimepicker();
             $("#Ceremony_RegistrationDeadline").datepicker();
 
-            $("#AvailableMajors").multiselect();
+            $("#CeremonyMajors").multiselect();
         });
     </script>
 
