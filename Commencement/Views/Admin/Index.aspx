@@ -11,7 +11,7 @@
 
     <ul>
         <li><%= Html.ActionLink<CeremonyController>(a=>a.Index(), "Ceremony List") %></li>
-        <li><%= Html.ActionLink<AdminController>(a=>a.Students(null, null, null), "Students") %></li>
+        <li><%= Html.ActionLink<AdminController>(a=>a.Students(null, null, null, null), "Students") %></li>
     </ul>
 
 </asp:Content>

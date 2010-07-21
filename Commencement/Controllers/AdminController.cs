@@ -38,7 +38,7 @@ namespace Commencement.Controllers
         {
             var student = new Student();
             var ceremony = new Ceremony();
-            var viewModel = RegistrationModel.Create(Repository, ceremony, student);
+            var viewModel = RegistrationModel.Create(Repository, student, ceremony);
 
             throw new NotImplementedException();
         }
