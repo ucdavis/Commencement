@@ -65,6 +65,19 @@ using (select distinct pidm, major from @temp) s
 on t.pidm = s.pidm and t.majorcode = s.major
 when not matched then 
 	insert (pidm, majorcode) values(s.pidm, s.major);
+
+merge into Students t
+using (
+	select login_id, pidm
+	from openquery (isods_prod, '
+		select login_id, pidm from student_id_v
+			left outer join student_login_id_V on student_id_V.person_wh_id = student_login_id_V.person_wh_id
+	')
+	where pidm in ( select pidm from students where Login is null)
+)s
+on t.pidm = s.pidm
+when matched then
+	update set t.[login] = s.login_id;
 	
 GO
 
