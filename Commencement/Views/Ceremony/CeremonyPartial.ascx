@@ -21,7 +21,7 @@
                 %>
         </li>
         <li>
-            <strong>Date/Time:</strong>
+            <strong>Date/Time of Ceremony:</strong>
             <%= Html.TextBoxFor(x=>x.Ceremony.DateTime) %>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.DateTime) %>
         </li>
@@ -42,9 +42,15 @@
             
         </li>
         <li>
-            <strong>Registration Deadline:</strong>
+            <strong>Printing Deadline:</strong>
+            <%= Html.TextBox("PrintingDeadline") %>
+            * Registration will continue to be open past this date.
+        </li>
+        <li>
+            <strong>Registration Closure:</strong>
             <%= Html.TextBoxFor(x => x.Ceremony.RegistrationDeadline.ToString("d"))%>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.RegistrationDeadline) %>
+            * Registration will be blocked after this date.
         </li>
         
         <li>
