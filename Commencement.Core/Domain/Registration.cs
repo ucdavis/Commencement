@@ -36,6 +36,9 @@ namespace Commencement.Core.Domain
         public virtual int NumberTickets { get; set; }
         
         public virtual bool MailTickets { get; set; }
+
+        [Length(1000, Message = "Please enter less than 1,000 characters")]
+        public virtual string Comments { get; set; }
         
         [NotNull]
         public virtual Ceremony Ceremony { get; set; }

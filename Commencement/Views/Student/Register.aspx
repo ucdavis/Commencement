@@ -82,7 +82,12 @@
                 <% } %>
             </select>
         </li>
-        <li class="prefilled"><strong>AM or PM Ceremony:</strong> <span><%= Html.Encode(string.Format("{0}", Model.Ceremony.DateTime)) %></span> </li>
+        <li class="prefilled"><strong>Ceremony Date:</strong> <span><%= Html.Encode(string.Format("{0}", Model.Ceremony.DateTime)) %></span> </li>
+        <li>
+            <strong>Special Needs:</strong>
+            <%= Html.TextAreaFor(x=>x.Registration.Comments, 10, 40, null) %>
+            <%= Html.ValidationMessageFor(x=>x.Registration.Comments) %>
+        </li>
     </ul>
     
     <input type="submit" value="Register for Commencement" />

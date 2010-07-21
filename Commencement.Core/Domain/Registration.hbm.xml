@@ -16,6 +16,7 @@
     <property name="Email" column="Email" />
     <property name="NumberTickets" column="NumberTickets" />
     <property name="MailTickets" column="MailTickets" />
+    <property name="Comments" column="Comments" />
     <many-to-one name="Ceremony" class="Ceremony" column="CeremonyId" />
 
   </class>
