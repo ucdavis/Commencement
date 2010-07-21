@@ -50,7 +50,7 @@
         <li>
             <strong>Majors:</strong>
             <span>
-                <%= Html.ListBox("CeremonyMajors", Model.Majors)%>
+                <%= Html.ListBox("CeremonyMajors", Model.Majors, new {style="width:700px"})%>
             </span>
         </li>
         

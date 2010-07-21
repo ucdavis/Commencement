@@ -205,6 +205,7 @@
     <Content Include="Content\telerik.common.css" />
     <Content Include="Content\telerik.vista.css" />
     <Content Include="Content\telerik.windows7.css" />
+    <Content Include="Content\ui.multiselect.css" />
     <Content Include="Content\Vista\loading.gif" />
     <Content Include="Content\Vista\sprite.png" />
     <Content Include="Content\Windows7\loading.gif" />
