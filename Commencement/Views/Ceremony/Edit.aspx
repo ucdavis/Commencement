@@ -12,6 +12,7 @@
     <%= Html.ClientSideValidation<Commencement.Core.Domain.Ceremony>("Ceremony") %>
 
     <% using (Html.BeginForm("Edit", "Ceremony", FormMethod.Post)) { %>
+        <%= Html.AntiForgeryToken() %>
     
         <% Html.RenderPartial("CeremonyPartial"); %>
 

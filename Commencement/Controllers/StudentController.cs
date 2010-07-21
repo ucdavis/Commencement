@@ -10,6 +10,7 @@ using UCDArch.Core.PersistanceSupport;
 using MvcContrib;
 using MvcContrib.Attributes;
 using UCDArch.Web.Helpers;
+using Commencement.Controllers.Helpers;
 
 namespace Commencement.Controllers
 {
@@ -17,11 +18,13 @@ namespace Commencement.Controllers
     {
         private readonly IRepository<Student> _studentRepository;
         private readonly IRepository<Ceremony> _ceremonyRepository;
+        private readonly IStudentService _studentService;
 
-        public StudentController(IRepository<Student> studentRepository, IRepository<Ceremony> ceremonyRepository)
+        public StudentController(IRepository<Student> studentRepository, IRepository<Ceremony> ceremonyRepository, IStudentService studentService)
         {
             _studentRepository = studentRepository;
             _ceremonyRepository = ceremonyRepository;
+            _studentService = studentService;
         }
 
         //
@@ -29,24 +32,25 @@ namespace Commencement.Controllers
 
         public ActionResult Index()
         {
-            var ceremony = GetCeremonyForStudent(GetCurrentStudent());
-
             //Check for prior registration
 
-            //Check student untis and major)))
+            //Check student untis and major))))
 
-            return this.RedirectToAction(x=>x.Register(ceremony.Id));
+            return this.RedirectToAction(x => x.ChooseCeremony());
         }
 
-        public ActionResult ChooseCeremony(int[] ceremonies)
+        public ActionResult ChooseCeremony()
         {
-            ceremonies = new int[] { 1, 2 };//TODO: For testing only
+            var majorsAndCeremonies = _studentService.GetMajorsAndCeremoniesForStudent(GetCurrentStudent());
 
-            if (ceremonies == null || ceremonies.Count() == 0) return this.RedirectToAction(x => x.Index());
+            if (majorsAndCeremonies.Count == 1)
+            {
+                var ceremony = majorsAndCeremonies.Single();
+                
+                return this.RedirectToAction(x => x.Register(ceremony.Ceremony.Id));
+            }
 
-            var possibleCeremonies = _ceremonyRepository.Queryable.Where(x => new List<int>(ceremonies).Contains(x.Id));
-
-            return View(possibleCeremonies.ToList());
+            return View(majorsAndCeremonies);
         }
 
         public ActionResult Register(int id /* ceremony id */)
@@ -84,11 +88,8 @@ namespace Commencement.Controllers
 
         private Student GetCurrentStudent()
         {
-            var currentStudent = _studentRepository.Queryable.FirstOrDefault(); //TODO: Testing only
-            //var currentStudent = _studentRepository.Queryable.SingleOrDefault(x => x.Id == "2104584"); //TODO: Testing only with double major student
+            var currentStudent = _studentService.GetCurrentStudent(CurrentUser);
             
-            //var currentStudent = _studentRepository.Queryable.SingleOrDefault(x => x.Login == CurrentUser.Identity.Name);
-
             if (currentStudent == null)
             {
                 //Student not found, go to petition workflow
@@ -99,19 +100,5 @@ namespace Commencement.Controllers
             return currentStudent;
         }
 
-        private Ceremony GetCeremonyForStudent(Student student)
-        {
-            var possibleCeremonies = from c in Repository.OfType<Ceremony>().Queryable
-                                     where c.TermCode.IsActive
-                                     select c;
-
-            if (possibleCeremonies.Count() > 1)
-            {
-                //return RedirectToAction("ChooseCeremony");
-                throw new NotImplementedException("Multiple ceremonies not implemented");
-            }
-
-            return possibleCeremonies.SingleOrDefault();
-        }
     }
 }

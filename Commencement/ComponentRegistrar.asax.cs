@@ -3,6 +3,7 @@ using UCDArch.Core.CommonValidator;
 using UCDArch.Core.NHibernateValidator.CommonValidatorAdapter;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Data.NHibernate;
+using Commencement.Controllers.Helpers;
 
 namespace Commencement
 {
@@ -14,6 +15,12 @@ namespace Commencement
             container.AddComponent("validator", typeof(IValidator), typeof(Validator));
             container.AddComponent("dbContext", typeof(IDbContext), typeof(DbContext));
 
+#if DEBUG
+            container.AddComponent("studentService", typeof(IStudentService), typeof(DevStudentService));
+#else
+            container.AddComponent("studentService", typeof(IStudentService), typeof(StudentService));
+#endif
+            
             AddRepositoriesTo(container);
         }
 

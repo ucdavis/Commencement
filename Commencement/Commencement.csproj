@@ -140,6 +140,7 @@
     <Compile Include="Controllers\Filters\StudentsOnlyFilter.cs" />
     <Compile Include="Controllers\Helpers\CustomGridBuilder.cs" />
     <Compile Include="Controllers\Helpers\HtmlHelperExtensions.cs" />
+    <Compile Include="Controllers\Helpers\StudentService.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PetitionController.cs" />
     <Compile Include="Controllers\StudentController.cs" />

@@ -12,9 +12,6 @@
         });
     </script>
 
-
-    <%= Html.AntiForgeryToken() %>
-
     <ul class="registration_form">
         <li>
             <strong>Term Code:</strong>
