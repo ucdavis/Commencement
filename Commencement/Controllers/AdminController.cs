@@ -15,12 +15,12 @@ namespace Commencement.Controllers
             return View();
         }
 
-        public ActionResult Students()
+        public ActionResult Students(string studentid, string lastName, string firstName)
         {
             // get the newest active term
             var term = Repository.OfType<TermCode>().Queryable.Where(a => a.IsActive).OrderByDescending(a => a.Id).FirstOrDefault();
 
-            var viewModel = AdminStudentViewModel.Create(Repository);
+            var viewModel = AdminStudentViewModel.Create(Repository, term, studentid, lastName, firstName);
 
             return View(viewModel);
         }

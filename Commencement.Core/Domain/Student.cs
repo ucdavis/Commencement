@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
@@ -39,6 +40,10 @@ namespace Commencement.Core.Domain
         public virtual string Email { get; set; }
         [Length(50)]
         public virtual string Login { get; set; }
+
+        public virtual DateTime DateAdded { get; set; }
+        public virtual DateTime DateUpdated { get; set; }
+        public virtual TermCode TermCode { get; set; }
 
         public virtual IList<MajorCode> Majors { get; set; }
 

@@ -9,6 +9,8 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <%= Html.ActionLink<AdminController>(a=>a.Index(), "Home") %>
+
     <h2>Index</h2>
 
     <%= Html.ActionLink<CeremonyController>(a=>a.Create(), "Create New") %>

@@ -12,8 +12,7 @@ namespace Commencement
         {
             //Add your components here
             container.AddComponent("validator", typeof(IValidator), typeof(Validator));
-            container.AddComponent("dbContext", typeof(IDbCon
-                ), typeof(DbContext));
+            container.AddComponent("dbContext", typeof(IDbContext), typeof(DbContext));
 
             AddRepositoriesTo(container);
         }

@@ -11,6 +11,9 @@
     <property name="Units" column="Units" />
     <property name="Email" column="Email" />
     <property name="Login" column="Login" />
+    <property name="DateAdded" column="DateAdded" />
+    <property name="DateUpdated" column="DateUpdated" />
+    <many-to-one name="TermCode" class="TermCode" column="TermCode"></many-to-one>
 
     <bag name="Majors" table="StudentMajors" cascade="save-update">
       <key column="Pidm" />
