@@ -143,10 +143,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PetitionController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\ViewModels\CeremonyViewModel.cs" />
     <Compile Include="Controllers\ViewModels\CommencementViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ExtraTicketPetitionModel.cs" />
     <Compile Include="Controllers\ViewModels\RegistrationPetitionModel.cs" />
-    <Compile Include="Controllers\ViewModels\CreateCommencementViewModel.cs" />
     <Compile Include="Controllers\ViewModels\RegistrationModel.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
