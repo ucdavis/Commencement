@@ -228,8 +228,9 @@
     <Content Include="Views\Ceremony\Create.aspx" />
     <Content Include="Views\Ceremony\Edit.aspx" />
     <Content Include="Views\Ceremony\Index.aspx" />
-    <Content Include="Views\ExtraTicketPetition.aspx" />
-    <Content Include="Views\Register.aspx" />
+    <Content Include="Views\Error\Index.aspx" />
+    <Content Include="Views\Petition\ExtraTicketPetition.aspx" />
+    <Content Include="Views\Petition\Register.aspx" />
     <Content Include="Views\Student\ChooseCeremony.aspx" />
     <Content Include="Views\Student\Index.aspx" />
     <Content Include="Views\Student\MajorSelection.ascx" />
