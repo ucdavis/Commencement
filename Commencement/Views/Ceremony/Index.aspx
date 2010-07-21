@@ -1,6 +1,7 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.CommencementViewModel>" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 <%@ Import Namespace="Commencement.Controllers" %>
+<%@ Import Namespace="Telerik.Web.Mvc.UI" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Index
@@ -17,12 +18,19 @@
            .Name("Ceremonies")
            .Columns(col =>
                         {
-                            col.Command(commands => commands.Select());
+                            col.Add(a =>
+                                        {   %>
+                                            <%= Html.ActionLink<CeremonyController>(b=>b.Edit(a.Id), "Select") %>                                            
+                                            <%
+                                        });
+                            col.Bound(a => a.TermCode.Id).Title("Term Code");
                             col.Bound(a => a.DateTime);
                             col.Bound(a => a.Location);
                             col.Bound(a => a.TotalTickets);
                             col.Bound(a => a.RegistrationDeadline);
                         } )
+           .Sortable(a=> a.SortMode(GridSortMode.MultipleColumn).OrderBy(b=>b.Add(c=>c.DateTime).Descending()))
+           .Pageable()
            .Render();
         
            %>    

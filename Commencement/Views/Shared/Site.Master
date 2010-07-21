@@ -13,7 +13,7 @@
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css" rel="Stylesheet" type="text/css" media="screen" />
     <%= Html.Telerik().StyleSheetRegistrar()
                      .DefaultGroup(group => group.Add("telerik.common.css")
-                                                 .Add("telerik.vista.css")
+                                                 .Add("telerik.windows7.css")
                                                  .Add("main.css")
                                                  .Add("font.css")
                                                  .Combined(false)

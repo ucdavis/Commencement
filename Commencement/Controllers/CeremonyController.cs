@@ -1,8 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using MvcContrib.Attributes;
+using Telerik.Web.Mvc.Extensions;
 using UCDArch.Core.PersistanceSupport;
+using UCDArch.Core.Utils;
 using UCDArch.Web.Controller;
 using UCDArch.Web.Helpers;
 using MvcContrib;
@@ -30,9 +35,56 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
+        public ActionResult Edit(int id)
+        {
+            var ceremony = Repository.OfType<Ceremony>().GetNullableById(id);
+
+            if (ceremony == null) return this.RedirectToAction(a => a.Index());
+
+            var viewModel = CeremonyViewModel.Create(Repository, ceremony);
+            
+            return View(viewModel);
+        }
+
+        [AcceptPost]
+        public ActionResult Edit(int id, Ceremony ceremony, string term, IEnumerable<MajorCode> ceremonyMajors)
+        {
+            Check.Require(ceremony != null, "Ceremony cannot be null.");
+
+            var destCeremony = Repository.OfType<Ceremony>().GetNullableById(id);
+            if (ceremony == null) return this.RedirectToAction(a => a.Index());
+
+            // update the term
+            var termCode = _termRepository.GetNullableById(term);
+            destCeremony.TermCode = termCode;
+
+            // copy all the fields
+            destCeremony.DateTime = ceremony.DateTime;
+            destCeremony.Location = ceremony.Location;
+            destCeremony.TicketsPerStudent = ceremony.TicketsPerStudent;
+            destCeremony.TotalTickets = ceremony.TotalTickets;
+            destCeremony.RegistrationDeadline = ceremony.RegistrationDeadline;
+            
+            MergeCeremonyMajors(destCeremony.Majors, ceremony.Majors);
+
+            // validate the majors
+            destCeremony.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                Repository.OfType<Ceremony>().EnsurePersistent(destCeremony);
+
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            var viewModel = CeremonyViewModel.Create(Repository, destCeremony);
+
+            return View(viewModel);
+        }
+
         public ActionResult Create()
         {
-            var viewModel = CreateCommencementViewModel.Create(Repository);
+            var viewModel = CeremonyViewModel.Create(Repository, new Ceremony());
 
             return View(viewModel);
         }
@@ -70,10 +122,16 @@ namespace Commencement.Controllers
             }
 
             // redirect back to the page
-            var viewModel = CreateCommencementViewModel.Create(Repository);
+            var viewModel = CeremonyViewModel.Create(Repository, ceremony);
             viewModel.Ceremony = ceremony;
 
             return View(viewModel);
+        }
+
+        private void MergeCeremonyMajors (IList<MajorCode> destMajors, IList<MajorCode> srcMajors)
+        {
+            destMajors.Clear();
+            foreach (var m in srcMajors) destMajors.Add(m);
         }
     }
 }
