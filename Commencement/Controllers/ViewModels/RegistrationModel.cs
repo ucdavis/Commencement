@@ -14,7 +14,7 @@ namespace Commencement.Controllers.ViewModels
         
         public IEnumerable<State> States { get; set; }
         
-        public static RegistrationModel Create(IRepository repository, Student student, Ceremony ceremony)
+        public static RegistrationModel Create(IRepository repository, Ceremony ceremony, Student student)
         {
             var viewModel = new RegistrationModel
                                 {

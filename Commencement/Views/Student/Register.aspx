@@ -27,8 +27,11 @@
         <li class="prefilled"><strong>Student ID:</strong> <span><%= Html.Encode(Model.Student.StudentId) %></span> </li>
         <li class="prefilled"><strong>Units Complted:</strong> <span><%= Html.Encode(Model.Student.Units) %></span> </li>
         <li class="prefilled">
-            <strong>Major:</strong> 
-            <% Html.RenderPartial("MajorSelection", Model.Student); %>
+            <strong>Major:</strong>
+            <span>
+                <%=Html.Encode(Model.Registration.Major.Name)%>
+            </span>
+                <%= Html.Hidden("Registration.Major", Model.Registration.Major.Id)%>
         </li>
         
     </ul>

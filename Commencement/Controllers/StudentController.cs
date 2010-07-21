@@ -11,6 +11,7 @@ using MvcContrib;
 using MvcContrib.Attributes;
 using UCDArch.Web.Helpers;
 using Commencement.Controllers.Helpers;
+using UCDArch.Core.Utils;
 
 namespace Commencement.Controllers
 {
@@ -20,7 +21,7 @@ namespace Commencement.Controllers
         private readonly IRepository<Ceremony> _ceremonyRepository;
         private readonly IStudentService _studentService;
 
-        public StudentController(IRepository<Student> studentRepository, IRepository<Ceremony> ceremonyRepository, IStudentService studentService)
+        public StudentController(IStudentService studentService, IRepository<Student> studentRepository, IRepository<Ceremony> ceremonyRepository)
         {
             _studentRepository = studentRepository;
             _ceremonyRepository = ceremonyRepository;
@@ -47,20 +48,49 @@ namespace Commencement.Controllers
             {
                 var ceremony = majorsAndCeremonies.Single();
                 
-                return this.RedirectToAction(x => x.Register(ceremony.Ceremony.Id));
+                return this.RedirectToAction(x => x.Register(ceremony.Ceremony.Id, string.Empty));
             }
 
             return View(majorsAndCeremonies);
         }
 
-        public ActionResult Register(int id /* ceremony id */)
+        /// <summary>
+        /// Registers a student for commencement
+        /// </summary>
+        /// <param name="id">Id of the commencement to register for</param>
+        /// <param name="major">Major to register with.  Only required if a student has multiple majors</param>
+        /// <returns></returns>
+        public ActionResult Register(int id /* ceremony id */, string major)
         {
             var ceremony = _ceremonyRepository.GetNullableById(id);
 
-            if (ceremony == null) return this.RedirectToAction(x => x.Index());
+            if (ceremony == null)
+            {
+                Message = "No matching ceremony found.  Please try your registration again.";
+                return this.RedirectToAction(x => x.Index());
+            }
+
+            var student = GetCurrentStudent();
             
             //Get student info and create registration model
-            var viewModel = RegistrationModel.Create(Repository, GetCurrentStudent(), ceremony);
+            var viewModel = RegistrationModel.Create(Repository, ceremony, student);
+
+            if (string.IsNullOrEmpty(major))
+            {
+                //If major is not supplied, the student must be a single major
+                if ( student.Majors.Count() != 1)
+                {
+                    Message = "Student has multiple majors but did not supply a major code.";
+                    return this.RedirectToAction(x => x.Index());
+                } 
+
+                viewModel.Registration.Major = student.Majors.Single();
+            }
+            else
+            {
+                //if the major is supplied, make it the registration's major
+                viewModel.Registration.Major = student.Majors.Where(x => x.Id == major).Single();
+            }
 
             return View(viewModel);
         }
@@ -80,7 +110,7 @@ namespace Commencement.Controllers
                 return RedirectToAction("Register");
             }
             
-            var viewModel = RegistrationModel.Create(Repository, registration.Student, registration.Ceremony);
+            var viewModel = RegistrationModel.Create(Repository, registration.Ceremony, registration.Student);
             viewModel.Registration = registration;
 
             return View(viewModel);
