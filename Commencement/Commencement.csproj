@@ -143,6 +143,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PetitionController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\ViewModels\AdminStudentViewModel.cs" />
     <Compile Include="Controllers\ViewModels\CeremonyViewModel.cs" />
     <Compile Include="Controllers\ViewModels\CommencementViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ExtraTicketPetitionModel.cs" />
@@ -224,6 +225,7 @@
     <Content Include="Scripts\ui.multiselect.js" />
     <Content Include="Scripts\xVal.jquery.validate.js" />
     <Content Include="Views\Admin\Index.aspx" />
+    <Content Include="Views\Admin\Students.aspx" />
     <Content Include="Views\Ceremony\CeremonyPartial.ascx" />
     <Content Include="Views\Ceremony\Create.aspx" />
     <Content Include="Views\Ceremony\Edit.aspx" />

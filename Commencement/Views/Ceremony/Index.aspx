@@ -27,7 +27,7 @@
                             col.Bound(a => a.DateTime);
                             col.Bound(a => a.Location);
                             col.Bound(a => a.TotalTickets);
-                            col.Bound(a => a.RegistrationDeadline);
+                            col.Bound(a => a.RegistrationDeadline).Format("{0:MM/dd/yyyy}");
                         } )
            .Sortable(a=> a.SortMode(GridSortMode.MultipleColumn).OrderBy(b=>b.Add(c=>c.DateTime).Descending()))
            .Pageable()

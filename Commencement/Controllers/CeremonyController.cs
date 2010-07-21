@@ -47,27 +47,21 @@ namespace Commencement.Controllers
         }
 
         [AcceptPost]
-        public ActionResult Edit(int id, Ceremony ceremony, string term, IEnumerable<MajorCode> ceremonyMajors)
+        public ActionResult Edit(CeremonyEditModel ceremonyEditModel)
         {
-            Check.Require(ceremony != null, "Ceremony cannot be null.");
+            Check.Require(ceremonyEditModel.Ceremony != null, "Ceremony cannot be null.");
 
-            var destCeremony = Repository.OfType<Ceremony>().GetNullableById(id);
-            if (ceremony == null) return this.RedirectToAction(a => a.Index());
+            var destCeremony = Repository.OfType<Ceremony>().GetNullableById(ceremonyEditModel.Id);
+            if (ceremonyEditModel.Ceremony == null) return this.RedirectToAction(a => a.Index());
 
             // update the term
-            var termCode = _termRepository.GetNullableById(term);
+            var termCode = _termRepository.GetNullableById(ceremonyEditModel.Term);
             destCeremony.TermCode = termCode;
 
             // copy all the fields
-            destCeremony.DateTime = ceremony.DateTime;
-            destCeremony.Location = ceremony.Location;
-            destCeremony.TicketsPerStudent = ceremony.TicketsPerStudent;
-            destCeremony.TotalTickets = ceremony.TotalTickets;
-            destCeremony.RegistrationDeadline = ceremony.RegistrationDeadline;
-            
-            MergeCeremonyMajors(destCeremony.Majors, ceremony.Majors);
+            CopyCeremony(destCeremony, ceremonyEditModel.Ceremony, ceremonyEditModel.CeremonyMajors);
 
-            // validate the majors
+            // validate the ceremony
             destCeremony.TransferValidationMessagesTo(ModelState);
 
             if (ModelState.IsValid)
@@ -133,5 +127,30 @@ namespace Commencement.Controllers
             destMajors.Clear();
             foreach (var m in srcMajors) destMajors.Add(m);
         }
+
+        private void CopyCeremony(Ceremony destCeremony, Ceremony srcCeremony, IList<MajorCode> srcMajors)
+        {
+            destCeremony.DateTime = srcCeremony.DateTime;
+            destCeremony.Location = srcCeremony.Location;
+            destCeremony.TicketsPerStudent = srcCeremony.TicketsPerStudent;
+            destCeremony.TotalTickets = srcCeremony.TotalTickets;
+            destCeremony.RegistrationDeadline = srcCeremony.RegistrationDeadline;
+
+            MergeCeremonyMajors(destCeremony.Majors, srcMajors);
+        }
     }
+
+    public class CeremonyEditModel
+    {
+        public int Id { get; set; }
+        public Ceremony Ceremony { get; set; }
+        public string Term { get; set; }
+        public IList<MajorCode> CeremonyMajors { get; set; }
+
+        public CeremonyEditModel()
+        {
+            CeremonyMajors = new List<MajorCode>();
+        }
+    }
+
 }
