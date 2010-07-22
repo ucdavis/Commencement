@@ -23,7 +23,7 @@ namespace Commencement.Core.Domain
         public virtual string City { get; set; }
         [Required]
         [Length(2)]
-        public virtual string State { get; set; }
+        public virtual State State { get; set; }
         [Required]
         [Length(15)]
         public virtual string Zip { get; set; }

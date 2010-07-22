@@ -22,7 +22,6 @@ namespace Commencement.Controllers.ViewModels
 
             var viewModel = new AdminRegistrationViewModel()
                                 {
-                                    Registrations = repository.OfType<Registration>().Queryable.Where(a => a.Ceremony.TermCode == termCode),
                                     Ceremonies = repository.OfType<Ceremony>().Queryable.Where(a=>a.TermCode == termCode),
                                     studentidFilter = studentid,
                                     lastNameFilter = lastName,
@@ -30,6 +29,17 @@ namespace Commencement.Controllers.ViewModels
                                     majorCodeFilter = majorCode,
                                     ceremonyFilter = ceremonyId ?? -1
                                 };
+
+            var query = repository.OfType<Registration>().Queryable.Where(a =>
+                                a.Ceremony.TermCode == termCode
+                                && (a.Student.StudentId.Contains(string.IsNullOrEmpty(studentid) ? string.Empty : studentid))
+                                && (a.Student.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName))
+                                && (a.Student.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName)));
+
+            if (ceremonyId.HasValue)
+                query = query.Where(a => a.Ceremony.Id == ceremonyId.Value);
+
+            viewModel.Registrations = query.ToList();
 
             return viewModel;
         }

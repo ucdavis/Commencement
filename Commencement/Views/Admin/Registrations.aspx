@@ -43,9 +43,9 @@
         </ul>
         <% } %>
         </div>
-<%--        <h3><a href="#">Totals</a></h3>
+        <h3><a href="#">Totals</a></h3>
         <div>
-            <% if (Model.Registrations.Count() <= 0) { %>
+            <% if (Model.Registrations.Count() > 0) { %>
             <ul>
                 <% foreach(var c in Model.Registrations.Select(x=>x.Ceremony).Distinct()) { %>
                     <li>
@@ -60,7 +60,7 @@
                 </p>
             <% } %>
             
-        </div>--%>
+        </div>
     </div>
 
     <% Html.Grid(Model.Registrations)
@@ -68,13 +68,17 @@
            .Name("Registrations")
            .Columns(col =>
                         {
+                            col.Add(a =>
+                                        {%>
+                                        <%= Html.ActionLink<AdminController>(b=>b.StudentDetails(), "Select") %>
+                                        <%});
                             col.Bound(a => a.Student.StudentId);
                             col.Bound(a => a.Student.LastName);
                             col.Bound(a => a.Student.FirstName);
                             col.Bound(a => a.NumberTickets);
                             col.Bound(a => a.MailTickets);
                             col.Bound(a => a.Ceremony.DateTime).Title("Ceremony");
-                            col.Bound(a => a.Major);
+                            col.Bound(a => a.Major.Id);
                         })
            .Pageable()
            .Sortable()
