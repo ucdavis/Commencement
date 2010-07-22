@@ -233,6 +233,7 @@
     <Content Include="Scripts\xVal.jquery.validate.js" />
     <Content Include="Views\Admin\Index.aspx" />
     <Content Include="Views\Admin\Registrations.aspx" />
+    <Content Include="Views\Admin\StudentDetails.aspx" />
     <Content Include="Views\Admin\Students.aspx" />
     <Content Include="Views\Ceremony\CeremonyPartial.ascx" />
     <Content Include="Views\Ceremony\Create.aspx" />
@@ -241,6 +242,7 @@
     <Content Include="Views\Error\Index.aspx" />
     <Content Include="Views\Petition\ExtraTicketPetition.aspx" />
     <Content Include="Views\Petition\Register.aspx" />
+    <Content Include="Views\Shared\StudentInformationPartial.ascx" />
     <Content Include="Views\Student\ChooseCeremony.aspx" />
     <Content Include="Views\Student\Index.aspx" />
     <Content Include="Views\Student\Register.aspx" />
