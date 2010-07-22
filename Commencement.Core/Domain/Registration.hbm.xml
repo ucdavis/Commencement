@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Commencement.Core" namespace="Commencement.Core.Domain">
   <class name="Registration" table="Registrations" >
-    <id name="Id" column="id" unsaved-value="0">
-      <generator class="assigned" />
+    <id name="Id" column="id">
+      <generator class="identity" />
     </id>
 
     <many-to-one name="Student" class="Student" column="Student_Id" fetch="join" />

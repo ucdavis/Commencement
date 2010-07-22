@@ -19,12 +19,17 @@ namespace Commencement.Controllers
     {
         private readonly IRepository<Student> _studentRepository;
         private readonly IRepository<Ceremony> _ceremonyRepository;
+        private readonly IRepository<Registration> _registrationRepository;
         private readonly IStudentService _studentService;
 
-        public StudentController(IStudentService studentService, IRepository<Student> studentRepository, IRepository<Ceremony> ceremonyRepository)
+        public StudentController(IStudentService studentService, 
+            IRepository<Student> studentRepository, 
+            IRepository<Ceremony> ceremonyRepository, 
+            IRepository<Registration> registrationRepository)
         {
             _studentRepository = studentRepository;
             _ceremonyRepository = ceremonyRepository;
+            _registrationRepository = registrationRepository;
             _studentService = studentService;
         }
 
@@ -34,6 +39,12 @@ namespace Commencement.Controllers
         public ActionResult Index()
         {
             //Check for prior registration
+            var priorRegistration = _studentService.GetPriorRegistration(GetCurrentStudent());
+            
+            if (priorRegistration != null)
+            {
+                throw new NotImplementedException("Student has prior registration");
+            }
 
             //Check student untis and major))))
 
@@ -112,8 +123,12 @@ namespace Commencement.Controllers
 
             if (ModelState.IsValid)
             {
-                Message = "Testing:  Save Successful";
-                return RedirectToAction("Register");
+                //Save the registration
+                _registrationRepository.EnsurePersistent(registration);
+                
+                Message = "You have successfully registered for this conference.";
+
+                return RedirectToAction("Index", "Home");
             }
             
             var viewModel = RegistrationModel.Create(Repository, registration.Ceremony, registration.Student);

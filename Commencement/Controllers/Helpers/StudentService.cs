@@ -12,22 +12,25 @@ namespace Commencement.Controllers.Helpers
     {
         Student GetCurrentStudent(IPrincipal currentUser);
         List<CeremonyWithMajor> GetMajorsAndCeremoniesForStudent(Student student);
+        Registration GetPriorRegistration(Student student);
     }
 
     public class StudentService : IStudentService
     {
         private readonly IRepository<Student> _studentRepository;
         private readonly IRepository<Ceremony> _ceremonyRepository;
+        private readonly IRepository<Registration> _registrationRepository;
 
-        public StudentService(IRepository<Student> studentRepository, IRepository<Ceremony> ceremonyRepository)
+        public StudentService(IRepository<Student> studentRepository, IRepository<Ceremony> ceremonyRepository, IRepository<Registration> registrationRepository)
         {
             _studentRepository = studentRepository;
             _ceremonyRepository = ceremonyRepository;
+            _registrationRepository = registrationRepository;
         }
 
         public Student GetCurrentStudent(IPrincipal currentUser)
         {
-            var currentStudent = _studentRepository.Queryable.SingleOrDefault(x => x.Login == currentUser.Identity.Name);
+            var currentStudent = _studentRepository.Queryable.SingleOrDefault(x => x.Login == currentUser.Identity.Name && x.TermCode.IsActive);
 
             if (currentStudent == null)
             {
@@ -55,17 +58,25 @@ namespace Commencement.Controllers.Helpers
 
             return possibleCeremonies;
         }
+
+        public Registration GetPriorRegistration(Student student)
+        {
+            //Get any prior registration for the given student.  There should be either none or one
+            return _registrationRepository.Queryable.SingleOrDefault(x => x.Student == student);
+        }
     }
 
     public class DevStudentService : IStudentService
     {
         private readonly IRepository<Student> _studentRepository;
         private readonly IRepository<Ceremony> _ceremonyRepository;
+        private readonly IRepository<Registration> _registrationRepository;
 
-        public DevStudentService(IRepository<Student> studentRepository, IRepository<Ceremony> ceremonyRepository)
+        public DevStudentService(IRepository<Student> studentRepository, IRepository<Ceremony> ceremonyRepository, IRepository<Registration> registrationRepository)
         {
             _studentRepository = studentRepository;
             _ceremonyRepository = ceremonyRepository;
+            _registrationRepository = registrationRepository;
         }
 
         public Student GetCurrentStudent(IPrincipal currentUser)
@@ -100,6 +111,12 @@ namespace Commencement.Controllers.Helpers
             }
 
             return possibleCeremonies;
+        }
+
+        public Registration GetPriorRegistration(Student student)
+        {
+            //Get any prior registration for the given student.  There should be either none or one
+            return _registrationRepository.Queryable.SingleOrDefault(x => x.Student == student);
         }
     }
 
