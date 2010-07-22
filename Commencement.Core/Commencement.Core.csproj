@@ -71,6 +71,7 @@
     <Compile Include="Domain\School.cs" />
     <Compile Include="Domain\State.cs" />
     <Compile Include="Domain\Student.cs" />
+    <Compile Include="Domain\Template.cs" />
     <Compile Include="Domain\TermCode.cs" />
     <Compile Include="Domain\vTermCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,6 +95,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Domain\TermCode.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Domain\Template.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

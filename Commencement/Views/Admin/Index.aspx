@@ -13,6 +13,7 @@
         <li><%= Html.ActionLink<CeremonyController>(a=>a.Index(), "Ceremony List") %></li>
         <li><%= Html.ActionLink<AdminController>(a=>a.Students(null, null, null, null), "Students") %></li>
         <li><%= Html.ActionLink<AdminController>(a =>a.Registrations(null, null, null, null, null), "Registrations") %></li>
+        <li><%= Html.ActionLink<TemplateController>(a=>a.Index(), "Email Templates") %></li>
     </ul>
 
 </asp:Content>
