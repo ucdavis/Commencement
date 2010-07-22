@@ -43,7 +43,7 @@
         </ul>
         <% } %>
         </div>
-        <h3><a href="#">Totals</a></h3>
+<%--        <h3><a href="#">Totals</a></h3>
         <div>
             <% if (Model.Registrations.Count() <= 0) { %>
             <ul>
@@ -60,7 +60,7 @@
                 </p>
             <% } %>
             
-        </div>
+        </div>--%>
     </div>
 
     <% Html.Grid(Model.Registrations)
