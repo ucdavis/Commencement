@@ -1,7 +1,10 @@
-﻿using System.Web.Mvc;
+﻿using System.Web;
+using System.Web.Mvc;
 using System.Web.Security;
+using Commencement.App_GlobalResources;
 using UCDArch.Web.Attributes;
 using UCDArch.Web.Authentication;
+using MvcContrib;
 
 namespace Commencement.Controllers
 {
@@ -32,6 +35,24 @@ namespace Commencement.Controllers
         public ActionResult NotCAESStudent()
         {
             return View();
+        }
+
+        public ActionResult Emulate(string loginId)
+        {
+            var origUser = HttpContext.User.Identity.Name;
+
+            FormsAuthentication.RedirectFromLoginPage(loginId, false);
+            EmulationFlag = true;
+            HttpContext.Response.Cookies.Add(new HttpCookie(StaticIndexes.EmulationKey, origUser));
+            return this.RedirectToAction<HomeController>(a => a.Index());
+        }
+
+        public ActionResult EndEmulate()
+        {
+            FormsAuthentication.SignOut();
+            EmulationFlag = false;
+            HttpContext.Response.Cookies.Remove(StaticIndexes.EmulationKey);
+            return this.RedirectToAction<HomeController>(a => a.Index());
         }
     }
 }

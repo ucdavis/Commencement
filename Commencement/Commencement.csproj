@@ -164,6 +164,11 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteConfigurator.asax.cs" />
+    <Compile Include="App_GlobalResources\StaticIndexes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StaticIndexes.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Common\Icons\Ajax\Editor.png" />
@@ -295,6 +300,12 @@
     <None Include="Content\font\Cicle_Shadow-webfont.svg" />
     <None Include="Content\font\Cicle_Shadow-webfont.ttf" />
     <None Include="Content\font\Cicle_Shadow-webfont.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="App_GlobalResources\StaticIndexes.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>StaticIndexes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

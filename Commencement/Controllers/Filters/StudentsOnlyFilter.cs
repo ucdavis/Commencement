@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
+using Commencement.App_GlobalResources;
 using Commencement.Core.Domain;
 using UCDArch.Core;
 using UCDArch.Core.PersistanceSupport;
@@ -26,27 +27,27 @@ namespace Commencement.Controllers.Filters
 
             // change to writing a custom cookie when emulation is enabled and constantly check for that and the authenticated name
 
-            //var emulation = (bool?)filterContext.HttpContext.Session[StaticIndexes.EmulationKey] ?? false;
+            var emulation = (bool?)filterContext.HttpContext.Session[StaticIndexes.EmulationKey] ?? false;
 
-            //// check session value
-            //if (!emulation)
-            //{
-            //    // if we are here the emulation flag does not exist
-            //    // if the emulation cookie is present, this could indicate a problem where the  user's session is expired but they are still
-            //    //      logged in as the student, which could cause incorrect tracking information
+            // check session value
+            if (!emulation)
+            {
+                // if we are here the emulation flag does not exist
+                // if the emulation cookie is present, this could indicate a problem where the  user's session is expired but they are still
+                //      logged in as the student, which could cause incorrect tracking information
 
-            //    var validationCookie = filterContext.HttpContext.Response.Cookies.Get(StaticIndexes.EmulationKey);
+                var validationCookie = filterContext.HttpContext.Response.Cookies.Get(StaticIndexes.EmulationKey);
 
-            //    if (validationCookie != null)
-            //    {
-            //        // validate cookie exists
-            //        if (validationCookie.Value != filterContext.HttpContext.User.Identity.Name)
-            //        {
-            //            // end the emulation
-            //            filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Account", action = "EndEmulate" }));
-            //        }
-            //    }
-            //}
+                if (validationCookie != null)
+                {
+                    // validate cookie exists
+                    if (validationCookie.Value != filterContext.HttpContext.User.Identity.Name)
+                    {
+                        // end the emulation
+                        filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Account", action = "EndEmulate" }));
+                    }
+                }
+            }
         }
     }
 
