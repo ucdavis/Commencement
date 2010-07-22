@@ -71,7 +71,7 @@ namespace Commencement.Controllers.Helpers
         public Student GetCurrentStudent(IPrincipal currentUser)
         {
             //var currentStudent = _studentRepository.Queryable.FirstOrDefault(); //TODO: Testing only
-            var currentStudent = _studentRepository.Queryable.SingleOrDefault(x => x.Id == "2104584"); //TODO: Testing only with double major student
+            var currentStudent = _studentRepository.Queryable.SingleOrDefault(x => x.Id == new Guid("5D044116-C389-4F78-99D7-01B1E8E998D3")); //TODO: Testing only with double major student
 
             //var currentStudent = _studentRepository.Queryable.SingleOrDefault(x => x.Login == CurrentUser.Identity.Name);
 

@@ -7,7 +7,7 @@ using UCDArch.Core.NHibernateValidator.Extensions;
 
 namespace Commencement.Core.Domain
 {
-    public class Student : DomainObjectWithTypedId<string>
+    public class Student : DomainObjectWithTypedId<Guid>
     {
         public Student()
         {
@@ -19,6 +19,9 @@ namespace Commencement.Core.Domain
             Majors = new List<MajorCode>();
         }
 
+        [Length(8)]
+        [Required]
+        public virtual string Pidm { get; set; }
         [Length(9)]
         [Required]
         public virtual string StudentId { get; set; }
@@ -26,15 +29,6 @@ namespace Commencement.Core.Domain
         public virtual string FirstName { get; set; }
         [Length(50)]
         public virtual string LastName { get; set; }
-
-        public virtual string FullName
-        {
-            get
-            {
-                return string.Format("{0} {1}", FirstName, LastName);
-            }
-        }
-
         public virtual decimal Units { get; set; }
         [Length(100)]
         public virtual string Email { get; set; }
@@ -47,6 +41,14 @@ namespace Commencement.Core.Domain
 
         public virtual IList<MajorCode> Majors { get; set; }
 
+        #region Extended Properties
+        public virtual string FullName
+        {
+            get
+            {
+                return string.Format("{0} {1}", FirstName, LastName);
+            }
+        }
         public virtual string StrMajors
         {
             get
@@ -54,7 +56,6 @@ namespace Commencement.Core.Domain
                 return string.Join(",", Majors.Select(x=>x.Name).ToArray());
             }
         }
-
         public virtual string StrMajorCodes
         {
             get
@@ -62,5 +63,6 @@ namespace Commencement.Core.Domain
                 return string.Join(",", Majors.Select(x => x.Id).ToArray());
             }
         }
+        #endregion
     }
 }

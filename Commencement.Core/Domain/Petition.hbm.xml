@@ -20,6 +20,7 @@
     <property name="MailTickets" column="MailTickets" />
     <property name="Pending" column="Pending" />
     <property name="Approved" column="Approved" />
+    <many-to-one name="TermCode" column="TermCode" class="TermCode" />
     
     <joined-subclass name="RegistrationPetition" table="RegistrationPetitions">
       <key column="ID"></key>

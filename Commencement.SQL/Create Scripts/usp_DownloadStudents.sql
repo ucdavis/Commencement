@@ -61,10 +61,13 @@ when not matched then
 	values(s.pidm, s.studentid, s.firstname, s.lastname, s.units, s.email, s.degscode, s.termcode);
 
 merge into studentmajors t
-using (select distinct pidm, major from @temp) s
-on t.pidm = s.pidm and t.majorcode = s.major
+using (
+	select distinct students.id, major from @temp tmp
+		inner join students on tmp.pidm = students.pidm and tmp.termcode = students.termcode
+) s
+on t.student_id = s.id and t.majorcode = s.major
 when not matched then 
-	insert (pidm, majorcode) values(s.pidm, s.major);
+	insert (student_id, majorcode) values(s.id, s.major);
 
 merge into Students t
 using (
