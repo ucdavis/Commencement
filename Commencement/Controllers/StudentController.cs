@@ -44,13 +44,19 @@ namespace Commencement.Controllers
         {
             var majorsAndCeremonies = _studentService.GetMajorsAndCeremoniesForStudent(GetCurrentStudent());
 
-            if (majorsAndCeremonies.Count == 1)
+            var numPossibleCeremonies = majorsAndCeremonies.Count();
+            
+            if (numPossibleCeremonies == 0)
+            {
+                throw new NotImplementedException("No possible ceremonies found");
+            }
+            else if (numPossibleCeremonies == 1)
             {
                 var ceremony = majorsAndCeremonies.Single();
                 
                 return this.RedirectToAction(x => x.Register(ceremony.Ceremony.Id, string.Empty));
             }
-
+            
             return View(majorsAndCeremonies);
         }
 
