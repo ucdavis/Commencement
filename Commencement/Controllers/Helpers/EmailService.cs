@@ -43,6 +43,7 @@ namespace Commencement.Controllers.Helpers
     public class DevEmailService : IEmailService
     {
         SmtpClient client = new SmtpClient();
+        LetterGenerator letterGenerator =  new LetterGenerator();
 
         public void SendEmail(string[] to, string body)
         {
@@ -64,8 +65,6 @@ namespace Commencement.Controllers.Helpers
             message.Subject = registration.Ceremony.Name + " Registration";
 
             // add who to mail the message to
-            //message.To.Add(registration.Student.Email);
-            //if (!string.IsNullOrEmpty(registration.Email)) message.To.Add(registration.Email);
             message.To.Add("anlai@ucdavis.edu");
             message.To.Add("srkirkland@ucdavis.edu");
 
@@ -74,9 +73,7 @@ namespace Commencement.Controllers.Helpers
             Check.Require(template != null, "No template is available.");
 
             // process the template text
-
-            var body = string.Empty;
-            message.Body = template.BodyText;
+            message.Body = letterGenerator.GenerateRegistrationConfirmation(registration, template);
 
             client.Send(message);
         }

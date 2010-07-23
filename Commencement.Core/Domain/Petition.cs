@@ -22,7 +22,7 @@ namespace Commencement.Core.Domain
         [Length(100)]
         public virtual string City { get; set; }
         [Length(2)]
-        public virtual string State { get; set; }
+        public virtual State State { get; set; }
         [Length(15)]
         public virtual string Zip { get; set; }
 
@@ -40,5 +40,7 @@ namespace Commencement.Core.Domain
 
         [NotNull]
         public virtual TermCode TermCode { get; set; }
+
+        public virtual Ceremony Ceremony { get; set; }
     }
 }

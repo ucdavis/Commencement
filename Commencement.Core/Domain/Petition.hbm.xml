@@ -13,7 +13,7 @@
     <property name="Address2" column="Address2" />
     <property name="Address3" column="Address3" />
     <property name="City" column="City" />
-    <property name="State" column="State" />
+    <many-to-one name="State" column="State" class="State" />
     <property name="Zip" column="Zip" />
     <property name="Email" column="Email" />
     <property name="NumberTickets" column="NumberTickets" />
@@ -21,6 +21,7 @@
     <property name="Pending" column="Pending" />
     <property name="Approved" column="Approved" />
     <many-to-one name="TermCode" column="TermCode" class="TermCode" />
+    <many-to-one name="Ceremony" column="CeremonyId" class="Ceremony" />
     
     <joined-subclass name="RegistrationPetition" table="RegistrationPetitions">
       <key column="ID"></key>
