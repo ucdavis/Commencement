@@ -97,28 +97,28 @@ namespace Commencement.Controllers.Helpers
 
             switch (parameter.ToLower())
             {
-                case "StudentId":
+                case "studentid":
                     return Student.StudentId;
                     break;
-                case "StudentName":
+                case "studentname":
                     return Student.FullName;
                     break;
-                case "CeremonyName":
+                case "ceremonyname":
                     if (ceremony == null) throw new ArgumentException("No valid object was provided.");
 
                     return ceremony.Name;
                     break;
-                case "CeremonyTime":
+                case "ceremonytime":
                     if (ceremony == null) throw new ArgumentException("No valid object was provided.");
 
                     return ceremony.DateTime.ToString();
                     break;
-                case "CeremonyLocation":
+                case "ceremonylocation":
                     if (ceremony == null) throw new ArgumentException("No valid object was provided.");
 
                     return ceremony.Location;
                     break;
-                case "NumberOfTickets":
+                case "numberoftickets":
 
                     if (Registration != null) return Registration.NumberTickets.ToString();
                     if (RegistrationPetition != null) return RegistrationPetition.NumberTickets.ToString();
@@ -127,7 +127,7 @@ namespace Commencement.Controllers.Helpers
                     throw new ArgumentException("No valid object was provided.");
 
                     break;
-                case "AddressLine1":
+                case "addressline1":
 
                     if (Registration != null) return Registration.Address1;
                     if (RegistrationPetition != null) return RegistrationPetition.Address1;
@@ -136,7 +136,7 @@ namespace Commencement.Controllers.Helpers
                     throw new ArgumentException("No valid object was provided.");
 
                     break;
-                case "AddressLine2":
+                case "addressline2":
 
                     if (Registration != null) return Registration.Address2;
                     if (RegistrationPetition != null) return RegistrationPetition.Address2;
@@ -145,7 +145,7 @@ namespace Commencement.Controllers.Helpers
                     throw new ArgumentException("No valid object was provided.");
 
                     break;
-                case "City":
+                case "city":
 
                     if (Registration != null) return Registration.City;
                     if (RegistrationPetition != null) return RegistrationPetition.City;
@@ -154,7 +154,7 @@ namespace Commencement.Controllers.Helpers
                     throw new ArgumentException("No valid object was provided.");
 
                     break;
-                case "State":
+                case "state":
 
                     if (Registration != null) return Registration.State.Id;
                     if (RegistrationPetition != null) return RegistrationPetition.State.Id;
@@ -163,7 +163,7 @@ namespace Commencement.Controllers.Helpers
                     throw new ArgumentException("No valid object was provided.");
 
                     break;
-                case "Zip":
+                case "zip":
 
                     if (Registration != null) return Registration.Zip;
                     if (RegistrationPetition != null) return RegistrationPetition.Zip;
@@ -172,7 +172,7 @@ namespace Commencement.Controllers.Helpers
                     throw new ArgumentException("No valid object was provided.");
 
                     break;
-                case "TicketReceiveMethod":
+                case "ticketreceivemethod":
 
                     var mailTickets = false;
 
@@ -183,17 +183,17 @@ namespace Commencement.Controllers.Helpers
 
                     return mailTickets ? "Mail" : "Pick-Up";
                     break;
-                case "SpecialNeeds":
+                case "specialneeds":
                     Check.Require(Registration != null, "Registration is required.");
 
                     return Registration.Comments;
                     break;
-                case "ExceptionReason":
+                case "exceptionreason":
                     Check.Require(RegistrationPetition != null, "Registration petition is required.");
 
                     return RegistrationPetition.ExceptionReason;
                     break;
-                case "CompletionTerm":
+                case "completionterm":
                     Check.Require(RegistrationPetition != null, "Registration petition is required.");
 
                     return RegistrationPetition.CompletionTerm;
