@@ -36,7 +36,9 @@ namespace Commencement.Core.Domain
         [NotNull]
         [Min(1)]
         public virtual int TotalTickets { get; set; }
-        
+
+        [NotNull]
+        public virtual DateTime PrintingDeadline { get; set; }
         [NotNull]
         public virtual DateTime RegistrationDeadline { get; set; }
 

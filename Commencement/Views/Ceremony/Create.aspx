@@ -23,6 +23,6 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
 
-    <link href="<%= Url.Content("~/Content/ui.multiselect.css") %>" type="text/css" rel="Stylesheet" />
+    
 
 </asp:Content>

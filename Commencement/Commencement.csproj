@@ -175,6 +175,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\anytimec.css" />
     <Content Include="Content\Common\Icons\Ajax\Editor.png" />
     <Content Include="Content\Common\Icons\Ajax\Grid.png" />
     <Content Include="Content\Common\Icons\Ajax\Scheduler.png" />
@@ -234,8 +235,8 @@
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
+    <Content Include="Scripts\jquery.anytime.js" />
     <Content Include="Scripts\jquery.enableTinyMce.js" />
-    <Content Include="Scripts\jquery.ui.datetimepicker.min.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />

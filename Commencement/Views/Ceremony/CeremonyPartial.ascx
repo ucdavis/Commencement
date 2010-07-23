@@ -1,15 +1,22 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.ViewModels.CeremonyViewModel>" %>
 
-    <script src="<%= Url.Content("~/Scripts/jquery.ui.datetimepicker.min.js") %>" type="text/javascript"></script>
+    <%--<script src="<%= Url.Content("~/Scripts/jquery.ui.datetimepicker.min.js") %>" type="text/javascript"></script>--%>
+    <link href="<%= Url.Content("~/Content/anytimec.css") %>" type="text/css" rel="Stylesheet" />
+    <link href="<%= Url.Content("~/Content/ui.multiselect.css") %>" type="text/css" rel="Stylesheet" />
+    
+    <script src="<%= Url.Content("~/Scripts/jquery.anytime.js") %>" type="text/javascript"></script>
     <script src="<%= Url.Content("~/Scripts/ui.multiselect.js") %>" type="text/javascript"></script>
     
     <script type="text/javascript">
         $(function() {
-            //$("#Ceremony_DateTime").datetimepicker();
+            $("#Ceremony_DateTime").AnyTime_picker();
+
+            $("#Ceremony_PrintingDeadline").datepicker();
             $("#Ceremony_RegistrationDeadline").datepicker();
 
             $("#CeremonyMajors").multiselect();
         });
+
     </script>
 
     <ul class="registration_form">
@@ -43,7 +50,8 @@
         </li>
         <li>
             <strong>Printing Deadline:</strong>
-            <%= Html.TextBox("PrintingDeadline") %>
+            <%= Html.TextBoxFor(x=>x.Ceremony.PrintingDeadline.ToString("d")) %>
+            <%= Html.ValidationMessageFor(x=>x.Ceremony.PrintingDeadline) %>
             * Registration will continue to be open past this date.
         </li>
         <li>

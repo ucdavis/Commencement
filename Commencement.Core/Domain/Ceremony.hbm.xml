@@ -12,6 +12,7 @@
     <property name="DateTime" column="DateTime" />
     <property name="TicketsPerStudent" column="TicketsPerStudent" />
     <property name="TotalTickets" column="TotalTickets" />
+    <property name="PrintingDeadline" column="PrintingDeadline" />
     <property name="RegistrationDeadline" column="RegistrationDeadline" />
 
     <many-to-one name="TermCode" class="TermCode" column="TermCode" ></many-to-one>
