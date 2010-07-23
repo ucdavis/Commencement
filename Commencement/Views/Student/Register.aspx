@@ -66,8 +66,9 @@
         </li>
         <li>
             <strong>Ticket Acquisition:</strong>
-            <input type="radio" id="rMailTickets" name="Registration.MailTickets" checked="checked" value="true" /><label for="rMailTickets">Mail tickets to this address</label>
-            <input type="radio" id="rPickupTickets" name="Registration.MailTickets" value="false" /><label for="rPickupTickets">I will pick up my tickets</label>
+            <%= this.RadioButton("Registration.MailTickets").Id("rMailTickets").Value(true).LabelAfter("Mail tickets to this address").Checked(Model.Registration.MailTickets) %>
+            <%= this.RadioButton("Registration.MailTickets").Id("rPickupTickets").Value(false).LabelAfter("I will pick up my tickets").Checked(Model.Registration.MailTickets == false) %>
+            
         </li>
     </ul>
     <h2>
@@ -77,7 +78,15 @@
             <select id="Registration_NumberTickets" name="Registration.NumberTickets">
                 <% for (int i = 1; i <= Model.Ceremony.TicketsPerStudent; i++)
                    { %>
-                <option value="<%= i %>"><%= string.Format("{0:00}", i) %></option>
+                   
+                   <% var selected = i == Model.Registration.NumberTickets; %>
+                
+                    <% if (selected) {%>
+                        <option value="<%= i %>" selected="selected"><%= string.Format("{0:00}", i) %></option>
+                    <% } else {%>
+                        <option value="<%= i %>"><%= string.Format("{0:00}", i) %></option>
+                    <% } %>
+
                 <% } %>
             </select>
         </li>
@@ -89,13 +98,18 @@
         </li>
     </ul>
     
-    <input type="submit" value="Register for Commencement" />
-    
-    <% } %>
     <h3>
         Disclaimer about the page and the process. Disclaimer about the page and the process.
         Disclaimer about the page and the process. Disclaimer about the page and the process.
         Disclaimer about the page and the process. Disclaimer about the page and the process.
         Disclaimer about the page and the process. Disclaimer about the page and the process.
+        
+        <br />
+        <label for="agreeToDisclaimer">I Agree</label> <%= Html.CheckBox("agreeToDisclaimer") %>
     </h3>
+    
+    <input type="submit" value="Register for Commencement" />
+    
+    <% } %>
+    
 </asp:Content>

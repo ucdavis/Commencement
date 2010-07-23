@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Mvc.Ajax;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
@@ -11,7 +8,6 @@ using MvcContrib;
 using MvcContrib.Attributes;
 using UCDArch.Web.Helpers;
 using Commencement.Controllers.Helpers;
-using UCDArch.Core.Utils;
 
 namespace Commencement.Controllers
 {
@@ -21,8 +17,10 @@ namespace Commencement.Controllers
         private readonly IRepository<Ceremony> _ceremonyRepository;
         private readonly IRepository<Registration> _registrationRepository;
         private readonly IStudentService _studentService;
+        private readonly IEmailService _emailService;
 
         public StudentController(IStudentService studentService, 
+            IEmailService emailService,
             IRepository<Student> studentRepository, 
             IRepository<Ceremony> ceremonyRepository, 
             IRepository<Registration> registrationRepository)
@@ -31,6 +29,7 @@ namespace Commencement.Controllers
             _ceremonyRepository = ceremonyRepository;
             _registrationRepository = registrationRepository;
             _studentService = studentService;
+            _emailService = emailService;
         }
 
         //
@@ -132,18 +131,25 @@ namespace Commencement.Controllers
 
         [AcceptPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(int id, Registration registration)
+        public ActionResult Register(int id, Registration registration, bool agreeToDisclaimer)
         {
             registration.Student = GetCurrentStudent();
             registration.Ceremony = _ceremonyRepository.GetNullableById(id);
             
             registration.TransferValidationMessagesTo(ModelState);
 
+            if (agreeToDisclaimer == false)
+            {
+                ModelState.AddModelError("agreeToDisclaimer", "You must agree to the disclaimer");
+            }
+
             if (ModelState.IsValid)
             {
                 //Save the registration
                 _registrationRepository.EnsurePersistent(registration);
-                
+
+                _emailService.SendRegistrationConfirmation(Repository, registration);
+
                 Message = "You have successfully registered for this conference.";
 
                 return this.RedirectToAction(x => x.RegistrationConfirmation(registration.Id));

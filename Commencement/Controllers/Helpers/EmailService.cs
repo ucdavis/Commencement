@@ -57,7 +57,7 @@ namespace Commencement.Controllers.Helpers
 
         public void SendRegistrationConfirmation(IRepository repository, Registration registration)
         {
-            Check.Require(repository != null, "Reposity is required.");
+            Check.Require(repository != null, "Repository is required.");
             Check.Require(registration != null, "Registration is required.");
 
             var message = InitializeMessage();
@@ -67,6 +67,7 @@ namespace Commencement.Controllers.Helpers
             //message.To.Add(registration.Student.Email);
             //if (!string.IsNullOrEmpty(registration.Email)) message.To.Add(registration.Email);
             message.To.Add("anlai@ucdavis.edu");
+            message.To.Add("srkirkland@ucdavis.edu");
 
             // get the latest registration confirmation template
             var template = repository.OfType<Template>().Queryable.Where(a => a.RegistrationConfirmation).OrderByDescending(a => a.Id).FirstOrDefault();
@@ -94,7 +95,7 @@ namespace Commencement.Controllers.Helpers
         {
             var message = new MailMessage();
             message.IsBodyHtml = true;
-            message.Bcc.Add("automatedemail@ucdavis.edu");
+            message.Bcc.Add("automatedemail@caes.ucdavis.edu");
 
             return message;
         }
