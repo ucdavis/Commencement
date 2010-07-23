@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using UCDArch.Core.NHibernateValidator.Extensions;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
@@ -47,5 +48,20 @@ namespace Commencement.Core.Domain
 
         public virtual IList<Registration> Registrations { get; set; }
         public virtual IList<MajorCode> Majors { get; set; }
+
+        public virtual string Name { 
+            get
+            {
+                var sb = new StringBuilder("CAES");
+
+                if (this.TermCode.Id.EndsWith("03")) sb.Append(" Spring");
+                else if (this.TermCode.Id.EndsWith("10")) sb.Append(" Fall");
+
+                sb.Append(" Commencement");
+                sb.Append(" " + this.TermCode.Id.Substring(0, 4));
+
+                return sb.ToString();
+            }
+        }
     }
 }
