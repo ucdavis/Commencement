@@ -6,8 +6,7 @@
 <asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent">
 </asp:Content>
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
-    <h1>
-        Fall Commencement Ceremony</h1>
+    <h1><%= Model.Ceremony.Name %></h1>
     <p>
         Some quick intriduction, two or three lines explaining what this is, what they need
         to do, the <strong>due date</strong>, and what will happen after they do this. We

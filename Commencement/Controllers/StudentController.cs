@@ -43,7 +43,7 @@ namespace Commencement.Controllers
             
             if (priorRegistration != null)
             {
-                throw new NotImplementedException("Student has prior registration");
+                return this.RedirectToAction(x => x.DisplayRegistration(priorRegistration.Id));
             }
 
             //Check student untis and major))))
@@ -69,6 +69,15 @@ namespace Commencement.Controllers
             }
             
             return View(majorsAndCeremonies);
+        }
+
+        public ActionResult DisplayRegistration(int id /* registration id */)
+        {
+            var registration = _registrationRepository.GetNullableById(id);
+
+            if (registration == null) return this.RedirectToAction(x => x.Index());
+
+            return View(registration);
         }
 
         /// <summary>

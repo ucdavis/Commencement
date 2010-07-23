@@ -498,6 +498,7 @@
     <Content Include="Views\Petition\Register.aspx" />
     <Content Include="Views\Shared\StudentInformationPartial.ascx" />
     <Content Include="Views\Student\ChooseCeremony.aspx" />
+    <Content Include="Views\Student\DisplayRegistration.aspx" />
     <Content Include="Views\Student\Index.aspx" />
     <Content Include="Views\Student\Register.aspx" />
     <Content Include="Views\Template\Create.aspx" />
