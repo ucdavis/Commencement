@@ -105,7 +105,7 @@
         Disclaimer about the page and the process. Disclaimer about the page and the process.
         
         <br />
-        <label for="agreeToDisclaimer">I Agree</label> <%= Html.CheckBox("agreeToDisclaimer") %>
+        <label for="agreeToDisclaimer">I Agree</label> <%= Html.CheckBox("agreeToDisclaimer", new { @class = "required" }) %>
     </h3>
     
     <input type="submit" value="Register for Commencement" />
