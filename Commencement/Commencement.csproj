@@ -143,6 +143,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\Filters\StudentsOnlyFilter.cs" />
     <Compile Include="Controllers\Helpers\CustomGridBuilder.cs" />
+    <Compile Include="Controllers\Helpers\EmailService.cs" />
     <Compile Include="Controllers\Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Controllers\Helpers\StringExtension.cs" />
     <Compile Include="Controllers\Helpers\StudentService.cs" />
