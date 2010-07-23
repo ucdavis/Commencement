@@ -80,6 +80,15 @@ namespace Commencement.Controllers
             return View(registration);
         }
 
+        public ActionResult RegistrationConfirmation(int id /* registration id */)
+        {
+            var registration = _registrationRepository.GetNullableById(id);
+
+            if (registration == null) return this.RedirectToAction(x => x.Index());
+
+            return View(registration);
+        }
+
         /// <summary>
         /// Registers a student for commencement
         /// </summary>
@@ -137,7 +146,7 @@ namespace Commencement.Controllers
                 
                 Message = "You have successfully registered for this conference.";
 
-                return RedirectToAction("Index", "Home");
+                return this.RedirectToAction(x => x.RegistrationConfirmation(registration.Id));
             }
             
             var viewModel = RegistrationModel.Create(Repository, registration.Ceremony, registration.Student);
@@ -159,6 +168,5 @@ namespace Commencement.Controllers
 
             return currentStudent;
         }
-
     }
 }
