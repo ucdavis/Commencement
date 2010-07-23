@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
+using Resources;
 using UCDArch.Core.PersistanceSupport;
 using MvcContrib;
 using MvcContrib.Attributes;
@@ -100,7 +101,7 @@ namespace Commencement.Controllers
 
             if (ceremony == null)
             {
-                Message = "No matching ceremony found.  Please try your registration again.";
+                Message = StaticValues.Student_No_Ceremony_Found;
                 return this.RedirectToAction(x => x.Index());
             }
 
@@ -114,7 +115,7 @@ namespace Commencement.Controllers
                 //If major is not supplied, the student must be a single major
                 if ( student.Majors.Count() != 1)
                 {
-                    Message = "Student has multiple majors but did not supply a major code.";
+                    Message = StaticValues.Student_Major_Code_Not_Supplied;
                     return this.RedirectToAction(x => x.Index());
                 } 
 
@@ -140,7 +141,7 @@ namespace Commencement.Controllers
 
             if (agreeToDisclaimer == false)
             {
-                ModelState.AddModelError("agreeToDisclaimer", "You must agree to the disclaimer");
+                ModelState.AddModelError("agreeToDisclaimer", StaticValues.Student_agree_to_disclaimer);
             }
 
             if (ModelState.IsValid)
@@ -148,10 +149,17 @@ namespace Commencement.Controllers
                 //Save the registration
                 _registrationRepository.EnsurePersistent(registration);
 
-                _emailService.SendRegistrationConfirmation(Repository, registration);
+                Message = StaticValues.Student_Register_Successful;
 
-                Message = "You have successfully registered for this conference.";
-
+                try
+                {
+                    _emailService.SendRegistrationConfirmation(Repository, registration);    
+                }
+                catch(Exception)
+                {
+                    Message += StaticValues.Student_Email_Problem;
+                }
+                
                 return this.RedirectToAction(x => x.RegistrationConfirmation(registration.Id));
             }
             

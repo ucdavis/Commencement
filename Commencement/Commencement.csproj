@@ -135,6 +135,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_GlobalResources\StaticValues.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StaticValues.resx</DependentUpon>
+    </Compile>
     <Compile Include="ComponentRegistrar.asax.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -561,6 +566,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>StaticIndexes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="App_GlobalResources\StaticValues.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>StaticValues.Designer.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
