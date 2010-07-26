@@ -5,6 +5,7 @@ using System.Security.Principal;
 using System.Web;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
+using UCDArch.Data.NHibernate;
 
 namespace Commencement.Controllers.Helpers
 {
@@ -13,6 +14,7 @@ namespace Commencement.Controllers.Helpers
         Student GetCurrentStudent(IPrincipal currentUser);
         List<CeremonyWithMajor> GetMajorsAndCeremoniesForStudent(Student student);
         Registration GetPriorRegistration(Student student);
+        IList<SearchStudent> SearchStudent(string studentId, string termCode);
     }
 
     public class StudentService : IStudentService
@@ -63,6 +65,16 @@ namespace Commencement.Controllers.Helpers
         {
             //Get any prior registration for the given student.  There should be either none or one
             return _registrationRepository.Queryable.SingleOrDefault(x => x.Student == student);
+        }
+
+        public IList<SearchStudent> SearchStudent(string studentId, string termCode)
+        {
+            var searchQuery = NHibernateSessionManager.Instance.GetSession().GetNamedQuery("SearchStudents");
+
+            searchQuery.SetString("studentid", studentId);
+            searchQuery.SetString("term", termCode);
+
+            return searchQuery.List<SearchStudent>();
         }
     }
 
@@ -117,6 +129,16 @@ namespace Commencement.Controllers.Helpers
         {
             //Get any prior registration for the given student.  There should be either none or one
             return _registrationRepository.Queryable.SingleOrDefault(x => x.Student == student);
+        }
+
+        public IList<SearchStudent> SearchStudent(string studentId, string termCode)
+        {
+            var searchQuery = NHibernateSessionManager.Instance.GetSession().GetNamedQuery("SearchStudents");
+
+            searchQuery.SetString("studentid", studentId);
+            searchQuery.SetString("term", termCode);
+
+            return searchQuery.List<SearchStudent>();
         }
     }
 
