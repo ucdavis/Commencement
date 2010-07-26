@@ -18,6 +18,7 @@ namespace Commencement
 #if DEBUG
             container.AddComponent("studentService", typeof(IStudentService), typeof(DevStudentService));
             container.AddComponent("emailService", typeof (IEmailService), typeof (DevEmailService));
+            //container.AddComponent("termService", typeof (ITermService), typeof (TermService));
 #else
             container.AddComponent("studentService", typeof(IStudentService), typeof(StudentService));
             container.AddComponent("emailService", typeof (IEmailService), typeof (EmailService));

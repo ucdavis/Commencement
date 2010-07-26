@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using Commencement.App_GlobalResources;
+using Commencement.Controllers.Helpers;
 using Commencement.Core.Domain;
 using UCDArch.Core;
 using UCDArch.Core.PersistanceSupport;
@@ -64,7 +65,9 @@ namespace Commencement.Controllers.Filters
         /// </returns>
         public static bool IsStudent(IRepositoryWithTypedId<Student, string> studentRepository, string loginId)
         {
-            var student = studentRepository.Queryable.Where(s => s.Login == loginId).FirstOrDefault();
+            var term = TermService.GetCurrent();
+            var student = studentRepository.Queryable.Where(s => s.Login == loginId && s.TermCode == term).FirstOrDefault();
+
 
             if (student != null)
             {

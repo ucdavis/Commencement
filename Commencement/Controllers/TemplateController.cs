@@ -1,4 +1,5 @@
 using System.Web.Mvc;
+using Commencement.Controllers.Filters;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using MvcContrib;
@@ -11,14 +12,14 @@ namespace Commencement.Controllers
     {
         //
         // GET: /Template/
-
+        [AdminOnly]
         public ActionResult Index()
         {
             var viewModel = TemplateViewModel.Create(Repository);
 
             return View(viewModel);
         }
-
+        [AdminOnly]
         public ActionResult Create(int? id)
         {
             var template = new Template();
@@ -27,7 +28,7 @@ namespace Commencement.Controllers
 
             return View(template);
         }
-
+        [AdminOnly]
         [AcceptPost]
         [ValidateInput(false)]
         public ActionResult Create(Template template)

@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Commencement.Controllers.Helpers;
 using UCDArch.Web.Attributes;
 
 namespace Commencement.Controllers
@@ -9,6 +10,8 @@ namespace Commencement.Controllers
         public ActionResult Index()
         {
             ViewData["Message"] = "Welcome to ASP.NET MVC!";
+
+            var term = TermService.GetCurrent();
 
             return View();
         }

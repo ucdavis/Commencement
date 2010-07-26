@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using Commencement.Controllers.Filters;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
@@ -20,11 +21,12 @@ namespace Commencement.Controllers
         //
         // GET: /Admin/
 
+        [AnyoneWithRole]
         public ActionResult Index()
         {
             return View();
         }
-
+        [AnyoneWithRole]
         public ActionResult Students(string studentid, string lastName, string firstName, string majorCode)
         {
             // get the newest active term
@@ -34,7 +36,7 @@ namespace Commencement.Controllers
 
             return View(viewModel);
         }
-
+        [AnyoneWithRole]
         public ActionResult StudentDetails(Guid id)
         {
             var student = _studentRepository.GetNullableById(id);
@@ -47,6 +49,19 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">Student Id</param>
+        /// <returns></returns>
+        [AnyoneWithRole] 
+        public ActionResult AddStudent(string id)
+        {
+            // lookup the student
+
+            return View();
+        }
+        [AnyoneWithRole]
         public ActionResult Registrations(string studentid, string lastName, string firstName, string majorCode, int? ceremonyId)
         {
             var term = Repository.OfType<TermCode>().Queryable.Where(a => a.IsActive).OrderByDescending(a => a.Id).FirstOrDefault();
