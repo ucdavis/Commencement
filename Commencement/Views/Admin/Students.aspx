@@ -53,7 +53,9 @@
                             col.Bound(x => x.Student.StrMajorCodes).Title("Majors");
                             col.Bound(x => x.Registration).Title("Registered").Width(40);
                         })
-           .Sortable(s=>s.OrderBy(a=>a.Add(b=>b.Student.LastName))).Pageable(p=>p.PageSize(100))
+           .DataBinding(binding=>binding.Server().Select<AdminController>(a=>a.Students(Model.studentidFilter, Model.lastNameFilter, Model.firstNameFilter, Model.majorCodeFilter)))
+           .Sortable(s=>s.OrderBy(a=>a.Add(b=>b.Student.LastName)))
+           .Pageable(p=>p.PageSize(100))
            .Render(); 
            %>
 

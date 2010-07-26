@@ -80,8 +80,9 @@
                             col.Bound(a => a.Ceremony.DateTime).Title("Ceremony");
                             col.Bound(a => a.Major.Id).Title("Major");
                         })
-           .Pageable()
-           .Sortable()
+           .DataBinding(binding=>binding.Server().Select<AdminController>(a=>a.Registrations(Model.studentidFilter, Model.lastNameFilter, Model.firstNameFilter, Model.majorCodeFilter, Model.ceremonyFilter)))
+           .Pageable(p=>p.PageSize(100))
+           .Sortable(s=>s.OrderBy(a=>a.Add(b=>b.Student.LastName)))
            .Render();
             %>
 

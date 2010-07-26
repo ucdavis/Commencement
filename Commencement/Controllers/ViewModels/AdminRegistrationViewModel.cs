@@ -36,7 +36,7 @@ namespace Commencement.Controllers.ViewModels
                                 && (a.Student.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName))
                                 && (a.Student.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName)));
 
-            if (ceremonyId.HasValue)
+            if (ceremonyId.HasValue && ceremonyId.Value > 0)
                 query = query.Where(a => a.Ceremony.Id == ceremonyId.Value);
 
             viewModel.Registrations = query.ToList();
