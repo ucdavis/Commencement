@@ -12,6 +12,8 @@
 
     <h2>Students</h2>
 
+    <%= Html.ActionLink<AdminController>(a=>a.AddStudent(null), "Add Student") %>
+
     <div id="filter_container">
         <h3><a href="#">Filters</a></h3>
         <% using (Html.BeginForm("Students", "Admin", FormMethod.Post)) { %>

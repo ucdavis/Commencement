@@ -2,20 +2,24 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
+using Commencement.Controllers.Helpers;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using MvcContrib;
+using UCDArch.Core.Utils;
 
 namespace Commencement.Controllers
 {
     public class AdminController : ApplicationController
     {
         private readonly IRepositoryWithTypedId<Student, Guid> _studentRepository;
+        private readonly IStudentService _studentService;
 
-        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository)
+        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IStudentService studentService)
         {
             _studentRepository = studentRepository;
+            _studentService = studentService;
         }
 
         //
@@ -54,13 +58,39 @@ namespace Commencement.Controllers
         /// </summary>
         /// <param name="id">Student Id</param>
         /// <returns></returns>
-        [AnyoneWithRole] 
-        public ActionResult AddStudent(string id)
+        [AnyoneWithRole]
+        public ActionResult AddStudent(string studentId)
         {
-            // lookup the student
+            var viewModel = SearchStudentViewModel.Create(Repository);
 
-            return View();
+            if (!string.IsNullOrEmpty(studentId))
+            {
+                // lookup the student
+                viewModel.SearchStudents = _studentService.SearchStudent(studentId, TermService.GetCurrent().Id);
+                viewModel.StudentId = studentId;
+            }
+
+            return View(viewModel);
         }
+
+        [AnyoneWithRole]
+        public ActionResult AddStudentConfirm(string studentId, string major)
+        {
+            // either variable is invalid redirect back to the add student page
+            if (string.IsNullOrEmpty(studentId) || string.IsNullOrEmpty(major)) return this.RedirectToAction(a => a.AddStudent(studentId));
+
+            var searchResults = _studentService.SearchStudent(studentId, TermService.GetCurrent().Id);
+            var searchStudent = searchResults.Where(a => a.MajorCode == major).FirstOrDefault();
+
+            Check.Require(searchStudent != null, "Unable to find requested record.");
+
+            var student = new Student(searchStudent.Pidm, searchStudent.Id, searchStudent.FirstName,
+                                      searchStudent.LastName, searchStudent.HoursEarned, searchStudent.Email,
+                                      searchStudent.LoginId, TermService.GetCurrent());
+
+            return View(student);
+        }
+
         [AnyoneWithRole]
         public ActionResult Registrations(string studentid, string lastName, string firstName, string majorCode, int? ceremonyId)
         {

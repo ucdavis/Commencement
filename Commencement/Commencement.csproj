@@ -158,6 +158,7 @@
     <Compile Include="Controllers\Helpers\TermService.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PetitionController.cs" />
+    <Compile Include="Controllers\ViewModels\SearchStudentViewModel.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\ViewModels\TemplateViewModel.cs" />
@@ -573,6 +574,8 @@
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>StaticValues.Designer.cs</LastGenOutput>
     </Content>
+    <Content Include="Views\Admin\AddStudent.aspx" />
+    <Content Include="Views\Admin\AddStudentConfirm.aspx" />
     <Content Include="Views\Student\NoCeremony.aspx" />
   </ItemGroup>
   <ItemGroup>

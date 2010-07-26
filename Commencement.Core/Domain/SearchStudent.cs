@@ -12,12 +12,14 @@ namespace Commencement.Core.Domain
         public virtual string FirstName { get; set; }
         public virtual string LastName { get; set; }
 
-        public virtual double HoursEarned { get; set; }
+        public virtual decimal HoursEarned { get; set; }
 
         public virtual string Email { get; set; }
 
         public virtual string MajorCode { get; set; }
         public virtual string CollegeCode { get; set; }
         public virtual string DegreeCode { get; set; }
+
+        public virtual string LoginId { get; set; }
     }
 }

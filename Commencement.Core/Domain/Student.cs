@@ -9,6 +9,22 @@ namespace Commencement.Core.Domain
 {
     public class Student : DomainObjectWithTypedId<Guid>
     {
+        public Student(string pidm, string studentId, string firstName, string lastName, decimal units, string email, string login, TermCode termCode)
+        {
+            Id = Guid.NewGuid();
+            
+            Pidm = pidm;
+            StudentId = studentId;
+            FirstName = firstName;
+            LastName = lastName;
+            Units = units;
+            Email = email;
+            Login = login;
+            TermCode = termCode;
+
+            SetDefaults();
+        }
+
         public Student()
         {
             SetDefaults();
@@ -17,6 +33,9 @@ namespace Commencement.Core.Domain
         private void SetDefaults()
         {
             Majors = new List<MajorCode>();
+
+            DateAdded = DateTime.Now;
+            DateUpdated = DateTime.Now;
         }
 
         [Length(8)]

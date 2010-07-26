@@ -15,6 +15,8 @@
     <property name="MajorCode" column="Zgvlcfs_Majr_Code" />
     <property name="CollegeCode" column="Zgvlcfs_Coll_Code" />
     <property name="DegreeCode" column="Shrdgmr_Degs_Code" />
+
+    <property name="LoginId" column="login_id" />
     
     <loader query-ref="SearchStudents"/>
   </class>
