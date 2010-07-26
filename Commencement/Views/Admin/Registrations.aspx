@@ -78,7 +78,7 @@
                             col.Bound(a => a.NumberTickets);
                             col.Bound(a => a.MailTickets);
                             col.Bound(a => a.Ceremony.DateTime).Title("Ceremony");
-                            col.Bound(a => a.Major.Id);
+                            col.Bound(a => a.Major.Id).Title("Major");
                         })
            .Pageable()
            .Sortable()

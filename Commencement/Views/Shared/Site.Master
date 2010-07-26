@@ -45,9 +45,9 @@
 </div>
 
 <body>
-<%--        <div id="logindisplay">
+        <div id="logindisplay">
             <% Html.RenderPartial("LogOnUserControl"); %>
-        </div> --%>
+        </div> 
 
     <div class="main">
         <div id="messagecontainer">
