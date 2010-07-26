@@ -169,6 +169,11 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
+        public ActionResult NoCeremony()
+        {
+            return View();
+        }
+
         private Student GetCurrentStudent()
         {
             var currentStudent = _studentService.GetCurrentStudent(CurrentUser);

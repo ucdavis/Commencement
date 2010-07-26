@@ -570,6 +570,7 @@
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>StaticValues.Designer.cs</LastGenOutput>
     </Content>
+    <Content Include="Views\Student\NoCeremony.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
