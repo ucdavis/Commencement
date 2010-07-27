@@ -43,11 +43,11 @@ namespace Commencement.Controllers
             
             if (priorRegistration != null)
             {
+                // show an existing registration
                 return this.RedirectToAction(x => x.DisplayRegistration(priorRegistration.Id));
             }
 
             //Check student untis and major))))
-
             return this.RedirectToAction(x => x.ChooseCeremony());
         }
 
@@ -57,17 +57,21 @@ namespace Commencement.Controllers
 
             var numPossibleCeremonies = majorsAndCeremonies.Count();
             
+            // no matching ceremony for student's major
             if (numPossibleCeremonies == 0)
             {
-                throw new NotImplementedException("No possible ceremonies found");
+                return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.NoCeremony));
+                //throw new NotImplementedException("No possible ceremonies found");
             }
-            else if (numPossibleCeremonies == 1)
+            // only one matching ceremony
+            if (numPossibleCeremonies == 1)
             {
                 var ceremony = majorsAndCeremonies.Single();
                 
                 return this.RedirectToAction(x => x.Register(ceremony.Ceremony.Id, string.Empty));
             }
             
+            // multiple ceremonies, let the student pick one
             return View(majorsAndCeremonies);
         }
 

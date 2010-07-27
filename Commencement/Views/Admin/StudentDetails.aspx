@@ -1,10 +1,13 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.RegistrationModel>" %>
+<%@ Import Namespace="Commencement.Controllers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	StudentDetails
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
+    <%= Html.ActionLink<AccountController>(a=>a.Emulate(Model.Student.Login), "Emulate") %>
 
     <% Html.RenderPartial("StudentInformationPartial", Model.Student); %>
     

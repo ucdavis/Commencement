@@ -32,13 +32,17 @@ namespace Commencement.Controllers
                     title = "Student not found";
                     description = "The student you are looking for was not found.";
                     break;
+                case ErrorType.NoCeremony:
+                    title = "No available ceremony found.";
+                    description = "There are no available ceremonies found for your major.  Please contact .....";
+                    break;
                 default:
                     title = "Unknown Error.";
                     description = "An unknown error has occurred.  IT has been notified of the issue.";
                     break;
             };
 
-            return View(ErrorViewModel.Create(title, description));
+            return View(ErrorViewModel.Create(title, description, errorType));
         }
 
         public enum ErrorType
@@ -47,7 +51,8 @@ namespace Commencement.Controllers
             FileDoesNotExist,
             FileNotFound,
             UnknownError,
-            StudentNotFound
+            StudentNotFound,
+            NoCeremony
         }
     }
 
@@ -55,10 +60,11 @@ namespace Commencement.Controllers
     {
         public string Title { get; set; }
         public string Description { get; set; }
+        public ErrorController.ErrorType? ErrorType { get; set; }
 
-        public static ErrorViewModel Create(string title, string description)
+        public static ErrorViewModel Create(string title, string description, ErrorController.ErrorType? errorType)
         {
-            return new ErrorViewModel() { Title = title, Description = description };
+            return new ErrorViewModel() { Title = title, Description = description, ErrorType = errorType};
         }
     }
 }

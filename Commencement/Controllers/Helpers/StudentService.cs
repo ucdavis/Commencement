@@ -32,7 +32,7 @@ namespace Commencement.Controllers.Helpers
 
         public Student GetCurrentStudent(IPrincipal currentUser)
         {
-            var currentStudent = _studentRepository.Queryable.SingleOrDefault(x => x.Login == currentUser.Identity.Name && x.TermCode.IsActive);
+            var currentStudent = _studentRepository.Queryable.SingleOrDefault(x => x.Login == currentUser.Identity.Name && x.TermCode == TermService.GetCurrent());
 
             if (currentStudent == null)
             {
@@ -50,7 +50,7 @@ namespace Commencement.Controllers.Helpers
             {
                 MajorCode code = studentMajorCode;
                 var ceremonies = from c in _ceremonyRepository.Queryable
-                                 where c.TermCode.IsActive && c.Majors.Contains(code)
+                                 where c.TermCode == TermService.GetCurrent() && c.Majors.Contains(code)
                                  select c;
 
                 var ceremoniesWithMajors = ceremonies.ToList().Select(ceremony => new CeremonyWithMajor(ceremony, code)).ToList();

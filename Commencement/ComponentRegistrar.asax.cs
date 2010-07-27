@@ -16,9 +16,8 @@ namespace Commencement
             container.AddComponent("dbContext", typeof(IDbContext), typeof(DbContext));
 
 #if DEBUG
-            container.AddComponent("studentService", typeof(IStudentService), typeof(DevStudentService));
+            container.AddComponent("studentService", typeof(IStudentService), typeof(StudentService));
             container.AddComponent("emailService", typeof (IEmailService), typeof (DevEmailService));
-            //container.AddComponent("termService", typeof (ITermService), typeof (TermService));
 #else
             container.AddComponent("studentService", typeof(IStudentService), typeof(StudentService));
             container.AddComponent("emailService", typeof (IEmailService), typeof (EmailService));
