@@ -41,13 +41,18 @@
     <span class="logos">
         <span class="ucdavis"><a href="http://www.ucdavis.edu"><img src="<%= Url.Content("~/Images/logo-ucdavis.png") %>" alt="UC Davis" /></a></span>
         <span class="caes"><a href="http://caes.ucdavis.edu"><img src="<%= Url.Content("~/Images/logo-caes.png") %>" alt="College of Agricultural &amp; Environmental Sciences" /></a></span>
+             <span id="logindisplay">
+                <% Html.RenderPartial("LogOnUserControl"); %>
+             </span> 
     </span>
+    
+        
 </div>
 
+
+
 <body>
-        <div id="logindisplay">
-            <% Html.RenderPartial("LogOnUserControl"); %>
-        </div> 
+
 
     <div class="main">
         <div id="messagecontainer">

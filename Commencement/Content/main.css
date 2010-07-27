@@ -14,6 +14,12 @@ a img {border:none;}
 #branding span.ucdavis {margin-right: 5px;}
 
 /* ---------------- */
+/*    login         */
+/* ---------------- */
+#logindisplay {float:right; color:#FFF;}
+#logindisplay a {font: 16px/26px 'CicleSemi', Arial, sans-serif;letter-spacing: 0; color:#FFF; text-decoration:none;}
+
+/* ---------------- */
 /*    main          */
 /* ---------------- */
 .main {width:937px; margin:0 auto;}
@@ -25,7 +31,7 @@ a img {border:none;}
 h1 {font: 40px/48px 'CicleSemi', Arial, sans-serif;letter-spacing: 0; text-align:center;}
 h2 {font: 30px/38px 'CicleSemi', Arial, sans-serif;letter-spacing: 0; margin:0.25em 0;}
 h3 {font: 14px/24px 'CicleSemiItalic', Arial, sans-serif;letter-spacing: 0; text-align:center; margin-top:3em;}
-body {font: 16px/25px 'CicleFina', Arial, sans-serif;}
+body {font: 16px/26px 'CicleFina', Arial, sans-serif;}
 b, strong {font: 18px/27px 'CicleGordita', Arial, sans-serif; font-weight:normal;}
 
 
