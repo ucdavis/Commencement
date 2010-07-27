@@ -97,7 +97,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You have successfully registered for this conference..
+        ///   Looks up a localized string similar to You have successfully registered for commencement..
         /// </summary>
         internal static string Student_Register_Successful {
             get {

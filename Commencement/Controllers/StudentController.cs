@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using Commencement.Controllers.Filters;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Resources;
@@ -12,6 +13,7 @@ using Commencement.Controllers.Helpers;
 
 namespace Commencement.Controllers
 {
+    [StudentsOnly]
     public class StudentController : ApplicationController
     {
         private readonly IRepository<Student> _studentRepository;
