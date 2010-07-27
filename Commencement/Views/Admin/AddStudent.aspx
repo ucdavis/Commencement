@@ -3,12 +3,12 @@
 <%@ Import Namespace="Commencement.Controllers.Helpers"%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	AddStudent
+	Add Student
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>AddStudent</h2>
+    <h2>Add Student</h2>
     
     <div id="search_container">
         <% using (Html.BeginForm("AddStudent", "Admin", FormMethod.Get)) { %>

@@ -8,66 +8,50 @@
 
     <h2>AddStudentConfirm</h2>
 
-    <fieldset>
-        <legend>Fields</legend>
-        <p>
-            Pidm:
-            <%= Html.Encode(Model.Pidm) %>
-        </p>
-        <p>
-            StudentId:
-            <%= Html.Encode(Model.StudentId) %>
-        </p>
-        <p>
-            FirstName:
-            <%= Html.Encode(Model.FirstName) %>
-        </p>
-        <p>
-            LastName:
-            <%= Html.Encode(Model.LastName) %>
-        </p>
-        <p>
-            Units:
-            <%= Html.Encode(String.Format("{0:F}", Model.Units)) %>
-        </p>
-        <p>
-            Email:
-            <%= Html.Encode(Model.Email) %>
-        </p>
-        <p>
-            Login:
-            <%= Html.Encode(Model.Login) %>
-        </p>
-        <p>
-            DateAdded:
-            <%= Html.Encode(String.Format("{0:g}", Model.DateAdded)) %>
-        </p>
-        <p>
-            DateUpdated:
-            <%= Html.Encode(String.Format("{0:g}", Model.DateUpdated)) %>
-        </p>
-        <p>
-            FullName:
-            <%= Html.Encode(Model.FullName) %>
-        </p>
-        <p>
-            StrMajors:
-            <%= Html.Encode(Model.StrMajors) %>
-        </p>
-        <p>
-            StrMajorCodes:
-            <%= Html.Encode(Model.StrMajorCodes) %>
-        </p>
-        <p>
-            Id:
-            <%= Html.Encode(Model.Id) %>
-        </p>
-    </fieldset>
-    <p>
-        <%=Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) %> |
-        <%=Html.ActionLink("Back to List", "Index") %>
-    </p>
+    <% using(Html.BeginForm("AddStudentConfirm", "Admin", FormMethod.Post)) { %>
+    <%= Html.AntiForgeryToken() %>
+    <%= Html.HiddenFor(x=>x.Pidm) %>
+    <%= Html.Hidden("majorCode", Model.StrMajorCodes) %>
 
+    <ul class="registration_form">
+        <li>
+            <strong>Student Id:</strong>
+            <%= Html.Encode(Model.StudentId) %>
+            <%= Html.HiddenFor(x=>x.StudentId) %>
+        </li>
+        <li>
+            <strong>Name:</strong>
+            <%= Html.Encode(Model.FullName) %>
+            <%= Html.HiddenFor(x=>x.FirstName) %>
+            <%= Html.HiddenFor(x=>x.LastName) %>
+        </li>
+         <li>
+            <strong>Units:</strong>
+            <%= Html.Encode(String.Format("{0:F}", Model.Units)) %>
+            <%= Html.HiddenFor(x=>x.Units) %>
+        </li>
+        <li>
+            <strong>Email:</strong>
+            <%= Html.Encode(Model.Email) %>
+            <%= Html.HiddenFor(x=>x.Email) %>
+        </li>
+        <li>
+            <strong>Login:</strong>
+            <%= Html.Encode(Model.Login) %>
+            <%= Html.HiddenFor(x=>x.Login) %>
+        </li>
+        <li>
+            <strong>Major:</strong>
+            <%= Html.Encode(Model.StrMajorCodes) %>
+        </li>
+        <li>
+            <strong></strong>
+            <%= Html.SubmitButton("Submit", "Save") %>
+        </li>
+    </ul>
+    
+    <% } %>
+    
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">

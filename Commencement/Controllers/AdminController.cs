@@ -5,20 +5,24 @@ using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
+using MvcContrib.Attributes;
 using UCDArch.Core.PersistanceSupport;
 using MvcContrib;
 using UCDArch.Core.Utils;
+using UCDArch.Web.Helpers;
 
 namespace Commencement.Controllers
 {
     public class AdminController : ApplicationController
     {
         private readonly IRepositoryWithTypedId<Student, Guid> _studentRepository;
+        private readonly IRepositoryWithTypedId<MajorCode, string> _majorRepository;
         private readonly IStudentService _studentService;
 
-        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IStudentService studentService)
+        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService)
         {
             _studentRepository = studentRepository;
+            _majorRepository = majorRepository;
             _studentService = studentService;
         }
 
@@ -88,7 +92,56 @@ namespace Commencement.Controllers
                                       searchStudent.LastName, searchStudent.HoursEarned, searchStudent.Email,
                                       searchStudent.LoginId, TermService.GetCurrent());
 
+            student.Majors.Add(_majorRepository.GetNullableById(major));
+
             return View(student);
+        }
+
+        [AnyoneWithRole]
+        [AcceptPost]
+        public ActionResult AddStudentConfirm(string studentId, string majorCode, Student student)
+        {
+            Check.Require(student != null, "Student cannot be null.");
+            Check.Require(!string.IsNullOrEmpty(majorCode), "Major code is required.");
+            
+            MajorCode major = _majorRepository.GetNullableById(majorCode);
+            Check.Require(major != null, "Unable to find major.");
+
+            Student newStudent = null;
+
+            // validate student does not already exist, and if they do make sure we are just adding a new major
+            var existingStudent = Repository.OfType<Student>().Queryable.Where(a=>a.StudentId == studentId && a.TermCode == TermService.GetCurrent()).FirstOrDefault();
+
+            if (existingStudent == null)
+            {
+                newStudent = new Student(student.Pidm, student.StudentId, student.FirstName, student.LastName, student.Units, student.Email, student.Login, student.TermCode);
+                newStudent.Majors.Add(major);
+            }
+            else if (!existingStudent.Majors.Contains(major))
+            {
+                existingStudent.Majors.Add(major);
+                newStudent = existingStudent;       // just need to save the update to the major
+            }
+            else
+            {
+                // student already exists with major, bail out
+                Message = "Student already exists.";
+                newStudent = student;
+                newStudent.Majors.Add(major);
+                return View(newStudent);
+            }
+
+            // either new student or adding a major
+            newStudent.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                Repository.OfType<Student>().EnsurePersistent(newStudent);
+
+                return this.RedirectToAction(a => a.Students(studentId, null, null, null));
+            }
+
+            return View(newStudent);
         }
 
         [AnyoneWithRole]
