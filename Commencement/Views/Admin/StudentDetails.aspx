@@ -7,9 +7,9 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <a href="#" onClick="history.go(-1)">Back</a> 
+    <div id="back_btn"><a href="#" onClick="history.go(-1)">Back</a> </div>
 
-    <%= Html.ActionLink<AccountController>(a=>a.Emulate(Model.Student.Login), "Emulate") %>
+    <div id="emulate_btn"><%= Html.ActionLink<AccountController>(a=>a.Emulate(Model.Student.Login), "Emulate") %></div>
 
     <% Html.RenderPartial("StudentInformationPartial", Model.Student); %>
     

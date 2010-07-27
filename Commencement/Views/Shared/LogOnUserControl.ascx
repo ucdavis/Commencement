@@ -7,11 +7,11 @@
         <% if ((bool?)HttpContext.Current.Session["Emulation"] == null || (bool?)HttpContext.Current.Session["Emulation"] == false)
            { %>
         
-        - <%= Html.ActionLink("Log Off", "LogOut", "Account")%> 
+        <%= Html.ActionLink("Log Off", "LogOut", "Account")%> 
         
         <% } else { %> 
         
-        - <%= Html.ActionLink("End Emulation", "EndEmulate", "Account") %> 
+        <%= Html.ActionLink("End Emulation", "EndEmulate", "Account") %> 
         
         <% } %>
         
