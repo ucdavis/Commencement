@@ -65,6 +65,8 @@ namespace Commencement.Controllers.Helpers
             ReplaceTagContents(formattedEncodedText, "h6");
             ReplaceSingleTagContents(formattedEncodedText, "br");
 
+            // replace &nbsp;
+            formattedEncodedText = formattedEncodedText.Replace(@"&amp;nbsp;", @"&nbsp;");
 
             // <span style="text-decoration:underline;">
             string underline = string.Format(htmlTag, @"span style=&quot;text-decoration: underline;&quot;");

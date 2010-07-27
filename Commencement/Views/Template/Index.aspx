@@ -29,9 +29,9 @@
                     <% } %>
                 </legend>
                 
-                <p>
+                <div>
                     <%= Html.HtmlEncode(t.BodyText) %>
-                </p>
+                </div>
                 
             </fieldset>
         

@@ -1,10 +1,13 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Core.Domain.Student>" %>
+<%@ Import Namespace="Commencement.Controllers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	AddStudentConfirm
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
+    <%= Html.ActionLink<AdminController>(a=>a.Students(null, null, null, null), "Cancel") %>
 
     <h2>AddStudentConfirm</h2>
 

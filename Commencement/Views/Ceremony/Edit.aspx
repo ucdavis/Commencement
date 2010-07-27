@@ -6,6 +6,8 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <a href="#" onClick="history.go(-1)">Back</a> 
+
     <h2>Edit</h2>
 
     <%= Html.ValidationSummary("Please correct all errors below") %>

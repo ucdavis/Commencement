@@ -7,6 +7,8 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <a href="#" onClick="history.go(-1)">Back</a> 
+
     <%= Html.ActionLink<AccountController>(a=>a.Emulate(Model.Student.Login), "Emulate") %>
 
     <% Html.RenderPartial("StudentInformationPartial", Model.Student); %>
@@ -53,7 +55,7 @@
                 <%= Html.Encode(Model.Registration.NumberTickets) %>
             </li>
             <li class="prefilled"><strong>Ceremony Date:</strong> 
-                <span><%= Html.Encode(string.Format("{0}", Model.Ceremony.DateTime)) %></span> 
+                <span><%= Html.Encode(string.Format("{0}", Model.Registration.Ceremony.DateTime)) %></span> 
             </li>
             <li>
                 <strong>Special Needs:</strong>
