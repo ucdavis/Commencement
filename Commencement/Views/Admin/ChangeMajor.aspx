@@ -7,7 +7,10 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <ul class="btn">
+    <li>
     <%= Html.ActionLink<AdminController>(a=>a.StudentDetails(Model.Student.Id, true), "Back to Student Details") %>
+    </li></ul>
 
     <h2>Change Major</h2>
 

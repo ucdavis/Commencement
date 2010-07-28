@@ -41,7 +41,7 @@ namespace Commencement.Controllers.ViewModels
                 && (a.StudentId.Contains(string.IsNullOrEmpty(studentid) ? string.Empty : studentid))
                 && (a.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName))
                 && (a.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName))
-                ).ToList();
+                ).Distinct().ToList();
 
             // get all active registrations
             var registrations = repository.OfType<Registration>().Queryable.Where(a => a.Ceremony.TermCode == termCode).ToList();

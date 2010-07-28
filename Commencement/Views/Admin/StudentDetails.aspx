@@ -7,19 +7,20 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div id="back_btn">
+    <ul class="btn">
+    <li>
         <% if (Request.QueryString["Registration"]!= null && Convert.ToBoolean(Request.QueryString["Registration"])) { %>
             <%= Html.ActionLink<AdminController>(a=>a.Registrations(null, null, null, null, null), "Back to List") %>
         <% } else { %>
             <%= Html.ActionLink<AdminController>(a=>a.Students(null, null, null, null), "Back to List") %>
         <% } %>
-    </div>
-    
-    <div id="emulate_btn"><%= Html.ActionLink<AccountController>(a=>a.Emulate(Model.Student.Login), "Emulate") %></div>
-
+    </li>
+    <li><%= Html.ActionLink<AccountController>(a=>a.Emulate(Model.Student.Login), "Emulate") %></li>
+    <li>
     <% if (Model.Registration != null) { %>
         <div id="changeMajr_btn"><%= Html.ActionLink<AdminController>(a=>a.ChangeMajor(Model.Registration.Id), "Change Major") %></div>
     <% } %>
+    </li></ul>
 
     <% Html.RenderPartial("StudentInformationPartial", Model.Student); %>
     
