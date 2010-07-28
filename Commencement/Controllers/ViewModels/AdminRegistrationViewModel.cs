@@ -22,7 +22,7 @@ namespace Commencement.Controllers.ViewModels
 
             var viewModel = new AdminRegistrationViewModel()
                                 {
-                                    Ceremonies = repository.OfType<Ceremony>().Queryable.Where(a=>a.TermCode == termCode),
+                                    Ceremonies = repository.OfType<Ceremony>().Queryable.Where(a=>a.TermCode == termCode).ToList(),
                                     studentidFilter = studentid,
                                     lastNameFilter = lastName,
                                     firstNameFilter = firstName,

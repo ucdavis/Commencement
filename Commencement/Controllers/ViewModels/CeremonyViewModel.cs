@@ -22,17 +22,19 @@ namespace Commencement.Controllers.ViewModels
         {
             Check.Require(repository != null, "Repository is required.");
 
+            var majorCodes = repository.OfType<MajorCode>().GetAll();
+
             var viewModel = new CeremonyViewModel()
                                 {
-                                    MajorCodes = repository.OfType<MajorCode>().GetAll(),
-                                    TermCodes = repository.OfType<vTermCode>().Queryable.Where(a=>a.EndDate > DateTime.Now),
+                                    MajorCodes = majorCodes,
+                                    TermCodes = repository.OfType<vTermCode>().Queryable.Where(a=>a.EndDate > DateTime.Now).ToList(),
                                     Ceremony = ceremony
-                                };
+                                }; 
 
             //viewModel.Majors = new List<SelectListItem>();
             //viewModel.Majors = new MultiSelectList(viewModel.MajorCodes);
 
-            viewModel.Majors = new MultiSelectList(repository.OfType<MajorCode>().GetAll(), "Id", "Name", ceremony.Majors.Select(x=>x.Id).ToList());
+            viewModel.Majors = new MultiSelectList(majorCodes, "Id", "Name", ceremony.Majors.Select(x=>x.Id).ToList());
 
 
             //foreach (var m in repository.OfType<MajorCode>().GetAll())

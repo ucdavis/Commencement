@@ -16,11 +16,10 @@
     <%= Html.ActionLink<CeremonyController>(a=>a.Create(), "Create New") %>
 
     <% Html.Grid(Model.Ceremonies)
-           .Transactional()
            .Name("Ceremonies")
            .Columns(col =>
                         {
-                            col.Add(a =>
+                            col.Template(a =>
                                         {   %>
                                             <%= Html.ActionLink<CeremonyController>(b=>b.Edit(a.Id), "Select") %>                                            
                                             <%
