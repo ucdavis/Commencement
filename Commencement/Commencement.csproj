@@ -146,6 +146,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\CeremonyController.cs" />
+    <Compile Include="Controllers\Helpers\CopyHelper.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\Filters\RolesFilter.cs" />
     <Compile Include="Controllers\Filters\StudentsOnlyFilter.cs" />
@@ -576,7 +577,9 @@
     </Content>
     <Content Include="Views\Admin\AddStudent.aspx" />
     <Content Include="Views\Admin\AddStudentConfirm.aspx" />
+    <Content Include="Views\Student\EditRegistration.aspx" />
     <Content Include="Views\Student\NoCeremony.aspx" />
+    <Content Include="Views\Student\RegistrationEditForm.ascx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

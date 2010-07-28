@@ -83,6 +83,8 @@ namespace Commencement.Controllers
 
             if (registration == null) return this.RedirectToAction(x => x.Index());
 
+            ViewData["CanEditRegistration"] = registration.Ceremony.RegistrationDeadline > DateTime.Now;
+
             return View(registration);
         }
 
@@ -170,6 +172,66 @@ namespace Commencement.Controllers
             }
             
             var viewModel = RegistrationModel.Create(Repository, registration.Ceremony, registration.Student);
+            viewModel.Registration = registration;
+
+            return View(viewModel);
+        }
+
+        public ActionResult EditRegistration(int id)
+        {
+            var registration = _registrationRepository.GetNullableById(id);
+            
+            var student = GetCurrentStudent();
+            
+            if (registration == null || registration.Ceremony.RegistrationDeadline <= DateTime.Now || registration.Student != student)
+            {
+                Message = StaticValues.Student_No_Registration_Found;
+                return this.RedirectToAction(a => a.Index());
+            }
+            
+            //Get student info and create registration model
+            var viewModel = RegistrationModel.Create(Repository, registration.Ceremony, student);
+            viewModel.Registration = registration;
+
+            return View(viewModel);
+        }
+
+        [AcceptPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditRegistration(int id, Registration registration, bool agreeToDisclaimer)
+        {
+            var registrationToEdit = _registrationRepository.GetNullableById(id);
+            registrationToEdit.Student = GetCurrentStudent();
+
+            CopyHelper.CopyRegistrationValues(registration, registrationToEdit);
+
+            registrationToEdit.TransferValidationMessagesTo(ModelState);
+
+            if (agreeToDisclaimer == false)
+            {
+                ModelState.AddModelError("agreeToDisclaimer", StaticValues.Student_agree_to_disclaimer);
+            }
+
+            if (ModelState.IsValid)
+            {
+                //Save the registration
+                _registrationRepository.EnsurePersistent(registrationToEdit);
+
+                Message = StaticValues.Student_Register_Edit_Successful;
+
+                try
+                {
+                    _emailService.SendRegistrationConfirmation(Repository, registrationToEdit);
+                }
+                catch (Exception)
+                {
+                    Message += StaticValues.Student_Email_Problem;
+                }
+
+                return this.RedirectToAction(x => x.RegistrationConfirmation(registrationToEdit.Id));
+            }
+
+            var viewModel = RegistrationModel.Create(Repository, registration.Ceremony, registrationToEdit.Student);
             viewModel.Registration = registration;
 
             return View(viewModel);

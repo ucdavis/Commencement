@@ -97,6 +97,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No matching registration found.  Please try your registration again..
+        /// </summary>
+        internal static string Student_No_Registration_Found {
+            get {
+                return ResourceManager.GetString("Student_No_Registration_Found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have successfully edited your commencement registration. .
+        /// </summary>
+        internal static string Student_Register_Edit_Successful {
+            get {
+                return ResourceManager.GetString("Student_Register_Edit_Successful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You have successfully registered for commencement..
         /// </summary>
         internal static string Student_Register_Successful {

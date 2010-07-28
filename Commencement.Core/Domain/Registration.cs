@@ -21,8 +21,7 @@ namespace Commencement.Core.Domain
         [Required]
         [Length(100)]
         public virtual string City { get; set; }
-        [Required]
-        [Length(2)]
+        [NotNull]
         public virtual State State { get; set; }
         [Required]
         [Length(15)]
