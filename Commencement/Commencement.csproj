@@ -159,6 +159,7 @@
     <Compile Include="Controllers\Helpers\TermService.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PetitionController.cs" />
+    <Compile Include="Controllers\ViewModels\ChangeMajorViewModel.cs" />
     <Compile Include="Controllers\ViewModels\SearchStudentViewModel.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
@@ -577,6 +578,7 @@
     </Content>
     <Content Include="Views\Admin\AddStudent.aspx" />
     <Content Include="Views\Admin\AddStudentConfirm.aspx" />
+    <Content Include="Views\Admin\ChangeMajor.aspx" />
     <Content Include="Views\Student\EditRegistration.aspx" />
     <Content Include="Views\Student\NoCeremony.aspx" />
     <Content Include="Views\Student\RegistrationEditForm.ascx" />

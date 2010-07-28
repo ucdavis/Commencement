@@ -4,6 +4,7 @@ using System.Text;
 using UCDArch.Core.NHibernateValidator.Extensions;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
+using System.Linq;
 
 namespace Commencement.Core.Domain
 {
@@ -62,6 +63,13 @@ namespace Commencement.Core.Domain
 
                 return sb.ToString();
             }
+        }
+
+        public virtual int AvailableTickets { 
+            get
+            {
+                return TotalTickets - Registrations.Sum(a => a.NumberTickets);
+            } 
         }
     }
 }

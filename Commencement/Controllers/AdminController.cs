@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
@@ -13,6 +14,7 @@ using UCDArch.Web.Helpers;
 
 namespace Commencement.Controllers
 {
+    [AnyoneWithRole]
     public class AdminController : ApplicationController
     {
         private readonly IRepositoryWithTypedId<Student, Guid> _studentRepository;
@@ -28,13 +30,11 @@ namespace Commencement.Controllers
 
         //
         // GET: /Admin/
-
-        [AnyoneWithRole]
         public ActionResult Index()
         {
             return View();
         }
-        [AnyoneWithRole]
+
         public ActionResult Students(string studentid, string lastName, string firstName, string majorCode)
         {
             // get the newest active term
@@ -44,7 +44,6 @@ namespace Commencement.Controllers
 
             return View(viewModel);
         }
-        [AnyoneWithRole]
         public ActionResult StudentDetails(Guid id, bool? registration)
         {
             var student = _studentRepository.GetNullableById(id);
@@ -62,7 +61,6 @@ namespace Commencement.Controllers
         /// </summary>
         /// <param name="id">Student Id</param>
         /// <returns></returns>
-        [AnyoneWithRole]
         public ActionResult AddStudent(string studentId)
         {
             var viewModel = SearchStudentViewModel.Create(Repository);
@@ -76,8 +74,6 @@ namespace Commencement.Controllers
 
             return View(viewModel);
         }
-
-        [AnyoneWithRole]
         public ActionResult AddStudentConfirm(string studentId, string major)
         {
             // either variable is invalid redirect back to the add student page
@@ -96,8 +92,6 @@ namespace Commencement.Controllers
 
             return View(student);
         }
-
-        [AnyoneWithRole]
         [AcceptPost]
         public ActionResult AddStudentConfirm(string studentId, string majorCode, Student student)
         {
@@ -144,7 +138,76 @@ namespace Commencement.Controllers
             return View(newStudent);
         }
 
-        [AnyoneWithRole]
+        /// <summary>
+        /// Change the major on a registration
+        /// </summary>
+        /// <param name="id">Registration Id</param>
+        /// <returns></returns>
+        public ActionResult ChangeMajor(int id)
+        {
+            var registration = Repository.OfType<Registration>().GetNullableById(id);
+            if (registration == null) return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null));
+
+            var viewModel = ChangeMajorViewModel.Create(Repository, registration);
+            return View(viewModel);
+        }
+        [AcceptPost]
+        public ActionResult ChangeMajor(int id, MajorCode changeMajor)
+        {
+            var registration = Repository.OfType<Registration>().GetNullableById(id);
+            if (registration == null) return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null));
+            registration.Major = changeMajor;
+
+            var message = ValidateMajorChange(registration, changeMajor);
+            if (!string.IsNullOrEmpty(message)) ModelState.AddModelError("Major Code", message);
+
+            registration.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                Repository.OfType<Registration>().EnsurePersistent(registration);
+
+                return this.RedirectToAction<AdminController>(a => a.StudentDetails(registration.Student.Id, true));
+            }
+
+            var viewModel = ChangeMajorViewModel.Create(Repository, registration);
+            return View(viewModel);
+        }
+        public JsonResult ChangeMajorValidation(int regId, string major)
+        {
+            var majorCode = _majorRepository.GetNullableById(major);
+            var registration = Repository.OfType<Registration>().GetNullableById(regId);
+
+            var message = ValidateMajorChange(registration, majorCode);
+
+            if (string.IsNullOrEmpty(message)) message = "There are no problems changing this student's major.";
+
+            return Json(message);
+        }
+        private string ValidateMajorChange(Registration registration, MajorCode majorCode)
+        {
+            var term = TermService.GetCurrent();
+
+            Check.Require(term != null, "Unable to locate current term.");
+            Check.Require(majorCode != null, "Major code is required to check validation.");
+            Check.Require(registration != null, "Registration is required.");
+
+            var ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == term && a.Majors.Contains(majorCode)).FirstOrDefault();
+            
+            var message = new StringBuilder();
+
+            if (ceremony == null) message.Append("There is no matching ceremony for the current term with the major specified.");
+            else if (ceremony != registration.Ceremony)
+            {
+                if (ceremony.AvailableTickets - registration.NumberTickets > 0) message.Append("There are enough tickets to move this students major.");
+                else message.Append("There are not enough tickets to move this student to the ceremony.");
+
+                message.Append("Student is being moved into a different ceremony");
+            }
+
+            return message.ToString();
+        }
+
         public ActionResult Registrations(string studentid, string lastName, string firstName, string majorCode, int? ceremonyId)
         {
             var term = Repository.OfType<TermCode>().Queryable.Where(a => a.IsActive).OrderByDescending(a => a.Id).FirstOrDefault();

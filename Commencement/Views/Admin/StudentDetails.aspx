@@ -17,6 +17,8 @@
     
     <div id="emulate_btn"><%= Html.ActionLink<AccountController>(a=>a.Emulate(Model.Student.Login), "Emulate") %></div>
 
+    <div id="changeMajr_btn"><%= Html.ActionLink<AdminController>(a=>a.ChangeMajor(Model.Registration.Id), "Change Major") %></div>
+
     <% Html.RenderPartial("StudentInformationPartial", Model.Student); %>
     
     <h2>Registration</h2>
