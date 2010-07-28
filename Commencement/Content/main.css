@@ -9,7 +9,7 @@ a img {border:none;}
 /*    branding      */
 /* ---------------- */
 #portal-logo img {margin: 0px;}
-#branding {background: url(../Images/branding.jpg) repeat-x top center; height: 70px; margin: 0 auto; z-index:2; position:relative;}
+#branding {background: url(../Images/branding.jpg) repeat-x top center; height: 50px; margin: 0 auto; z-index:2; position:relative;}
 #branding span.logos {width: 937px; padding: 22px 0px 0px 30px; margin: 0px auto; display: block;}
 #branding span.ucdavis {margin-right: 5px;}
 
@@ -61,7 +61,7 @@ p.style7 {font: 18px/27px 'CicleShadow', Arial, sans-serif;}       */
 /* ---------------- */
 /*       btn's      */
 /* ---------------- */
-#back_btn, #emulate_btn {font: 16px/26px 'CicleSemi', Arial, sans-serif;letter-spacing: 0; text-decoration:none; -moz-border-radius: 5px;
+#back_btn a, #home_btn a, #emulate_btn a {font: 16px/26px 'CicleSemi', Arial, sans-serif;letter-spacing: 0; text-decoration:none; -moz-border-radius: 5px;
 -webkit-border-radius: 5px; background-color:#00497b; padding:5px 10px; color:#000; position:absolute; top:40px; z-index:1; color:#fff; border:1px solid #000; }
-#back_btn a, #emulate_btn a {color:#fff; text-decoration:none;}
-#emulate_btn {margin-left:60px;}
+#back_btn a, #home_btn a, #emulate_btn a {color:#fff; text-decoration:none;}
+#emulate_btn a {margin-left:60px;}
