@@ -70,7 +70,7 @@
                         {
                             col.Add(a =>
                                         {%>
-                                        <%= Html.ActionLink<AdminController>(b=>b.StudentDetails(a.Student.Id), "Select") %>
+                                        <%= Html.ActionLink<AdminController>(b=>b.StudentDetails(a.Student.Id, true), "Select") %>
                                         <%});
                             col.Bound(a => a.Student.StudentId);
                             col.Bound(a => a.Student.LastName);

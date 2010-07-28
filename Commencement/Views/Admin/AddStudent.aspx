@@ -8,7 +8,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <a href="#" onClick="history.go(-1)">Back</a> 
+    <%= Html.ActionLink<AdminController>(a=>a.Students(null, null, null, null), "Back to List") %>
 
     <h2>Add Student</h2>
     

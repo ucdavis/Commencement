@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <%= Html.ActionLink<AdminController>(a=>a.Students(null, null, null, null), "Cancel") %>
+    <%= Html.ActionLink<AdminController>(a=>a.Students(null, null, null, null), "Back to List") %>
 
     <h2>AddStudentConfirm</h2>
 

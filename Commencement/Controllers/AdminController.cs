@@ -45,7 +45,7 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
         [AnyoneWithRole]
-        public ActionResult StudentDetails(Guid id)
+        public ActionResult StudentDetails(Guid id, bool? registration)
         {
             var student = _studentRepository.GetNullableById(id);
             if (student == null) return this.RedirectToAction<AdminController>(a => a.Index());
