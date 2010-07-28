@@ -104,5 +104,41 @@ namespace Resources {
                 return ResourceManager.GetString("Student_Register_Successful", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registration Confirmation.
+        /// </summary>
+        internal static string Template_RegistrationConfirmation {
+            get {
+                return ResourceManager.GetString("Template_RegistrationConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registration Petition.
+        /// </summary>
+        internal static string Template_RegistrationPetition {
+            get {
+                return ResourceManager.GetString("Template_RegistrationPetition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registration Petition - Approved.
+        /// </summary>
+        internal static string Template_RegistrationPetition_Approved {
+            get {
+                return ResourceManager.GetString("Template_RegistrationPetition_Approved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ticket Petition.
+        /// </summary>
+        internal static string Template_TicketPetition {
+            get {
+                return ResourceManager.GetString("Template_TicketPetition", resourceCulture);
+            }
+        }
     }
 }

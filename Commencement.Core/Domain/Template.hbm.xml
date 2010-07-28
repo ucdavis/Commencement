@@ -9,9 +9,11 @@
     </id>
 
     <property name="BodyText" column="BodyText" />
-    <property name="RegistrationConfirmation" column="RegistrationConfirmation" />
+    <!--<property name="RegistrationConfirmation" column="RegistrationConfirmation" />
     <property name="RegistrationPetition" column="RegistrationPetition" />
-    <property name="ExtraTicketPetition" column="ExtraTicketPetition" />
+    <property name="ExtraTicketPetition" column="ExtraTicketPetition" />-->
+
+    <many-to-one name="TemplateType" column="TemplateTypeId" class="TemplateType" />
 
   </class>
 </hibernate-mapping>

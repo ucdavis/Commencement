@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using Commencement.Core.Domain;
+using Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
 
@@ -69,7 +70,7 @@ namespace Commencement.Controllers.Helpers
             message.To.Add("srkirkland@ucdavis.edu");
 
             // get the latest registration confirmation template
-            var template = repository.OfType<Template>().Queryable.Where(a => a.RegistrationConfirmation).OrderByDescending(a => a.Id).FirstOrDefault();
+            var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationConfirmation).OrderByDescending(a => a.Id).FirstOrDefault();
             Check.Require(template != null, "No template is available.");
 
             // process the template text

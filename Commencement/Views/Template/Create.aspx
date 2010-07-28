@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Core.Domain.Template>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.TemplateCreateViewModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Create
@@ -20,8 +20,9 @@
         <ul class="registration_form">
             <li>
                 <strong>BodyText:</strong>
-                <%= Html.TextAreaFor(a=>a.BodyText) %>
-                <%= Html.ValidationMessageFor(a=>a.BodyText) %>
+                <%--<%= Html.TextAreaFor(a=>a.Template.BodyText) %>--%>
+                <%= Html.TextArea("BodyText", Model.Template != null ? Model.Template.BodyText : string.Empty) %>
+                <%= Html.ValidationMessageFor(a=>a.Template.BodyText) %>
                 
                 <ul>
                     <div id="shared_tokens">
@@ -49,21 +50,12 @@
             </li>
             
             <li>
-                <h2>Template Types</h2>
-            </li>
-            <li>
-                <strong>Registration Confirmation</strong>
-                <%= Html.CheckBox("RegistrationConfirmation", Model.RegistrationConfirmation) %>
-            </li>
-            
-            <li>
-                <strong>Registration Petition</strong>
-                <%= Html.CheckBox("RegistrationPetition", Model.RegistrationPetition) %>
-            </li>
-            
-            <li>
-                <strong>Extra Ticket Petition:</strong>
-                <%= Html.CheckBox("ExtraTicketPetition", Model.ExtraTicketPetition) %>
+                <strong>Template Type:</strong>
+                
+                <%= this.Select("TemplateType")
+                        .Options(Model.TemplateTypes, x=>x.Id, x=>x.Name)
+                        .FirstOption("--Select a Template Type--")
+                        .Selected(Model.Template != null ? Model.Template.TemplateType.Id.ToString() : string.Empty) %>
             </li>
             
             <li>
@@ -85,28 +77,6 @@
             $("#BodyText").enableTinyMce({ script_location: '<%= Url.Content("~/Scripts/tiny_mce/tiny_mce.js") %>' });
             $(".add_token").click(function(event) {
                 tinyMCE.execInstanceCommand("BodyText", "mceInsertContent", false, $(this).html());
-            });
-
-            $("#RegistrationConfirmation").click(function(event) {
-                $("#registration_tokens").show();
-                $("#registration_petition_tokens").hide();
-
-                $("#RegistrationPetition").attr("checked", false);
-                $("#ExtraTicketPetition").attr("checked", false);
-            });
-            $("#RegistrationPetition").click(function(event) {
-                $("#registration_tokens").show();
-                $("#registration_petition_tokens").show();
-
-                $("#RegistrationConfirmation").attr("checked", false);
-                $("#ExtraTicketPetition").attr("checked", false);
-            });
-            $("#ExtraTicketPetition").click(function(event) {
-                $("#registration_tokens").hide();
-                $("#registration_petition_tokens").hide();
-
-                $("#RegistrationConfirmation").attr("checked", false);
-                $("#RegistrationPetition").attr("checked", false);
             });
         });
    </script>

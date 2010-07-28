@@ -8,27 +8,45 @@ namespace Commencement.Controllers.ViewModels
 {
     public class TemplateViewModel
     {
-        public Template RegistrationConfirmation { get; set; }
-        public Template RegistrationPetition { get; set; }
-        public Template ExtraTicketPetition { get; set; }
-
         public ICollection<Template> Templates { get; set; }
+        
 
         public static TemplateViewModel Create(IRepository repository)
         {
             Check.Require(repository != null, "Repository is required.");
 
-            var viewModel = new TemplateViewModel() {Templates = new List<Template>()};
+            var viewModel = new TemplateViewModel() {
+                Templates = new List<Template>()
+            };
 
-            var rc = repository.OfType<Template>().Queryable.Where(a => a.RegistrationConfirmation).OrderByDescending(a => a.Id).FirstOrDefault();
-            var rp = repository.OfType<Template>().Queryable.Where(a => a.RegistrationPetition).OrderByDescending(a => a.Id).FirstOrDefault();
-            var et = repository.OfType<Template>().Queryable.Where(a => a.ExtraTicketPetition).OrderByDescending(a => a.Id).FirstOrDefault();
-
-            if (rc != null) viewModel.Templates.Add(rc);
-            if (rp != null) viewModel.Templates.Add(rp);
-            if (et != null) viewModel.Templates.Add(et);
+            // add the newest of each of the templates
+            foreach(var tt in repository.OfType<TemplateType>().GetAll())
+            {
+                var t = repository.OfType<Template>().Queryable.Where(a => a.TemplateType == tt).OrderByDescending(a => a.Id).FirstOrDefault();
+                if (t != null) viewModel.Templates.Add(t);
+            }
 
             return viewModel;
         }
+    }
+
+    public class TemplateCreateViewModel
+    {
+        public IEnumerable<TemplateType> TemplateTypes { get; set; }
+        public Template Template { get; set; }
+
+        public static TemplateCreateViewModel Create(IRepository repository, Template template)
+        {
+            Check.Require(repository != null, "Repository is required.");
+
+            var viewModel = new TemplateCreateViewModel()
+                                {
+                                    TemplateTypes = repository.OfType<TemplateType>().GetAll(),
+                                    Template = template
+                                };
+
+            return viewModel;
+        }
+
     }
 }

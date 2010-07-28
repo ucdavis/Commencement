@@ -1,5 +1,6 @@
 ﻿using System;
 using Commencement.Core.Domain;
+using Resources;
 using UCDArch.Core.Utils;
 
 namespace Commencement.Controllers.Helpers
@@ -15,8 +16,7 @@ namespace Commencement.Controllers.Helpers
         {
             Check.Require(registration != null, "Registration is required.");
             Check.Require(template != null, "Template is required.");
-            Check.Require(template.RegistrationConfirmation, "Incorrect template supplied.");
-            Check.Require(template.OnlyOneBool, "Template has more than one purpose supplied.");
+            Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationConfirmation);
             Check.Require(registration.Student != null, "Student is required.");
 
             Registration = registration;

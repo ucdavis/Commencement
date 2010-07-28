@@ -18,18 +18,16 @@
     
         <% foreach(var t in Model.Templates) { %>
         
-            <fieldset>
+            <fieldset class="template">
                 <legend>
-                    <% if (t.RegistrationConfirmation) {%>
-                        <%= Html.ActionLink<TemplateController>(a=>a.Create(t.Id), "Registration Confirmation") %>
-                    <% } else if (t.RegistrationPetition) { %>
-                        <%= Html.ActionLink<TemplateController>(a=>a.Create(t.Id), "Registration Petition") %>
-                    <% } else if (t.ExtraTicketPetition) { %>
-                        <%= Html.ActionLink<TemplateController>(a=>a.Create(t.Id), "Extra Ticket Petition") %>
-                    <% } %>
+                    <%= Html.ActionLink<TemplateController>(a=>a.Create(t.Id), t.TemplateType.Name) %>
                 </legend>
                 
-                <div>
+                <div class="template_description">
+                    <%= Html.Encode(t.TemplateType.Description) %>
+                </div>
+                
+                <div class="template_body">
                     <%= Html.HtmlEncode(t.BodyText) %>
                 </div>
                 

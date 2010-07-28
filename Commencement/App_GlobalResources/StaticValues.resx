@@ -132,4 +132,16 @@
   <data name="Student_Major_Code_Not_Supplied" xml:space="preserve">
     <value>Student has multiple majors but did not supply a major code.</value>
   </data>
+  <data name="Template_RegistrationConfirmation" xml:space="preserve">
+    <value>Registration Confirmation</value>
+  </data>
+  <data name="Template_RegistrationPetition" xml:space="preserve">
+    <value>Registration Petition</value>
+  </data>
+  <data name="Template_RegistrationPetition_Approved" xml:space="preserve">
+    <value>Registration Petition - Approved</value>
+  </data>
+  <data name="Template_TicketPetition" xml:space="preserve">
+    <value>Ticket Petition</value>
+  </data>
 </root>

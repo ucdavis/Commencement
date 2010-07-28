@@ -22,18 +22,19 @@ namespace Commencement.Controllers
         [AdminOnly]
         public ActionResult Create(int? id)
         {
-            var template = new Template();
+            Template template = null;
             if (id.HasValue) template = Repository.OfType<Template>().GetNullableById(id.Value);
-            if (template == null) return this.RedirectToAction<TemplateController>(a => a.Index());
+            
+            var viewModel = TemplateCreateViewModel.Create(Repository, template);
 
-            return View(template);
+            return View(viewModel);
         }
         [AdminOnly]
         [AcceptPost]
         [ValidateInput(false)]
         public ActionResult Create(Template template)
         {
-            var newTemplate = new Template(template.BodyText, template.RegistrationConfirmation, template.RegistrationPetition, template.ExtraTicketPetition);
+            var newTemplate = new Template(template.BodyText, null);//, template.RegistrationConfirmation, template.RegistrationPetition, template.ExtraTicketPetition);
 
             newTemplate.TransferValidationMessagesTo(ModelState);
 
