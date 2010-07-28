@@ -38,7 +38,7 @@ namespace Commencement.Controllers
         public ActionResult Students(string studentid, string lastName, string firstName, string majorCode)
         {
             // get the newest active term
-            var term = Repository.OfType<TermCode>().Queryable.Where(a => a.IsActive).OrderByDescending(a => a.Id).FirstOrDefault();
+            var term = TermService.GetCurrent();
 
             var viewModel = AdminStudentViewModel.Create(Repository, term, studentid, lastName, firstName, majorCode);
 
