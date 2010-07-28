@@ -1,5 +1,7 @@
 <%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.RegistrationModel>"
     MasterPageFile="~/Views/Shared/Site.Master" %>
+<%@ Import Namespace="Resources" %>
+<%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">
     Commencement Registration</asp:Content>
@@ -8,9 +10,7 @@
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
     <h1><%= Model.Ceremony.Name %></h1>
     <p>
-        Some quick intriduction, two or three lines explaining what this is, what they need
-        to do, the <strong>due date</strong>, and what will happen after they do this. We
-        need to include a line stating <strong>all fields are required</strong></p>
+        <%= Html.HtmlEncode(StaticValues.Txt_Introduction) %></p>
     
     <%= Html.ValidationSummary("Please correct all errors below") %>
     <%= Html.ClientSideValidation<Commencement.Core.Domain.Registration>("Registration") %>

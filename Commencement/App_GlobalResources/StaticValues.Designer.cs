@@ -158,5 +158,28 @@ namespace Resources {
                 return ResourceManager.GetString("Template_TicketPetition", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disclaimer about the page and the process. Disclaimer about the page and the process.
+        ///        Disclaimer about the page and the process. Disclaimer about the page and the process.
+        ///        Disclaimer about the page and the process. Disclaimer about the page and the process.
+        ///        Disclaimer about the page and the process. Disclaimer about the page and the process..
+        /// </summary>
+        internal static string Txt_Disclaimer {
+            get {
+                return ResourceManager.GetString("Txt_Disclaimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Some quick intriduction, two or three lines explaining what this is, what they need
+        ///        to do, the &lt;strong&gt;due date&lt;/strong&gt;, and what will happen after they do this. We
+        ///        need to include a line stating &lt;strong&gt;all fields are required&lt;/strong&gt;.
+        /// </summary>
+        internal static string Txt_Introduction {
+            get {
+                return ResourceManager.GetString("Txt_Introduction", resourceCulture);
+            }
+        }
     }
 }

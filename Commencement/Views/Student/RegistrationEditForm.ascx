@@ -1,4 +1,6 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.ViewModels.RegistrationModel>" %>
+<%@ Import Namespace="Resources" %>
+<%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
     <input type="hidden" name="Registration.Ceremony" id="Registration_Ceremony" value="<%= Model.Registration.Ceremony == null ? 0 : Model.Registration.Ceremony.Id %>" />
     
@@ -83,10 +85,7 @@
     </ul>
     
     <h3>
-        Disclaimer about the page and the process. Disclaimer about the page and the process.
-        Disclaimer about the page and the process. Disclaimer about the page and the process.
-        Disclaimer about the page and the process. Disclaimer about the page and the process.
-        Disclaimer about the page and the process. Disclaimer about the page and the process.
+        <%= Html.HtmlEncode(StaticValues.Txt_Disclaimer) %>
         
         <br />
         <label for="agreeToDisclaimer">I Agree</label> <%= Html.CheckBox("agreeToDisclaimer", new { @class = "required" }) %>

@@ -36,6 +36,10 @@ namespace Commencement.Controllers
                     title = "No available ceremony found.";
                     description = "There are no available ceremonies found for your major.  Please contact .....";
                     break;
+                case ErrorType.RegistrationClosed:
+                    title = "Registration is closed";
+                    description = "Deadline has now passed.  Registration is now closed.";
+                    break;
                 default:
                     title = "Unknown Error.";
                     description = "An unknown error has occurred.  IT has been notified of the issue.";
@@ -52,7 +56,8 @@ namespace Commencement.Controllers
             FileNotFound,
             UnknownError,
             StudentNotFound,
-            NoCeremony
+            NoCeremony,
+            RegistrationClosed
         }
     }
 

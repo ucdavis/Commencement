@@ -150,4 +150,15 @@
   <data name="Student_Register_Edit_Successful" xml:space="preserve">
     <value>You have successfully edited your commencement registration. </value>
   </data>
+  <data name="Txt_Disclaimer" xml:space="preserve">
+    <value>Disclaimer about the page and the process. Disclaimer about the page and the process.
+        Disclaimer about the page and the process. Disclaimer about the page and the process.
+        Disclaimer about the page and the process. Disclaimer about the page and the process.
+        Disclaimer about the page and the process. Disclaimer about the page and the process.</value>
+  </data>
+  <data name="Txt_Introduction" xml:space="preserve">
+    <value>Some quick intriduction, two or three lines explaining what this is, what they need
+        to do, the &lt;strong&gt;due date&lt;/strong&gt;, and what will happen after they do this. We
+        need to include a line stating &lt;strong&gt;all fields are required&lt;/strong&gt;</value>
+  </data>
 </root>
