@@ -34,7 +34,7 @@ namespace Commencement.Controllers
         [ValidateInput(false)]
         public ActionResult Create(Template template)
         {
-            var newTemplate = new Template(template.BodyText, null);//, template.RegistrationConfirmation, template.RegistrationPetition, template.ExtraTicketPetition);
+            var newTemplate = new Template(template.BodyText, template.TemplateType);//, template.RegistrationConfirmation, template.RegistrationPetition, template.ExtraTicketPetition);
 
             newTemplate.TransferValidationMessagesTo(ModelState);
 
@@ -45,7 +45,8 @@ namespace Commencement.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            return View(newTemplate);
+            var viewModel = TemplateCreateViewModel.Create(Repository, newTemplate);
+            return View(viewModel);
         }
     }
 }

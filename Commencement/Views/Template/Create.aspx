@@ -19,6 +19,14 @@
 
         <ul class="registration_form">
             <li>
+                <strong>Template Type:</strong>
+                
+                <%= this.Select("TemplateType")
+                        .Options(Model.TemplateTypes, x=>x.Id, x=>x.Name)
+                        .FirstOption("--Select a Template Type--")
+                        .Selected(Model.Template != null ? Model.Template.TemplateType.Id.ToString() : string.Empty) %>
+            </li>
+            <li>
                 <strong>BodyText:</strong>
                 <%--<%= Html.TextAreaFor(a=>a.Template.BodyText) %>--%>
                 <%= Html.TextArea("BodyText", Model.Template != null ? Model.Template.BodyText : string.Empty) %>
@@ -49,14 +57,7 @@
                 </ul>
             </li>
             
-            <li>
-                <strong>Template Type:</strong>
-                
-                <%= this.Select("TemplateType")
-                        .Options(Model.TemplateTypes, x=>x.Id, x=>x.Name)
-                        .FirstOption("--Select a Template Type--")
-                        .Selected(Model.Template != null ? Model.Template.TemplateType.Id.ToString() : string.Empty) %>
-            </li>
+
             
             <li>
                 <strong></strong>
