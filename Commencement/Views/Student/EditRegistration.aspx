@@ -5,9 +5,8 @@
 
 <h1><%= Model.Ceremony.Name %></h1>
     <p>
-        Some quick intriduction, two or three lines explaining what this is, what they need
-        to do, the <strong>due date</strong>, and what will happen after they do this. We
-        need to include a line stating <strong>all fields are required</strong></p>
+        Welcome back <%= Html.Encode(Model.Student.FirstName) %>.  
+    </p>
     
     <%= Html.ValidationSummary("Please correct all errors below") %>
     <%= Html.ClientSideValidation<Commencement.Core.Domain.Registration>("Registration") %>

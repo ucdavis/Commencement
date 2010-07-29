@@ -51,9 +51,9 @@
             <%= Html.ValidationMessageFor(x=>x.Registration.Email) %>
         </li>
         <li>
-            <strong>Ticket Acquisition:</strong>
-            <%= this.RadioButton("Registration.MailTickets").Id("rMailTickets").Value(true).LabelAfter("Mail tickets to this address").Checked(Model.Registration.MailTickets) %>
-            <%= this.RadioButton("Registration.MailTickets").Id("rPickupTickets").Value(false).LabelAfter("I will pick up my tickets").Checked(Model.Registration.MailTickets == false) %>
+            <strong>Ticket Distribution Method:</strong>
+            <%= this.RadioButton("Registration.MailTickets").Id("rMailTickets").Value(true).LabelAfter("Mail tickets to the address above").Checked(Model.Registration.MailTickets) %>
+            <%= this.RadioButton("Registration.MailTickets").Id("rPickupTickets").Value(false).LabelAfter("I will pick up my tickets at the Arc Ticket Office").Checked(Model.Registration.MailTickets == false) %>
             
         </li>
     </ul>
@@ -85,8 +85,10 @@
     </ul>
     
     <h3>
-        <%= Html.HtmlEncode(StaticValues.Txt_Disclaimer) %>
+        <%--<%= Html.HtmlEncode(StaticValues.Txt_Disclaimer) %>--%>
         
+        I agree to adhear to the University's student code of conduct.  I understand College of Agricultural & Environmental Sciences has
+        a zero tolerance policy for alcohol and illegal substances.
         <br />
         <label for="agreeToDisclaimer">I Agree</label> <%= Html.CheckBox("agreeToDisclaimer", new { @class = "required" }) %>
     </h3>

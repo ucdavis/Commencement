@@ -49,7 +49,7 @@
             
         </li>
         <li>
-            <strong>Printing Deadline:</strong>
+            <strong>Program Printing Deadline:</strong>
             <%= Html.TextBoxFor(x=>x.Ceremony.PrintingDeadline.ToString("d")) %>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.PrintingDeadline) %>
             * Registration will continue to be open past this date.

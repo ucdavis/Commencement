@@ -8,8 +8,13 @@
 </h2>
 <h3>
     Please print this page for your records.
+    <a href="#">Alumni Survey</a>
 </h3>
 
 <% Html.RenderPartial("RegistrationDisplay", Model); %>
+
+<h3>Reminder that registration for the Commencement Ceremony does not mean you have completed all
+    requirements necessary for your degree completion.
+</h3>
 
 </asp:Content>

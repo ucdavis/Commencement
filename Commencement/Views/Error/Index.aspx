@@ -1,5 +1,6 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ErrorViewModel>" %>
 <%@ Import Namespace="Commencement.Controllers" %>
+<%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Index
@@ -7,22 +8,24 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%= Html.Encode(Model.Title) %></h2>
+    
 
     <% if (Model.ErrorType == ErrorController.ErrorType.UnauthorizedAccess) { %>
     
-        <p>
-            You are unauthorized for your request.  If you believe this is an error please contact the system administrator for help.
-        </p>
+        <h2>
+            Commencement Registration for the College of Agricultural & Environmental Sciences
+        </h2>
         
         <p>
-            If you are a student please check to make sure that you have completed at least 140 units and are registered in a major
-            within the College of Agricultural and Environmental Sciences.  If you do not meet the criteria or do meet the criteria and believe
-            you should be able to register for commencement please fill out the form found <a href="#">here</a> and submit it to
-            Francesca Ross (email here).
+            According to our records you are not eligible for participation in the <%= TermService.GetCurrent().Name %> ceremony. Students
+            who have not commpleted the 150 units prior to beginning of Fall (Term Before Current), must file a petition.
+        </p>
+        <p>
+            If you would like to petition to participate in the ceremony please complete <a href="<%= Url.Content("~/Forms/registration_petition.pdf") %>">this form</a> and submit it to commencement@caes.ucdavis.edu.
         </p>
     
     <% } else { %>
+        <h2><%= Html.Encode(Model.Title) %></h2>
     
         <p>
             <%= Html.Encode(Model.Description) %>

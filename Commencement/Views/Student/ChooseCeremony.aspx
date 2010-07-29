@@ -7,8 +7,9 @@
 </asp:Content>
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
     <h2>
-        You have qualifed for multiple ceremonies. Please choose the one you would like
-        to attend</h2>
+        You are eligible for multiple ceremonies, please choose the major you would like to walk with
+        during the ceremony.
+    </h2>
         <br />
     <ul>
         <% foreach (var ceremonyWithMajor in Model)
