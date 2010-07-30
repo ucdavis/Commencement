@@ -53,6 +53,7 @@
                     </div>
                     <div id="registration_tokens" style="display:none;">
                         <li><a href="javascript:;" class="add_token">{SpecialNeeds}</a></li>
+                        <li><a href="javascript:;" class="add_token">{Major}</a></li>
                     </ul>
                     <div id="registration_petition_tokens" style="display:none;">
                         <li><a href="javascript:;" class="add_token">{ExceptionReason}</a></li>

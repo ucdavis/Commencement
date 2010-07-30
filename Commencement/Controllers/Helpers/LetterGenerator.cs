@@ -188,6 +188,11 @@ namespace Commencement.Controllers.Helpers
 
                     return Registration.Comments;
                     break;
+                case "major":
+                    Check.Require(Registration != null, "Registration is required.");
+
+                    return Registration.Major.Name;
+                    break;
                 case "exceptionreason":
                     Check.Require(RegistrationPetition != null, "Registration petition is required.");
 
