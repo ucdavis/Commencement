@@ -9,6 +9,8 @@
         <%= Html.ActionLink("Edit Your Registration", "EditRegistration", new { id = Model.Id }) %>
     
     <% } %>
+
+    <div id="extra_ticket_link"><a href="<%= Url.Content("~/Forms/extra_ticket_request.pdf") %>">Extra Ticket Request Form</a></div>
     
     <% Html.RenderPartial("RegistrationDisplay", Model); %>
         

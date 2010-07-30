@@ -566,6 +566,7 @@
     <None Include="Content\font\Cicle_Shadow-webfont.svg" />
     <None Include="Content\font\Cicle_Shadow-webfont.ttf" />
     <None Include="Content\font\Cicle_Shadow-webfont.woff" />
+    <None Include="Forms\extra_ticket_request.pdf" />
     <None Include="Forms\registration_petition.pdf" />
   </ItemGroup>
   <ItemGroup>
