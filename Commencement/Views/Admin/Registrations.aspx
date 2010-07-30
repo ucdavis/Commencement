@@ -50,7 +50,7 @@
                 <% foreach(var c in Model.Registrations.Select(x=>x.Ceremony).Distinct()) { %>
                     <li>
                         <strong><%= Html.Encode(c.DateTime) %>:</strong>
-                        <%= Html.Encode(c.Registrations.Sum(x=>x.NumberTickets)) %>
+                        <%= Html.Encode(c.Registrations.Sum(x=>x.TotalTickets)) %>
                     </li>
                 <% } %>
             </ul>
@@ -75,7 +75,7 @@
                             col.Bound(a => a.Student.StudentId);
                             col.Bound(a => a.Student.LastName);
                             col.Bound(a => a.Student.FirstName);
-                            col.Bound(a => a.NumberTickets);
+                            col.Bound(a => a.TotalTickets);
                             col.Bound(a => a.MailTickets);
                             col.Bound(a => a.Ceremony.DateTime).Title("Ceremony");
                             col.Bound(a => a.Major.Id).Title("Major");

@@ -130,7 +130,7 @@ namespace Commencement.Controllers.Helpers
                     break;
                 case "numberoftickets":
 
-                    if (Registration != null) return Registration.NumberTickets.ToString();
+                    if (Registration != null) return Registration.TotalTickets.ToString();
                     if (RegistrationPetition != null) return RegistrationPetition.NumberTickets.ToString();
                     if (ExtraTicketPetition != null) return ExtraTicketPetition.NumberTickets.ToString();
 
@@ -182,16 +182,10 @@ namespace Commencement.Controllers.Helpers
                     throw new ArgumentException("No valid object was provided.");
 
                     break;
-                case "ticketreceivemethod":
+                case "distributionmethod":
+                    Check.Require(Registration != null, "Registration is required.");
 
-                    var mailTickets = false;
-
-                    if (Registration != null) mailTickets = Registration.MailTickets;
-                    else if (RegistrationPetition != null) mailTickets = RegistrationPetition.MailTickets;
-                    else if (ExtraTicketPetition != null) mailTickets = ExtraTicketPetition.MailTickets;
-                    else throw new ArgumentException("No valid object was provided.");
-
-                    return mailTickets ? "Mail" : "Pick-Up";
+                    return Registration.TicketDistributionMethod;
                     break;
                 case "specialneeds":
                     Check.Require(Registration != null, "Registration is required.");

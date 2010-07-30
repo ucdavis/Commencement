@@ -41,5 +41,14 @@ namespace Commencement.Core.Domain
         
         [NotNull]
         public virtual Ceremony Ceremony { get; set; }
+
+        public virtual string TicketDistributionMethod { 
+            get {
+                return MailTickets ? "Mail tickets to provided address" : "Pickup tickets at Arc Ticket Office";
+            }
+        }
+
+        // total number of tickets given to student, includes count from extra ticket petition
+        public virtual int TotalTickets { get { return NumberTickets; } }
     }
 }

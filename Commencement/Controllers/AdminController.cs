@@ -164,13 +164,18 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
         [AcceptPost]
-        public ActionResult ChangeMajor(int id, MajorCode changeMajor)
+        public ActionResult ChangeMajor(int id, string majorCode)
         {
             var registration = Repository.OfType<Registration>().GetNullableById(id);
-            if (registration == null) return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null));
-            registration.Major = changeMajor;
+            var major = _majorRepository.GetNullableById(majorCode);
+            if (registration == null || major == null)
+            {
+                Message = "Registration or major information was missing.";
+                return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null)); 
+            }
+            registration.Major = major;
 
-            var message = ValidateMajorChange(registration, changeMajor);
+            var message = ValidateMajorChange(registration, major);
             if (!string.IsNullOrEmpty(message)) ModelState.AddModelError("Major Code", message);
 
             registration.TransferValidationMessagesTo(ModelState);
@@ -211,7 +216,7 @@ namespace Commencement.Controllers
             if (ceremony == null) message.Append("There is no matching ceremony for the current term with the major specified.");
             else if (ceremony != registration.Ceremony)
             {
-                if (ceremony.AvailableTickets - registration.NumberTickets > 0) message.Append("There are enough tickets to move this students major.");
+                if (ceremony.AvailableTickets - registration.TotalTickets > 0) message.Append("There are enough tickets to move this students major.");
                 else message.Append("There are not enough tickets to move this student to the ceremony.");
 
                 message.Append("Student is being moved into a different ceremony");

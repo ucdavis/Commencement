@@ -508,13 +508,13 @@
     <Content Include="Views\Error\Index.aspx" />
     <Content Include="Views\Petition\ExtraTicketPetition.aspx" />
     <Content Include="Views\Petition\Register.aspx" />
-    <Content Include="Views\Shared\StudentInformationPartial.ascx" />
+    <Content Include="Views\Admin\StudentInformationPartial.ascx" />
     <Content Include="Views\Student\ChooseCeremony.aspx" />
     <Content Include="Views\Student\DisplayRegistration.aspx" />
     <Content Include="Views\Student\Index.aspx" />
     <Content Include="Views\Student\Register.aspx" />
     <Content Include="Views\Student\RegistrationConfirmation.aspx" />
-    <Content Include="Views\Student\RegistrationDisplay.ascx" />
+    <Content Include="Views\Shared\RegistrationDisplay.ascx" />
     <Content Include="Views\Template\Create.aspx" />
     <Content Include="Views\Template\Index.aspx" />
     <Content Include="Web.config" />

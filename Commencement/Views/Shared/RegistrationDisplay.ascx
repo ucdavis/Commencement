@@ -31,7 +31,11 @@
 <h2>
     Ceremony Information</h2>
 <ul class="registration_form">
-    <li><strong>Tickets Requested:</strong><span><%= Html.Encode(Model.NumberTickets) %></span>
+    <li><strong>Tickets Requested:</strong><span><%= Html.Encode(Model.TotalTickets) %></span>
+    </li>
+    <li>
+        <strong>Ticket Distribution Method:</strong>
+        <span><%= Html.Encode(Model.TicketDistributionMethod) %></span>
     </li>
     <li class="prefilled"><strong>Ceremony Date:</strong> <span>
         <%= Html.Encode(string.Format("{0}", Model.Ceremony.DateTime)) %></span> </li>

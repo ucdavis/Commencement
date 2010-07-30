@@ -22,6 +22,19 @@
     <% } %>
     </li></ul>
 
+    <% if (Model.Registration != null) { %>
+        <!-- Student is registered, show that information -->
+        <% Html.RenderPartial("RegistrationDisplay", Model.Registration); %>
+    <% } else { %>
+        <!-- Student is not registered -->
+        <% Html.RenderPartial("StudentInformationPartial", Model.Student); %>
+        
+        <h2>Registration</h2>
+        Student has not registered.
+    <% } %>
+    
+
+    <%--
     <% Html.RenderPartial("StudentInformationPartial", Model.Student); %>
     
     <h2>Registration</h2>
@@ -74,7 +87,7 @@
             </li>
         </ul>
     
-    <% } %>
+    <% } %>--%>
 
 </asp:Content>
 

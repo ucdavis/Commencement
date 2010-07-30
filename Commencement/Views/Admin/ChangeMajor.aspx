@@ -34,7 +34,7 @@
         
         <li></li>
         <li><strong>Change Major:</strong>
-            <%= this.Select("ChangeMajor").Options(Model.MajorCodes, x=>x.Id, x=>x.Name).FirstOption("--Select a Major--") %>
+            <%= this.Select("majorCode").Options(Model.MajorCodes, x=>x.Id, x=>x.Name).FirstOption("--Select a Major--") %>
         </li>
         <li id="check_response"></li>
         <li><strong></strong>

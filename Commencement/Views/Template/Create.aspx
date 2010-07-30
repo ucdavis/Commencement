@@ -49,7 +49,7 @@
                         <li><a href="javascript:;" class="add_token">{City}</a></li>
                         <li><a href="javascript:;" class="add_token">{State}</a></li>
                         <li><a href="javascript:;" class="add_token">{Zip}</a></li>
-                        <li><a href="javascript:;" class="add_token">{TicketReceiveMethod}</a></li>
+                        <li><a href="javascript:;" class="add_token">{DistributionMethod}</a></li>
                     </div>
                     <div id="registration_tokens" style="display:none;">
                         <li><a href="javascript:;" class="add_token">{SpecialNeeds}</a></li>
