@@ -1,14 +1,15 @@
 <%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<System.Collections.Generic.List<Commencement.Controllers.Helpers.CeremonyWithMajor>>"
     MasterPageFile="~/Views/Shared/Site.Master" %>
 
+<%@ Import Namespace="Resources" %>
+
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">
     Choose A Ceremony To Attend</asp:Content>
 <asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent">
 </asp:Content>
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
     <h2>
-        You are eligible for multiple ceremonies, please choose the major you would like to walk with
-        during the ceremony.
+        <%= Html.Encode(StaticValues.Txt_MultipleCeremonies) %>
     </h2>
         <br />
     <ul>

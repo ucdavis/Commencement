@@ -151,14 +151,12 @@
     <value>You have successfully edited your commencement registration. </value>
   </data>
   <data name="Txt_Disclaimer" xml:space="preserve">
-    <value>Disclaimer about the page and the process. Disclaimer about the page and the process.
-        Disclaimer about the page and the process. Disclaimer about the page and the process.
-        Disclaimer about the page and the process. Disclaimer about the page and the process.
-        Disclaimer about the page and the process. Disclaimer about the page and the process.</value>
+    <value>I agree to adhear to the University's student code of conduct.  I understand College of Agricultural &amp; Environmental Sciences has a zero tolerance policy for alcohol and illegal substances.</value>
   </data>
   <data name="Txt_Introduction" xml:space="preserve">
-    <value>Some quick intriduction, two or three lines explaining what this is, what they need
-        to do, the &lt;strong&gt;due date&lt;/strong&gt;, and what will happen after they do this. We
-        need to include a line stating &lt;strong&gt;all fields are required&lt;/strong&gt;</value>
+    <value>Welcome {0}.  After you have submitted your registration you may log back in and update any of your information up until the registration deadline.</value>
+  </data>
+  <data name="Txt_MultipleCeremonies" xml:space="preserve">
+    <value>You are eligible for multiple ceremonies, please choose the major you would like to walk with during the ceremony.</value>
   </data>
 </root>

@@ -10,9 +10,8 @@
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
     <h1><%= Model.Ceremony.Name %></h1>
     <p>
-        Welcome <%= Html.Encode(Model.Student.FirstName) %>.  After you have submitted your registration you may
-        log back in and update any of your information up until the registration deadline.
-        <%--<%= Html.HtmlEncode(StaticValues.Txt_Introduction) %>--%></p>
+        <%= Html.Encode(string.Format(StaticValues.Txt_Introduction, Model.Student.FirstName)) %>
+    </p>
     
     <%= Html.ValidationSummary("Please correct all errors below") %>
     <%= Html.ClientSideValidation<Commencement.Core.Domain.Registration>("Registration") %>

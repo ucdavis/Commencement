@@ -85,10 +85,8 @@
     </ul>
     
     <h3>
-        <%--<%= Html.HtmlEncode(StaticValues.Txt_Disclaimer) %>--%>
+        <%= Html.HtmlEncode(StaticValues.Txt_Disclaimer) %>
         
-        I agree to adhear to the University's student code of conduct.  I understand College of Agricultural & Environmental Sciences has
-        a zero tolerance policy for alcohol and illegal substances.
         <br />
         <label for="agreeToDisclaimer">I Agree</label> <%= Html.CheckBox("agreeToDisclaimer", new { @class = "required" }) %>
     </h3>
