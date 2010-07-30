@@ -7,6 +7,7 @@ using Commencement.Controllers.Helpers;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using MvcContrib.Attributes;
+using Resources;
 using UCDArch.Core.PersistanceSupport;
 using MvcContrib;
 using UCDArch.Core.Utils;
@@ -20,12 +21,14 @@ namespace Commencement.Controllers
         private readonly IRepositoryWithTypedId<Student, Guid> _studentRepository;
         private readonly IRepositoryWithTypedId<MajorCode, string> _majorRepository;
         private readonly IStudentService _studentService;
+        private readonly IEmailService _emailService;
 
-        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService)
+        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService, IEmailService emailService)
         {
             _studentRepository = studentRepository;
             _majorRepository = majorRepository;
             _studentService = studentService;
+            _emailService = emailService;
         }
 
         //
@@ -131,6 +134,15 @@ namespace Commencement.Controllers
             if (ModelState.IsValid)
             {
                 Repository.OfType<Student>().EnsurePersistent(newStudent);
+
+                try
+                {
+                    _emailService.SendAddPermission(Repository, student);
+                }
+                catch (Exception)
+                {
+                    Message += StaticValues.Student_Email_Problem;
+                }
 
                 return this.RedirectToAction(a => a.Students(studentId, null, null, null));
             }

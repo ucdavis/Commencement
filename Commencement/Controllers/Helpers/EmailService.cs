@@ -14,6 +14,7 @@ namespace Commencement.Controllers.Helpers
     {
         void SendEmail(string[] to, string body);
         void SendRegistrationConfirmation(IRepository repository, Registration registration);
+        void SendAddPermission(IRepository repository, Student student);
         void SendExtraTicketPetitionConfirmation(IRepository repository, ExtraTicketPetition extraTicketPetition);
         void SendRegistrationPetitionConfirmation(IRepository repository, RegistrationPetition registrationPetition);
     }
@@ -26,6 +27,11 @@ namespace Commencement.Controllers.Helpers
         }
 
         public void SendRegistrationConfirmation(IRepository repository, Registration registration)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SendAddPermission(IRepository repository, Student student)
         {
             throw new NotImplementedException();
         }
@@ -75,6 +81,25 @@ namespace Commencement.Controllers.Helpers
 
             // process the template text
             message.Body = letterGenerator.GenerateRegistrationConfirmation(registration, template);
+
+            client.Send(message);
+        }
+
+        public void SendAddPermission(IRepository repository, Student student)
+        {
+            var term = TermService.GetCurrent();
+
+            Check.Require(repository != null, "Repository is required.");
+            Check.Require(student != null, "Student is required.");
+            Check.Require(term != null, "Unable to get current term.");
+
+            var message = InitializeMessage();
+            message.Subject = term.Name + " Commencement Registration";
+
+            var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved).OrderByDescending(a => a.Id).FirstOrDefault();
+            Check.Require(template != null, "No template is available");
+
+            message.Body = letterGenerator.GenerateAddPermission(student, template);
 
             client.Send(message);
         }

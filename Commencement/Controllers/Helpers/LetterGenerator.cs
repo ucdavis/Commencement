@@ -25,6 +25,16 @@ namespace Commencement.Controllers.Helpers
             return HandleBody(template.BodyText);
         }
 
+        public string GenerateAddPermission(Student student, Template template)
+        {
+            Check.Require(student != null, "Student is required.");
+            Check.Require(template != null, "Template is required");
+
+            Student = student;
+
+            return HandleBody(template.BodyText);
+        }
+
         public string GenerateRegistrationPetitionConfirmation(RegistrationPetition registrationPetition, Template template)
         {
             throw new NotImplementedException();
