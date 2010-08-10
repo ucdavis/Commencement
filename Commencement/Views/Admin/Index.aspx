@@ -11,9 +11,9 @@
 
     <ul class="front_menu">
     <li class="left"><a href="#"><img src="../../Images/ceremony.png" /><br />Ceremony List</a></li>
-    <li><a href="#"><img src="../../Images/students.png" /><br />Students</a></li>
-    <li class="left"><a href="#"><img src="../../Images/registrations.png" /><br />Registrations</a></li>
-    <li><a href="#"><img src="../../Images/email_template.png" /><br />Email Templates</a></li>
+    <li class="left"><a href="#"><img src="../../Images/students.png" /><br />Students</a></li>
+    <li><a href="#"><img src="../../Images/registrations.png" /><br />Registrations</a></li>
+    <li class="left"><a href="#"><img src="../../Images/email_template.png" /><br />Email Templates</a></li>
     <!--
         <li class="left"><%= Html.ActionLink<CeremonyController>(a=>a.Index(), "Ceremony List") %></li>
         <li><%= Html.ActionLink<AdminController>(a=>a.Students(null, null, null, null), "Students") %></li>
