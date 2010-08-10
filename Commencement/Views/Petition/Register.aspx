@@ -19,80 +19,48 @@
     <h2>
         Student Information</h2>
     <ul class="registrationPetition_form">
+        <li class="prefilled"><strong>Student ID:</strong> <span>123456789</span> </li>
         <li class="prefilled"><strong>Name:</strong> <span>john jacob jingleheimer schmidt</span>
         </li>
-        <li class="prefilled"><strong>Student ID:</strong> <span>123456789</span> </li>
-        <li class="prefilled"><strong>Major:</strong> <span>Life-ology</span> </li>
         <li class="prefilled"><strong>Units Complted:</strong> <span>224.5</span> </li>
+        <li class="prefilled"><strong>Major:</strong> <span>Life-ology</span> </li>
     </ul>
     <h2>
-        Contact Information</h2>
+        Petition Information</h2>
         
     <% using (Html.BeginForm()) { %>
         <%= Html.AntiForgeryToken() %>
-        
+   
     <ul class="registrationPetition_form">
-        <li><strong>Address Line 1:</strong>
-            <%= Html.TextBoxFor(x => x.RegistrationPetition.Address1)%>
-            <%= Html.ValidationMessageFor(x => x.RegistrationPetition.Address1)%>
+        <li><strong>Currently Registered: </strong>
+            <%= Html.TextBox("Registered")%>
         </li>
-        <li><strong>Address Line 2:</strong>
-            <%= Html.TextBoxFor(x => x.RegistrationPetition.Address2)%>
-            <%= Html.ValidationMessageFor(x => x.RegistrationPetition.Address2)%>
-        </li>
-        <li><strong>City:</strong>
-            <%= Html.TextBoxFor(x => x.RegistrationPetition.City)%>
-            <%= Html.ValidationMessageFor(x=>x.RegistrationPetition.City) %>
-        </li>
-        <li><strong>State:</strong>
-            <%= this.Select("RegistrationPetition.State").Options(Model.States, x => x.Id, x => x.Name).Selected("CA")%>
-            <%--<select><option value="">--</option><option value="AL">AL</option><option value="AK">AK</option><option value="AR">AR</option><option value="AZ">AZ</option><option value="CA">CA</option><option value="CO">CO</option><option value="CT">CT</option><option value="DC">DC</option><option value="DE">DE</option><option value="FL">FL</option><option value="GA">GA</option><option value="HI">HI</option><option value="ID">ID</option><option value="IA">IA</option><option value="IL">IL</option><option value="IN">IN</option><option value="KS">KS</option><option value="KY">KY</option><option value="LA">LA</option><option value="MA">MA</option><option value="MD">MD</option><option value="ME">ME</option><option value="MI">MI</option><option value="MO">MO</option><option value="MN">MN</option><option value="MS">MS</option><option value="MT">MT</option><option value="NC">NC</option><option value="ND">ND</option><option value="NE">NE</option><option value="NH">NH</option><option value="NJ">NJ</option><option value="NM">NM</option><option value="NY">NY</option><option value="NV">NV</option><option value="OH">OH</option><option value="OK">OK</option><option value="OR">OR</option><option value="PA">PA</option><option value="RI">RI</option><option value="SC">SC</option><option value="SD">SD</option><option value="TN">TN</option><option value="TX">TX</option><option value="UT">UT</option><option value="VA">VA</option><option value="VT">VT</option><option value="WA">WA</option><option value="WI">WI</option><option value="WV">WV</option><option value="WY">WY</option></select>--%>
-        </li>
-        <li><strong>Zip Code:</strong>
-            <%= Html.TextBoxFor(x => x.RegistrationPetition.Zip, new { maxlength = 5, size = 5 }) %>
-            <%= Html.ValidationMessageFor(x=>x.RegistrationPetition.Zip) %>
-        </li>
-        <li class="prefilled"><strong>Email Address 1:</strong> <span>student@ucdavis.edu</span>
-        </li>
-        <li><strong>Email Address 2:</strong>
-            <input />
-        </li>
-    </ul>
-    <h2>
-        Ceremony Information</h2>
-    <ul class="registrationPetition_form">
-        <li><strong>Tickets Requested:</strong>
-            <select>
-                <option value="">--</option>
-                <option value="01">01</option>
-                <option value="02">02</option>
-                <option value="03">03</option>
-                <option value="04">04</option>
-                <option value="05">05</option>
-                <option value="06">06</option>
-                <option value="07">07</option>
-                <option value="08">08</option>
-                <option value="09">09</option>
-                <option value="10">10</option>
-            </select>
-        </li>
-        <li class="prefilled"><strong>AM or PM Ceremony:</strong> <span>AM</span> </li>
-        <li><strong>Reason for exception: </strong>
-            <%= Html.TextBoxFor(x => x.RegistrationPetition.ExceptionReason, new { maxlength = 1000, size = 5 }) %>
+        <li><strong>Reason for Petition: </strong> 
+            <%= Html.TextAreaFor(x => x.RegistrationPetition.ExceptionReason, new { maxlength = 1000, size = 5 }) %>
             <%= Html.ValidationMessageFor(x => x.RegistrationPetition.ExceptionReason)%>
         </li>
-       
-
+      </ul>
+    
+      <h4>
+        Transfer Units</h4>
+      <ul class="registrationPetition_form">  
+        <li><strong>From: </strong>
+            <%= Html.TextBox("From")%>
+        </li>
+        <li><strong>Units: </strong>
+         <%= Html.TextBox("RegistrationPetition.Units")%>
+        </li>
+        <li><strong>Term to Complete:</strong>
+           <%= this.Select("RegistrationPetition.CompletionTerm").Options(Model.TermCodes, x => x.Id, x => x.Description)%>
+        </li>
     </ul>
+    
     
     <input type="submit" value="Petition Registration for Commencement" />
     
     <% } %>
     <h3>
-        Disclaimer about the page and the process. Disclaimer about the page and the process.
-        Disclaimer about the page and the process. Disclaimer about the page and the process.
-        Disclaimer about the page and the process. Disclaimer about the page and the process.
-        Disclaimer about the page and the process. Disclaimer about the page and the process.
+        <%--Disclaimer about the page and the process. Disclaimer about the page and the process.--%>
     </h3>
 </asp:Content>
 

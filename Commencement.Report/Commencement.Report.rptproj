@@ -9,6 +9,14 @@
   </DataSources>
   <Reports>
     <ProjectItem>
+      <Name>PetitionsbyAMPMReport.rdl</Name>
+      <FullPath>PetitionsbyAMPMReport.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>PetitionsbyMajorReport.rdl</Name>
+      <FullPath>PetitionsbyMajorReport.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>PetitionsReport.rdl</Name>
       <FullPath>PetitionsReport.rdl</FullPath>
     </ProjectItem>
@@ -21,24 +29,20 @@
       <FullPath>RegistrationByMajorReport.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>TotalRegistrationReport.rdl</Name>
-      <FullPath>TotalRegistrationReport.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>PetitionsbyMajorReport.rdl</Name>
-      <FullPath>PetitionsbyMajorReport.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>PetitionsbyAMPMReport.rdl</Name>
-      <FullPath>PetitionsbyAMPMReport.rdl</FullPath>
+      <Name>SumApprovedReport.rdl</Name>
+      <FullPath>SumApprovedReport.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
       <Name>TotalRegistrationEachMajorReport.rdl</Name>
       <FullPath>TotalRegistrationEachMajorReport.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>SumApprovedReport.rdl</Name>
-      <FullPath>SumApprovedReport.rdl</FullPath>
+      <Name>TotalRegistrationReport.rdl</Name>
+      <FullPath>TotalRegistrationReport.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>SummaryReport.rdl</Name>
+      <FullPath>SummaryReport.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>
