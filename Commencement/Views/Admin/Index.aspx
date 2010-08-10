@@ -10,12 +10,18 @@
     <h2>Index</h2>
 
     <ul class="front_menu">
+    <li class="left"><a href="#">Ceremony List</a></li>
+    <li><a href="#">Students</a></li>
+    <li class="left"><a href="#">Registrations</a></li>
+    <li><a href="#">Email Templates</a></li>
+    <!--
         <li class="left"><%= Html.ActionLink<CeremonyController>(a=>a.Index(), "Ceremony List") %></li>
         <li><%= Html.ActionLink<AdminController>(a=>a.Students(null, null, null, null), "Students") %></li>
         <li class="left"><%= Html.ActionLink<AdminController>(a =>a.Registrations(null, null, null, null, null), "Registrations") %></li>
         <li><%= Html.ActionLink<TemplateController>(a=>a.Index(), "Email Templates") %></li>
+    -->
+        
     </ul>
-
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
