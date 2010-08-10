@@ -578,6 +578,10 @@
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>StaticValues.Designer.cs</LastGenOutput>
     </Content>
+    <Content Include="Images\ceremony.png" />
+    <Content Include="Images\email_template.png" />
+    <Content Include="Images\registrations.png" />
+    <Content Include="Images\students.png" />
     <Content Include="Views\Admin\AddStudent.aspx" />
     <Content Include="Views\Admin\AddStudentConfirm.aspx" />
     <Content Include="Views\Admin\ChangeMajor.aspx" />
