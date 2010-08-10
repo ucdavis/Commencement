@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Mvc.Ajax;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
