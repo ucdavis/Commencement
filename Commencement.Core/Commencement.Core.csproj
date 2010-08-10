@@ -79,9 +79,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Domain\Petition.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Domain\MajorCode.hbm.xml" />
     <EmbeddedResource Include="Domain\Registration.hbm.xml" />
     <EmbeddedResource Include="Domain\School.hbm.xml" />
@@ -106,6 +103,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Domain\TemplateType.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Domain\ExtraTicketPetition.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

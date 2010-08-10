@@ -18,6 +18,7 @@
     <property name="MailTickets" column="MailTickets" />
     <property name="Comments" column="Comments" />
     <many-to-one name="Ceremony" class="Ceremony" column="CeremonyId" />
-
+    <many-to-one name="ExtraTicketPetition" class="ExtraTicketPetition" column="ExtraTicketPetitionId" cascade="all-delete-orphan" />
+    
   </class>
 </hibernate-mapping>

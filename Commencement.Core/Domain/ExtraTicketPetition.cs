@@ -1,10 +1,31 @@
 ﻿using NHibernate.Validator.Constraints;
+using UCDArch.Core.DomainModel;
 
 namespace Commencement.Core.Domain
 {
-    public class ExtraTicketPetition : Petition
+    public class ExtraTicketPetition : DomainObject
     {
-        [NotNull]
-        public virtual Student Student { get; set; }
+        public ExtraTicketPetition()
+        {
+            SetDefaults();
+        }
+
+        public ExtraTicketPetition(int numberTickets)
+        {
+            NumberTickets = numberTickets;
+
+            SetDefaults();
+        }
+
+        private void SetDefaults()
+        {
+            IsPending = true;
+            IsApproved = false;
+        }
+
+        [Min(1)]
+        public virtual int NumberTickets { get; set; }
+        public virtual bool IsPending { get; set; }
+        public virtual bool IsApproved { get; set; }
     }
 }

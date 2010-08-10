@@ -99,7 +99,7 @@ namespace Commencement.Controllers.Helpers
 
             if (Registration != null) ceremony = Registration.Ceremony;
             else if (RegistrationPetition != null) ceremony = RegistrationPetition.Ceremony;
-            else if (ExtraTicketPetition != null) ceremony = ExtraTicketPetition.Ceremony;
+            //else if (ExtraTicketPetition != null) ceremony = ExtraTicketPetition.Registration.Ceremony;
 
             // Trim the {}
             int length = parameter.Length;
@@ -141,7 +141,7 @@ namespace Commencement.Controllers.Helpers
 
                     if (Registration != null) return Registration.Address1;
                     if (RegistrationPetition != null) return RegistrationPetition.Address1;
-                    if (ExtraTicketPetition != null) return ExtraTicketPetition.Address1;
+                    //if (ExtraTicketPetition != null) return ExtraTicketPetition.Registration.Address1;
 
                     throw new ArgumentException("No valid object was provided.");
 
@@ -150,7 +150,7 @@ namespace Commencement.Controllers.Helpers
 
                     if (Registration != null) return Registration.Address2;
                     if (RegistrationPetition != null) return RegistrationPetition.Address2;
-                    if (ExtraTicketPetition != null) return ExtraTicketPetition.Address2;
+                    //if (ExtraTicketPetition != null) return ExtraTicketPetition.Registration.Address2;
 
                     throw new ArgumentException("No valid object was provided.");
 
@@ -159,7 +159,7 @@ namespace Commencement.Controllers.Helpers
 
                     if (Registration != null) return Registration.City;
                     if (RegistrationPetition != null) return RegistrationPetition.City;
-                    if (ExtraTicketPetition != null) return ExtraTicketPetition.City;
+                    //if (ExtraTicketPetition != null) return ExtraTicketPetition.Registration.City;
 
                     throw new ArgumentException("No valid object was provided.");
 
@@ -168,7 +168,7 @@ namespace Commencement.Controllers.Helpers
 
                     if (Registration != null) return Registration.State.Id;
                     if (RegistrationPetition != null) return RegistrationPetition.State.Id;
-                    if (ExtraTicketPetition != null) return ExtraTicketPetition.State.Id;
+                    //if (ExtraTicketPetition != null) return ExtraTicketPetition.Registration.State.Id;
 
                     throw new ArgumentException("No valid object was provided.");
 
@@ -177,7 +177,7 @@ namespace Commencement.Controllers.Helpers
 
                     if (Registration != null) return Registration.Zip;
                     if (RegistrationPetition != null) return RegistrationPetition.Zip;
-                    if (ExtraTicketPetition != null) return ExtraTicketPetition.Zip;
+                    //if (ExtraTicketPetition != null) return ExtraTicketPetition.Registration.Zip;
 
                     throw new ArgumentException("No valid object was provided.");
 
