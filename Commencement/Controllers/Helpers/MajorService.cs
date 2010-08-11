@@ -12,7 +12,7 @@ namespace Commencement.Controllers.Helpers
         IEnumerable<MajorCode> GetAESMajors();
     }
 
-    public class MajorService
+    public class MajorService : IMajorService
     {
         private readonly IRepositoryWithTypedId<MajorCode, string> _majorRepository;
 
@@ -26,7 +26,7 @@ namespace Commencement.Controllers.Helpers
             return GetAESMajors();
         }
 
-        private IEnumerable<MajorCode> GetAESMajors()
+        public IEnumerable<MajorCode> GetAESMajors()
         {
             return _majorRepository.Queryable.Where(a => a.Id.StartsWith("A")).ToList();
         }
