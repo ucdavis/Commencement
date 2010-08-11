@@ -9,7 +9,17 @@
     
     <script type="text/javascript">
         $(function() {
-            $("#Ceremony_DateTime").AnyTime_picker();
+            //$("#Ceremony_DateTime").AnyTime_picker();
+            $("#CeremonyDate").datepicker();
+
+            $(".ceremony_time").change(function() {
+                var date = $("#CeremonyDate").val();
+                var hour = $("#CeremonyHour").val();
+                var minute = $("#CeremonyMinutes").val();
+                var ampm = $("#CeremonyAmPm").val();
+
+                $("#Ceremony_DateTime").val(date + " " + hour + ":" + minute + ":00 " + ampm);
+            });
 
             $("#Ceremony_PrintingDeadline").datepicker();
             $("#Ceremony_RegistrationDeadline").datepicker();
@@ -29,7 +39,26 @@
         </li>
         <li>
             <strong>Date/Time of Ceremony:</strong>
-            <%= Html.TextBoxFor(x=>x.Ceremony.DateTime) %>
+            <%= Html.TextBox("CeremonyDate", Model.Ceremony.DateTime.ToString("d"), new {@class="ceremony_time"}) %>
+            
+            <select id="CeremonyHour" class="ceremony_time">
+                <% for (int i = 1; i < 13; i++ ) { %>
+                    <option value="<%= i %>"><%= i %></option>
+                <% } %>
+            </select>
+            
+            <select id="CeremonyMinutes" class="ceremony_time">
+                <% for (int i = 1; i < 61; i++ ) { %>
+                    <option value="<%= i %>"><%= i %></option>
+                <% } %>
+            </select>
+            
+            <select id="CeremonyAmPm" class="ceremony_time">
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+            </select>
+            
+            <%= Html.HiddenFor(x => x.Ceremony.DateTime)%>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.DateTime) %>
         </li>
         <li>
