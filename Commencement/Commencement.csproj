@@ -164,6 +164,7 @@
     <Compile Include="Controllers\Helpers\EmailService.cs" />
     <Compile Include="Controllers\Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Controllers\Helpers\LetterGenerator.cs" />
+    <Compile Include="Controllers\Helpers\MajorService.cs" />
     <Compile Include="Controllers\Helpers\StringExtension.cs" />
     <Compile Include="Controllers\Helpers\StudentService.cs" />
     <Compile Include="Controllers\Helpers\TermService.cs" />

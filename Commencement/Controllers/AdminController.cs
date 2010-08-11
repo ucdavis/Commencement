@@ -22,13 +22,15 @@ namespace Commencement.Controllers
         private readonly IRepositoryWithTypedId<MajorCode, string> _majorRepository;
         private readonly IStudentService _studentService;
         private readonly IEmailService _emailService;
+        private readonly IMajorService _majorService;
 
-        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService, IEmailService emailService)
+        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService, IEmailService emailService, IMajorService majorService)
         {
             _studentRepository = studentRepository;
             _majorRepository = majorRepository;
             _studentService = studentService;
             _emailService = emailService;
+            _majorService = majorService;
         }
 
         //
@@ -43,7 +45,7 @@ namespace Commencement.Controllers
             // get the newest active term
             var term = TermService.GetCurrent();
 
-            var viewModel = AdminStudentViewModel.Create(Repository, term, studentid, lastName, firstName, majorCode);
+            var viewModel = AdminStudentViewModel.Create(Repository, _majorService, term, studentid, lastName, firstName, majorCode);
 
             return View(viewModel);
         }
@@ -160,7 +162,7 @@ namespace Commencement.Controllers
             var registration = Repository.OfType<Registration>().GetNullableById(id);
             if (registration == null) return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null));
 
-            var viewModel = ChangeMajorViewModel.Create(Repository, registration);
+            var viewModel = ChangeMajorViewModel.Create(Repository, _majorService, registration);
             return View(viewModel);
         }
         [AcceptPost]
@@ -187,7 +189,7 @@ namespace Commencement.Controllers
                 return this.RedirectToAction<AdminController>(a => a.StudentDetails(registration.Student.Id, true));
             }
 
-            var viewModel = ChangeMajorViewModel.Create(Repository, registration);
+            var viewModel = ChangeMajorViewModel.Create(Repository, _majorService, registration);
             return View(viewModel);
         }
         public JsonResult ChangeMajorValidation(int regId, string major)
@@ -228,7 +230,7 @@ namespace Commencement.Controllers
         public ActionResult Registrations(string studentid, string lastName, string firstName, string majorCode, int? ceremonyId)
         {
             var term = Repository.OfType<TermCode>().Queryable.Where(a => a.IsActive).OrderByDescending(a => a.Id).FirstOrDefault();
-            var viewModel = AdminRegistrationViewModel.Create(Repository, term, studentid, lastName, firstName, majorCode, ceremonyId);
+            var viewModel = AdminRegistrationViewModel.Create(Repository, _majorService, term, studentid, lastName, firstName, majorCode, ceremonyId);
             return View(viewModel);
         }
     }

@@ -1,15 +1,12 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
+using Commencement.Controllers.Helpers;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using MvcContrib.Attributes;
-using Telerik.Web.Mvc.Extensions;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
-using UCDArch.Web.Controller;
 using UCDArch.Web.Helpers;
 using MvcContrib;
 
@@ -19,11 +16,13 @@ namespace Commencement.Controllers
     {
         private readonly IRepositoryWithTypedId<TermCode, string> _termRepository;
         private readonly IRepositoryWithTypedId<vTermCode, string> _vTermRepository;
+        private readonly IMajorService _majorService;
 
-        public CeremonyController(IRepositoryWithTypedId<TermCode, string> termRepository, IRepositoryWithTypedId<vTermCode, string> vTermRepository)
+        public CeremonyController(IRepositoryWithTypedId<TermCode, string> termRepository, IRepositoryWithTypedId<vTermCode, string> vTermRepository, IMajorService majorService)
         {
             _termRepository = termRepository;
             _vTermRepository = vTermRepository;
+            _majorService = majorService;
         }
 
         //
@@ -42,7 +41,7 @@ namespace Commencement.Controllers
 
             if (ceremony == null) return this.RedirectToAction(a => a.Index());
 
-            var viewModel = CeremonyViewModel.Create(Repository, ceremony);
+            var viewModel = CeremonyViewModel.Create(Repository, _majorService, ceremony);
             
             return View(viewModel);
         }
@@ -72,14 +71,14 @@ namespace Commencement.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            var viewModel = CeremonyViewModel.Create(Repository, destCeremony);
+            var viewModel = CeremonyViewModel.Create(Repository, _majorService, destCeremony);
 
             return View(viewModel);
         }
         [AdminOnly]
         public ActionResult Create()
         {
-            var viewModel = CeremonyViewModel.Create(Repository, new Ceremony());
+            var viewModel = CeremonyViewModel.Create(Repository, _majorService, new Ceremony());
 
             return View(viewModel);
         }
@@ -117,7 +116,7 @@ namespace Commencement.Controllers
             }
 
             // redirect back to the page
-            var viewModel = CeremonyViewModel.Create(Repository, ceremony);
+            var viewModel = CeremonyViewModel.Create(Repository, _majorService, ceremony);
             viewModel.Ceremony = ceremony;
 
             return View(viewModel);

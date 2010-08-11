@@ -22,6 +22,7 @@ namespace Commencement
             container.AddComponent("studentService", typeof(IStudentService), typeof(StudentService));
             container.AddComponent("emailService", typeof (IEmailService), typeof (EmailService));
 #endif
+            container.AddComponent("majorService", typeof (IMajorService), typeof (MajorService));
 
             AddRepositoriesTo(container);
         }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Commencement.Controllers.Helpers;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -17,13 +18,13 @@ namespace Commencement.Controllers.ViewModels
         public string majorCodeFilter { get; set; }
         public int ceremonyFilter { get; set; }
 
-        public static AdminRegistrationViewModel Create(IRepository repository, TermCode termCode, string studentid, string lastName, string firstName, string majorCode, int? ceremonyId)
+        public static AdminRegistrationViewModel Create(IRepository repository, IMajorService majorService, TermCode termCode, string studentid, string lastName, string firstName, string majorCode, int? ceremonyId)
         {
             Check.Require(repository != null, "Repository is required.");
 
             var viewModel = new AdminRegistrationViewModel()
                                 {
-                                    MajorCodes = repository.OfType<MajorCode>().GetAll(),
+                                    MajorCodes = majorService.GetAESMajors(),
                                     Ceremonies = repository.OfType<Ceremony>().Queryable.Where(a=>a.TermCode == termCode).ToList(),
                                     studentidFilter = studentid,
                                     lastNameFilter = lastName,

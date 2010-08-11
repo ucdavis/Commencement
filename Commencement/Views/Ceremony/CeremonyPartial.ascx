@@ -43,19 +43,19 @@
             
             <select id="CeremonyHour" class="ceremony_time">
                 <% for (int i = 1; i < 13; i++ ) { %>
-                    <option value="<%= i %>"><%= i %></option>
+                    <% var flag = Model.Ceremony.DateTime.Hour == i; %>
+                    <option value="<%= i %>" "<%= flag ? "selected" : string.Empty %>"><%= i %></option>
                 <% } %>
             </select>
             
             <select id="CeremonyMinutes" class="ceremony_time">
-                <% for (int i = 1; i < 61; i++ ) { %>
-                    <option value="<%= i %>"><%= i %></option>
-                <% } %>
+                <option value="00" "<%= Model.Ceremony.DateTime.Minute == 0 ? "selected" : string.Empty %>">00</option>
+                <option value="30" "<%= Model.Ceremony.DateTime.Minute == 30 ? "selected" : string.Empty %>">30</option>
             </select>
             
             <select id="CeremonyAmPm" class="ceremony_time">
-                <option value="AM">AM</option>
-                <option value="PM">PM</option>
+                <option value="AM" "<%= Model.Ceremony.DateTime.ToString("tt") == "AM" ? "selected" : string.Empty %>" >AM</option>
+                <option value="PM" "<%= Model.Ceremony.DateTime.ToString("tt") == "PM" ? "selected" : string.Empty %>" >PM</option>
             </select>
             
             <%= Html.HiddenFor(x => x.Ceremony.DateTime)%>

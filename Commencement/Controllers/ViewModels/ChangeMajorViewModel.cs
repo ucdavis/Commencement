@@ -13,13 +13,13 @@ namespace Commencement.Controllers.ViewModels
         public Registration Registration { get; set; }
         public Student Student { get; set; }
 
-        public static ChangeMajorViewModel Create(IRepository repository, Registration registration)
+        public static ChangeMajorViewModel Create(IRepository repository, IMajorService majorService, Registration registration)
         {
             Check.Require(repository != null, "Repository is required.");
 
             var viewModel = new ChangeMajorViewModel()
                                 {
-                                    MajorCodes = repository.OfType<MajorCode>().GetAll(),
+                                    MajorCodes = majorService.GetAESMajors(),
                                     Student = registration.Student,
                                     Registration = registration
                                 };

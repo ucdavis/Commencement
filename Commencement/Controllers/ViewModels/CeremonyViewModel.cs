@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Commencement.Controllers.Helpers;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -18,11 +19,12 @@ namespace Commencement.Controllers.ViewModels
         //public IList<SelectListItem> Majors { get; set; }
         public MultiSelectList Majors { get; set; }
 
-        public static CeremonyViewModel Create(IRepository repository, Ceremony ceremony)
+        public static CeremonyViewModel Create(IRepository repository, IMajorService majorService , Ceremony ceremony)
         {
             Check.Require(repository != null, "Repository is required.");
+            Check.Require(majorService != null, "Major Service is required.");
 
-            var majorCodes = repository.OfType<MajorCode>().GetAll();
+            var majorCodes = majorService.GetAESMajors();
 
             var viewModel = new CeremonyViewModel()
                                 {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Commencement.Controllers.Helpers;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -18,7 +19,7 @@ namespace Commencement.Controllers.ViewModels
         public string firstNameFilter { get; set; }
         public string majorCodeFilter { get; set; }
 
-        public static AdminStudentViewModel Create(IRepository repository, TermCode termCode, string studentid, string lastName, string firstName, string majorCode)
+        public static AdminStudentViewModel Create(IRepository repository, IMajorService majorService, TermCode termCode, string studentid, string lastName, string firstName, string majorCode)
         {
             Check.Require(repository != null, "Repository is required.");
 
@@ -30,7 +31,7 @@ namespace Commencement.Controllers.ViewModels
                                     //    && (a.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName))
                                     //    && (a.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName))
                                     //    ),
-                                    MajorCodes = repository.OfType<MajorCode>().GetAll(),
+                                    MajorCodes = majorService.GetAESMajors(),
                                     studentidFilter = studentid,
                                     lastNameFilter = lastName,
                                     firstNameFilter = firstName,
