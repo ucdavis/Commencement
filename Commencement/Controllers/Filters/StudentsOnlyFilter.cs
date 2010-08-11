@@ -39,7 +39,7 @@ namespace Commencement.Controllers.Filters
 
                 var validationCookie = filterContext.HttpContext.Response.Cookies.Get(StaticIndexes.EmulationKey);
 
-                if (validationCookie != null)
+                if (validationCookie != null && !string.IsNullOrEmpty(validationCookie.Value))
                 {
                     // validate cookie exists
                     if (validationCookie.Value != filterContext.HttpContext.User.Identity.Name)
