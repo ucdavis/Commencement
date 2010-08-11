@@ -35,7 +35,7 @@
     <UseWebConfigReplacement>true</UseWebConfigReplacement>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>false</DebugSymbols>
     <EnableUpdateable>true</EnableUpdateable>
     <UseMerge>true</UseMerge>
     <UseWebConfigReplacement>true</UseWebConfigReplacement>

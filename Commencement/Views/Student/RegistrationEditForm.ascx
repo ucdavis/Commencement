@@ -85,7 +85,7 @@
     </ul>
     
     <h3>
-        <%= Html.HtmlEncode(StaticValues.Txt_Disclaimer) %>
+        <%= string.Format(StaticValues.Txt_Disclaimer,Url.Content("~/Forms/alcohol_policy.pdf") ) %>
         
         <br />
         <label for="agreeToDisclaimer">I Agree</label> <%= Html.CheckBox("agreeToDisclaimer", new { @class = "required" }) %>

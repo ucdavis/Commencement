@@ -42,6 +42,13 @@
     <% Html.Grid(Model.StudentRegistrationModels)
            .Transactional()
            .Name("Students")
+           .CellAction(cell =>
+                      {
+                          if (cell.Column.Name == "Registration")
+                          {
+                              cell.Text = cell.DataItem.Registration ? "Yes" : "No";
+                          }
+                      })
            .Columns(col=>
                         {
                             col.Add(a =>

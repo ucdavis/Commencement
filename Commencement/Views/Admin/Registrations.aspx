@@ -66,6 +66,13 @@
     <% Html.Grid(Model.Registrations)
            .Transactional()
            .Name("Registrations")
+           .CellAction(cell=>
+                           {
+                               if (cell.Column.Name == "MailTickets")
+                               {
+                                   cell.Text = cell.DataItem.MailTickets == true ? "Yes" : "No";
+                               }
+                           })
            .Columns(col =>
                         {
                             col.Add(a =>

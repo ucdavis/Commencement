@@ -39,4 +39,7 @@
     </li>
     <li class="prefilled"><strong>Ceremony Date:</strong> <span>
         <%= Html.Encode(string.Format("{0}", Model.Ceremony.DateTime)) %></span> </li>
+        <li class="prefilled"><strong>Special Requests:</strong>
+            <%= Html.Encode(Model.Comments) %>
+        </li>
 </ul>

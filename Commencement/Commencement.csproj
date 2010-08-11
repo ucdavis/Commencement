@@ -37,7 +37,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
@@ -551,6 +551,7 @@
   <ItemGroup>
     <Content Include="connectionStrings-Prod.config" />
     <Content Include="connectionStrings-Test.config" />
+    <None Include="Forms\alcohol_policy.pdf" />
     <None Include="Content\font\Cicle_Fina-webfont.eot" />
     <None Include="Content\font\Cicle_Fina-webfont.svg" />
     <None Include="Content\font\Cicle_Fina-webfont.ttf" />

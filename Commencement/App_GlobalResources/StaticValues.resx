@@ -151,7 +151,7 @@
     <value>You have successfully edited your commencement registration. </value>
   </data>
   <data name="Txt_Disclaimer" xml:space="preserve">
-    <value>I agree to adhear to the University's student code of conduct.  I understand College of Agricultural &amp; Environmental Sciences has a zero tolerance policy for alcohol and illegal substances.</value>
+    <value>I agree to adhere to the University's student code of conduct.  I understand College of Agricultural &amp; Environmental Sciences has a &lt;a href="{0}"&gt;zero tolerance policy&lt;/a&gt; for alcohol and illegal substances.</value>
   </data>
   <data name="Txt_Introduction" xml:space="preserve">
     <value>Welcome {0}.  After you have submitted your registration you may log back in and update any of your information up until the registration deadline.</value>
