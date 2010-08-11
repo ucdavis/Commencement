@@ -12,13 +12,13 @@
         <%= Html.Encode(StaticValues.Txt_MultipleCeremonies) %>
     </h2>
         <br />
-    <ul>
+    <ul class="choose_ceremony_menu">
         <% foreach (var ceremonyWithMajor in Model)
            { %>
         <li>
             <a href="<%= Url.Action("Register", new { id = ceremonyWithMajor.Ceremony.Id, major = ceremonyWithMajor.MajorCode.Id }) %>">
-                Commencement for
-                <%= Html.Encode(ceremonyWithMajor.MajorCode.Name) %>.
+                Commencement for <%= Html.Encode(ceremonyWithMajor.MajorCode.Name) %>.
+                <br />
                 <%= Html.Encode(string.Format("Will take place on {0} at {1}", ceremonyWithMajor.Ceremony.DateTime, ceremonyWithMajor.Ceremony.Location)) %>
             
             </a>

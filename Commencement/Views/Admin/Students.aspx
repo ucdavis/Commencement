@@ -32,7 +32,7 @@
             </li>
             <li>
                 <strong>Major Code:</strong>
-                <%= Html.TextBox("majorCode", Model.majorCodeFilter) %>
+                <%= this.Select("majorCode").Options(Model.MajorCodes, x=>x.Id, x=>x.Name).Selected(Model.majorCodeFilter).FirstOption(string.Empty, "--Select a Major--") %>
             </li>
             <li><strong></strong><%= Html.SubmitButton("Submit", "Filter") %></li>
         </ul>
@@ -53,7 +53,7 @@
                             col.Bound(x => x.Student.FirstName).Title("First Name");
                             col.Bound(x => x.Student.Units);
                             col.Bound(x => x.Student.Email);
-                            col.Bound(x => x.Student.StrMajorCodes).Title("Majors");
+                            col.Bound(x => x.Student.StrMajorCodes ).Title("Majors");
                             col.Bound(x => x.Registration).Title("Registered").Width(40);
                         })
            .DataBinding(binding=>binding.Server().Select<AdminController>(a=>a.Students(Model.studentidFilter, Model.lastNameFilter, Model.firstNameFilter, Model.majorCodeFilter)))

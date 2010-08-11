@@ -10,6 +10,7 @@ namespace Commencement.Controllers.ViewModels
     {
         public IEnumerable<Registration> Registrations { get; set; }
         public IEnumerable<Ceremony> Ceremonies { get; set; }
+        public IEnumerable<MajorCode> MajorCodes { get; set; }
         public string studentidFilter { get; set; }
         public string lastNameFilter { get; set; }
         public string firstNameFilter { get; set; }
@@ -22,6 +23,7 @@ namespace Commencement.Controllers.ViewModels
 
             var viewModel = new AdminRegistrationViewModel()
                                 {
+                                    MajorCodes = repository.OfType<MajorCode>().GetAll(),
                                     Ceremonies = repository.OfType<Ceremony>().Queryable.Where(a=>a.TermCode == termCode).ToList(),
                                     studentidFilter = studentid,
                                     lastNameFilter = lastName,

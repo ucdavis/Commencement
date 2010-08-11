@@ -30,7 +30,7 @@
             </li>
             <li>
                 <strong>Major Code:</strong>
-                <%= Html.TextBox("majorCode", Model.majorCodeFilter) %>
+                <%= this.Select("majorCode").Options(Model.MajorCodes, x=>x.Id, x=>x.Name).Selected(Model.majorCodeFilter).FirstOption(string.Empty, "--Select a Major--") %>
             </li>
             <li>
                 <strong>Ceremony:</strong>

@@ -19,11 +19,11 @@ namespace Commencement.Controllers.Helpers
 
     public class StudentService : IStudentService
     {
-        private readonly IRepository<Student> _studentRepository;
+        private readonly IRepositoryWithTypedId<Student, Guid> _studentRepository;
         private readonly IRepository<Ceremony> _ceremonyRepository;
         private readonly IRepository<Registration> _registrationRepository;
 
-        public StudentService(IRepository<Student> studentRepository, IRepository<Ceremony> ceremonyRepository, IRepository<Registration> registrationRepository)
+        public StudentService(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepository<Ceremony> ceremonyRepository, IRepository<Registration> registrationRepository)
         {
             _studentRepository = studentRepository;
             _ceremonyRepository = ceremonyRepository;
@@ -33,7 +33,7 @@ namespace Commencement.Controllers.Helpers
         public Student GetCurrentStudent(IPrincipal currentUser)
         {
             var currentStudent = _studentRepository.Queryable.SingleOrDefault(x => x.Login == currentUser.Identity.Name && x.TermCode == TermService.GetCurrent());
-
+            
             if (currentStudent == null)
             {
                 throw new NotImplementedException("Student was not found");

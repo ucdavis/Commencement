@@ -12,6 +12,7 @@ namespace Commencement.Controllers.ViewModels
     {
         //public IEnumerable<Student> Students { get; set; }
         public ICollection<StudentRegistrationModel> StudentRegistrationModels { get; set; }
+        public IEnumerable<MajorCode> MajorCodes { get; set; }
         public string studentidFilter { get; set; }
         public string lastNameFilter { get; set; }
         public string firstNameFilter { get; set; }
@@ -29,6 +30,7 @@ namespace Commencement.Controllers.ViewModels
                                     //    && (a.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName))
                                     //    && (a.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName))
                                     //    ),
+                                    MajorCodes = repository.OfType<MajorCode>().GetAll(),
                                     studentidFilter = studentid,
                                     lastNameFilter = lastName,
                                     firstNameFilter = firstName,

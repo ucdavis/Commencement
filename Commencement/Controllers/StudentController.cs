@@ -16,7 +16,7 @@ namespace Commencement.Controllers
     [StudentsOnly]
     public class StudentController : ApplicationController
     {
-        private readonly IRepository<Student> _studentRepository;
+        private readonly IRepositoryWithTypedId<Student, Guid> _studentRepository;
         private readonly IRepository<Ceremony> _ceremonyRepository;
         private readonly IRepository<Registration> _registrationRepository;
         private readonly IStudentService _studentService;
@@ -24,7 +24,7 @@ namespace Commencement.Controllers
 
         public StudentController(IStudentService studentService, 
             IEmailService emailService,
-            IRepository<Student> studentRepository, 
+            IRepositoryWithTypedId<Student, Guid> studentRepository, 
             IRepository<Ceremony> ceremonyRepository, 
             IRepository<Registration> registrationRepository)
         {
