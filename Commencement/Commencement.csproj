@@ -57,6 +57,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="Elmah, Version=1.0.11211.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Elmah.dll</HintPath>
+    </Reference>
     <Reference Include="HibernatingRhinos.Profiler.Appender, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0774796e73ebf640, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\HibernatingRhinos.Profiler.Appender.dll</HintPath>

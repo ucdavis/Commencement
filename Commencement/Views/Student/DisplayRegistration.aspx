@@ -11,7 +11,9 @@
     
     <% } %>
 
-    <div id="extra_ticket_link"><a href="<%= Url.Content("~/Forms/extra_ticket_request.pdf") %>">Extra Ticket Request Form</a></div>
+    <div id="extra_ticket_link"><a href="<%= Url.Content("~/Forms/extra_ticket_request.pdf") %>">Extra Ticket Request Form</a>
+        (If you are having trouble, right click on the link and choose "save as" to download the file)
+    </div>
     
     <%--<%= Html.ActionLink<PetitionController>(a => a.ExtraTicketPetition(Model.Id), "Extra Ticket Petition") %>--%>
     

@@ -6,10 +6,13 @@
 <h2>
     Your registration was successfull for <%= Html.Encode(Model.Ceremony.Name) %>.  
 </h2>
+<h3 style="font-size:large;">You are required to complete the following exit survey <a href="#">here</a></h3>
+
 <h3>
     Please print this page for your records.
-    <a href="#">Alumni Survey</a>
+    
 </h3>
+
 
 <% Html.RenderPartial("RegistrationDisplay", Model); %>
 
