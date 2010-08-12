@@ -37,12 +37,17 @@ namespace Commencement.Controllers.ViewModels
                                 a.Ceremony.TermCode == termCode
                                 && (a.Student.StudentId.Contains(string.IsNullOrEmpty(studentid) ? string.Empty : studentid))
                                 && (a.Student.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName))
-                                && (a.Student.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName)));
+                                && (a.Student.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName))
+                                //&& (a.Student.Majors.Select(b=>b.Id).Contains(string.IsNullOrEmpty(majorCode) ? string.Empty : majorCode))
+                                );
 
             if (ceremonyId.HasValue && ceremonyId.Value > 0)
                 query = query.Where(a => a.Ceremony.Id == ceremonyId.Value);
 
             viewModel.Registrations = query.ToList();
+
+            if (!string.IsNullOrEmpty(majorCode))
+                viewModel.Registrations = viewModel.Registrations.Where(a => a.Student.StrMajorCodes.Contains(majorCode));
 
             return viewModel;
         }
