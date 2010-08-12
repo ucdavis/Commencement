@@ -14,7 +14,7 @@ namespace Commencement.Controllers.Helpers
     {
         void SendEmail(string[] to, string body);
         void SendRegistrationConfirmation(IRepository repository, Registration registration);
-        void SendAddPermission(IRepository repository, Student student);
+        void SendAddPermission(IRepository repository, Student student, Ceremony ceremony);
         void SendExtraTicketPetitionConfirmation(IRepository repository, ExtraTicketPetition extraTicketPetition);
         void SendRegistrationPetitionConfirmation(IRepository repository, RegistrationPetition registrationPetition);
     }
@@ -57,7 +57,7 @@ namespace Commencement.Controllers.Helpers
             client.Send(message);
         }
 
-        public void SendAddPermission(IRepository repository, Student student)
+        public void SendAddPermission(IRepository repository, Student student, Ceremony ceremony)
         {
             var term = TermService.GetCurrent();
 
@@ -72,7 +72,7 @@ namespace Commencement.Controllers.Helpers
             var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved).OrderByDescending(a => a.Id).FirstOrDefault();
             Check.Require(template != null, "No template is available");
 
-            message.Body = letterGenerator.GenerateAddPermission(student, template);
+            message.Body = letterGenerator.GenerateAddPermission(student, template, ceremony);
 
             client.Send(message);
         }
@@ -135,7 +135,7 @@ namespace Commencement.Controllers.Helpers
             client.Send(message);
         }
 
-        public void SendAddPermission(IRepository repository, Student student)
+        public void SendAddPermission(IRepository repository, Student student, Ceremony ceremony)
         {
             var term = TermService.GetCurrent();
 
@@ -149,7 +149,7 @@ namespace Commencement.Controllers.Helpers
             var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved).OrderByDescending(a => a.Id).FirstOrDefault();
             Check.Require(template != null, "No template is available");
 
-            message.Body = letterGenerator.GenerateAddPermission(student, template);
+            message.Body = letterGenerator.GenerateAddPermission(student, template, ceremony);
 
             client.Send(message);
         }

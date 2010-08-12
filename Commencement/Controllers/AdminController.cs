@@ -102,9 +102,15 @@ namespace Commencement.Controllers
         {
             Check.Require(student != null, "Student cannot be null.");
             Check.Require(!string.IsNullOrEmpty(majorCode), "Major code is required.");
-            
+
+            student.TermCode = TermService.GetCurrent();
+
             MajorCode major = _majorRepository.GetNullableById(majorCode);
             Check.Require(major != null, "Unable to find major.");
+
+            var ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == TermService.GetCurrent() && a.Majors.Contains(major)).FirstOrDefault();
+            //Check.Require(ceremony != null, "Ceremony is required.");
+            if (ceremony == null) { ModelState.AddModelError("Ceremony", "No ceremony exists for this major for the current term.");}
 
             Student newStudent = null;
 
@@ -139,11 +145,11 @@ namespace Commencement.Controllers
 
                 try
                 {
-                    _emailService.SendAddPermission(Repository, student);
+                    _emailService.SendAddPermission(Repository, student, ceremony);
                 }
                 catch (Exception)
                 {
-                    Message += StaticValues.Student_Email_Problem;
+                    Message += string.Format(StaticValues.Student_Add_Permission_Problem, newStudent.FullName);
                 }
 
                 return this.RedirectToAction(a => a.Students(studentId, null, null, null));

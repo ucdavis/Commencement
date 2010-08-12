@@ -159,4 +159,7 @@
   <data name="Txt_MultipleCeremonies" xml:space="preserve">
     <value>You are eligible for multiple ceremonies, please choose the major you would like to walk with during the ceremony.</value>
   </data>
+  <data name="Student_Add_Permission_Problem" xml:space="preserve">
+    <value>There was a problem sending {0} an email.</value>
+  </data>
 </root>

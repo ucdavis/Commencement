@@ -14,6 +14,8 @@
 
     <h2>AddStudentConfirm</h2>
 
+    <%= Html.ValidationSummary("Please correct all errors below") %>
+
     <% using(Html.BeginForm("AddStudentConfirm", "Admin", FormMethod.Post)) { %>
     <%= Html.AntiForgeryToken() %>
     <%= Html.HiddenFor(x=>x.Pidm) %>

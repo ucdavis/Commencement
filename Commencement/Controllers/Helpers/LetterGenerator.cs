@@ -7,6 +7,7 @@ namespace Commencement.Controllers.Helpers
 {
     public class LetterGenerator
     {
+        private Ceremony _ceremony;
         public Student Student { get; set; }
         public Registration Registration { get; set; }
         public RegistrationPetition RegistrationPetition { get; set; }
@@ -19,17 +20,19 @@ namespace Commencement.Controllers.Helpers
             Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationConfirmation);
             Check.Require(registration.Student != null, "Student is required.");
 
+            _ceremony = registration.Ceremony;
             Registration = registration;
             Student = registration.Student;
 
             return HandleBody(template.BodyText);
         }
 
-        public string GenerateAddPermission(Student student, Template template)
+        public string GenerateAddPermission(Student student, Template template, Ceremony ceremony)
         {
             Check.Require(student != null, "Student is required.");
             Check.Require(template != null, "Template is required");
 
+            _ceremony = ceremony;
             Student = student;
 
             return HandleBody(template.BodyText);
@@ -95,10 +98,10 @@ namespace Commencement.Controllers.Helpers
         /// <returns>Value that should replace the parameter</returns>
         private string replaceParameter(string parameter)
         {
-            Ceremony ceremony = null;
+            Ceremony ceremony = _ceremony;
 
-            if (Registration != null) ceremony = Registration.Ceremony;
-            else if (RegistrationPetition != null) ceremony = RegistrationPetition.Ceremony;
+            //if (Registration != null) ceremony = Registration.Ceremony;
+            //else if (RegistrationPetition != null) ceremony = RegistrationPetition.Ceremony;
             //else if (ExtraTicketPetition != null) ceremony = ExtraTicketPetition.Registration.Ceremony;
 
             // Trim the {}
