@@ -81,7 +81,8 @@ namespace Commencement.Controllers
         {
             var registration = _registrationRepository.GetNullableById(id);
 
-            if (registration == null) return this.RedirectToAction(x => x.Index());
+            // not valid registration or current logged in student doesn't match owner of registration
+            if (registration == null  || registration.Student != _studentService.GetCurrentStudent(CurrentUser)) return this.RedirectToAction(x => x.Index());
 
             ViewData["CanEditRegistration"] = registration.Ceremony.RegistrationDeadline > DateTime.Now;
 
@@ -92,7 +93,7 @@ namespace Commencement.Controllers
         {
             var registration = _registrationRepository.GetNullableById(id);
 
-            if (registration == null) return this.RedirectToAction(x => x.Index());
+            if (registration == null || registration.Student != _studentService.GetCurrentStudent(CurrentUser)) return this.RedirectToAction(x => x.Index());
 
             return View(registration);
         }
