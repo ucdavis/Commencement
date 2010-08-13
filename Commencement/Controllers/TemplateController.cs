@@ -8,18 +8,17 @@ using UCDArch.Web.Helpers;
 
 namespace Commencement.Controllers
 {
+    [AdminOnly]
     public class TemplateController : ApplicationController
     {
         //
         // GET: /Template/
-        [AdminOnly]
         public ActionResult Index()
         {
             var viewModel = TemplateViewModel.Create(Repository);
 
             return View(viewModel);
         }
-        [AdminOnly]
         public ActionResult Create(int? id)
         {
             Template template = null;
@@ -29,7 +28,6 @@ namespace Commencement.Controllers
 
             return View(viewModel);
         }
-        [AdminOnly]
         [AcceptPost]
         [ValidateInput(false)]
         public ActionResult Create(Template template)

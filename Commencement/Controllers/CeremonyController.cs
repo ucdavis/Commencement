@@ -12,6 +12,7 @@ using MvcContrib;
 
 namespace Commencement.Controllers
 {
+    [AdminOnly]
     public class CeremonyController : ApplicationController
     {
         private readonly IRepositoryWithTypedId<TermCode, string> _termRepository;
@@ -27,14 +28,12 @@ namespace Commencement.Controllers
 
         //
         // GET: /Commencement/
-        [AdminOnly]
         public ActionResult Index()
         {
             var viewModel = CommencementViewModel.Create(Repository);
 
             return View(viewModel);
         }
-        [AdminOnly]
         public ActionResult Edit(int id)
         {
             var ceremony = Repository.OfType<Ceremony>().GetNullableById(id);
@@ -45,7 +44,6 @@ namespace Commencement.Controllers
             
             return View(viewModel);
         }
-        [AdminOnly]
         [AcceptPost]
         public ActionResult Edit(CeremonyEditModel ceremonyEditModel)
         {
@@ -75,14 +73,12 @@ namespace Commencement.Controllers
 
             return View(viewModel);
         }
-        [AdminOnly]
         public ActionResult Create()
         {
             var viewModel = CeremonyViewModel.Create(Repository, _majorService, new Ceremony());
 
             return View(viewModel);
         }
-        [AdminOnly]
         [AcceptPost]
         public ActionResult Create(Ceremony ceremony, string term)
         {
