@@ -46,10 +46,10 @@
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <AssemblyAttributes Include="AssemblyFileVersion">
-      <Value>1.7.29.2010</Value>
+      <Value>1.8.13.2009</Value>
     </AssemblyAttributes>
     <AssemblyAttributes Include="AssemblyVersion">
-      <Value>1.7.29.2010</Value>
+      <Value>1.8.13.2009</Value>
     </AssemblyAttributes>
     <WebConfigReplacementFiles Include="connectionStrings-Prod.config">
       <Section>connectionStrings</Section>
