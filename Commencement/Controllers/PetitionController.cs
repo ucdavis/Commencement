@@ -33,6 +33,7 @@ namespace Commencement.Controllers
         /// <param name="id">Registration Id</param>
         /// <returns></returns>
          [StudentsOnly]
+         [PageTrackingFilter]
          public ActionResult ExtraTicketPetition(int id)
          {
             var registration = Repository.OfType<Registration>().GetNullableById(id);
