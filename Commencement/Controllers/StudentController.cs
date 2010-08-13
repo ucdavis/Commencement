@@ -37,7 +37,7 @@ namespace Commencement.Controllers
 
         //
         // GET: /Student/
-
+        [PageTrackingFilter]
         public ActionResult Index()
         {
             //Check for prior registration
@@ -52,7 +52,7 @@ namespace Commencement.Controllers
             //Check student untis and major))))
             return this.RedirectToAction(x => x.ChooseCeremony());
         }
-
+        [PageTrackingFilter]
         public ActionResult ChooseCeremony()
         {
             var majorsAndCeremonies = _studentService.GetMajorsAndCeremoniesForStudent(GetCurrentStudent());
@@ -76,7 +76,7 @@ namespace Commencement.Controllers
             // multiple ceremonies, let the student pick one
             return View(majorsAndCeremonies);
         }
-
+        [PageTrackingFilter]
         public ActionResult DisplayRegistration(int id /* registration id */)
         {
             var registration = _registrationRepository.GetNullableById(id);
@@ -88,7 +88,7 @@ namespace Commencement.Controllers
 
             return View(registration);
         }
-
+        [PageTrackingFilter]
         public ActionResult RegistrationConfirmation(int id /* registration id */)
         {
             var registration = _registrationRepository.GetNullableById(id);
@@ -104,6 +104,7 @@ namespace Commencement.Controllers
         /// <param name="id">Id of the commencement to register for</param>
         /// <param name="major">Major to register with.  Only required if a student has multiple majors</param>
         /// <returns></returns>
+        [PageTrackingFilter]
         public ActionResult Register(int id /* ceremony id */, string major)
         {
             var ceremony = _ceremonyRepository.GetNullableById(id);
@@ -237,7 +238,7 @@ namespace Commencement.Controllers
 
             return View(viewModel);
         }
-
+        [PageTrackingFilter]
         public ActionResult NoCeremony()
         {
             return View();
