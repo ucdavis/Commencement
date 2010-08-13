@@ -21,5 +21,7 @@ namespace Commencement.Core.Domain
         public virtual string DegreeCode { get; set; }
 
         public virtual string LoginId { get; set; }
+
+        public virtual string Astd { get; set; }
     }
 }

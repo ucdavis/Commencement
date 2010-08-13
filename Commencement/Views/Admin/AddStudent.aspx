@@ -31,6 +31,13 @@
     <% Html.Grid(Model.SearchStudents)
            .Transactional()
            .Name("SearchStudents")
+           .CellAction(cell=>
+                           {
+                               if (cell.Column.Name== "Astd")
+                               {
+                                   cell.Text = cell.DataItem.Astd == "DS" ? "Yes" : "No";
+                               }
+                           })
            .Columns(col=>
                         {
                             col.Add(a =>
@@ -45,6 +52,7 @@
                             col.Bound(a => a.CollegeCode).Title("College");
                             col.Bound(a => a.DegreeCode);
                             col.Bound(a => a.LoginId);
+                            col.Bound(a => a.Astd).Title("Dismissed");
                         })
            .Render();
             %>

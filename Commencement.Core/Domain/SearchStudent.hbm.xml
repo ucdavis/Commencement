@@ -17,6 +17,8 @@
     <property name="DegreeCode" column="Shrdgmr_Degs_Code" />
 
     <property name="LoginId" column="login_id" />
+
+    <property name="Astd" column="shrttrm_astd_code_end_of_term" />
     
     <loader query-ref="SearchStudents"/>
   </class>

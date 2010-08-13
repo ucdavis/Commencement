@@ -75,6 +75,11 @@ namespace Commencement.Controllers
                 // lookup the student
                 viewModel.SearchStudents = _studentService.SearchStudent(studentId, TermService.GetCurrent().Id);
                 viewModel.StudentId = studentId;
+
+                if (viewModel.SearchStudents.Count <= 0)
+                {
+                    Message = "No results for the student were found.";
+                }
             }
 
             return View(viewModel);
