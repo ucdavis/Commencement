@@ -16,12 +16,14 @@ declare @temp table(
 	units decimal(6,3),
 	email varchar(50), major varchar(4),
 	coll char(2), degsCode varchar(4),
+	astd char(2),
 	termcode varchar(6)
 )
 
-insert into @temp (pidm, studentid, firstname, lastname, units, email, major, coll, degscode, termcode)
+insert into @temp (pidm, studentid, firstname, lastname, units, email, major, coll, degscode, astd, termcode)
 select spriden_pidm, spriden_id, spriden_first_name, spriden_last_name, shrlgpa_hours_earned, goremal_email_address, zgvlcfs_majr_code
 	, zgvlcfs_coll_code, shrdgmr_degs_code
+	, shrttrm_astd_code_end_of_term
 	, shrdgmr_term_code_sturec
 from openquery (sis, '
 	select spriden_pidm, spriden_id, spriden_first_name, spriden_last_name, shrlgpa_hours_earned, email.goremal_email_address, curriculum.zgvlcfs_majr_code
@@ -52,12 +54,12 @@ from openquery (sis, '
 		and shrlgpa_levl_code in (''UG'', ''U2'')
 		and shrlgpa_hours_earned in ( select max(shrlgpa_hours_earned) from shrlgpa ishrlgpa where shrlgpa.shrlgpa_pidm = ishrlgpa.shrlgpa_pidm )
 		and shrlgpa_hours_earned >= 140		
-		and shrdgmr_term_code_sturec = (select min(stvterm_code) from stvterm where stvterm_end_date > sysdate and stvterm_trmt_code = 'Q')
-		and shrttrm_term_code = (select max(stvterm_code) from stvterm where stvterm_end_date < sysdate and stvterm_trmt_code = 'Q')	
+		and shrdgmr_term_code_sturec = (select min(stvterm_code) from stvterm where stvterm_end_date > sysdate and stvterm_trmt_code = ''Q'')
+		and shrttrm_term_code = (select max(stvterm_code) from stvterm where stvterm_end_date < sysdate and stvterm_trmt_code = ''Q'')	
 ')
 
 merge into students t
-using (select distinct pidm, studentid, firstname, lastname, units, email, degscode, termcode from @temp) s
+using (select distinct pidm, studentid, firstname, lastname, units, email, degscode, termcode from @temp where astd <> 'DS') s
 on t.pidm = s.pidm and t.termcode = s.termcode
 when matched then
 	update set t.studentid = s.studentid, t.firstname = s.firstname, t.lastname = s.lastname, t.units = s.units, t.email = s.email, t.degreecode = s.degscode, t.dateupdated = getdate()
