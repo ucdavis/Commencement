@@ -22,10 +22,10 @@
         <li class="left">
             <a href="<%= Url.Action("Index", "Template") %>"><img src="<%= Url.Content("~/Images/email_template.png") %>" /><br />Email Templates</a></li>
         <li class="left">
-            <a href="<%= Url.Action("Index", "Petition") %>">Pending Petitions</a>
+            <a href="<%= Url.Action("Index", "Petition") %>"><img src="<%= Url.Content("~/Images/pending_petition.png") %>" /><br />Pending Petitions</a>
         </li>
         <li>
-            <a href="#">Reporting</a>
+            <a href="#"><img src="<%= Url.Content("~/Images/report.png") %>" /><br />Reporting (Coming Soon)</a>
         </li>
     </ul>
 </asp:Content>

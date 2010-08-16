@@ -601,7 +601,9 @@
     </Content>
     <Content Include="Images\ceremony.png" />
     <Content Include="Images\email_template.png" />
+    <Content Include="Images\pending_petition.png" />
     <Content Include="Images\registrations.png" />
+    <Content Include="Images\report.png" />
     <Content Include="Images\students.png" />
     <Content Include="Views\Admin\AddStudent.aspx" />
     <Content Include="Views\Admin\AddStudentConfirm.aspx" />
