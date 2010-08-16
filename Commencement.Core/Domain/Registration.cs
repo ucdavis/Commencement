@@ -51,6 +51,17 @@ namespace Commencement.Core.Domain
         }
 
         // total number of tickets given to student, includes count from extra ticket petition
-        public virtual int TotalTickets { get { return NumberTickets; } }
+        public virtual int TotalTickets
+        {
+            get
+            {
+                var extraTickets = ExtraTicketPetition != null && !ExtraTicketPetition.IsPending &&
+                                   ExtraTicketPetition.IsApproved
+                                       ? ExtraTicketPetition.NumberTickets
+                                       : 0;
+
+                return NumberTickets + extraTickets; 
+            }
+        }
     }
 }

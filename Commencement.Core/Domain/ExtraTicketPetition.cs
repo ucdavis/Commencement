@@ -1,4 +1,5 @@
-﻿using NHibernate.Validator.Constraints;
+﻿using System;
+using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 
 namespace Commencement.Core.Domain
@@ -21,11 +22,16 @@ namespace Commencement.Core.Domain
         {
             IsPending = true;
             IsApproved = false;
+
+            DateSubmitted = DateTime.Now;
         }
 
         [Min(1)]
         public virtual int NumberTickets { get; set; }
         public virtual bool IsPending { get; set; }
         public virtual bool IsApproved { get; set; }
+
+        public virtual DateTime DateSubmitted { get; set; }
+        public virtual DateTime? DateDecision { get; set; }
     }
 }

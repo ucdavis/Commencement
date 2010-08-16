@@ -1,3 +1,4 @@
+using System;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.ViewModels;
@@ -15,9 +16,38 @@ namespace Commencement.Controllers
         //
         // GET: /Petition/
 
+        [AnyoneWithRole]
         public ActionResult Index()
         {
-            return View();
+            var viewModel = AdminPetitionsViewModel.Create(Repository);
+
+            return View(viewModel);
+        }
+
+        [AnyoneWithRole]
+        public ActionResult DecideExtraTicketPetition(int id, bool isApproved)
+        {
+            var registration = Repository.OfType<Registration>().GetNullableById(id);
+            if (registration == null) return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.UnknownError));
+
+            registration.ExtraTicketPetition.IsPending = false;
+            registration.ExtraTicketPetition.IsPending = isApproved;
+            registration.ExtraTicketPetition.DateDecision = DateTime.Now;
+
+            registration.ExtraTicketPetition.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                Repository.OfType<ExtraTicketPetition>().EnsurePersistent(registration.ExtraTicketPetition);
+
+                Message = string.Format("Decision for {0} has been saved.", registration.Student.FullName);
+            }
+            else
+            {
+                Message = string.Format("There was a problem saving decision for {0}", registration.Student.FullName);
+            }
+
+            return this.RedirectToAction(a => a.Index());
         }
 
          public ActionResult Register()

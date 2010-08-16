@@ -12,5 +12,8 @@
     <property name="IsPending" column="IsPending" />
     <property name="IsApproved" column="IsApproved" />
 
+    <property name="DateSubmitted" column="DateSubmitted" />
+    <property name="DateDecision" column="DateDecision" />
+    
   </class>
 </hibernate-mapping>

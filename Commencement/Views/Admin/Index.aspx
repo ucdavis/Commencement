@@ -21,7 +21,12 @@
         </li>
         <li class="left">
             <a href="<%= Url.Action("Index", "Template") %>"><img src="<%= Url.Content("~/Images/email_template.png") %>" /><br />Email Templates</a></li>
-        
+        <li class="left">
+            <a href="<%= Url.Action("Index", "Petition") %>">Pending Petitions</a>
+        </li>
+        <li>
+            <a href="#">Reporting</a>
+        </li>
     </ul>
 </asp:Content>
 
