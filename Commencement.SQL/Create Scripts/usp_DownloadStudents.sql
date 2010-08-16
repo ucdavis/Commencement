@@ -71,6 +71,7 @@ merge into studentmajors t
 using (
 	select distinct students.id, major from @temp tmp
 		inner join students on tmp.pidm = students.pidm and tmp.termcode = students.termcode
+	where major like 'A%'
 ) s
 on t.student_id = s.id and t.majorcode = s.major
 when not matched then 
