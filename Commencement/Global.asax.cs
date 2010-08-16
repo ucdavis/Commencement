@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Web.Mvc;
-using Castle.Windsor;
 using Commencement.Controllers;
 using Microsoft.Practices.ServiceLocation;
 using MvcContrib.Castle;
+using Castle.Windsor;
+using NHibernate;
+using UCDArch.Data.NHibernate;
 using UCDArch.Web.IoC;
 using UCDArch.Web.ModelBinder;
 using UCDArch.Web.Validator;
@@ -29,6 +31,8 @@ namespace Commencement
             ModelBinders.Binders.DefaultBinder = new UCDArchModelBinder();
 
             IWindsorContainer container = InitializeServiceLocator();
+
+            NHibernateSessionManager.Instance.RegisterInterceptor(container.Resolve<IInterceptor>());
         }
 
         private static IWindsorContainer InitializeServiceLocator()

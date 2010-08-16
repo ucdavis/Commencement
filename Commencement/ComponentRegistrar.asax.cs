@@ -1,4 +1,7 @@
-﻿using Castle.Windsor;
+﻿using System.Security.Principal;
+using System.Web;
+using System.Web.Security;
+using Castle.Windsor;
 using UCDArch.Core.CommonValidator;
 using UCDArch.Core.NHibernateValidator.CommonValidatorAdapter;
 using UCDArch.Core.PersistanceSupport;
@@ -23,6 +26,8 @@ namespace Commencement
             container.AddComponent("emailService", typeof (IEmailService), typeof (EmailService));
 #endif
             container.AddComponent("majorService", typeof (IMajorService), typeof (MajorService));
+            container.AddComponent("auditInterceptor", typeof (NHibernate.IInterceptor), typeof (AuditInterceptor));
+            container.AddComponent("principal", typeof (IPrincipal), typeof (WebPrincipal));
 
             AddRepositoriesTo(container);
         }
@@ -34,5 +39,22 @@ namespace Commencement
             container.AddComponent("typedRepository", typeof(IRepositoryWithTypedId<,>),
                                    typeof(RepositoryWithTypedId<,>));
         }
+    }
+
+    public class WebPrincipal : IPrincipal
+    {
+        #region IPrincipal Members
+
+        public IIdentity Identity
+        {
+            get { return HttpContext.Current.User.Identity; }
+        }
+
+        public bool IsInRole(string role)
+        {
+            return Roles.IsUserInRole(role);
+        }
+
+        #endregion
     }
 }
