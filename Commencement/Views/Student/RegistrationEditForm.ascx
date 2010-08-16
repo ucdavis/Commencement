@@ -44,7 +44,7 @@
             <%= Html.TextBoxFor(x => x.Registration.Zip, new { maxlength = 5, size = 5 }) %>
             <%= Html.ValidationMessageFor(x=>x.Registration.Zip) %>
         </li>
-        <li class="prefilled"><strong>Email Address:</strong> <span>student@ucdavis.edu</span>
+        <li class="prefilled"><strong>Email Address:</strong> <span><%= Html.Encode(Model.Student.Email) %></span>
         </li>
         <li><strong>Secondary Email Address:</strong>
             <%= Html.TextBoxFor(x=>x.Registration.Email) %>
