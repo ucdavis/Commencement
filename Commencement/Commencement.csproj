@@ -155,6 +155,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StaticValues.resx</DependentUpon>
     </Compile>
+    <Compile Include="AuditInterceptor.cs" />
     <Compile Include="ComponentRegistrar.asax.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />

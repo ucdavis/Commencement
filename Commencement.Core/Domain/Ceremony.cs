@@ -10,6 +10,19 @@ namespace Commencement.Core.Domain
 {
     public class Ceremony : DomainObject
     {
+        public Ceremony(string location, DateTime dateTime, int ticketsPerStudent, int totalTickets, DateTime printingDeadline, DateTime registrationDeadline, TermCode termCode)
+        {
+            SetDefaults();
+
+            Location = location;
+            DateTime = dateTime;
+            TicketsPerStudent = ticketsPerStudent;
+            TicketsPerStudent = totalTickets;
+            PrintingDeadline = printingDeadline;
+            RegistrationDeadline = registrationDeadline;
+            TermCode = termCode;
+        }
+
         public Ceremony()
         {
             SetDefaults();

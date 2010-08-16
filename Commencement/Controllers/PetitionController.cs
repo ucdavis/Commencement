@@ -9,7 +9,7 @@ using UCDArch.Web.Helpers;
 
 namespace Commencement.Controllers
 {
-    [StudentsOnly]
+    
     public class PetitionController : ApplicationController
     {
         //
@@ -34,6 +34,7 @@ namespace Commencement.Controllers
         /// <param name="id">Registration Id</param>
         /// <returns></returns>
          [PageTrackingFilter]
+         [StudentsOnly]
          public ActionResult ExtraTicketPetition(int id)
          {
             var registration = Repository.OfType<Registration>().GetNullableById(id);
@@ -57,6 +58,7 @@ namespace Commencement.Controllers
          }
 
         [AcceptPost]
+         [StudentsOnly]
         public ActionResult ExtraTicketPetition(int id, int numberTickets)
         {
             var registration = Repository.OfType<Registration>().GetNullableById(id);

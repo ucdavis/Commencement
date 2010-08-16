@@ -80,24 +80,27 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
         [AcceptPost]
-        public ActionResult Create(Ceremony ceremony, string term)
+        //public ActionResult Create(Ceremony ceremony, string term)
+        public ActionResult Create(CeremonyEditModel ceremonyEditModel)
         {
-            if (string.IsNullOrEmpty(term))
+            if (string.IsNullOrEmpty(ceremonyEditModel.Term))
             {
                 ModelState.AddModelError("Term Code", "Term code must be selected.");
             }
 
-            var termCode = _termRepository.GetNullableById(term);
+            var termCode = _termRepository.GetNullableById(ceremonyEditModel.Term);
 
-            if (termCode == null && !string.IsNullOrEmpty(term))
+            if (termCode == null && !string.IsNullOrEmpty(ceremonyEditModel.Term))
             {
                 // term code doesn't exist, create a new one
-                var vTermCode = _vTermRepository.GetNullableById(term);
+                var vTermCode = _vTermRepository.GetNullableById(ceremonyEditModel.Term);
 
                 termCode = new TermCode(vTermCode);
             }
 
-            ceremony.TermCode = termCode;
+            Ceremony ceremony = new Ceremony();
+            CopyCeremony(ceremony, ceremonyEditModel.Ceremony, ceremonyEditModel.CeremonyMajors);
+            //ceremony.TermCode = termCode;
 
             ceremony.TransferValidationMessagesTo(ModelState);
 
@@ -114,6 +117,7 @@ namespace Commencement.Controllers
             // redirect back to the page
             var viewModel = CeremonyViewModel.Create(Repository, _majorService, ceremony);
             viewModel.Ceremony = ceremony;
+            //viewModel.
 
             return View(viewModel);
         }
