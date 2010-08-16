@@ -4,18 +4,18 @@
     $.fn.extend({
 
         enableTinyMce: function(options) {
-            var script_location = "../../Scripts/tiny_mce/tiny_mce.js";
 
             var settings = $.extend({
                 script_location: "../../Scripts/tiny_mce/tiny_mce.js"
             }, options);
+
 
             // iterate through each of the objects passed in to generate the calendar
             return this.each(function(index, item) {
 
                 // add the rich text editor
                 $(item).tinymce({
-                    script_url: script_location,
+                    script_url: settings.script_location,
                     // General options
                     theme: "advanced",
                     plugins: "safari,style,save,searchreplace,print,contextmenu,paste",
