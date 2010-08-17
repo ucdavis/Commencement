@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
-using Commencement.App_GlobalResources;
 using Commencement.Core.Domain;
+using Commencement.Core.Resources;
 using UCDArch.Core;
 using UCDArch.Core.PersistanceSupport;
 

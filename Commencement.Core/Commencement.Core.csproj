@@ -91,12 +91,22 @@
     <Compile Include="Domain\vTermCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\StaticIndexes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
       <DependentUpon>StaticIndexes.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\StaticValues.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StaticValues.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\StaticIndexes_old.Designer.cs">
+      <DependentUpon>StaticIndexes_old.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Resources\StaticValues.Designer.cs">
-      <DependentUpon>StaticValues.resx</DependentUpon>
+    <Compile Include="Resources\StaticValues_old.Designer.cs">
+      <DependentUpon>StaticValues_old.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -142,6 +152,14 @@
     <EmbeddedResource Include="Resources\StaticValues.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>StaticValues.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\StaticIndexes_old.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>StaticIndexes_old.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\StaticValues_old.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>StaticValues_old.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

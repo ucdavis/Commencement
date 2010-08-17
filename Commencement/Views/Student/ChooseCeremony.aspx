@@ -1,7 +1,9 @@
 <%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<System.Collections.Generic.List<Commencement.Controllers.Helpers.CeremonyWithMajor>>"
     MasterPageFile="~/Views/Shared/Site.Master" %>
 
-<%@ Import Namespace="Resources" %>
+<%--<%@ Import Namespace="Resources" %>--%>
+
+<%@ Import Namespace="Commencement.Core.Resources" %>
 
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">
     Choose A Ceremony To Attend</asp:Content>

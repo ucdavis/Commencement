@@ -2,9 +2,9 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
-using Commencement.App_GlobalResources;
 using Commencement.Controllers.Helpers;
 using Commencement.Core.Domain;
+using Commencement.Core.Resources;
 using UCDArch.Core;
 using UCDArch.Core.PersistanceSupport;
 using System.Linq;

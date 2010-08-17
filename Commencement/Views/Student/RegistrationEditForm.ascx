@@ -1,5 +1,6 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.ViewModels.RegistrationModel>" %>
-<%@ Import Namespace="Resources" %>
+<%--<%@ Import Namespace="Resources" %>--%>
+<%@ Import Namespace="Commencement.Core.Resources" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
     <input type="hidden" name="Registration.Ceremony" id="Registration_Ceremony" value="<%= Model.Registration.Ceremony == null ? 0 : Model.Registration.Ceremony.Id %>" />

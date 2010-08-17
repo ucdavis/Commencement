@@ -1,6 +1,7 @@
 <%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.RegistrationModel>"
     MasterPageFile="~/Views/Shared/Site.Master" %>
-<%@ Import Namespace="Resources" %>
+<%--<%@ Import Namespace="Resources" %>--%>
+<%@ Import Namespace="Commencement.Core.Resources" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">
