@@ -81,7 +81,7 @@ namespace Commencement.Core.Domain
         public virtual int AvailableTickets { 
             get
             {
-                return TotalTickets - Registrations.Sum(a => a.NumberTickets);
+                return TotalTickets - Registrations.Sum(a => a.TotalTickets);
             } 
         }
     }

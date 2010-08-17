@@ -28,7 +28,7 @@ namespace Commencement.Controllers
         [AnyoneWithRole]
         public ActionResult Index()
         {
-            var viewModel = AdminPetitionsViewModel.Create(Repository, _studentService);
+            var viewModel = AdminPetitionsViewModel.Create(Repository);
 
             return View(viewModel);
         }
@@ -40,7 +40,7 @@ namespace Commencement.Controllers
             if (registration == null) return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.UnknownError));
 
             registration.ExtraTicketPetition.IsPending = false;
-            registration.ExtraTicketPetition.IsPending = isApproved;
+            registration.ExtraTicketPetition.IsApproved = isApproved;
             registration.ExtraTicketPetition.DateDecision = DateTime.Now;
 
             registration.ExtraTicketPetition.TransferValidationMessagesTo(ModelState);
@@ -62,7 +62,7 @@ namespace Commencement.Controllers
          public ActionResult Register()
         {
             //Get student info and create registration model
-            var viewModel = RegistrationPetitionModel.Create(Repository, _studentRepository);
+            var viewModel = RegistrationPetitionModel.Create(Repository, _studentService, CurrentUser);
 
             return View(viewModel);
         }
