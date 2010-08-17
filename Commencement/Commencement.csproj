@@ -150,11 +150,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_GlobalResources\StaticValues.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StaticValues.resx</DependentUpon>
-    </Compile>
     <Compile Include="AuditInterceptor.cs" />
     <Compile Include="ComponentRegistrar.asax.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -198,11 +193,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteConfigurator.asax.cs" />
-    <Compile Include="App_GlobalResources\StaticIndexes.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StaticIndexes.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\anytimec.css" />
@@ -591,14 +581,6 @@
     <None Include="Forms\registration_petition.pdf" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="App_GlobalResources\StaticIndexes.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>StaticIndexes.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <Content Include="App_GlobalResources\StaticValues.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>StaticValues.Designer.cs</LastGenOutput>
-    </Content>
     <Content Include="Images\ceremony.png" />
     <Content Include="Images\email_template.png" />
     <Content Include="Images\pending_petition.png" />

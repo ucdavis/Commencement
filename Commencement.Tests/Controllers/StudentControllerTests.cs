@@ -277,7 +277,254 @@ namespace Commencement.Tests.Controllers
 
         #endregion ChooseCeremony Tests
 
+        #region DisplayRegistration Tests
 
+        /// <summary>
+        /// Tests the display registration redirects to index when registration is null.
+        /// </summary>
+        [TestMethod]
+        public void TestDisplayRegistrationRedirectsToIndexWhenRegistrationIsNull()
+        {
+            #region Arrange
+            var student = CreateValidEntities.Student(1);
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Student = student;
+            ControllerRecordFakes.FakeRegistration(2, _registrationRepository, registrations);
+            Assert.IsNull(_registrationRepository.GetNullableById(4));
+            #endregion Arrange
+
+            #region Act/Assert
+            Controller.DisplayRegistration(4)
+                .AssertActionRedirect()
+                .ToAction<StudentController>(a => a.Index());
+            #endregion Act/Assert
+        }
+
+
+        /// <summary>
+        /// Tests the display registration redirects to index if the registration student does not match the current student.
+        /// </summary>
+        [TestMethod]
+        public void TestDisplayRegistrationRedirectsToIndexIfTheRegistrationStudentDoesNotMatchTheCurrentStudent()
+        {
+            #region Arrange
+            var student1 = CreateValidEntities.Student(1);
+            var student2 = CreateValidEntities.Student(2);
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Student = student1;
+            ControllerRecordFakes.FakeRegistration(2, _registrationRepository, registrations);
+            Assert.IsNotNull(_registrationRepository.GetNullableById(1));
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student2).Repeat.Any();
+            #endregion Arrange
+
+            #region Act/Assert
+            Controller.DisplayRegistration(1)
+                .AssertActionRedirect()
+                .ToAction<StudentController>(a => a.Index());
+            #endregion Act/Assert		
+        }
+
+        /// <summary>
+        /// Tests the display registration returns view if the registration student does match the current student.
+        /// </summary>
+        [TestMethod]
+        public void TestDisplayRegistrationReturnsViewIfTheRegistrationStudentDoesMatchTheCurrentStudent()
+        {
+            #region Arrange
+            var student1 = CreateValidEntities.Student(1);
+            //var student2 = CreateValidEntities.Student(2);
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Student = student1;
+            ControllerRecordFakes.FakeRegistration(2, _registrationRepository, registrations);
+            Assert.IsNotNull(_registrationRepository.GetNullableById(1));
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student1).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.DisplayRegistration(1)
+                .AssertViewRendered()
+                .WithViewData<Registration>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Address11", result.Address1);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the display registration returns view with edit setting.
+        /// </summary>
+        [TestMethod]
+        public void TestDisplayRegistrationReturnsViewWithEditSetting()
+        {
+            #region Arrange
+            var student1 = CreateValidEntities.Student(1);
+            //var student2 = CreateValidEntities.Student(2);
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Student = student1;
+            registrations[0].Ceremony.RegistrationDeadline = DateTime.Now.AddDays(1);
+            ControllerRecordFakes.FakeRegistration(2, _registrationRepository, registrations);
+            Assert.IsNotNull(_registrationRepository.GetNullableById(1));
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student1).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.DisplayRegistration(1)
+                .AssertViewRendered()
+                .WithViewData<Registration>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Address11", result.Address1);
+            Assert.IsTrue((bool)Controller.ViewData["CanEditRegistration"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the display registration returns view without edit setting.
+        /// </summary>
+        [TestMethod]
+        public void TestDisplayRegistrationReturnsViewWithoutEditSetting()
+        {
+            #region Arrange
+            var student1 = CreateValidEntities.Student(1);
+            //var student2 = CreateValidEntities.Student(2);
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Student = student1;
+            registrations[0].Ceremony.RegistrationDeadline = DateTime.Now.AddDays(-1);
+            ControllerRecordFakes.FakeRegistration(2, _registrationRepository, registrations);
+            Assert.IsNotNull(_registrationRepository.GetNullableById(1));
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student1).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.DisplayRegistration(1)
+                .AssertViewRendered()
+                .WithViewData<Registration>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Address11", result.Address1);
+            Assert.IsFalse((bool)Controller.ViewData["CanEditRegistration"]);
+            #endregion Assert
+        }
+        #endregion DisplayRegistration Tests
+
+        #region RegistrationConfirmation Tests
+
+        /// <summary>
+        /// Tests the registration confirmation redirects to index when registration is null.
+        /// </summary>
+        [TestMethod]
+        public void TestRegistrationConfirmationRedirectsToIndexWhenRegistrationIsNull()
+        {
+            #region Arrange
+            var student = CreateValidEntities.Student(1);
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Student = student;
+            ControllerRecordFakes.FakeRegistration(2, _registrationRepository, registrations);
+            Assert.IsNull(_registrationRepository.GetNullableById(4));
+            #endregion Arrange
+
+            #region Act/Assert
+            Controller.RegistrationConfirmation(4)
+                .AssertActionRedirect()
+                .ToAction<StudentController>(a => a.Index());
+            #endregion Act/Assert
+        }
+
+        /// <summary>
+        /// Tests the registration confirmation redirects to index if the registration student does not match the current student.
+        /// </summary>
+        [TestMethod]
+        public void TestRegistrationConfirmationRedirectsToIndexIfTheRegistrationStudentDoesNotMatchTheCurrentStudent()
+        {
+            #region Arrange
+            var student1 = CreateValidEntities.Student(1);
+            var student2 = CreateValidEntities.Student(2);
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Student = student1;
+            ControllerRecordFakes.FakeRegistration(2, _registrationRepository, registrations);
+            Assert.IsNotNull(_registrationRepository.GetNullableById(1));
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student2).Repeat.Any();
+            #endregion Arrange
+
+            #region Act/Assert
+            Controller.RegistrationConfirmation(1)
+                .AssertActionRedirect()
+                .ToAction<StudentController>(a => a.Index());
+            #endregion Act/Assert
+        }
+
+        /// <summary>
+        /// Tests the registration confirmation returns view if the registration student does match the current student.
+        /// </summary>
+        [TestMethod]
+        public void TestRegistrationConfirmationReturnsViewIfTheRegistrationStudentDoesMatchTheCurrentStudent()
+        {
+            #region Arrange
+            var student1 = CreateValidEntities.Student(1);
+            //var student2 = CreateValidEntities.Student(2);
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Student = student1;
+            ControllerRecordFakes.FakeRegistration(2, _registrationRepository, registrations);
+            Assert.IsNotNull(_registrationRepository.GetNullableById(1));
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student1).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.RegistrationConfirmation(1)
+                .AssertViewRendered()
+                .WithViewData<Registration>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Address11", result.Address1);
+            #endregion Assert
+        }       
+
+        #endregion RegistrationConfirmation Tests
+
+        #region Register Tests
+        #region Register Get Tests
+
+        [TestMethod]
+        public void TestRegisterGetRedirectsToIndexIfCeremonyNotFound()
+        {
+            #region Arrange
+            ControllerRecordFakes.FakeCeremony(1, _ceremonyRepository);
+            Assert.IsNull(_ceremonyRepository.GetNullableById(2));
+            #endregion Arrange
+
+            #region Act
+            Controller.Register(2, string.Empty)
+                .AssertActionRedirect()
+                .ToAction<StudentController>(a => a.Index());                
+            #endregion Act
+
+            #region Assert
+            //Assert.AreEqual("", Controller.Message);
+            #endregion Assert		
+        }
+
+        #endregion Register Get Tests
+        #region Register Put Tests
+
+
+        #endregion Register PutTests
+        #endregion Register Tests
 
         #region Reflection
         #region Controller Class Tests
@@ -413,7 +660,7 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(2, result.Count(), "Still need to test methods.");
+            Assert.AreEqual(4, result.Count(), "Still need to test methods.");
             //Assert.AreEqual(9, result.Count(), "It looks like a method was added or removed from the controller.");
             #endregion Assert
         }
@@ -444,6 +691,7 @@ namespace Commencement.Tests.Controllers
 
         /// <summary>
         /// Tests the controller method choose ceremony contains expected attributes.
+        /// #2
         /// </summary>
         [TestMethod]
         public void TestControllerMethodChooseCeremonyContainsExpectedAttributes()
@@ -451,6 +699,52 @@ namespace Commencement.Tests.Controllers
             #region Arrange
             var controllerClass = _controllerClass;
             var controllerMethod = controllerClass.GetMethod("ChooseCeremony");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
+            var allAttributes = controllerMethod.GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
+            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the controller method display registration contains expected attributes.
+        /// #3
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodDisplayRegistrationContainsExpectedAttributes()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            var controllerMethod = controllerClass.GetMethod("DisplayRegistration");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
+            var allAttributes = controllerMethod.GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
+            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the controller method registration confirmation contains expected attributes.
+        /// #4
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodRegistrationConfirmationContainsExpectedAttributes()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            var controllerMethod = controllerClass.GetMethod("RegistrationConfirmation");
             #endregion Arrange
 
             #region Act

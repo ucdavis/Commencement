@@ -90,6 +90,16 @@
     <Compile Include="Domain\TermCode.cs" />
     <Compile Include="Domain\vTermCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\StaticIndexes.Designer.cs">
+      <DependentUpon>StaticIndexes.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\StaticValues.Designer.cs">
+      <DependentUpon>StaticValues.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Domain\MajorCode.hbm.xml" />
@@ -125,6 +135,14 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Domain\Audit.hbm.xml" />
+    <EmbeddedResource Include="Resources\StaticIndexes.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>StaticIndexes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\StaticValues.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>StaticValues.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Abstractions\" />

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using Commencement.Core.Domain;
-using Resources;
+using Commencement.Core.Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
 

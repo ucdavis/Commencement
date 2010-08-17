@@ -1,6 +1,6 @@
 ﻿using System;
 using Commencement.Core.Domain;
-using Resources;
+using Commencement.Core.Resources;
 using UCDArch.Core.Utils;
 
 namespace Commencement.Controllers.Helpers

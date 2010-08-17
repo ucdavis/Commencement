@@ -66,57 +66,107 @@ namespace Commencement.Tests.Core.Helpers
             studentRepository.Expect(a => a.GetAll()).Return(students).Repeat.Any();
         }
 
-        //Example...
 
-        ///// <summary>
-        ///// Fakes the transaction.
-        ///// </summary>
-        ///// <param name="count">The count.</param>
-        ///// <param name="transactionRepository">The transaction repository.</param>
-        //public static void FakeTransaction(int count, IRepository<Transaction> transactionRepository)
-        //{
-        //    var transactions = new List<Transaction>();
-        //    FakeTransaction(count, transactionRepository, transactions);
-        //}
+        /// <summary>
+        /// Fakes the registration.
+        /// </summary>
+        /// <param name="count">The count.</param>
+        /// <param name="transactionRepository">The transaction repository.</param>
+        public static void FakeRegistration(int count, IRepository<Registration> registrationRepository)
+        {
+            var registrations = new List<Registration>();
+            FakeRegistration(count, registrationRepository, registrations);
+        }
 
-        ///// <summary>
-        ///// Fakes the transaction.
-        ///// </summary>
-        ///// <param name="count">The count.</param>
-        ///// <param name="transactionRepository">The transaction repository.</param>
-        ///// <param name="specificTransactions">The specific transactions.</param>
-        //public static void FakeTransaction(int count, IRepository<Transaction> transactionRepository, List<Transaction> specificTransactions)
-        //{
-        //    var transactions = new List<Transaction>();
-        //    var specificTransactionsCount = 0;
-        //    if (specificTransactions != null)
-        //    {
-        //        specificTransactionsCount = specificTransactions.Count;
-        //        for (int i = 0; i < specificTransactionsCount; i++)
-        //        {
-        //            transactions.Add(specificTransactions[i]);
-        //        }
-        //    }
+        /// <summary>
+        /// Fakes the registration.
+        /// </summary>
+        /// <param name="count">The count.</param>
+        /// <param name="registrationRepository">The registration repository.</param>
+        /// <param name="specificRegistrations">The specific registrations.</param>
+        public static void FakeRegistration(int count, IRepository<Registration> registrationRepository, List<Registration> specificRegistrations)
+        {
+            var registrations = new List<Registration>();
+            var specificTransactionsCount = 0;
+            if (specificRegistrations != null)
+            {
+                specificTransactionsCount = specificRegistrations.Count;
+                for (int i = 0; i < specificTransactionsCount; i++)
+                {
+                    registrations.Add(specificRegistrations[i]);
+                }
+            }
 
-        //    for (int i = 0; i < count; i++)
-        //    {
-        //        transactions.Add(CreateValidEntities.Transaction(i + specificTransactionsCount + 1));
-        //    }
+            for (int i = 0; i < count; i++)
+            {
+                registrations.Add(CreateValidEntities.Registration(i + specificTransactionsCount + 1));
+            }
 
-        //    var totalCount = transactions.Count;
-        //    for (int i = 0; i < totalCount; i++)
-        //    {
-        //        transactions[i].SetIdTo(i + 1);
-        //        int i1 = i;
-        //        transactionRepository
-        //            .Expect(a => a.GetNullableById(i1 + 1))
-        //            .Return(transactions[i])
-        //            .Repeat
-        //            .Any();
-        //    }
-        //    transactionRepository.Expect(a => a.GetNullableById(totalCount + 1)).Return(null).Repeat.Any();
-        //    transactionRepository.Expect(a => a.Queryable).Return(transactions.AsQueryable()).Repeat.Any();
-        //    transactionRepository.Expect(a => a.GetAll()).Return(transactions).Repeat.Any();
-        //}
+            var totalCount = registrations.Count;
+            for (int i = 0; i < totalCount; i++)
+            {
+                registrations[i].SetIdTo(i + 1);
+                int i1 = i;
+                registrationRepository
+                    .Expect(a => a.GetNullableById(i1 + 1))
+                    .Return(registrations[i])
+                    .Repeat
+                    .Any();
+            }
+            registrationRepository.Expect(a => a.GetNullableById(totalCount + 1)).Return(null).Repeat.Any();
+            registrationRepository.Expect(a => a.Queryable).Return(registrations.AsQueryable()).Repeat.Any();
+            registrationRepository.Expect(a => a.GetAll()).Return(registrations).Repeat.Any();
+        }               
+
+        /// <summary>
+        /// Fakes the ceremony.
+        /// </summary>
+        /// <param name="count">The count.</param>
+        /// <param name="ceremonyRepository">The ceremony repository.</param>
+        public static void FakeCeremony(int count, IRepository<Ceremony> ceremonyRepository)
+        {
+            var ceremonies = new List<Ceremony>();
+            FakeCeremony(count, ceremonyRepository, ceremonies);
+        }
+
+        /// <summary>
+        /// Fakes the ceremony.
+        /// </summary>
+        /// <param name="count">The count.</param>
+        /// <param name="ceremonyRepository">The ceremony repository.</param>
+        /// <param name="specificCeremonies">The specific ceremonies.</param>
+        public static void FakeCeremony(int count, IRepository<Ceremony> ceremonyRepository, List<Ceremony> specificCeremonies)
+        {
+            var ceremonies = new List<Ceremony>();
+            var specificTransactionsCount = 0;
+            if (specificCeremonies != null)
+            {
+                specificTransactionsCount = specificCeremonies.Count;
+                for (int i = 0; i < specificTransactionsCount; i++)
+                {
+                    ceremonies.Add(specificCeremonies[i]);
+                }
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                ceremonies.Add(CreateValidEntities.Ceremony(i + specificTransactionsCount + 1));
+            }
+
+            var totalCount = ceremonies.Count;
+            for (int i = 0; i < totalCount; i++)
+            {
+                ceremonies[i].SetIdTo(i + 1);
+                int i1 = i;
+                ceremonyRepository
+                    .Expect(a => a.GetNullableById(i1 + 1))
+                    .Return(ceremonies[i])
+                    .Repeat
+                    .Any();
+            }
+            ceremonyRepository.Expect(a => a.GetNullableById(totalCount + 1)).Return(null).Repeat.Any();
+            ceremonyRepository.Expect(a => a.Queryable).Return(ceremonies.AsQueryable()).Repeat.Any();
+            ceremonyRepository.Expect(a => a.GetAll()).Return(ceremonies).Repeat.Any();
+        }
     }
 }
