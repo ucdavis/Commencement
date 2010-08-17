@@ -1,10 +1,12 @@
 using System;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
+using Commencement.Controllers.Helpers;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using MvcContrib;
 using MvcContrib.Attributes;
+using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Helpers;
 
 
@@ -13,13 +15,20 @@ namespace Commencement.Controllers
     
     public class PetitionController : ApplicationController
     {
+        private readonly IStudentService _studentService;
+
+        public PetitionController(IStudentService studentService)
+        {
+            _studentService = studentService;
+        }
+
         //
         // GET: /Petition/
 
         [AnyoneWithRole]
         public ActionResult Index()
         {
-            var viewModel = AdminPetitionsViewModel.Create(Repository);
+            var viewModel = AdminPetitionsViewModel.Create(Repository, _studentService);
 
             return View(viewModel);
         }
@@ -53,7 +62,7 @@ namespace Commencement.Controllers
          public ActionResult Register()
         {
             //Get student info and create registration model
-            var viewModel = RegistrationPetitionModel.Create(Repository);
+            var viewModel = RegistrationPetitionModel.Create(Repository, _studentRepository);
 
             return View(viewModel);
         }

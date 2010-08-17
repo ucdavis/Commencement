@@ -12,6 +12,7 @@ Begin DataProject = "Commencement.SQL"
       Script = "CreateDB.sql"
       Script = "usp_DownloadStudents.sql"
       Script = "usp_SearchStudent.sql"
+      Script = "usp_SearchStudentByLogin.sql"
    End
    Begin DBRefFolder = "Database References"
       Begin DBRefNode = "vogel.Commencement.dbo"

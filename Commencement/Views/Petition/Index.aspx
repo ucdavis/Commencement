@@ -10,6 +10,9 @@
 
     <%= Html.ActionLink<HomeController>(a=>a.Index(), "Back Home") %>
 
+    <div id="Ceremony_Container">
+    </div>
+
     <%
         Html.Grid(Model.PendingExtraTicket)
             .Name("PendingExtraTicketPetitions")

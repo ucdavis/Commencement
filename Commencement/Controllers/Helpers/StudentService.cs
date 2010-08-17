@@ -15,6 +15,7 @@ namespace Commencement.Controllers.Helpers
         List<CeremonyWithMajor> GetMajorsAndCeremoniesForStudent(Student student);
         Registration GetPriorRegistration(Student student);
         IList<SearchStudent> SearchStudent(string studentId, string termCode);
+        IList<SearchStudent> SearchStudentByLogin(string login, string termCode);
     }
 
     public class StudentService : IStudentService
@@ -72,6 +73,16 @@ namespace Commencement.Controllers.Helpers
             var searchQuery = NHibernateSessionManager.Instance.GetSession().GetNamedQuery("SearchStudents");
 
             searchQuery.SetString("studentid", studentId);
+            searchQuery.SetString("term", termCode);
+
+            return searchQuery.List<SearchStudent>();
+        }
+
+        public IList<SearchStudent> SearchStudentByLogin(string login, string termCode)
+        {
+            var searchQuery = NHibernateSessionManager.Instance.GetSession().GetNamedQuery("SearchStudents");
+
+            searchQuery.SetString("login", login);
             searchQuery.SetString("term", termCode);
 
             return searchQuery.List<SearchStudent>();
@@ -136,6 +147,16 @@ namespace Commencement.Controllers.Helpers
             var searchQuery = NHibernateSessionManager.Instance.GetSession().GetNamedQuery("SearchStudents");
 
             searchQuery.SetString("studentid", studentId);
+            searchQuery.SetString("term", termCode);
+
+            return searchQuery.List<SearchStudent>();
+        }
+
+        public IList<SearchStudent> SearchStudentByLogin(string login, string termCode)
+        {
+            var searchQuery = NHibernateSessionManager.Instance.GetSession().GetNamedQuery("SearchStudents");
+
+            searchQuery.SetString("login", login);
             searchQuery.SetString("term", termCode);
 
             return searchQuery.List<SearchStudent>();

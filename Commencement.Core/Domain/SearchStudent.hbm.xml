@@ -28,5 +28,9 @@
     EXEC usp_SearchStudent :studentid, :term
   </sql-query>
 
+  <sql-query name="SearchStudents">
+    <return class="SearchStudent"></return>
+    EXEC usp_SearchStudentByLogin :login, :term
+  </sql-query>
   
 </hibernate-mapping>
