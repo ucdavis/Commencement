@@ -46,8 +46,53 @@ namespace Commencement.Tests.Controllers
         #endregion Init
 
         #region Mapping Tests
+        /// <summary>
+        /// Tests the index mapping.
+        /// </summary>
+        [TestMethod]
+        public void TestIndexMapping()
+        {
+            "~/Ceremony/Index".ShouldMapTo<CeremonyController>(a => a.Index());
+        }
 
-        
+        /// <summary>
+        /// Tests the Edit mapping.
+        /// </summary>
+        [TestMethod]
+        public void TestEditGetMapping()
+        {
+            "~/Ceremony/Edit/5".ShouldMapTo<CeremonyController>(a => a.Edit(5));
+        }
+
+        /// <summary>
+        /// Tests the Edit mapping.
+        /// </summary>
+        [TestMethod]
+        public void TestEditPutMapping()
+        {
+            "~/Ceremony/Edit/5".ShouldMapTo<CeremonyController>(a => a.Edit(new CeremonyEditModel()), true);
+        }
+
+        /// <summary>
+        /// Tests the Create mapping.
+        /// </summary>
+        [TestMethod]
+        public void TestCreateGetMapping()
+        {
+            "~/Ceremony/Create".ShouldMapTo<CeremonyController>(a => a.Create());
+        }
+
+
+        /// <summary>
+        /// Tests the Create mapping.
+        /// </summary>
+        [TestMethod]
+        public void TestCreatePutMapping()
+        {
+            "~/Ceremony/Create".ShouldMapTo<CeremonyController>(a => a.Create(new CeremonyEditModel()), true);
+        }
+
+
 
         #endregion Mapping Tests
     }
