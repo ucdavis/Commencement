@@ -79,6 +79,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The deadline to register for the ceremony has passed..
+        /// </summary>
+        internal static string Student_CeremonyDeadlinePassed {
+            get {
+                return ResourceManager.GetString("Student_CeremonyDeadlinePassed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  There was a problem sending you an email.  Please print this page for your records..
         /// </summary>
         internal static string Student_Email_Problem {

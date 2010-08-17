@@ -162,4 +162,7 @@
   <data name="Student_Add_Permission_Problem" xml:space="preserve">
     <value>There was a problem sending {0} an email.</value>
   </data>
+  <data name="Student_CeremonyDeadlinePassed" xml:space="preserve">
+    <value>The deadline to register for the ceremony has passed.</value>
+  </data>
 </root>

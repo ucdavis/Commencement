@@ -114,6 +114,11 @@ namespace Commencement.Controllers
                 Message = StaticValues.Student_No_Ceremony_Found;
                 return this.RedirectToAction(x => x.Index());
             }
+            if(ceremony.RegistrationDeadline > DateTime.Now)
+            {
+                Message = StaticValues.Student_CeremonyDeadlinePassed;
+                return this.RedirectToAction(x => x.Index());
+            }
 
             var student = GetCurrentStudent();
             
