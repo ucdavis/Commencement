@@ -22,13 +22,14 @@ namespace Commencement.Tests.Controllers
     public class PetitionControllerTests : ControllerTestBase<PetitionController>
     {
         private readonly Type _controllerClass = typeof(PetitionController);
-    
+        private IStudentService _studentService;
 
         #region Init
 
         protected override void SetupController()
         {
-            Controller = new TestControllerBuilder().CreateController<PetitionController>();
+            _studentService = MockRepository.GenerateStub<IStudentService>();
+            Controller = new TestControllerBuilder().CreateController<PetitionController>(_studentService);
         }
         /// <summary>
         /// Registers the routes.
