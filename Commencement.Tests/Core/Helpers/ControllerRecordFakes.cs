@@ -13,6 +13,59 @@ namespace Commencement.Tests.Core.Helpers
     /// </summary>
     public static class ControllerRecordFakes
     {
+        /// <summary>
+        /// Fakes the student.
+        /// Note: Using more than 20 will not be reliable because the Guids will be random
+        /// </summary>
+        /// <param name="count">The count.</param>
+        /// <param name="studentRepository">The student repository.</param>
+        public static void FakeStudent(int count, IRepositoryWithTypedId<Student, Guid> studentRepository)
+        {
+            var students = new List<Student>();
+            FakeStudent(count, studentRepository, students);
+        }
+
+        /// <summary>
+        /// Fakes the student.
+        /// Note: Using more than 20 will not be reliable because the Guids will be random
+        /// </summary>
+        /// <param name="count">The count.</param>
+        /// <param name="studentRepository">The student repository.</param>
+        /// <param name="specificStudents">The specific students.</param>
+        public static void FakeStudent(int count, IRepositoryWithTypedId<Student, Guid> studentRepository, List<Student> specificStudents)
+        {
+            var students = new List<Student>();
+            var specificStudentsCount = 0;
+            if (specificStudents != null)
+            {
+                specificStudentsCount = specificStudents.Count;
+                for (int i = 0; i < specificStudentsCount; i++)
+                {
+                    students.Add(specificStudents[i]);
+                }
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                students.Add(CreateValidEntities.Student(i + specificStudentsCount + 1));
+            }
+
+            var totalCount = students.Count;
+            for (int i = 0; i < totalCount; i++)
+            {
+                students[i].SetIdTo(SpecificGuid.GetGuid(i+1));
+                int i1 = i;
+                studentRepository
+                    .Expect(a => a.GetNullableById(students[i1+1].Id))
+                    .Return(students[i])
+                    .Repeat
+                    .Any();
+            }
+            studentRepository.Expect(a => a.GetNullableById(SpecificGuid.GetGuid(totalCount + 1))).Return(null).Repeat.Any();
+            studentRepository.Expect(a => a.Queryable).Return(students.AsQueryable()).Repeat.Any();
+            studentRepository.Expect(a => a.GetAll()).Return(students).Repeat.Any();
+        }
+
         //Example...
 
         ///// <summary>
