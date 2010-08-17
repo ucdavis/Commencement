@@ -19,11 +19,11 @@
     <h2>
         Student Information</h2>
     <ul class="registrationPetition_form">
-        <li class="prefilled"><strong>Student ID:</strong> <span>123456789</span> </li>
-        <li class="prefilled"><strong>Name:</strong> <span>john jacob jingleheimer schmidt</span>
+        <li class="prefilled"><strong>Student ID:</strong> <span><%= Html.Encode(Model.SearchStudent.Id)%></span> </li>
+        <li class="prefilled"><strong>Name:</strong><span><%= Html.Encode(Model.SearchStudent.LastName)%></span> <span>john jacob jingleheimer schmidt</span>
         </li>
-        <li class="prefilled"><strong>Units Complted:</strong> <span>224.5</span> </li>
-        <li class="prefilled"><strong>Major:</strong> <span>Life-ology</span> </li>
+        <li class="prefilled"><strong>Units Complted:</strong><span><%= Html.Encode(Model.SearchStudent.HoursEarned)%></span> <span>224.5</span> </li>
+        <li class="prefilled"><strong>Major:</strong> <span><%= Html.Encode(Model.SearchStudent.MajorCode)%></span><span>Life-ology</span> </li>
     </ul>
     <h2>
         Petition Information</h2>
@@ -55,7 +55,7 @@
         </li>
     </ul>
     
-    
+    <br/>
     <input type="submit" value="Petition Registration for Commencement" />
     
     <% } %>
