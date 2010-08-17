@@ -100,16 +100,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StaticValues.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\StaticIndexes_old.Designer.cs">
-      <DependentUpon>StaticIndexes_old.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Resources\StaticValues_old.Designer.cs">
-      <DependentUpon>StaticValues_old.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Domain\MajorCode.hbm.xml" />
@@ -152,14 +142,6 @@
     <EmbeddedResource Include="Resources\StaticValues.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>StaticValues.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\StaticIndexes_old.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>StaticIndexes_old.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\StaticValues_old.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>StaticValues_old.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

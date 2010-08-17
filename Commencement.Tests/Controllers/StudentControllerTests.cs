@@ -500,6 +500,9 @@ namespace Commencement.Tests.Controllers
         #region Register Tests
         #region Register Get Tests
 
+        /// <summary>
+        /// Tests the register get redirects to index if ceremony not found.
+        /// </summary>
         [TestMethod]
         public void TestRegisterGetRedirectsToIndexIfCeremonyNotFound()
         {
@@ -515,9 +518,11 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
-            //Assert.AreEqual("", Controller.Message);
+            Assert.AreEqual("No matching ceremony found.  Please try your registration again.", Controller.Message);
             #endregion Assert		
         }
+
+        //TODO: Other tests
 
         #endregion Register Get Tests
         #region Register Put Tests
