@@ -121,7 +121,7 @@ namespace Commencement.Controllers.Helpers
                 case "ceremonytime":
                     if (ceremony == null) throw new ArgumentException("No valid object was provided.");
 
-                    return ceremony.DateTime.ToString();
+                    return ceremony.DateTime.ToString("f");
                 case "ceremonylocation":
                     if (ceremony == null) throw new ArgumentException("No valid object was provided.");
 
