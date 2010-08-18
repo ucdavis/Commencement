@@ -24,7 +24,11 @@ namespace Commencement.Controllers.Helpers
         private const string SpanStyled = @"<span style=""{0}"">";
 
         private const string Underline = "text-decoration: underline;";
-        private const string XXSmallText = "font-size: xx-small";
+        private const string XXSmallText = "font-size: xx-small;";
+        private const string XSmallText = "font-size: x-small;";
+        private const string SmallText = "font-size: small;";
+        private const string MediumText = "font-size: medium;";
+        private const string LargeText = "font-size: large;";
 
         /// <summary>
         /// This allows limited html encoding, while still encoding the rest of the string
@@ -74,8 +78,6 @@ namespace Commencement.Controllers.Helpers
             // replace &nbsp;
             formattedEncodedText = formattedEncodedText.Replace(@"&amp;nbsp;", @"&nbsp;");
 
-            
-
             // <span style="text-decoration:underline;">
             ReplaceComplexTag(formattedEncodedText, Span,
                               string.Format(SpanEncodedStyled, Underline),
@@ -85,6 +87,26 @@ namespace Commencement.Controllers.Helpers
             ReplaceComplexTag(formattedEncodedText, Span, 
                               string.Format(SpanEncodedStyled, XXSmallText),
                               string.Format(SpanStyled, XXSmallText));
+
+            // <span style="font-size: x-small;">
+            ReplaceComplexTag(formattedEncodedText, Span,
+                              string.Format(SpanEncodedStyled, XSmallText),
+                              string.Format(SpanStyled, XSmallText));
+
+            // <span style="font-size: small;">
+            ReplaceComplexTag(formattedEncodedText, Span,
+                              string.Format(SpanEncodedStyled, SmallText),
+                              string.Format(SpanStyled, SmallText));
+
+            // <span style="font-size: medium;">
+            ReplaceComplexTag(formattedEncodedText, Span,
+                              string.Format(SpanEncodedStyled, MediumText),
+                              string.Format(SpanStyled, MediumText));
+
+            // <span style="font-size: large;">
+            ReplaceComplexTag(formattedEncodedText, Span,
+                              string.Format(SpanEncodedStyled, LargeText),
+                              string.Format(SpanStyled, LargeText));
 
             return formattedEncodedText.ToString();
         }
