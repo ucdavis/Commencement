@@ -40,6 +40,11 @@ namespace Commencement.Controllers
                     title = "Registration is closed";
                     description = "Deadline has now passed.  Registration is now closed.";
                     break;
+                case ErrorType.DuplicatePetition:
+                    title = "Duplicate Petition";
+                    description = "You have already submitted a petition.";
+
+                    break;
                 default:
                     title = "Unknown Error.";
                     description = "An unknown error has occurred.  IT has been notified of the issue.";
@@ -57,6 +62,7 @@ namespace Commencement.Controllers
             UnknownError,
             StudentNotFound,
             NoCeremony,
+            DuplicatePetition,
             RegistrationClosed
         }
     }

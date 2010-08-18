@@ -1,4 +1,5 @@
-﻿using NHibernate.Validator.Constraints;
+﻿using System;
+using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 using UCDArch.Core.NHibernateValidator.Extensions;
 
@@ -6,6 +7,11 @@ namespace Commencement.Core.Domain
 {
     public class Registration : DomainObject
     {
+        public Registration()
+        {
+            DateRegistered = DateTime.Now;
+        }
+
         [NotNull]
         public virtual Student Student { get; set; }
         [NotNull]
@@ -43,6 +49,8 @@ namespace Commencement.Core.Domain
         public virtual Ceremony Ceremony { get; set; }
 
         public virtual ExtraTicketPetition ExtraTicketPetition { get; set; }
+
+        public virtual DateTime DateRegistered { get; set; }
 
         public virtual string TicketDistributionMethod { 
             get {

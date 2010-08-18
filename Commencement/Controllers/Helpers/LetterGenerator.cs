@@ -38,14 +38,23 @@ namespace Commencement.Controllers.Helpers
             return HandleBody(template.BodyText);
         }
 
-        public string GenerateRegistrationPetitionConfirmation(RegistrationPetition registrationPetition, Template template)
+        public string GenerateRegistrationPetitionConfirmation(Registration registration, Template template)
         {
+
             throw new NotImplementedException();
         }
 
-        public string GenerateExtraTicketRequestPetitionConfirmation(ExtraTicketPetition extraTicketPetition, Template template)
+        public string GenerateExtraTicketRequestPetitionConfirmation(Registration registration, Template template)
         {
-            throw new NotImplementedException();
+            Check.Require(registration != null, "Registration is required.");
+            Check.Require(template != null, "Template is required.");
+
+            Registration = registration;
+            _ceremony = registration.Ceremony;
+            Student = registration.Student;
+            ExtraTicketPetition = registration.ExtraTicketPetition;
+
+            return HandleBody(template.BodyText);
         }
 
         #region Main Processing Functions
@@ -130,9 +139,18 @@ namespace Commencement.Controllers.Helpers
 
                     if (Registration != null) return Registration.TotalTickets.ToString();
                     if (RegistrationPetition != null) return RegistrationPetition.NumberTickets.ToString();
-                    if (ExtraTicketPetition != null) return ExtraTicketPetition.NumberTickets.ToString();
 
                     throw new ArgumentException("No valid object was provided.");
+                case "petitiondecision":
+
+                    if (ExtraTicketPetition != null) return ExtraTicketPetition.IsApproved ? "Approved" : "Denied";
+                    //if (RegistrationPetition != null) return RegistrationPetition.IsApproved ? "Approved" : "Denied";
+
+                    throw new ArgumentException("No valid object was provided.");
+                case "numberofextratickets":
+                    if (ExtraTicketPetition != null) return ExtraTicketPetition.NumberTickets.ToString();
+
+                    throw new ArgumentException("Extra Ticket Petition was missing");
                 case "addressline1":
 
                     if (Registration != null) return Registration.Address1;

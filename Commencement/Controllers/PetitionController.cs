@@ -4,6 +4,7 @@ using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
+using Commencement.Core.Resources;
 using MvcContrib;
 using MvcContrib.Attributes;
 using UCDArch.Core.PersistanceSupport;
@@ -16,11 +17,13 @@ namespace Commencement.Controllers
     public class PetitionController : ApplicationController
     {
         private readonly IStudentService _studentService;
-        
+        private readonly IEmailService _emailService;
 
-        public PetitionController(IStudentService studentService)
+
+        public PetitionController(IStudentService studentService, IEmailService emailService)
         {
             _studentService = studentService;
+            _emailService = emailService;
         }
 
         //
@@ -51,6 +54,15 @@ namespace Commencement.Controllers
                 Repository.OfType<ExtraTicketPetition>().EnsurePersistent(registration.ExtraTicketPetition);
 
                 Message = string.Format("Decision for {0} has been saved.", registration.Student.FullName);
+
+                try
+                {
+                    _emailService.SendExtraTicketPetitionConfirmation(Repository, registration);
+                }
+                catch (Exception)
+                {
+                    Message += StaticValues.Student_Email_Problem;
+                }
             }
             else
             {
@@ -89,7 +101,7 @@ namespace Commencement.Controllers
             if (registration.ExtraTicketPetition != null)
             {
                 Message = "You have already submitted an extra ticket petition.";
-                return this.RedirectToAction<StudentController>(a => a.Index()); 
+                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
             }
 
             var viewModel = ExtraTicketPetitionModel.Create(Repository, registration);
@@ -98,7 +110,7 @@ namespace Commencement.Controllers
          }
 
         [AcceptPost]
-         [StudentsOnly]
+        [StudentsOnly]
         public ActionResult ExtraTicketPetition(int id, int numberTickets)
         {
             var registration = Repository.OfType<Registration>().GetNullableById(id);
@@ -113,7 +125,7 @@ namespace Commencement.Controllers
             if (registration.ExtraTicketPetition != null)
             {
                 Message = "You have already submitted an extra ticket petition.";
-                return this.RedirectToAction<StudentController>(a => a.Index());
+                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
             }
 
             var ticketPetition = new ExtraTicketPetition(numberTickets);
@@ -126,16 +138,16 @@ namespace Commencement.Controllers
 
             if (ModelState.IsValid)
             {
-                
                 Repository.OfType<Registration>().EnsurePersistent(registration);
 
                 Message = "Ticket petition has been successfully submitted.";
-                return this.RedirectToAction<StudentController>(a => a.Index());
+
+                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
             }
 
             var viewModel = ExtraTicketPetitionModel.Create(Repository, registration);
             viewModel.ExtraTicketPetition = ticketPetition;
-            return View();
+            return View(viewModel);
         }
     }
 }

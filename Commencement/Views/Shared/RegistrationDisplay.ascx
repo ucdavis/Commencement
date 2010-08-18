@@ -43,3 +43,13 @@
             <%= Html.Encode(Model.Comments) %>
         </li>
 </ul>
+
+<% if (Model.ExtraTicketPetition != null) { %>
+    <h2>Extra Ticket Petition</h2>
+    <ul class="registration_form">
+        <li><strong>Number of Extra Tickets Requested:</strong><%= Html.Encode(Model.ExtraTicketPetition.NumberTickets) %></li>
+        <li><strong>Status:</strong>
+            <%= Html.Encode(Model.ExtraTicketPetition.IsPending ? "Pending Decision" : (Model.ExtraTicketPetition.IsApproved ? "Approved" : "Denied")) %>
+        </li>
+    </ul>
+<% } %>

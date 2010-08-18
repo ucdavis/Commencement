@@ -51,14 +51,18 @@
                         <li><a href="javascript:;" class="add_token">{Zip}</a></li>
                         <li><a href="javascript:;" class="add_token">{DistributionMethod}</a></li>
                     </div>
-                    <div id="registration_tokens" style="display:none;">
+                    <div id="registration_tokens" >
                         <li><a href="javascript:;" class="add_token">{SpecialNeeds}</a></li>
                         <li><a href="javascript:;" class="add_token">{Major}</a></li>
                     </ul>
-                    <div id="registration_petition_tokens" style="display:none;">
+                    <div id="registration_petition_tokens" >
                         <li><a href="javascript:;" class="add_token">{ExceptionReason}</a></li>
                         <li><a href="javascript:;" class="add_token">{CompletionTerm}</a></li>
                     </div>
+                    
+                    <li><a href="javascript:;" class="add_token">{NumberOfExtraTickets}</a></li>
+                    <li><a href="javascript:;" class="add_token">{PetitionDecision}</a></li>
+                    
                 </ul>
             </li>
             

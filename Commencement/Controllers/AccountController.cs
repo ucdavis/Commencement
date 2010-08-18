@@ -34,7 +34,7 @@ namespace Commencement.Controllers
 
         public ActionResult NotCAESStudent()
         {
-            return View();
+            return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.UnauthorizedAccess));
         }
 
         public ActionResult Emulate(string loginId)

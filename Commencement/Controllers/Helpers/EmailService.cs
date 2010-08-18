@@ -15,7 +15,7 @@ namespace Commencement.Controllers.Helpers
         void SendEmail(string[] to, string body);
         void SendRegistrationConfirmation(IRepository repository, Registration registration);
         void SendAddPermission(IRepository repository, Student student, Ceremony ceremony);
-        void SendExtraTicketPetitionConfirmation(IRepository repository, ExtraTicketPetition extraTicketPetition);
+        void SendExtraTicketPetitionConfirmation(IRepository repository, Registration registration);
         void SendRegistrationPetitionConfirmation(IRepository repository, RegistrationPetition registrationPetition);
     }
 
@@ -77,9 +77,25 @@ namespace Commencement.Controllers.Helpers
             client.Send(message);
         }
 
-        public void SendExtraTicketPetitionConfirmation(IRepository repository, ExtraTicketPetition extraTicketPetition)
+        public void SendExtraTicketPetitionConfirmation(IRepository repository, Registration registration)
         {
-            throw new NotImplementedException();
+            var term = TermService.GetCurrent();
+
+            Check.Require(repository != null, "Repository is required.");
+            Check.Require(registration != null, "Registration is required.");
+            Check.Require(term != null, "Unable to get current term.");
+
+            var message = InitializeMessage();
+            message.Subject = term.Name + " Commencement Extra Ticket Petition";
+            message.To.Add(registration.Student.Email);
+            if (registration.Email != null) message.To.Add(registration.Email);
+
+            var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition).OrderByDescending(a => a.Id).FirstOrDefault();
+            Check.Require(template != null, "No template is available.");
+
+            message.Body = letterGenerator.GenerateExtraTicketRequestPetitionConfirmation(registration, template);
+
+            client.Send(message);
         }
 
         public void SendRegistrationPetitionConfirmation(IRepository repository, RegistrationPetition registrationPetition)
@@ -154,9 +170,24 @@ namespace Commencement.Controllers.Helpers
             client.Send(message);
         }
 
-        public void SendExtraTicketPetitionConfirmation(IRepository repository, ExtraTicketPetition extraTicketPetition)
+        public void SendExtraTicketPetitionConfirmation(IRepository repository, Registration registration)
         {
-            throw new NotImplementedException();
+            var term = TermService.GetCurrent();
+
+            Check.Require(repository != null, "Repository is required.");
+            Check.Require(registration != null, "Registration is required.");
+            Check.Require(term != null, "Unable to get current term.");
+
+            var message = InitializeMessage();
+            message.Subject = term.Name + " Commencement Extra Ticket Petition";
+            message.To.Add("anlai@ucdavis.edu");
+
+            var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition).OrderByDescending(a => a.Id).FirstOrDefault();
+            Check.Require(template != null, "No template is available.");
+
+            message.Body = letterGenerator.GenerateExtraTicketRequestPetitionConfirmation(registration, template);
+
+            client.Send(message);
         }
 
         public void SendRegistrationPetitionConfirmation(IRepository repository, RegistrationPetition registrationPetition)
