@@ -109,12 +109,15 @@ namespace Commencement.Controllers
         {
             var ceremony = _ceremonyRepository.GetNullableById(id);
 
+            // ceremony was not found
             if (ceremony == null)
             {
                 Message = StaticValues.Student_No_Ceremony_Found;
                 return this.RedirectToAction(x => x.Index());
             }
-            if(ceremony.RegistrationDeadline > DateTime.Now)
+
+            // registration deadline has passed
+            if(ceremony.RegistrationDeadline < DateTime.Now)
             {
                 Message = StaticValues.Student_CeremonyDeadlinePassed;
                 return this.RedirectToAction(x => x.Index());
