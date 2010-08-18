@@ -79,7 +79,7 @@
         </li>
         <li class="prefilled"><strong>Ceremony Date:</strong> <span><%= Html.Encode(string.Format("{0}", Model.Ceremony.DateTime)) %></span> </li>
         <li>
-            <strong>Special Needs:</strong>
+            <strong>Special Needs:<br />(Extra Ticket requested should be submitted after registration is completed)</strong>
             <%= Html.TextAreaFor(x=>x.Registration.Comments, 10, 40, null) %>
             <%= Html.ValidationMessageFor(x=>x.Registration.Comments) %>
         </li>

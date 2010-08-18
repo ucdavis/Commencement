@@ -18,7 +18,7 @@
             <strong>Student Id:</strong> 
             <span><%= Html.Encode(Model.Registration.Student.StudentId) %></span>
         </li>
-        <li class="prefilled"><strong>Name:</strong> <span><%= Html.Encode(Model.Registration.Student) %></span> </li>
+        <li class="prefilled"><strong>Name:</strong> <span><%= Html.Encode(Model.Registration.Student.FullName) %></span> </li>
         <li class="prefilled"><strong>Major:</strong> <span><%= Html.Encode(Model.Registration.Major.Name) %></span> </li>
         <li class="prefilled"><strong>Ceremony:</strong> <span><%= Html.Encode(Model.Registration.Ceremony.DateTime) %></span> </li>
         <li class="prefilled"><strong>Delivery Method:</strong> <span><%= Html.Encode(Model.Registration.TicketDistributionMethod) %></span></li>
