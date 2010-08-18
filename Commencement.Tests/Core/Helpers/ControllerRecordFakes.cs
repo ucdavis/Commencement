@@ -168,5 +168,58 @@ namespace Commencement.Tests.Core.Helpers
             ceremonyRepository.Expect(a => a.Queryable).Return(ceremonies.AsQueryable()).Repeat.Any();
             ceremonyRepository.Expect(a => a.GetAll()).Return(ceremonies).Repeat.Any();
         }
+
+
+        /// <summary>
+        /// Fakes the state.
+        /// </summary>
+        /// <param name="count">The count.</param>
+        /// <param name="repository">The repository.</param>
+        public static void FakeState(int count, IRepository repository)
+        {
+            var states = new List<State>();
+            FakeState(count, repository, states);
+        }
+
+        /// <summary>
+        /// Fakes the state.
+        /// </summary>
+        /// <param name="count">The count.</param>
+        /// <param name="repository">The repository.</param>
+        /// <param name="specificStates">The specific states.</param>
+        public static void FakeState(int count, IRepository repository, List<State> specificStates)
+        {
+            var states = new List<State>();
+            var specificStatesCount = 0;
+            if (specificStates != null)
+            {
+                specificStatesCount = specificStates.Count;
+                for (int i = 0; i < specificStatesCount; i++)
+                {
+                    states.Add(specificStates[i]);
+                }
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                states.Add(CreateValidEntities.State(i + specificStatesCount + 1));
+            }
+
+            var totalCount = states.Count;
+            for (int i = 0; i < totalCount; i++)
+            {
+                states[i].SetIdTo((i + 1).ToString());
+                //int i1 = i;
+                //repository.OfType<State>()
+                //    .Expect(a => a.GetNullableById(i1 + 1))
+                //    .Return(states[i])
+                //    .Repeat
+                //    .Any();
+            }
+            //State is not an Int Id, if I need to fake this, I'll need to pass a different repository
+            //repository.OfType<State>().Expect(a => a.GetNullableById(totalCount + 1)).Return(null).Repeat.Any();
+            repository.OfType<State>().Expect(a => a.Queryable).Return(states.AsQueryable()).Repeat.Any();
+            repository.OfType<State>().Expect(a => a.GetAll()).Return(states).Repeat.Any();
+        }
     }
 }

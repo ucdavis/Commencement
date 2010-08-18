@@ -73,5 +73,24 @@ namespace Commencement.Tests.Core.Helpers
             rtValue.TermCode = new TermCode();
             return rtValue;
         }
+
+        public static State State(int? count)
+        {
+            var rtValue = new State();
+            rtValue.Name = "Name" + count.Extra();
+
+            return rtValue;
+        }
+
+        public static MajorCode MajorCode(int? count)
+        {
+            var rtValue = new MajorCode();
+            rtValue.Name = "Name" + count.Extra();
+            if (count != null)
+            {
+                rtValue.SetIdTo(count.ToString());
+            }
+            return rtValue;
+        }
     }
 }

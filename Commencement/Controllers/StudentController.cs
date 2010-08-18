@@ -115,9 +115,7 @@ namespace Commencement.Controllers
                 Message = StaticValues.Student_No_Ceremony_Found;
                 return this.RedirectToAction(x => x.Index());
             }
-
-            // registration deadline has passed
-            if(ceremony.RegistrationDeadline < DateTime.Now)
+            if(ceremony.RegistrationDeadline <= DateTime.Now)
             {
                 Message = StaticValues.Student_CeremonyDeadlinePassed;
                 return this.RedirectToAction(x => x.Index());
@@ -131,7 +129,7 @@ namespace Commencement.Controllers
             if (string.IsNullOrEmpty(major))
             {
                 //If major is not supplied, the student must be a single major
-                if ( student.Majors.Count() != 1)
+                if (student.Majors.Count() != 1)
                 {
                     Message = StaticValues.Student_Major_Code_Not_Supplied;
                     return this.RedirectToAction(x => x.Index());
@@ -154,6 +152,12 @@ namespace Commencement.Controllers
         {
             registration.Student = GetCurrentStudent();
             registration.Ceremony = _ceremonyRepository.GetNullableById(id);
+            //The check of a null ceremony will get caught by the domain values check.
+            if (registration.Ceremony != null && registration.Ceremony.RegistrationDeadline <= DateTime.Now)
+            {
+                Message = StaticValues.Student_CeremonyDeadlinePassed;
+                return this.RedirectToAction(a => a.Index());
+            }
             
             registration.TransferValidationMessagesTo(ModelState);
 
