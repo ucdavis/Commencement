@@ -117,8 +117,9 @@ namespace Commencement.Controllers
             }
             if(ceremony.RegistrationDeadline <= DateTime.Now)
             {
-                Message = StaticValues.Student_CeremonyDeadlinePassed;
-                return this.RedirectToAction(x => x.Index());
+                //Message = StaticValues.Student_CeremonyDeadlinePassed;
+                //return this.RedirectToAction(x => x.Index());
+                return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.RegistrationClosed));
             }
 
             var student = GetCurrentStudent();
@@ -155,8 +156,9 @@ namespace Commencement.Controllers
             //The check of a null ceremony will get caught by the domain values check.
             if (registration.Ceremony != null && registration.Ceremony.RegistrationDeadline <= DateTime.Now)
             {
-                Message = StaticValues.Student_CeremonyDeadlinePassed;
-                return this.RedirectToAction(a => a.Index());
+                //Message = StaticValues.Student_CeremonyDeadlinePassed;
+                //return this.RedirectToAction(a => a.Index());
+                return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.RegistrationClosed));
             }
             
             registration.TransferValidationMessagesTo(ModelState);
@@ -197,10 +199,14 @@ namespace Commencement.Controllers
             
             var student = GetCurrentStudent();
             
-            if (registration == null || registration.Ceremony.RegistrationDeadline <= DateTime.Now || registration.Student != student)
+            if (registration == null || registration.Student != student)
             {
                 Message = StaticValues.Student_No_Registration_Found;
                 return this.RedirectToAction(a => a.Index());
+            }
+            if(registration.Ceremony.RegistrationDeadline <= DateTime.Now)
+            {                
+                return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.RegistrationClosed));
             }
             
             //Get student info and create registration model
