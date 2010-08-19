@@ -187,6 +187,15 @@ namespace Commencement.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If you selected to get your tickets through mail, your extra tickets will be mailed to you.  Otherwise you will have to come to the Dean&apos;s Office at 150 Mrak Hall to pickup your tickets..
+        /// </summary>
+        public static string Txt_ExtraTicketRequestDisclaimer {
+            get {
+                return ResourceManager.GetString("Txt_ExtraTicketRequestDisclaimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Welcome {0}.  After you have submitted your registration you may log back in and update any of your information up until the registration deadline..
         /// </summary>
         public static string Txt_Introduction {

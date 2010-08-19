@@ -165,4 +165,7 @@
   <data name="Txt_MultipleCeremonies" xml:space="preserve">
     <value>You are eligible for multiple ceremonies, please choose the major you would like to walk with during the ceremony.</value>
   </data>
+  <data name="Txt_ExtraTicketRequestDisclaimer" xml:space="preserve">
+    <value>If you selected to get your tickets through mail, your extra tickets will be mailed to you.  Otherwise you will have to come to the Dean's Office at 150 Mrak Hall to pickup your tickets.</value>
+  </data>
 </root>

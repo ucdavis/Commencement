@@ -1,5 +1,6 @@
 <%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.ExtraTicketPetitionModel>"
     MasterPageFile="~/Views/Shared/Site.Master" %>
+<%@ Import Namespace="Commencement.Core.Resources" %>
 
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">
     Extra Ticket Petition</asp:Content>
@@ -7,6 +8,10 @@
 </asp:Content>
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
     <h1>Extra Ticket Petition</h1>
+    
+    <% if (Model.DisclaimerStartDate < DateTime.Now) { %>
+        <h2><%= StaticValues.Txt_ExtraTicketRequestDisclaimer %></h2>
+    <% } %>
     
     <%= Html.ValidationSummary("Please correct all errors below") %>
     <%= Html.ClientSideValidation<Commencement.Core.Domain.ExtraTicketPetition>("ExtraTicketPetition") %>
