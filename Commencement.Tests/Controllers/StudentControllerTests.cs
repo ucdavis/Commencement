@@ -156,6 +156,10 @@ namespace Commencement.Tests.Controllers
             #region Act/Assert
             Controller.Index().AssertActionRedirect().ToAction<StudentController>(a => a.ChooseCeremony());
             #endregion Act/Assert
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            #endregion Assert
         }
 
 
@@ -203,8 +207,8 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
-
-            #endregion Assert		
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            #endregion Assert	
         }
 
         #endregion GetCurrentStudent Tests
@@ -247,11 +251,15 @@ namespace Commencement.Tests.Controllers
             _studentService.Expect(a => a.GetMajorsAndCeremoniesForStudent(student)).Return(ceremonyWithMajors).Repeat.Any();            
             #endregion Arrange
 
-            #region Act/Assert
+            #region Act
             Controller.ChooseCeremony()
                 .AssertActionRedirect()
                 .ToAction<StudentController>(a => a.Register(1, string.Empty));
-            #endregion Act/Assert
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            #endregion Assert
         }
 
 
@@ -357,6 +365,7 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
             Assert.IsNotNull(result);
             Assert.AreEqual("Address11", result.Address1);
             #endregion Assert
@@ -387,6 +396,7 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
             Assert.IsNotNull(result);
             Assert.AreEqual("Address11", result.Address1);
             Assert.IsTrue((bool)Controller.ViewData["CanEditRegistration"]);
@@ -418,6 +428,7 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
             Assert.IsNotNull(result);
             Assert.AreEqual("Address11", result.Address1);
             Assert.IsFalse((bool)Controller.ViewData["CanEditRegistration"]);
@@ -497,6 +508,7 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
             Assert.IsNotNull(result);
             Assert.AreEqual("Address11", result.Address1);
             #endregion Assert
@@ -533,7 +545,7 @@ namespace Commencement.Tests.Controllers
         /// <summary>
         /// Tests the register get redirects to index if ceremony deadline passed.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore] //This has been changed to redirect to the ErrorPage.
         public void TestRegisterGetRedirectsToIndexIfCeremonyDeadlinePassed()
         {
             #region Arrange
@@ -553,6 +565,28 @@ namespace Commencement.Tests.Controllers
             #region Assert
             Assert.AreEqual("The deadline to register for the ceremony has passed.", Controller.Message);
             #endregion Assert		
+        }
+
+        [TestMethod]
+        public void TestRegisterGetRedirectsToErrorIfCeremonyDeadlinePassed()
+        {
+            #region Arrange
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].RegistrationDeadline = DateTime.Now.AddDays(-1);
+            ControllerRecordFakes.FakeCeremony(0, _ceremonyRepository, ceremonies);
+            Assert.IsNotNull(_ceremonyRepository.GetNullableById(1));
+            #endregion Arrange
+
+            #region Act
+            Controller.Register(1, string.Empty)
+                .AssertActionRedirect()
+                .ToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.RegistrationClosed));
+            #endregion Act
+
+            #region Assert
+            //Assert.AreEqual("The deadline to register for the ceremony has passed.", Controller.Message);
+            #endregion Assert
         }
 
         /// <summary>
@@ -641,6 +675,7 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
             Assert.IsNull(Controller.Message);
             Assert.IsNotNull(result);
             Assert.AreEqual("Name9", result.Registration.Major.Name);
@@ -678,6 +713,7 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
             Assert.IsNull(Controller.Message);
             Assert.IsNotNull(result);
             Assert.AreEqual("Name3", result.Registration.Major.Name);
@@ -806,7 +842,7 @@ namespace Commencement.Tests.Controllers
         /// <summary>
         /// Tests the register post redirects to index if ceremony deadline passed.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore] //This has been changed to redirect to the error page
         public void TestRegisterPostRedirectsToIndexIfCeremonyDeadlinePassed()
         {
             #region Arrange
@@ -827,6 +863,33 @@ namespace Commencement.Tests.Controllers
 
             #region Assert
             Assert.AreEqual("The deadline to register for the ceremony has passed.", Controller.Message);
+            _registrationRepository.AssertWasNotCalled(a => a.EnsurePersistent(Arg<Registration>.Is.Anything));
+            #endregion Assert
+        }
+        /// <summary>
+        /// Tests the register post redirects to error if ceremony deadline passed.
+        /// </summary>
+        [TestMethod]
+        public void TestRegisterPostRedirectsToErrorIfCeremonyDeadlinePassed()
+        {
+            #region Arrange
+            var student = CreateValidEntities.Student(1);
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].RegistrationDeadline = DateTime.Now.AddDays(-1);
+            ControllerRecordFakes.FakeCeremony(0, _ceremonyRepository, ceremonies);
+            var registration = CreateValidEntities.Registration(1);
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            Controller.Register(1, registration, true)
+                .AssertActionRedirect()
+                .ToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.RegistrationClosed));
+            #endregion Act
+
+            #region Assert
+            //Assert.AreEqual("The deadline to register for the ceremony has passed.", Controller.Message);
             _registrationRepository.AssertWasNotCalled(a => a.EnsurePersistent(Arg<Registration>.Is.Anything));
             #endregion Assert
         }
@@ -895,6 +958,7 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
             _registrationRepository.AssertWasCalled(a => a.EnsurePersistent(registration));
             _emailService.AssertWasCalled(a => a.SendRegistrationConfirmation(Controller.Repository, registration));
             Assert.AreEqual("You have successfully registered for commencement.", Controller.Message);
@@ -928,6 +992,7 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
             _registrationRepository.AssertWasCalled(a => a.EnsurePersistent(registration));
             _emailService.AssertWasCalled(a => a.SendRegistrationConfirmation(Controller.Repository, registration));
             Assert.AreEqual("You have successfully registered for commencement. There was a problem sending you an email.  Please print this page for your records.", Controller.Message);
@@ -939,7 +1004,30 @@ namespace Commencement.Tests.Controllers
 
         #region EditRegistration Tests
         #region EditRegistration Get Tests
-        //TODO:
+
+        /// <summary>
+        /// Tests the edit registration get redirects to index if registration is null.
+        /// </summary>
+        [TestMethod]
+        public void TestEditRegistrationGetRedirectsToIndexIfRegistrationIsNull()
+        {
+            #region Arrange
+            var student = CreateValidEntities.Student(1);
+            ControllerRecordFakes.FakeRegistration(1, _registrationRepository);
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            Controller.EditRegistration(2)
+                .AssertActionRedirect()
+                .ToAction<StudentController>(a => a.Index());
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            Assert.AreEqual("No matching registration found.  Please try your registration again.", Controller.Message);
+            #endregion Assert		
+        }
         #endregion EditRegistration Get Tests
         #region EditRegistration Post Tests               
         //TODO:
