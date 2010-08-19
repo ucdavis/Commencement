@@ -58,7 +58,7 @@ namespace Commencement.Core.Domain
         public virtual DateTime PrintingDeadline { get; set; }
         [NotNull]
         public virtual DateTime RegistrationDeadline { get; set; }
-
+        [NotNull]
         public virtual DateTime ExtraTicketDeadline { get; set; }
 
         [NotNull]
