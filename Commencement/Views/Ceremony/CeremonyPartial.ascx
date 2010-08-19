@@ -23,6 +23,7 @@
 
             $("#Ceremony_PrintingDeadline").datepicker();
             $("#Ceremony_RegistrationDeadline").datepicker();
+            $("#Ceremony_ExtraTicketDeadline").datepicker();
 
             $("#CeremonyMajors").multiselect();
         });
@@ -89,7 +90,12 @@
             <%= Html.ValidationMessageFor(x=>x.Ceremony.RegistrationDeadline) %>
             * Registration will be blocked after this date.
         </li>
-        
+        <li>
+            <strong>Extra Ticket Request Deadline:</strong>
+            <%= Html.TextBoxFor(x=>x.Ceremony.ExtraTicketDeadline.ToString("d")) %>
+            <%= Html.ValidationMessageFor(x=>x.Ceremony.ExtraTicketDeadline) %>
+            * Last date to accept extra ticket requests
+        </li>
         <li>
             <strong>Majors:</strong>
             <span>

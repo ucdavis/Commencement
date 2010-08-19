@@ -34,6 +34,8 @@ namespace Commencement.Core.Domain
             Majors = new List<MajorCode>();
             DateTime = DateTime.Now;
             RegistrationDeadline = DateTime.Now;
+            ExtraTicketDeadline = DateTime.Now;
+            PrintingDeadline = DateTime.Now;
         }
 
         [Required]
@@ -56,6 +58,8 @@ namespace Commencement.Core.Domain
         public virtual DateTime PrintingDeadline { get; set; }
         [NotNull]
         public virtual DateTime RegistrationDeadline { get; set; }
+
+        public virtual DateTime ExtraTicketDeadline { get; set; }
 
         [NotNull]
         public virtual TermCode TermCode { get; set; }

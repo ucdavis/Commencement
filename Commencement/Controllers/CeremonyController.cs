@@ -100,7 +100,7 @@ namespace Commencement.Controllers
 
             Ceremony ceremony = new Ceremony();
             CopyCeremony(ceremony, ceremonyEditModel.Ceremony, ceremonyEditModel.CeremonyMajors);
-            //ceremony.TermCode = termCode;
+            ceremony.TermCode = termCode;
 
             ceremony.TransferValidationMessagesTo(ModelState);
 
@@ -117,7 +117,6 @@ namespace Commencement.Controllers
             // redirect back to the page
             var viewModel = CeremonyViewModel.Create(Repository, _majorService, ceremony);
             viewModel.Ceremony = ceremony;
-            //viewModel.
 
             return View(viewModel);
         }

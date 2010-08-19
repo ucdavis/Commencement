@@ -14,7 +14,8 @@
     <property name="TotalTickets" column="TotalTickets" />
     <property name="PrintingDeadline" column="PrintingDeadline" />
     <property name="RegistrationDeadline" column="RegistrationDeadline" />
-
+    <property name="ExtraTicketDeadline" column="ExtraTicketDeadline" />
+    
     <many-to-one name="TermCode" class="TermCode" column="TermCode" ></many-to-one>
     
     <bag name="Registrations" cascade="all-delete-orphan">
