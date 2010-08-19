@@ -61,11 +61,15 @@ namespace Commencement.Core.Domain
         [NotNull]
         public virtual DateTime ExtraTicketDeadline { get; set; }
 
+        public virtual int ExtraTicketPerStudent { get; set; }
+
         [NotNull]
         public virtual TermCode TermCode { get; set; }
 
         public virtual IList<Registration> Registrations { get; set; }
         public virtual IList<MajorCode> Majors { get; set; }
+              
+
 
         public virtual string Name { 
             get

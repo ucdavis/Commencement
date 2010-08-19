@@ -38,7 +38,7 @@
         <ul class="registration_form">
             <li><strong>Extra Tickets:</strong>
                 <select id="numberTickets" name="numberTickets">
-                    <% for (int i = 1; i <= Model.Registration.Ceremony.TicketsPerStudent; i++)
+                    <% for (int i = 1; i <= Model.Registration.Ceremony.ExtraTicketPerStudent; i++)
                        { %>
                        
                        <% var selected = i == Model.ExtraTicketPetition.NumberTickets; %>

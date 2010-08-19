@@ -134,6 +134,9 @@ namespace Commencement.Controllers
             destCeremony.TicketsPerStudent = srcCeremony.TicketsPerStudent;
             destCeremony.TotalTickets = srcCeremony.TotalTickets;
             destCeremony.RegistrationDeadline = srcCeremony.RegistrationDeadline;
+            destCeremony.ExtraTicketDeadline = srcCeremony.ExtraTicketDeadline;
+            destCeremony.ExtraTicketPerStudent = srcCeremony.ExtraTicketPerStudent;
+            destCeremony.PrintingDeadline = srcCeremony.PrintingDeadline;
 
             MergeCeremonyMajors(destCeremony.Majors, srcMajors);
         }

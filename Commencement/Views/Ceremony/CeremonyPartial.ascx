@@ -73,6 +73,11 @@
             <%= Html.ValidationMessageFor(x=>x.Ceremony.TicketsPerStudent) %>
         </li>
         <li>
+            <strong>Extra Ticket Request Max Per Student</strong>
+            <%= Html.TextBoxFor(x=>x.Ceremony.ExtraTicketPerStudent) %>
+            <%= Html.ValidationMessageFor(x=>x.Ceremony.ExtraTicketPerStudent) %>
+        </li>
+        <li>
             <strong>Total Tickets:</strong>
             <%= Html.TextBoxFor(x=>x.Ceremony.TotalTickets) %>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.TotalTickets) %>

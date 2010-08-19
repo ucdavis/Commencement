@@ -15,6 +15,7 @@
     <property name="PrintingDeadline" column="PrintingDeadline" />
     <property name="RegistrationDeadline" column="RegistrationDeadline" />
     <property name="ExtraTicketDeadline" column="ExtraTicketDeadline" />
+    <property name="ExtraTicketPerStudent" column="ExtraTicketPerStudent" />
     
     <many-to-one name="TermCode" class="TermCode" column="TermCode" ></many-to-one>
     
