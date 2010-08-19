@@ -1,6 +1,6 @@
 ﻿USE [Commencement]
 GO
-/****** Object:  Table [dbo].[AuditActionTypes]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Table [dbo].[AuditActionTypes]    Script Date: 08/19/2010 08:42:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -18,7 +18,7 @@ CREATE TABLE [dbo].[AuditActionTypes](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[RegistrationPetitions]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Table [dbo].[RegistrationPetitions]    Script Date: 08/19/2010 08:42:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -42,7 +42,7 @@ CREATE TABLE [dbo].[RegistrationPetitions](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Students]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Table [dbo].[Students]    Script Date: 08/19/2010 08:42:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -70,7 +70,7 @@ CREATE TABLE [dbo].[Students](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[StudentMajors]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Table [dbo].[StudentMajors]    Script Date: 08/19/2010 08:42:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -89,7 +89,7 @@ CREATE TABLE [dbo].[StudentMajors](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[States]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Table [dbo].[States]    Script Date: 08/19/2010 08:42:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -107,7 +107,7 @@ CREATE TABLE [dbo].[States](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Schools]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Table [dbo].[Schools]    Script Date: 08/19/2010 08:42:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -125,7 +125,7 @@ CREATE TABLE [dbo].[Schools](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[PageTracking]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Table [dbo].[PageTracking]    Script Date: 08/19/2010 08:42:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -146,7 +146,7 @@ CREATE TABLE [dbo].[PageTracking](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[ExtraTicketPetitions]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Table [dbo].[ExtraTicketPetitions]    Script Date: 08/19/2010 08:42:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -156,13 +156,15 @@ CREATE TABLE [dbo].[ExtraTicketPetitions](
 	[NumberTickets] [int] NOT NULL,
 	[IsPending] [bit] NOT NULL,
 	[IsApproved] [bit] NOT NULL,
+	[DateSubmitted] [datetime] NOT NULL,
+	[DateDecision] [datetime] NULL,
  CONSTRAINT [PK_ExtraTicketPetitions] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TermCodes]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Table [dbo].[TermCodes]    Script Date: 08/19/2010 08:42:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -181,7 +183,7 @@ CREATE TABLE [dbo].[TermCodes](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[TemplateTypes]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Table [dbo].[TemplateTypes]    Script Date: 08/19/2010 08:42:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -200,7 +202,7 @@ CREATE TABLE [dbo].[TemplateTypes](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  View [dbo].[vTermCodes]    Script Date: 08/13/2010 12:56:36 ******/
+/****** Object:  View [dbo].[vTermCodes]    Script Date: 08/19/2010 08:42:14 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -332,7 +334,7 @@ End
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPaneCount', @value=1 , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'vTermCodes'
 GO
-/****** Object:  View [dbo].[vMajors]    Script Date: 08/13/2010 12:56:36 ******/
+/****** Object:  View [dbo].[vMajors]    Script Date: 08/19/2010 08:42:14 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -465,7 +467,7 @@ End
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPaneCount', @value=1 , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'vMajors'
 GO
-/****** Object:  Table [dbo].[Templates]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Table [dbo].[Templates]    Script Date: 08/19/2010 08:42:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -487,7 +489,7 @@ CREATE TABLE [dbo].[Templates](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Ceremonies]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Table [dbo].[Ceremonies]    Script Date: 08/19/2010 08:42:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -500,9 +502,10 @@ CREATE TABLE [dbo].[Ceremonies](
 	[DateTime] [datetime] NOT NULL,
 	[TicketsPerStudent] [int] NOT NULL,
 	[TotalTickets] [int] NOT NULL,
-	[PrintingDeadline] [datetime] NOT NULL,
-	[RegistrationDeadline] [datetime] NOT NULL,
+	[PrintingDeadline] [date] NOT NULL,
+	[RegistrationDeadline] [date] NOT NULL,
 	[TermCode] [varchar](6) NOT NULL,
+	[ExtraTicketDeadline] [date] NULL,
  CONSTRAINT [PK_Commencements] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
@@ -511,7 +514,7 @@ CREATE TABLE [dbo].[Ceremonies](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Audits]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Table [dbo].[Audits]    Script Date: 08/19/2010 08:42:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -533,7 +536,7 @@ CREATE TABLE [dbo].[Audits](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Registrations]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Table [dbo].[Registrations]    Script Date: 08/19/2010 08:42:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -556,6 +559,7 @@ CREATE TABLE [dbo].[Registrations](
 	[CeremonyId] [int] NOT NULL,
 	[Comments] [varchar](1000) NULL,
 	[ExtraTicketPetitionId] [int] NULL,
+	[DateRegistered] [datetime] NULL,
  CONSTRAINT [PK_Registrations] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
@@ -564,7 +568,7 @@ CREATE TABLE [dbo].[Registrations](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Petitions]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Table [dbo].[Petitions]    Script Date: 08/19/2010 08:42:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -595,7 +599,7 @@ CREATE TABLE [dbo].[Petitions](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[CeremonyMajors]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Table [dbo].[CeremonyMajors]    Script Date: 08/19/2010 08:42:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -614,7 +618,7 @@ CREATE TABLE [dbo].[CeremonyMajors](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[CeremonyEditors]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Table [dbo].[CeremonyEditors]    Script Date: 08/19/2010 08:42:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -634,103 +638,109 @@ CREATE TABLE [dbo].[CeremonyEditors](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Default [DF_CommencementEditors_Owner]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Default [DF_CommencementEditors_Owner]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[CeremonyEditors] ADD  CONSTRAINT [DF_CommencementEditors_Owner]  DEFAULT ((0)) FOR [Owner]
 GO
-/****** Object:  Default [DF_ExtraTicketPetitions_IsPending]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Default [DF_ExtraTicketPetitions_IsPending]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[ExtraTicketPetitions] ADD  CONSTRAINT [DF_ExtraTicketPetitions_IsPending]  DEFAULT ((1)) FOR [IsPending]
 GO
-/****** Object:  Default [DF_ExtraTicketPetitions_IsApproved]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Default [DF_ExtraTicketPetitions_IsApproved]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[ExtraTicketPetitions] ADD  CONSTRAINT [DF_ExtraTicketPetitions_IsApproved]  DEFAULT ((0)) FOR [IsApproved]
 GO
-/****** Object:  Default [DF_PageTracking_DateTime]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Default [DF_ExtraTicketPetitions_DateSubmitted]    Script Date: 08/19/2010 08:42:13 ******/
+ALTER TABLE [dbo].[ExtraTicketPetitions] ADD  CONSTRAINT [DF_ExtraTicketPetitions_DateSubmitted]  DEFAULT (getdate()) FOR [DateSubmitted]
+GO
+/****** Object:  Default [DF_PageTracking_DateTime]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[PageTracking] ADD  CONSTRAINT [DF_PageTracking_DateTime]  DEFAULT (getdate()) FOR [DateTime]
 GO
-/****** Object:  Default [DF_Registrations_MailTickets]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Default [DF_Registrations_MailTickets]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[Registrations] ADD  CONSTRAINT [DF_Registrations_MailTickets]  DEFAULT ((0)) FOR [MailTickets]
 GO
-/****** Object:  Default [DF_Students_Id]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Default [DF_Registrations_DateRegistered]    Script Date: 08/19/2010 08:42:13 ******/
+ALTER TABLE [dbo].[Registrations] ADD  CONSTRAINT [DF_Registrations_DateRegistered]  DEFAULT (getdate()) FOR [DateRegistered]
+GO
+/****** Object:  Default [DF_Students_Id]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[Students] ADD  CONSTRAINT [DF_Students_Id]  DEFAULT (newid()) FOR [Id]
 GO
-/****** Object:  Default [DF_Students_DatedAdded]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Default [DF_Students_DatedAdded]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[Students] ADD  CONSTRAINT [DF_Students_DatedAdded]  DEFAULT (getdate()) FOR [DateAdded]
 GO
-/****** Object:  Default [DF_Students_DateUpdated]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Default [DF_Students_DateUpdated]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[Students] ADD  CONSTRAINT [DF_Students_DateUpdated]  DEFAULT (getdate()) FOR [DateUpdated]
 GO
-/****** Object:  Default [DF_Templates_RegistrationConfirmation]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Default [DF_Templates_RegistrationConfirmation]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[Templates] ADD  CONSTRAINT [DF_Templates_RegistrationConfirmation]  DEFAULT ((0)) FOR [RegistrationConfirmation]
 GO
-/****** Object:  Default [DF_Templates_RegistrationPetition]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Default [DF_Templates_RegistrationPetition]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[Templates] ADD  CONSTRAINT [DF_Templates_RegistrationPetition]  DEFAULT ((0)) FOR [RegistrationPetition]
 GO
-/****** Object:  Default [DF_Templates_ExtraTicketPetition]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Default [DF_Templates_ExtraTicketPetition]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[Templates] ADD  CONSTRAINT [DF_Templates_ExtraTicketPetition]  DEFAULT ((0)) FOR [ExtraTicketPetition]
 GO
-/****** Object:  Default [DF_TermCodes_IsActive]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  Default [DF_TermCodes_IsActive]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[TermCodes] ADD  CONSTRAINT [DF_TermCodes_IsActive]  DEFAULT ((0)) FOR [IsActive]
 GO
-/****** Object:  ForeignKey [FK_Audits_ActionCodes1]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  ForeignKey [FK_Audits_ActionCodes1]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[Audits]  WITH CHECK ADD  CONSTRAINT [FK_Audits_ActionCodes1] FOREIGN KEY([AuditActionTypeId])
 REFERENCES [dbo].[AuditActionTypes] ([ID])
 GO
 ALTER TABLE [dbo].[Audits] CHECK CONSTRAINT [FK_Audits_ActionCodes1]
 GO
-/****** Object:  ForeignKey [FK_Commencements_TermCodes]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  ForeignKey [FK_Commencements_TermCodes]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[Ceremonies]  WITH CHECK ADD  CONSTRAINT [FK_Commencements_TermCodes] FOREIGN KEY([TermCode])
 REFERENCES [dbo].[TermCodes] ([id])
 GO
 ALTER TABLE [dbo].[Ceremonies] CHECK CONSTRAINT [FK_Commencements_TermCodes]
 GO
-/****** Object:  ForeignKey [FK_CommencementEditors_Commencements]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  ForeignKey [FK_CommencementEditors_Commencements]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[CeremonyEditors]  WITH CHECK ADD  CONSTRAINT [FK_CommencementEditors_Commencements] FOREIGN KEY([CeremonyId])
 REFERENCES [dbo].[Ceremonies] ([id])
 GO
 ALTER TABLE [dbo].[CeremonyEditors] CHECK CONSTRAINT [FK_CommencementEditors_Commencements]
 GO
-/****** Object:  ForeignKey [FK_CommencementMajors_Commencements]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  ForeignKey [FK_CommencementMajors_Commencements]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[CeremonyMajors]  WITH CHECK ADD  CONSTRAINT [FK_CommencementMajors_Commencements] FOREIGN KEY([CeremonyId])
 REFERENCES [dbo].[Ceremonies] ([id])
 GO
 ALTER TABLE [dbo].[CeremonyMajors] CHECK CONSTRAINT [FK_CommencementMajors_Commencements]
 GO
-/****** Object:  ForeignKey [FK_Petitions_Ceremonies]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  ForeignKey [FK_Petitions_Ceremonies]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[Petitions]  WITH CHECK ADD  CONSTRAINT [FK_Petitions_Ceremonies] FOREIGN KEY([CeremonyId])
 REFERENCES [dbo].[Ceremonies] ([id])
 GO
 ALTER TABLE [dbo].[Petitions] CHECK CONSTRAINT [FK_Petitions_Ceremonies]
 GO
-/****** Object:  ForeignKey [FK_Registrations_Commencements]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  ForeignKey [FK_Registrations_Commencements]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[Registrations]  WITH CHECK ADD  CONSTRAINT [FK_Registrations_Commencements] FOREIGN KEY([CeremonyId])
 REFERENCES [dbo].[Ceremonies] ([id])
 GO
 ALTER TABLE [dbo].[Registrations] CHECK CONSTRAINT [FK_Registrations_Commencements]
 GO
-/****** Object:  ForeignKey [FK_Registrations_ExtraTicketPetitions]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  ForeignKey [FK_Registrations_ExtraTicketPetitions]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[Registrations]  WITH CHECK ADD  CONSTRAINT [FK_Registrations_ExtraTicketPetitions] FOREIGN KEY([ExtraTicketPetitionId])
 REFERENCES [dbo].[ExtraTicketPetitions] ([id])
 GO
 ALTER TABLE [dbo].[Registrations] CHECK CONSTRAINT [FK_Registrations_ExtraTicketPetitions]
 GO
-/****** Object:  ForeignKey [FK_Registrations_Registrations]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  ForeignKey [FK_Registrations_Registrations]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[Registrations]  WITH CHECK ADD  CONSTRAINT [FK_Registrations_Registrations] FOREIGN KEY([id])
 REFERENCES [dbo].[Registrations] ([id])
 GO
 ALTER TABLE [dbo].[Registrations] CHECK CONSTRAINT [FK_Registrations_Registrations]
 GO
-/****** Object:  ForeignKey [FK_Registrations_States]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  ForeignKey [FK_Registrations_States]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[Registrations]  WITH CHECK ADD  CONSTRAINT [FK_Registrations_States] FOREIGN KEY([State])
 REFERENCES [dbo].[States] ([Id])
 GO
 ALTER TABLE [dbo].[Registrations] CHECK CONSTRAINT [FK_Registrations_States]
 GO
-/****** Object:  ForeignKey [FK_Registrations_Students]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  ForeignKey [FK_Registrations_Students]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[Registrations]  WITH CHECK ADD  CONSTRAINT [FK_Registrations_Students] FOREIGN KEY([Student_Id])
 REFERENCES [dbo].[Students] ([Id])
 GO
 ALTER TABLE [dbo].[Registrations] CHECK CONSTRAINT [FK_Registrations_Students]
 GO
-/****** Object:  ForeignKey [FK_Templates_TemplateTypes]    Script Date: 08/13/2010 12:56:33 ******/
+/****** Object:  ForeignKey [FK_Templates_TemplateTypes]    Script Date: 08/19/2010 08:42:13 ******/
 ALTER TABLE [dbo].[Templates]  WITH CHECK ADD  CONSTRAINT [FK_Templates_TemplateTypes] FOREIGN KEY([TemplateTypeId])
 REFERENCES [dbo].[TemplateTypes] ([id])
 GO
