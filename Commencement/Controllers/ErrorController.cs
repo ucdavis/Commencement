@@ -34,7 +34,7 @@ namespace Commencement.Controllers
                     break;
                 case ErrorType.NoCeremony:
                     title = "No available ceremony found.";
-                    description = "There are no available ceremonies found for your major.  Please contact .....";
+                    description = "There are no available ceremonies found for your major.  Please contact the commencement coordinator at commencement@caes.ucdavis.edu.";
                     break;
                 case ErrorType.RegistrationClosed:
                     title = "Registration is closed";
