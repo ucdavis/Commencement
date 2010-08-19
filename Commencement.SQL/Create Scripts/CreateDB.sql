@@ -505,7 +505,7 @@ CREATE TABLE [dbo].[Ceremonies](
 	[PrintingDeadline] [date] NOT NULL,
 	[RegistrationDeadline] [date] NOT NULL,
 	[TermCode] [varchar](6) NOT NULL,
-	[ExtraTicketDeadline] [date] NULL,
+	[ExtraTicketDeadline] [date] NOT NULL,
  CONSTRAINT [PK_Commencements] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
