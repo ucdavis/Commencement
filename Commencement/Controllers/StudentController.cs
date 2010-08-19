@@ -192,6 +192,7 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
+        [PageTrackingFilter]
         public ActionResult EditRegistration(int id)
         {
             var registration = _registrationRepository.GetNullableById(id);
@@ -220,7 +221,19 @@ namespace Commencement.Controllers
         public ActionResult EditRegistration(int id, Registration registration, bool agreeToDisclaimer)
         {
             var registrationToEdit = _registrationRepository.GetNullableById(id);
-            registrationToEdit.Student = GetCurrentStudent();
+            var student = GetCurrentStudent();
+
+            if (registrationToEdit == null || registrationToEdit.Student != student)
+            {
+                Message = StaticValues.Student_No_Registration_Found;
+                return this.RedirectToAction(a => a.Index());
+            }
+            if (registrationToEdit.Ceremony.RegistrationDeadline <= DateTime.Now)
+            {
+                return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.RegistrationClosed));
+            }
+
+            registrationToEdit.Student = student;
 
             CopyHelper.CopyRegistrationValues(registration, registrationToEdit);
 
