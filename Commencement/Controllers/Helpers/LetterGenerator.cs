@@ -57,6 +57,19 @@ namespace Commencement.Controllers.Helpers
             return HandleBody(template.BodyText);
         }
 
+        public string GenerateExtraTicketRequestPetitionDecision(Registration registration, Template template)
+        {
+            Check.Require(registration != null, "Registration is required.");
+            Check.Require(template != null, "Template is required.");
+
+            Registration = registration;
+            _ceremony = registration.Ceremony;
+            Student = registration.Student;
+            ExtraTicketPetition = registration.ExtraTicketPetition;
+
+            return HandleBody(template.BodyText);
+        }
+
         #region Main Processing Functions
         /// <summary>
         /// Takes the template text from the database and converts it to the finalized text

@@ -57,7 +57,7 @@ namespace Commencement.Controllers
 
                 try
                 {
-                    _emailService.SendExtraTicketPetitionConfirmation(Repository, registration);
+                    _emailService.SendExtraTicketPetitionDecision(Repository, registration);
                 }
                 catch (Exception)
                 {
@@ -72,7 +72,7 @@ namespace Commencement.Controllers
             return this.RedirectToAction(a => a.Index());
         }
 
-         public ActionResult Register()
+        public ActionResult Register()
         {
             //Get student info and create registration model
             var viewModel = RegistrationPetitionModel.Create(Repository, _studentService, CurrentUser);
@@ -85,9 +85,9 @@ namespace Commencement.Controllers
         /// </summary>
         /// <param name="id">Registration Id</param>
         /// <returns></returns>
-         [PageTrackingFilter]
-         [StudentsOnly]
-         public ActionResult ExtraTicketPetition(int id)
+        [PageTrackingFilter]
+        [StudentsOnly]
+        public ActionResult ExtraTicketPetition(int id)
          {
             var registration = Repository.OfType<Registration>().GetNullableById(id);
             if (registration == null                                        // requires registration
@@ -155,6 +155,15 @@ namespace Commencement.Controllers
                 Repository.OfType<Registration>().EnsurePersistent(registration);
 
                 Message = "Ticket petition has been successfully submitted.";
+
+                try
+                {
+                    _emailService.SendExtraTicketPetitionConfirmation(Repository, registration);
+                }
+                catch (Exception)
+                {
+                    Message += StaticValues.Student_Email_Problem;
+                }
 
                 return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
             }

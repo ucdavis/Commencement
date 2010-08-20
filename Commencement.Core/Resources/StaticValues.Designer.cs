@@ -178,6 +178,15 @@ namespace Commencement.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ticket Petition - Decision.
+        /// </summary>
+        public static string Template_TicketPetition_Decision {
+            get {
+                return ResourceManager.GetString("Template_TicketPetition_Decision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to I agree to adhere to the University&apos;s student code of conduct.  I understand College of Agricultural &amp; Environmental Sciences has a &lt;a href=&quot;{0}&quot;&gt;zero tolerance policy&lt;/a&gt; for alcohol and illegal substances..
         /// </summary>
         public static string Txt_Disclaimer {
