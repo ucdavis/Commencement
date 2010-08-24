@@ -71,6 +71,7 @@ namespace Commencement.Tests.Core.Helpers
             rtValue.PrintingDeadline = rtValue.DateTime.AddDays(-50);
             rtValue.RegistrationDeadline = rtValue.DateTime.AddDays(-20);
             rtValue.TermCode = new TermCode();
+            rtValue.TotalTickets = 1;
             return rtValue;
         }
 
@@ -109,6 +110,17 @@ namespace Commencement.Tests.Core.Helpers
             rtValue.Username = "Username" + counter;
             rtValue.SetIdTo(SpecificGuid.GetGuid(counter));
 
+            return rtValue;
+        }
+
+        public static TermCode TermCode(int? count)
+        {
+            var rtValue = new TermCode();
+            rtValue.Name = "Name" + count.Extra();
+            if (count != null)
+            {
+                rtValue.SetIdTo(count.ToString());
+            }
             return rtValue;
         }
     }

@@ -438,18 +438,20 @@ namespace Commencement.Tests.Core
         #region Utilities
 
 
-        ///// <summary>
-        ///// Loads the users.
-        ///// </summary>
-        ///// <param name="entriesToAdd">The entries to add.</param>
-        //protected void LoadUsers(int entriesToAdd)
-        //{
-        //    for (int i = 0; i < entriesToAdd; i++)
-        //    {
-        //        var validEntity = CreateValidEntities.User(i + 1);
-        //        Repository.OfType<User>().EnsurePersistent(validEntity);
-        //    }
-        //}
+        /// <summary>
+        /// Loads the TermCode.
+        /// </summary>
+        /// <param name="entriesToAdd">The entries to add.</param>
+        protected void LoadTermCode(int entriesToAdd)
+        {
+            var termCodeRepository = new RepositoryWithTypedId<TermCode, string>();
+            for (int i = 0; i < entriesToAdd; i++)
+            {
+                var validEntity = CreateValidEntities.TermCode(i + 1);
+                validEntity.SetIdTo((i + 1).ToString());
+                termCodeRepository.EnsurePersistent(validEntity, true);
+            }     
+        }
 
 
         /// <summary>
