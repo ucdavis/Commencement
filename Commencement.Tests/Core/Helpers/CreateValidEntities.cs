@@ -36,10 +36,10 @@ namespace Commencement.Tests.Core.Helpers
         public static Registration Registration(int? count)
         {
             var rtValue = new Registration();
-            if(count != null)
-            {
-                rtValue.SetIdTo((int) count);
-            }
+            //if(count != null)
+            //{
+            //    rtValue.SetIdTo((int) count);
+            //}
             rtValue.Student = new Student();
             rtValue.Major = new MajorCode();
             rtValue.Address1 = "Address1" + count.Extra();
@@ -61,10 +61,10 @@ namespace Commencement.Tests.Core.Helpers
         public static Ceremony Ceremony(int? count)
         {
             var rtValue = new Ceremony();
-            if (count != null)
-            {
-                rtValue.SetIdTo((int)count);
-            }
+            //if (count != null)
+            //{
+            //    rtValue.SetIdTo((int)count);
+            //}
             rtValue.Location = "Location" + count.Extra();
             rtValue.DateTime = rtValue.DateTime.AddDays(100);
             rtValue.TicketsPerStudent = 6;
@@ -87,17 +87,17 @@ namespace Commencement.Tests.Core.Helpers
         {
             var rtValue = new MajorCode();
             rtValue.Name = "Name" + count.Extra();
-            if (count != null)
-            {
-                rtValue.SetIdTo(count.ToString());
-            }
+            //if (count != null)
+            //{
+            //    rtValue.SetIdTo(count.ToString());
+            //}
             return rtValue;
         }
 
         public static ExtraTicketPetition ExtraTicketPetition(int count)
         {
             var rtValue = new ExtraTicketPetition(count);
-            rtValue.SetIdTo(count);
+            //rtValue.SetIdTo(count);
 
             return rtValue;
         }
@@ -108,7 +108,7 @@ namespace Commencement.Tests.Core.Helpers
             rtValue.ObjectName = "ObjectName" + counter;
             rtValue.AuditActionTypeId = "C"; //AuditActionType.Create;
             rtValue.Username = "Username" + counter;
-            rtValue.SetIdTo(SpecificGuid.GetGuid(counter));
+            //rtValue.SetIdTo(SpecificGuid.GetGuid(counter));
 
             return rtValue;
         }
@@ -117,10 +117,10 @@ namespace Commencement.Tests.Core.Helpers
         {
             var rtValue = new TermCode();
             rtValue.Name = "Name" + count.Extra();
-            if (count != null)
-            {
-                rtValue.SetIdTo(count.ToString());
-            }
+            //if (count != null)
+            //{
+            //    rtValue.SetIdTo(count.ToString());
+            //}
             return rtValue;
         }
     }

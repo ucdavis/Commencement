@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Commencement.Core.Domain;
-using Commencement.Tests.Core;
 using Commencement.Tests.Core.Extensions;
 using Commencement.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -126,7 +125,7 @@ namespace Commencement.Tests.Core.Repositories
 
                 #region Act
                 AuditRepository.DbContext.BeginTransaction();
-                AuditRepository.EnsurePersistent(audit, true);
+                AuditRepository.EnsurePersistent(audit);
                 AuditRepository.DbContext.CommitTransaction();
                 #endregion Act
             }
@@ -135,7 +134,7 @@ namespace Commencement.Tests.Core.Repositories
                 Assert.IsNotNull(audit);
                 var results = audit.ValidationResults().AsMessageList();
                 results.AssertErrorsAre("ObjectName: may not be null or empty");
-               // Assert.IsTrue(audit.IsTransient());
+                Assert.IsTrue(audit.IsTransient());
                 Assert.IsFalse(audit.IsValid());
                 throw;
             }
@@ -158,7 +157,7 @@ namespace Commencement.Tests.Core.Repositories
 
                 #region Act
                 AuditRepository.DbContext.BeginTransaction();
-                AuditRepository.EnsurePersistent(audit, true);
+                AuditRepository.EnsurePersistent(audit);
                 AuditRepository.DbContext.CommitTransaction();
                 #endregion Act
             }
@@ -167,7 +166,7 @@ namespace Commencement.Tests.Core.Repositories
                 Assert.IsNotNull(audit);
                 var results = audit.ValidationResults().AsMessageList();
                 results.AssertErrorsAre("ObjectName: may not be null or empty");
-                //Assert.IsTrue(audit.IsTransient());
+                Assert.IsTrue(audit.IsTransient());
                 Assert.IsFalse(audit.IsValid());
                 throw;
             }
@@ -190,7 +189,7 @@ namespace Commencement.Tests.Core.Repositories
 
                 #region Act
                 AuditRepository.DbContext.BeginTransaction();
-                AuditRepository.EnsurePersistent(audit, true);
+                AuditRepository.EnsurePersistent(audit);
                 AuditRepository.DbContext.CommitTransaction();
                 #endregion Act
             }
@@ -199,7 +198,7 @@ namespace Commencement.Tests.Core.Repositories
                 Assert.IsNotNull(audit);
                 var results = audit.ValidationResults().AsMessageList();
                 results.AssertErrorsAre("ObjectName: may not be null or empty");
-                //Assert.IsTrue(audit.IsTransient());
+                Assert.IsTrue(audit.IsTransient());
                 Assert.IsFalse(audit.IsValid());
                 throw;
             }
@@ -222,7 +221,7 @@ namespace Commencement.Tests.Core.Repositories
 
                 #region Act
                 AuditRepository.DbContext.BeginTransaction();
-                AuditRepository.EnsurePersistent(audit, true);
+                AuditRepository.EnsurePersistent(audit);
                 AuditRepository.DbContext.CommitTransaction();
                 #endregion Act
             }
@@ -232,7 +231,7 @@ namespace Commencement.Tests.Core.Repositories
                 Assert.AreEqual(50 + 1, audit.ObjectName.Length);
                 var results = audit.ValidationResults().AsMessageList();
                 results.AssertErrorsAre("ObjectName: length must be between 0 and 50");
-                //Assert.IsTrue(audit.IsTransient());
+                Assert.IsTrue(audit.IsTransient());
                 Assert.IsFalse(audit.IsValid());
                 throw;
             }
@@ -254,7 +253,7 @@ namespace Commencement.Tests.Core.Repositories
 
             #region Act
             AuditRepository.DbContext.BeginTransaction();
-            AuditRepository.EnsurePersistent(audit, true);
+            AuditRepository.EnsurePersistent(audit);
             AuditRepository.DbContext.CommitTransaction();
             #endregion Act
 
@@ -277,7 +276,7 @@ namespace Commencement.Tests.Core.Repositories
 
             #region Act
             AuditRepository.DbContext.BeginTransaction();
-            AuditRepository.EnsurePersistent(audit, true);
+            AuditRepository.EnsurePersistent(audit);
             AuditRepository.DbContext.CommitTransaction();
             #endregion Act
 
@@ -311,7 +310,7 @@ namespace Commencement.Tests.Core.Repositories
 
                 #region Act
                 AuditRepository.DbContext.BeginTransaction();
-                AuditRepository.EnsurePersistent(audit, true);
+                AuditRepository.EnsurePersistent(audit);
                 AuditRepository.DbContext.CommitTransaction();
                 #endregion Act
             }
@@ -321,7 +320,7 @@ namespace Commencement.Tests.Core.Repositories
                 Assert.AreEqual(50 + 1, audit.ObjectId.Length);
                 var results = audit.ValidationResults().AsMessageList();
                 results.AssertErrorsAre("ObjectId: length must be between 0 and 50");
-                //Assert.IsTrue(audit.IsTransient());
+                Assert.IsTrue(audit.IsTransient());
                 Assert.IsFalse(audit.IsValid());
                 throw;
             }
@@ -343,7 +342,7 @@ namespace Commencement.Tests.Core.Repositories
 
             #region Act
             AuditRepository.DbContext.BeginTransaction();
-            AuditRepository.EnsurePersistent(audit, true);
+            AuditRepository.EnsurePersistent(audit);
             AuditRepository.DbContext.CommitTransaction();
             #endregion Act
 
@@ -366,7 +365,7 @@ namespace Commencement.Tests.Core.Repositories
 
             #region Act
             AuditRepository.DbContext.BeginTransaction();
-            AuditRepository.EnsurePersistent(audit, true);
+            AuditRepository.EnsurePersistent(audit);
             AuditRepository.DbContext.CommitTransaction();
             #endregion Act
 
@@ -389,7 +388,7 @@ namespace Commencement.Tests.Core.Repositories
 
             #region Act
             AuditRepository.DbContext.BeginTransaction();
-            AuditRepository.EnsurePersistent(audit, true);
+            AuditRepository.EnsurePersistent(audit);
             AuditRepository.DbContext.CommitTransaction();
             #endregion Act
 
@@ -412,7 +411,7 @@ namespace Commencement.Tests.Core.Repositories
 
             #region Act
             AuditRepository.DbContext.BeginTransaction();
-            AuditRepository.EnsurePersistent(audit, true);
+            AuditRepository.EnsurePersistent(audit);
             AuditRepository.DbContext.CommitTransaction();
             #endregion Act
 
@@ -435,7 +434,7 @@ namespace Commencement.Tests.Core.Repositories
 
             #region Act
             AuditRepository.DbContext.BeginTransaction();
-            AuditRepository.EnsurePersistent(audit, true);
+            AuditRepository.EnsurePersistent(audit);
             AuditRepository.DbContext.CommitTransaction();
             #endregion Act
 
@@ -469,7 +468,7 @@ namespace Commencement.Tests.Core.Repositories
 
                 #region Act
                 AuditRepository.DbContext.BeginTransaction();
-                AuditRepository.EnsurePersistent(audit, true);
+                AuditRepository.EnsurePersistent(audit);
                 AuditRepository.DbContext.CommitTransaction();
                 #endregion Act
             }
@@ -478,7 +477,7 @@ namespace Commencement.Tests.Core.Repositories
                 Assert.IsNotNull(audit);
                 var results = audit.ValidationResults().AsMessageList();
                 results.AssertErrorsAre("AuditActionTypeId: may not be null or empty");
-                //Assert.IsTrue(audit.IsTransient());
+                Assert.IsTrue(audit.IsTransient());
                 Assert.IsFalse(audit.IsValid());
                 throw;
             }
@@ -501,7 +500,7 @@ namespace Commencement.Tests.Core.Repositories
 
                 #region Act
                 AuditRepository.DbContext.BeginTransaction();
-                AuditRepository.EnsurePersistent(audit, true);
+                AuditRepository.EnsurePersistent(audit);
                 AuditRepository.DbContext.CommitTransaction();
                 #endregion Act
             }
@@ -510,7 +509,7 @@ namespace Commencement.Tests.Core.Repositories
                 Assert.IsNotNull(audit);
                 var results = audit.ValidationResults().AsMessageList();
                 results.AssertErrorsAre("AuditActionTypeId: may not be null or empty");
-                //Assert.IsTrue(audit.IsTransient());
+                Assert.IsTrue(audit.IsTransient());
                 Assert.IsFalse(audit.IsValid());
                 throw;
             }
@@ -533,7 +532,7 @@ namespace Commencement.Tests.Core.Repositories
 
                 #region Act
                 AuditRepository.DbContext.BeginTransaction();
-                AuditRepository.EnsurePersistent(audit, true);
+                AuditRepository.EnsurePersistent(audit);
                 AuditRepository.DbContext.CommitTransaction();
                 #endregion Act
             }
@@ -542,7 +541,7 @@ namespace Commencement.Tests.Core.Repositories
                 Assert.IsNotNull(audit);
                 var results = audit.ValidationResults().AsMessageList();
                 results.AssertErrorsAre("AuditActionTypeId: may not be null or empty");
-                //Assert.IsTrue(audit.IsTransient());
+                Assert.IsTrue(audit.IsTransient());
                 Assert.IsFalse(audit.IsValid());
                 throw;
             }
@@ -565,7 +564,7 @@ namespace Commencement.Tests.Core.Repositories
 
                 #region Act
                 AuditRepository.DbContext.BeginTransaction();
-                AuditRepository.EnsurePersistent(audit, true);
+                AuditRepository.EnsurePersistent(audit);
                 AuditRepository.DbContext.CommitTransaction();
                 #endregion Act
             }
@@ -575,7 +574,7 @@ namespace Commencement.Tests.Core.Repositories
                 Assert.AreEqual(1 + 1, audit.AuditActionTypeId.Length);
                 var results = audit.ValidationResults().AsMessageList();
                 results.AssertErrorsAre("AuditActionTypeId: length must be between 0 and 1");
-                //Assert.IsTrue(audit.IsTransient());
+                Assert.IsTrue(audit.IsTransient());
                 Assert.IsFalse(audit.IsValid());
                 throw;
             }
@@ -597,7 +596,7 @@ namespace Commencement.Tests.Core.Repositories
 
             #region Act
             AuditRepository.DbContext.BeginTransaction();
-            AuditRepository.EnsurePersistent(audit, true);
+            AuditRepository.EnsurePersistent(audit);
             AuditRepository.DbContext.CommitTransaction();
             #endregion Act
 
@@ -620,7 +619,7 @@ namespace Commencement.Tests.Core.Repositories
 
             #region Act
             AuditRepository.DbContext.BeginTransaction();
-            AuditRepository.EnsurePersistent(audit, true);
+            AuditRepository.EnsurePersistent(audit);
             AuditRepository.DbContext.CommitTransaction();
             #endregion Act
 
@@ -654,7 +653,7 @@ namespace Commencement.Tests.Core.Repositories
 
                 #region Act
                 AuditRepository.DbContext.BeginTransaction();
-                AuditRepository.EnsurePersistent(audit, true);
+                AuditRepository.EnsurePersistent(audit);
                 AuditRepository.DbContext.CommitTransaction();
                 #endregion Act
             }
@@ -663,7 +662,7 @@ namespace Commencement.Tests.Core.Repositories
                 Assert.IsNotNull(audit);
                 var results = audit.ValidationResults().AsMessageList();
                 results.AssertErrorsAre("Username: may not be null or empty");
-                //Assert.IsTrue(audit.IsTransient());
+                Assert.IsTrue(audit.IsTransient());
                 Assert.IsFalse(audit.IsValid());
                 throw;
             }
@@ -686,7 +685,7 @@ namespace Commencement.Tests.Core.Repositories
 
                 #region Act
                 AuditRepository.DbContext.BeginTransaction();
-                AuditRepository.EnsurePersistent(audit, true);
+                AuditRepository.EnsurePersistent(audit);
                 AuditRepository.DbContext.CommitTransaction();
                 #endregion Act
             }
@@ -695,7 +694,7 @@ namespace Commencement.Tests.Core.Repositories
                 Assert.IsNotNull(audit);
                 var results = audit.ValidationResults().AsMessageList();
                 results.AssertErrorsAre("Username: may not be null or empty");
-                //Assert.IsTrue(audit.IsTransient());
+                Assert.IsTrue(audit.IsTransient());
                 Assert.IsFalse(audit.IsValid());
                 throw;
             }
@@ -718,7 +717,7 @@ namespace Commencement.Tests.Core.Repositories
 
                 #region Act
                 AuditRepository.DbContext.BeginTransaction();
-                AuditRepository.EnsurePersistent(audit, true);
+                AuditRepository.EnsurePersistent(audit);
                 AuditRepository.DbContext.CommitTransaction();
                 #endregion Act
             }
@@ -727,7 +726,7 @@ namespace Commencement.Tests.Core.Repositories
                 Assert.IsNotNull(audit);
                 var results = audit.ValidationResults().AsMessageList();
                 results.AssertErrorsAre("Username: may not be null or empty");
-                //Assert.IsTrue(audit.IsTransient());
+                Assert.IsTrue(audit.IsTransient());
                 Assert.IsFalse(audit.IsValid());
                 throw;
             }
@@ -750,7 +749,7 @@ namespace Commencement.Tests.Core.Repositories
 
                 #region Act
                 AuditRepository.DbContext.BeginTransaction();
-                AuditRepository.EnsurePersistent(audit, true);
+                AuditRepository.EnsurePersistent(audit);
                 AuditRepository.DbContext.CommitTransaction();
                 #endregion Act
             }
@@ -760,7 +759,7 @@ namespace Commencement.Tests.Core.Repositories
                 Assert.AreEqual(256 + 1, audit.Username.Length);
                 var results = audit.ValidationResults().AsMessageList();
                 results.AssertErrorsAre("Username: length must be between 0 and 256");
-                //Assert.IsTrue(audit.IsTransient());
+                Assert.IsTrue(audit.IsTransient());
                 Assert.IsFalse(audit.IsValid());
                 throw;
             }
@@ -782,7 +781,7 @@ namespace Commencement.Tests.Core.Repositories
 
             #region Act
             AuditRepository.DbContext.BeginTransaction();
-            AuditRepository.EnsurePersistent(audit, true);
+            AuditRepository.EnsurePersistent(audit);
             AuditRepository.DbContext.CommitTransaction();
             #endregion Act
 
@@ -805,7 +804,7 @@ namespace Commencement.Tests.Core.Repositories
 
             #region Act
             AuditRepository.DbContext.BeginTransaction();
-            AuditRepository.EnsurePersistent(audit, true);
+            AuditRepository.EnsurePersistent(audit);
             AuditRepository.DbContext.CommitTransaction();
             #endregion Act
 
@@ -835,7 +834,7 @@ namespace Commencement.Tests.Core.Repositories
 
             #region Act
             AuditRepository.DbContext.BeginTransaction();
-            AuditRepository.EnsurePersistent(record, true);
+            AuditRepository.EnsurePersistent(record);
             AuditRepository.DbContext.CommitChanges();
             #endregion Act
 
@@ -860,7 +859,7 @@ namespace Commencement.Tests.Core.Repositories
 
             #region Act
             AuditRepository.DbContext.BeginTransaction();
-            AuditRepository.EnsurePersistent(record, true);
+            AuditRepository.EnsurePersistent(record);
             AuditRepository.DbContext.CommitChanges();
             #endregion Act
 
@@ -885,7 +884,7 @@ namespace Commencement.Tests.Core.Repositories
 
             #region Act
             AuditRepository.DbContext.BeginTransaction();
-            AuditRepository.EnsurePersistent(record, true);
+            AuditRepository.EnsurePersistent(record);
             AuditRepository.DbContext.CommitChanges();
             #endregion Act
 

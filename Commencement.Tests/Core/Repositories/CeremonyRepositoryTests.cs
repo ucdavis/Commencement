@@ -8,6 +8,7 @@ using Commencement.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Data.NHibernate;
+using UCDArch.Testing;
 using UCDArch.Testing.Extensions;
 
 namespace Commencement.Tests.Core.Repositories
@@ -45,7 +46,13 @@ namespace Commencement.Tests.Core.Repositories
         protected override Ceremony GetValid(int? counter)
         {
             var rtValue = CreateValidEntities.Ceremony(counter);
-            rtValue.TermCode = TermCodeRepository.GetById("1");
+            var localCounter = "1";
+            if (counter != null)
+            {
+                localCounter = counter.ToString();
+            }
+
+            rtValue.TermCode = TermCodeRepository.GetById(localCounter);
             return rtValue;
         }
 
@@ -99,7 +106,8 @@ namespace Commencement.Tests.Core.Repositories
             for (int i = 0; i < entriesToAdd; i++)
             {
                 var validEntity = GetValid(i + 1);
-                CeremonyRepository.EnsurePersistent(validEntity, true);
+                //validEntity.SetIdTo(0);
+                CeremonyRepository.EnsurePersistent(validEntity);
             }
         }
 
@@ -109,7 +117,7 @@ namespace Commencement.Tests.Core.Repositories
         protected override void LoadData()
         {
             TermCodeRepository.DbContext.BeginTransaction();
-            LoadTermCode(3);
+            LoadTermCode(5);
             TermCodeRepository.DbContext.CommitTransaction();            
             CeremonyRepository.DbContext.BeginTransaction();            
             LoadRecords(5);

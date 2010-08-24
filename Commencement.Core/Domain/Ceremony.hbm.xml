@@ -4,7 +4,7 @@
   <class
     name="Ceremony"
     table="Ceremonies">
-    <id name="Id" column="ID">
+    <id name="Id" column="ID" unsaved-value="0">
       <generator class="identity" />
     </id>
 

@@ -677,6 +677,10 @@ namespace Commencement.Tests.Controllers
             student.Majors.Add(CreateValidEntities.MajorCode(1));
             student.Majors.Add(CreateValidEntities.MajorCode(3));
             student.Majors.Add(CreateValidEntities.MajorCode(9));
+            student.Majors[0].SetIdTo("1");
+            student.Majors[1].SetIdTo("3");
+            student.Majors[2].SetIdTo("9");
+
             var ceremonies = new List<Ceremony>();
             ceremonies.Add(CreateValidEntities.Ceremony(1));
             ceremonies[0].RegistrationDeadline = DateTime.Now.AddDays(1);
@@ -757,6 +761,10 @@ namespace Commencement.Tests.Controllers
                 student.Majors.Add(CreateValidEntities.MajorCode(3));
                 student.Majors.Add(CreateValidEntities.MajorCode(3));
                 student.Majors.Add(CreateValidEntities.MajorCode(9));
+                student.Majors[0].SetIdTo("1");
+                student.Majors[1].SetIdTo("3");
+                student.Majors[2].SetIdTo("3");
+                student.Majors[3].SetIdTo("9");
                 var ceremonies = new List<Ceremony>();
                 ceremonies.Add(CreateValidEntities.Ceremony(1));
                 ceremonies[0].RegistrationDeadline = DateTime.Now.AddDays(1);
