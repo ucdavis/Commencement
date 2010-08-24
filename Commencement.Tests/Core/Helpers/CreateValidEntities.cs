@@ -100,5 +100,16 @@ namespace Commencement.Tests.Core.Helpers
 
             return rtValue;
         }
+
+        public static Audit Audit(int counter)
+        {
+            var rtValue = new Audit();
+            rtValue.ObjectName = "ObjectName" + counter;
+            rtValue.AuditActionTypeId = "C"; //AuditActionType.Create;
+            rtValue.Username = "Username" + counter;
+            rtValue.SetIdTo(SpecificGuid.GetGuid(counter));
+
+            return rtValue;
+        }
     }
 }
