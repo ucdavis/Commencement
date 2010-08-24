@@ -29,8 +29,8 @@
       <FullPath>RegistrationByMajorReport.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>SumApprovedReport.rdl</Name>
-      <FullPath>SumApprovedReport.rdl</FullPath>
+      <Name>SummaryReport.rdl</Name>
+      <FullPath>SummaryReport.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
       <Name>TotalRegistrationEachMajorReport.rdl</Name>
@@ -39,10 +39,6 @@
     <ProjectItem>
       <Name>TotalRegistrationReport.rdl</Name>
       <FullPath>TotalRegistrationReport.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>SummaryReport.rdl</Name>
-      <FullPath>SummaryReport.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>

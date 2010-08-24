@@ -30,8 +30,12 @@
           <DataField>RegistrationTickets</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="TotalTickets">
-          <DataField>TotalTickets</DataField>
+        <Field Name="TotalTicketsApproved">
+          <DataField>TotalTicketsApproved</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="NumberExtraTicketsApproved">
+          <DataField>NumberExtraTicketsApproved</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Location">
@@ -62,21 +66,24 @@
       <Query>
         <DataSourceName>Commencement</DataSourceName>
         <CommandText>SELECT     Students.StudentId, Students.FirstName, Students.LastName, SUM(Registrations.NumberTickets) AS RegistrationTickets, 
-                      SUM((CASE WHEN ((Petitions.NumberTickets IS NULL)) THEN Registrations.NumberTickets ELSE Registrations.NumberTickets + Petitions.NumberTickets END)) 
-                      AS TotalTickets, SUM((CASE WHEN ((Petitions.NumberTickets IS NULL)) THEN 0 ELSE Petitions.NumberTickets END)) AS PetitionTickets, Ceremonies.Location, 
-                      Ceremonies.DateTime, Ceremonies.TermCode, Ceremonies.id, Registrations.MajorCode, TermCodes.Name AS Term
+                      SUM((CASE WHEN (ExtraTicketPetitions.IsApproved = 1 AND (ExtraTicketPetitions.IsPending IS NULL OR
+                      ExtraTicketPetitions.IsPending = 0)) THEN Registrations.NumberTickets + ExtraTicketPetitions.NumberTickets ELSE Registrations.NumberTickets END)) 
+                      AS TotalTicketsApproved, SUM((CASE WHEN (ExtraTicketPetitions.IsApproved IS NULL) THEN 0 WHEN (ExtraTicketPetitions.IsApproved = 1 AND 
+                      (ExtraTicketPetitions.IsPending IS NULL OR
+                      ExtraTicketPetitions.IsPending = 0)) THEN ExtraTicketPetitions.NumberTickets ELSE 0 END)) AS NumberExtraTicketsApproved, 
+                      SUM((CASE WHEN ((Petitions.NumberTickets IS NULL)) THEN 0 ELSE Petitions.NumberTickets END)) AS PetitionTickets, Ceremonies.Location, Ceremonies.DateTime, 
+                      Ceremonies.TermCode, Ceremonies.id, Registrations.MajorCode, TermCodes.Name AS Term
 FROM         Students INNER JOIN
                       Ceremonies INNER JOIN
                       Registrations ON Ceremonies.id = Registrations.CeremonyId ON Students.Id = Registrations.Student_Id INNER JOIN
                       TermCodes ON Ceremonies.TermCode = TermCodes.id LEFT OUTER JOIN
+                      ExtraTicketPetitions ON Registrations.ExtraTicketPetitionId = ExtraTicketPetitions.id LEFT OUTER JOIN
                       Petitions ON Students.Pidm = Petitions.Pidm
 WHERE     (Petitions.Pending = 0 OR
                       Petitions.Pending IS NULL) AND (Petitions.Approved = 1 OR
                       Petitions.Approved IS NULL)
 GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.Location, Ceremonies.DateTime, Ceremonies.TermCode, Ceremonies.id, 
-                      Registrations.MajorCode, TermCodes.Name
-HAVING      (Registrations.MajorCode IN (@majorcode)) OR
-                      (Registrations.MajorCode LIKE @majorcode)</CommandText>
+                      Registrations.MajorCode, TermCodes.Name</CommandText>
         <QueryParameters>
           <QueryParameter Name="@majorcode">
             <Value>=Parameters!majorcode.Value</Value>
@@ -140,12 +147,12 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.69792in</Width>
+              <Width>0.80209in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.25in</Height>
+              <Height>0.40625in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -157,6 +164,18 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
                           <TextRuns>
                             <TextRun>
                               <Value># Tickets</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>(Approved)</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                                 <Color>Navy</Color>
@@ -193,14 +212,14 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox39">
+                    <Textbox Name="TotalTicketsApproved">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!TotalTickets.Value)</Value>
+                              <Value>=Sum(Fields!TotalTicketsApproved.Value)</Value>
                               <Style>
                                 <Format>#,0;(#,0)</Format>
                               </Style>
@@ -209,7 +228,7 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox39</rd:DefaultName>
+                      <rd:DefaultName>TotalTicketsApproved</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>DarkBlue</Color>
@@ -234,14 +253,14 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox46">
+                    <Textbox Name="TotalTicketsApproved1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!TotalTickets.Value)</Value>
+                              <Value>=Sum(Fields!TotalTicketsApproved.Value)</Value>
                               <Style>
                                 <Format>#,0;(#,0)</Format>
                               </Style>
@@ -250,7 +269,7 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox46</rd:DefaultName>
+                      <rd:DefaultName>TotalTicketsApproved1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>DarkBlue</Color>
@@ -413,9 +432,9 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
         </TablixRowHierarchy>
         <DataSetName>TotalRegistrations</DataSetName>
         <Top>0.62166in</Top>
-        <Left>0.19792in</Left>
-        <Height>0.75in</Height>
-        <Width>1.29167in</Width>
+        <Left>0.18772in</Left>
+        <Height>0.90625in</Height>
+        <Width>1.39584in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -914,7 +933,7 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!TotalTickets.Value)</Value>
+                              <Value>=Sum(Fields!TotalTicketsApproved.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1207,21 +1226,21 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="TotalTickets1">
+                    <Textbox Name="TotalTicketsApproved2">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!TotalTickets.Value</Value>
+                              <Value>=Fields!TotalTicketsApproved.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>TotalTickets1</rd:DefaultName>
+                      <rd:DefaultName>TotalTicketsApproved2</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1351,7 +1370,7 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(Fields!TotalTicketsApproved.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1576,6 +1595,36 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
+      <Textbox Name="Textbox3">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Number of Approved Tickets for each major (Registration + Extra Tickets)</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox3</rd:DefaultName>
+        <Top>0.39965in</Top>
+        <Left>0.18772in</Left>
+        <Height>0.20812in</Height>
+        <Width>7.26926in</Width>
+        <ZIndex>4</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
     <Height>4.05243in</Height>
     <Style />
@@ -1713,7 +1762,7 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
           </Paragraphs>
           <rd:DefaultName>ExecutionTime</rd:DefaultName>
           <Top>0.00174in</Top>
-          <Left>0.24919in</Left>
+          <Left>0.18772in</Left>
           <Height>0.19444in</Height>
           <Width>1.56958in</Width>
           <ZIndex>2</ZIndex>
@@ -1754,8 +1803,7 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox1</rd:DefaultName>
-          <Top>0.01389in</Top>
-          <Left>0.19112in</Left>
+          <Left>0.19792in</Left>
           <Height>0.25in</Height>
           <Width>2.66695in</Width>
           <Style>
@@ -1823,9 +1871,9 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>PageNumber</rd:DefaultName>
-          <Left>3.22945in</Left>
+          <Left>3.42953in</Left>
           <Height>0.25in</Height>
-          <Width>2.09722in</Width>
+          <Width>1.66791in</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>

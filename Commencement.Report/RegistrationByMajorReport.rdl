@@ -30,8 +30,12 @@
           <DataField>RegistrationTickets</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="TotalTickets">
-          <DataField>TotalTickets</DataField>
+        <Field Name="TotalTicketsApproved">
+          <DataField>TotalTicketsApproved</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="NumberExtraTicketsApproved">
+          <DataField>NumberExtraTicketsApproved</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Location">
@@ -62,13 +66,18 @@
       <Query>
         <DataSourceName>Commencement</DataSourceName>
         <CommandText>SELECT     Students.StudentId, Students.FirstName, Students.LastName, SUM(Registrations.NumberTickets) AS RegistrationTickets, 
-                      SUM((CASE WHEN ((Petitions.NumberTickets IS NULL)) THEN Registrations.NumberTickets ELSE Registrations.NumberTickets + Petitions.NumberTickets END)) 
-                      AS TotalTickets, SUM((CASE WHEN ((Petitions.NumberTickets IS NULL)) THEN 0 ELSE Petitions.NumberTickets END)) AS PetitionTickets, Ceremonies.Location, 
-                      Ceremonies.DateTime, Ceremonies.TermCode, Ceremonies.id, Registrations.MajorCode, TermCodes.Name AS Term
+                      SUM((CASE WHEN (ExtraTicketPetitions.IsApproved = 1 AND (ExtraTicketPetitions.IsPending IS NULL OR
+                      ExtraTicketPetitions.IsPending = 0)) THEN Registrations.NumberTickets + ExtraTicketPetitions.NumberTickets ELSE Registrations.NumberTickets END)) 
+                      AS TotalTicketsApproved, SUM((CASE WHEN (ExtraTicketPetitions.IsApproved IS NULL) THEN 0 WHEN (ExtraTicketPetitions.IsApproved = 1 AND 
+                      (ExtraTicketPetitions.IsPending IS NULL OR
+                      ExtraTicketPetitions.IsPending = 0)) THEN ExtraTicketPetitions.NumberTickets ELSE 0 END)) AS NumberExtraTicketsApproved, 
+                      SUM((CASE WHEN ((Petitions.NumberTickets IS NULL)) THEN 0 ELSE Petitions.NumberTickets END)) AS PetitionTickets, Ceremonies.Location, Ceremonies.DateTime, 
+                      Ceremonies.TermCode, Ceremonies.id, Registrations.MajorCode, TermCodes.Name AS Term
 FROM         Students INNER JOIN
                       Ceremonies INNER JOIN
                       Registrations ON Ceremonies.id = Registrations.CeremonyId ON Students.Id = Registrations.Student_Id INNER JOIN
                       TermCodes ON Ceremonies.TermCode = TermCodes.id LEFT OUTER JOIN
+                      ExtraTicketPetitions ON Registrations.ExtraTicketPetitionId = ExtraTicketPetitions.id LEFT OUTER JOIN
                       Petitions ON Students.Pidm = Petitions.Pidm
 WHERE     (Petitions.Approved = 1 OR
                       Petitions.Approved IS NULL) AND (Petitions.Pending = 0 OR
@@ -627,7 +636,7 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!TotalTickets.Value)</Value>
+                              <Value>=Sum(Fields!TotalTicketsApproved.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -920,21 +929,21 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="TotalTickets1">
+                    <Textbox Name="TotalTicketsApproved">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!TotalTickets.Value</Value>
+                              <Value>=Fields!TotalTicketsApproved.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>TotalTickets1</rd:DefaultName>
+                      <rd:DefaultName>TotalTicketsApproved</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1064,7 +1073,7 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(Fields!TotalTicketsApproved.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1240,6 +1249,36 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
           </Border>
         </Style>
       </Tablix>
+      <Textbox Name="Textbox4">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Number of Approved Tickets for specified major (Registration + Extra Tickets)</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox3</rd:DefaultName>
+        <Top>0.63049in</Top>
+        <Left>0.09885in</Left>
+        <Height>0.20812in</Height>
+        <Width>7.26926in</Width>
+        <ZIndex>2</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
     <Height>5.32326in</Height>
     <Style />
@@ -1253,6 +1292,18 @@ HAVING      (Registrations.MajorCode IN (@majorcode)) OR
         </Values>
       </DefaultValue>
       <Prompt>majorcode</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>%</Value>
+            <Label>%</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>AMGE</Value>
+            <Label>AMGE</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
       <MultiValue>true</MultiValue>
     </ReportParameter>
   </ReportParameters>

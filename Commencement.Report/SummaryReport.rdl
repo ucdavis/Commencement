@@ -81,7 +81,7 @@
                       (CASE WHEN ((ExtraTicketPetitions.NumberTickets IS NULL)) 
                       THEN Registrations.NumberTickets ELSE Registrations.NumberTickets + ExtraTicketPetitions.NumberTickets END) AS TotalTickets, 
                       (CASE WHEN ((ExtraTicketPetitions.NumberTickets IS NULL)) THEN 0 ELSE ExtraTicketPetitions.NumberTickets END) AS NumberExtraTickets, 
-                      (CASE WHEN (ExtraTicketPetitions.IsApproved IS NULL) THEN 0 WHEN (ExtraTicketPetitions.IsApproved = 1 AND (ExtraTicketPetitions.IsPending IS NULL OR
+                      (CASE WHEN (ExtraTicketPetitions.IsApproved = 1 AND (ExtraTicketPetitions.IsPending IS NULL OR
                       ExtraTicketPetitions.IsPending = 0)) THEN ExtraTicketPetitions.NumberTickets ELSE 0 END) AS NumberExtraTicketsApproved, 
                       (CASE WHEN (ExtraTicketPetitions.IsPending = 1) THEN ExtraTicketPetitions.NumberTickets ELSE 0 END) AS NumberExtraTicketsPending, 
                       (CASE WHEN (ExtraTicketPetitions.IsApproved = 1 AND (ExtraTicketPetitions.IsPending IS NULL OR
@@ -298,7 +298,7 @@ WHERE     ((CASE WHEN (Petitions.Approved IS NULL) THEN NULL WHEN (Petitions.App
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox32">
+                    <Textbox Name="TotalTicketsApproved">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -314,7 +314,7 @@ WHERE     ((CASE WHEN (Petitions.Approved IS NULL) THEN NULL WHEN (Petitions.App
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox32</rd:DefaultName>
+                      <rd:DefaultName>TotalTicketsApproved</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -507,10 +507,11 @@ WHERE     ((CASE WHEN (Petitions.Approved IS NULL) THEN NULL WHEN (Petitions.App
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
+        <DataSetName>TotalRegistrations</DataSetName>
         <Top>0.93416in</Top>
         <Left>0.15292in</Left>
         <Height>1.15625in</Height>
-        <Width>2.26042in</Width>
+        <Width>2.26041in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -613,7 +614,7 @@ WHERE     ((CASE WHEN (Petitions.Approved IS NULL) THEN NULL WHEN (Petitions.App
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox66">
+                    <Textbox Name="NumberExtraTicketsPending">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -629,7 +630,7 @@ WHERE     ((CASE WHEN (Petitions.Approved IS NULL) THEN NULL WHEN (Petitions.App
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox66</rd:DefaultName>
+                      <rd:DefaultName>NumberExtraTicketsPending</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1396,6 +1397,36 @@ WHERE     ((CASE WHEN (Petitions.Approved IS NULL) THEN NULL WHEN (Petitions.App
           </Border>
         </Style>
       </Tablix>
+      <Textbox Name="Textbox3">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Total Number of Approved, Pending and Denied Tickets (Registration + Extra Tickets)</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox3</rd:DefaultName>
+        <Top>0.56799in</Top>
+        <Left>0.15292in</Left>
+        <Height>0.23937in</Height>
+        <Width>7.26926in</Width>
+        <ZIndex>4</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
     <Height>5.32326in</Height>
     <Style />

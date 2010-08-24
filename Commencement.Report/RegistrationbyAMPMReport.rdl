@@ -30,8 +30,8 @@
           <DataField>RegistrationTickets</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="TotalTickets">
-          <DataField>TotalTickets</DataField>
+        <Field Name="NumberExtraTicketsApproved">
+          <DataField>NumberExtraTicketsApproved</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Location">
@@ -62,18 +62,27 @@
           <DataField>Term</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="TotalTicketsApproved">
+          <DataField>TotalTicketsApproved</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
       </Fields>
       <Query>
         <DataSourceName>Commencement</DataSourceName>
-        <CommandText>SELECT     Students.StudentId, Students.FirstName, Students.LastName, Registrations.NumberTickets AS RegistrationTickets, (CASE WHEN ((Petitions.NumberTickets IS NULL)) 
-                      THEN Registrations.NumberTickets ELSE Registrations.NumberTickets + Petitions.NumberTickets END) AS TotalTickets, 
+        <CommandText>SELECT     Students.StudentId, Students.FirstName, Students.LastName, Registrations.NumberTickets AS RegistrationTickets, 
+                      (CASE WHEN (ExtraTicketPetitions.IsApproved IS NULL) THEN 0 WHEN (ExtraTicketPetitions.IsApproved = 1 AND (ExtraTicketPetitions.IsPending IS NULL OR
+                      ExtraTicketPetitions.IsPending = 0)) THEN ExtraTicketPetitions.NumberTickets ELSE 0 END) AS NumberExtraTicketsApproved, 
                       (CASE WHEN ((Petitions.NumberTickets IS NULL)) THEN 0 ELSE Petitions.NumberTickets END) AS PetitionTickets, Ceremonies.Location, Ceremonies.DateTime, 
                       Ceremonies.TermCode, Ceremonies.id AS ceremonyid, CASE WHEN (DATEPART(hh, Ceremonies.DateTime) &gt;= 12) THEN 'PM' ELSE 'AM' END AS AMPM, 
-                      DATEPART(hh, Ceremonies.DateTime) AS HR, TermCodes.Name AS Term
+                      DATEPART(hh, Ceremonies.DateTime) AS HR, TermCodes.Name AS Term, (CASE WHEN (ExtraTicketPetitions.IsApproved = 1 AND 
+                      (ExtraTicketPetitions.IsPending IS NULL OR
+                      ExtraTicketPetitions.IsPending = 0)) THEN Registrations.NumberTickets + ExtraTicketPetitions.NumberTickets ELSE Registrations.NumberTickets END) 
+                      AS TotalTicketsApproved
 FROM         TermCodes INNER JOIN
                       Students INNER JOIN
                       Ceremonies INNER JOIN
                       Registrations ON Ceremonies.id = Registrations.CeremonyId ON Students.Id = Registrations.Student_Id ON TermCodes.id = Ceremonies.TermCode LEFT OUTER JOIN
+                      ExtraTicketPetitions ON Registrations.ExtraTicketPetitionId = ExtraTicketPetitions.id LEFT OUTER JOIN
                       Petitions ON Students.Pidm = Petitions.Pidm
 WHERE     (CASE WHEN (DATEPART(hh, Ceremonies.DateTime) &gt;= 12) THEN 'PM' ELSE 'AM' END = @ampm) AND (Petitions.Approved = 1 OR
                       Petitions.Approved IS NULL) AND (Petitions.Pending = 0 OR
@@ -732,7 +741,7 @@ WHERE     (CASE WHEN (DATEPART(hh, Ceremonies.DateTime) &gt;= 12) THEN 'PM' ELSE
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!TotalTickets.Value)</Value>
+                              <Value>=Sum(Fields!TotalTicketsApproved.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1025,21 +1034,21 @@ WHERE     (CASE WHEN (DATEPART(hh, Ceremonies.DateTime) &gt;= 12) THEN 'PM' ELSE
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="TotalTickets1">
+                    <Textbox Name="TotalTicketsApproved">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!TotalTickets.Value</Value>
+                              <Value>=Fields!TotalTicketsApproved.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>TotalTickets1</rd:DefaultName>
+                      <rd:DefaultName>TotalTicketsApproved</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1162,7 +1171,7 @@ WHERE     (CASE WHEN (DATEPART(hh, Ceremonies.DateTime) &gt;= 12) THEN 'PM' ELSE
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox24">
+                    <Textbox Name="Textbox3">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -1176,7 +1185,7 @@ WHERE     (CASE WHEN (DATEPART(hh, Ceremonies.DateTime) &gt;= 12) THEN 'PM' ELSE
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox24</rd:DefaultName>
+                      <rd:DefaultName>Textbox3</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>DimGray</Color>
@@ -1338,7 +1347,7 @@ WHERE     (CASE WHEN (DATEPART(hh, Ceremonies.DateTime) &gt;= 12) THEN 'PM' ELSE
         <RepeatColumnHeaders>true</RepeatColumnHeaders>
         <RepeatRowHeaders>true</RepeatRowHeaders>
         <DataSetName>TotalRegistrations</DataSetName>
-        <Top>0.64251in</Top>
+        <Top>0.87168in</Top>
         <Height>1.61459in</Height>
         <Width>4.0513in</Width>
         <ZIndex>1</ZIndex>
@@ -1348,6 +1357,36 @@ WHERE     (CASE WHEN (DATEPART(hh, Ceremonies.DateTime) &gt;= 12) THEN 'PM' ELSE
           </Border>
         </Style>
       </Tablix>
+      <Textbox Name="Textbox11">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Student detail by ceremony, #Tickets = All apprved tickets (Registration + Extra Tickets)</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox3</rd:DefaultName>
+        <Top>0.54194in</Top>
+        <Left>0.0034in</Left>
+        <Height>0.20812in</Height>
+        <Width>7.26926in</Width>
+        <ZIndex>2</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
     <Height>4.00034in</Height>
     <Style />
@@ -1509,10 +1548,9 @@ WHERE     (CASE WHEN (DATEPART(hh, Ceremonies.DateTime) &gt;= 12) THEN 'PM' ELSE
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox1</rd:DefaultName>
-          <Top>0.01389in</Top>
           <Left>0.0034in</Left>
           <Height>0.25in</Height>
-          <Width>2.66695in</Width>
+          <Width>2.47317in</Width>
           <Style>
             <Border>
               <Style>None</Style>
@@ -1543,7 +1581,7 @@ WHERE     (CASE WHEN (DATEPART(hh, Ceremonies.DateTime) &gt;= 12) THEN 'PM' ELSE
           <Top>0.26389in</Top>
           <Left>0.0102in</Left>
           <Height>0.25in</Height>
-          <Width>2.66695in</Width>
+          <Width>2.46637in</Width>
           <ZIndex>1</ZIndex>
           <Style>
             <Border>
@@ -1578,9 +1616,9 @@ WHERE     (CASE WHEN (DATEPART(hh, Ceremonies.DateTime) &gt;= 12) THEN 'PM' ELSE
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>PageNumber</rd:DefaultName>
-          <Left>3.04173in</Left>
+          <Left>3.33855in</Left>
           <Height>0.25in</Height>
-          <Width>2.09722in</Width>
+          <Width>1.63373in</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>

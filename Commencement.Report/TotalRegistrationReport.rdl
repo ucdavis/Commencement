@@ -93,7 +93,8 @@ WHERE     (Petitions.Pending = 0 OR
                       Petitions.Pending IS NULL) AND (Petitions.Approved = 1 OR
                       Petitions.Approved IS NULL)
 GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.Location, Ceremonies.DateTime, Ceremonies.TermCode, Ceremonies.id, 
-                      Registrations.MajorCode, TermCodes.Name, Students.LastName + N', ' + Students.FirstName</CommandText>
+                      Registrations.MajorCode, TermCodes.Name, Students.LastName + N', ' + Students.FirstName
+ORDER BY StudentName</CommandText>
       </Query>
     </DataSet>
   </DataSets>
@@ -337,14 +338,14 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="TotalTickets">
+                    <Textbox Name="TotalTicketsApproved">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=+Sum(Fields!NumberExtraTicketsApproved.Value, "TotalRegistrations")</Value>
+                              <Value>=Sum(Fields!TotalTicketsApproved.Value)</Value>
                               <Style>
                                 <Format>#,0;(#,0)</Format>
                               </Style>
@@ -353,7 +354,7 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>TotalTickets</rd:DefaultName>
+                      <rd:DefaultName>TotalTicketsApproved</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -437,8 +438,8 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>TotalRegistrations</DataSetName>
-        <Top>0.56329in</Top>
-        <Left>0.17979in</Left>
+        <Top>0.69574in</Top>
+        <Left>0.02069in</Left>
         <Height>1.0317in</Height>
         <Width>3.23263in</Width>
         <ZIndex>1</ZIndex>
@@ -452,25 +453,25 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.80208in</Width>
+              <Width>0.79817in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.43055in</Width>
+              <Width>2.42664in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.5in</Width>
+              <Width>0.49609in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.78039in</Width>
+              <Width>0.77648in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>0.99609in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>0.99609in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>0.99609in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -1324,7 +1325,7 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
           <TablixMembers>
             <TablixMember>
               <TablixHeader>
-                <Size>0.03125in</Size>
+                <Size>0.16692in</Size>
                 <CellContents>
                   <Textbox Name="Textbox645">
                     <CanGrow>true</CanGrow>
@@ -1361,10 +1362,13 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
             </TablixMember>
             <TablixMember>
               <TablixHeader>
-                <Size>0.03125in</Size>
+                <Size>0.16692in</Size>
                 <CellContents>
                   <Textbox Name="Textbox21">
                     <CanGrow>true</CanGrow>
+                    <UserSort>
+                      <SortExpression>=Fields!LastName.Value</SortExpression>
+                    </UserSort>
                     <KeepTogether>true</KeepTogether>
                     <Paragraphs>
                       <Paragraph>
@@ -1403,16 +1407,16 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
             <TablixMember>
               <Group Name="Group2">
                 <GroupExpressions>
-                  <GroupExpression>=Fields!id.Value</GroupExpression>
+                  <GroupExpression>=Fields!StudentName.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
               <SortExpressions>
                 <SortExpression>
-                  <Value>=Fields!id.Value</Value>
+                  <Value>=Fields!StudentName.Value</Value>
                 </SortExpression>
               </SortExpressions>
               <TablixHeader>
-                <Size>0.03125in</Size>
+                <Size>0.16692in</Size>
                 <CellContents>
                   <Textbox Name="Textbox607">
                     <CanGrow>true</CanGrow>
@@ -1445,6 +1449,11 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
               <TablixMembers>
                 <TablixMember>
                   <Group Name="Details" />
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!StudentName.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
                 </TablixMember>
               </TablixMembers>
             </TablixMember>
@@ -1454,10 +1463,15 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
         <RepeatRowHeaders>true</RepeatRowHeaders>
         <KeepTogether>true</KeepTogether>
         <DataSetName>TotalRegistrations</DataSetName>
-        <Top>2.00869in</Top>
-        <Left>0.14854in</Left>
+        <SortExpressions>
+          <SortExpression>
+            <Value>=Fields!StudentName.Value</Value>
+          </SortExpression>
+        </SortExpressions>
+        <Top>2.14114in</Top>
+        <Left>0.02069in</Left>
         <Height>0.5625in</Height>
-        <Width>7.54427in</Width>
+        <Width>7.65257in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -1483,10 +1497,10 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox48</rd:DefaultName>
-        <Top>1.78943in</Top>
-        <Left>0.1902in</Left>
+        <Top>1.92188in</Top>
+        <Left>0.02069in</Left>
         <Height>0.20537in</Height>
-        <Width>3.22222in</Width>
+        <Width>3.23263in</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -1503,11 +1517,41 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
+      <Textbox Name="Textbox3">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Number of Approved Tickets (Registration + Extra Tickets) by Student</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox3</rd:DefaultName>
+        <Top>0.42743in</Top>
+        <Left>0.02069in</Left>
+        <Height>0.21276in</Height>
+        <Width>7.26926in</Width>
+        <ZIndex>4</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
-    <Height>2.64618in</Height>
+    <Height>2.97951in</Height>
     <Style />
   </Body>
-  <Width>7.74319in</Width>
+  <Width>8.02713in</Width>
   <Page>
     <PageHeader>
       <Height>0.97917in</Height>
@@ -1614,8 +1658,9 @@ Registrations</Value>
           </Paragraphs>
           <rd:DefaultName>ExecutionTime</rd:DefaultName>
           <Top>0.01389in</Top>
+          <Left>0.01388in</Left>
           <Height>0.19444in</Height>
-          <Width>1.56958in</Width>
+          <Width>4.23286in</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>
@@ -1635,7 +1680,7 @@ Registrations</Value>
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>0.60417in</Height>
+      <Height>0.59375in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -1655,9 +1700,9 @@ Registrations</Value>
           </Paragraphs>
           <rd:DefaultName>Textbox1</rd:DefaultName>
           <Top>0.01389in</Top>
-          <Left>0.01389in</Left>
+          <Left>0.02069in</Left>
           <Height>0.25in</Height>
-          <Width>2.66695in</Width>
+          <Width>3.39173in</Width>
           <Style>
             <Border>
               <Style>None</Style>
@@ -1688,7 +1733,7 @@ Registrations</Value>
           <Top>0.26389in</Top>
           <Left>0.02069in</Left>
           <Height>0.25in</Height>
-          <Width>2.66695in</Width>
+          <Width>3.39173in</Width>
           <ZIndex>1</ZIndex>
           <Style>
             <Border>
@@ -1723,9 +1768,9 @@ Registrations</Value>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>PageNumber</rd:DefaultName>
-          <Left>3.05222in</Left>
+          <Left>3.41242in</Left>
           <Height>0.25in</Height>
-          <Width>2.09722in</Width>
+          <Width>2.28039in</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>
