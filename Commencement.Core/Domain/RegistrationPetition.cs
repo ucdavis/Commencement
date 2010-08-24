@@ -6,6 +6,12 @@ namespace Commencement.Core.Domain
 {
     public class RegistrationPetition : DomainObject
     {
+        public RegistrationPetition()
+        {
+            IsPending = true;
+            IsApproved = false;
+        }
+
         [Required]
         [Length(8)]
         public virtual string Pidm { get; set; }
@@ -46,5 +52,8 @@ namespace Commencement.Core.Domain
         public virtual double? TransferUnits { get; set; }
         [Length(50)]
         public virtual string CurrentlyRegistered { get; set; }
+
+        public virtual bool IsPending { get; set; }
+        public virtual bool IsApproved { get; set; }
     }
 }

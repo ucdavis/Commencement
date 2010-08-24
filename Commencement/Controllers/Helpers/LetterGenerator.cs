@@ -41,16 +41,24 @@ namespace Commencement.Controllers.Helpers
 
         public string GenerateRegistrationPetitionConfirmation(RegistrationPetition registrationPetition, Template template)
         {
+            Check.Require(registrationPetition != null, "Registration Petition is required.");
+            Check.Require(template != null, "Template is required");
             Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationPetition);
 
-            throw new NotImplementedException();
+            RegistrationPetition = registrationPetition;
+
+            return HandleBody(template.BodyText);
         }
 
         public string GenerateRegistrationPetitionApproved(RegistrationPetition registrationPetition, Template template)
         {
+            Check.Require(registrationPetition != null, "Registration Petition is required.");
+            Check.Require(template != null, "Template is required");
             Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved);
 
-            throw new NotImplementedException();
+            RegistrationPetition = registrationPetition;
+
+            return HandleBody(template.BodyText);
         }
 
         public string GenerateExtraTicketRequestPetitionConfirmation(Registration registration, Template template)
@@ -144,9 +152,15 @@ namespace Commencement.Controllers.Helpers
             switch (parameter.ToLower())
             {
                 case "studentid":
-                    return Student.StudentId;
+                    if (Student != null) return Student.StudentId;
+                    if (RegistrationPetition != null) return RegistrationPetition.StudentId;
+
+                    throw new ArgumentException("No valid object was provided.");
                 case "studentname":
-                    return Student.FullName;
+                    if (Student != null) return Student.FullName;
+                    if (RegistrationPetition != null) return RegistrationPetition.FirstName + " " + RegistrationPetition.LastName;
+
+                    throw new ArgumentException("No valid object was provided.");
                 case "ceremonyname":
                     if (ceremony == null) throw new ArgumentException("No valid object was provided.");
 
@@ -167,7 +181,7 @@ namespace Commencement.Controllers.Helpers
                 case "petitiondecision":
 
                     if (ExtraTicketPetition != null) return ExtraTicketPetition.IsApproved ? "Approved" : "Denied";
-                    //if (RegistrationPetition != null) return RegistrationPetition.IsApproved ? "Approved" : "Denied";
+                    if (RegistrationPetition != null) return RegistrationPetition.IsApproved ? "Approved" : "Denied";
 
                     throw new ArgumentException("No valid object was provided.");
                 case "numberofextratickets":

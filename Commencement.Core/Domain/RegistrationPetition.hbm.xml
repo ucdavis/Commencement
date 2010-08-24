@@ -18,6 +18,8 @@
     <property name="TransferUnitsFrom" column="TransferUnitsFrom" />
     <property name="TransferUnits" column="TransferUnits" />
     <property name="CurrentlyRegistered" column="CurrentlyRegistered" />
+    <property name="IsPending" column="IsPending" />
+    <property name="IsApproved" column="IsApproved" />
     
   </class>
 </hibernate-mapping>
