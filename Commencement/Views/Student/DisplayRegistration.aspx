@@ -3,21 +3,19 @@
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">Display Registration</asp:Content>
 <asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent"></asp:Content>
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
+    
+    <ul class="btn">
+        <% if ((bool)ViewData["CanEditRegistration"]) { %>
+        
+            <li><%= Html.ActionLink("Edit Your Registration", "EditRegistration", new { id = Model.Id }) %></li>
+    
+        <% } %>
+        <li><%= Html.ActionLink<PetitionController>(a => a.ExtraTicketPetition(Model.Id), "Extra Ticket Petition") %></li>
+    </ul>
+    
+    
     <h2>Your registration for <%= Html.Encode(Model.Ceremony.Name) %></h2>
     
-    <% if ((bool)ViewData["CanEditRegistration"]) { %>
-        
-        <%= Html.ActionLink("Edit Your Registration", "EditRegistration", new { id = Model.Id }) %>
-    
-    <% } %>
-
-    <%--<div id="extra_ticket_link"><a href="<%= Url.Content("~/Forms/extra_ticket_request.pdf") %>">Extra Ticket Request Form</a>
-        (If you are having trouble, right click on the link and choose "save as" to download the file)
-    </div>--%>
-    
-    <div id="extra_ticket_link">
-    <%= Html.ActionLink<PetitionController>(a => a.ExtraTicketPetition(Model.Id), "Extra Ticket Petition") %>
-    </div>
     
     <% Html.RenderPartial("RegistrationDisplay", Model); %>
         
