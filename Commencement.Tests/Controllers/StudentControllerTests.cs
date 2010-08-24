@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
-using System.Text;
-using System.Web.Mvc;
 using Commencement.Controllers;
-//using Commencement.Controllers.Filter;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
+using Commencement.Tests.Core.Extensions;
 using Commencement.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.Attributes;
@@ -18,7 +16,6 @@ using Rhino.Mocks;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Testing;
 using UCDArch.Web.Attributes;
-using Commencement.Tests.Core.Extensions;
 
 namespace Commencement.Tests.Controllers
 {
@@ -31,7 +28,7 @@ namespace Commencement.Tests.Controllers
         private IRepository<Registration> _registrationRepository;
         private IStudentService _studentService;
         private IEmailService _emailService;
-        private IRepository<State> _stateRepository;
+        private readonly IRepository<State> _stateRepository;
 
         #region Init
 
@@ -546,30 +543,7 @@ namespace Commencement.Tests.Controllers
         }
 
 
-        /// <summary>
-        /// Tests the register get redirects to index if ceremony deadline passed.
-        /// </summary>
-        [TestMethod, Ignore] //This has been changed to redirect to the ErrorPage.
-        public void TestRegisterGetRedirectsToIndexIfCeremonyDeadlinePassed()
-        {
-            #region Arrange
-            var ceremonies = new List<Ceremony>();
-            ceremonies.Add(CreateValidEntities.Ceremony(1));
-            ceremonies[0].RegistrationDeadline = DateTime.Now.AddDays(-1);
-            ControllerRecordFakes.FakeCeremony(0, _ceremonyRepository, ceremonies);
-            Assert.IsNotNull(_ceremonyRepository.GetNullableById(1));
-            #endregion Arrange
-
-            #region Act
-            Controller.Register(1, string.Empty)
-                .AssertActionRedirect()
-                .ToAction<StudentController>(a => a.Index());  
-            #endregion Act
-
-            #region Assert
-            Assert.AreEqual("The deadline to register for the ceremony has passed.", Controller.Message);
-            #endregion Assert		
-        }
+       
 
         [TestMethod]
         public void TestRegisterGetRedirectsToErrorIfCeremonyDeadlinePassed()
@@ -845,33 +819,6 @@ namespace Commencement.Tests.Controllers
         }
 
 
-        /// <summary>
-        /// Tests the register post redirects to index if ceremony deadline passed.
-        /// </summary>
-        [TestMethod, Ignore] //This has been changed to redirect to the error page
-        public void TestRegisterPostRedirectsToIndexIfCeremonyDeadlinePassed()
-        {
-            #region Arrange
-            var student = CreateValidEntities.Student(1);
-            var ceremonies = new List<Ceremony>();
-            ceremonies.Add(CreateValidEntities.Ceremony(1));
-            ceremonies[0].RegistrationDeadline = DateTime.Now.AddDays(-1);
-            ControllerRecordFakes.FakeCeremony(0, _ceremonyRepository, ceremonies);
-            var registration = CreateValidEntities.Registration(1);
-            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
-            #endregion Arrange
-
-            #region Act
-            Controller.Register(1, registration, true)
-                .AssertActionRedirect()
-                .ToAction<StudentController>(a => a.Index());
-            #endregion Act
-
-            #region Assert
-            Assert.AreEqual("The deadline to register for the ceremony has passed.", Controller.Message);
-            _registrationRepository.AssertWasNotCalled(a => a.EnsurePersistent(Arg<Registration>.Is.Anything));
-            #endregion Assert
-        }
         /// <summary>
         /// Tests the register post redirects to error if ceremony deadline passed.
         /// </summary>
@@ -1217,9 +1164,199 @@ namespace Commencement.Tests.Controllers
             #endregion Assert
         }
 
-        //TODO: More Tests
+
+        /// <summary>
+        /// Tests the edit registration post only updates expected values.
+        /// </summary>
+        [TestMethod]
+        public void TestEditRegistrationPostOnlyUpdatesExpectedValues()
+        {
+            #region Arrange
+            var majorCode1 = CreateValidEntities.MajorCode(1);
+            var majorCode2 = CreateValidEntities.MajorCode(2);
+            var state1 = CreateValidEntities.State(1);
+            var state2 = CreateValidEntities.State(2);
+            var ceremony1 = CreateValidEntities.Ceremony(1);
+            ceremony1.RegistrationDeadline = DateTime.Now.AddDays(5);
+            var ceremony2 = CreateValidEntities.Ceremony(2);
+            ceremony2.RegistrationDeadline = DateTime.Now.AddDays(10);
+            var extraTicketPetition1 = CreateValidEntities.ExtraTicketPetition(1);
+            var extraTicketPetition2 = CreateValidEntities.ExtraTicketPetition(2);
+
+            var student = CreateValidEntities.Student(1);
+            var registrations = new List<Registration>(1);
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Student = student;
+            registrations[0].Major = majorCode1;
+            registrations[0].Address1 = "Address1Old";
+            registrations[0].Address2 = "Address2Old";
+            registrations[0].Address3 = "Address3Old";
+            registrations[0].City = "CityOld";
+            registrations[0].State = state1;
+            registrations[0].Zip = "11111";
+            registrations[0].Email = "jasonold@ucdavis.edu";
+            registrations[0].NumberTickets = 1;
+            registrations[0].MailTickets = false;
+            registrations[0].Comments = "CommentsOld";
+            registrations[0].Ceremony = ceremony1;
+            registrations[0].ExtraTicketPetition = extraTicketPetition1;
+            registrations[0].DateRegistered = new DateTime(2010,01,01);            
+
+            ControllerRecordFakes.FakeRegistration(0, _registrationRepository, registrations);
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
+
+            var registration = CreateValidEntities.Registration(2);
+            registration.Student = student;
+            registration.Major = majorCode2;
+            registration.Address1 = "Address1New";
+            registration.Address2 = "Address2New";
+            registration.Address3 = "Address3New";
+            registration.City = "CityNew";
+            registration.State = state2;
+            registration.Zip = "22222";
+            registration.Email = "jasonnew@ucdavis.edu";
+            registration.NumberTickets = 2;
+            registration.MailTickets = true;
+            registration.Comments = "CommentsNew";
+            registration.Ceremony = ceremony2;
+            registration.ExtraTicketPetition = extraTicketPetition2;
+            registration.DateRegistered = new DateTime(2010, 05, 05);
+            registration.SetIdTo(1);
+            #endregion Arrange
+
+            #region Act
+            Controller.EditRegistration(1, registration, true)
+                .AssertActionRedirect()
+                .ToAction<StudentController>(a => a.RegistrationConfirmation(1));
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            _registrationRepository.AssertWasCalled(a => a.EnsurePersistent(registration));
+            _emailService.AssertWasCalled(a => a.SendRegistrationConfirmation(Controller.Repository, registration));
+            Assert.AreEqual("You have successfully edited your commencement registration. ", Controller.Message);
+
+            #region Assert only expected values were updated.
+            var args = (Registration)_registrationRepository.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<Registration>.Is.Anything))[0][0];           
+            Assert.IsNotNull(args);
+            Assert.AreEqual(student.FirstName, args.Student.FirstName);
+            Assert.AreEqual(majorCode2.Name, args.Major.Name);
+            Assert.AreEqual("Address1New", args.Address1);
+            Assert.AreEqual("Address2New", args.Address2);
+            Assert.AreEqual("Address3Old", args.Address3);
+            Assert.AreEqual("CityNew", args.City);
+            Assert.AreEqual(state2.Name, args.State.Name);
+            Assert.AreEqual("22222", args.Zip);
+            Assert.AreEqual("jasonnew@ucdavis.edu", args.Email);
+            Assert.AreEqual(2, args.NumberTickets);
+            Assert.IsTrue(args.MailTickets);
+            Assert.AreEqual("CommentsNew", args.Comments);
+            Assert.AreEqual(ceremony2.Location, args.Ceremony.Location);
+            Assert.AreEqual(1, args.ExtraTicketPetition.NumberTickets);
+            Assert.AreEqual(new DateTime(2010, 01, 01), args.DateRegistered);                       
+            #endregion Assert only expected values were updated.
+            #endregion Assert		
+        }
+
+
+        /// <summary>
+        /// Tests the edit registration post does not save if disclaimer is false.
+        /// </summary>
+        [TestMethod]
+        public void TestEditRegistrationPostDoesNotSaveIfDisclaimerIsFalse()
+        {
+            #region Arrange
+            var student = CreateValidEntities.Student(1);
+            var registrations = new List<Registration>(1);
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Student = student;
+            registrations[0].Ceremony = CreateValidEntities.Ceremony(1);
+            registrations[0].Ceremony.RegistrationDeadline = DateTime.Now.AddDays(5);
+            ControllerRecordFakes.FakeRegistration(0, _registrationRepository, registrations);
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.EditRegistration(1, registrations[0], false)
+                .AssertViewRendered()
+                .WithViewData<RegistrationModel>();
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            _registrationRepository.AssertWasNotCalled(a => a.EnsurePersistent(Arg<Registration>.Is.Anything));
+            _emailService.AssertWasNotCalled(a => a.SendRegistrationConfirmation(Controller.Repository, registrations[0]));
+            Assert.IsNull(Controller.Message);
+            Controller.ModelState.AssertErrorsAre("You must agree to the disclaimer");
+            Assert.IsNotNull(result);
+            Assert.AreSame(registrations[0], result.Registration);
+            #endregion Assert		
+        }
+
+
+        /// <summary>
+        /// Tests the edit registration does not save if new value is invalid.
+        /// </summary>
+        [TestMethod]
+        public void TestEditRegistrationDoesNotSaveIfNewValueIsInvalid()
+        {
+            #region Arrange
+            var student = CreateValidEntities.Student(1);
+            var registrations = new List<Registration>(1);
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Student = student;
+            registrations[0].Ceremony = CreateValidEntities.Ceremony(1);
+            registrations[0].Ceremony.RegistrationDeadline = DateTime.Now.AddDays(5);
+            ControllerRecordFakes.FakeRegistration(0, _registrationRepository, registrations);
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
+
+            var registration = registrations[0];
+            registration.Address1 = string.Empty;
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.EditRegistration(1, registration, true)
+                .AssertViewRendered()
+                .WithViewData<RegistrationModel>();
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            _registrationRepository.AssertWasNotCalled(a => a.EnsurePersistent(Arg<Registration>.Is.Anything));
+            _emailService.AssertWasNotCalled(a => a.SendRegistrationConfirmation(Controller.Repository, registrations[0]));
+            Assert.IsNull(Controller.Message);
+            Controller.ModelState.AssertErrorsAre("Address1: may not be null or empty");
+            Assert.IsNotNull(result);
+            Assert.AreSame(registrations[0], result.Registration);
+            #endregion Assert			
+        }
+
         #endregion EditRegistration Post Tests
         #endregion EditRegistration Tests
+
+        #region NoCeremony Tests
+
+        /// <summary>
+        /// Tests the no ceremony returns view.
+        /// </summary>
+        [TestMethod]
+        public void TestNoCeremonyReturnsView()
+        {
+            #region Arrange                                  
+
+            #endregion Arrange
+
+            #region Act
+            Controller.NoCeremony()
+                .AssertViewRendered();
+            #endregion Act
+
+            #region Assert
+
+            #endregion Assert		
+        }
+        #endregion NoCeremony Tests
+
 
         #region Reflection
         #region Controller Class Tests
@@ -1355,8 +1492,7 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(7, result.Count(), "Still need to test methods.");
-            //Assert.AreEqual(9, result.Count(), "It looks like a method was added or removed from the controller.");
+            Assert.AreEqual(9, result.Count(), "It looks like a method was added or removed from the controller.");
             #endregion Assert
         }
 
@@ -1481,7 +1617,7 @@ namespace Commencement.Tests.Controllers
         /// #6
         /// </summary>
         [TestMethod]
-        public void TestControllerMethodRegisterPostContainsExpectedAttributes1()
+        public void TestControllerMethodRegisterPostContainsExpectedAttributes()
         {
             #region Arrange
             var controllerClass = _controllerClass;
@@ -1495,30 +1631,7 @@ namespace Commencement.Tests.Controllers
 
             #region Assert
             Assert.AreEqual(1, expectedAttribute.Count(), "AcceptPostAttribute not found");
-            Assert.AreEqual(2, allAttributes.Count(), "More than expected custom attributes found.");
-            #endregion Assert
-        }
-
-        /// <summary>
-        /// Tests the controller method register post contains expected attributes.
-        /// #6
-        /// </summary>
-        [TestMethod]
-        public void TestControllerMethodRegisterPostContainsExpectedAttributes2()
-        {
-            #region Arrange
-            var controllerClass = _controllerClass;
-            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "Register");
-            #endregion Arrange
-
-            #region Act
-            var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<ValidateAntiForgeryTokenAttribute>();
-            var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
-            #endregion Act
-
-            #region Assert
-            Assert.AreEqual(1, expectedAttribute.Count(), "ValidateAntiForgeryTokenAttribute not found");
-            Assert.AreEqual(2, allAttributes.Count(), "More than expected custom attributes found.");
+            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
             #endregion Assert
         }
 
@@ -1544,6 +1657,53 @@ namespace Commencement.Tests.Controllers
             Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
             #endregion Assert
         }
+
+        /// <summary>
+        /// Tests the controller method edit registration post contains expected attributes.
+        /// #8
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodEditRegistrationPostContainsExpectedAttributes()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "EditRegistration");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<AcceptPostAttribute>();
+            var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "AcceptPostAttribute not found");
+            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the controller method no ceremony contains expected attributes.
+        /// #9 Note: this one is not being used.
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodNoCeremonyContainsExpectedAttributes()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            var controllerMethod = controllerClass.GetMethod("NoCeremony");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
+            var allAttributes = controllerMethod.GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
+            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
         #endregion Controller Method Tests
 
         #endregion Reflection

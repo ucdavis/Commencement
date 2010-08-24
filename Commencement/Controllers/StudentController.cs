@@ -146,8 +146,7 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
-        [AcceptPost]
-        [ValidateAntiForgeryToken]
+        [AcceptPost]        
         public ActionResult Register(int id, Registration registration, bool agreeToDisclaimer)
         {
             registration.Student = GetCurrentStudent();
@@ -217,7 +216,6 @@ namespace Commencement.Controllers
         }
 
         [AcceptPost]
-        [ValidateAntiForgeryToken]
         public ActionResult EditRegistration(int id, Registration registration, bool agreeToDisclaimer)
         {
             var registrationToEdit = _registrationRepository.GetNullableById(id);
@@ -268,6 +266,7 @@ namespace Commencement.Controllers
 
             return View(viewModel);
         }
+
         [PageTrackingFilter]
         public ActionResult NoCeremony()
         {

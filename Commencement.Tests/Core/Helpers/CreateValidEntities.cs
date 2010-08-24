@@ -92,5 +92,13 @@ namespace Commencement.Tests.Core.Helpers
             }
             return rtValue;
         }
+
+        public static ExtraTicketPetition ExtraTicketPetition(int count)
+        {
+            var rtValue = new ExtraTicketPetition(count);
+            rtValue.SetIdTo(count);
+
+            return rtValue;
+        }
     }
 }
