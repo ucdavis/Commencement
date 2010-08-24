@@ -72,6 +72,12 @@ namespace Commencement.Controllers
             return this.RedirectToAction(a => a.Index());
         }
 
+        [AnyoneWithRole]
+        public ActionResult DecideRegistrationPetition(int id, bool isApproved)
+        {
+            throw new NotImplementedException();
+        }
+
         [PageTrackingFilter]
         public ActionResult Register()
         {
@@ -101,7 +107,7 @@ namespace Commencement.Controllers
                 }
                 catch
                 {
-                    
+                    Message += StaticValues.Student_Email_Problem;
                 }
 
                 return this.RedirectToAction(a => a.RegisterConfirmation());
