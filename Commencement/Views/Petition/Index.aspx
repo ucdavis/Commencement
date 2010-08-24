@@ -10,9 +10,9 @@
 
     <%= Html.ActionLink<HomeController>(a=>a.Index(), "Back Home") %>
 
-    <div id="Ceremony_Container">
+    <div id="Ceremony_Container" style="margin:0 auto; width:500px;">
     
-        <ul>
+        <ul style="list-style:none;">
             <% foreach(var ceremony in Model.Ceremonies) { %>
                 <li>
                     <strong><%= ceremony.Name %> (<%= ceremony.DateTime %>) :</strong>
@@ -48,7 +48,6 @@
                                      col.Bound(a => a.Student.FullName).Title("Name");
                                      col.Bound(a => a.ExtraTicketPetition.NumberTickets).Title("# Extra Tickets");
                                      col.Bound(a => a.ExtraTicketPetition.DateSubmitted);
-                                     col.Bound(a => a.Ceremony.DateTime).Title("Ceremony");
                                  })
                     .Render();
             %>
