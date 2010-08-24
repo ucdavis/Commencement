@@ -18,6 +18,7 @@ namespace Commencement.Controllers.Helpers
         void SendExtraTicketPetitionDecision(IRepository repository, Registration registration);
         void SendExtraTicketPetitionConfirmation(IRepository repository, Registration registration);
         void SendRegistrationPetitionConfirmation(IRepository repository, RegistrationPetition registrationPetition);
+        void SendRegistrationPetitionApproved(IRepository repository, RegistrationPetition registrationPetition);
     }
 
     public class EmailService : IEmailService
@@ -121,6 +122,11 @@ namespace Commencement.Controllers.Helpers
         }
 
         public void SendRegistrationPetitionConfirmation(IRepository repository, RegistrationPetition registrationPetition)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SendRegistrationPetitionApproved(IRepository repository, RegistrationPetition registrationPetition)
         {
             throw new NotImplementedException();
         }
@@ -233,6 +239,11 @@ namespace Commencement.Controllers.Helpers
         }
 
         public void SendRegistrationPetitionConfirmation(IRepository repository, RegistrationPetition registrationPetition)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SendRegistrationPetitionApproved(IRepository repository, RegistrationPetition registrationPetition)
         {
             throw new NotImplementedException();
         }

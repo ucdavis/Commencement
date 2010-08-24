@@ -1,16 +1,31 @@
 ﻿using NHibernate.Validator.Constraints;
+using UCDArch.Core.DomainModel;
 using UCDArch.Core.NHibernateValidator.Extensions;
 
 namespace Commencement.Core.Domain
 {
-    public class RegistrationPetition : Petition
+    public class RegistrationPetition : DomainObject
     {
+        [Required]
+        [Length(8)]
+        public virtual string Pidm { get; set; }
+
+        [Required]
         [Length(9)]
         public virtual string StudentId { get; set; }
+        [Required]
         [Length(50)]
         public virtual string FirstName { get; set; }
+        [Required]
         [Length(50)]
         public virtual string LastName { get; set; }
+
+        [Required]
+        [Length(50)]
+        public virtual string Email { get; set; }
+        [Required]
+        [Length(50)]
+        public virtual string Login { get; set; }
 
         [Required]
         [Length(4)]
@@ -25,5 +40,11 @@ namespace Commencement.Core.Domain
         [Required]
         [Length(6)]
         public virtual string CompletionTerm { get; set; }
+
+        [Length(100)]
+        public virtual string TransferUnitsFrom { get; set; }
+        public virtual double? TransferUnits { get; set; }
+        [Length(50)]
+        public virtual string CurrentlyRegistered { get; set; }
     }
 }

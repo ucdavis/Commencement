@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Commencement.Core" namespace="Commencement.Core.Domain">
+  <class name="RegistrationPetition" table="RegistrationPetitions" >
+    <id name="Id" column="id" >
+      <generator class="identity" />
+    </id>
+
+    <property name="Pidm" column="Pidm" />
+    <property name="StudentId" column="StudentId" />
+    <property name="FirstName" column="FirstName" />
+    <property name="LastName" column="LastName" />
+    <property name="Email" column="Email" />
+    <property name="Login" column="Login" />
+    <property name="MajorCode" column="Majorcode" />
+    <property name="Units" column="Units" />
+    <property name="ExceptionReason" column="ExceptionReason" />
+    <property name="CompletionTerm" column="CompletionTerm" />
+    <property name="TransferUnitsFrom" column="TransferUnitsFrom" />
+    <property name="TransferUnits" column="TransferUnits" />
+    <property name="CurrentlyRegistered" column="CurrentlyRegistered" />
+    
+  </class>
+</hibernate-mapping>

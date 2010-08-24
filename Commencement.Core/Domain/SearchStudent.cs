@@ -23,5 +23,9 @@ namespace Commencement.Core.Domain
         public virtual string LoginId { get; set; }
 
         public virtual string Astd { get; set; }
+
+        public virtual string FullName { 
+            get { return FirstName + " " + LastName; }
+        }
     }
 }

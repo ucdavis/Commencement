@@ -80,7 +80,7 @@ namespace Commencement.Controllers.Helpers
 
         public IList<SearchStudent> SearchStudentByLogin(string login, string termCode)
         {
-            var searchQuery = NHibernateSessionManager.Instance.GetSession().GetNamedQuery("SearchStudents");
+            var searchQuery = NHibernateSessionManager.Instance.GetSession().GetNamedQuery("SearchStudentByLogin");
 
             searchQuery.SetString("login", login);
             searchQuery.SetString("term", termCode);

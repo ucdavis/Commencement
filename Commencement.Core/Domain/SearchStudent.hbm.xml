@@ -16,7 +16,7 @@
     <property name="CollegeCode" column="Zgvlcfs_Coll_Code" />
     <property name="DegreeCode" column="Shrdgmr_Degs_Code" />
 
-    <property name="LoginId" column="login_id" />
+    <property name="LoginId" column="loginid" />
 
     <property name="Astd" column="shrttrm_astd_code_end_of_term" />
     
@@ -28,7 +28,7 @@
     EXEC usp_SearchStudent :studentid, :term
   </sql-query>
 
-  <sql-query name="SearchStudentsByLogin">
+  <sql-query name="SearchStudentByLogin">
     <return class="SearchStudent"></return>
     EXEC usp_SearchStudentByLogin :login, :term
   </sql-query>

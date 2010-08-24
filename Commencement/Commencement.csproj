@@ -607,6 +607,7 @@
     <Content Include="Views\Admin\AddStudentConfirm.aspx" />
     <Content Include="Views\Admin\ChangeMajor.aspx" />
     <Content Include="Views\Petition\Index.aspx" />
+    <Content Include="Views\Petition\RegisterConfirmation.aspx" />
     <Content Include="Views\Student\EditRegistration.aspx" />
     <Content Include="Views\Student\NoCeremony.aspx" />
     <Content Include="Views\Student\RegistrationEditForm.ascx" />

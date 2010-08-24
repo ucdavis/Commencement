@@ -17,20 +17,23 @@ declare @temp table(
 	email varchar(50), major varchar(4),
 	coll char(2), degsCode varchar(4),
 	astd char(2),
-	termcode varchar(6)
+	termcode varchar(6),
+	[login] varchar(50)
 )
 
-insert into @temp (pidm, studentid, firstname, lastname, units, email, major, coll, degscode, astd, termcode)
+insert into @temp (pidm, studentid, firstname, lastname, units, email, major, coll, degscode, astd, termcode, [login])
 select spriden_pidm, spriden_id, spriden_first_name, spriden_last_name, shrlgpa_hours_earned, goremal_email_address, zgvlcfs_majr_code
 	, zgvlcfs_coll_code, shrdgmr_degs_code
 	, shrttrm_astd_code_end_of_term
-	, shrdgmr_term_code_sturec
+	, termcode
+	, wormoth_login_id
 from openquery (sis, '
 	select spriden_pidm, spriden_id, spriden_first_name, spriden_last_name, shrlgpa_hours_earned, email.goremal_email_address, curriculum.zgvlcfs_majr_code
 		, curriculum.zgvlcfs_coll_code
 		, shrdgmr_degs_code
 		, shrttrm_astd_code_end_of_term
-		, shrdgmr_term_code_sturec
+		, (select min(stvterm_code) from stvterm where stvterm_end_date > sysdate and stvterm_trmt_code = ''Q'') termcode
+		, lower(wormoth_login_id) wormoth_login_id
 	from spriden
 		inner join shrlgpa on spriden_pidm = shrlgpa_pidm
 		left outer join (
@@ -49,23 +52,26 @@ from openquery (sis, '
 		) curriculum on curriculum.zgvlcfs_pidm = spriden_pidm
 		left outer join shrdgmr on shrdgmr_pidm = spriden_pidm 
 		left outer join shrttrm on shrttrm_pidm = spriden_pidm
+		left outer join wormoth on wormoth_pidm = spriden_pidm
 	where spriden_change_ind is null
 		and shrlgpa_gpa_type_ind = ''O''
 		and shrlgpa_levl_code in (''UG'', ''U2'')
 		and shrlgpa_hours_earned in ( select max(shrlgpa_hours_earned) from shrlgpa ishrlgpa where shrlgpa.shrlgpa_pidm = ishrlgpa.shrlgpa_pidm )
 		and shrlgpa_hours_earned >= 140		
-		and shrdgmr_term_code_sturec = (select min(stvterm_code) from stvterm where stvterm_end_date > sysdate and stvterm_trmt_code = ''Q'')
+		and shrdgmr_degs_code <> ''DA''
+		and wormoth_acct_type = ''Z''
+		and wormoth_acct_status = ''A''
 		and shrttrm_term_code = (select max(stvterm_code) from stvterm where stvterm_end_date < sysdate and stvterm_trmt_code = ''Q'')	
 ')
 
 merge into students t
-using (select distinct pidm, studentid, firstname, lastname, units, email, degscode, termcode from @temp where astd <> 'DS') s
+using (select distinct pidm, studentid, firstname, lastname, units, email, degscode, termcode, [login] from @temp where astd <> 'DS') s
 on t.pidm = s.pidm and t.termcode = s.termcode
 when matched then
-	update set t.studentid = s.studentid, t.firstname = s.firstname, t.lastname = s.lastname, t.units = s.units, t.email = s.email, t.degreecode = s.degscode, t.dateupdated = getdate()
+	update set t.studentid = s.studentid, t.firstname = s.firstname, t.lastname = s.lastname, t.units = s.units, t.email = s.email, t.degreecode = s.degscode, t.dateupdated = getdate(), t.[login] = s.[login]
 when not matched then
-	insert (pidm, studentid, firstname, lastname, units, email, degreecode, termcode)
-	values(s.pidm, s.studentid, s.firstname, s.lastname, s.units, s.email, s.degscode, s.termcode);
+	insert (pidm, studentid, firstname, lastname, units, email, degreecode, termcode, [login])
+	values(s.pidm, s.studentid, s.firstname, s.lastname, s.units, s.email, s.degscode, s.termcode, s.[login]);
 
 merge into studentmajors t
 using (
@@ -76,19 +82,6 @@ using (
 on t.student_id = s.id and t.majorcode = s.major
 when not matched then 
 	insert (student_id, majorcode) values(s.id, s.major);
-
-merge into Students t
-using (
-	select login_id, pidm
-	from openquery (isods_prod, '
-		select login_id, pidm from student_id_v
-			left outer join student_login_id_V on student_id_V.person_wh_id = student_login_id_V.person_wh_id
-	')
-	where pidm in ( select pidm from students where Login is null)
-)s
-on t.pidm = s.pidm
-when matched then
-	update set t.[login] = s.login_id;
 	
 GO
 

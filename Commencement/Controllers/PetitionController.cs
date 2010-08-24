@@ -72,12 +72,50 @@ namespace Commencement.Controllers
             return this.RedirectToAction(a => a.Index());
         }
 
+        [PageTrackingFilter]
         public ActionResult Register()
         {
             //Get student info and create registration model
             var viewModel = RegistrationPetitionModel.Create(Repository, _studentService, CurrentUser);
 
+            if (viewModel.SearchStudent == null)
+                return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.StudentNotFound));
+
             return View(viewModel);
+        }
+
+        [AcceptPost]
+        public ActionResult Register(RegistrationPetition registrationPetition)
+        {
+            // validate the object
+            registrationPetition.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                Repository.OfType<RegistrationPetition>().EnsurePersistent(registrationPetition);
+                Message = "Your registration petition has been submitted.";
+
+                try
+                {
+                    _emailService.SendRegistrationPetitionConfirmation(Repository, registrationPetition);
+                }
+                catch
+                {
+                    
+                }
+
+                return this.RedirectToAction(a => a.RegisterConfirmation());
+            }
+
+            var viewModel = RegistrationPetitionModel.Create(Repository, _studentService, CurrentUser);
+            viewModel.RegistrationPetition = registrationPetition;
+            return View(viewModel);
+        }
+
+        [PageTrackingFilter]
+        public ActionResult RegisterConfirmation()
+        {
+            return View();
         }
 
         /// <summary>

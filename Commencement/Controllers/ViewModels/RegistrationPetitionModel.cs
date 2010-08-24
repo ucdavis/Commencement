@@ -22,7 +22,12 @@ namespace Commencement.Controllers.ViewModels
             Check.Require(studentService != null, "Student service is required.");
             Check.Require(principal != null, "Principal is required.");
 
+#if DEBUG 
+            //var searchResults = studentService.SearchStudent("ri2zle", TermService.GetCurrent().Id);
+            var searchResults = studentService.SearchStudentByLogin("ri2zle", TermService.GetCurrent().Id);
+#else
             var searchResults = studentService.SearchStudent(principal.Identity.Name, TermService.GetCurrent().Id);
+#endif
 
             var viewModel = new RegistrationPetitionModel()
             { 

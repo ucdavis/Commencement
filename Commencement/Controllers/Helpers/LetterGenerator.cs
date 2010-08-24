@@ -31,6 +31,7 @@ namespace Commencement.Controllers.Helpers
         {
             Check.Require(student != null, "Student is required.");
             Check.Require(template != null, "Template is required");
+            Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved);
 
             _ceremony = ceremony;
             Student = student;
@@ -38,8 +39,16 @@ namespace Commencement.Controllers.Helpers
             return HandleBody(template.BodyText);
         }
 
-        public string GenerateRegistrationPetitionConfirmation(Registration registration, Template template)
+        public string GenerateRegistrationPetitionConfirmation(RegistrationPetition registrationPetition, Template template)
         {
+            Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationPetition);
+
+            throw new NotImplementedException();
+        }
+
+        public string GenerateRegistrationPetitionApproved(RegistrationPetition registrationPetition, Template template)
+        {
+            Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved);
 
             throw new NotImplementedException();
         }
@@ -48,6 +57,7 @@ namespace Commencement.Controllers.Helpers
         {
             Check.Require(registration != null, "Registration is required.");
             Check.Require(template != null, "Template is required.");
+            Check.Require(template.TemplateType.Name == StaticValues.Template_TicketPetition);
 
             Registration = registration;
             _ceremony = registration.Ceremony;
@@ -61,6 +71,7 @@ namespace Commencement.Controllers.Helpers
         {
             Check.Require(registration != null, "Registration is required.");
             Check.Require(template != null, "Template is required.");
+            Check.Require(template.TemplateType.Name == StaticValues.Template_TicketPetition_Decision);
 
             Registration = registration;
             _ceremony = registration.Ceremony;
@@ -151,7 +162,6 @@ namespace Commencement.Controllers.Helpers
                 case "numberoftickets":
 
                     if (Registration != null) return Registration.TotalTickets.ToString();
-                    if (RegistrationPetition != null) return RegistrationPetition.NumberTickets.ToString();
 
                     throw new ArgumentException("No valid object was provided.");
                 case "petitiondecision":
@@ -167,36 +177,26 @@ namespace Commencement.Controllers.Helpers
                 case "addressline1":
 
                     if (Registration != null) return Registration.Address1;
-                    if (RegistrationPetition != null) return RegistrationPetition.Address1;
-                    //if (ExtraTicketPetition != null) return ExtraTicketPetition.Registration.Address1;
 
                     throw new ArgumentException("No valid object was provided.");
                 case "addressline2":
 
                     if (Registration != null) return Registration.Address2;
-                    if (RegistrationPetition != null) return RegistrationPetition.Address2;
-                    //if (ExtraTicketPetition != null) return ExtraTicketPetition.Registration.Address2;
 
                     throw new ArgumentException("No valid object was provided.");
                 case "city":
 
                     if (Registration != null) return Registration.City;
-                    if (RegistrationPetition != null) return RegistrationPetition.City;
-                    //if (ExtraTicketPetition != null) return ExtraTicketPetition.Registration.City;
 
                     throw new ArgumentException("No valid object was provided.");
                 case "state":
 
                     if (Registration != null) return Registration.State.Id;
-                    if (RegistrationPetition != null) return RegistrationPetition.State.Id;
-                    //if (ExtraTicketPetition != null) return ExtraTicketPetition.Registration.State.Id;
 
                     throw new ArgumentException("No valid object was provided.");
                 case "zip":
 
                     if (Registration != null) return Registration.Zip;
-                    if (RegistrationPetition != null) return RegistrationPetition.Zip;
-                    //if (ExtraTicketPetition != null) return ExtraTicketPetition.Registration.Zip;
 
                     throw new ArgumentException("No valid object was provided.");
                 case "distributionmethod":
