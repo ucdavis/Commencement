@@ -24,6 +24,7 @@ namespace Commencement.Core.Domain
             IsApproved = false;
 
             DateSubmitted = DateTime.Now;
+            DateDecision = null;
         }
 
         [Min(1)]
