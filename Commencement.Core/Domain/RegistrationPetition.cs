@@ -55,5 +55,7 @@ namespace Commencement.Core.Domain
 
         public virtual bool IsPending { get; set; }
         public virtual bool IsApproved { get; set; }
+
+        public virtual TermCode TermCode { get; set; }
     }
 }

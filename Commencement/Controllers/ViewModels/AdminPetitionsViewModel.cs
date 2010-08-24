@@ -10,6 +10,7 @@ namespace Commencement.Controllers.ViewModels
     public class AdminPetitionsViewModel
     {
         public IEnumerable<Registration> PendingExtraTicket { get; set; }
+        public IEnumerable<RegistrationPetition> PendingRegistrationPetitions { get; set; }
         public IEnumerable<Ceremony> Ceremonies { get; set; }
 
         public static AdminPetitionsViewModel Create(IRepository repository)
@@ -19,7 +20,9 @@ namespace Commencement.Controllers.ViewModels
             var viewModel = new AdminPetitionsViewModel()
                                 {
                                     PendingExtraTicket = repository.OfType<Registration>().Queryable.Where(a => a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsPending).ToList(),
-                                    Ceremonies = repository.OfType<Ceremony>().Queryable.Where(a=>a.TermCode == TermService.GetCurrent())
+                                    Ceremonies = repository.OfType<Ceremony>().Queryable.Where(a=>a.TermCode == TermService.GetCurrent()),
+                                    PendingRegistrationPetitions = repository.OfType<RegistrationPetition>().Queryable.Where(
+                                                                    a=>a.TermCode == TermService.GetCurrent() && a.IsPending).ToList()
                                 };
 
             return viewModel;
