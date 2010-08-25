@@ -6,7 +6,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
+<div id="fix">
 <ul class="btn">
     <li>
     <%= Html.ActionLink<TemplateController>(a=>a.Index(), "Back to List") %>
@@ -21,22 +21,23 @@
 
         <%= Html.AntiForgeryToken() %>
 
-        <ul class="registration_form">
-            <li>
+
+            <p>
                 <strong>Template Type:</strong>
                 
                 <%= this.Select("TemplateType")
                         .Options(Model.TemplateTypes, x=>x.Id, x=>x.Name)
                         .FirstOption("--Select a Template Type--")
                         .Selected(Model.Template != null ? Model.Template.TemplateType.Id.ToString() : string.Empty) %>
-            </li>
-            <li>
+            </p>
+            <p>
                 <strong>BodyText:</strong>
                 <%--<%= Html.TextAreaFor(a=>a.Template.BodyText) %>--%>
                 <%= Html.TextArea("BodyText", Model.Template != null ? Model.Template.BodyText : string.Empty) %>
-                <%= Html.ValidationMessageFor(a=>a.Template.BodyText) %>
+                <%= Html.ValidationMessageFor(a=>a.Template.BodyText) %> </p>
                 
-                <ul>
+                <div id="right_menu">
+                        <ul class="registration_form">
                     <div id="shared_tokens">
                         <li><a href="javascript:;" class="add_token">{StudentId}</a></li>
                         <li><a href="javascript:;" class="add_token">{StudentName}</a></li>
@@ -54,25 +55,24 @@
                     <div id="registration_tokens" >
                         <li><a href="javascript:;" class="add_token">{SpecialNeeds}</a></li>
                         <li><a href="javascript:;" class="add_token">{Major}</a></li>
-                    </ul>
                     <div id="registration_petition_tokens" >
                         <li><a href="javascript:;" class="add_token">{ExceptionReason}</a></li>
                         <li><a href="javascript:;" class="add_token">{CompletionTerm}</a></li>
                     </div>
-                    
-                    <li><a href="javascript:;" class="add_token">{NumberOfExtraTickets}</a></li>
-                    <li><a href="javascript:;" class="add_token">{PetitionDecision}</a></li>
-                    
-                </ul>
-            </li>
+                       <li><a href="javascript:;" class="add_token">{NumberOfExtraTickets}</a></li>
+                       <li><a href="javascript:;" class="add_token">{PetitionDecision}</a></li>
+               </ul>
+               </div>     
+ 
+           
             
 
             
-            <li>
+            <p>
                 <strong></strong>
                 <input type="submit" value="Create" />
-            </li>
-        </ul>
+            </p>
+        
 
     <% } %>
 
@@ -90,5 +90,6 @@
             });
         });
    </script>
+   </div>
 </asp:Content>
 
