@@ -127,8 +127,290 @@ namespace Commencement.Tests.Core.Repositories
         #endregion Init and Overrides	
         
         
-        
-        
+        #region Location Tests
+        #region Invalid Tests
+
+        /// <summary>
+        /// Tests the Location with null value does not save.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestLocationWithNullValueDoesNotSave()
+        {
+            Ceremony ceremony = null;
+            try
+            {
+                #region Arrange
+                ceremony = GetValid(9);
+                ceremony.Location = null;
+                #endregion Arrange
+
+                #region Act
+                CeremonyRepository.DbContext.BeginTransaction();
+                CeremonyRepository.EnsurePersistent(ceremony);
+                CeremonyRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception)
+            {
+                Assert.IsNotNull(ceremony);
+                var results = ceremony.ValidationResults().AsMessageList();
+                results.AssertErrorsAre("Location: may not be null or empty");
+                Assert.IsTrue(ceremony.IsTransient());
+                Assert.IsFalse(ceremony.IsValid());
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Tests the Location with empty string does not save.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestLocationWithEmptyStringDoesNotSave()
+        {
+            Ceremony ceremony = null;
+            try
+            {
+                #region Arrange
+                ceremony = GetValid(9);
+                ceremony.Location = string.Empty;
+                #endregion Arrange
+
+                #region Act
+                CeremonyRepository.DbContext.BeginTransaction();
+                CeremonyRepository.EnsurePersistent(ceremony);
+                CeremonyRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception)
+            {
+                Assert.IsNotNull(ceremony);
+                var results = ceremony.ValidationResults().AsMessageList();
+                results.AssertErrorsAre("Location: may not be null or empty");
+                Assert.IsTrue(ceremony.IsTransient());
+                Assert.IsFalse(ceremony.IsValid());
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Tests the Location with spaces only does not save.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestLocationWithSpacesOnlyDoesNotSave()
+        {
+            Ceremony ceremony = null;
+            try
+            {
+                #region Arrange
+                ceremony = GetValid(9);
+                ceremony.Location = " ";
+                #endregion Arrange
+
+                #region Act
+                CeremonyRepository.DbContext.BeginTransaction();
+                CeremonyRepository.EnsurePersistent(ceremony);
+                CeremonyRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception)
+            {
+                Assert.IsNotNull(ceremony);
+                var results = ceremony.ValidationResults().AsMessageList();
+                results.AssertErrorsAre("Location: may not be null or empty");
+                Assert.IsTrue(ceremony.IsTransient());
+                Assert.IsFalse(ceremony.IsValid());
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Tests the Location with too long value does not save.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestLocationWithTooLongValueDoesNotSave()
+        {
+            Ceremony ceremony = null;
+            try
+            {
+                #region Arrange
+                ceremony = GetValid(9);
+                ceremony.Location = "x".RepeatTimes((200 + 1));
+                #endregion Arrange
+
+                #region Act
+                CeremonyRepository.DbContext.BeginTransaction();
+                CeremonyRepository.EnsurePersistent(ceremony);
+                CeremonyRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception)
+            {
+                Assert.IsNotNull(ceremony);
+                Assert.AreEqual(200 + 1, ceremony.Location.Length);
+                var results = ceremony.ValidationResults().AsMessageList();
+                results.AssertErrorsAre("Location: length must be between 0 and 200");
+                Assert.IsTrue(ceremony.IsTransient());
+                Assert.IsFalse(ceremony.IsValid());
+                throw;
+            }
+        }
+        #endregion Invalid Tests
+
+        #region Valid Tests
+
+        /// <summary>
+        /// Tests the Location with one character saves.
+        /// </summary>
+        [TestMethod]
+        public void TestLocationWithOneCharacterSaves()
+        {
+            #region Arrange
+            var ceremony = GetValid(9);
+            ceremony.Location = "x";
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(ceremony.IsTransient());
+            Assert.IsTrue(ceremony.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the Location with long value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestLocationWithLongValueSaves()
+        {
+            #region Arrange
+            var ceremony = GetValid(9);
+            ceremony.Location = "x".RepeatTimes(200);
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(200, ceremony.Location.Length);
+            Assert.IsFalse(ceremony.IsTransient());
+            Assert.IsTrue(ceremony.IsValid());
+            #endregion Assert
+        }
+
+        #endregion Valid Tests
+        #endregion Location Tests
+
+        #region DateTime Tests
+
+        #region Invalid Tests
+        /// <summary>
+        /// Tests the date time with past date does not save.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestDateTimeWithPastDateDoesNotSave()
+        {
+            Ceremony ceremony = null;
+            try
+            {
+                #region Arrange
+                ceremony = GetValid(9);
+                ceremony.DateTime = DateTime.Now.AddDays(-1);
+                #endregion Arrange
+
+                #region Act
+                CeremonyRepository.DbContext.BeginTransaction();
+                CeremonyRepository.EnsurePersistent(ceremony);
+                CeremonyRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception)
+            {
+                Assert.IsNotNull(ceremony);
+                var results = ceremony.ValidationResults().AsMessageList();
+                results.AssertErrorsAre("DateTime: must be a future date");
+                Assert.IsTrue(ceremony.IsTransient());
+                Assert.IsFalse(ceremony.IsValid());
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Tests the date time with past date does not save.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestDateTimeWithCurrentDateDoesNotSave()
+        {
+            Ceremony ceremony = null;
+            try
+            {
+                #region Arrange
+                ceremony = GetValid(9);
+                ceremony.DateTime = DateTime.Now;
+                #endregion Arrange
+
+                #region Act
+                CeremonyRepository.DbContext.BeginTransaction();
+                CeremonyRepository.EnsurePersistent(ceremony);
+                CeremonyRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception)
+            {
+                Assert.IsNotNull(ceremony);
+                var results = ceremony.ValidationResults().AsMessageList();
+                results.AssertErrorsAre("DateTime: must be a future date");
+                Assert.IsTrue(ceremony.IsTransient());
+                Assert.IsFalse(ceremony.IsValid());
+                throw;
+            }
+        }
+        #endregion Invalid Tests
+
+        #region Valid Tests
+
+
+        /// <summary>
+        /// Tests the DateTime with future date date will save.
+        /// </summary>
+        [TestMethod]
+        public void TestDateTimeWithFutureDateDateWillSave()
+        {
+            #region Arrange
+            var compareDate = DateTime.Now.AddDays(15);
+            var record = GetValid(99);
+            record.DateTime = compareDate;
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(record);
+            CeremonyRepository.DbContext.CommitChanges();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(record.IsTransient());
+            Assert.IsTrue(record.IsValid());
+            Assert.AreEqual(compareDate, record.DateTime);
+            #endregion Assert
+        }
+
+        #endregion Valid Tests
+        #endregion DateTime Tests
+
         
         
         #region Reflection of Database.
@@ -142,11 +424,20 @@ namespace Commencement.Tests.Core.Repositories
         {
             #region Arrange
             var expectedFields = new List<NameAndType>();
-
+            expectedFields.Add(new NameAndType("DateTime", "System.DateTime", new List<string>
+            {
+                "", 
+                ""
+            }));
             expectedFields.Add(new NameAndType("Id", "System.Int32", new List<string>
             {
                 "[Newtonsoft.Json.JsonPropertyAttribute()]", 
                 "[System.Xml.Serialization.XmlIgnoreAttribute()]"
+            }));
+            expectedFields.Add(new NameAndType("Location", "System.String", new List<string>
+            {
+                 "[NHibernate.Validator.Constraints.LengthAttribute((Int32)200)]", 
+                 "[UCDArch.Core.NHibernateValidator.Extensions.RequiredAttribute()]"
             }));
 
             #endregion Arrange
