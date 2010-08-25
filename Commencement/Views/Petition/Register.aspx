@@ -39,10 +39,6 @@
    
    
         <ul class="registration_form">
-            <li><strong>Currently Registered: </strong>
-                <%= Html.TextBoxFor(x=>x.RegistrationPetition.CurrentlyRegistered)%>
-                <%= Html.ValidationMessageFor(x=>x.RegistrationPetition.CurrentlyRegistered) %>
-            </li>
             <li><strong>* Reason for Petition: </strong> 
                 <%= Html.TextAreaFor(x => x.RegistrationPetition.ExceptionReason, new { maxlength = 1000, size = 5 }) %>
                 <%= Html.ValidationMessageFor(x => x.RegistrationPetition.ExceptionReason)%>

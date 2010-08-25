@@ -55,8 +55,6 @@ namespace Commencement.Core.Domain
         [Length(100)]
         public virtual string TransferUnitsFrom { get; set; }
         public virtual double? TransferUnits { get; set; }
-        [Length(50)]
-        public virtual string CurrentlyRegistered { get; set; }
 
         public virtual bool IsPending { get; set; }
         public virtual bool IsApproved { get; set; }
