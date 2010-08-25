@@ -31,7 +31,6 @@
     </ul>
     
     <ul class="registration_form">
-        <li><strong>Currently Registered:</strong><%= Html.Encode(Model.CurrentlyRegistered) %></li>
         <li><strong>Reason for Petition:</strong><%= Html.Encode(Model.ExceptionReason) %></li>
         <li><strong>Term to Complete:</strong><%= Html.Encode(Model.CompletionTerm) %></li>
         <li><strong>Transfer Units From*:</strong><%= Html.Encode(Model.TransferUnitsFrom) %></li>
