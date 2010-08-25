@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
 using Commencement.Controllers;
-//using Commencement.Controllers.Filter;
 using Commencement.Controllers.Helpers;
-using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
-using Commencement.Tests.Core.Helpers;
+using Commencement.Tests.Core.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;
 using Rhino.Mocks;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Testing;
-using UCDArch.Web.Attributes;
-using Commencement.Tests.Core.Extensions;
 
 namespace Commencement.Tests.Controllers
 {
@@ -24,6 +17,7 @@ namespace Commencement.Tests.Controllers
         private readonly Type _controllerClass = typeof(PetitionController);
         private IStudentService _studentService;
         private IEmailService _emailService;
+        private IRepositoryWithTypedId<MajorCode, string> _majorService;
 
         #region Init
 
@@ -31,7 +25,8 @@ namespace Commencement.Tests.Controllers
         {
             _studentService = MockRepository.GenerateStub<IStudentService>();
             _emailService = MockRepository.GenerateStub<IEmailService>();
-            Controller = new TestControllerBuilder().CreateController<PetitionController>(_studentService,_emailService);
+            _majorService = MockRepository.GenerateStub<IRepositoryWithTypedId<MajorCode, string>>();
+            Controller = new TestControllerBuilder().CreateController<PetitionController>(_studentService,_emailService, _majorService);
         }
         /// <summary>
         /// Registers the routes.
