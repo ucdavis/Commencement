@@ -106,10 +106,24 @@ namespace Commencement.Controllers
                     Repository.OfType<Student>().EnsurePersistent(student);
                 }
 
-                Message = string.Format("Decision was saved for {0}", registrationPetition.FullName);
-            }
+                if (isApproved)
+                {
+                    try
+                    {
+                        _emailService.SendRegistrationPetitionApproved(Repository, registrationPetition);
+                    }
+                    catch
+                    {
+                        Message += StaticValues.Student_Email_Problem;
+                    }
+                }
 
-            Message = string.Format("There was a problem saving decision for {0}", registrationPetition.FullName);
+                Message += string.Format("Decision was saved for {0}", registrationPetition.FullName);
+            }
+            else
+            {
+                Message = string.Format("There was a problem saving decision for {0}", registrationPetition.FullName);
+            }
 
             return this.RedirectToAction(a => a.Index());
         }
