@@ -19,9 +19,8 @@
     
     <ul class="registration_form">
         <li><strong>Date Submitted:</strong><%= Html.Encode(Model.DateSubmitted) %></li>
-        <li><strong>Pending:</strong><%= Html.Encode(Model.IsPending ? "Yes" : "No") %></li>
         <li><strong>Date Decision:</strong><%= Html.Encode(Model.DateDecision != null ? Model.DateDecision.ToString() : string.Empty) %></li>
-        <li><strong>Approved:</strong><%= Html.Encode(Model.IsApproved ? "Yes" : "No") %></li>
+        <li><strong>Approved:</strong><%= Html.Encode(Model.IsPending ? "Pending" : (Model.IsApproved ? "Yes" : "No")) %></li>
     </ul>
     
     <ul class="registration_form">
@@ -39,7 +38,7 @@
         <li><strong>Transfer Units*:</strong><%= Html.Encode(Model.TransferUnits) %></li>
     </ul>
     
-    <h3>*Signifies transfer units that still need to be received from specified college.</h3>
+    <h3>* Signifies transfer units the student feels are still pending.</h3>
 
 </asp:Content>
 

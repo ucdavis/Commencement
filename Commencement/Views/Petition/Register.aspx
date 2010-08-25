@@ -6,11 +6,10 @@
 <asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent">
 </asp:Content>
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
-    <h1>Fall Commencement Ceremony</h1>
+    <h1><%= Model.CurrentTerm.Name %> Commencement</h1>
     <p>
-        Some quick intriduction, two or three lines explaining what this is, what they need
-        to do, the <strong>due date</strong>, and what will happen after they do this. We
-        need to include a line stating <strong>all fields are required</strong></p>
+        Our records show that you do not meet the requirements to participate in <%= Model.CurrentTerm.Name %> Commencement.  If you would like to submit a petition to participate in the ceremony please complete the below request.   
+    </p>
     
     <%= Html.ValidationSummary("Please correct all errors below") %>
     <%= Html.ClientSideValidation<Commencement.Core.Domain.RegistrationPetition>("RegistrationPetition") %>
@@ -44,16 +43,16 @@
                 <%= Html.TextBoxFor(x=>x.RegistrationPetition.CurrentlyRegistered)%>
                 <%= Html.ValidationMessageFor(x=>x.RegistrationPetition.CurrentlyRegistered) %>
             </li>
-            <li><strong>Reason for Petition: </strong> 
+            <li><strong>* Reason for Petition: </strong> 
                 <%= Html.TextAreaFor(x => x.RegistrationPetition.ExceptionReason, new { maxlength = 1000, size = 5 }) %>
                 <%= Html.ValidationMessageFor(x => x.RegistrationPetition.ExceptionReason)%>
             </li>
-            <li><strong>Term to Complete:</strong>
+            <li><strong>* Expected Degree Completion:</strong>
                <%= this.Select("RegistrationPetition.CompletionTerm").Options(Model.TermCodes, x => x.Id, x => x.Description).Selected(!string.IsNullOrEmpty(Model.RegistrationPetition.CompletionTerm) ? Model.RegistrationPetition.CompletionTerm : string.Empty)%>
             </li>
           </ul>
     
-      <h2>Transfer Units</h2>
+      <h2>Pending Transfer Units</h2>
       
       <ul class="registration_form">  
         <li><strong>From: </strong>

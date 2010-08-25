@@ -6,10 +6,24 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>RegisterConfirmation</h2>
+    <h2>Petition Submitted Successfully</h2>
 
     <p>
-        Thank you for submitting your request.  We will review your request and you will receive an email when it has been decided.
+        Thank you for submitting your petition. We will do our best to review your request within one week. 
+        You will be notified by email of the decision. Petitions submitted after the registration deadline 
+        will be reviewed on first come first serve basis. 
+    </p>
+    <p>
+        Petitions submitted after the registration deadline will be reviewed on first come first serve basis. 
+    </p>
+    
+    <h3>Please review our FAQ page for any further questions: 
+        <a href="http://caes.ucdavis.edu/NewsEvents/Events/Commencement/frequently-asked-questions">http://caes.ucdavis.edu/NewsEvents/Events/Commencement/frequently-asked-questions</a>
+    </h3>
+    
+    <p>
+        Best,<br />
+        commencement@caes.ucdavis.edu
     </p>
 
 </asp:Content>
