@@ -205,6 +205,27 @@ namespace Commencement.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;script type=&quot;text/javascript&quot;&gt;
+        ///
+        ///  var _gaq = _gaq || [];
+        ///  _gaq.push([&apos;_setAccount&apos;, &apos;UA-5512876-5&apos;]);
+        ///  _gaq.push([&apos;_trackPageview&apos;]);
+        ///
+        ///  (function() {
+        ///    var ga = document.createElement(&apos;script&apos;); ga.type = &apos;text/javascript&apos;; ga.async = true;
+        ///    ga.src = (&apos;https:&apos; == document.location.protocol ? &apos;https://ssl&apos; : &apos;http://www&apos;) + &apos;.google-analytics.com/ga.js&apos;;
+        ///    var s = document.getElementsByTagName(&apos;script&apos;)[0]; s.parentNode.insertBefore(ga, s);
+        ///  })();
+        ///
+        ///&lt;/script&gt;.
+        /// </summary>
+        public static string Txt_GoogleAnalytics {
+            get {
+                return ResourceManager.GetString("Txt_GoogleAnalytics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Welcome {0}.  After you have submitted your registration you may log back in and update any of your information up until the registration deadline..
         /// </summary>
         public static string Txt_Introduction {

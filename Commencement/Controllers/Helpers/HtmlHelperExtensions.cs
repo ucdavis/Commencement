@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Commencement.Core.Resources;
 using Commencement.Helpers;
 using Telerik.Web.Mvc.UI;
 
@@ -18,6 +19,16 @@ namespace Commencement.Controllers.Helpers
             return new CustomGridBuilder<T>(builder);
         }
 
+        public static string GoogleAnalytics(this HtmlHelper helper)
+        {
+#if DEBUG
+            return string.Empty;
+#else
+            return StaticValues.Txt_GoogleAnalytics;
+#endif
+        }
+
+        #region HtmlEncode
         private const string HtmlTag = @"&lt;{0}&gt;";
         private const string Span = "span";
         private const string SpanEncodedStyled = @"&lt;span style=&quot;{0}&quot;&gt;";
@@ -255,6 +266,7 @@ namespace Commencement.Controllers.Helpers
 
             return currentLocation;
         }
+        #endregion
     }
 
     public class TagMarker
