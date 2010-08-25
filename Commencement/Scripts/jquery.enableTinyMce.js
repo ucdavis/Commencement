@@ -6,7 +6,9 @@
         enableTinyMce: function(options) {
 
             var settings = $.extend({
-                script_location: "../../Scripts/tiny_mce/tiny_mce.js"
+                script_location: "../../Scripts/tiny_mce/tiny_mce.js",
+                overrideHeight: "400",
+                overrideWidth: "400"
             }, options);
 
 
@@ -21,8 +23,8 @@
                     plugins: "safari,style,save,searchreplace,print,contextmenu,paste",
 
                     // Theme options
-                    theme_advanced_buttons1: "print,|,bold,italic,underline,|,fontsizeselect",
-                    theme_advanced_buttons2: "search,replace,|,undo,redo,|,bullist,numlist,|,myButton",
+                    theme_advanced_buttons1: "print,|,bold,italic,underline,|,formatselect,fontsizeselect",
+                    theme_advanced_buttons2: "search,replace,pastetext,|,undo,redo,|,bullist,numlist,|,myButton",
                     theme_advanced_buttons3: "",
                     theme_advanced_toolbar_location: "top",
                     theme_advanced_toolbar_align: "left",
@@ -30,8 +32,8 @@
                     theme_advanced_resizing: false,
 
                     // dimensions stuff
-                    height: "400",
-                    width: "400",
+                    height: settings.overrideHeight,
+                    width: settings.overrideWidth,
 
                     // Example content CSS (should be your site CSS)
                     //content_css: "css/Main.css",
