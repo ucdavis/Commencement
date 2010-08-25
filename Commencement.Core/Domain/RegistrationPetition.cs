@@ -1,4 +1,5 @@
-﻿using NHibernate.Validator.Constraints;
+﻿using System;
+using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 using UCDArch.Core.NHibernateValidator.Extensions;
 
@@ -10,6 +11,9 @@ namespace Commencement.Core.Domain
         {
             IsPending = true;
             IsApproved = false;
+
+            DateSubmitted = DateTime.Now;
+            DateDecision = null;
         }
 
         [Required]
@@ -33,11 +37,12 @@ namespace Commencement.Core.Domain
         [Length(50)]
         public virtual string Login { get; set; }
 
-        [Required]
-        [Length(4)]
-        public virtual string MajorCode { get; set; }
+        //[Required]
+        //[Length(4)]
+        [NotNull]
+        public virtual MajorCode MajorCode { get; set; }
         
-        public virtual double Units { get; set; }
+        public virtual decimal Units { get; set; }
 
         [Required]
         [Length(1000)]
@@ -56,6 +61,20 @@ namespace Commencement.Core.Domain
         public virtual bool IsPending { get; set; }
         public virtual bool IsApproved { get; set; }
 
+        public virtual DateTime DateSubmitted { get; set; }
+        public virtual DateTime? DateDecision { get; set; }
+
+        [NotNull]
         public virtual TermCode TermCode { get; set; }
+
+
+        public virtual string FullName { get { return FirstName + " " + LastName; } }
+
+        public virtual void SetDecision(bool isApproved)
+        {
+            IsPending = false;
+            IsApproved = isApproved;
+            DateDecision = DateTime.Now;
+        }
     }
 }

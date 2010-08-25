@@ -15,6 +15,7 @@ namespace Commencement.Controllers.ViewModels
         public IEnumerable<vTermCode> TermCodes { get; set; }
         public IEnumerable<State> States { get; set; }
         public SearchStudent SearchStudent { get; set; }
+        public TermCode CurrentTerm { get; set; }
 
         public static RegistrationPetitionModel Create(IRepository repository, IStudentService studentService, IPrincipal principal)
         {
@@ -24,7 +25,25 @@ namespace Commencement.Controllers.ViewModels
 
 #if DEBUG 
             //var searchResults = studentService.SearchStudent("ri2zle", TermService.GetCurrent().Id);
-            var searchResults = studentService.SearchStudentByLogin("ri2zle", TermService.GetCurrent().Id);
+            //var searchResults = studentService.SearchStudentByLogin("ri2zle", TermService.GetCurrent().Id);
+
+
+            var searchResults = new List<SearchStudent>();
+            searchResults.Add(new SearchStudent()
+                                  {
+                                      Astd = "GS",
+                                      CollegeCode = "AE",
+                                      DegreeCode = "SO",
+                                      Email = "fake@ucdavis.edu",
+                                      FirstName = "Philip",
+                                      LastName = "Fry",
+                                      HoursEarned = 145,
+                                      LoginId = "pjfry",
+                                      Id = "123456789",
+                                      Pidm = "1234567",
+                                      MajorCode = "AANS"
+                                  });
+
 #else
             var searchResults = studentService.SearchStudent(principal.Identity.Name, TermService.GetCurrent().Id);
 #endif
@@ -33,6 +52,7 @@ namespace Commencement.Controllers.ViewModels
             { 
                 States = repository.OfType<State>().GetAll(),
                 TermCodes = repository.OfType<vTermCode>().Queryable.Where(a => a.EndDate > DateTime.Now).ToList(),
+                CurrentTerm = TermService.GetCurrent(),
                 SearchStudent = searchResults.FirstOrDefault()
             };
 

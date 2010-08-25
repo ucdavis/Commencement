@@ -11,7 +11,6 @@
     <property name="LastName" column="LastName" />
     <property name="Email" column="Email" />
     <property name="Login" column="Login" />
-    <property name="MajorCode" column="Majorcode" />
     <property name="Units" column="Units" />
     <property name="ExceptionReason" column="ExceptionReason" />
     <property name="CompletionTerm" column="CompletionTerm" />
@@ -21,6 +20,7 @@
     <property name="IsPending" column="IsPending" />
     <property name="IsApproved" column="IsApproved" />
 
+    <many-to-one name="MajorCode" class="MajorCode" column="Majorcode" ></many-to-one>
     <many-to-one name="TermCode" class="TermCode" column="TermCode"></many-to-one>
     
   </class>

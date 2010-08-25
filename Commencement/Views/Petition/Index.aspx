@@ -8,7 +8,9 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <%= Html.ActionLink<HomeController>(a=>a.Index(), "Back Home") %>
+    <ul class="btn">
+        <li><%= Html.ActionLink<HomeController>(a=>a.Index(), "Back Home") %></li>
+    </ul>
 
     <div id="Ceremony_Container" style="margin:0 auto; width:500px;">
     
@@ -54,7 +56,31 @@
         </div>
         
         <div id="tabs-2">
-            2nd tab
+            <%  Html.Grid(Model.PendingRegistrationPetitions)
+                    .Name("PendingRegistrationPetitions")
+                    .Columns(col=>
+                                 {
+                                     col.Add(a =>
+                                                 {
+                                                     {%>
+                                                     
+                                                     <%= Html.ActionLink<PetitionController>(b=>b.DecideRegistrationPetition(a.Id, true), "Approve") %>
+                                                     |
+                                                     <%= Html.ActionLink<PetitionController>(b=>b.DecideRegistrationPetition(a.Id, false), "Deny") %>
+                                                     
+                                                     <%}
+                                                 });
+                                     col.Bound(a => a.StudentId);
+                                     col.Bound(a => a.FullName);
+                                     col.Bound(a => a.DateSubmitted);
+                                     col.Add(a =>
+                                                 {%>
+                                                 <%= Html.ActionLink<PetitionController>(b=>b.RegistrationPetition(a.Id), "Details") %>
+                                                 <%});
+                                 }
+                    )
+                    .Render();
+                 %>
         </div>
     </div>
     

@@ -268,12 +268,40 @@ namespace Commencement.Controllers.Helpers
 
         public void SendRegistrationPetitionConfirmation(IRepository repository, RegistrationPetition registrationPetition)
         {
-            throw new NotImplementedException();
+            var term = TermService.GetCurrent();
+
+            Check.Require(repository != null, "Repository is required.");
+            Check.Require(registrationPetition != null, "Registration Petition is required.");
+
+            var message = InitializeMessage();
+            message.Subject = term.Name + " Commencement Registration Petition";
+            message.To.Add("anlai@ucdavis.edu");
+
+            var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition).OrderByDescending(a => a.Id).FirstOrDefault();
+            Check.Require(template != null, "No template is available.");
+
+            message.Body = letterGenerator.GenerateRegistrationPetitionConfirmation(registrationPetition, template);
+
+            client.Send(message);
         }
 
         public void SendRegistrationPetitionApproved(IRepository repository, RegistrationPetition registrationPetition)
         {
-            throw new NotImplementedException();
+            var term = TermService.GetCurrent();
+
+            Check.Require(repository != null, "Repository is required.");
+            Check.Require(registrationPetition != null, "Registration Petition is required.");
+
+            var message = InitializeMessage();
+            message.Subject = term.Name + " Commencement Registration Petition";
+            message.To.Add("anlai@ucdavis.edu");
+
+            var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition).OrderByDescending(a => a.Id).FirstOrDefault();
+            Check.Require(template != null, "No template is available.");
+
+            message.Body = letterGenerator.GenerateRegistrationPetitionConfirmation(registrationPetition, template);
+
+            client.Send(message);
         }
 
         private MailMessage InitializeMessage()

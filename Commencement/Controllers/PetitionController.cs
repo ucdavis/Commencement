@@ -8,6 +8,7 @@ using Commencement.Core.Resources;
 using MvcContrib;
 using MvcContrib.Attributes;
 using UCDArch.Core.PersistanceSupport;
+using UCDArch.Core.Utils;
 using UCDArch.Web.Helpers;
 
 
@@ -18,12 +19,14 @@ namespace Commencement.Controllers
     {
         private readonly IStudentService _studentService;
         private readonly IEmailService _emailService;
+        private readonly IRepositoryWithTypedId<MajorCode, string> _majorService;
 
 
-        public PetitionController(IStudentService studentService, IEmailService emailService)
+        public PetitionController(IStudentService studentService, IEmailService emailService, IRepositoryWithTypedId<MajorCode, string> majorService)
         {
             _studentService = studentService;
             _emailService = emailService;
+            _majorService = majorService;
         }
 
         //
@@ -75,7 +78,53 @@ namespace Commencement.Controllers
         [AnyoneWithRole]
         public ActionResult DecideRegistrationPetition(int id, bool isApproved)
         {
-            throw new NotImplementedException();
+            var registrationPetition = Repository.OfType<RegistrationPetition>().GetNullableById(id);
+            if (registrationPetition == null) return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.UnknownError));
+
+            registrationPetition.SetDecision(isApproved);
+
+            var student = new Student(registrationPetition.Pidm, registrationPetition.StudentId,
+                                          registrationPetition.FirstName,
+                                          registrationPetition.LastName, registrationPetition.Units,
+                                          registrationPetition.Email, registrationPetition.Login,
+                                          registrationPetition.TermCode);
+
+            Check.Require(registrationPetition.MajorCode != null, "Major is required.");
+
+            student.Majors.Add(registrationPetition.MajorCode);
+
+            registrationPetition.TransferValidationMessagesTo(ModelState);
+            student.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                Repository.OfType<RegistrationPetition>().EnsurePersistent(registrationPetition);
+
+                if (isApproved)
+                {
+                    // persist the student
+                    Repository.OfType<Student>().EnsurePersistent(student);
+                }
+
+                Message = string.Format("Decision was saved for {0}", registrationPetition.FullName);
+            }
+
+            Message = string.Format("There was a problem saving decision for {0}", registrationPetition.FullName);
+
+            return this.RedirectToAction(a => a.Index());
+        }
+
+        [AnyoneWithRole]
+        public ActionResult RegistrationPetition(int id)
+        {
+            var registrationPetition = Repository.OfType<RegistrationPetition>().GetNullableById(id);
+            if (registrationPetition == null)
+            {
+                Message = "Unable to find registration petition.";
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            return View(registrationPetition);
         }
 
         [PageTrackingFilter]
