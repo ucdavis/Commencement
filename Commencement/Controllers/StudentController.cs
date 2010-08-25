@@ -8,6 +8,7 @@ using Commencement.Core.Resources;
 using UCDArch.Core.PersistanceSupport;
 using MvcContrib;
 using MvcContrib.Attributes;
+using UCDArch.Core.Utils;
 using UCDArch.Web.Helpers;
 using Commencement.Controllers.Helpers;
 
@@ -276,14 +277,9 @@ namespace Commencement.Controllers
         private Student GetCurrentStudent()
         {
             var currentStudent = _studentService.GetCurrentStudent(CurrentUser);
-            
-            if (currentStudent == null)
-            {
-                //Student not found, go to petition workflow
-                throw new NotImplementedException("Current Student Not Found");
-                //return RedirectToAction("Petition");
-            }
 
+            Check.Require(currentStudent != null, "Current user is not a student or student not found.");
+            
             return currentStudent;
         }
     }
