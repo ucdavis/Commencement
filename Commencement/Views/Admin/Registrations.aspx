@@ -84,7 +84,7 @@
                             col.Bound(a => a.Student.FirstName);
                             col.Bound(a => a.TotalTickets);
                             col.Bound(a => a.MailTickets);
-                            col.Bound(a => a.Ceremony.DateTime).Title("Ceremony");
+                            col.Bound(a => a.Ceremony.DateTime).Format("{0:MM/dd/yyyy hh:mm tt}").Title("Ceremony");
                             col.Bound(a => a.Major.Id).Title("Major");
                         })
            .DataBinding(binding=>binding.Server().Select<AdminController>(a=>a.Registrations(Model.studentidFilter, Model.lastNameFilter, Model.firstNameFilter, Model.majorCodeFilter, Model.ceremonyFilter)))
