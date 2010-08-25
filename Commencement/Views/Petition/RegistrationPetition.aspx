@@ -18,7 +18,7 @@
     <h2><%= Html.Encode(Model.FullName) %></h2>
     
     <ul class="registration_form">
-        <li><strong>Date Submitted:</strong><%= Html.Encode(Model.DateSubmitted) %></li>
+        <li><strong>Date Submitted:</strong><%= Html.Encode(Model.DateSubmitted.ToString("g")) %></li>
         <li><strong>Date Decision:</strong><%= Html.Encode(Model.DateDecision != null ? Model.DateDecision.ToString() : string.Empty) %></li>
         <li><strong>Approved:</strong><%= Html.Encode(Model.IsPending ? "Pending" : (Model.IsApproved ? "Yes" : "No")) %></li>
     </ul>

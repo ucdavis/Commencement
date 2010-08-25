@@ -10,8 +10,7 @@
 
     <p>
         Thank you for submitting your petition. We will do our best to review your request within one week. 
-        You will be notified by email of the decision. Petitions submitted after the registration deadline 
-        will be reviewed on first come first serve basis. 
+        You will be notified by email of the decision. 
     </p>
     <p>
         Petitions submitted after the registration deadline will be reviewed on first come first serve basis. 
