@@ -66,7 +66,9 @@ namespace Commencement.Core.Domain
         [NotNull]
         public virtual TermCode TermCode { get; set; }
 
+        [NotNull]
         public virtual IList<Registration> Registrations { get; set; }
+        [NotNull]
         public virtual IList<MajorCode> Majors { get; set; }
               
 

@@ -184,28 +184,29 @@ namespace Commencement.Tests.Controllers
 
         #region GetCurrentStudent Tests
 
-
-        /// <summary>
-        /// Tests the get student should redirect to petition work flow when student not found.
-        /// </summary>
         [TestMethod]
-        public void TestGetStudentShouldRedirectToPetitionWorkFlowWhenStudentNotFound()
+        [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
+        public void TestGetStudentShouldThrowExceptionWhenStudentNotFound()
         {
-            #region Arrange
-            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(null).Repeat.Any();            
-            #endregion Arrange
+            try
+            {
+                #region Arrange
+                _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(null).Repeat.Any();
+                #endregion Arrange
 
-            #region Act
-            //TODO: Once this works, check it is redirecting correctly
-            Controller.Index();
-            Controller.Index()
-                .AssertActionRedirect()
-                .ToAction<PetitionController>(a => a.Index());
-            #endregion Act
-
-            #region Assert
-            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
-            #endregion Assert	
+                #region Act
+                Controller.Index();
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                #region Assert
+                _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("Current user is not a student or student not found.", ex.Message);
+                throw;
+                #endregion Assert
+            }
         }
 
         #endregion GetCurrentStudent Tests
