@@ -1355,7 +1355,58 @@ namespace Commencement.Tests.Core.Repositories
         #endregion Cascade Update And Delete Tests
 
         #region Constructor Tests
-        //TODO:
+
+        /// <summary>
+        /// Tests the constructor with no parameters defaults expected values.
+        /// </summary>
+        [TestMethod]
+        public void TestConstructorWithNoParametersDefaultsExpectedValues()
+        {
+            #region Arrange
+            var ceremony = new Ceremony();
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(ceremony.Registrations);
+            Assert.IsNotNull(ceremony.Majors);
+            Assert.AreEqual(DateTime.Now.Date, ceremony.DateTime.Date);
+            Assert.AreEqual(DateTime.Now.Date, ceremony.RegistrationDeadline.Date);
+            Assert.AreEqual(DateTime.Now.Date, ceremony.ExtraTicketDeadline.Date);
+            Assert.AreEqual(DateTime.Now.Date, ceremony.PrintingDeadline.Date);
+            #endregion Assert		
+        }
+
+        /// <summary>
+        /// Tests the constructor with parameters defaults expected values.
+        /// </summary>
+        [TestMethod]
+        public void TestConstructorWithParametersDefaultsExpectedValues()
+        {
+            #region Arrange
+            var ceremony = new Ceremony("Location", DateTime.Now.AddDays(10), 10, 100, DateTime.Now.AddDays(15), DateTime.Now.AddDays(20), CreateValidEntities.TermCode(4));
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Location", ceremony.Location);
+            Assert.IsNotNull(ceremony.Registrations);
+            Assert.IsNotNull(ceremony.Majors);
+            Assert.AreEqual(DateTime.Now.AddDays(10).Date, ceremony.DateTime.Date);
+            Assert.AreEqual(10, ceremony.TicketsPerStudent);
+            Assert.AreEqual(100, ceremony.TotalTickets);
+            Assert.AreEqual(DateTime.Now.AddDays(20).Date, ceremony.RegistrationDeadline.Date);
+            Assert.AreEqual(DateTime.Now.Date, ceremony.ExtraTicketDeadline.Date);
+            Assert.AreEqual(DateTime.Now.AddDays(15).Date, ceremony.PrintingDeadline.Date);
+            Assert.AreEqual("Name4", ceremony.TermCode.Name);
+            #endregion Assert
+        }
         #endregion Constructo Tests
 
 
@@ -1374,11 +1425,11 @@ namespace Commencement.Tests.Core.Repositories
             expectedFields.Add(new NameAndType("DateTime", "System.DateTime", new List<string>
             {
                 "[NHibernate.Validator.Constraints.FutureAttribute()]", 
-                ""
+                "[NHibernate.Validator.Constraints.NotNullAttribute()]"
             }));
             expectedFields.Add(new NameAndType("ExtraTicketDeadline", "System.DateTime", new List<string>
             {
-                ""
+                "[NHibernate.Validator.Constraints.NotNullAttribute()]"
             }));
             expectedFields.Add(new NameAndType("ExtraTicketPerStudent", "System.Int32", new List<string>()));
             expectedFields.Add(new NameAndType("Id", "System.Int32", new List<string>
@@ -1391,37 +1442,39 @@ namespace Commencement.Tests.Core.Repositories
                  "[NHibernate.Validator.Constraints.LengthAttribute((Int32)200)]", 
                  "[UCDArch.Core.NHibernateValidator.Extensions.RequiredAttribute()]"
             }));
-            expectedFields.Add(new NameAndType("Majors", "", new List<string>
+            expectedFields.Add(new NameAndType("Majors", "System.Collections.Generic.IList`1[Commencement.Core.Domain.MajorCode]", new List<string>
             {
-                ""
+                "[NHibernate.Validator.Constraints.NotNullAttribute()]"
             }));
             expectedFields.Add(new NameAndType("Name", "System.String", new List<string>()));
             expectedFields.Add(new NameAndType("PrintingDeadline", "System.DateTime", new List<string>
             {
-                ""
+                "[NHibernate.Validator.Constraints.NotNullAttribute()]"
             }));
             expectedFields.Add(new NameAndType("RegistrationDeadline", "System.DateTime", new List<string>
             {
-                ""
+                "[NHibernate.Validator.Constraints.NotNullAttribute()]"
             }));
-            
-            expectedFields.Add(new NameAndType("Registrations", "", new List<string>
+
+            expectedFields.Add(new NameAndType("Registrations", "System.Collections.Generic.IList`1[Commencement.Core.Domain.Registration]", new List<string>
             {
-                ""
+                "[NHibernate.Validator.Constraints.NotNullAttribute()]"
             }));
-            expectedFields.Add(new NameAndType("TermCode", "", new List<string>
+            expectedFields.Add(new NameAndType("TermCode", "Commencement.Core.Domain.TermCode", new List<string>
             {
-                ""
+                "[NHibernate.Validator.Constraints.NotNullAttribute()]"
+            }));
+            expectedFields.Add(new NameAndType("TicketsPerStudent", "System.Int32", new List<string>
+            {
+                "[NHibernate.Validator.Constraints.MinAttribute((Int64)1)]",
+                "[NHibernate.Validator.Constraints.NotNullAttribute()]"                
             }));
             expectedFields.Add(new NameAndType("TotalTickets", "System.Int32", new List<string>
             {
-                "", 
-                ""
+                "[NHibernate.Validator.Constraints.MinAttribute((Int64)1)]",
+                "[NHibernate.Validator.Constraints.NotNullAttribute()]"     
             }));
-            expectedFields.Add(new NameAndType("TicketsPerStudent", "System.DateTime", new List<string>
-            {
-                ""
-            }));
+            
 
             #endregion Arrange
 

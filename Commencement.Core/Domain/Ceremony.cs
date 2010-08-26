@@ -17,7 +17,7 @@ namespace Commencement.Core.Domain
             Location = location;
             DateTime = dateTime;
             TicketsPerStudent = ticketsPerStudent;
-            TicketsPerStudent = totalTickets;
+            TotalTickets = totalTickets;
             PrintingDeadline = printingDeadline;
             RegistrationDeadline = registrationDeadline;
             TermCode = termCode;
