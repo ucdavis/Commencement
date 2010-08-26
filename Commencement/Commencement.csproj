@@ -581,6 +581,7 @@
     <None Include="Forms\registration_petition.pdf" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app_offline2.htm" />
     <Content Include="Content\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\images\ui-bg_flat_55_fbec88_40x100.png" />
     <Content Include="Content\images\ui-bg_glass_75_d0e5f5_1x400.png" />
