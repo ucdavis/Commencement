@@ -137,6 +137,7 @@
     <Compile Include="Core\Repositories\AuditRepositoryTests.cs" />
     <Compile Include="Core\Repositories\CeremonyEditorRepositoryTests.cs" />
     <Compile Include="Core\Repositories\CeremonyRepositoryTests.cs" />
+    <Compile Include="Core\Repositories\ExtraTicketPetitionRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>

@@ -21,6 +21,7 @@ namespace Commencement.Tests.Core
         protected int EntriesAdded;
         protected string RestoreValue;
         protected bool BoolRestoreValue;
+        protected int IntRestoreValue;
         private readonly IRepository<T> _intRepository;
         private readonly IRepositoryWithTypedId<T, string> _stringRepository;
         private readonly IRepositoryWithTypedId<T, Guid> _guidRepository;
