@@ -261,7 +261,7 @@ namespace Commencement.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This petition is to request authorization to participate in the College of Agricultural and Environmental Science’s graduation ceremony on {0}..
+        ///   Looks up a localized string similar to This petition is to request authorization to participate in the College of Agricultural and Environmental Science’s graduation ceremony for {0}..
         /// </summary>
         public static string Txt_RegistrationPetition {
             get {
