@@ -188,23 +188,23 @@
   </data>
   <data name="Txt_NotAuthorized" xml:space="preserve">
     <value>&lt;p&gt;&lt;strong&gt;
-            According to our records you do not meet the requirements to participate in the {CeremonyName} {CeremonyTime} ceremony.
+            According to our records you do not meet the requirements to participate in the {0} commencement ceremony.
         &lt;/strong&gt;&lt;/p&gt;
         
         &lt;p&gt;&lt;strong&gt;
             Please see our website to review the requirements: &lt;a href="http://caes.ucdavis.edu/NewsEvents/Events/Commencement/general-information"&gt;http://caes.ucdavis.edu/NewsEvents/Events/Commencement/general-information&lt;/a&gt;
         &lt;/strong&gt;&lt;/p&gt;
-        
+        &lt;br/&gt;
         &lt;p&gt;&lt;strong&gt;If you would like to submit a petition to participate in the ceremony please click &lt;i&gt;continue&lt;/i&gt; below.&lt;/strong&gt;&lt;/p&gt;
-        
+        &lt;br/&gt;
         &lt;p&gt;If you are major is not administered by the College of Agricultural and Environmental Science College please contact the according undergraduate college to sign up. to ask for authorization to participate in a different ceremony. 
-        
+        &lt;/p&gt;
             &lt;ul&gt;
                 &lt;li&gt;Letters and Science: &lt;a href="http://www.ls.ucdavis.edu/commencement/"&gt;http://www.ls.ucdavis.edu/commencement/&lt;/a&gt;&lt;/li&gt;
                 &lt;li&gt;Biological Science: &lt;a href="http://biosci3.ucdavis.edu/Commencement/"&gt;http://biosci3.ucdavis.edu/Commencement/&lt;/a&gt;&lt;/li&gt;
                 &lt;li&gt;Engineering: &lt;a href="http://engineering.ucdavis.edu/pages/academics/commencement/"&gt;http://engineering.ucdavis.edu/pages/academics/commencement/&lt;/a&gt;&lt;/li&gt;
             &lt;/ul&gt;
-        &lt;/p&gt;
+
         
         &lt;h3&gt;*Note: If you’re major is not administered by CA&amp;ES but you have special circumstances and need to participate in our ceremony please contact your college commencement coordinator to ask for authorization first before submitting this form.&lt;/h3&gt;</value>
   </data>

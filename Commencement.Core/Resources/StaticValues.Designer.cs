@@ -245,14 +245,14 @@ namespace Commencement.Core.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;p&gt;&lt;strong&gt;
-        ///            According to our records you do not meet the requirements to participate in the {CeremonyName} {CeremonyTime} ceremony.
+        ///            According to our records you do not meet the requirements to participate in the {0} commencement ceremony.
         ///        &lt;/strong&gt;&lt;/p&gt;
         ///        
         ///        &lt;p&gt;&lt;strong&gt;
         ///            Please see our website to review the requirements: &lt;a href=&quot;http://caes.ucdavis.edu/NewsEvents/Events/Commencement/general-information&quot;&gt;http://caes.ucdavis.edu/NewsEvents/Events/Commencement/general-information&lt;/a&gt;
         ///        &lt;/strong&gt;&lt;/p&gt;
-        ///        
-        ///        &lt;p&gt;&lt;strong&gt;If you would like to submit a pe [rest of string was truncated]&quot;;.
+        ///        &lt;br/&gt;
+        ///        &lt;p&gt;&lt;strong&gt;If you would like to submit a petition t [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Txt_NotAuthorized {
             get {

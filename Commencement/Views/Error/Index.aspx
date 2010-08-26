@@ -17,9 +17,15 @@
             Commencement Registration for the College of Agricultural & Environmental Sciences
         </h2>
         
-        <%= StaticValues.Txt_NotAuthorized %>
+        <%= string.Format(StaticValues.Txt_NotAuthorized, TermService.GetCurrent().Name) %>
     
-        <%= Html.ActionLink<PetitionController>(a=>a.Register(), "Continue") %>
+        <br />
+        <div style="text-align:center;">
+        <div id="continue_btn">
+            <%= Html.ActionLink<PetitionController>(a=>a.Register(), "Continue") %>
+        </div>
+        </div>
+        
     
     <% } else { %>
         <h2><%= Html.Encode(Model.Title) %></h2>
