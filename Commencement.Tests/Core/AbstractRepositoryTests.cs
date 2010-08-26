@@ -22,6 +22,7 @@ namespace Commencement.Tests.Core
         protected string RestoreValue;
         protected bool BoolRestoreValue;
         protected int IntRestoreValue;
+        protected bool ForceSave;
         private readonly IRepository<T> _intRepository;
         private readonly IRepositoryWithTypedId<T, string> _stringRepository;
         private readonly IRepositoryWithTypedId<T, Guid> _guidRepository;
@@ -94,7 +95,14 @@ namespace Commencement.Tests.Core
                 }
                 else
                 {
-                    _stringRepository.EnsurePersistent(validEntity);
+                    if (ForceSave)
+                    {
+                        _stringRepository.EnsurePersistent(validEntity, true);
+                    }
+                    else
+                    {
+                        _stringRepository.EnsurePersistent(validEntity);
+                    }
                 }
             }
         }
@@ -120,7 +128,14 @@ namespace Commencement.Tests.Core
             }
             else
             {
-                _stringRepository.EnsurePersistent(validEntity);
+                if (ForceSave)
+                {
+                    _stringRepository.EnsurePersistent(validEntity, true);
+                }
+                else
+                {
+                    _stringRepository.EnsurePersistent(validEntity);
+                }
             }
 
             Assert.AreEqual(false, validEntity.IsTransient());
@@ -151,7 +166,14 @@ namespace Commencement.Tests.Core
             else
             {
                 _stringRepository.DbContext.BeginTransaction();
-                _stringRepository.EnsurePersistent(validEntity);
+                if (ForceSave)
+                {
+                    _stringRepository.EnsurePersistent(validEntity, true);
+                }
+                else
+                {
+                    _stringRepository.EnsurePersistent(validEntity);
+                }
                 Assert.IsFalse(validEntity.IsTransient());
                 _stringRepository.DbContext.CommitTransaction();
             }
