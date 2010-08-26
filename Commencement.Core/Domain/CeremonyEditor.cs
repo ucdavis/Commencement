@@ -11,7 +11,7 @@ namespace Commencement.Core.Domain
         public virtual string LoginId { get; set; }
         
         public virtual bool Owner { get; set; }
-
+        [NotNull]
         public virtual Ceremony Ceremony { get; set; }
     }
 }

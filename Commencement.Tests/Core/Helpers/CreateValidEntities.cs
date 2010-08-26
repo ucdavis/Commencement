@@ -36,10 +36,7 @@ namespace Commencement.Tests.Core.Helpers
         public static Registration Registration(int? count)
         {
             var rtValue = new Registration();
-            //if(count != null)
-            //{
-            //    rtValue.SetIdTo((int) count);
-            //}
+ 
             rtValue.Student = new Student();
             rtValue.Major = new MajorCode();
             rtValue.Address1 = "Address1" + count.Extra();
@@ -61,10 +58,7 @@ namespace Commencement.Tests.Core.Helpers
         public static Ceremony Ceremony(int? count)
         {
             var rtValue = new Ceremony();
-            //if (count != null)
-            //{
-            //    rtValue.SetIdTo((int)count);
-            //}
+ 
             rtValue.Location = "Location" + count.Extra();
             rtValue.DateTime = rtValue.DateTime.AddDays(100);
             rtValue.TicketsPerStudent = 6;
@@ -87,10 +81,7 @@ namespace Commencement.Tests.Core.Helpers
         {
             var rtValue = new MajorCode();
             rtValue.Name = "Name" + count.Extra();
-            //if (count != null)
-            //{
-            //    rtValue.SetIdTo(count.ToString());
-            //}
+ 
             return rtValue;
         }
 
@@ -117,10 +108,16 @@ namespace Commencement.Tests.Core.Helpers
         {
             var rtValue = new TermCode();
             rtValue.Name = "Name" + count.Extra();
-            //if (count != null)
-            //{
-            //    rtValue.SetIdTo(count.ToString());
-            //}
+
+            return rtValue;
+        }
+
+        public static CeremonyEditor CeremonyEditor(int? count)
+        {
+            var rtValue = new CeremonyEditor();
+            rtValue.LoginId = "LoginId" + count.Extra();
+            rtValue.Ceremony = new Ceremony();
+
             return rtValue;
         }
     }

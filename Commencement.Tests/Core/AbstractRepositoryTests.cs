@@ -455,6 +455,23 @@ namespace Commencement.Tests.Core
 
 
         /// <summary>
+        /// Loads the ceremony.
+        /// Needs TermCode
+        /// </summary>
+        /// <param name="entriesToAdd">The entries to add.</param>
+        protected void LoadCeremony(int entriesToAdd)
+        {
+            var termCodeRepository = new RepositoryWithTypedId<TermCode, string>();
+            for (int i = 0; i < entriesToAdd; i++)
+            {
+                var validEntity = CreateValidEntities.Ceremony(i + 1);
+                validEntity.TermCode = termCodeRepository.GetById("1");
+                Repository.OfType<Ceremony>().EnsurePersistent(validEntity);
+            }     
+        }
+
+
+        /// <summary>
         /// Abstract Repository Tests Action
         /// </summary>
         public enum ARTAction
