@@ -1,5 +1,6 @@
 <%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.RegistrationPetitionModel>"
     MasterPageFile="~/Views/Shared/Site.Master" %>
+<%@ Import Namespace="Commencement.Core.Resources" %>
 
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">
     Commencement Petition Registration</asp:Content>
@@ -8,7 +9,7 @@
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
     <h1><%= Model.CurrentTerm.Name %> Commencement</h1>
     <p>
-        Our records show that you do not meet the requirements to participate in <%= Model.CurrentTerm.Name %> Commencement.  If you would like to submit a petition to participate in the ceremony please complete the below request.   
+         <%= string.Format(StaticValues.Txt_RegistrationPetition, Model.CurrentTerm.Name + " Commencement") %>
     </p>
     
     <%= Html.ValidationSummary("Please correct all errors below") %>
@@ -66,9 +67,6 @@
         <%= Html.SubmitButton("submit", "Submit Petition") %>
     
     <% } %>
-    <h3>
-        <%--Disclaimer about the page and the process. Disclaimer about the page and the process.--%>
-    </h3>
 </asp:Content>
 
 

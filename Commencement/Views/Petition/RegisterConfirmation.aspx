@@ -1,4 +1,5 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
+<%@ Import Namespace="Commencement.Core.Resources" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	RegisterConfirmation
@@ -8,12 +9,12 @@
 
     <h2>Petition Submitted Successfully</h2>
 
-    <p>
+<%--    <p>
         Thank you for submitting your petition. We will do our best to review your request within one week. 
         You will be notified by email of the decision. 
     </p>
     <p>
-        Petitions submitted after the registration deadline will be reviewed on first come first serve basis. 
+        Petitions submitted after the <a href="http://caes.ucdavis.edu/NewsEvents/Events/Commencement/important-dates">registration deadline</a> will be reviewed on first come first serve basis. 
     </p>
     
     <h3>Please review our FAQ page for any further questions: 
@@ -23,7 +24,9 @@
     <p>
         Best,<br />
         commencement@caes.ucdavis.edu
-    </p>
+    </p>--%>
+
+    <%= StaticValues.Txt_RegistrationPetitionConfirmation %>
 
 </asp:Content>
 

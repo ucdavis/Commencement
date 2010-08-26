@@ -242,5 +242,49 @@ namespace Commencement.Core.Resources {
                 return ResourceManager.GetString("Txt_MultipleCeremonies", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;&lt;strong&gt;
+        ///            According to our records you do not meet the requirements to participate in the {CeremonyName} {CeremonyTime} ceremony.
+        ///        &lt;/strong&gt;&lt;/p&gt;
+        ///        
+        ///        &lt;p&gt;&lt;strong&gt;
+        ///            Please see our website to review the requirements: &lt;a href=&quot;http://caes.ucdavis.edu/NewsEvents/Events/Commencement/general-information&quot;&gt;http://caes.ucdavis.edu/NewsEvents/Events/Commencement/general-information&lt;/a&gt;
+        ///        &lt;/strong&gt;&lt;/p&gt;
+        ///        
+        ///        &lt;p&gt;&lt;strong&gt;If you would like to submit a pe [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Txt_NotAuthorized {
+            get {
+                return ResourceManager.GetString("Txt_NotAuthorized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This petition is to request authorization to participate in the College of Agricultural and Environmental Science’s graduation ceremony on {0}..
+        /// </summary>
+        public static string Txt_RegistrationPetition {
+            get {
+                return ResourceManager.GetString("Txt_RegistrationPetition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;
+        ///        Thank you for submitting your petition. We will do our best to review your request within one week. 
+        ///        You will be notified by email of the decision. 
+        ///    &lt;/p&gt;
+        ///    &lt;p&gt;
+        ///        Petitions submitted after the &lt;a href=&quot;http://caes.ucdavis.edu/NewsEvents/Events/Commencement/important-dates&quot;&gt;registration deadline&lt;/a&gt; will be reviewed on first come first serve basis. 
+        ///    &lt;/p&gt;
+        ///    
+        ///    &lt;h3&gt;Please review our FAQ page for any further questions: 
+        ///        &lt;a href=&quot;http://caes.ucdavis.edu/New [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Txt_RegistrationPetitionConfirmation {
+            get {
+                return ResourceManager.GetString("Txt_RegistrationPetitionConfirmation", resourceCulture);
+            }
+        }
     }
 }
