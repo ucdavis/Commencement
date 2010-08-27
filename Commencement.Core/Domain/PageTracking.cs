@@ -10,7 +10,7 @@ namespace Commencement.Core.Domain
     {
         public PageTracking()
         {
-            
+            SetDefaults();
         }
 
         public PageTracking(string loginId, string location, string ipAddress)
@@ -19,6 +19,11 @@ namespace Commencement.Core.Domain
             Location = location;
             IPAddress = ipAddress;
 
+            SetDefaults();
+        }
+
+        private void SetDefaults()
+        {
             DateTime = DateTime.Now;
         }
 

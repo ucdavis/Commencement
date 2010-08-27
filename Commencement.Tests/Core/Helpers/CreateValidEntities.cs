@@ -120,5 +120,12 @@ namespace Commencement.Tests.Core.Helpers
 
             return rtValue;
         }
+
+        public static PageTracking PageTracking(int? count)
+        {
+            var rtValue = new PageTracking();
+            rtValue.LoginId = "LoginId" + count.Extra();
+            return rtValue;
+        }
     }
 }
