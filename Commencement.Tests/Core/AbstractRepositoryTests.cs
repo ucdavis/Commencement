@@ -476,6 +476,42 @@ namespace Commencement.Tests.Core
             }     
         }
 
+        /// <summary>
+        /// Loads the state.
+        /// </summary>
+        /// <param name="entriesToAdd">The entries to add.</param>
+        protected void LoadState(int entriesToAdd)
+        {
+            var stateRepository = new RepositoryWithTypedId<State, string>();
+            for (int i = 0; i < entriesToAdd; i++)
+            {
+                var validEntity = CreateValidEntities.State(i + 1);
+                validEntity.SetIdTo((i + 1).ToString());
+                stateRepository.EnsurePersistent(validEntity, true);
+            }
+        }
+
+        protected void LoadMajorCode(int entriesToAdd)
+        {
+            var majorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
+            for (int i = 0; i < entriesToAdd; i++)
+            {
+                var validEntity = CreateValidEntities.MajorCode(i + 1);
+                validEntity.SetIdTo((i + 1).ToString());
+                majorCodeRepository.EnsurePersistent(validEntity, true);
+            }
+        }
+
+        protected void LoadStudent(int entriesToAdd)
+        {
+            var studentRepository = new RepositoryWithTypedId<Student, Guid>();
+            for (int i = 0; i < entriesToAdd; i++)
+            {
+                var validEntity = CreateValidEntities.Student(i + 1);
+                validEntity.SetIdTo(SpecificGuid.GetGuid(i + 1));
+                studentRepository.EnsurePersistent(validEntity);
+            }
+        }
 
         /// <summary>
         /// Loads the ceremony.

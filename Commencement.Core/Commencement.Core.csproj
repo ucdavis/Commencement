@@ -78,7 +78,6 @@
     <Compile Include="Domain\ExtraTicketPetition.cs" />
     <Compile Include="Domain\MajorCode.cs" />
     <Compile Include="Domain\PageTracking.cs" />
-    <Compile Include="Domain\Petition.cs" />
     <Compile Include="Domain\Registration.cs" />
     <Compile Include="Domain\RegistrationPetition.cs" />
     <Compile Include="Domain\School.cs" />

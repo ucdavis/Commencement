@@ -26,7 +26,7 @@ namespace Commencement.Tests.Core.Helpers
         {
             var rtValue = new Student();
             rtValue.Pidm = "Pidm" + count.Extra();
-            rtValue.StudentId = "StudentId" + count.Extra();
+            rtValue.StudentId = (100000000 + count).ToString();
             rtValue.FirstName = "FirstName" + count.Extra();
             rtValue.LastName = "LastName" + count.Extra();
 
@@ -127,5 +127,7 @@ namespace Commencement.Tests.Core.Helpers
             rtValue.LoginId = "LoginId" + count.Extra();
             return rtValue;
         }
+
+
     }
 }
