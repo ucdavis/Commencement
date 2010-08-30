@@ -10,7 +10,7 @@ using UCDArch.Core.PersistanceSupport;
 using UCDArch.Data.NHibernate;
 using UCDArch.Testing.Extensions;
 
-namespace Commencement.Tests.Core.Repositories
+namespace Commencement.Tests.Repositories
 {
     /// <summary>
     /// Entity Name:		ExtraTicketPetition

@@ -11,7 +11,7 @@ using UCDArch.Data.NHibernate;
 using UCDArch.Testing;
 using UCDArch.Testing.Extensions;
 
-namespace Commencement.Tests.Core.Repositories
+namespace Commencement.Tests.Repositories
 {
     /// <summary>
     /// This is a read only view, so it isn't really needed (and the where clause in the mapping file prevents most of these tests.)
