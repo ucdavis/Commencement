@@ -29,12 +29,22 @@ namespace Commencement.Controllers.Helpers
             }
         }
 
-        public static bool IsNullOrEmptyWithSpaces(this string source)
+        /// <summary>
+        /// Determines whether [is null or empty] [the specified source].
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="checkForSpacesOnly">if set to <c>true</c> [check for spaces only].</param>
+        /// <returns>
+        /// 	<c>true</c> if [is null or empty or spaces only] [the specified source]; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsNullOrEmpty(this string source, bool checkForSpacesOnly)
         {
             if (string.IsNullOrEmpty(source)) return string.IsNullOrEmpty(source);
 
-            source = source.Trim();
-
+            if(checkForSpacesOnly)
+            {
+                source = source.Trim();
+            }
             return string.IsNullOrEmpty(source);
         }
     }

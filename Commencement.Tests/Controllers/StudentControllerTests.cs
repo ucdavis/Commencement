@@ -791,6 +791,81 @@ namespace Commencement.Tests.Controllers
         #endregion Register Get Tests
         #region Register Post Tests
 
+
+        /// <summary>
+        /// Tests the register post sets comments to null if it is an empty string.
+        /// </summary>
+        [TestMethod]
+        public void TestRegisterPostSetsCommentsToNullIfItIsAnEmptyString()
+        {
+            #region Arrange
+            var student = CreateValidEntities.Student(1);
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].RegistrationDeadline = DateTime.Now.AddDays(1);
+            ControllerRecordFakes.FakeCeremony(0, _ceremonyRepository, ceremonies);
+            var registration = CreateValidEntities.Registration(1);
+            registration.Student = null;
+            registration.Ceremony = null;
+            registration.Comments = string.Empty;
+
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
+            _emailService.Expect(a => a.SendRegistrationConfirmation(Controller.Repository, registration)).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            Controller.Register(1, registration, true)
+                .AssertActionRedirect()
+                .ToAction<StudentController>(a => a.RegistrationConfirmation(1));
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            _registrationRepository.AssertWasCalled(a => a.EnsurePersistent(registration));
+            _emailService.AssertWasCalled(a => a.SendRegistrationConfirmation(Controller.Repository, registration));
+            Assert.AreEqual("You have successfully registered for commencement.", Controller.Message);
+            var args = (Registration)_registrationRepository.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<Registration>.Is.Anything))[0][0];
+            Assert.IsNull(args.Comments);
+            #endregion Assert	
+        }
+
+        /// <summary>
+        /// Tests the register post sets comments to null if it is spaces only string.
+        /// </summary>
+        [TestMethod]
+        public void TestRegisterPostSetsCommentsToNullIfItIsSpacesOnlyString()
+        {
+            #region Arrange
+            var student = CreateValidEntities.Student(1);
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].RegistrationDeadline = DateTime.Now.AddDays(1);
+            ControllerRecordFakes.FakeCeremony(0, _ceremonyRepository, ceremonies);
+            var registration = CreateValidEntities.Registration(1);
+            registration.Student = null;
+            registration.Ceremony = null;
+            registration.Comments = "  ";
+
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
+            _emailService.Expect(a => a.SendRegistrationConfirmation(Controller.Repository, registration)).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            Controller.Register(1, registration, true)
+                .AssertActionRedirect()
+                .ToAction<StudentController>(a => a.RegistrationConfirmation(1));
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            _registrationRepository.AssertWasCalled(a => a.EnsurePersistent(registration));
+            _emailService.AssertWasCalled(a => a.SendRegistrationConfirmation(Controller.Repository, registration));
+            Assert.AreEqual("You have successfully registered for commencement.", Controller.Message);
+            var args = (Registration)_registrationRepository.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<Registration>.Is.Anything))[0][0];
+            Assert.IsNull(args.Comments);
+            #endregion Assert
+        }
+
         /// <summary>
         /// Tests the register post returns view if agree to disclaimer is false.
         /// </summary>

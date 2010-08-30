@@ -197,12 +197,12 @@ namespace Commencement.Controllers
         private void NullOutBlankFields(Registration registration)
         {
             //registration.Address2 = string.IsNullOrEmpty(registration.Address2) ? null : registration.Address2;
-            registration.Address2 = string.IsNullOrEmptyWithSpaces(registration.Address2) ? null : registration.Address2;
-            registration.Address3 = string.IsNullOrEmpty(registration.Address3) ? null : registration.Address3;
+            registration.Address2 = registration.Address2.IsNullOrEmpty(true) ? null : registration.Address2;
+            registration.Address3 = registration.Address3.IsNullOrEmpty(true) ? null : registration.Address3;
 
-            registration.Email = string.IsNullOrEmpty(registration.Email) ? null : registration.Email;
+            registration.Email = registration.Email.IsNullOrEmpty(true) ? null : registration.Email;
 
-            registration.Comments = string.IsNullOrEmpty(registration.Comments) ? null : registration.Comments;
+            registration.Comments = registration.Comments.IsNullOrEmpty(true) ? null : registration.Comments;
         }
 
         [PageTrackingFilter]
