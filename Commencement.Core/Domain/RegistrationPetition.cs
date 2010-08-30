@@ -49,7 +49,7 @@ namespace Commencement.Core.Domain
         public virtual string ExceptionReason { get; set; }
 
         [Required]
-        [Length(6)]
+        [Length(6,6)]
         public virtual string CompletionTerm { get; set; }
 
         [Length(100)]

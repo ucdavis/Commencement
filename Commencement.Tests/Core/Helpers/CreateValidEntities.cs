@@ -129,5 +129,26 @@ namespace Commencement.Tests.Core.Helpers
         }
 
 
+        public static RegistrationPetition RegistrationPetition(int? count)
+        {
+            var localCount = 0;
+            if(count != null)
+            {
+                localCount = (int)count;
+            }
+            var rtValue = new RegistrationPetition();
+            rtValue.Pidm = (10000000 + localCount).ToString();
+            rtValue.StudentId = (100000000 + localCount).ToString();
+            rtValue.FirstName = "FirstName" + count.Extra();
+            rtValue.LastName = "LastName" + count.Extra();
+            rtValue.Email = "Email" + count.Extra();
+            rtValue.Login = "Login" + count.Extra();
+            rtValue.MajorCode = new MajorCode();
+            rtValue.ExceptionReason = "ExceptionReason" + count.Extra();
+            rtValue.CompletionTerm = "201003";
+            rtValue.TermCode = new TermCode();
+
+            return rtValue;
+        }
     }
 }
