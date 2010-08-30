@@ -867,6 +867,117 @@ namespace Commencement.Tests.Controllers
         }
 
         /// <summary>
+        /// Tests the register post sets address2 to null if it is spaces only string.
+        /// </summary>
+        [TestMethod]
+        public void TestRegisterPostSetsAddress2ToNullIfItIsSpacesOnlyString()
+        {
+            #region Arrange
+            var student = CreateValidEntities.Student(1);
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].RegistrationDeadline = DateTime.Now.AddDays(1);
+            ControllerRecordFakes.FakeCeremony(0, _ceremonyRepository, ceremonies);
+            var registration = CreateValidEntities.Registration(1);
+            registration.Student = null;
+            registration.Ceremony = null;
+            registration.Address2 = "  ";
+
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
+            _emailService.Expect(a => a.SendRegistrationConfirmation(Controller.Repository, registration)).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            Controller.Register(1, registration, true)
+                .AssertActionRedirect()
+                .ToAction<StudentController>(a => a.RegistrationConfirmation(1));
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            _registrationRepository.AssertWasCalled(a => a.EnsurePersistent(registration));
+            _emailService.AssertWasCalled(a => a.SendRegistrationConfirmation(Controller.Repository, registration));
+            Assert.AreEqual("You have successfully registered for commencement.", Controller.Message);
+            var args = (Registration)_registrationRepository.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<Registration>.Is.Anything))[0][0];
+            Assert.IsNull(args.Address2);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the register post sets address3 to null if it is spaces only string.
+        /// </summary>
+        [TestMethod]
+        public void TestRegisterPostSetsAddress3ToNullIfItIsSpacesOnlyString()
+        {
+            #region Arrange
+            var student = CreateValidEntities.Student(1);
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].RegistrationDeadline = DateTime.Now.AddDays(1);
+            ControllerRecordFakes.FakeCeremony(0, _ceremonyRepository, ceremonies);
+            var registration = CreateValidEntities.Registration(1);
+            registration.Student = null;
+            registration.Ceremony = null;
+            registration.Address3 = "  ";
+
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
+            _emailService.Expect(a => a.SendRegistrationConfirmation(Controller.Repository, registration)).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            Controller.Register(1, registration, true)
+                .AssertActionRedirect()
+                .ToAction<StudentController>(a => a.RegistrationConfirmation(1));
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            _registrationRepository.AssertWasCalled(a => a.EnsurePersistent(registration));
+            _emailService.AssertWasCalled(a => a.SendRegistrationConfirmation(Controller.Repository, registration));
+            Assert.AreEqual("You have successfully registered for commencement.", Controller.Message);
+            var args = (Registration)_registrationRepository.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<Registration>.Is.Anything))[0][0];
+            Assert.IsNull(args.Address3);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the register post sets email to null if it is spaces only string.
+        /// </summary>
+        [TestMethod]
+        public void TestRegisterPostSetsEmailToNullIfItIsSpacesOnlyString()
+        {
+            #region Arrange
+            var student = CreateValidEntities.Student(1);
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].RegistrationDeadline = DateTime.Now.AddDays(1);
+            ControllerRecordFakes.FakeCeremony(0, _ceremonyRepository, ceremonies);
+            var registration = CreateValidEntities.Registration(1);
+            registration.Student = null;
+            registration.Ceremony = null;
+            registration.Email = "  ";
+
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
+            _emailService.Expect(a => a.SendRegistrationConfirmation(Controller.Repository, registration)).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            Controller.Register(1, registration, true)
+                .AssertActionRedirect()
+                .ToAction<StudentController>(a => a.RegistrationConfirmation(1));
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            _registrationRepository.AssertWasCalled(a => a.EnsurePersistent(registration));
+            _emailService.AssertWasCalled(a => a.SendRegistrationConfirmation(Controller.Repository, registration));
+            Assert.AreEqual("You have successfully registered for commencement.", Controller.Message);
+            var args = (Registration)_registrationRepository.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<Registration>.Is.Anything))[0][0];
+            Assert.IsNull(args.Email);
+            #endregion Assert
+        }
+
+        /// <summary>
         /// Tests the register post returns view if agree to disclaimer is false.
         /// </summary>
         [TestMethod]
