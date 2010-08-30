@@ -88,9 +88,10 @@ p.style7 {font: 18px/27px 'CicleShadow', Arial, sans-serif;}       */
 .choose_ceremony_menu li a:hover{background-color:#ddd;}
 .choose_ceremony_menu a img {margin-top:30px;}
 
-#right_menu {float:left;}
+#right_menu {float:right; font-size:0.9em; line-height:normal; -moz-border-radius: 5px; -webkit-border-radius: 5px; color:#fff; border:1px solid #CCC; display:inline-block; padding:1em 0.5em; margin-top:2em;}
 #fix form p {width:500px; clear:both; float:left;}
 .mceEditor {clear:both;}
 
-#continue_btn a {background-color:#efefef;display:inline-block;height:75px;width:200px;-moz-border-radius: 10px; -webkit-border-radius: 10px; text-align:center; text-decoration:none;}
-#continue_btn a:hover {background-color:#ddd;}
+#template_container .template {padding:1em;}
+#template_container .template ul {padding-left:3em;}
+#template_container .template li { list-style:square;}
