@@ -28,5 +28,14 @@ namespace Commencement.Controllers.Helpers
                 yield return offset;
             }
         }
+
+        public static bool IsNullOrEmptyWithSpaces(this string source)
+        {
+            if (string.IsNullOrEmpty(source)) return string.IsNullOrEmpty(source);
+
+            source = source.Trim();
+
+            return string.IsNullOrEmpty(source);
+        }
     }
 }

@@ -152,7 +152,7 @@ namespace Commencement.Controllers
         {
             registration.Student = GetCurrentStudent();
             registration.Ceremony = _ceremonyRepository.GetNullableById(id);
-            registration.Comments = string.IsNullOrEmpty(registration.Comments) ? null : registration.Comments;
+            NullOutBlankFields(registration);
             
             //The check of a null ceremony will get caught by the domain values check.)
             if (registration.Ceremony != null && registration.Ceremony.RegistrationDeadline <= DateTime.Now)
@@ -192,6 +192,17 @@ namespace Commencement.Controllers
             viewModel.Registration = registration;
 
             return View(viewModel);
+        }
+
+        private void NullOutBlankFields(Registration registration)
+        {
+            //registration.Address2 = string.IsNullOrEmpty(registration.Address2) ? null : registration.Address2;
+            registration.Address2 = string.IsNullOrEmptyWithSpaces(registration.Address2) ? null : registration.Address2;
+            registration.Address3 = string.IsNullOrEmpty(registration.Address3) ? null : registration.Address3;
+
+            registration.Email = string.IsNullOrEmpty(registration.Email) ? null : registration.Email;
+
+            registration.Comments = string.IsNullOrEmpty(registration.Comments) ? null : registration.Comments;
         }
 
         [PageTrackingFilter]
@@ -237,6 +248,7 @@ namespace Commencement.Controllers
             registrationToEdit.Student = student;
 
             CopyHelper.CopyRegistrationValues(registration, registrationToEdit);
+            NullOutBlankFields(registrationToEdit);
 
             registrationToEdit.TransferValidationMessagesTo(ModelState);
 
