@@ -95,3 +95,7 @@ p.style7 {font: 18px/27px 'CicleShadow', Arial, sans-serif;}       */
 #template_container .template {padding:1em;}
 #template_container .template ul {padding-left:3em;}
 #template_container .template li { list-style:square;}
+
+#continue_btn { }
+#continue_btn a {line-height: 3em; font-size: 25px;vertical-align: middle;background-color:#efefef;display:inline-block;height:75px;width:200px;-moz-border-radius: 10px; -webkit-border-radius: 10px; text-align:center; text-decoration:none;}
+#continue_btn a:hover {background-color:#ddd;}
