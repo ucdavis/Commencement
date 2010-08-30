@@ -152,7 +152,9 @@ namespace Commencement.Controllers
         {
             registration.Student = GetCurrentStudent();
             registration.Ceremony = _ceremonyRepository.GetNullableById(id);
-            //The check of a null ceremony will get caught by the domain values check.
+            registration.Comments = string.IsNullOrEmpty(registration.Comments) ? null : registration.Comments;
+            
+            //The check of a null ceremony will get caught by the domain values check.)
             if (registration.Ceremony != null && registration.Ceremony.RegistrationDeadline <= DateTime.Now)
             {
                 //Message = StaticValues.Student_CeremonyDeadlinePassed;
