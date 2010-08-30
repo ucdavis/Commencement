@@ -12,27 +12,27 @@ using UCDArch.Testing;
 namespace Commencement.Tests.Repositories
 {
     /// <summary>
-    /// Entity Name:		School
+    /// Entity Name:		State
     /// LookupFieldName:	Name
     /// </summary>
     [TestClass]
-    public class SchoolRepositoryTests : AbstractRepositoryTests<School, string >
+    public class StateRepositoryTests : AbstractRepositoryTests<State, string >
     {
         /// <summary>
-        /// Gets or sets the School repository.
+        /// Gets or sets the State repository.
         /// </summary>
-        /// <value>The School repository.</value>
-        public IRepositoryWithTypedId<School, string > SchoolRepository { get; set; }
+        /// <value>The State repository.</value>
+        public IRepositoryWithTypedId<State, string > StateRepository { get; set; }
 		
         #region Init and Overrides
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SchoolRepositoryTests"/> class.
+        /// Initializes a new instance of the <see cref="StateRepositoryTests"/> class.
         /// </summary>
-        public SchoolRepositoryTests()
+        public StateRepositoryTests()
         {
             ForceSave = true;
-            SchoolRepository = new RepositoryWithTypedId<School, string>();
+            StateRepository = new RepositoryWithTypedId<State, string>();
         }
 
         /// <summary>
@@ -40,15 +40,15 @@ namespace Commencement.Tests.Repositories
         /// </summary>
         /// <param name="counter">The counter.</param>
         /// <returns>A valid entity of type T</returns>
-        protected override School GetValid(int? counter)
+        protected override State GetValid(int? counter)
         {
-            var rtValue = CreateValidEntities.School(counter);
-            var localCount = "99";
+            var rtValue = CreateValidEntities.State(counter);
+            var localCounter = "99";
             if(counter != null)
             {
-                localCount = counter.ToString();
+                localCounter = counter.ToString();
             }
-            rtValue.SetIdTo(localCount);
+            rtValue.SetIdTo(localCounter);
             return rtValue;
         }
 
@@ -57,9 +57,9 @@ namespace Commencement.Tests.Repositories
         /// </summary>
         /// <param name="numberAtEnd"></param>
         /// <returns></returns>
-        protected override IQueryable<School> GetQuery(int numberAtEnd)
+        protected override IQueryable<State> GetQuery(int numberAtEnd)
         {
-            return SchoolRepository.Queryable.Where(a => a.Name.EndsWith(numberAtEnd.ToString()));
+            return StateRepository.Queryable.Where(a => a.Name.EndsWith(numberAtEnd.ToString()));
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Commencement.Tests.Repositories
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="counter"></param>
-        protected override void FoundEntityComparison(School entity, int counter)
+        protected override void FoundEntityComparison(State entity, int counter)
         {
             Assert.AreEqual("Name" + counter, entity.Name);
         }
@@ -78,7 +78,7 @@ namespace Commencement.Tests.Repositories
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <param name="action">The action.</param>
-        protected override void UpdateUtility(School entity, ARTAction action)
+        protected override void UpdateUtility(State entity, ARTAction action)
         {
             const string updateValue = "Updated";
             switch (action)
@@ -96,20 +96,26 @@ namespace Commencement.Tests.Repositories
             }
         }
 
+        [TestMethod]
+        public override void CanUpdateEntity()
+        {
+            CanUpdateEntity(false);
+        }
+
         /// <summary>
         /// Loads the data.
         /// </summary>
         protected override void LoadData()
         {
-            SchoolRepository.DbContext.BeginTransaction();
+            StateRepository.DbContext.BeginTransaction();
             LoadRecords(5);
-            SchoolRepository.DbContext.CommitTransaction();
+            StateRepository.DbContext.CommitTransaction();
         }
 
         #endregion Init and Overrides	
         
         #region Name Tests
-
+ 
         #region Valid Tests
 
         /// <summary>
@@ -119,19 +125,19 @@ namespace Commencement.Tests.Repositories
         public void TestNameWithNullValueSaves()
         {
             #region Arrange
-            var school = GetValid(9);
-            school.Name = null;
+            var state = GetValid(9);
+            state.Name = null;
             #endregion Arrange
 
             #region Act
-            SchoolRepository.DbContext.BeginTransaction();
-            SchoolRepository.EnsurePersistent(school, true);
-            SchoolRepository.DbContext.CommitTransaction();
+            StateRepository.DbContext.BeginTransaction();
+            StateRepository.EnsurePersistent(state);
+            StateRepository.DbContext.CommitTransaction();
             #endregion Act
 
             #region Assert
-            Assert.IsFalse(school.IsTransient());
-            Assert.IsTrue(school.IsValid());
+            Assert.IsFalse(state.IsTransient());
+            Assert.IsTrue(state.IsValid());
             #endregion Assert
         }
 
@@ -142,19 +148,19 @@ namespace Commencement.Tests.Repositories
         public void TestNameWithEmptyStringSaves()
         {
             #region Arrange
-            var school = GetValid(9);
-            school.Name = string.Empty;
+            var state = GetValid(9);
+            state.Name = string.Empty;
             #endregion Arrange
 
             #region Act
-            SchoolRepository.DbContext.BeginTransaction();
-            SchoolRepository.EnsurePersistent(school, true);
-            SchoolRepository.DbContext.CommitTransaction();
+            StateRepository.DbContext.BeginTransaction();
+            StateRepository.EnsurePersistent(state);
+            StateRepository.DbContext.CommitTransaction();
             #endregion Act
 
             #region Assert
-            Assert.IsFalse(school.IsTransient());
-            Assert.IsTrue(school.IsValid());
+            Assert.IsFalse(state.IsTransient());
+            Assert.IsTrue(state.IsValid());
             #endregion Assert
         }
 
@@ -165,19 +171,19 @@ namespace Commencement.Tests.Repositories
         public void TestNameWithOneSpaceSaves()
         {
             #region Arrange
-            var school = GetValid(9);
-            school.Name = " ";
+            var state = GetValid(9);
+            state.Name = " ";
             #endregion Arrange
 
             #region Act
-            SchoolRepository.DbContext.BeginTransaction();
-            SchoolRepository.EnsurePersistent(school, true);
-            SchoolRepository.DbContext.CommitTransaction();
+            StateRepository.DbContext.BeginTransaction();
+            StateRepository.EnsurePersistent(state);
+            StateRepository.DbContext.CommitTransaction();
             #endregion Act
 
             #region Assert
-            Assert.IsFalse(school.IsTransient());
-            Assert.IsTrue(school.IsValid());
+            Assert.IsFalse(state.IsTransient());
+            Assert.IsTrue(state.IsValid());
             #endregion Assert
         }
 
@@ -188,19 +194,19 @@ namespace Commencement.Tests.Repositories
         public void TestNameWithOneCharacterSaves()
         {
             #region Arrange
-            var school = GetValid(9);
-            school.Name = "x";
+            var state = GetValid(9);
+            state.Name = "x";
             #endregion Arrange
 
             #region Act
-            SchoolRepository.DbContext.BeginTransaction();
-            SchoolRepository.EnsurePersistent(school, true);
-            SchoolRepository.DbContext.CommitTransaction();
+            StateRepository.DbContext.BeginTransaction();
+            StateRepository.EnsurePersistent(state);
+            StateRepository.DbContext.CommitTransaction();
             #endregion Act
 
             #region Assert
-            Assert.IsFalse(school.IsTransient());
-            Assert.IsTrue(school.IsValid());
+            Assert.IsFalse(state.IsTransient());
+            Assert.IsTrue(state.IsValid());
             #endregion Assert
         }
 
@@ -211,30 +217,26 @@ namespace Commencement.Tests.Repositories
         public void TestNameWithLongValueSaves()
         {
             #region Arrange
-            var school = GetValid(9);
-            school.Name = "x".RepeatTimes(999);
+            var state = GetValid(9);
+            state.Name = "x".RepeatTimes(999);
             #endregion Arrange
 
             #region Act
-            SchoolRepository.DbContext.BeginTransaction();
-            SchoolRepository.EnsurePersistent(school, true);
-            SchoolRepository.DbContext.CommitTransaction();
+            StateRepository.DbContext.BeginTransaction();
+            StateRepository.EnsurePersistent(state);
+            StateRepository.DbContext.CommitTransaction();
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(999, school.Name.Length);
-            Assert.IsFalse(school.IsTransient());
-            Assert.IsTrue(school.IsValid());
+            Assert.AreEqual(999, state.Name.Length);
+            Assert.IsFalse(state.IsTransient());
+            Assert.IsTrue(state.IsValid());
             #endregion Assert
         }
 
         #endregion Valid Tests
         #endregion Name Tests
-
-        
-        
-        
-        
+    
         #region Reflection of Database.
 
         /// <summary>
@@ -255,7 +257,7 @@ namespace Commencement.Tests.Repositories
             expectedFields.Add(new NameAndType("Name", "System.String", new List<string>()));
             #endregion Arrange
 
-            AttributeAndFieldValidation.ValidateFieldsAndAttributes(expectedFields, typeof(School));
+            AttributeAndFieldValidation.ValidateFieldsAndAttributes(expectedFields, typeof(State));
 
         }
 
