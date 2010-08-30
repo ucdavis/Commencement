@@ -232,9 +232,6 @@ namespace Commencement.Tests.Repositories
         #endregion Name Tests
 
         
-        
-        
-        
         #region Reflection of Database.
 
         /// <summary>

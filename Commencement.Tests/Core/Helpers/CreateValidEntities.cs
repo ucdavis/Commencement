@@ -24,9 +24,14 @@ namespace Commencement.Tests.Core.Helpers
 
         public static Student Student(int? count)
         {
+            var localCount = 0;
+            if(count != null)
+            {
+                localCount = (int)count;
+            }
             var rtValue = new Student();
             rtValue.Pidm = "Pidm" + count.Extra();
-            rtValue.StudentId = (100000000 + count).ToString();
+            rtValue.StudentId = (100000000 + localCount).ToString();
             rtValue.FirstName = "FirstName" + count.Extra();
             rtValue.LastName = "LastName" + count.Extra();
 

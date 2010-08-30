@@ -2283,7 +2283,7 @@ namespace Commencement.Tests.Repositories
         }
         #endregion DateDecision Tests
 
-        #region MajorCode Tests
+        #region TermCode Tests
 
         #region Invalid Tests
         /// <summary>
@@ -2330,7 +2330,7 @@ namespace Commencement.Tests.Repositories
         {
             #region Arrange
             var registrationPetition = RegistrationPetitionRepository.GetById(1);
-            Assert.AreNotSame(registrationPetition.MajorCode, TermCodeRepository.GetById("2"));
+            Assert.AreNotSame(registrationPetition.TermCode, TermCodeRepository.GetById("2"));
             registrationPetition.TermCode = TermCodeRepository.GetById("2");
             #endregion Arrange
 
