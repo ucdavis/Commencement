@@ -12,7 +12,7 @@ AS
 declare @temp table(
 	pidm varchar(8),
 	studentid varchar(9),
-	firstname varchar(50), lastname varchar(50),
+	firstname varchar(50), mi varchar(50), lastname varchar(50),
 	units decimal(6,3),
 	email varchar(50), major varchar(4),
 	coll char(2), degsCode varchar(4),
@@ -21,14 +21,14 @@ declare @temp table(
 	[login] varchar(50)
 )
 
-insert into @temp (pidm, studentid, firstname, lastname, units, email, major, coll, degscode, astd, termcode, [login])
-select spriden_pidm, spriden_id, spriden_first_name, spriden_last_name, shrlgpa_hours_earned, goremal_email_address, zgvlcfs_majr_code
+insert into @temp (pidm, studentid, firstname, mi, lastname, units, email, major, coll, degscode, astd, termcode, [login])
+select spriden_pidm, spriden_id, spriden_first_name, spriden_mi, spriden_last_name, shrlgpa_hours_earned, goremal_email_address, zgvlcfs_majr_code
 	, zgvlcfs_coll_code, shrdgmr_degs_code
 	, shrttrm_astd_code_end_of_term
 	, termcode
 	, wormoth_login_id
 from openquery (sis, '
-	select spriden_pidm, spriden_id, spriden_first_name, spriden_last_name, shrlgpa_hours_earned, email.goremal_email_address, curriculum.zgvlcfs_majr_code
+	select spriden_pidm, spriden_id, spriden_first_name, spriden_mi, spriden_last_name, shrlgpa_hours_earned, email.goremal_email_address, curriculum.zgvlcfs_majr_code
 		, curriculum.zgvlcfs_coll_code
 		, shrdgmr_degs_code
 		, shrttrm_astd_code_end_of_term
@@ -65,13 +65,13 @@ from openquery (sis, '
 ')
 
 merge into students t
-using (select distinct pidm, studentid, firstname, lastname, units, email, degscode, termcode, [login] from @temp where astd <> 'DS') s
+using (select distinct pidm, studentid, firstname, mi, lastname, units, email, degscode, termcode, [login] from @temp where astd <> 'DS') s
 on t.pidm = s.pidm and t.termcode = s.termcode
 when matched then
-	update set t.studentid = s.studentid, t.firstname = s.firstname, t.lastname = s.lastname, t.units = s.units, t.email = s.email, t.degreecode = s.degscode, t.dateupdated = getdate(), t.[login] = s.[login]
+	update set t.studentid = s.studentid, t.firstname = s.firstname, t.mi = s.mi, t.lastname = s.lastname, t.units = s.units, t.email = s.email, t.degreecode = s.degscode, t.dateupdated = getdate(), t.[login] = s.[login]
 when not matched then
-	insert (pidm, studentid, firstname, lastname, units, email, degreecode, termcode, [login])
-	values(s.pidm, s.studentid, s.firstname, s.lastname, s.units, s.email, s.degscode, s.termcode, s.[login]);
+	insert (pidm, studentid, firstname, mi, lastname, units, email, degreecode, termcode, [login])
+	values(s.pidm, s.studentid, s.firstname, s.mi, s.lastname, s.units, s.email, s.degscode, s.termcode, s.[login]);
 
 merge into studentmajors t
 using (
