@@ -48,6 +48,10 @@
       <Name>SummaryReport.rdl</Name>
       <FullPath>SummaryReport.rdl</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>RegistrarsReport.rdl</Name>
+      <FullPath>RegistrarsReport.rdl</FullPath>
+    </ProjectItem>
   </Reports>
   <Configurations>
     <Configuration>

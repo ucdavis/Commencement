@@ -8,7 +8,7 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="SpecialNeeds">
+    <DataSet Name="StudentData">
       <Fields>
         <Field Name="LastName">
           <DataField>LastName</DataField>
@@ -38,10 +38,6 @@
           <DataField>CeremonyTime</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="SpecialNeeds">
-          <DataField>SpecialNeeds</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="Term">
           <DataField>Term</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -50,13 +46,13 @@
       <Query>
         <DataSourceName>Commencement</DataSourceName>
         <CommandText>SELECT     Students.LastName, Students.FirstName, Students.StudentId, vMajors.Name AS Major, Students.Email AS PrimaryEmail, Registrations.Email AS SecondaryEmail, 
-                      Ceremonies.DateTime AS CeremonyTime, Registrations.Comments AS SpecialNeeds, TermCodes.Name AS Term
+                      Ceremonies.DateTime AS CeremonyTime, TermCodes.Name AS Term
 FROM         Registrations INNER JOIN
                       Students ON Students.Id = Registrations.Student_Id INNER JOIN
                       Ceremonies ON Ceremonies.id = Registrations.CeremonyId INNER JOIN
                       vMajors ON vMajors.id = Registrations.MajorCode INNER JOIN
                       TermCodes ON Ceremonies.TermCode = TermCodes.id
-WHERE     (Students.TermCode = @term) AND (Registrations.Comments IS NOT NULL) AND (LEN(Registrations.Comments) &gt; 0)</CommandText>
+WHERE     (Students.TermCode = @term)</CommandText>
         <QueryParameters>
           <QueryParameter Name="@term">
             <Value>=Parameters!term.Value</Value>
@@ -128,12 +124,6 @@ WHERE     (Students.TermCode = @term) AND (Registrations.Comments IS NOT NULL) A
             </TablixColumn>
             <TablixColumn>
               <Width>1.01692in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1.19843in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.54167in</Width>
@@ -321,90 +311,6 @@ WHERE     (Students.TermCode = @term) AND (Registrations.Comments IS NOT NULL) A
                         <RightBorder>
                           <Width>1pt</Width>
                         </RightBorder>
-                        <BackgroundColor>LightSteelBlue</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox28">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Primary Email</Value>
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>Navy</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox28</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DimGray</Color>
-                          <Style>None</Style>
-                          <Width>1.5pt</Width>
-                        </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <LeftBorder>
-                          <Style>Solid</Style>
-                          <Width>1pt</Width>
-                        </LeftBorder>
-                        <BackgroundColor>LightSteelBlue</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox31">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Secondary Email</Value>
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>Navy</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox31</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DimGray</Color>
-                          <Style>None</Style>
-                          <Width>1.5pt</Width>
-                        </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <LeftBorder>
-                          <Style>Solid</Style>
-                          <Width>1pt</Width>
-                        </LeftBorder>
                         <BackgroundColor>LightSteelBlue</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -656,78 +562,6 @@ WHERE     (Students.TermCode = @term) AND (Registrations.Comments IS NOT NULL) A
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="PrimaryEmail">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!PrimaryEmail.Value</Value>
-                              <Style />
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>PrimaryEmail</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>None</Style>
-                        </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <LeftBorder>
-                          <Style>Solid</Style>
-                        </LeftBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="SecondaryEmail">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!SecondaryEmail.Value</Value>
-                              <Style />
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>SecondaryEmail</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>None</Style>
-                        </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <LeftBorder>
-                          <Style>Solid</Style>
-                        </LeftBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
                     <Textbox Name="SpecialNeeds">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -812,8 +646,6 @@ WHERE     (Students.TermCode = @term) AND (Registrations.Comments IS NOT NULL) A
         </TablixBody>
         <TablixColumnHierarchy>
           <TablixMembers>
-            <TablixMember />
-            <TablixMember />
             <TablixMember />
             <TablixMember />
             <TablixMember />
@@ -925,7 +757,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.Comments IS NOT NULL) A
         <Top>1.14114in</Top>
         <Left>0.02069in</Left>
         <Height>0.48958in</Height>
-        <Width>9.59064in</Width>
+        <Width>7.39221in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -989,7 +821,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.Comments IS NOT NULL) A
         <Top>0.42743in</Top>
         <Left>0.02069in</Left>
         <Height>0.21276in</Height>
-        <Width>6.42788in</Width>
+        <Width>7.42788in</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>

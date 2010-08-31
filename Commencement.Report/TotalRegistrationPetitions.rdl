@@ -1540,9 +1540,9 @@ GROUP BY RegistrationPetitions.LastName, RegistrationPetitions.FirstName, Regist
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>PageNumber</rd:DefaultName>
-          <Left>3.43165in</Left>
+          <Left>4.20453in</Left>
           <Height>0.25in</Height>
-          <Width>2.01692in</Width>
+          <Width>1.74404in</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>

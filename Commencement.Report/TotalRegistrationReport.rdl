@@ -162,7 +162,7 @@ HAVING      (Students.TermCode = @term)</CommandText>
         <rd:DefaultName>Name1</rd:DefaultName>
         <Left>0.02069in</Left>
         <Height>0.39965in</Height>
-        <Width>4.22605in</Width>
+        <Width>4.42788in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1981,7 +1981,7 @@ HAVING      (Students.TermCode = @term)</CommandText>
           <Top>0.31944in</Top>
           <Left>0.02069in</Left>
           <Height>0.65973in</Height>
-          <Width>4.22945in</Width>
+          <Width>4.42788in</Width>
           <Style>
             <Border>
               <Style>None</Style>
@@ -2015,9 +2015,9 @@ HAVING      (Students.TermCode = @term)</CommandText>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Name1</rd:DefaultName>
-          <Left>3.43165in</Left>
+          <Left>4.44857in</Left>
           <Height>0.25in</Height>
-          <Width>4.01692in</Width>
+          <Width>3in</Width>
           <ZIndex>1</ZIndex>
           <Style>
             <Border>
@@ -2078,110 +2078,9 @@ HAVING      (Students.TermCode = @term)</CommandText>
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>0.6632in</Height>
+      <Height>0.01042in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
-      <ReportItems>
-        <Textbox Name="Textbox1">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>=Globals!ReportName</Value>
-                  <Style />
-                </TextRun>
-              </TextRuns>
-              <Style />
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox1</rd:DefaultName>
-          <Top>0.01389in</Top>
-          <Left>0.02069in</Left>
-          <Height>0.25in</Height>
-          <Width>3.41096in</Width>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
-        <Textbox Name="Textbox2">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>="As of " + Globals!ExecutionTime</Value>
-                  <Style>
-                    <Format>g</Format>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style />
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox1</rd:DefaultName>
-          <Top>0.29167in</Top>
-          <Left>0.02069in</Left>
-          <Height>0.22222in</Height>
-          <Width>3.41096in</Width>
-          <ZIndex>1</ZIndex>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
-        <Textbox Name="PageNumber">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>=Globals!PageNumber</Value>
-                  <Style />
-                </TextRun>
-                <TextRun>
-                  <Value> of </Value>
-                  <Style />
-                </TextRun>
-                <TextRun>
-                  <Value>=Globals!TotalPages</Value>
-                  <Style />
-                </TextRun>
-              </TextRuns>
-              <Style />
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>PageNumber</rd:DefaultName>
-          <Top>0.01389in</Top>
-          <Left>3.43165in</Left>
-          <Height>0.25in</Height>
-          <Width>2.01692in</Width>
-          <ZIndex>2</ZIndex>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
-      </ReportItems>
       <Style>
         <Border>
           <Style>None</Style>
