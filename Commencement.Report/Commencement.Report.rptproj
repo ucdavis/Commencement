@@ -9,6 +9,18 @@
   </DataSources>
   <Reports>
     <ProjectItem>
+      <Name>SpecialNeedsRequest.rdl</Name>
+      <FullPath>SpecialNeedsRequest.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>TotalRegistrationPetitions.rdl</Name>
+      <FullPath>TotalRegistrationPetitions.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>TotalRegistrationReport.rdl</Name>
+      <FullPath>TotalRegistrationReport.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>xPetitionsbyAMPMReport-x.rdl</Name>
       <FullPath>xPetitionsbyAMPMReport-x.rdl</FullPath>
     </ProjectItem>
@@ -29,24 +41,12 @@
       <FullPath>xRegistrationByMajorReport-x.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>SummaryReport-x.rdl</Name>
-      <FullPath>SummaryReport-x.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
       <Name>xTotalRegistrationEachMajorReport-x.rdl</Name>
       <FullPath>xTotalRegistrationEachMajorReport-x.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>SpecialNeedsRequest.rdl</Name>
-      <FullPath>SpecialNeedsRequest.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>TotalRegistrationPetitions.rdl</Name>
-      <FullPath>TotalRegistrationPetitions.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>TotalRegistrationReport.rdl</Name>
-      <FullPath>TotalRegistrationReport.rdl</FullPath>
+      <Name>SummaryReport.rdl</Name>
+      <FullPath>SummaryReport.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>

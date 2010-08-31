@@ -570,7 +570,7 @@ HAVING      (Students.TermCode = @term)</CommandText>
               <Width>0.88542in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.77734in</Width>
+              <Width>1.40234in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -1846,7 +1846,7 @@ HAVING      (Students.TermCode = @term)</CommandText>
         <Top>2.14114in</Top>
         <Left>0.02069in</Left>
         <Height>0.48958in</Height>
-        <Width>13.50471in</Width>
+        <Width>14.12971in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -1875,7 +1875,7 @@ HAVING      (Students.TermCode = @term)</CommandText>
         <Top>1.90799in</Top>
         <Left>0.02069in</Left>
         <Height>0.20537in</Height>
-        <Width>3.39012in</Width>
+        <Width>3.41096in</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -1937,7 +1937,7 @@ HAVING      (Students.TermCode = @term)</CommandText>
       <Prompt>term</Prompt>
     </ReportParameter>
   </ReportParameters>
-  <Width>14.01498in</Width>
+  <Width>14.1504in</Width>
   <Page>
     <PageHeader>
       <Height>0.97917in</Height>
@@ -2078,7 +2078,7 @@ HAVING      (Students.TermCode = @term)</CommandText>
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>0.59375in</Height>
+      <Height>0.6632in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -2128,9 +2128,9 @@ HAVING      (Students.TermCode = @term)</CommandText>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox1</rd:DefaultName>
-          <Top>0.26389in</Top>
+          <Top>0.29167in</Top>
           <Left>0.02069in</Left>
-          <Height>0.25in</Height>
+          <Height>0.22222in</Height>
           <Width>3.41096in</Width>
           <ZIndex>1</ZIndex>
           <Style>
@@ -2166,6 +2166,7 @@ HAVING      (Students.TermCode = @term)</CommandText>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>PageNumber</rd:DefaultName>
+          <Top>0.01389in</Top>
           <Left>3.43165in</Left>
           <Height>0.25in</Height>
           <Width>2.01692in</Width>
