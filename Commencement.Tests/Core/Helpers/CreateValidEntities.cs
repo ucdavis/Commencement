@@ -162,5 +162,20 @@ namespace Commencement.Tests.Core.Helpers
             rtValue.Name = "Name" + count.Extra();
             return rtValue;
         }
+
+        public static Template Template(int? count)
+        {
+            var rtValue = new Template();
+            rtValue.BodyText = "BodyText" + count.Extra();
+            rtValue.TemplateType = new TemplateType();
+            return rtValue;
+        }
+
+        public static TemplateType TemplateType(int? count)
+        {
+            var rtValue = new TemplateType();
+            rtValue.Name = "Name" + count.Extra();
+            return rtValue;
+        }
     }
 }

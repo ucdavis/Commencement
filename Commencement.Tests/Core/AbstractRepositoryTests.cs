@@ -476,6 +476,16 @@ namespace Commencement.Tests.Core
             }     
         }
 
+        protected void LoadTemplateType(int entriesToAdd)
+        {
+            for (int i = 0; i < entriesToAdd; i++)
+            {
+                var validEntity = CreateValidEntities.TemplateType(i + 1);
+                //validEntity.SetIdTo((i + 1).ToString());
+                Repository.OfType<TemplateType>().EnsurePersistent(validEntity);
+            }
+        }
+
         /// <summary>
         /// Loads the state.
         /// </summary>
