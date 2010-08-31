@@ -22,7 +22,8 @@ namespace Commencement.Controllers
             var viewModel = ReportViewModel.Create(Repository);
             return View(viewModel);
         }
-        
+
+        #region Label Generator
         public ActionResult GenerateAveryLabels(string termCode, bool printAll)
         {
             List<Registration> registrations;
@@ -40,30 +41,32 @@ namespace Commencement.Controllers
                                                                                           )).ToList();
             }
 
-            StringBuilder labels = new StringBuilder();
+            //StringBuilder labels = new StringBuilder();
 
-            foreach(var r in registrations)
-            {
-                // calculate the number of tickets
-                var tickets = r.LabelPrinted ? 0 : r.NumberTickets;
-                tickets += r.ExtraTicketPetition != null && !r.LabelPrinted ? r.ExtraTicketPetition.NumberTickets : 0;
+            //foreach(var r in registrations)
+            //{
+            //    // calculate the number of tickets
+            //    var tickets = r.LabelPrinted ? 0 : r.NumberTickets;
+            //    tickets += r.ExtraTicketPetition != null && !r.LabelPrinted ? r.ExtraTicketPetition.NumberTickets : 0;
 
-                if (tickets > 0)
-                {
-                    labels.Append(string.Format(Labels.Avery5160_LabelRow, r.Student.FullName, r.Student.StudentId
-                                                , r.Major.Name, tickets, r.Student.FullName, r.Address1
-                                                , r.Address2, r.City + ", " + r.State.Id + " " + r.Zip
-                                                , tickets
-                                      ));
+            //    if (tickets > 0)
+            //    {
+            //        labels.Append(string.Format(Labels.Avery5160_LabelRow, r.Student.FullName, r.Student.StudentId
+            //                                    , r.Major.Name, tickets, r.Student.FullName, r.Address1
+            //                                    , r.Address2, r.City + ", " + r.State.Id + " " + r.Zip
+            //                                    , tickets
+            //                          ));
 
-                    // update the record
-                    r.SetLabelPrinted();
-                    Repository.OfType<Registration>().EnsurePersistent(r);
-                }
-            }
+            //        // update the record
+            //        r.SetLabelPrinted();
+            //        Repository.OfType<Registration>().EnsurePersistent(r);
+            //    }
+            //}
 
-            var doc = string.Format(Labels.Avery5160_Doc, labels);
-            doc = doc.Replace("&", "&amp;");
+            //var doc = string.Format(Labels.Avery5160_Doc, labels);
+            //doc = doc.Replace("&", "&amp;");
+
+            var doc = GenerateLabelDoc(registrations, printAll);
 
             ASCIIEncoding encoding = new ASCIIEncoding();
             var bytes = encoding.GetBytes(doc);
@@ -71,10 +74,113 @@ namespace Commencement.Controllers
             return File(bytes, "application/word", "labels.doc");
         }
 
+        private string GenerateLabelDoc(List<Registration> registrations, bool printAll)
+        {
+            var labels = new StringBuilder();
+            var rows = GenerateRows(registrations, printAll);
+            foreach (var r in rows)
+            {
+                // put all 3 cells into a row
+                labels.Append(string.Format(Labels.Avery5160_LabelRow, r.GetCell1, r.GetCell2, r.GetCell3));
+            }
+
+            var doc = string.Format(Labels.Avery5160_Doc, labels);
+            doc = doc.Replace("&", "&amp;");
+
+            return doc;
+        }
+
+        // create a list of the data broken down into rows
+        private List<LabelRow> GenerateRows(List<Registration> registrations, bool printAll)
+        {
+            var rows = new List<LabelRow>();
+            var row = new LabelRow();
+
+            foreach (var reg in registrations)
+            {
+                // if no space is avaible add it to the list
+                if (!row.HasSpace())
+                {
+                    rows.Add(row);
+                    row = new LabelRow();
+                }
+
+                // calculate the number of tickets
+                var tickets = !reg.LabelPrinted || printAll ?  reg.NumberTickets : 0;
+                tickets += reg.ExtraTicketPetition != null && (!reg.LabelPrinted || printAll) ? reg.ExtraTicketPetition.NumberTickets : 0;
+
+                if (tickets > 0)
+                {
+                    string cell = string.Empty;
+
+                    if (reg.MailTickets)
+                    {
+                        var address2 = string.IsNullOrEmpty(reg.Address2) ? string.Empty : string.Format(Labels.Avergy5160_Mail_Address2, reg.Address2);
+                        cell = string.Format(Labels.Avery5160_MailCell, reg.Student.FullName, reg.Address1,
+                                                 address2, reg.City + ", " + reg.State.Id + " " + reg.Zip, tickets);
+
+
+                    }
+                    else
+                    {
+                        cell = string.Format(Labels.Avery5160_PickupCell, reg.Student.FullName,
+                                             reg.Student.StudentId, reg.Major.Name, tickets);
+                    }
+
+                    row.AddCell(cell);
+                }
+            }
+
+            return rows;
+        }
+        #endregion
+
+
         public ActionResult RegistrationData()
         {
             var viewModel = RegistrationDataViewModel.Create(Repository);
             return View(viewModel);
         }
+    }
+
+    public class LabelRow
+    {
+        public LabelRow()
+        {
+            Cell1 = string.Empty;
+            Cell2 = string.Empty;
+            Cell3 = string.Empty;
+        }
+
+        public bool HasSpace()
+        {
+            return string.IsNullOrEmpty(Cell1) || string.IsNullOrEmpty(Cell2) || string.IsNullOrEmpty(Cell3);
+        }
+        public bool AddCell(string contents)
+        {
+            if (string.IsNullOrEmpty(Cell1)) {
+                Cell1 = contents;
+                return true;
+            }
+            if (string.IsNullOrEmpty(Cell2)) {
+                Cell2 = contents;
+                return true;
+            }
+            if (string.IsNullOrEmpty(Cell3))
+            {
+                Cell3 = contents;
+                return true;
+            }
+
+            return false;
+        }
+
+        public string GetCell1 { get { return string.IsNullOrEmpty(Cell1) ? Labels.Avery5160_EmptyCell : Cell1; }}
+        public string GetCell2 { get { return string.IsNullOrEmpty(Cell2) ? Labels.Avery5160_EmptyCell : Cell2; } }
+        public string GetCell3 { get { return string.IsNullOrEmpty(Cell3) ? Labels.Avery5160_EmptyCell : Cell3; } }
+
+        public string Cell1 { get; set; }
+        public string Cell2 { get; set; }
+        public string Cell3 { get; set; }
     }
 }

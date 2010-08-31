@@ -117,6 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Avergy5160_Mail_Address2" xml:space="preserve">
+    <value>&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
+			&lt;w:pPr&gt;
+				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
+				&lt;w:ind w:left="115" w:right="115"/&gt;
+				&lt;w:rPr&gt;
+					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
+					&lt;wx:font wx:val="Arial"/&gt;
+					&lt;w:noProof/&gt;
+					&lt;w:sz w:val="24"/&gt;
+					&lt;w:sz-cs w:val="24"/&gt;
+				&lt;/w:rPr&gt;
+			&lt;/w:pPr&gt;
+			&lt;w:r wsp:rsidRPr="00C53B26"&gt;
+				&lt;w:rPr&gt;
+					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
+					&lt;wx:font wx:val="Arial"/&gt;
+					&lt;w:noProof/&gt;
+					&lt;w:sz w:val="24"/&gt;
+					&lt;w:sz-cs w:val="24"/&gt;
+				&lt;/w:rPr&gt;
+				&lt;w:t&gt;{0}&lt;/w:t&gt;
+			&lt;/w:r&gt;
+		&lt;/w:p&gt;</value>
+  </data>
   <data name="Avery5160_Doc" xml:space="preserve">
     <value>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
 &lt;?mso-application progid="Word.Document"?&gt;
@@ -126,13 +151,199 @@
 
 &lt;/w:tbl&gt;&lt;w:p wsp:rsidR="006F52C4" wsp:rsidRPr="00B70BA2" wsp:rsidRDefault="006F52C4" wsp:rsidP="00B70BA2"&gt;&lt;w:pPr&gt;&lt;w:ind w:left="95" w:right="95"/&gt;&lt;w:rPr&gt;&lt;w:vanish/&gt;&lt;/w:rPr&gt;&lt;/w:pPr&gt;&lt;/w:p&gt;&lt;w:sectPr wsp:rsidR="006F52C4" wsp:rsidRPr="00B70BA2" wsp:rsidSect="00B70BA2"&gt;&lt;w:type w:val="continuous"/&gt;&lt;w:pgSz w:w="12240" w:h="15840"/&gt;&lt;w:pgMar w:top="720" w:right="270" w:bottom="0" w:left="270" w:header="720" w:footer="720" w:gutter="0"/&gt;&lt;w:paperSrc w:first="4" w:other="4"/&gt;&lt;w:cols w:space="720"/&gt;&lt;/w:sectPr&gt;&lt;/wx:sect&gt;&lt;/w:body&gt;&lt;/w:wordDocument&gt;</value>
   </data>
+  <data name="Avery5160_EmptyCell" xml:space="preserve">
+    <value>&lt;w:tc&gt;
+		&lt;w:tcPr&gt;
+			&lt;w:tcW w:w="3787" w:type="dxa"/&gt;
+			&lt;w:shd w:val="clear" w:color="auto" w:fill="auto"/&gt;
+		&lt;/w:tcPr&gt;
+		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
+			&lt;w:pPr&gt;
+				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
+				&lt;w:ind w:left="95" w:right="95"/&gt;
+			&lt;/w:pPr&gt;
+		&lt;/w:p&gt;
+	&lt;/w:tc&gt;</value>
+  </data>
   <data name="Avery5160_LabelRow" xml:space="preserve">
     <value>&lt;w:tr wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidTr="00C53B26"&gt;
 	&lt;w:trPr&gt;
 		&lt;w:cantSplit/&gt;
 		&lt;w:trHeight w:h-rule="exact" w:val="1440"/&gt;
 	&lt;/w:trPr&gt;
+	
+	{0}
+
 	&lt;w:tc&gt;
+		&lt;w:tcPr&gt;
+			&lt;w:tcW w:w="173" w:type="dxa"/&gt;
+			&lt;w:shd w:val="clear" w:color="auto" w:fill="auto"/&gt;
+		&lt;/w:tcPr&gt;
+		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
+			&lt;w:pPr&gt;
+				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
+				&lt;w:ind w:left="95" w:right="95"/&gt;
+			&lt;/w:pPr&gt;
+		&lt;/w:p&gt;
+	&lt;/w:tc&gt;
+
+	{1} 
+
+	&lt;w:tc&gt;
+		&lt;w:tcPr&gt;
+			&lt;w:tcW w:w="173" w:type="dxa"/&gt;
+			&lt;w:shd w:val="clear" w:color="auto" w:fill="auto"/&gt;
+		&lt;/w:tcPr&gt;
+		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
+			&lt;w:pPr&gt;
+				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
+				&lt;w:ind w:left="95" w:right="95"/&gt;
+			&lt;/w:pPr&gt;
+		&lt;/w:p&gt;
+	&lt;/w:tc&gt;
+
+	{2}
+&lt;/w:tr&gt;</value>
+    <comment>{0} = Cell 1
+{1} = Cell 2
+{2} = Cell 3</comment>
+  </data>
+  <data name="Avery5160_MailCell" xml:space="preserve">
+    <value>&lt;w:tc&gt;
+		&lt;w:tcPr&gt;
+			&lt;w:tcW w:w="3787" w:type="dxa"/&gt;
+			&lt;w:shd w:val="clear" w:color="auto" w:fill="auto"/&gt;
+		&lt;/w:tcPr&gt;
+		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
+			&lt;w:pPr&gt;
+				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
+				&lt;w:ind w:left="115" w:right="115"/&gt;
+				&lt;w:rPr&gt;
+					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
+					&lt;wx:font wx:val="Arial"/&gt;
+					&lt;w:b/&gt;
+					&lt;w:noProof/&gt;
+					&lt;w:sz w:val="8"/&gt;
+					&lt;w:sz-cs w:val="8"/&gt;
+				&lt;/w:rPr&gt;
+			&lt;/w:pPr&gt;
+		&lt;/w:p&gt;
+		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
+			&lt;w:pPr&gt;
+				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
+				&lt;w:ind w:left="115" w:right="115"/&gt;
+				&lt;w:rPr&gt;
+					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
+					&lt;wx:font wx:val="Arial"/&gt;
+					&lt;w:b/&gt;
+					&lt;w:sz w:val="24"/&gt;
+					&lt;w:sz-cs w:val="24"/&gt;
+				&lt;/w:rPr&gt;
+			&lt;/w:pPr&gt;
+			&lt;w:r wsp:rsidRPr="00C53B26"&gt;
+				&lt;w:rPr&gt;
+					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
+					&lt;wx:font wx:val="Arial"/&gt;
+					&lt;w:b/&gt;
+					&lt;w:noProof/&gt;
+					&lt;w:sz w:val="24"/&gt;
+					&lt;w:sz-cs w:val="24"/&gt;
+				&lt;/w:rPr&gt;
+				&lt;w:t&gt;{0}&lt;/w:t&gt;
+			&lt;/w:r&gt;
+		&lt;/w:p&gt;
+		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
+			&lt;w:pPr&gt;
+				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
+				&lt;w:ind w:left="115" w:right="115"/&gt;
+				&lt;w:rPr&gt;
+					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
+					&lt;wx:font wx:val="Arial"/&gt;
+					&lt;w:noProof/&gt;
+					&lt;w:sz w:val="24"/&gt;
+					&lt;w:sz-cs w:val="24"/&gt;
+				&lt;/w:rPr&gt;
+			&lt;/w:pPr&gt;
+			&lt;w:r wsp:rsidRPr="00C53B26"&gt;
+				&lt;w:rPr&gt;
+					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
+					&lt;wx:font wx:val="Arial"/&gt;
+					&lt;w:noProof/&gt;
+					&lt;w:sz w:val="24"/&gt;
+					&lt;w:sz-cs w:val="24"/&gt;
+				&lt;/w:rPr&gt;
+				&lt;w:t&gt;{1}&lt;/w:t&gt;
+			&lt;/w:r&gt;
+		&lt;/w:p&gt;
+
+		{2}
+		
+		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
+			&lt;w:pPr&gt;
+				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
+				&lt;w:ind w:left="115" w:right="115"/&gt;
+				&lt;w:rPr&gt;
+					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
+					&lt;wx:font wx:val="Arial"/&gt;
+					&lt;w:sz w:val="24"/&gt;
+					&lt;w:sz-cs w:val="24"/&gt;
+				&lt;/w:rPr&gt;
+			&lt;/w:pPr&gt;
+			&lt;w:r wsp:rsidRPr="00C53B26"&gt;
+				&lt;w:rPr&gt;
+					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
+					&lt;wx:font wx:val="Arial"/&gt;
+					&lt;w:sz w:val="24"/&gt;
+					&lt;w:sz-cs w:val="24"/&gt;
+				&lt;/w:rPr&gt;
+				&lt;w:t&gt;{3}&lt;/w:t&gt;
+			&lt;/w:r&gt;
+		&lt;/w:p&gt;
+		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
+			&lt;w:pPr&gt;
+				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
+				&lt;w:ind w:left="2880" w:right="115"/&gt;
+				&lt;w:rPr&gt;
+					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
+					&lt;wx:font wx:val="Arial"/&gt;
+				&lt;/w:rPr&gt;
+			&lt;/w:pPr&gt;
+			&lt;w:r wsp:rsidRPr="00C53B26"&gt;
+				&lt;w:rPr&gt;
+					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
+					&lt;wx:font wx:val="Arial"/&gt;
+					&lt;w:noProof/&gt;
+				&lt;/w:rPr&gt;
+				&lt;w:t&gt;{4}&lt;/w:t&gt;
+			&lt;/w:r&gt;
+		&lt;/w:p&gt;
+		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
+			&lt;w:pPr&gt;
+				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
+				&lt;w:ind w:left="115" w:right="115"/&gt;
+				&lt;w:rPr&gt;
+					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
+					&lt;wx:font wx:val="Arial"/&gt;
+					&lt;w:sz w:val="24"/&gt;
+					&lt;w:sz-cs w:val="24"/&gt;
+				&lt;/w:rPr&gt;
+			&lt;/w:pPr&gt;
+		&lt;/w:p&gt;
+		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
+			&lt;w:pPr&gt;
+				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
+				&lt;w:ind w:left="95" w:right="95"/&gt;
+			&lt;/w:pPr&gt;
+		&lt;/w:p&gt;
+	&lt;/w:tc&gt;</value>
+    <comment>{0} = Student Name
+{1} = Address 1
+{2} = Address 2 (Use the string for it)
+{3} = City, State Zip
+{4} = # Tickets</comment>
+  </data>
+  <data name="Avery5160_PickupCell" xml:space="preserve">
+    <value>&lt;w:tc&gt;
 		&lt;w:tcPr&gt;
 			&lt;w:tcW w:w="3787" w:type="dxa"/&gt;
 			&lt;w:shd w:val="clear" w:color="auto" w:fill="auto"/&gt;
@@ -238,204 +449,10 @@
 				&lt;w:ind w:left="95" w:right="95"/&gt;
 			&lt;/w:pPr&gt;
 		&lt;/w:p&gt;
-	&lt;/w:tc&gt;
-
-
-	&lt;w:tc&gt;
-		&lt;w:tcPr&gt;
-			&lt;w:tcW w:w="173" w:type="dxa"/&gt;
-			&lt;w:shd w:val="clear" w:color="auto" w:fill="auto"/&gt;
-		&lt;/w:tcPr&gt;
-		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
-			&lt;w:pPr&gt;
-				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
-				&lt;w:ind w:left="95" w:right="95"/&gt;
-			&lt;/w:pPr&gt;
-		&lt;/w:p&gt;
-	&lt;/w:tc&gt;
-
-	&lt;w:tc&gt;
-		&lt;w:tcPr&gt;
-			&lt;w:tcW w:w="3787" w:type="dxa"/&gt;
-			&lt;w:shd w:val="clear" w:color="auto" w:fill="auto"/&gt;
-		&lt;/w:tcPr&gt;
-		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
-			&lt;w:pPr&gt;
-				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
-				&lt;w:ind w:left="115" w:right="115"/&gt;
-				&lt;w:rPr&gt;
-					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
-					&lt;wx:font wx:val="Arial"/&gt;
-					&lt;w:b/&gt;
-					&lt;w:noProof/&gt;
-					&lt;w:sz w:val="8"/&gt;
-					&lt;w:sz-cs w:val="8"/&gt;
-				&lt;/w:rPr&gt;
-			&lt;/w:pPr&gt;
-		&lt;/w:p&gt;
-		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
-			&lt;w:pPr&gt;
-				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
-				&lt;w:ind w:left="115" w:right="115"/&gt;
-				&lt;w:rPr&gt;
-					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
-					&lt;wx:font wx:val="Arial"/&gt;
-					&lt;w:b/&gt;
-					&lt;w:sz w:val="24"/&gt;
-					&lt;w:sz-cs w:val="24"/&gt;
-				&lt;/w:rPr&gt;
-			&lt;/w:pPr&gt;
-			&lt;w:r wsp:rsidRPr="00C53B26"&gt;
-				&lt;w:rPr&gt;
-					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
-					&lt;wx:font wx:val="Arial"/&gt;
-					&lt;w:b/&gt;
-					&lt;w:noProof/&gt;
-					&lt;w:sz w:val="24"/&gt;
-					&lt;w:sz-cs w:val="24"/&gt;
-				&lt;/w:rPr&gt;
-				&lt;w:t&gt;{4}&lt;/w:t&gt;
-			&lt;/w:r&gt;
-		&lt;/w:p&gt;
-		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
-			&lt;w:pPr&gt;
-				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
-				&lt;w:ind w:left="115" w:right="115"/&gt;
-				&lt;w:rPr&gt;
-					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
-					&lt;wx:font wx:val="Arial"/&gt;
-					&lt;w:noProof/&gt;
-					&lt;w:sz w:val="24"/&gt;
-					&lt;w:sz-cs w:val="24"/&gt;
-				&lt;/w:rPr&gt;
-			&lt;/w:pPr&gt;
-			&lt;w:r wsp:rsidRPr="00C53B26"&gt;
-				&lt;w:rPr&gt;
-					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
-					&lt;wx:font wx:val="Arial"/&gt;
-					&lt;w:noProof/&gt;
-					&lt;w:sz w:val="24"/&gt;
-					&lt;w:sz-cs w:val="24"/&gt;
-				&lt;/w:rPr&gt;
-				&lt;w:t&gt;{5}&lt;/w:t&gt;
-			&lt;/w:r&gt;
-		&lt;/w:p&gt;
-		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
-			&lt;w:pPr&gt;
-				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
-				&lt;w:ind w:left="115" w:right="115"/&gt;
-				&lt;w:rPr&gt;
-					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
-					&lt;wx:font wx:val="Arial"/&gt;
-					&lt;w:noProof/&gt;
-					&lt;w:sz w:val="24"/&gt;
-					&lt;w:sz-cs w:val="24"/&gt;
-				&lt;/w:rPr&gt;
-			&lt;/w:pPr&gt;
-			&lt;w:r wsp:rsidRPr="00C53B26"&gt;
-				&lt;w:rPr&gt;
-					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
-					&lt;wx:font wx:val="Arial"/&gt;
-					&lt;w:noProof/&gt;
-					&lt;w:sz w:val="24"/&gt;
-					&lt;w:sz-cs w:val="24"/&gt;
-				&lt;/w:rPr&gt;
-				&lt;w:t&gt;{6}&lt;/w:t&gt;
-			&lt;/w:r&gt;
-		&lt;/w:p&gt;
-		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
-			&lt;w:pPr&gt;
-				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
-				&lt;w:ind w:left="115" w:right="115"/&gt;
-				&lt;w:rPr&gt;
-					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
-					&lt;wx:font wx:val="Arial"/&gt;
-					&lt;w:sz w:val="24"/&gt;
-					&lt;w:sz-cs w:val="24"/&gt;
-				&lt;/w:rPr&gt;
-			&lt;/w:pPr&gt;
-			&lt;w:r wsp:rsidRPr="00C53B26"&gt;
-				&lt;w:rPr&gt;
-					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
-					&lt;wx:font wx:val="Arial"/&gt;
-					&lt;w:sz w:val="24"/&gt;
-					&lt;w:sz-cs w:val="24"/&gt;
-				&lt;/w:rPr&gt;
-				&lt;w:t&gt;{7}&lt;/w:t&gt;
-			&lt;/w:r&gt;
-		&lt;/w:p&gt;
-		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
-			&lt;w:pPr&gt;
-				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
-				&lt;w:ind w:left="2880" w:right="115"/&gt;
-				&lt;w:rPr&gt;
-					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
-					&lt;wx:font wx:val="Arial"/&gt;
-				&lt;/w:rPr&gt;
-			&lt;/w:pPr&gt;
-			&lt;w:r wsp:rsidRPr="00C53B26"&gt;
-				&lt;w:rPr&gt;
-					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
-					&lt;wx:font wx:val="Arial"/&gt;
-					&lt;w:noProof/&gt;
-				&lt;/w:rPr&gt;
-				&lt;w:t&gt;{8}&lt;/w:t&gt;
-			&lt;/w:r&gt;
-		&lt;/w:p&gt;
-		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
-			&lt;w:pPr&gt;
-				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
-				&lt;w:ind w:left="115" w:right="115"/&gt;
-				&lt;w:rPr&gt;
-					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
-					&lt;wx:font wx:val="Arial"/&gt;
-					&lt;w:sz w:val="24"/&gt;
-					&lt;w:sz-cs w:val="24"/&gt;
-				&lt;/w:rPr&gt;
-			&lt;/w:pPr&gt;
-		&lt;/w:p&gt;
-		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
-			&lt;w:pPr&gt;
-				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
-				&lt;w:ind w:left="95" w:right="95"/&gt;
-			&lt;/w:pPr&gt;
-		&lt;/w:p&gt;
-	&lt;/w:tc&gt;
-
-	&lt;w:tc&gt;
-		&lt;w:tcPr&gt;
-			&lt;w:tcW w:w="173" w:type="dxa"/&gt;
-			&lt;w:shd w:val="clear" w:color="auto" w:fill="auto"/&gt;
-		&lt;/w:tcPr&gt;
-		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
-			&lt;w:pPr&gt;
-				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
-				&lt;w:ind w:left="95" w:right="95"/&gt;
-			&lt;/w:pPr&gt;
-		&lt;/w:p&gt;
-	&lt;/w:tc&gt;
-
-	&lt;w:tc&gt;
-		&lt;w:tcPr&gt;
-			&lt;w:tcW w:w="3787" w:type="dxa"/&gt;
-			&lt;w:shd w:val="clear" w:color="auto" w:fill="auto"/&gt;
-		&lt;/w:tcPr&gt;
-		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
-			&lt;w:pPr&gt;
-				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
-				&lt;w:ind w:left="95" w:right="95"/&gt;
-			&lt;/w:pPr&gt;
-		&lt;/w:p&gt;
-	&lt;/w:tc&gt;
-&lt;/w:tr&gt;</value>
+	&lt;/w:tc&gt;</value>
     <comment>{0} = Student Name
 {1} = Student Id
 {2} = Major Name
-{3} = # Tickets
-{4} = Student Name
-{5} = Address 1
-{6} = Address 2
-{7} = City, State Zip
-{8} = # Tickets</comment>
+{3} = # Tickets</comment>
   </data>
 </root>

@@ -61,6 +61,29 @@ namespace Commencement.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;w:p wsp:rsidR=&quot;00B70BA2&quot; wsp:rsidRPr=&quot;00C53B26&quot; wsp:rsidRDefault=&quot;00B70BA2&quot; wsp:rsidP=&quot;00C53B26&quot;&gt;
+        ///			&lt;w:pPr&gt;
+        ///				&lt;w:spacing w:after=&quot;0&quot; w:line=&quot;240&quot; w:line-rule=&quot;auto&quot;/&gt;
+        ///				&lt;w:ind w:left=&quot;115&quot; w:right=&quot;115&quot;/&gt;
+        ///				&lt;w:rPr&gt;
+        ///					&lt;w:rFonts w:ascii=&quot;Arial&quot; w:h-ansi=&quot;Arial&quot; w:cs=&quot;Arial&quot;/&gt;
+        ///					&lt;wx:font wx:val=&quot;Arial&quot;/&gt;
+        ///					&lt;w:noProof/&gt;
+        ///					&lt;w:sz w:val=&quot;24&quot;/&gt;
+        ///					&lt;w:sz-cs w:val=&quot;24&quot;/&gt;
+        ///				&lt;/w:rPr&gt;
+        ///			&lt;/w:pPr&gt;
+        ///			&lt;w:r wsp:rsidRPr=&quot;00C53B26&quot;&gt;
+        ///				&lt;w:rPr&gt;
+        ///					&lt;w:rFonts w:ascii=&quot;Arial&quot; w:h-ansi=&quot;Ar [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Avergy5160_Mail_Address2 {
+            get {
+                return ResourceManager.GetString("Avergy5160_Mail_Address2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
         ///&lt;?mso-application progid=&quot;Word.Document&quot;?&gt;
         ///&lt;w:wordDocument xmlns:aml=&quot;http://schemas.microsoft.com/aml/2001/core&quot; xmlns:wpc=&quot;http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas&quot; xmlns:dt=&quot;uuid:C2F41010-65B3-11d1-A29F-00AA00C14882&quot; xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot; xmlns:o=&quot;urn:schemas-microsoft-com:office:office&quot; xmlns:v=&quot;urn:schemas-microsoft-com:vml&quot; xmlns:w10=&quot;urn:schemas-microsoft-com:office:wor [rest of string was truncated]&quot;;.
@@ -72,12 +95,52 @@ namespace Commencement.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;w:tc&gt;
+        ///		&lt;w:tcPr&gt;
+        ///			&lt;w:tcW w:w=&quot;3787&quot; w:type=&quot;dxa&quot;/&gt;
+        ///			&lt;w:shd w:val=&quot;clear&quot; w:color=&quot;auto&quot; w:fill=&quot;auto&quot;/&gt;
+        ///		&lt;/w:tcPr&gt;
+        ///		&lt;w:p wsp:rsidR=&quot;00B70BA2&quot; wsp:rsidRPr=&quot;00C53B26&quot; wsp:rsidRDefault=&quot;00B70BA2&quot; wsp:rsidP=&quot;00C53B26&quot;&gt;
+        ///			&lt;w:pPr&gt;
+        ///				&lt;w:spacing w:after=&quot;0&quot; w:line=&quot;240&quot; w:line-rule=&quot;auto&quot;/&gt;
+        ///				&lt;w:ind w:left=&quot;95&quot; w:right=&quot;95&quot;/&gt;
+        ///			&lt;/w:pPr&gt;
+        ///		&lt;/w:p&gt;
+        ///	&lt;/w:tc&gt;.
+        /// </summary>
+        public static string Avery5160_EmptyCell {
+            get {
+                return ResourceManager.GetString("Avery5160_EmptyCell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;w:tr wsp:rsidR=&quot;00B70BA2&quot; wsp:rsidRPr=&quot;00C53B26&quot; wsp:rsidTr=&quot;00C53B26&quot;&gt;
         ///	&lt;w:trPr&gt;
         ///		&lt;w:cantSplit/&gt;
         ///		&lt;w:trHeight w:h-rule=&quot;exact&quot; w:val=&quot;1440&quot;/&gt;
         ///	&lt;/w:trPr&gt;
+        ///	
+        ///	{0}
+        ///
         ///	&lt;w:tc&gt;
+        ///		&lt;w:tcPr&gt;
+        ///			&lt;w:tcW w:w=&quot;173&quot; w:type=&quot;dxa&quot;/&gt;
+        ///			&lt;w:shd w:val=&quot;clear&quot; w:color=&quot;auto&quot; w:fill=&quot;auto&quot;/&gt;
+        ///		&lt;/w:tcPr&gt;
+        ///		&lt;w:p wsp:rsidR=&quot;00B70BA2&quot; wsp:rsidRPr=&quot;00C53B26&quot; wsp:rsidRDefault=&quot;00B70BA2&quot; wsp:rsidP=&quot;00C53B26&quot;&gt;
+        ///			&lt;w:pPr&gt;
+        ///				&lt;w:spacing w:after=&quot;0&quot; w:line=&quot;240&quot; w:line-rule=&quot;auto&quot;/&gt;
+        ///				&lt;w:ind w:left=&quot;95&quot; w:right=&quot;95&quot;/&gt; [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Avery5160_LabelRow {
+            get {
+                return ResourceManager.GetString("Avery5160_LabelRow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;w:tc&gt;
         ///		&lt;w:tcPr&gt;
         ///			&lt;w:tcW w:w=&quot;3787&quot; w:type=&quot;dxa&quot;/&gt;
         ///			&lt;w:shd w:val=&quot;clear&quot; w:color=&quot;auto&quot; w:fill=&quot;auto&quot;/&gt;
@@ -86,11 +149,41 @@ namespace Commencement.Core.Resources {
         ///			&lt;w:pPr&gt;
         ///				&lt;w:spacing w:after=&quot;0&quot; w:line=&quot;240&quot; w:line-rule=&quot;auto&quot;/&gt;
         ///				&lt;w:ind w:left=&quot;115&quot; w:right=&quot;115&quot;/&gt;
-        ///				&lt;w [rest of string was truncated]&quot;;.
+        ///				&lt;w:rPr&gt;
+        ///					&lt;w:rFonts w:ascii=&quot;Arial&quot; w:h-ansi=&quot;Arial&quot; w:cs=&quot;Arial&quot;/&gt;
+        ///					&lt;wx:font wx:val=&quot;Arial&quot;/&gt;
+        ///					&lt;w:b/&gt;
+        ///					&lt;w:noProof/&gt;
+        ///					&lt;w:sz w:val=&quot;8&quot;/&gt;
+        ///				 [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string Avery5160_LabelRow {
+        public static string Avery5160_MailCell {
             get {
-                return ResourceManager.GetString("Avery5160_LabelRow", resourceCulture);
+                return ResourceManager.GetString("Avery5160_MailCell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;w:tc&gt;
+        ///		&lt;w:tcPr&gt;
+        ///			&lt;w:tcW w:w=&quot;3787&quot; w:type=&quot;dxa&quot;/&gt;
+        ///			&lt;w:shd w:val=&quot;clear&quot; w:color=&quot;auto&quot; w:fill=&quot;auto&quot;/&gt;
+        ///		&lt;/w:tcPr&gt;
+        ///		&lt;w:p wsp:rsidR=&quot;00B70BA2&quot; wsp:rsidRPr=&quot;00C53B26&quot; wsp:rsidRDefault=&quot;00B70BA2&quot; wsp:rsidP=&quot;00C53B26&quot;&gt;
+        ///			&lt;w:pPr&gt;
+        ///				&lt;w:spacing w:after=&quot;0&quot; w:line=&quot;240&quot; w:line-rule=&quot;auto&quot;/&gt;
+        ///				&lt;w:ind w:left=&quot;115&quot; w:right=&quot;115&quot;/&gt;
+        ///				&lt;w:rPr&gt;
+        ///					&lt;w:rFonts w:ascii=&quot;Arial&quot; w:h-ansi=&quot;Arial&quot; w:cs=&quot;Arial&quot;/&gt;
+        ///					&lt;wx:font wx:val=&quot;Arial&quot;/&gt;
+        ///					&lt;w:b/&gt;
+        ///					&lt;w:noProof/&gt;
+        ///					&lt;w:sz w:val=&quot;8&quot;/&gt;
+        ///				 [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Avery5160_PickupCell {
+            get {
+                return ResourceManager.GetString("Avery5160_PickupCell", resourceCulture);
             }
         }
     }
