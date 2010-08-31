@@ -9,32 +9,40 @@
   </DataSources>
   <Reports>
     <ProjectItem>
-      <Name>PetitionsbyAMPMReport-x.rdl</Name>
-      <FullPath>PetitionsbyAMPMReport-x.rdl</FullPath>
+      <Name>xPetitionsbyAMPMReport-x.rdl</Name>
+      <FullPath>xPetitionsbyAMPMReport-x.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>PetitionsbyMajorReport-x.rdl</Name>
-      <FullPath>PetitionsbyMajorReport-x.rdl</FullPath>
+      <Name>xPetitionsbyMajorReport-x.rdl</Name>
+      <FullPath>xPetitionsbyMajorReport-x.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>PetitionsReport-x.rdl</Name>
-      <FullPath>PetitionsReport-x.rdl</FullPath>
+      <Name>xPetitionsReport-x.rdl</Name>
+      <FullPath>xPetitionsReport-x.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>RegistrationbyAMPMReport-x.rdl</Name>
-      <FullPath>RegistrationbyAMPMReport-x.rdl</FullPath>
+      <Name>xRegistrationbyAMPMReport-x.rdl</Name>
+      <FullPath>xRegistrationbyAMPMReport-x.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>RegistrationByMajorReport-x.rdl</Name>
-      <FullPath>RegistrationByMajorReport-x.rdl</FullPath>
+      <Name>xRegistrationByMajorReport-x.rdl</Name>
+      <FullPath>xRegistrationByMajorReport-x.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
       <Name>SummaryReport-x.rdl</Name>
       <FullPath>SummaryReport-x.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>TotalRegistrationEachMajorReport-x.rdl</Name>
-      <FullPath>TotalRegistrationEachMajorReport-x.rdl</FullPath>
+      <Name>xTotalRegistrationEachMajorReport-x.rdl</Name>
+      <FullPath>xTotalRegistrationEachMajorReport-x.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>SpecialNeedsRequest.rdl</Name>
+      <FullPath>SpecialNeedsRequest.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>TotalRegistrationPetitions.rdl</Name>
+      <FullPath>TotalRegistrationPetitions.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
       <Name>TotalRegistrationReport.rdl</Name>

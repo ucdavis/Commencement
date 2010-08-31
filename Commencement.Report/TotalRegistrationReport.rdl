@@ -18,8 +18,8 @@
           <DataField>FirstName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="StudentName">
-          <DataField>StudentName</DataField>
+        <Field Name="Major">
+          <DataField>Major</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="LastName">
@@ -30,71 +30,97 @@
           <DataField>RegistrationTickets</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="NumberExtraTicketsApproved">
-          <DataField>NumberExtraTicketsApproved</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+        <Field Name="Address1">
+          <DataField>Address1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="TotalTicketsApproved">
-          <DataField>TotalTicketsApproved</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+        <Field Name="Address2">
+          <DataField>Address2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="NumberExtraTicketsPending">
-          <DataField>NumberExtraTicketsPending</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+        <Field Name="City">
+          <DataField>City</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="State">
+          <DataField>State</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="TotalTickets">
           <DataField>TotalTickets</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="Location">
-          <DataField>Location</DataField>
+        <Field Name="Zip">
+          <DataField>Zip</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="DateTime">
-          <DataField>DateTime</DataField>
+        <Field Name="PrimaryEmail">
+          <DataField>PrimaryEmail</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SecondaryEmail">
+          <DataField>SecondaryEmail</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ExtraTicketPetitions">
+          <DataField>ExtraTicketPetitions</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="NumberTickets">
+          <DataField>NumberTickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="MailTickets">
+          <DataField>MailTickets</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="CeremonyTime">
+          <DataField>CeremonyTime</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Tickets">
+          <DataField>Tickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="TermCode">
           <DataField>TermCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="id">
-          <DataField>id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="MajorCode">
-          <DataField>MajorCode</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Term">
           <DataField>Term</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="DistributionMethod">
+          <DataField>DistributionMethod</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <Query>
         <DataSourceName>Commencement</DataSourceName>
-        <CommandText>SELECT     Students.StudentId, Students.LastName + N', ' + Students.FirstName AS StudentName, Students.FirstName, Students.LastName, SUM(Registrations.NumberTickets) 
+        <CommandText>SELECT     Students.LastName, Students.FirstName, Students.StudentId, vMajors.Name AS Major, Registrations.Address1, Registrations.Address2, Registrations.City, 
+                      Registrations.State, Registrations.Zip, Students.Email AS PrimaryEmail, Registrations.Email AS SecondaryEmail, Registrations.NumberTickets, 
+                      ExtraTicketPetitions.NumberTickets AS ExtraTicketPetitions, Registrations.MailTickets, Ceremonies.DateTime AS CeremonyTime, 
+                      CASE WHEN ExtraTicketPetitions.NumberTickets IS NULL 
+                      THEN Registrations.NumberTickets ELSE ExtraTicketPetitions.NumberTickets + Registrations.NumberTickets END AS Tickets, SUM(Registrations.NumberTickets) 
                       AS RegistrationTickets, SUM((CASE WHEN ((ExtraTicketPetitions.NumberTickets IS NULL)) 
-                      THEN Registrations.NumberTickets ELSE Registrations.NumberTickets + ExtraTicketPetitions.NumberTickets END)) AS TotalTickets, 
-                      SUM((CASE WHEN (ExtraTicketPetitions.IsApproved IS NULL) THEN 0 WHEN (ExtraTicketPetitions.IsApproved = 1 AND (ExtraTicketPetitions.IsPending IS NULL OR
-                      ExtraTicketPetitions.IsPending = 0)) THEN ExtraTicketPetitions.NumberTickets ELSE 0 END)) AS NumberExtraTicketsApproved, 
-                      SUM((CASE WHEN (ExtraTicketPetitions.IsPending = 1) THEN ExtraTicketPetitions.NumberTickets ELSE 0 END)) AS NumberExtraTicketsPending, 
-                      SUM((CASE WHEN (ExtraTicketPetitions.IsApproved = 1 AND (ExtraTicketPetitions.IsPending IS NULL OR
-                      ExtraTicketPetitions.IsPending = 0)) THEN Registrations.NumberTickets + ExtraTicketPetitions.NumberTickets ELSE Registrations.NumberTickets END)) 
-                      AS TotalTicketsApproved, Ceremonies.Location, Ceremonies.DateTime, Ceremonies.TermCode, Ceremonies.id, Registrations.MajorCode, 
-                      TermCodes.Name AS Term
-FROM         Students INNER JOIN
-                      Ceremonies INNER JOIN
-                      Registrations ON Ceremonies.id = Registrations.CeremonyId ON Students.Id = Registrations.Student_Id INNER JOIN
-                      TermCodes ON Ceremonies.TermCode = TermCodes.id LEFT OUTER JOIN
-                      ExtraTicketPetitions ON Registrations.ExtraTicketPetitionId = ExtraTicketPetitions.id LEFT OUTER JOIN
-                      Petitions ON Students.Pidm = Petitions.Pidm
-WHERE     (Petitions.Pending = 0 OR
-                      Petitions.Pending IS NULL) AND (Petitions.Approved = 1 OR
-                      Petitions.Approved IS NULL)
-GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.Location, Ceremonies.DateTime, Ceremonies.TermCode, Ceremonies.id, 
-                      Registrations.MajorCode, TermCodes.Name, Students.LastName + N', ' + Students.FirstName
-ORDER BY StudentName</CommandText>
+                      THEN Registrations.NumberTickets ELSE Registrations.NumberTickets + ExtraTicketPetitions.NumberTickets END)) AS TotalTickets, Students.TermCode, 
+                      TermCodes.Name AS Term, CASE WHEN MailTickets = 1 THEN 'Mail' ELSE 'Pickup' END AS DistributionMethod
+FROM         Registrations INNER JOIN
+                      Students ON Students.Id = Registrations.Student_Id LEFT OUTER JOIN
+                      ExtraTicketPetitions ON ExtraTicketPetitions.id = Registrations.ExtraTicketPetitionId AND ExtraTicketPetitions.IsApproved = 1 AND 
+                      ExtraTicketPetitions.IsPending = 0 INNER JOIN
+                      Ceremonies ON Ceremonies.id = Registrations.CeremonyId INNER JOIN
+                      vMajors ON vMajors.id = Registrations.MajorCode INNER JOIN
+                      TermCodes ON Ceremonies.TermCode = TermCodes.id
+GROUP BY Students.LastName, Students.FirstName, Students.StudentId, vMajors.Name, Registrations.Address1, Registrations.Address2, Registrations.City, 
+                      Registrations.State, Registrations.Zip, Students.Email, Registrations.Email, Registrations.NumberTickets, ExtraTicketPetitions.NumberTickets, 
+                      Registrations.MailTickets, Ceremonies.DateTime, Students.TermCode, TermCodes.Name
+HAVING      (Students.TermCode = @term)</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@term">
+            <Value>=Parameters!term.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
       </Query>
     </DataSet>
   </DataSets>
@@ -134,9 +160,9 @@ ORDER BY StudentName</CommandText>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Name1</rd:DefaultName>
-        <Left>0.01389in</Left>
+        <Left>0.02069in</Left>
         <Height>0.39965in</Height>
-        <Width>4.23285in</Width>
+        <Width>4.22605in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -152,10 +178,10 @@ ORDER BY StudentName</CommandText>
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>2.25347in</Width>
+              <Width>2.24404in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.97916in</Width>
+              <Width>0.97444in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -266,14 +292,14 @@ ORDER BY StudentName</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="NumberExtraTicketsApproved">
+                    <Textbox Name="ExtraTicketPetitions">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!NumberExtraTicketsApproved.Value)</Value>
+                              <Value>=Sum(Fields!ExtraTicketPetitions.Value)</Value>
                               <Style>
                                 <Format>#,0;(#,0)</Format>
                               </Style>
@@ -282,7 +308,7 @@ ORDER BY StudentName</CommandText>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>NumberExtraTicketsApproved</rd:DefaultName>
+                      <rd:DefaultName>ExtraTicketPetitions</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -338,14 +364,14 @@ ORDER BY StudentName</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="TotalTicketsApproved">
+                    <Textbox Name="TotalTickets">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!TotalTicketsApproved.Value)</Value>
+                              <Value>=Sum(Fields!TotalTickets.Value)</Value>
                               <Style>
                                 <Format>#,0;(#,0)</Format>
                               </Style>
@@ -354,7 +380,7 @@ ORDER BY StudentName</CommandText>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>TotalTicketsApproved</rd:DefaultName>
+                      <rd:DefaultName>TotalTickets</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -375,53 +401,105 @@ ORDER BY StudentName</CommandText>
         <TablixColumnHierarchy>
           <TablixMembers>
             <TablixMember>
-              <Group Name="ColumnGroup">
+              <Group Name="TermCode">
                 <GroupExpressions>
-                  <GroupExpression />
+                  <GroupExpression>=Fields!TermCode.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
-              <TablixHeader>
-                <Size>0.26585in</Size>
-                <CellContents>
-                  <Textbox Name="Textbox53">
-                    <CanGrow>true</CanGrow>
-                    <KeepTogether>true</KeepTogether>
-                    <Paragraphs>
-                      <Paragraph>
-                        <TextRuns>
-                          <TextRun>
-                            <Value>Total Tickets</Value>
-                            <Style>
-                              <FontWeight>Bold</FontWeight>
-                              <Color>MidnightBlue</Color>
-                            </Style>
-                          </TextRun>
-                        </TextRuns>
-                        <Style />
-                      </Paragraph>
-                    </Paragraphs>
-                    <rd:DefaultName>Textbox53</rd:DefaultName>
-                    <Style>
-                      <Border>
-                        <Color>LightGrey</Color>
-                        <Style>Solid</Style>
-                      </Border>
-                      <BottomBorder>
-                        <Color>DarkBlue</Color>
-                        <Width>2pt</Width>
-                      </BottomBorder>
-                      <BackgroundColor>OldLace</BackgroundColor>
-                      <PaddingLeft>2pt</PaddingLeft>
-                      <PaddingRight>2pt</PaddingRight>
-                      <PaddingTop>2pt</PaddingTop>
-                      <PaddingBottom>2pt</PaddingBottom>
-                    </Style>
-                  </Textbox>
-                </CellContents>
-              </TablixHeader>
+              <SortExpressions>
+                <SortExpression>
+                  <Value>=Fields!TermCode.Value</Value>
+                </SortExpression>
+              </SortExpressions>
               <TablixMembers>
-                <TablixMember />
-                <TablixMember />
+                <TablixMember>
+                  <TablixHeader>
+                    <Size>0.26585in</Size>
+                    <CellContents>
+                      <Textbox Name="Textbox53">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>Total Tickets </Value>
+                                <Style>
+                                  <FontWeight>Bold</FontWeight>
+                                  <Color>MidnightBlue</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox53</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>LightGrey</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BottomBorder>
+                            <Color>DarkBlue</Color>
+                            <Width>2pt</Width>
+                          </BottomBorder>
+                          <BackgroundColor>OldLace</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <TablixMembers>
+                    <TablixMember />
+                  </TablixMembers>
+                </TablixMember>
+                <TablixMember>
+                  <TablixHeader>
+                    <Size>0.26585in</Size>
+                    <CellContents>
+                      <Textbox Name="TermCode">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value />
+                                <Style>
+                                  <FontWeight>Bold</FontWeight>
+                                  <Color>MidnightBlue</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>TermCode</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>LightGrey</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BottomBorder>
+                            <Color>DarkBlue</Color>
+                            <Width>2pt</Width>
+                          </BottomBorder>
+                          <BackgroundColor>OldLace</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <TablixMembers>
+                    <TablixMember />
+                  </TablixMembers>
+                </TablixMember>
               </TablixMembers>
             </TablixMember>
           </TablixMembers>
@@ -438,10 +516,10 @@ ORDER BY StudentName</CommandText>
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>TotalRegistrations</DataSetName>
-        <Top>0.69574in</Top>
-        <Left>0.02069in</Left>
+        <Top>0.75825in</Top>
+        <Left>0.18761in</Left>
         <Height>1.0317in</Height>
-        <Width>3.23263in</Width>
+        <Width>3.21848in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -453,334 +531,52 @@ ORDER BY StudentName</CommandText>
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.79817in</Width>
+              <Width>1.24404in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.42664in</Width>
+              <Width>1in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.49609in</Width>
+              <Width>1in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.77648in</Width>
+              <Width>1.01692in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.99609in</Width>
+              <Width>1in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.99609in</Width>
+              <Width>1in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.99609in</Width>
+              <Width>1in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.63542in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.46875in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.59375in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.71615in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.88542in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.77734in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.07292in</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox646">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>Navy</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox646</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DimGray</Color>
-                          <Style>None</Style>
-                          <Width>1.5pt</Width>
-                        </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox647">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>Navy</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox646</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DimGray</Color>
-                          <Style>None</Style>
-                          <Width>1.5pt</Width>
-                        </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox649">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>Navy</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox649</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DimGray</Color>
-                          <Style>None</Style>
-                          <Width>1.5pt</Width>
-                        </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox658">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>Navy</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox658</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DimGray</Color>
-                          <Style>None</Style>
-                          <Width>1.5pt</Width>
-                        </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox654">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>Navy</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox647</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DimGray</Color>
-                          <Style>None</Style>
-                          <Width>1.5pt</Width>
-                        </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox650">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>Navy</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox647</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DimGray</Color>
-                          <Style>None</Style>
-                          <Width>1.5pt</Width>
-                        </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox651">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>Navy</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox647</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DimGray</Color>
-                          <Style>None</Style>
-                          <Width>1.5pt</Width>
-                        </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-              </TablixCells>
-            </TablixRow>
-            <TablixRow>
               <Height>0.25in</Height>
               <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox72">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Student ID</Value>
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>Navy</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox68</rd:DefaultName>
-                      <RepeatWith>TablixDetail</RepeatWith>
-                      <Style>
-                        <Border>
-                          <Color>DimGray</Color>
-                          <Style>None</Style>
-                          <Width>1.5pt</Width>
-                        </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <BackgroundColor>LightSteelBlue</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
                 <TablixCell>
                   <CellContents>
                     <Textbox Name="Textbox48">
@@ -790,7 +586,7 @@ ORDER BY StudentName</CommandText>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Last Name, First Name</Value>
+                              <Value>Last Name</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                                 <Color>Navy</Color>
@@ -830,6 +626,98 @@ ORDER BY StudentName</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
+                    <Textbox Name="Textbox12">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>First Name</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox12</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>None</Style>
+                          <Width>1.5pt</Width>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </RightBorder>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox15">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Student ID</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox15</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>None</Style>
+                          <Width>1.5pt</Width>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </RightBorder>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
                     <Textbox Name="Textbox49">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -837,7 +725,7 @@ ORDER BY StudentName</CommandText>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Major Code</Value>
+                              <Value>Major</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                                 <Color>Navy</Color>
@@ -858,6 +746,12 @@ ORDER BY StudentName</CommandText>
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <LeftBorder>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Width>1pt</Width>
+                        </RightBorder>
                         <BackgroundColor>LightSteelBlue</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -869,14 +763,14 @@ ORDER BY StudentName</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox56">
+                    <Textbox Name="Textbox9">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value># Tickets</Value>
+                              <Value>Address1</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                                 <Color>Navy</Color>
@@ -886,8 +780,259 @@ ORDER BY StudentName</CommandText>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox8</rd:DefaultName>
-                      <RepeatWith>TablixDetail</RepeatWith>
+                      <rd:DefaultName>Textbox9</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>None</Style>
+                          <Width>1.5pt</Width>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox6">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Address2</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox6</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>None</Style>
+                          <Width>1.5pt</Width>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox18">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>City</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox18</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>None</Style>
+                          <Width>1.5pt</Width>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox22">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>State</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox22</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>None</Style>
+                          <Width>1.5pt</Width>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox25">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Zip</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox25</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>None</Style>
+                          <Width>1.5pt</Width>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox28">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Primary Email</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox28</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>None</Style>
+                          <Width>1.5pt</Width>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox31">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Secondary Email</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox31</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>DimGray</Color>
@@ -919,10 +1064,10 @@ ORDER BY StudentName</CommandText>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Term</Value>
+                              <Value># Tickets</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
-                                <Color>DimGray</Color>
+                                <Color>Navy</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -955,17 +1100,17 @@ ORDER BY StudentName</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox51">
+                    <Textbox Name="Textbox34">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Location</Value>
+                              <Value>Distribution Method</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
-                                <Color>DimGray</Color>
+                                <Color>Navy</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -974,8 +1119,7 @@ ORDER BY StudentName</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox7</rd:DefaultName>
-                      <RepeatWith>TablixDetail</RepeatWith>
+                      <rd:DefaultName>Textbox34</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightSteelBlue</Color>
@@ -984,6 +1128,9 @@ ORDER BY StudentName</CommandText>
                         <BottomBorder>
                           <Width>1.5pt</Width>
                         </BottomBorder>
+                        <LeftBorder>
+                          <Color>CornflowerBlue</Color>
+                        </LeftBorder>
                         <BackgroundColor>AliceBlue</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -1040,42 +1187,6 @@ ORDER BY StudentName</CommandText>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox70">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!StudentId.Value</Value>
-                              <Style />
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox69</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>None</Style>
-                        </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <LeftBorder>
-                          <Style>Solid</Style>
-                        </LeftBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
                     <Textbox Name="Textbox38">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -1084,14 +1195,6 @@ ORDER BY StudentName</CommandText>
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!LastName.Value</Value>
-                              <Style />
-                            </TextRun>
-                            <TextRun>
-                              <Value>, </Value>
-                              <Style />
-                            </TextRun>
-                            <TextRun>
-                              <Value>=Fields!FirstName.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1123,24 +1226,60 @@ ORDER BY StudentName</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="MajorCode4">
+                    <Textbox Name="FirstName">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!MajorCode.Value</Value>
+                              <Value>=Fields!FirstName.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>MajorCode</rd:DefaultName>
+                      <rd:DefaultName>FirstName</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                        </RightBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox16">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!StudentId.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox16</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Silver</Color>
                           <Style>None</Style>
                         </Border>
                         <BottomBorder>
@@ -1156,14 +1295,14 @@ ORDER BY StudentName</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="MajorCode5">
+                    <Textbox Name="MajorCode4">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!TotalTicketsApproved.Value</Value>
+                              <Value>=Fields!Major.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1171,6 +1310,274 @@ ORDER BY StudentName</CommandText>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>MajorCode</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Gray</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Color>LightGrey</Color>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>Silver</Color>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>Silver</Color>
+                          <Style>Solid</Style>
+                        </RightBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Address1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Address1.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Address1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>Silver</Color>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                        </RightBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Address2">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Address2.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Address2</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                        </RightBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="City">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!City.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>City</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="State">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!State.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>State</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Zip">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Zip.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Zip</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="PrimaryEmail">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!PrimaryEmail.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>PrimaryEmail</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="SecondaryEmail">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!SecondaryEmail.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>SecondaryEmail</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1199,8 +1606,10 @@ ORDER BY StudentName</CommandText>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Term.Value</Value>
-                              <Style />
+                              <Value>=Fields!TotalTickets.Value</Value>
+                              <Style>
+                                <Format>#,0;(#,0)</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1231,14 +1640,14 @@ ORDER BY StudentName</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Location7">
+                    <Textbox Name="DistributionMethod">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Location.Value</Value>
+                              <Value>=Fields!DistributionMethod.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1247,7 +1656,7 @@ ORDER BY StudentName</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Location1</rd:DefaultName>
+                      <rd:DefaultName>DistributionMethod</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightSteelBlue</Color>
@@ -1256,6 +1665,9 @@ ORDER BY StudentName</CommandText>
                         <BottomBorder>
                           <Color>CornflowerBlue</Color>
                         </BottomBorder>
+                        <LeftBorder>
+                          <Color>CornflowerBlue</Color>
+                        </LeftBorder>
                         <BackgroundColor>AliceBlue</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -1274,7 +1686,7 @@ ORDER BY StudentName</CommandText>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!DateTime.Value</Value>
+                              <Value>=Fields!CeremonyTime.Value</Value>
                               <Style>
                                 <Format>g</Format>
                               </Style>
@@ -1319,47 +1731,17 @@ ORDER BY StudentName</CommandText>
             <TablixMember />
             <TablixMember />
             <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
-            <TablixMember>
-              <TablixHeader>
-                <Size>0.16692in</Size>
-                <CellContents>
-                  <Textbox Name="Textbox645">
-                    <CanGrow>true</CanGrow>
-                    <KeepTogether>true</KeepTogether>
-                    <Paragraphs>
-                      <Paragraph>
-                        <TextRuns>
-                          <TextRun>
-                            <Value />
-                            <Style>
-                              <FontWeight>Bold</FontWeight>
-                              <Color>Navy</Color>
-                            </Style>
-                          </TextRun>
-                        </TextRuns>
-                        <Style />
-                      </Paragraph>
-                    </Paragraphs>
-                    <rd:DefaultName>Textbox645</rd:DefaultName>
-                    <Style>
-                      <Border>
-                        <Style>None</Style>
-                      </Border>
-                      <PaddingLeft>2pt</PaddingLeft>
-                      <PaddingRight>2pt</PaddingRight>
-                      <PaddingTop>2pt</PaddingTop>
-                      <PaddingBottom>2pt</PaddingBottom>
-                    </Style>
-                  </Textbox>
-                </CellContents>
-              </TablixHeader>
-              <KeepWithGroup>After</KeepWithGroup>
-              <RepeatOnNewPage>true</RepeatOnNewPage>
-            </TablixMember>
             <TablixMember>
               <TablixHeader>
                 <Size>0.16692in</Size>
@@ -1407,14 +1789,9 @@ ORDER BY StudentName</CommandText>
             <TablixMember>
               <Group Name="Group2">
                 <GroupExpressions>
-                  <GroupExpression>=Fields!StudentName.Value</GroupExpression>
+                  <GroupExpression>=Fields!StudentId.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
-              <SortExpressions>
-                <SortExpression>
-                  <Value>=Fields!StudentName.Value</Value>
-                </SortExpression>
-              </SortExpressions>
               <TablixHeader>
                 <Size>0.16692in</Size>
                 <CellContents>
@@ -1449,11 +1826,6 @@ ORDER BY StudentName</CommandText>
               <TablixMembers>
                 <TablixMember>
                   <Group Name="Details" />
-                  <SortExpressions>
-                    <SortExpression>
-                      <Value>=Fields!StudentName.Value</Value>
-                    </SortExpression>
-                  </SortExpressions>
                 </TablixMember>
               </TablixMembers>
             </TablixMember>
@@ -1465,13 +1837,16 @@ ORDER BY StudentName</CommandText>
         <DataSetName>TotalRegistrations</DataSetName>
         <SortExpressions>
           <SortExpression>
-            <Value>=Fields!StudentName.Value</Value>
+            <Value>=Fields!LastName.Value</Value>
+          </SortExpression>
+          <SortExpression>
+            <Value>=Fields!FirstName.Value</Value>
           </SortExpression>
         </SortExpressions>
         <Top>2.14114in</Top>
         <Left>0.02069in</Left>
-        <Height>0.5625in</Height>
-        <Width>7.65257in</Width>
+        <Height>0.48958in</Height>
+        <Width>13.50471in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -1497,10 +1872,10 @@ ORDER BY StudentName</CommandText>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox48</rd:DefaultName>
-        <Top>1.92188in</Top>
+        <Top>1.90799in</Top>
         <Left>0.02069in</Left>
         <Height>0.20537in</Height>
-        <Width>3.23263in</Width>
+        <Width>3.39012in</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -1535,7 +1910,7 @@ ORDER BY StudentName</CommandText>
         <Top>0.42743in</Top>
         <Left>0.02069in</Left>
         <Height>0.21276in</Height>
-        <Width>7.26926in</Width>
+        <Width>7.42788in</Width>
         <ZIndex>4</ZIndex>
         <Style>
           <Border>
@@ -1551,7 +1926,18 @@ ORDER BY StudentName</CommandText>
     <Height>2.97951in</Height>
     <Style />
   </Body>
-  <Width>8.02713in</Width>
+  <ReportParameters>
+    <ReportParameter Name="term">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>201003</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>term</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Width>14.01498in</Width>
   <Page>
     <PageHeader>
       <Height>0.97917in</Height>
@@ -1565,8 +1951,7 @@ ORDER BY StudentName</CommandText>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Total Number of
-Registrations</Value>
+                  <Value>Total Registered Students </Value>
                   <Style>
                     <FontSize>20pt</FontSize>
                     <FontWeight>Bold</FontWeight>
@@ -1578,11 +1963,24 @@ Registrations</Value>
                 <TextAlign>Left</TextAlign>
               </Style>
             </Paragraph>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Fields!Term.Value</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Left</TextAlign>
+              </Style>
+            </Paragraph>
           </Paragraphs>
           <rd:DefaultName>ExecutionTime</rd:DefaultName>
-          <Top>0.25in</Top>
+          <Top>0.31944in</Top>
           <Left>0.02069in</Left>
-          <Height>0.72917in</Height>
+          <Height>0.65973in</Height>
           <Width>4.22945in</Width>
           <Style>
             <Border>
@@ -1617,9 +2015,9 @@ Registrations</Value>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Name1</rd:DefaultName>
-          <Left>1.63902in</Left>
+          <Left>3.43165in</Left>
           <Height>0.25in</Height>
-          <Width>5.62684in</Width>
+          <Width>4.01692in</Width>
           <ZIndex>1</ZIndex>
           <Style>
             <Border>
@@ -1658,9 +2056,9 @@ Registrations</Value>
           </Paragraphs>
           <rd:DefaultName>ExecutionTime</rd:DefaultName>
           <Top>0.01389in</Top>
-          <Left>0.01388in</Left>
-          <Height>0.19444in</Height>
-          <Width>4.23286in</Width>
+          <Left>0.02069in</Left>
+          <Height>0.23611in</Height>
+          <Width>2.41096in</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>
@@ -1702,7 +2100,7 @@ Registrations</Value>
           <Top>0.01389in</Top>
           <Left>0.02069in</Left>
           <Height>0.25in</Height>
-          <Width>3.39173in</Width>
+          <Width>3.41096in</Width>
           <Style>
             <Border>
               <Style>None</Style>
@@ -1733,7 +2131,7 @@ Registrations</Value>
           <Top>0.26389in</Top>
           <Left>0.02069in</Left>
           <Height>0.25in</Height>
-          <Width>3.39173in</Width>
+          <Width>3.41096in</Width>
           <ZIndex>1</ZIndex>
           <Style>
             <Border>
@@ -1768,9 +2166,9 @@ Registrations</Value>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>PageNumber</rd:DefaultName>
-          <Left>3.41242in</Left>
+          <Left>3.43165in</Left>
           <Height>0.25in</Height>
-          <Width>2.28039in</Width>
+          <Width>2.01692in</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>
@@ -1789,7 +2187,8 @@ Registrations</Value>
         </Border>
       </Style>
     </PageFooter>
-    <PageHeight>10.5in</PageHeight>
+    <PageHeight>8.5in</PageHeight>
+    <PageWidth>10.5in</PageWidth>
     <InteractiveHeight>10.5in</InteractiveHeight>
     <InteractiveWidth>8.5in</InteractiveWidth>
     <LeftMargin>0.2in</LeftMargin>

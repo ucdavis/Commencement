@@ -22,10 +22,6 @@
           <DataField>LastName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="PetitionTickets">
-          <DataField>PetitionTickets</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="RegistrationTickets">
           <DataField>RegistrationTickets</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
@@ -70,18 +66,13 @@
                       ExtraTicketPetitions.IsPending = 0)) THEN Registrations.NumberTickets + ExtraTicketPetitions.NumberTickets ELSE Registrations.NumberTickets END)) 
                       AS TotalTicketsApproved, SUM((CASE WHEN (ExtraTicketPetitions.IsApproved IS NULL) THEN 0 WHEN (ExtraTicketPetitions.IsApproved = 1 AND 
                       (ExtraTicketPetitions.IsPending IS NULL OR
-                      ExtraTicketPetitions.IsPending = 0)) THEN ExtraTicketPetitions.NumberTickets ELSE 0 END)) AS NumberExtraTicketsApproved, 
-                      SUM((CASE WHEN ((Petitions.NumberTickets IS NULL)) THEN 0 ELSE Petitions.NumberTickets END)) AS PetitionTickets, Ceremonies.Location, Ceremonies.DateTime, 
-                      Ceremonies.TermCode, Ceremonies.id, Registrations.MajorCode, TermCodes.Name AS Term
+                      ExtraTicketPetitions.IsPending = 0)) THEN ExtraTicketPetitions.NumberTickets ELSE 0 END)) AS NumberExtraTicketsApproved, Ceremonies.Location, 
+                      Ceremonies.DateTime, Ceremonies.TermCode, Ceremonies.id, Registrations.MajorCode, TermCodes.Name AS Term
 FROM         Students INNER JOIN
                       Ceremonies INNER JOIN
                       Registrations ON Ceremonies.id = Registrations.CeremonyId ON Students.Id = Registrations.Student_Id INNER JOIN
                       TermCodes ON Ceremonies.TermCode = TermCodes.id LEFT OUTER JOIN
-                      ExtraTicketPetitions ON Registrations.ExtraTicketPetitionId = ExtraTicketPetitions.id LEFT OUTER JOIN
-                      Petitions ON Students.Pidm = Petitions.Pidm
-WHERE     (Petitions.Pending = 0 OR
-                      Petitions.Pending IS NULL) AND (Petitions.Approved = 1 OR
-                      Petitions.Approved IS NULL)
+                      ExtraTicketPetitions ON Registrations.ExtraTicketPetitionId = ExtraTicketPetitions.id
 GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.Location, Ceremonies.DateTime, Ceremonies.TermCode, Ceremonies.id, 
                       Registrations.MajorCode, TermCodes.Name</CommandText>
         <QueryParameters>
@@ -449,6 +440,9 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
               <Width>1.05208in</Width>
             </TablixColumn>
             <TablixColumn>
+              <Width>1in</Width>
+            </TablixColumn>
+            <TablixColumn>
               <Width>1.22657in</Width>
             </TablixColumn>
             <TablixColumn>
@@ -485,6 +479,41 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
                       </Paragraphs>
                       <rd:DefaultName>Textbox34</rd:DefaultName>
                       <RepeatWith>Tablix2</RepeatWith>
+                      <Style>
+                        <Border>
+                          <Color>CornflowerBlue</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox4">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Term Code</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>DimGray</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>CornflowerBlue</Color>
@@ -641,9 +670,10 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <ColSpan>4</ColSpan>
+                    <ColSpan>5</ColSpan>
                   </CellContents>
                 </TablixCell>
+                <TablixCell />
                 <TablixCell />
                 <TablixCell />
                 <TablixCell />
@@ -675,6 +705,45 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
                       </Paragraphs>
                       <rd:DefaultName>Textbox34</rd:DefaultName>
                       <RepeatWith>Tablix2</RepeatWith>
+                      <Style>
+                        <Border>
+                          <Color>LightSteelBlue</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <LeftBorder>
+                          <Color>CornflowerBlue</Color>
+                        </LeftBorder>
+                        <BackgroundColor>AliceBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox5">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>DimGray</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox5</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightSteelBlue</Color>
@@ -852,6 +921,45 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
+                    <Textbox Name="Textbox6">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox6</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightSteelBlue</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BottomBorder>
+                          <Color>CornflowerBlue</Color>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>CornflowerBlue</Color>
+                        </LeftBorder>
+                        <BackgroundColor>AliceBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
                     <Textbox Name="Location2">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -986,6 +1094,44 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox34</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>None</Style>
+                          <Width>1.5pt</Width>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox11">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox11</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>DimGray</Color>
@@ -1160,6 +1306,39 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
+                    <Textbox Name="TermCode">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!TermCode.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>TermCode</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
                     <Textbox Name="StudentId1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -1297,6 +1476,39 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
+                    <Textbox Name="Textbox18">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox18</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
                     <Textbox Name="Textbox21">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -1400,6 +1612,7 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
         </TablixBody>
         <TablixColumnHierarchy>
           <TablixMembers>
+            <TablixMember />
             <TablixMember />
             <TablixMember />
             <TablixMember />
@@ -1549,7 +1762,7 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, Ceremonies.L
         </SortExpressions>
         <Top>1.84913in</Top>
         <Height>1.61459in</Height>
-        <Width>4.14228in</Width>
+        <Width>5.14228in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>

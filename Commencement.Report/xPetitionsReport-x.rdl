@@ -22,24 +22,55 @@
           <DataField>LastName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="NumberTickets">
-          <DataField>NumberTickets</DataField>
+        <Field Name="Name">
+          <DataField>Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CeremonyTime">
+          <DataField>CeremonyTime</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="ExceptionReason">
+          <DataField>ExceptionReason</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PetitionStatus">
+          <DataField>PetitionStatus</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TotalPendingPetitions">
+          <DataField>TotalPendingPetitions</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="Status">
-          <DataField>Status</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="TotalApprovedPetitions">
+          <DataField>TotalApprovedPetitions</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="TotalDeniedPetitions">
+          <DataField>TotalDeniedPetitions</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
       <Query>
         <DataSourceName>Commencement</DataSourceName>
-        <CommandText>SELECT     Students.StudentId, Students.FirstName, Students.LastName, SUM((CASE WHEN ((Petitions.NumberTickets IS NULL)) THEN 0 ELSE Petitions.NumberTickets END)) 
-                      AS NumberTickets, CASE WHEN ([Pending] = 1) THEN 'Pending' WHEN ([Approved] = 1 AND [Pending] = 0) THEN 'Approved' ELSE 'Denied' END AS Status
-FROM         Students LEFT OUTER JOIN
-                      Petitions ON Students.Pidm = Petitions.Pidm
-WHERE     (Petitions.Pending IS NOT NULL) AND (Petitions.Approved IS NOT NULL)
-GROUP BY Students.StudentId, Students.FirstName, Students.LastName, CASE WHEN ([Pending] = 1) THEN 'Pending' WHEN ([Approved] = 1 AND [Pending] = 0) 
-                      THEN 'Approved' ELSE 'Denied' END</CommandText>
+        <CommandText>SELECT     RegistrationPetitions.LastName, RegistrationPetitions.FirstName, RegistrationPetitions.StudentId, vMajors.Name, Ceremonies.DateTime AS CeremonyTime, 
+                      RegistrationPetitions.ExceptionReason, CASE WHEN RegistrationPetitions.IsPending = 1 THEN 'Pending' WHEN RegistrationPetitions.IsPending = 0 AND 
+                      RegistrationPetitions.IsApproved = 1 THEN 'Approved' ELSE 'Denied' END AS PetitionStatus, 
+                      COUNT(CASE WHEN RegistrationPetitions.IsPending = 1 THEN RegistrationPetitions.id END) AS TotalPendingPetitions, 
+                      COUNT(CASE WHEN RegistrationPetitions.IsPending = 0 AND RegistrationPetitions.IsApproved = 1 THEN RegistrationPetitions.id END) AS TotalApprovedPetitions, 
+                      COUNT(CASE WHEN RegistrationPetitions.IsPending = 0 AND RegistrationPetitions.IsApproved = 0 THEN RegistrationPetitions.id END) AS TotalDeniedPetitions
+FROM         RegistrationPetitions INNER JOIN
+                      vMajors ON vMajors.id = RegistrationPetitions.MajorCode LEFT OUTER JOIN
+                      CeremonyMajors ON CeremonyMajors.MajorCode = RegistrationPetitions.MajorCode LEFT OUTER JOIN
+                      Ceremonies ON Ceremonies.id = CeremonyMajors.MajorCode
+WHERE     (RegistrationPetitions.TermCode = @term)
+GROUP BY RegistrationPetitions.LastName, RegistrationPetitions.FirstName, RegistrationPetitions.StudentId, vMajors.Name, Ceremonies.DateTime, 
+                      RegistrationPetitions.ExceptionReason, RegistrationPetitions.IsPending, RegistrationPetitions.IsApproved</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@term">
+            <Value>=Parameters!term.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
       </Query>
     </DataSet>
   </DataSets>
@@ -112,191 +143,6 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, CASE WHEN ([
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
-            <TablixRow>
-              <Height>0.08333in</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox17">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>Navy</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox17</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DarkBlue</Color>
-                          <Style>None</Style>
-                        </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox18">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>Navy</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox18</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DarkBlue</Color>
-                          <Style>None</Style>
-                        </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox19">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>Navy</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox19</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DarkBlue</Color>
-                          <Style>None</Style>
-                        </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox20">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>Navy</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox20</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DarkBlue</Color>
-                          <Style>None</Style>
-                        </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox21">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>Navy</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox21</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DarkBlue</Color>
-                          <Style>None</Style>
-                        </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-              </TablixCells>
-            </TablixRow>
             <TablixRow>
               <Height>0.25in</Height>
               <TablixCells>
@@ -501,21 +347,21 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, CASE WHEN ([
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Status">
+                    <Textbox Name="PetitionStatus">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Status.Value</Value>
+                              <Value>=Fields!PetitionStatus.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Status</rd:DefaultName>
+                      <rd:DefaultName>PetitionStatus</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>DarkBlue</Color>
@@ -637,21 +483,21 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, CASE WHEN ([
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="NumberTickets1">
+                    <Textbox Name="TotalPendingPetitions1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!NumberTickets.Value</Value>
+                              <Value>=Fields!TotalPendingPetitions.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>NumberTickets1</rd:DefaultName>
+                      <rd:DefaultName>TotalPendingPetitions1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>DarkBlue</Color>
@@ -685,11 +531,6 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, CASE WHEN ([
         <TablixRowHierarchy>
           <TablixMembers>
             <TablixMember>
-              <HideIfNoRows>true</HideIfNoRows>
-              <KeepWithGroup>After</KeepWithGroup>
-              <RepeatOnNewPage>true</RepeatOnNewPage>
-            </TablixMember>
-            <TablixMember>
               <KeepWithGroup>After</KeepWithGroup>
               <RepeatOnNewPage>true</RepeatOnNewPage>
             </TablixMember>
@@ -708,7 +549,7 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, CASE WHEN ([
         <DataSetName>TotalPetitions</DataSetName>
         <Top>1.75708in</Top>
         <Left>0.0136in</Left>
-        <Height>0.58333in</Height>
+        <Height>0.5in</Height>
         <Width>5.43098in</Width>
         <ZIndex>1</ZIndex>
         <Style>
@@ -819,21 +660,21 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, CASE WHEN ([
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox52">
+                    <Textbox Name="PetitionStatus1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Status.Value</Value>
+                              <Value>=Fields!PetitionStatus.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox52</rd:DefaultName>
+                      <rd:DefaultName>PetitionStatus1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>DarkBlue</Color>
@@ -856,21 +697,21 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, CASE WHEN ([
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox53">
+                    <Textbox Name="TotalPendingPetitions">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!NumberTickets.Value)</Value>
+                              <Value>=Sum(Fields!TotalPendingPetitions.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox53</rd:DefaultName>
+                      <rd:DefaultName>TotalPendingPetitions</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>DarkBlue</Color>
@@ -927,21 +768,21 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, CASE WHEN ([
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox11">
+                    <Textbox Name="TotalApprovedPetitions">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!NumberTickets.Value)</Value>
+                              <Value>=Sum(Fields!TotalApprovedPetitions.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox11</rd:DefaultName>
+                      <rd:DefaultName>TotalApprovedPetitions</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -963,12 +804,12 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, CASE WHEN ([
             <TablixMember>
               <Group Name="Group1">
                 <GroupExpressions>
-                  <GroupExpression>=Fields!Status.Value</GroupExpression>
+                  <GroupExpression>=Fields!PetitionStatus.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
               <SortExpressions>
                 <SortExpression>
-                  <Value>=Fields!Status.Value</Value>
+                  <Value>=Fields!PetitionStatus.Value</Value>
                 </SortExpression>
               </SortExpressions>
               <TablixMembers>
@@ -980,109 +821,16 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, CASE WHEN ([
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
-            <TablixMember>
-              <TablixHeader>
-                <Size>0.11125in</Size>
-                <CellContents>
-                  <Textbox Name="Textbox54">
-                    <CanGrow>true</CanGrow>
-                    <KeepTogether>true</KeepTogether>
-                    <Paragraphs>
-                      <Paragraph>
-                        <TextRuns>
-                          <TextRun>
-                            <Value />
-                            <Style />
-                          </TextRun>
-                        </TextRuns>
-                        <Style />
-                      </Paragraph>
-                    </Paragraphs>
-                    <rd:DefaultName>Textbox54</rd:DefaultName>
-                    <Style>
-                      <Border>
-                        <Style>None</Style>
-                      </Border>
-                      <PaddingLeft>2pt</PaddingLeft>
-                      <PaddingRight>2pt</PaddingRight>
-                      <PaddingTop>2pt</PaddingTop>
-                      <PaddingBottom>2pt</PaddingBottom>
-                    </Style>
-                  </Textbox>
-                </CellContents>
-              </TablixHeader>
-            </TablixMember>
-            <TablixMember>
-              <TablixHeader>
-                <Size>0.11125in</Size>
-                <CellContents>
-                  <Textbox Name="Textbox51">
-                    <CanGrow>true</CanGrow>
-                    <KeepTogether>true</KeepTogether>
-                    <Paragraphs>
-                      <Paragraph>
-                        <TextRuns>
-                          <TextRun>
-                            <Value />
-                            <Style />
-                          </TextRun>
-                        </TextRuns>
-                        <Style />
-                      </Paragraph>
-                    </Paragraphs>
-                    <rd:DefaultName>Textbox51</rd:DefaultName>
-                    <Style>
-                      <Border>
-                        <Style>None</Style>
-                      </Border>
-                      <PaddingLeft>2pt</PaddingLeft>
-                      <PaddingRight>2pt</PaddingRight>
-                      <PaddingTop>2pt</PaddingTop>
-                      <PaddingBottom>2pt</PaddingBottom>
-                    </Style>
-                  </Textbox>
-                </CellContents>
-              </TablixHeader>
-            </TablixMember>
-            <TablixMember>
-              <TablixHeader>
-                <Size>0.11125in</Size>
-                <CellContents>
-                  <Textbox Name="Textbox4">
-                    <CanGrow>true</CanGrow>
-                    <KeepTogether>true</KeepTogether>
-                    <Paragraphs>
-                      <Paragraph>
-                        <TextRuns>
-                          <TextRun>
-                            <Value />
-                            <Style />
-                          </TextRun>
-                        </TextRuns>
-                        <Style />
-                      </Paragraph>
-                    </Paragraphs>
-                    <rd:DefaultName>Textbox4</rd:DefaultName>
-                    <Style>
-                      <Border>
-                        <Style>None</Style>
-                      </Border>
-                      <PaddingLeft>2pt</PaddingLeft>
-                      <PaddingRight>2pt</PaddingRight>
-                      <PaddingTop>2pt</PaddingTop>
-                      <PaddingBottom>2pt</PaddingBottom>
-                    </Style>
-                  </Textbox>
-                </CellContents>
-              </TablixHeader>
-            </TablixMember>
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>TotalPetitions</DataSetName>
         <Top>0.56284in</Top>
         <Left>0.0136in</Left>
         <Height>0.75in</Height>
-        <Width>1.71542in</Width>
+        <Width>1.60417in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -1145,7 +893,7 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, CASE WHEN ([
         <Width>2.22265in</Width>
         <ZIndex>4</ZIndex>
         <Visibility>
-          <Hidden>=IsNumeric(Sum(Fields!NumberTickets.Value, "TotalPetitions"))</Hidden>
+          <Hidden>=IsNumeric(Sum(Fields!TotalPendingPetitions.Value, "TotalPetitions")+Sum(Fields!TotalApprovedPetitions.Value, "TotalPetitions")+Sum(Fields!TotalDeniedPetitions.Value, "TotalPetitions"))</Hidden>
         </Visibility>
         <Style>
           <Border>
@@ -1162,6 +910,17 @@ GROUP BY Students.StudentId, Students.FirstName, Students.LastName, CASE WHEN ([
     <Height>3.73993in</Height>
     <Style />
   </Body>
+  <ReportParameters>
+    <ReportParameter Name="term">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>201003</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>term</Prompt>
+    </ReportParameter>
+  </ReportParameters>
   <Width>6.53989in</Width>
   <Page>
     <PageHeader>
