@@ -9,32 +9,32 @@
   </DataSources>
   <Reports>
     <ProjectItem>
-      <Name>PetitionsbyAMPMReport.rdl</Name>
-      <FullPath>PetitionsbyAMPMReport.rdl</FullPath>
+      <Name>PetitionsbyAMPMReport-x.rdl</Name>
+      <FullPath>PetitionsbyAMPMReport-x.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>PetitionsbyMajorReport.rdl</Name>
-      <FullPath>PetitionsbyMajorReport.rdl</FullPath>
+      <Name>PetitionsbyMajorReport-x.rdl</Name>
+      <FullPath>PetitionsbyMajorReport-x.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>PetitionsReport.rdl</Name>
-      <FullPath>PetitionsReport.rdl</FullPath>
+      <Name>PetitionsReport-x.rdl</Name>
+      <FullPath>PetitionsReport-x.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>RegistrationbyAMPMReport.rdl</Name>
-      <FullPath>RegistrationbyAMPMReport.rdl</FullPath>
+      <Name>RegistrationbyAMPMReport-x.rdl</Name>
+      <FullPath>RegistrationbyAMPMReport-x.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>RegistrationByMajorReport.rdl</Name>
-      <FullPath>RegistrationByMajorReport.rdl</FullPath>
+      <Name>RegistrationByMajorReport-x.rdl</Name>
+      <FullPath>RegistrationByMajorReport-x.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>SummaryReport.rdl</Name>
-      <FullPath>SummaryReport.rdl</FullPath>
+      <Name>SummaryReport-x.rdl</Name>
+      <FullPath>SummaryReport-x.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>TotalRegistrationEachMajorReport.rdl</Name>
-      <FullPath>TotalRegistrationEachMajorReport.rdl</FullPath>
+      <Name>TotalRegistrationEachMajorReport-x.rdl</Name>
+      <FullPath>TotalRegistrationEachMajorReport-x.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
       <Name>TotalRegistrationReport.rdl</Name>
