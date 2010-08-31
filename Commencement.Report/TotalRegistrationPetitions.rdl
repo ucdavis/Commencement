@@ -252,7 +252,7 @@ GROUP BY RegistrationPetitions.LastName, RegistrationPetitions.FirstName, Regist
                             <TextRun>
                               <Value>=Sum(Fields!TotalApprovedPetitions.Value)</Value>
                               <Style>
-                                <Format>#,0.00;(#,0.00)</Format>
+                                <Format>#,0;(#,0)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -319,7 +319,7 @@ GROUP BY RegistrationPetitions.LastName, RegistrationPetitions.FirstName, Regist
                             <TextRun>
                               <Value>=Sum(Fields!TotalDeniedPetitions.Value)</Value>
                               <Style>
-                                <Format>#,0.00;(#,0.00)</Format>
+                                <Format>#,0;(#,0)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
