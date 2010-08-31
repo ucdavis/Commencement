@@ -181,7 +181,7 @@ HAVING      (Students.TermCode = @term)</CommandText>
               <Width>2.24404in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.97444in</Width>
+              <Width>1in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -519,7 +519,7 @@ HAVING      (Students.TermCode = @term)</CommandText>
         <Top>0.75825in</Top>
         <Left>0.18761in</Left>
         <Height>1.0317in</Height>
-        <Width>3.21848in</Width>
+        <Width>3.24404in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -2055,7 +2055,7 @@ HAVING      (Students.TermCode = @term)</CommandText>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>ExecutionTime</rd:DefaultName>
-          <Top>0.01389in</Top>
+          <Top>0.02777in</Top>
           <Left>0.02069in</Left>
           <Height>0.23611in</Height>
           <Width>2.41096in</Width>
