@@ -17,17 +17,13 @@ namespace Commencement.Controllers.ViewModels
         public SearchStudent SearchStudent { get; set; }
         public TermCode CurrentTerm { get; set; }
 
-        public static RegistrationPetitionModel Create(IRepository repository, IStudentService studentService, IPrincipal principal)
+        public static RegistrationPetitionModel Create(IRepository repository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService, IPrincipal principal)
         {
             Check.Require(repository != null, "Repository is required.");
             Check.Require(studentService != null, "Student service is required.");
             Check.Require(principal != null, "Principal is required.");
 
 #if DEBUG 
-            //var searchResults = studentService.SearchStudent("ri2zle", TermService.GetCurrent().Id);
-            //var searchResults = studentService.SearchStudentByLogin("ri2zle", TermService.GetCurrent().Id);
-
-
             var searchResults = new List<SearchStudent>();
             searchResults.Add(new SearchStudent()
                                   {
@@ -41,7 +37,7 @@ namespace Commencement.Controllers.ViewModels
                                       LoginId = "pjfry",
                                       Id = "123456789",
                                       Pidm = "1234567",
-                                      MajorCode = "AANS"
+                                      MajorCode = "AABI"
                                   });
 
 #else
@@ -55,6 +51,18 @@ namespace Commencement.Controllers.ViewModels
                 CurrentTerm = TermService.GetCurrent(),
                 SearchStudent = searchResults.FirstOrDefault()
             };
+
+            // pull a ceremony
+            if (viewModel.SearchStudent != null)
+            {
+                var major = majorRepository.GetNullableById(viewModel.SearchStudent.MajorCode);
+                var ceremony = repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == TermService.GetCurrent() && a.Majors.Contains(major)).FirstOrDefault();
+
+                if (ceremony != null)
+                {
+                    viewModel.SearchStudent.CeremonyId = ceremony.Id;
+                }
+            }
 
             viewModel.RegistrationPetition = new RegistrationPetition(); //TODO: Get registration info
 

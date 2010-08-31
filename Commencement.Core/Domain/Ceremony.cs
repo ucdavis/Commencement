@@ -32,6 +32,7 @@ namespace Commencement.Core.Domain
         {
             Registrations = new List<Registration>();
             Majors = new List<MajorCode>();
+            RegistrationPetitions = new List<RegistrationPetition>();
             DateTime = DateTime.Now;
             RegistrationDeadline = DateTime.Now;
             ExtraTicketDeadline = DateTime.Now;
@@ -70,7 +71,8 @@ namespace Commencement.Core.Domain
         public virtual IList<Registration> Registrations { get; set; }
         [NotNull]
         public virtual IList<MajorCode> Majors { get; set; }
-              
+        [NotNull]
+        public virtual IList<RegistrationPetition> RegistrationPetitions { get; set; }
 
 
         public virtual string Name { 
@@ -88,11 +90,42 @@ namespace Commencement.Core.Domain
             }
         }
 
+        /// <summary>
+        /// # available tickets
+        /// </summary>
         public virtual int AvailableTickets { 
             get
             {
                 return TotalTickets - Registrations.Sum(a => a.TotalTickets);
             } 
+        }
+
+        /// <summary>
+        /// # of tickets requested by original registration
+        /// </summary>
+        public virtual int RequestedTickets
+        {
+            get { return Registrations.Sum(a => a.NumberTickets); }
+        }
+
+        /// <summary>
+        /// # of tickets requested by extra ticket petitions
+        /// </summary>
+        public virtual int ExtraRequestedtickets
+        {
+            get
+            {
+                return Registrations.Where(a => a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved && !a.ExtraTicketPetition.IsPending)
+                                    .Sum(a => a.ExtraTicketPetition.NumberTickets);
+            }
+        }
+
+        public virtual int TotalRequestedTickets
+        {
+            get
+            {
+                return Registrations.Sum(a => a.TotalTickets);
+            }
         }
     }
 }

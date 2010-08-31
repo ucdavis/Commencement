@@ -166,6 +166,7 @@
     <Compile Include="Controllers\Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Controllers\Helpers\LetterGenerator.cs" />
     <Compile Include="Controllers\Helpers\MajorService.cs" />
+    <Compile Include="Controllers\Helpers\RegistrationPetitionHelper.cs" />
     <Compile Include="Controllers\Helpers\StringExtension.cs" />
     <Compile Include="Controllers\Helpers\StudentService.cs" />
     <Compile Include="Controllers\Helpers\TermService.cs" />
@@ -174,6 +175,8 @@
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\ViewModels\AdminPetitionsViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeMajorViewModel.cs" />
+    <Compile Include="Controllers\ViewModels\RegistrationDataViewModel.cs" />
+    <Compile Include="Controllers\ViewModels\ReportViewModel.cs" />
     <Compile Include="Controllers\ViewModels\SearchStudentViewModel.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
@@ -612,6 +615,7 @@
     <Content Include="Views\Petition\RegisterConfirmation.aspx" />
     <Content Include="Views\Petition\RegistrationPetition.aspx" />
     <Content Include="Views\Report\Index.aspx" />
+    <Content Include="Views\Report\RegistrationData.aspx" />
     <Content Include="Views\Student\EditRegistration.aspx" />
     <Content Include="Views\Student\NoCeremony.aspx" />
     <Content Include="Views\Student\RegistrationEditForm.ascx" />

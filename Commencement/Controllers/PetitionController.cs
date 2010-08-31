@@ -145,7 +145,7 @@ namespace Commencement.Controllers
         public ActionResult Register()
         {
             //Get student info and create registration model
-            var viewModel = RegistrationPetitionModel.Create(Repository, _studentService, CurrentUser);
+            var viewModel = RegistrationPetitionModel.Create(Repository, _majorService, _studentService, CurrentUser);
 
             if (viewModel.SearchStudent == null)
                 return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.StudentNotFound));
@@ -176,7 +176,7 @@ namespace Commencement.Controllers
                 return this.RedirectToAction(a => a.RegisterConfirmation());
             }
 
-            var viewModel = RegistrationPetitionModel.Create(Repository, _studentService, CurrentUser);
+            var viewModel = RegistrationPetitionModel.Create(Repository, _majorService, _studentService, CurrentUser);
             viewModel.RegistrationPetition = registrationPetition;
             return View(viewModel);
         }

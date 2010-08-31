@@ -20,6 +20,7 @@
     <many-to-one name="Ceremony" class="Ceremony" column="CeremonyId" />
     <many-to-one name="ExtraTicketPetition" class="ExtraTicketPetition" column="ExtraTicketPetitionId" cascade="all-delete-orphan" />
     <property name="DateRegistered" column="DateRegistered" />
-    
+    <property name="LabelPrinted" column="LabelPrinted" />
+
   </class>
 </hibernate-mapping>

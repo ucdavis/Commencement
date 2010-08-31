@@ -37,7 +37,7 @@
         <%= Html.Hidden("RegistrationPetition.MajorCode", Model.SearchStudent.MajorCode)%>
         <%= Html.Hidden("RegistrationPetition.Units", Model.SearchStudent.HoursEarned)%>
         <%= Html.Hidden("RegistrationPetition.TermCode", Model.CurrentTerm.Id) %>
-   
+        <%= Html.Hidden("RegistrationPetition.Ceremony", Model.SearchStudent.CeremonyId) %>
    
         <ul class="registration_form">
             <li><strong>* Reason for Petition: </strong> 

@@ -49,7 +49,6 @@ namespace Commencement.Core.Domain
         public virtual string ExceptionReason { get; set; }
 
         [Required]
-        [Length(6,6)]
         public virtual string CompletionTerm { get; set; }
 
         [Length(100)]
@@ -65,6 +64,8 @@ namespace Commencement.Core.Domain
         [NotNull]
         public virtual TermCode TermCode { get; set; }
 
+        public virtual Ceremony Ceremony { get; set; }
+
 
         public virtual string FullName { get { return FirstName + " " + LastName; } }
 
@@ -74,5 +75,6 @@ namespace Commencement.Core.Domain
             IsApproved = isApproved;
             DateDecision = DateTime.Now;
         }
+
     }
 }

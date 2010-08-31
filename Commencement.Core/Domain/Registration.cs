@@ -52,6 +52,8 @@ namespace Commencement.Core.Domain
 
         public virtual DateTime DateRegistered { get; set; }
 
+        public virtual bool LabelPrinted { get; set; }
+
         public virtual string TicketDistributionMethod { 
             get {
                 return MailTickets ? "Mail tickets to provided address" : "Pickup tickets at Arc Ticket Office";
@@ -70,6 +72,12 @@ namespace Commencement.Core.Domain
 
                 return NumberTickets + extraTickets; 
             }
+        }
+
+        public virtual void SetLabelPrinted()
+        {
+            LabelPrinted = true;
+            if (ExtraTicketPetition != null) ExtraTicketPetition.LabelPrinted = true;
         }
     }
 }

@@ -21,6 +21,7 @@
 
     <many-to-one name="MajorCode" class="MajorCode" column="Majorcode" ></many-to-one>
     <many-to-one name="TermCode" class="TermCode" column="TermCode"></many-to-one>
+    <many-to-one name="Ceremony" class="Ceremony" column="CeremonyId"></many-to-one>
     
   </class>
 </hibernate-mapping>

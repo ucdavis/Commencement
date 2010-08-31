@@ -14,6 +14,8 @@
 
     <property name="DateSubmitted" column="DateSubmitted" />
     <property name="DateDecision" column="DateDecision" />
+
+    <property name="LabelPrinted" column="LabelPrinted" />
     
   </class>
 </hibernate-mapping>

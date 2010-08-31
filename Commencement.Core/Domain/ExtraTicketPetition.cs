@@ -34,5 +34,7 @@ namespace Commencement.Core.Domain
 
         public virtual DateTime DateSubmitted { get; set; }
         public virtual DateTime? DateDecision { get; set; }
+
+        public virtual bool LabelPrinted { get; set; }
     }
 }

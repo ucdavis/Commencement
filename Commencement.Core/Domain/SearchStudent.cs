@@ -27,5 +27,7 @@ namespace Commencement.Core.Domain
         public virtual string FullName { 
             get { return FirstName + " " + LastName; }
         }
+
+        public virtual int CeremonyId { get; set; }
     }
 }

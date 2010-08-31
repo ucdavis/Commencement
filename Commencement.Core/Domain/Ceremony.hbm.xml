@@ -28,6 +28,11 @@
       <key column="CeremonyId"></key>
       <many-to-many column="MajorCode" class="MajorCode"></many-to-many>
     </bag>
+
+    <bag name="RegistrationPetitions" table="RegistrationPetitions" cascade="none">
+      <key column="CeremonyId"></key>
+      <one-to-many class="RegistrationPetition"/>
+    </bag>
     
   </class>
 </hibernate-mapping>
