@@ -1268,6 +1268,7 @@ namespace Commencement.Tests.Repositories
             #endregion Assert
         }
         #endregion DateAdded Tests
+
         #region DateUpdated Tests
 
         /// <summary>
@@ -1412,6 +1413,415 @@ namespace Commencement.Tests.Repositories
         #endregion Valid Tests
         #endregion TermCode Tests
 
+        #region Majors Tests
+
+        /// <summary>
+        /// Tests the majors with null value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestMajorsWithNullValueSaves()
+        {
+            #region Arrange
+            var student = GetValid(9);
+            student.Majors = null;
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(student.Majors);
+            Assert.IsFalse(student.IsTransient());
+            Assert.IsTrue(student.IsValid());
+            #endregion Assert	
+        }
+
+        /// <summary>
+        /// Tests the majors with empty list saves.
+        /// </summary>
+        [TestMethod]
+        public void TestMajorsWithEmptyListSaves()
+        {
+            #region Arrange
+            var student = GetValid(9);
+            student.Majors = new List<MajorCode>();
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(student.Majors);
+            Assert.AreEqual(0, student.Majors.Count);
+            Assert.IsFalse(student.IsTransient());
+            Assert.IsTrue(student.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the majors with populated list saves.
+        /// </summary>
+        [TestMethod]
+        public void TestMajorsWithPopulatedListSaves()
+        {
+            #region Arrange
+            var majorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
+            LoadMajorCode(3);
+            var student = GetValid(9);
+            student.Majors = new List<MajorCode>();
+            student.Majors.Add(majorCodeRepository.GetById("1"));
+            student.Majors.Add(majorCodeRepository.GetById("3"));
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(student.Majors);
+            Assert.AreEqual(2, student.Majors.Count);
+            Assert.AreSame(student.Majors[1], majorCodeRepository.GetById("3"));
+            Assert.IsFalse(student.IsTransient());
+            Assert.IsTrue(student.IsValid());
+            #endregion Assert
+        }
+
+        #endregion Majors Tests
+
+        #region FullName Tests
+
+        /// <summary>
+        /// Tests the full name returns expected result.
+        /// </summary>
+        [TestMethod]
+        public void TestFullNameReturnsExpectedResult()
+        {
+            #region Arrange
+            var student = new Student();         
+            #endregion Arrange
+
+            #region Act
+            student.FirstName = "Johan";
+            student.LastName = "Fuller";
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Johan Fuller", student.FullName);
+            #endregion Assert		
+        }
+        #endregion FullName Tests
+
+        #region StrMajors Tests
+
+        /// <summary>
+        /// Tests the STR majors returns expected results.
+        /// </summary>
+        [TestMethod]
+        public void TestStrMajorsReturnsExpectedResults1()
+        {
+            #region Arrange
+            var student = new Student();
+            var majorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
+            LoadMajorCode(3);
+            student.Majors = new List<MajorCode>();
+            student.Majors.Add(majorCodeRepository.GetById("1"));
+            student.Majors.Add(majorCodeRepository.GetById("3"));
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Name1,Name3", student.StrMajors);
+            #endregion Assert		
+        }
+
+        /// <summary>
+        /// Tests the STR majors returns expected results.
+        /// </summary>
+        [TestMethod]
+        public void TestStrMajorsReturnsExpectedResults2()
+        {
+            #region Arrange
+            var student = new Student();
+            var majorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
+            LoadMajorCode(3);
+            student.Majors = new List<MajorCode>();
+            student.Majors.Add(majorCodeRepository.GetById("2"));
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Name2", student.StrMajors);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the STR majors returns expected results.
+        /// </summary>
+        [TestMethod]
+        public void TestStrMajorsReturnsExpectedResults3()
+        {
+            #region Arrange
+            var student = new Student();
+            //var majorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
+            //LoadMajorCode(3);
+            student.Majors = new List<MajorCode>();
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(string.Empty, student.StrMajors);
+            #endregion Assert
+        }
+
+        #endregion StrMajors Tests
+
+        #region StrMajorCodes Tests
+
+        /// <summary>
+        /// Tests the StrMajorCodes returns expected results.
+        /// </summary>
+        [TestMethod]
+        public void TestStrMajorCodesReturnsExpectedResults1()
+        {
+            #region Arrange
+            var student = new Student();
+            var majorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
+            LoadMajorCode(3);
+            student.Majors = new List<MajorCode>();
+            student.Majors.Add(majorCodeRepository.GetById("1"));
+            student.Majors.Add(majorCodeRepository.GetById("3"));
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("1,3", student.StrMajorCodes);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the StrMajorCodes returns expected results.
+        /// </summary>
+        [TestMethod]
+        public void TestStrMajorCodesReturnsExpectedResults2()
+        {
+            #region Arrange
+            var student = new Student();
+            var majorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
+            LoadMajorCode(3);
+            student.Majors = new List<MajorCode>();
+            student.Majors.Add(majorCodeRepository.GetById("2"));
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("2", student.StrMajorCodes);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the StrMajorCodes returns expected results.
+        /// </summary>
+        [TestMethod]
+        public void TestStrMajorCodesReturnsExpectedResults3()
+        {
+            #region Arrange
+            var student = new Student();
+            //var majorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
+            //LoadMajorCode(3);
+            student.Majors = new List<MajorCode>();
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(string.Empty, student.StrMajorCodes);
+            #endregion Assert
+        }
+
+        #endregion StrMajorCodes Tests
+
+        #region Constructor Tests
+
+        /// <summary>
+        /// Tests the constructor with no parameters sets expected values.
+        /// </summary>
+        [TestMethod]
+        public void TestConstructorWithNoParametersSetsExpectedValues()
+        {
+            #region Arrange
+            var student = new Student();
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(student.Majors);
+            Assert.AreEqual(0, student.Majors.Count);
+            Assert.AreEqual(DateTime.Now.Date, student.DateAdded.Date);
+            Assert.AreEqual(DateTime.Now.Date, student.DateUpdated.Date);
+            Assert.AreEqual(Guid.Empty, student.Id);
+            #endregion Assert		
+        }
+
+        /// <summary>
+        /// Tests the constructor with parameters sets expected values.
+        /// </summary>
+        [TestMethod]
+        public void TestConstructorWithParametersSetsExpectedValues()
+        {
+            #region Arrange
+            var termCode = new TermCode();
+            termCode.Name = "Tname";
+            var student = new Student("pidm", "studentId", "FName", "LName", 12.3m, "email", "login", termCode);
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(student.Majors);
+            Assert.AreEqual(0, student.Majors.Count);
+            Assert.AreEqual(DateTime.Now.Date, student.DateAdded.Date);
+            Assert.AreEqual(DateTime.Now.Date, student.DateUpdated.Date);
+            Assert.AreEqual("pidm", student.Pidm);
+            Assert.AreEqual("studentId", student.StudentId);
+            Assert.AreEqual("FName", student.FirstName);
+            Assert.AreEqual("LName", student.LastName);
+            Assert.AreEqual(12.3m, student.Units);
+            Assert.AreEqual("email", student.Email);
+            Assert.AreEqual("login", student.Login);
+            Assert.AreEqual("Tname", student.TermCode.Name);
+            Assert.AreNotEqual(Guid.Empty, student.Id);
+            #endregion Assert
+        }
+        #endregion Constructor Tests
+
+        #region Cascade Tests
+
+        /// <summary>
+        /// Tests the delete student does not cascade to term code.
+        /// </summary>
+        [TestMethod]
+        public void TestDeleteStudentDoesNotCascadeToTermCode()
+        {
+            #region Arrange
+            LoadTermCode(3);
+            var student = GetValid(9);
+            student.TermCode = TermCodeRepository.GetById("2");
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+            Assert.AreSame(student.TermCode, TermCodeRepository.GetById("2"));
+            Assert.IsFalse(student.IsTransient());
+            Assert.IsTrue(student.IsValid());
+            var termCodeCount = TermCodeRepository.GetAll().Count;
+            Assert.IsTrue(termCodeCount > 0);
+            var studentCount = StudentRepository.GetAll().Count;
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.Remove(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(studentCount - 1, StudentRepository.GetAll().Count);
+            Assert.AreEqual(termCodeCount, TermCodeRepository.GetAll().Count);
+            #endregion Assert		
+        }
+
+
+        /// <summary>
+        /// Tests the new term code does not cascade save.
+        /// </summary>
+        [TestMethod]
+        public void TestNewTermCodeDoesNotCascadeSave()
+        {
+            #region Arrange
+            var student = StudentRepository.GetById(SpecificGuid.GetGuid(1));
+            student.TermCode = new TermCode();
+            student.TermCode.Name = "NewTerm";
+            student.TermCode.SetIdTo("NT");
+            var termCodeCount = TermCodeRepository.GetAll().Count;
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            //Assert.AreSame(student.TermCode, TermCodeRepository.GetById("2"));
+            Assert.AreEqual(termCodeCount, TermCodeRepository.GetAll().Count);
+            Assert.IsFalse(student.IsTransient());
+            Assert.IsTrue(student.IsValid());
+            #endregion Assert		
+        }
+
+        /// <summary>
+        /// Tests the delete student does not cascade to major codes.
+        /// Can't use GetAll because of majorCodes "Where" clause.
+        /// </summary>
+        [TestMethod]
+        public void TestDeleteStudentDoesNotCascadeToMajorCodes()
+        {
+            #region Arrange
+            var majorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
+            LoadMajorCode(3);
+            var student = GetValid(9);
+            student.Majors = new List<MajorCode>();
+            student.Majors.Add(majorCodeRepository.GetById("1"));
+            student.Majors.Add(majorCodeRepository.GetById("3"));
+ 
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.Remove(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Name1", majorCodeRepository.GetById("1").Name);
+            Assert.AreEqual("Name2", majorCodeRepository.GetById("2").Name);
+            Assert.AreEqual("Name3", majorCodeRepository.GetById("3").Name);
+            #endregion Assert		
+        }
+        #endregion Cascade Tests
+
         #region Reflection of Database.
 
         /// <summary>
@@ -1423,16 +1833,17 @@ namespace Commencement.Tests.Repositories
         {
             #region Arrange
             var expectedFields = new List<NameAndType>();
+            expectedFields.Add(new NameAndType("DateAdded", "System.DateTime", new List<string>()));
+            expectedFields.Add(new NameAndType("DateUpdated", "System.DateTime", new List<string>()));
             expectedFields.Add(new NameAndType("Email", "System.String", new List<string>
             {
                  "[NHibernate.Validator.Constraints.LengthAttribute((Int32)100)]"
             }));
-            expectedFields.Add(new NameAndType("DateAdded", "System.DateTime", new List<string>()));
-            expectedFields.Add(new NameAndType("DateUpdated", "System.DateTime", new List<string>()));
             expectedFields.Add(new NameAndType("FirstName", "System.String", new List<string>
             {
                  "[NHibernate.Validator.Constraints.LengthAttribute((Int32)50)]"
             }));
+            expectedFields.Add(new NameAndType("FullName", "System.String", new List<string>()));
             expectedFields.Add(new NameAndType("Id", "System.Guid", new List<string>
             {
                 "[Newtonsoft.Json.JsonPropertyAttribute()]", 
@@ -1446,11 +1857,14 @@ namespace Commencement.Tests.Repositories
             {
                  "[NHibernate.Validator.Constraints.LengthAttribute((Int32)50)]"
             }));
+            expectedFields.Add(new NameAndType("Majors", "System.Collections.Generic.IList`1[Commencement.Core.Domain.MajorCode]", new List<string>()));
             expectedFields.Add(new NameAndType("Pidm", "System.String", new List<string>
             {
                  "[NHibernate.Validator.Constraints.LengthAttribute((Int32)8)]", 
                  "[UCDArch.Core.NHibernateValidator.Extensions.RequiredAttribute()]"
             }));
+            expectedFields.Add(new NameAndType("StrMajorCodes", "System.String", new List<string>()));
+            expectedFields.Add(new NameAndType("StrMajors", "System.String", new List<string>()));            
             expectedFields.Add(new NameAndType("StudentId", "System.String", new List<string>
             {
                  "[NHibernate.Validator.Constraints.LengthAttribute((Int32)9)]", 
