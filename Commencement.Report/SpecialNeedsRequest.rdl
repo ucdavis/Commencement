@@ -56,7 +56,7 @@ FROM         Registrations INNER JOIN
                       Ceremonies ON Ceremonies.id = Registrations.CeremonyId INNER JOIN
                       vMajors ON vMajors.id = Registrations.MajorCode INNER JOIN
                       TermCodes ON Ceremonies.TermCode = TermCodes.id
-WHERE     (Students.TermCode = @term) AND (Registrations.Comments IS NOT NULL)</CommandText>
+WHERE     (Students.TermCode = @term) AND (Registrations.Comments IS NOT NULL) AND (LEN(Registrations.Comments) &gt; 0)</CommandText>
         <QueryParameters>
           <QueryParameter Name="@term">
             <Value>=Parameters!term.Value</Value>
@@ -139,7 +139,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.Comments IS NOT NULL)</
               <Width>1.54167in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.77734in</Width>
+              <Width>1.62109in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -423,7 +423,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.Comments IS NOT NULL)</
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Distribution Method</Value>
+                              <Value>Special Needs</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                                 <Color>Navy</Color>
@@ -465,7 +465,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.Comments IS NOT NULL)</
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Date/Time</Value>
+                              <Value>Ceremony Date/Time</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                                 <Color>DimGray</Color>
@@ -494,6 +494,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.Comments IS NOT NULL)</
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -804,6 +805,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.Comments IS NOT NULL)</
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -830,9 +832,6 @@ WHERE     (Students.TermCode = @term) AND (Registrations.Comments IS NOT NULL)</
                 <CellContents>
                   <Textbox Name="Textbox21">
                     <CanGrow>true</CanGrow>
-                    <UserSort>
-                      <SortExpression>=Fields!LastName.Value</SortExpression>
-                    </UserSort>
                     <KeepTogether>true</KeepTogether>
                     <Paragraphs>
                       <Paragraph>
@@ -928,7 +927,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.Comments IS NOT NULL)</
         <Top>1.14114in</Top>
         <Left>0.02069in</Left>
         <Height>0.48958in</Height>
-        <Width>8.74689in</Width>
+        <Width>9.59064in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -1019,7 +1018,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.Comments IS NOT NULL)</
       <Prompt>term</Prompt>
     </ReportParameter>
   </ReportParameters>
-  <Width>8.76758in</Width>
+  <Width>9.61133in</Width>
   <Page>
     <PageHeader>
       <Height>0.97917in</Height>
