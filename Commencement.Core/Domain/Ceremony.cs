@@ -96,7 +96,7 @@ namespace Commencement.Core.Domain
         public virtual int AvailableTickets { 
             get
             {
-                return TotalTickets - Registrations.Sum(a => a.TotalTickets);
+                return TotalTickets - Registrations.Where(a=>!a.SjaBlock).Sum(a => a.TotalTickets);
             } 
         }
 
@@ -105,7 +105,7 @@ namespace Commencement.Core.Domain
         /// </summary>
         public virtual int RequestedTickets
         {
-            get { return Registrations.Sum(a => a.NumberTickets); }
+            get { return Registrations.Where(a => !a.SjaBlock).Sum(a => a.NumberTickets); }
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Commencement.Core.Domain
         {
             get
             {
-                return Registrations.Where(a => a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved && !a.ExtraTicketPetition.IsPending)
+                return Registrations.Where(a => a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved && !a.ExtraTicketPetition.IsPending && !a.SjaBlock)
                                     .Sum(a => a.ExtraTicketPetition.NumberTickets);
             }
         }
@@ -124,7 +124,7 @@ namespace Commencement.Core.Domain
         {
             get
             {
-                return Registrations.Sum(a => a.TotalTickets);
+                return Registrations.Where(a => !a.SjaBlock).Sum(a => a.TotalTickets);
             }
         }
     }

@@ -65,6 +65,8 @@ namespace Commencement.Core.Domain
         /// </summary>
         public virtual Ceremony Ceremony { get; set; }
 
+        public virtual bool SjaBlock { get; set; }
+
         public virtual IList<MajorCode> Majors { get; set; }
 
         #region Extended Properties

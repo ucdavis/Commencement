@@ -295,6 +295,20 @@ namespace Commencement.Controllers
         #endregion
 
 
+        public ActionResult ToggleSJAStatus(int id)
+        {
+            var registration = Repository.OfType<Registration>().GetNullableById(id);
+            if (registration == null) return this.RedirectToAction(a => a.Index());
+
+            var sja = !registration.SjaBlock;
+
+            registration.SjaBlock = sja;
+            registration.Student.SjaBlock = sja;
+
+            Repository.OfType<Registration>().EnsurePersistent(registration);
+
+            return this.RedirectToAction(a => a.StudentDetails(registration.Student.Id, false));
+        }
 
         public ActionResult Registrations(string studentid, string lastName, string firstName, string majorCode, int? ceremonyId)
         {

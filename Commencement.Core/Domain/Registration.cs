@@ -65,6 +65,9 @@ namespace Commencement.Core.Domain
         {
             get
             {
+                // sja blocked no tickets given
+                if (SjaBlock) return 0;
+                
                 var extraTickets = ExtraTicketPetition != null && !ExtraTicketPetition.IsPending &&
                                    ExtraTicketPetition.IsApproved
                                        ? ExtraTicketPetition.NumberTickets
@@ -79,5 +82,7 @@ namespace Commencement.Core.Domain
             LabelPrinted = true;
             if (ExtraTicketPetition != null) ExtraTicketPetition.LabelPrinted = true;
         }
+
+        public virtual bool SjaBlock { get; set; }
     }
 }

@@ -17,6 +17,7 @@
     <property name="DateUpdated" column="DateUpdated" />
     <many-to-one name="TermCode" class="TermCode" column="TermCode"></many-to-one>
     <many-to-one name="Ceremony" class="Ceremony" column="CeremonyId"></many-to-one>
+    <property name="SjaBlock" column="SjaBlock" />
     
     <bag name="Majors" table="StudentMajors" cascade="save-update" fetch="subselect" >
       <key column="Student_Id" />

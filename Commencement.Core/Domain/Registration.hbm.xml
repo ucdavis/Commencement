@@ -22,5 +22,7 @@
     <property name="DateRegistered" column="DateRegistered" />
     <property name="LabelPrinted" column="LabelPrinted" />
 
+    <property name="SjaBlock" column="SjaBlock" />
+    
   </class>
 </hibernate-mapping>

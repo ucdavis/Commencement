@@ -31,7 +31,7 @@
 <h2>
     Ceremony Information</h2>
 <ul class="registration_form">
-    <li><strong>Tickets Requested:</strong><span><%= Html.Encode(Model.TotalTickets) %></span>
+    <li><strong>Tickets Requested:</strong><span><%= Html.Encode(Model.NumberTickets) %></span>
     </li>
     <li>
         <strong>Ticket Distribution Method:</strong>

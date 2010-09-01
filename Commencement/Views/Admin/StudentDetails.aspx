@@ -21,7 +21,16 @@
         <li><div id="changeMajr_btn"><%= Html.ActionLink<AdminController>(a=>a.ChangeMajor(Model.Registration.Id), "Change Major") %></div></li>
         <li><div id="changeCeremony_btn"><%= Html.ActionLink<AdminController>(a=>a.ChangeCeremony(Model.Registration.Id), "Change Ceremony") %></div></li>
     <% } %>
+    
+        <li><%= Html.ActionLink<AdminController>(a=>a.ToggleSJAStatus(Model.Registration.Id), "Change SJA Status") %></li>
+    
     </ul>
+
+    <% if (Model.Registration.SjaBlock) { %>
+        <div style="background-color:red;">
+            SJA has asked that we not allow this student to walk.
+        </div>
+    <% } %>
 
     <% if (Model.Registration != null) { %>
         <!-- Student is registered, show that information -->
@@ -34,61 +43,6 @@
         Student has not registered.
     <% } %>
     
-
-    <%--
-    <% Html.RenderPartial("StudentInformationPartial", Model.Student); %>
-    
-    <h2>Registration</h2>
-    <% if (Model.Registration == null) { %>
-        Student has not registered.
-    <% } else { %>
-    
-        <ul class="registration_form">
-            <li><strong>Address Line 1:</strong>
-                <%= Html.Encode(Model.Registration.Address1) %>
-            </li>
-            <li><strong>Address Line 2:</strong>
-                <%= Html.Encode(Model.Registration.Address2) %>
-            </li>
-            <li><strong>City:</strong>
-                <%= Html.Encode(Model.Registration.City) %>
-            </li>
-            <li><strong>State:</strong>
-                <%= Html.Encode(Model.Registration.State.Name) %>
-            </li>
-            <li><strong>Zip Code:</strong>
-                <%= Html.Encode(Model.Registration.Zip) %>
-            </li>
-            <li class="prefilled"><strong>Email Address:</strong> 
-                <span><%= Html.Encode(Model.Student.Email) %></span>
-            </li>
-            <li><strong>Secondary Email Address:</strong>
-                <%= Html.Encode(Model.Registration.Email) %>
-            </li>
-            <li>
-                <strong>Ticket Acquisition:</strong>
-                <% if (Model.Registration.MailTickets) { %>
-                    <%= Html.Encode("Mail tickets to above address.") %>
-                <% } else {%>
-                    <%= Html.Encode("Will pick up tickets") %>
-                <%} %>
-            </li>
-        </ul>
-        <h2>Ceremony Information</h2>
-        <ul class="registration_form">
-            <li><strong>Tickets Requested:</strong>
-                <%= Html.Encode(Model.Registration.NumberTickets) %>
-            </li>
-            <li class="prefilled"><strong>Ceremony Date:</strong> 
-                <span><%= Html.Encode(string.Format("{0}", Model.Registration.Ceremony.DateTime)) %></span> 
-            </li>
-            <li>
-                <strong>Special Needs:</strong>
-                <%= Html.Encode(Model.Registration.Comments) %>
-            </li>
-        </ul>
-    
-    <% } %>--%>
 
 </asp:Content>
 

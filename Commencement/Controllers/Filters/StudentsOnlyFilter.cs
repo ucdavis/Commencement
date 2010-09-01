@@ -26,6 +26,13 @@ namespace Commencement.Controllers.Filters
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Account", action = "NotCAESStudent" }));
             }
 
+            var student = repositoryWithTypeid.Queryable.Where(a => a.Login == filterContext.HttpContext.User.Identity.Name && a.TermCode == TermService.GetCurrent()).First();
+            if (student.SjaBlock)
+            {
+                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Account", action = "SJA" }));
+            }
+
+
             // change to writing a custom cookie when emulation is enabled and constantly check for that and the authenticated name
 
             var emulation = (bool?)filterContext.HttpContext.Session[StaticIndexes.EmulationKey] ?? false;

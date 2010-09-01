@@ -1,4 +1,5 @@
 using System.Web.Mvc;
+using MvcContrib;
 
 namespace Commencement.Controllers
 {
@@ -49,6 +50,10 @@ namespace Commencement.Controllers
                     title = "Existing Petition Exists";
                     description = "Our records indicate that you have already submitted a petition.";
                     break;
+                case ErrorType.SJA:
+                    title = "";
+                    description = "";
+                    break;
                 default:
                     title = "Unknown Error.";
                     description = "An unknown error has occurred.  IT has been notified of the issue.";
@@ -56,6 +61,16 @@ namespace Commencement.Controllers
             };
 
             return View(ErrorViewModel.Create(title, description, errorType));
+        }
+
+        public RedirectToRouteResult NotCAESStudent()
+        {
+            return this.RedirectToAction(a => a.Index(ErrorType.UnauthorizedAccess));
+        }
+
+        public RedirectToRouteResult SJA()
+        {
+            return this.RedirectToAction(a => a.Index(ErrorType.SJA));
         }
 
         public enum ErrorType
@@ -68,7 +83,8 @@ namespace Commencement.Controllers
             NoCeremony,
             DuplicatePetition,
             RegistrationClosed,
-            SubmittedPetition
+            SubmittedPetition,
+            SJA
         }
     }
 
