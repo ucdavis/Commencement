@@ -41,31 +41,6 @@ namespace Commencement.Controllers
                                                                                           )).ToList();
             }
 
-            //StringBuilder labels = new StringBuilder();
-
-            //foreach(var r in registrations)
-            //{
-            //    // calculate the number of tickets
-            //    var tickets = r.LabelPrinted ? 0 : r.NumberTickets;
-            //    tickets += r.ExtraTicketPetition != null && !r.LabelPrinted ? r.ExtraTicketPetition.NumberTickets : 0;
-
-            //    if (tickets > 0)
-            //    {
-            //        labels.Append(string.Format(Labels.Avery5160_LabelRow, r.Student.FullName, r.Student.StudentId
-            //                                    , r.Major.Name, tickets, r.Student.FullName, r.Address1
-            //                                    , r.Address2, r.City + ", " + r.State.Id + " " + r.Zip
-            //                                    , tickets
-            //                          ));
-
-            //        // update the record
-            //        r.SetLabelPrinted();
-            //        Repository.OfType<Registration>().EnsurePersistent(r);
-            //    }
-            //}
-
-            //var doc = string.Format(Labels.Avery5160_Doc, labels);
-            //doc = doc.Replace("&", "&amp;");
-
             var doc = GenerateLabelDoc(registrations, printAll);
 
             ASCIIEncoding encoding = new ASCIIEncoding();
