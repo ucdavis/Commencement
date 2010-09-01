@@ -44,8 +44,7 @@
             <% if (Model.SearchStudent.CeremonyId == null) { %>
                 <li>
                     <strong>Ceremony:</strong>
-                    <%= this.Select("RegistrationPetition.Ceremony").Options(Model.Ceremonies, x => x.Id, x => x.DateTime.ToString("g"))%>
-                    <i>*There is not matching ceremony for your major, please select one.</i>
+                    <%= this.Select("RegistrationPetition.Ceremony").Options(Model.Ceremonies, x => x.Id, x => x.DateTime.ToString("g")).FirstOption("--Please Select a Ceremony--")%>
                 </li>
             <% } %>
             <li><strong>* Reason for Petition: </strong> 

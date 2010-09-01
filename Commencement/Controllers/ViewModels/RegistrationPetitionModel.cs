@@ -40,7 +40,7 @@ namespace Commencement.Controllers.ViewModels
                                       LoginId = "pjfry",
                                       Id = "123456789",
                                       Pidm = "1234567",
-                                      MajorCode = "AABI"
+                                      MajorCode = "AANS"
                                   });
 
 #else
