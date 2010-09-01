@@ -12,9 +12,59 @@
     <li><%= Html.ActionLink<AdminController>(a=>a.Index(), "Home")  %></li></ul>
 
     <h2>Reporting</h2>
-    <ul class="registration_form">
+    <ul class="">
         <li><strong>Term:</strong>
             <%= this.Select("termCode").Options(Model.TermCodes, x=>x.Id, x=>x.Description).Selected(Model.TermCode.Id) %>
+        </li>
+        
+        <li>
+            <strong>
+                <% using (Html.BeginForm("GetReport", "Report", FormMethod.Get)) { %>
+                    <a href="#" class="submit_anchor">Total Registered Students</a>
+                    <%= Html.Hidden("Report", ReportController.Report.TotalRegisteredStudents) %>
+                    <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class = "term_value"}) %>
+                <% } %>
+            </strong>          
+        </li>
+        
+        <li>
+            <strong>
+                <% using (Html.BeginForm("GetReport", "Report", FormMethod.Get)) { %>
+                    <a href="#" class="submit_anchor">Total Registration Petition</a>
+                    <%= Html.Hidden("Report", ReportController.Report.TotalRegistrationPetitions) %>
+                    <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class = "term_value"}) %>
+                <% } %>
+            </strong>          
+        </li>
+        
+        <li>
+            <strong>
+                <% using (Html.BeginForm("GetReport", "Report", FormMethod.Get)) { %>
+                    <a href="#" class="submit_anchor">Sum of all Tickets</a>
+                    <%= Html.Hidden("Report", ReportController.Report.SumOfAllTickets) %>
+                    <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class = "term_value"}) %>
+                <% } %>
+            </strong>          
+        </li>
+        
+        <li>
+            <strong>
+                <% using (Html.BeginForm("GetReport", "Report", FormMethod.Get)) { %>
+                    <a href="#" class="submit_anchor">Special Needs Request</a>
+                    <%= Html.Hidden("Report", ReportController.Report.SpecialNeedsRequest) %>
+                    <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class = "term_value"}) %>
+                <% } %>
+            </strong>          
+        </li>
+        
+        <li>
+            <strong>
+                <% using (Html.BeginForm("GetReport", "Report", FormMethod.Get)) { %>
+                    <a href="#" class="submit_anchor">Registrars Report</a>
+                    <%= Html.Hidden("Report", ReportController.Report.RegistrarsReport) %>
+                    <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class = "term_value"}) %>
+                <% } %>
+            </strong>          
         </li>
         
         <li><strong><%= Html.ActionLink<ReportController>(a=>a.RegistrationData(), "Registration Data") %></strong>
@@ -23,7 +73,7 @@
     </ul>
 
     <h2>Label Printing</h2>
-    <ul class="registration_form">
+    <ul class="">
         <li>
             <strong><%= Html.ActionLink<ReportController>(a => a.GenerateAveryLabels(TermService.GetCurrent().Id, false), "Print Pending Labels")%></strong>
             This will print all pending labels that need to be printed and will update records so that they will not be printed in this list again.
@@ -39,4 +89,11 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
+    <script type="text/javascript">
+        $(function() {
+            $(".submit_anchor").click(function() { $(this).parent("form").submit(); });
+            //            $(".term_value").val($("#termCode").val());
+            $("#termCode").change(function() { $(".term_value").val($("#termCode").val()); });
+        });
+    </script>
 </asp:Content>

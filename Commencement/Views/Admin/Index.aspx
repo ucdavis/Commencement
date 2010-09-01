@@ -25,7 +25,7 @@
             <a href="<%= Url.Action("Index", "Petition") %>"><img src="<%= Url.Content("~/Images/pending_petition.png") %>" /><br />Pending Petitions</a>
         </li>
         <li>
-            <a href="<%= Url.Action("Index", "Report") %>"><img src="<%= Url.Content("~/Images/report.png") %>" /><br />Reporting (Coming Soon)</a>
+            <a href="<%= Url.Action("Index", "Report") %>"><img src="<%= Url.Content("~/Images/report.png") %>" /><br />Reporting</a>
         </li>
     </ul>
 </asp:Content>

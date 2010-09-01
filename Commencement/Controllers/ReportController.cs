@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
@@ -8,12 +8,16 @@ using Commencement.Controllers.Filters;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
+using Microsoft.Reporting.WebForms;
+using UCDArch.Core.Utils;
 
 namespace Commencement.Controllers
 {
     [AnyoneWithRole]
     public class ReportController : ApplicationController
     {
+        private readonly string _serverLocation = ConfigurationManager.AppSettings["ReportServer"];
+
         //
         // GET: /Report/
 
@@ -22,6 +26,81 @@ namespace Commencement.Controllers
             var viewModel = ReportViewModel.Create(Repository);
             return View(viewModel);
         }
+
+        #region Microsoft Report Server Reports
+        public FileResult GetReport(Report report, string termCode)
+        {
+            Check.Require(!string.IsNullOrEmpty(termCode), "Term code is required.");
+
+            var name = string.Empty;
+            var parameters = new Dictionary<string, string>();
+
+            switch(report)
+            {
+                case Report.TotalRegisteredStudents:
+                    name = "TotalRegistrationReport";
+                    parameters.Add("term", termCode);
+                    break;
+                case Report.TotalRegistrationPetitions:
+                    name = "TotalRegistrationPetitions";
+                    parameters.Add("term", termCode);
+                    break;
+                case Report.SumOfAllTickets:
+                    name = "SummaryReport";
+                    parameters.Add("term", termCode);
+                    break;
+                case Report.SpecialNeedsRequest:
+                    name = "SpecialNeedsRequest";
+                    parameters.Add("term", termCode);
+                    break;
+                case Report.RegistrarsReport:
+                    name = "RegistrarsReport";
+                    parameters.Add("term", termCode);
+                    break;
+            };
+
+            return File(GetReport("/Commencement/"+name, parameters), name + ".xls");
+        }
+
+        private byte[] GetReport(string ReportName, Dictionary<string, string> parameters)
+        {
+            string reportServer = _serverLocation;
+
+            var rview = new ReportViewer();
+            rview.ServerReport.ReportServerUrl = new Uri(reportServer);
+            rview.ServerReport.ReportPath = ReportName;
+
+            var paramList = new List<ReportParameter>();
+
+            if (parameters.Count > 0)
+            {
+                foreach (KeyValuePair<string, string> kvp in parameters)
+                {
+                    paramList.Add(new ReportParameter(kvp.Key, kvp.Value));
+                }
+            }
+
+            rview.ServerReport.SetParameters(paramList);
+
+            string mimeType, encoding, extension, deviceInfo;
+            string[] streamids;
+            Warning[] warnings;
+
+            string format = "Excel";
+
+            deviceInfo =
+            "<DeviceInfo>" +
+            "<SimplePageHeaders>True</SimplePageHeaders>" +
+            "<HumanReadablePDF>True</HumanReadablePDF>" +   // this line disables the compression done by SSRS 2008 so that it can be merged.
+            "</DeviceInfo>";
+
+            byte[] bytes = rview.ServerReport.Render(format, deviceInfo, out mimeType, out encoding, out extension, out streamids, out warnings);
+
+            return bytes;
+        }
+
+        public enum Report { TotalRegisteredStudents=0, TotalRegistrationPetitions, SumOfAllTickets, SpecialNeedsRequest, RegistrarsReport }
+        #endregion
 
         #region Label Generator
         public ActionResult GenerateAveryLabels(string termCode, bool printAll)
