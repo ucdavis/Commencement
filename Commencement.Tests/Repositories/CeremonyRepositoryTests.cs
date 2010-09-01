@@ -1540,9 +1540,12 @@ namespace Commencement.Tests.Repositories
             CeremonyRepository.DbContext.BeginTransaction();
             ceremony.RegistrationPetitions[0].Email = "UpdatedEmail";
             var saveId = ceremony.RegistrationPetitions[0].Id;
+            Console.WriteLine("Saving Ceremony"); 
+            
             CeremonyRepository.EnsurePersistent(ceremony);
             CeremonyRepository.DbContext.CommitTransaction();
-
+            
+            
             var regPet = Repository.OfType<RegistrationPetition>().GetById(saveId);
             NHibernateSessionManager.Instance.GetSession().Evict(regPet);
             NHibernateSessionManager.Instance.GetSession().Evict(ceremony);
