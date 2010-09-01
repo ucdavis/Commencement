@@ -31,6 +31,7 @@
         <%= Html.Hidden("RegistrationPetition.Pidm", Model.SearchStudent.Pidm) %>
         <%= Html.Hidden("RegistrationPetition.StudentId", Model.SearchStudent.Id) %>
         <%= Html.Hidden("RegistrationPetition.FirstName", Model.SearchStudent.FirstName) %>
+        <%= Html.Hidden("RegistrationPetition.MI", Model.SearchStudent.MI) %>
         <%= Html.Hidden("RegistrationPetition.LastName", Model.SearchStudent.LastName) %>
         <%= Html.Hidden("RegistrationPetition.Email", Model.SearchStudent.Email)%>
         <%= Html.Hidden("RegistrationPetition.Login", Model.SearchStudent.LoginId)%>

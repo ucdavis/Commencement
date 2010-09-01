@@ -72,7 +72,7 @@ namespace Commencement.Core.Domain
         {
             get
             {
-                return string.Format("{0} {1}", FirstName, LastName);
+                return string.Format("{0}{1} {2}", FirstName, string.IsNullOrEmpty(MI) ? string.Empty : " " + MI , LastName);
             }
         }
         public virtual string StrMajors

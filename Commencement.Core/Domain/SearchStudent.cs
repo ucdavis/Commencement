@@ -25,8 +25,12 @@ namespace Commencement.Core.Domain
 
         public virtual string Astd { get; set; }
 
-        public virtual string FullName { 
-            get { return FirstName + " " + LastName; }
+        public virtual string FullName
+        {
+            get
+            {
+                return string.Format("{0}{1} {2}", FirstName, string.IsNullOrEmpty(MI) ? string.Empty : " " + MI, LastName);
+            }
         }
 
         public virtual int? CeremonyId { get; set; }
