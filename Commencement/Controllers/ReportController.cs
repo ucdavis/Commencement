@@ -110,7 +110,6 @@ namespace Commencement.Controllers
         }
         #endregion
 
-
         public ActionResult RegistrationData()
         {
             var viewModel = RegistrationDataViewModel.Create(Repository);
