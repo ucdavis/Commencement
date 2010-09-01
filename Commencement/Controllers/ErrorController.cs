@@ -45,6 +45,9 @@ namespace Commencement.Controllers
                     description = "You have already submitted a petition.";
 
                     break;
+                case ErrorType.SubmittedPetition:
+                    title = "Existing Petition Exists";
+                    description = "Our records indicate that you have already submitted a petition.";
                 default:
                     title = "Unknown Error.";
                     description = "An unknown error has occurred.  IT has been notified of the issue.";
@@ -63,7 +66,8 @@ namespace Commencement.Controllers
             StudentNotFound,
             NoCeremony,
             DuplicatePetition,
-            RegistrationClosed
+            RegistrationClosed,
+            SubmittedPetition
         }
     }
 

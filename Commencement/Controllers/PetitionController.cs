@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
@@ -144,6 +145,12 @@ namespace Commencement.Controllers
         [PageTrackingFilter]
         public ActionResult Register()
         {
+            // do a check to see if a student has already submitted a petition
+            if (Repository.OfType<RegistrationPetition>().Queryable.Where(a=>a.TermCode == TermService.GetCurrent() && a.Login == CurrentUser.Identity.Name).Any())
+            {
+                return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.SubmittedPetition));
+            }
+
             //Get student info and create registration model
             var viewModel = RegistrationPetitionModel.Create(Repository, _majorService, _studentService, CurrentUser);
 

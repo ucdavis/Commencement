@@ -28,6 +28,6 @@ namespace Commencement.Core.Domain
             get { return FirstName + " " + LastName; }
         }
 
-        public virtual int CeremonyId { get; set; }
+        public virtual int? CeremonyId { get; set; }
     }
 }

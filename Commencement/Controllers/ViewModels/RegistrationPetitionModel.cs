@@ -16,6 +16,8 @@ namespace Commencement.Controllers.ViewModels
         public IEnumerable<State> States { get; set; }
         public SearchStudent SearchStudent { get; set; }
         public TermCode CurrentTerm { get; set; }
+        public IEnumerable<Ceremony> Ceremonies { get; set; }
+        public string MajorName { get; set; }
 
         public static RegistrationPetitionModel Create(IRepository repository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService, IPrincipal principal)
         {
@@ -37,19 +39,24 @@ namespace Commencement.Controllers.ViewModels
                                       LoginId = "pjfry",
                                       Id = "123456789",
                                       Pidm = "1234567",
-                                      MajorCode = "AABI"
+                                      MajorCode = "AANS"
                                   });
 
 #else
             var searchResults = studentService.SearchStudent(principal.Identity.Name, TermService.GetCurrent().Id);
 #endif
 
+            var ss = searchResults.FirstOrDefault();
+            var majorName = ss != null ? majorRepository.GetNullableById(ss.MajorCode) : null;
+
             var viewModel = new RegistrationPetitionModel()
             { 
                 States = repository.OfType<State>().GetAll(),
                 TermCodes = repository.OfType<vTermCode>().Queryable.Where(a => a.EndDate > DateTime.Now).ToList(),
                 CurrentTerm = TermService.GetCurrent(),
-                SearchStudent = searchResults.FirstOrDefault()
+                SearchStudent = ss,
+                Ceremonies = repository.OfType<Ceremony>().Queryable.Where(a=>a.TermCode == TermService.GetCurrent()),
+                MajorName = majorName != null ? majorName.Name : string.Empty
             };
 
             // pull a ceremony

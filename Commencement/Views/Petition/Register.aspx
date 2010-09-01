@@ -21,7 +21,7 @@
         <li class="prefilled"><strong>Name:</strong><span><%= Html.Encode(Model.SearchStudent.FullName) %></span></li>
         <li class="prefilled"><strong>Email:</strong><span><%= Html.Encode(Model.SearchStudent.Email) %></span></li>
         <li class="prefilled"><strong>Units Complted:</strong><span><%= Html.Encode(Model.SearchStudent.HoursEarned)%></span> <span>224.5</span> </li>
-        <li class="prefilled"><strong>Major:</strong> <span><%= Html.Encode(Model.SearchStudent.MajorCode)%></span></li>
+        <li class="prefilled"><strong>Major:</strong><span><%= Html.Encode(Model.MajorName)%></span></li>
     </ul>
     
     <h2>Petition Information</h2>
@@ -37,9 +37,16 @@
         <%= Html.Hidden("RegistrationPetition.MajorCode", Model.SearchStudent.MajorCode)%>
         <%= Html.Hidden("RegistrationPetition.Units", Model.SearchStudent.HoursEarned)%>
         <%= Html.Hidden("RegistrationPetition.TermCode", Model.CurrentTerm.Id) %>
-        <%= Html.Hidden("RegistrationPetition.Ceremony", Model.SearchStudent.CeremonyId) %>
+        <% if (Model.SearchStudent.CeremonyId != null) { %><%= Html.Hidden("RegistrationPetition.Ceremony", Model.SearchStudent.CeremonyId) %><% } %>        
    
         <ul class="registration_form">
+            <% if (Model.SearchStudent.CeremonyId == null) { %>
+                <li>
+                    <strong>Ceremony:</strong>
+                    <%= this.Select("RegistrationPetition.Ceremony").Options(Model.Ceremonies, x => x.Id, x => x.DateTime.ToString("g"))%>
+                    <i>*There is not matching ceremony for your major, please select one.</i>
+                </li>
+            <% } %>
             <li><strong>* Reason for Petition: </strong> 
                 <%= Html.TextAreaFor(x => x.RegistrationPetition.ExceptionReason, new { maxlength = 1000, size = 5 }) %>
                 <%= Html.ValidationMessageFor(x => x.RegistrationPetition.ExceptionReason)%>
