@@ -134,6 +134,21 @@ namespace Commencement.Controllers
         }
 
         [AnyoneWithRole]
+        [AcceptPost]
+        public JsonResult UpdateTicketAmount(int id, int tickets)
+        {
+            var registration = Repository.OfType<Registration>().GetNullableById(id);
+            if (registration == null) return Json(false);
+            if (!registration.ExtraTicketPetition.IsPending) return Json(false);    // do not change non-pending petitions
+
+            registration.ExtraTicketPetition.NumberTickets = tickets > 0 ? tickets : 0;
+
+            Repository.OfType<ExtraTicketPetition>().EnsurePersistent(registration.ExtraTicketPetition);
+
+            return Json(true);
+        }
+
+        [AnyoneWithRole]
         public ActionResult RegistrationPetition(int id)
         {
             var registrationPetition = Repository.OfType<RegistrationPetition>().GetNullableById(id);

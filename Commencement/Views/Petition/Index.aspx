@@ -8,6 +8,8 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <%= Html.AntiForgeryToken() %>
+
     <ul class="btn">
         <li><%= Html.ActionLink<HomeController>(a=>a.Index(), "Back Home") %></li>
     </ul>
@@ -48,7 +50,22 @@
                                                  <% });
                                      col.Bound(a => a.Student.StudentId);
                                      col.Bound(a => a.Student.FullName).Title("Name");
-                                     col.Bound(a => a.ExtraTicketPetition.NumberTickets).Title("# Extra Tickets");
+                                     //col.Bound(a => a.ExtraTicketPetition.NumberTickets).Title("# Extra Tickets");
+                                     col.Add(a =>
+                                                 {%>
+                                                    <div class="ticket_container">
+                                                        <%= Html.Hidden("id", a.Id) %>
+                                                        <span class="ticket_amount"><%= a.ExtraTicketPetition.NumberTickets %></span>
+                                                        <span class="ticket_box" style="display:none;"><input type="text" size="1" value="<%= a.ExtraTicketPetition.NumberTickets %>" /></span>
+                                                        <span class="ticket_edit_btn">
+                                                            <a href="javascript:;" class="edit_btn">[Edit]</a>
+                                                        </span>
+                                                        <span class="ticket_edit_btns" style="display:none;">
+                                                            <a href="javascript:;" class="save_btn">[Save]</a>
+                                                            <a href="javascript:;" class="cancel_btn">[Cancel]</a>
+                                                        </span>
+                                                    </div>
+                                                 <%}).Title("# Extra Tickets");
                                      col.Bound(a => a.ExtraTicketPetition.DateSubmitted);
                                  })
                     .Render();
@@ -91,9 +108,58 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
 
     <script type="text/javascript">
+        var antiForgeryToken;
+
         $(function() {
+            antiForgeryToken = $("input[name='__RequestVerificationToken']").val();
+
             $("#tabs").tabs();
+
+            $(".edit_btn").click(function() {
+                var $container = $(this).parents("div.ticket_container");
+
+                $container.children(".ticket_amount").hide();
+                $container.children(".ticket_edit_btn").hide();
+
+                $container.children(".ticket_box").show();
+                $container.children(".ticket_edit_btns").show();
+            });
+            $(".save_btn").click(function() {
+                var $container = $(this).parents("div.ticket_container");
+
+                var id = $container.children("input#id").val();
+                var tickets = $container.children(".ticket_box").children("input").val();
+
+                // make the save
+                var url = '<%= Url.Action("UpdateTicketAmount", "Petition") %>' + "/" + id;
+                $.post(url, { id: id, tickets: tickets, __RequestVerificationToken: antiForgeryToken }, function(result) {
+                    if (result) {
+                        $container.children(".ticket_amount").html(tickets);
+
+                        ChangeTicketToView($container);
+                    }
+                    else { alert("There was an error saving, please try again."); }
+                });
+
+
+            });
+            $(".cancel_btn").click(function() {
+                var $container = $(this).parents("div.ticket_container");
+
+                // revert values back to original
+                $container.children(".ticket_box").children("input").val($container.children(".ticket_amount").html());
+
+                ChangeTicketToView($container);
+            });
         });
+
+        function ChangeTicketToView($container) {
+            $container.children(".ticket_amount").show();
+            $container.children(".ticket_edit_btn").show();
+
+            $container.children(".ticket_box").hide();
+            $container.children(".ticket_edit_btns").hide();
+        }
     </script>
 
 </asp:Content>
