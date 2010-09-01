@@ -16,22 +16,29 @@ namespace Commencement.Controllers.Filters
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-            //var repository = SmartServiceLocator<IRepository>.GetService();
+            var repository = SmartServiceLocator<IRepository>.GetService();
             var repositoryWithTypeid = SmartServiceLocator<IRepositoryWithTypedId<Student, string>>.GetService();
+
+            var urlHelper = new UrlHelper(filterContext.RequestContext);  
 
             // user is not a student
             if (!StudentAccess.IsStudent(repositoryWithTypeid, filterContext.HttpContext.User.Identity.Name))
             {
                 // redirect to the error message that they are not a CAES Student
-                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Account", action = "NotCAESStudent" }));
+                //filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Account", action = "NotCAESStudent" }));
+                filterContext.Result = new RedirectResult(urlHelper.Action("Index", "Error", new { ErrorType = ErrorController.ErrorType.UnauthorizedAccess }));
+
             }
 
-            var student = repositoryWithTypeid.Queryable.Where(a => a.Login == filterContext.HttpContext.User.Identity.Name && a.TermCode == TermService.GetCurrent()).First();
-            if (student.SjaBlock)
+            if (StudentAccess.IsStudentSjaBlocked(repositoryWithTypeid, filterContext.HttpContext.User.Identity.Name))
             {
-                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Account", action = "SJA" }));
+                filterContext.Result = new RedirectResult(urlHelper.Action("Index", "Error", new { ErrorType = ErrorController.ErrorType.SJA }));
             }
 
+            if (StudentAccess.HasPreviouslyRegistered(repository, filterContext.HttpContext.User.Identity.Name))
+            {
+                filterContext.Result = new RedirectResult(urlHelper.Action("Index", "Error", new { ErrorType = ErrorController.ErrorType.PreviouslyWalked }));
+            }
 
             // change to writing a custom cookie when emulation is enabled and constantly check for that and the authenticated name
 
@@ -84,6 +91,25 @@ namespace Commencement.Controllers.Filters
             {
                 return false;
             }
+        }
+
+        public static bool IsStudentSjaBlocked(IRepositoryWithTypedId<Student, string> studentRepository, string loginId)
+        {
+            var term = TermService.GetCurrent();
+            var student = studentRepository.Queryable.Where(s => s.Login == loginId && s.TermCode == term).FirstOrDefault();
+            if (student != null)
+            {
+                return student.SjaBlock;
+            }
+
+            return false;
+        }
+
+        // check if a student has previously registered
+        public static bool HasPreviouslyRegistered(IRepository repository, string loginId)
+        {
+            var term = TermService.GetCurrent();
+            return repository.OfType<Registration>().Queryable.Where(a => a.Student.Login == loginId && a.Student.TermCode != term).Any();
         }
     }
 }

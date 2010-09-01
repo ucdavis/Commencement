@@ -51,8 +51,13 @@ namespace Commencement.Controllers
                     description = "Our records indicate that you have already submitted a petition.";
                     break;
                 case ErrorType.SJA:
-                    title = "";
-                    description = "";
+                    title = "Commencement Registration for the College of Agricultural and Environmental Sciences";
+                    description =
+                        "According to our records you are not eligible for participation in the commencement ceremony.  If you have any questions please contact Student Judicial Affairs for further information. Thank you";
+                    break;
+                case ErrorType.PreviouslyWalked:
+                    title = "Commencement Registration for the College of Agricultural and Environmental Sciences";
+                    description = "Our records indicate that you have previously participated in a commencement ceremony.";
                     break;
                 default:
                     title = "Unknown Error.";
@@ -73,6 +78,11 @@ namespace Commencement.Controllers
             return this.RedirectToAction(a => a.Index(ErrorType.SJA));
         }
 
+        public RedirectToRouteResult PreviouslyWalked()
+        {
+            return this.RedirectToAction(a => a.Index(ErrorType.PreviouslyWalked));
+        }
+
         public enum ErrorType
         {
             UnauthorizedAccess = 0,
@@ -84,7 +94,8 @@ namespace Commencement.Controllers
             DuplicatePetition,
             RegistrationClosed,
             SubmittedPetition,
-            SJA
+            SJA,
+            PreviouslyWalked
         }
     }
 
