@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace Commencement.Controllers.Helpers
@@ -47,5 +49,57 @@ namespace Commencement.Controllers.Helpers
             }
             return string.IsNullOrEmpty(source);
         }
+
+
+        public static string UpperFirstLetter(this string source, UpperFirstLetterOptions options)
+        {
+            if(source.IsNullOrEmpty(true))
+            {
+                return source;
+            }
+            if (options == UpperFirstLetterOptions.UseToTitle)
+            {
+                TextInfo myTi = new CultureInfo("en-US", false).TextInfo;
+                return myTi.ToTitleCase(source);
+            }
+            else
+            {
+                char[] delimiterChars = {' ', ',', '.', ':', '\t'};
+                var sourceCharArray = source.ToCharArray();
+                var rtValue = string.Empty;
+                for (int i = 0; i < sourceCharArray.Length; i++)
+                {
+                    if (i == 0)
+                    {
+                        sourceCharArray[i] = sourceCharArray[i].ToString().ToUpper()[0];
+                    }
+                    else
+                    {
+                        if (delimiterChars.Contains(sourceCharArray[i - 1]))
+                        {
+                            sourceCharArray[i] = sourceCharArray[i].ToString().ToUpper()[0];
+                        }
+                        else
+                        {
+                            if (options == UpperFirstLetterOptions.UpperWordsFirstLetterLowerOthers)
+                            {
+                                sourceCharArray[i] = sourceCharArray[i].ToString().ToLower()[0];
+                            }
+                        }
+                    }
+                    rtValue = rtValue + sourceCharArray[i];
+                }
+
+
+                return rtValue;
+            }
+        }
+
+        public enum UpperFirstLetterOptions
+        {
+            UseToTitle,
+            UpperWordsFirstLetter,
+            UpperWordsFirstLetterLowerOthers
+        } 
     }
 }

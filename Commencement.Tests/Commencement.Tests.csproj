@@ -134,6 +134,7 @@
     <Compile Include="Core\Helpers\CreateValidEntities.cs" />
     <Compile Include="Core\Helpers\NameAndType.cs" />
     <Compile Include="Core\Helpers\SpecificGuid.cs" />
+    <Compile Include="Misc\StringExtensionTests.cs" />
     <Compile Include="Repositories\AuditRepositoryTests.cs" />
     <Compile Include="Repositories\CeremonyEditorRepositoryTests.cs" />
     <Compile Include="Repositories\CeremonyRepositoryTests.cs" />
