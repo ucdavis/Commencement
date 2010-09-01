@@ -1306,6 +1306,8 @@ namespace Commencement.Tests.Repositories
 
             #region Act
             var ceremony = CeremonyRepository.GetById(2);
+            NHibernateSessionManager.Instance.GetSession().Evict(ceremony);
+            ceremony = CeremonyRepository.GetById(2);
             #endregion Act
 
             #region Assert
@@ -1473,6 +1475,83 @@ namespace Commencement.Tests.Repositories
             #region Assert
             Assert.AreEqual(Repository.OfType<Registration>().GetAll().Count, startCountregistrations);
             #endregion Assert		
+        }
+
+
+        /// <summary>
+        /// Tests the cascade delete does not remove registration petitions.
+        /// </summary>
+        [TestMethod]
+        public void TestCascadeDeleteDoesNotRemoveRegistrationPetitions()
+        {
+            #region Arrange
+            Repository.OfType<RegistrationPetition>().DbContext.BeginTransaction();
+            LoadMajorCode(1);
+            LoadRegistrationPetitions(5);
+            var registrationPetition = Repository.OfType<RegistrationPetition>().GetById(2);
+            registrationPetition.Ceremony = CeremonyRepository.GetById(2);
+            Repository.OfType<RegistrationPetition>().EnsurePersistent(registrationPetition);
+            registrationPetition = Repository.OfType<RegistrationPetition>().GetById(4);
+            registrationPetition.Ceremony = CeremonyRepository.GetById(2);
+            Repository.OfType<RegistrationPetition>().EnsurePersistent(registrationPetition);
+            Repository.OfType<RegistrationPetition>().DbContext.CommitTransaction();
+            
+            var ceremony = CeremonyRepository.GetById(2);
+            NHibernateSessionManager.Instance.GetSession().Evict(ceremony);
+            ceremony = CeremonyRepository.GetById(2);
+            Assert.AreEqual(2, ceremony.RegistrationPetitions.Count);
+
+            var registrationPetitionCount = Repository.OfType<RegistrationPetition>().GetAll().Count;
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.Remove(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(Repository.OfType<RegistrationPetition>().GetAll().Count, registrationPetitionCount);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestSaveCeremonyDoesNotUpdateRegistrationPetitions()
+        {
+            #region Arrange
+            Repository.OfType<RegistrationPetition>().DbContext.BeginTransaction();
+            LoadMajorCode(1);
+            LoadRegistrationPetitions(5);
+            var registrationPetition = Repository.OfType<RegistrationPetition>().GetById(2);
+            registrationPetition.Ceremony = CeremonyRepository.GetById(2);
+            Repository.OfType<RegistrationPetition>().EnsurePersistent(registrationPetition);
+            registrationPetition = Repository.OfType<RegistrationPetition>().GetById(4);
+            registrationPetition.Ceremony = CeremonyRepository.GetById(2);
+            Repository.OfType<RegistrationPetition>().EnsurePersistent(registrationPetition);
+            Repository.OfType<RegistrationPetition>().DbContext.CommitTransaction();
+
+            var ceremony = CeremonyRepository.GetById(2);
+            NHibernateSessionManager.Instance.GetSession().Evict(ceremony);
+            ceremony = CeremonyRepository.GetById(2);
+            Assert.AreEqual(2, ceremony.RegistrationPetitions.Count);           
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            ceremony.RegistrationPetitions[0].Email = "UpdatedEmail";
+            var saveId = ceremony.RegistrationPetitions[0].Id;
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+
+            var regPet = Repository.OfType<RegistrationPetition>().GetById(saveId);
+            NHibernateSessionManager.Instance.GetSession().Evict(regPet);
+            NHibernateSessionManager.Instance.GetSession().Evict(ceremony);
+            regPet = Repository.OfType<RegistrationPetition>().GetById(saveId);
+            #endregion Act
+
+            #region Assert
+            Assert.AreNotEqual("UpdatedEmail", regPet.Email);
+            #endregion Assert
         }
        
         #endregion Cascade Update And Delete Tests
