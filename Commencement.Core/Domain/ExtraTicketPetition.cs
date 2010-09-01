@@ -22,6 +22,7 @@ namespace Commencement.Core.Domain
         {
             IsPending = true;
             IsApproved = false;
+            LabelPrinted = false;
 
             DateSubmitted = DateTime.Now;
             DateDecision = null;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Commencement.Core.Domain;
 using Commencement.Tests.Core;
-using Commencement.Tests.Core.Extensions;
 using Commencement.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UCDArch.Core.PersistanceSupport;
@@ -508,6 +507,71 @@ namespace Commencement.Tests.Repositories
         }
         #endregion DateDecision Tests
 
+        #region LabelPrinted Tests
+
+        /// <summary>
+        /// Tests the LabelPrinted is false saves.
+        /// </summary>
+        [TestMethod]
+        public void TestLabelPrintedIsFalseSaves()
+        {
+            #region Arrange
+
+            ExtraTicketPetition extraTicketPetition = GetValid(9);
+            extraTicketPetition.LabelPrinted = false;
+
+            #endregion Arrange
+
+            #region Act
+
+            ExtraTicketPetitionRepository.DbContext.BeginTransaction();
+            ExtraTicketPetitionRepository.EnsurePersistent(extraTicketPetition);
+            ExtraTicketPetitionRepository.DbContext.CommitTransaction();
+
+            #endregion Act
+
+            #region Assert
+
+            Assert.IsFalse(extraTicketPetition.LabelPrinted);
+            Assert.IsFalse(extraTicketPetition.IsTransient());
+            Assert.IsTrue(extraTicketPetition.IsValid());
+
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the LabelPrinted is true saves.
+        /// </summary>
+        [TestMethod]
+        public void TestLabelPrintedIsTrueSaves()
+        {
+            #region Arrange
+
+            var extraTicketPetition = GetValid(9);
+            extraTicketPetition.LabelPrinted = true;
+
+            #endregion Arrange
+
+            #region Act
+
+            ExtraTicketPetitionRepository.DbContext.BeginTransaction();
+            ExtraTicketPetitionRepository.EnsurePersistent(extraTicketPetition);
+            ExtraTicketPetitionRepository.DbContext.CommitTransaction();
+
+            #endregion Act
+
+            #region Assert
+
+            Assert.IsTrue(extraTicketPetition.LabelPrinted);
+            Assert.IsFalse(extraTicketPetition.IsTransient());
+            Assert.IsTrue(extraTicketPetition.IsValid());
+
+            #endregion Assert
+        }
+
+        #endregion LabelPrinted Tests
+
+
         #region Constructor Tests
 
         /// <summary>
@@ -529,6 +593,7 @@ namespace Commencement.Tests.Repositories
             Assert.IsFalse(record.IsApproved);
             Assert.AreEqual(DateTime.Now.Date, record.DateSubmitted.Date);
             Assert.IsNull(record.DateDecision);
+            Assert.IsFalse(record.LabelPrinted);
             #endregion Assert		
         }
 
@@ -552,6 +617,7 @@ namespace Commencement.Tests.Repositories
             Assert.AreEqual(DateTime.Now.Date, record.DateSubmitted.Date);
             Assert.IsNull(record.DateDecision);
             Assert.AreEqual(5, record.NumberTickets);
+            Assert.IsFalse(record.LabelPrinted);
             #endregion Assert
         }
         #endregion Constructor Tests
@@ -577,6 +643,7 @@ namespace Commencement.Tests.Repositories
             }));
             expectedFields.Add(new NameAndType("IsApproved", "System.Boolean", new List<string>()));
             expectedFields.Add(new NameAndType("IsPending", "System.Boolean", new List<string>()));
+            expectedFields.Add(new NameAndType("LabelPrinted", "System.Boolean", new List<string>()));
             expectedFields.Add(new NameAndType("NumberTickets", "System.Int32", new List<string>
             {
                 "[NHibernate.Validator.Constraints.MinAttribute((Int64)1)]"
