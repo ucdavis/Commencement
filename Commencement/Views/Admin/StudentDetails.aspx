@@ -16,11 +16,12 @@
         <% } %>
     </li>
     <li><%= Html.ActionLink<AccountController>(a=>a.Emulate(Model.Student.Login), "Emulate") %></li>
-    <li>
+    
     <% if (Model.Registration != null) { %>
-        <div id="changeMajr_btn"><%= Html.ActionLink<AdminController>(a=>a.ChangeMajor(Model.Registration.Id), "Change Major") %></div>
+        <li><div id="changeMajr_btn"><%= Html.ActionLink<AdminController>(a=>a.ChangeMajor(Model.Registration.Id), "Change Major") %></div></li>
+        <li><div id="changeCeremony_btn"><%= Html.ActionLink<AdminController>(a=>a.ChangeCeremony(Model.Registration.Id), "Change Ceremony") %></div></li>
     <% } %>
-    </li></ul>
+    </ul>
 
     <% if (Model.Registration != null) { %>
         <!-- Student is registered, show that information -->

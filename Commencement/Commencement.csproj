@@ -176,6 +176,7 @@
     <Compile Include="Controllers\PetitionController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\ViewModels\AdminPetitionsViewModel.cs" />
+    <Compile Include="Controllers\ViewModels\ChangeCeremonyViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeMajorViewModel.cs" />
     <Compile Include="Controllers\ViewModels\RegistrationDataViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ReportViewModel.cs" />
@@ -612,6 +613,7 @@
     <Content Include="Images\students.png" />
     <Content Include="Views\Admin\AddStudent.aspx" />
     <Content Include="Views\Admin\AddStudentConfirm.aspx" />
+    <Content Include="Views\Admin\ChangeCeremony.aspx" />
     <Content Include="Views\Admin\ChangeMajor.aspx" />
     <Content Include="Views\Petition\Index.aspx" />
     <Content Include="Views\Petition\RegisterConfirmation.aspx" />

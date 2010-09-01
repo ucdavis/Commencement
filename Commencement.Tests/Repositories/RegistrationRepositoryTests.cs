@@ -162,7 +162,7 @@ namespace Commencement.Tests.Repositories
         {
             #region Arrange
             var registration = GetValid(9);
-            registration.Student = new Student("pidm", "123456789", "First", "last", 1.10m, "test@ucdavis.edu", "login", new TermCode());
+            registration.Student = new Student("pidm", "123456789", "First", "Midde", "last", 1.10m, "test@ucdavis.edu", "login", new TermCode());
             #endregion Arrange
 
             #region Act

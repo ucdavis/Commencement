@@ -8,6 +8,7 @@
     <property name="Pidm" column="Pidm" />
     <property name="StudentId" column="StudentId" />
     <property name="FirstName" column="FirstName" />
+    <property name="MI" column="MI" />
     <property name="LastName" column="LastName" />
     <property name="Units" column="Units" />
     <property name="Email" column="Email" />
@@ -15,7 +16,8 @@
     <property name="DateAdded" column="DateAdded" />
     <property name="DateUpdated" column="DateUpdated" />
     <many-to-one name="TermCode" class="TermCode" column="TermCode"></many-to-one>
-
+    <many-to-one name="Ceremony" class="Ceremony" column="CeremonyId"></many-to-one>
+    
     <bag name="Majors" table="StudentMajors" cascade="save-update" fetch="subselect" >
       <key column="Student_Id" />
       <many-to-many column="MajorCode" class="MajorCode" />

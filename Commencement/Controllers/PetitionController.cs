@@ -85,7 +85,7 @@ namespace Commencement.Controllers
             registrationPetition.SetDecision(isApproved);
 
             var student = new Student(registrationPetition.Pidm, registrationPetition.StudentId,
-                                          registrationPetition.FirstName,
+                                          registrationPetition.FirstName, registrationPetition.MI,
                                           registrationPetition.LastName, registrationPetition.Units,
                                           registrationPetition.Email, registrationPetition.Login,
                                           registrationPetition.TermCode);
@@ -93,6 +93,10 @@ namespace Commencement.Controllers
             Check.Require(registrationPetition.MajorCode != null, "Major is required.");
 
             student.Majors.Add(registrationPetition.MajorCode);
+
+            // check if the major has a ceremony or not, if not fill the override
+            if (!registrationPetition.Ceremony.Majors.Contains(registrationPetition.MajorCode))
+                student.Ceremony = registrationPetition.Ceremony;
 
             registrationPetition.TransferValidationMessagesTo(ModelState);
             student.TransferValidationMessagesTo(ModelState);

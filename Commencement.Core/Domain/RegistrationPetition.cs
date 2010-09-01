@@ -26,6 +26,8 @@ namespace Commencement.Core.Domain
         [Required]
         [Length(50)]
         public virtual string FirstName { get; set; }
+        [Length(50)]
+        public virtual string MI { get; set; }
         [Required]
         [Length(50)]
         public virtual string LastName { get; set; }

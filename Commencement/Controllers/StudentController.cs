@@ -56,7 +56,14 @@ namespace Commencement.Controllers
         [PageTrackingFilter]
         public ActionResult ChooseCeremony()
         {
-            var majorsAndCeremonies = _studentService.GetMajorsAndCeremoniesForStudent(GetCurrentStudent());
+            var currentStudent = GetCurrentStudent();
+            // student has ceremony pre-assigned
+            if (currentStudent.Ceremony != null)
+            {
+                return this.RedirectToAction(x => x.Register(currentStudent.Ceremony.Id, string.Empty));
+            }
+
+            var majorsAndCeremonies = _studentService.GetMajorsAndCeremoniesForStudent(currentStudent);
 
             var numPossibleCeremonies = majorsAndCeremonies.Count();
             

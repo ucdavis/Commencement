@@ -7,6 +7,7 @@
 
     <property name="Pidm" column="Spriden_Pidm" />
     <property name="FirstName" column="Spriden_First_Name" />
+    <property name="MI" column="Spriden_MI" />
     <property name="LastName" column="Spriden_Last_Name" />
 
     <property name="HoursEarned" column="Shrlgpa_Hours_Earned" />

@@ -8,6 +8,7 @@
     <property name="Pidm" column="Pidm" />
     <property name="StudentId" column="StudentId" />
     <property name="FirstName" column="FirstName" />
+    <property name="MI" column="MI" />
     <property name="LastName" column="LastName" />
     <property name="Email" column="Email" />
     <property name="Login" column="Login" />

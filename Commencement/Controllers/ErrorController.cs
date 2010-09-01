@@ -48,6 +48,7 @@ namespace Commencement.Controllers
                 case ErrorType.SubmittedPetition:
                     title = "Existing Petition Exists";
                     description = "Our records indicate that you have already submitted a petition.";
+                    break;
                 default:
                     title = "Unknown Error.";
                     description = "An unknown error has occurred.  IT has been notified of the issue.";

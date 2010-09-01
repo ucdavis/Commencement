@@ -94,7 +94,7 @@ namespace Commencement.Controllers
 
             Check.Require(searchStudent != null, "Unable to find requested record.");
 
-            var student = new Student(searchStudent.Pidm, searchStudent.Id, searchStudent.FirstName,
+            var student = new Student(searchStudent.Pidm, searchStudent.Id, searchStudent.FirstName, searchStudent.MI,
                                       searchStudent.LastName, searchStudent.HoursEarned, searchStudent.Email,
                                       searchStudent.LoginId, TermService.GetCurrent());
 
@@ -124,7 +124,7 @@ namespace Commencement.Controllers
 
             if (existingStudent == null)
             {
-                newStudent = new Student(student.Pidm, student.StudentId, student.FirstName, student.LastName, student.Units, student.Email, student.Login, student.TermCode);
+                newStudent = new Student(student.Pidm, student.StudentId, student.FirstName, student.MI, student.LastName, student.Units, student.Email, student.Login, student.TermCode);
                 newStudent.Majors.Add(major);
             }
             else if (!existingStudent.Majors.Contains(major))
@@ -203,6 +203,45 @@ namespace Commencement.Controllers
             var viewModel = ChangeMajorViewModel.Create(Repository, _majorService, registration);
             return View(viewModel);
         }
+
+        public ActionResult ChangeCeremony(int id)
+        {
+            var registration = Repository.OfType<Registration>().GetNullableById(id);
+            if (registration == null) return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null));
+
+            var viewModel = ChangeCeremonyViewModel.Create(Repository, registration);
+            return View(viewModel);
+        }
+        [AcceptPost]
+        public ActionResult ChangeCeremony(int id, int ceremonyId)
+        {
+            var registration = Repository.OfType<Registration>().GetNullableById(id);
+            var ceremony = Repository.OfType<Ceremony>().GetNullableById(ceremonyId);
+
+            if (registration == null || ceremony == null)
+            {
+                Message = "Registration or ceremony information was missing.";
+                return this.RedirectToAction(a => a.Students(null, null, null, null));
+            }
+            registration.Ceremony = ceremony;
+
+            var message = ValidateAvailabilityAtCeremony(ceremony, registration);
+            if (!string.IsNullOrEmpty(message)) ModelState.AddModelError("Ceremony", message);
+
+            registration.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                Repository.OfType<Registration>().EnsurePersistent(registration);
+
+                return this.RedirectToAction<AdminController>(a => a.StudentDetails(registration.Student.Id, true));
+            }
+
+            var viewModel = ChangeMajorViewModel.Create(Repository, _majorService, registration);
+            return View(viewModel);
+        }
+
+        #region Validation Functions for Changing Registration
         public JsonResult ChangeMajorValidation(int regId, string major)
         {
             var majorCode = _majorRepository.GetNullableById(major);
@@ -223,8 +262,24 @@ namespace Commencement.Controllers
             Check.Require(registration != null, "Registration is required.");
 
             var ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == term && a.Majors.Contains(majorCode)).FirstOrDefault();
-            
-            var message = new StringBuilder();
+            return ValidateAvailabilityAtCeremony(ceremony, registration);
+        }
+        public JsonResult ChangeCeremonyValidation(int regId, int ceremonyId)
+        {
+            var registration = Repository.OfType<Registration>().GetNullableById(regId);
+            var ceremony = Repository.OfType<Ceremony>().GetNullableById(ceremonyId);
+
+            Check.Require(registration != null, "Registration is required.");
+            Check.Require(ceremony != null, "Ceremony is required.");
+
+            var message = ValidateAvailabilityAtCeremony(ceremony, registration);
+            if (string.IsNullOrEmpty(message)) message = "This is the student's currently assigned ceremony.";
+
+            return Json(message);
+        }
+        private string ValidateAvailabilityAtCeremony(Ceremony ceremony, Registration registration)
+        {
+            StringBuilder message = new StringBuilder();
 
             if (ceremony == null) message.Append("There is no matching ceremony for the current term with the major specified.");
             else if (ceremony != registration.Ceremony)
@@ -237,6 +292,9 @@ namespace Commencement.Controllers
 
             return message.ToString();
         }
+        #endregion
+
+
 
         public ActionResult Registrations(string studentid, string lastName, string firstName, string majorCode, int? ceremonyId)
         {

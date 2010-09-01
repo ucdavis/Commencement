@@ -8,8 +8,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <ul class="btn">
-    <li><%= Html.ActionLink<AdminController>(a=>a.Index(), "Home")  %></li></ul>
+    <ul class="btn"><li><%= Html.ActionLink<AdminController>(a=>a.Index(), "Home")  %></li></ul>
 
     <h2>Students</h2>
 

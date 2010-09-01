@@ -10,6 +10,7 @@ namespace Commencement.Core.Domain
         public virtual string Id { get; set; }
         public virtual string Pidm { get; set; }
         public virtual string FirstName { get; set; }
+        public virtual string MI { get; set; }
         public virtual string LastName { get; set; }
 
         public virtual decimal HoursEarned { get; set; }
