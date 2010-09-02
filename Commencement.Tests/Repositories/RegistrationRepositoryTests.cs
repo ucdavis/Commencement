@@ -2206,6 +2206,140 @@ namespace Commencement.Tests.Repositories
         }
         #endregion DateRegistered Tests
 
+        #region LabelPrinted Tests
+
+        /// <summary>
+        /// Tests the LabelPrinted is false saves.
+        /// </summary>
+        [TestMethod]
+        public void TestLabelPrintedIsFalseSaves()
+        {
+            #region Arrange
+
+            Registration registration = GetValid(9);
+            registration.LabelPrinted = false;
+
+            #endregion Arrange
+
+            #region Act
+
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+
+            #endregion Act
+
+            #region Assert
+
+            Assert.IsFalse(registration.LabelPrinted);
+            Assert.IsFalse(registration.IsTransient());
+            Assert.IsTrue(registration.IsValid());
+
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the LabelPrinted is true saves.
+        /// </summary>
+        [TestMethod]
+        public void TestLabelPrintedIsTrueSaves()
+        {
+            #region Arrange
+
+            var registration = GetValid(9);
+            registration.LabelPrinted = true;
+
+            #endregion Arrange
+
+            #region Act
+
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+
+            #endregion Act
+
+            #region Assert
+
+            Assert.IsTrue(registration.LabelPrinted);
+            Assert.IsFalse(registration.IsTransient());
+            Assert.IsTrue(registration.IsValid());
+
+            #endregion Assert
+        }
+
+        #region SetLabelPrinted Tests
+
+        /// <summary>
+        /// Tests the set label printed with no extra ticket petition.
+        /// </summary>
+        [TestMethod]
+        public void TestSetLabelPrintedWithNoExtraTicketPetition()
+        {
+            #region Arrange
+            var registration = GetValid(9);
+            registration.LabelPrinted = false;
+            registration.ExtraTicketPetition = null;
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+            Assert.IsFalse(registration.LabelPrinted);
+
+            #endregion Arrange
+
+            #region Act
+            registration.SetLabelPrinted();
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(registration.LabelPrinted);
+            Assert.IsFalse(registration.IsTransient());
+            Assert.IsTrue(registration.IsValid());
+            #endregion Assert		
+        }
+
+        /// <summary>
+        /// Tests the set label printed with extra ticket petition.
+        /// </summary>
+        [TestMethod]
+        public void TestSetLabelPrintedWithExtraTicketPetition()
+        {
+            #region Arrange
+            var registration = GetValid(9);
+            registration.LabelPrinted = false;
+            registration.ExtraTicketPetition = CreateValidEntities.ExtraTicketPetition(3);
+            registration.ExtraTicketPetition.LabelPrinted = false;
+            registration.ExtraTicketPetition.NumberTickets = 3;
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+            Assert.IsFalse(registration.LabelPrinted);
+            Assert.IsFalse(registration.ExtraTicketPetition.LabelPrinted);
+            #endregion Arrange
+
+            #region Act
+            registration.SetLabelPrinted();
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(registration.LabelPrinted);
+            Assert.IsTrue(registration.ExtraTicketPetition.LabelPrinted);
+            Assert.IsFalse(registration.IsTransient());
+            Assert.IsTrue(registration.IsValid());
+            #endregion Assert
+        }
+
+        #endregion SetLabelPrinted Tests
+
+        #endregion LabelPrinted Tests
+
+
         #region TicketDistributionMethod Tests
 
         /// <summary>
@@ -2373,7 +2507,98 @@ namespace Commencement.Tests.Repositories
             Assert.AreEqual(11, registration.TotalTickets);
             #endregion Assert
         }
+
+        /// <summary>
+        /// Tests the total tickets when extra ticket petition approved and only2 tickets requested but sja.
+        /// </summary>
+        [TestMethod]
+        public void TestTotalTicketsWhenExtraTicketPetitionApprovedAndOnly2TicketsRequestedButSja()
+        {
+            #region Arrange
+            var registration = GetValid(9);
+            registration.NumberTickets = 2;
+            registration.ExtraTicketPetition = CreateValidEntities.ExtraTicketPetition(1);
+            registration.ExtraTicketPetition.NumberTickets = 9;
+            registration.ExtraTicketPetition.IsApproved = true;
+            registration.ExtraTicketPetition.IsPending = false;
+            registration.SjaBlock = true;
+            #endregion Arrange
+
+            #region Act
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitChanges();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(0, registration.TotalTickets);
+            #endregion Assert
+        }
         #endregion TotalTickets Tests
+
+        #region SjaBlock Tests
+
+        /// <summary>
+        /// Tests the SjaBlock is false saves.
+        /// </summary>
+        [TestMethod]
+        public void TestSjaBlockIsFalseSaves()
+        {
+            #region Arrange
+
+            Registration registration = GetValid(9);
+            registration.SjaBlock = false;
+
+            #endregion Arrange
+
+            #region Act
+
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+
+            #endregion Act
+
+            #region Assert
+
+            Assert.IsFalse(registration.SjaBlock);
+            Assert.IsFalse(registration.IsTransient());
+            Assert.IsTrue(registration.IsValid());
+
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the SjaBlock is true saves.
+        /// </summary>
+        [TestMethod]
+        public void TestSjaBlockIsTrueSaves()
+        {
+            #region Arrange
+
+            var registration = GetValid(9);
+            registration.SjaBlock = true;
+
+            #endregion Arrange
+
+            #region Act
+
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+
+            #endregion Act
+
+            #region Assert
+
+            Assert.IsTrue(registration.SjaBlock);
+            Assert.IsFalse(registration.IsTransient());
+            Assert.IsTrue(registration.IsValid());
+
+            #endregion Assert
+        }
+
+        #endregion SjaBlock Tests
 
         #region Cascade Tests
 
@@ -2513,6 +2738,50 @@ namespace Commencement.Tests.Repositories
             #endregion Assert		
         }
 
+
+        /// <summary>
+        /// Tests the set label printed cascades to extra ticket petition.
+        /// </summary>
+        [TestMethod]
+        public void TestSetLabelPrintedCascadesToExtraTicketPetition()
+        {
+            #region Arrange
+            var registration = GetValid(9);
+            registration.LabelPrinted = false;
+            registration.ExtraTicketPetition = CreateValidEntities.ExtraTicketPetition(3);
+            registration.ExtraTicketPetition.LabelPrinted = false;
+            registration.ExtraTicketPetition.NumberTickets = 3;
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+            Assert.IsFalse(registration.LabelPrinted);
+            Assert.IsFalse(registration.ExtraTicketPetition.LabelPrinted);
+            var saveExtraTicketPetitionId = registration.ExtraTicketPetition.Id;
+            #endregion Arrange
+
+            #region Act
+            registration.SetLabelPrinted();
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(registration.LabelPrinted);
+            Assert.IsTrue(registration.ExtraTicketPetition.LabelPrinted);
+            Assert.IsFalse(registration.IsTransient());
+            Assert.IsTrue(registration.IsValid());
+
+            Console.WriteLine("Evicting...");
+
+            NHibernateSessionManager.Instance.GetSession().Evict(registration.ExtraTicketPetition);
+            NHibernateSessionManager.Instance.GetSession().Evict(registration);
+            var extraTicketPetition = Repository.OfType<ExtraTicketPetition>().GetById(saveExtraTicketPetitionId);
+            Assert.IsNotNull(extraTicketPetition);
+            Assert.IsTrue(extraTicketPetition.LabelPrinted);
+            #endregion Assert	
+        }
+
         #endregion Cascade Tests
 
         #region Constructor Tests
@@ -2586,6 +2855,7 @@ namespace Commencement.Tests.Repositories
                 "[Newtonsoft.Json.JsonPropertyAttribute()]", 
                 "[System.Xml.Serialization.XmlIgnoreAttribute()]"
             }));
+            expectedFields.Add(new NameAndType("LabelPrinted", "System.Boolean", new List<string>()));
             expectedFields.Add(new NameAndType("MailTickets", "System.Boolean", new List<string>()));
             expectedFields.Add(new NameAndType("Major", "Commencement.Core.Domain.MajorCode", new List<string>
             {
@@ -2595,6 +2865,7 @@ namespace Commencement.Tests.Repositories
             {
                 "[NHibernate.Validator.Constraints.MinAttribute((Int64)1)]"
             }));
+            expectedFields.Add(new NameAndType("SjaBlock", "System.Boolean", new List<string>()));
             expectedFields.Add(new NameAndType("State", "Commencement.Core.Domain.State", new List<string>
             {
                 "[NHibernate.Validator.Constraints.NotNullAttribute()]"
