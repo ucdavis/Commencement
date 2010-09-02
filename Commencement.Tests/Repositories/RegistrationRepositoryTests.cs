@@ -162,7 +162,7 @@ namespace Commencement.Tests.Repositories
         {
             #region Arrange
             var registration = GetValid(9);
-            registration.Student = new Student("pidm", "123456789", "First", "Midde", "last", 1.10m, "test@ucdavis.edu", "login", new TermCode());
+            registration.Student = new Student("pidm", "123456789", "First", "Middle", "last", 1.10m, "test@ucdavis.edu", "login", new TermCode());
             #endregion Arrange
 
             #region Act
@@ -214,7 +214,7 @@ namespace Commencement.Tests.Repositories
         /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ApplicationException))]
-        public void TestMajorWithAValueOfnullNDoesNotSave()
+        public void TestMajorWithAValueOfNullNDoesNotSave()
         {
             Registration registration = null;
             try
@@ -1416,7 +1416,8 @@ namespace Commencement.Tests.Repositories
             {
                 #region Arrange
                 registration = GetValid(9);
-                registration.Email = "test@te..edu";
+                registration.Email = "test@the..edu";
+
                 #endregion Arrange
 
                 #region Act
@@ -2627,6 +2628,48 @@ namespace Commencement.Tests.Repositories
             #endregion Assert		
         }
 
+
+        /// <summary>
+        /// Tests the change sja on registration and student saves student.
+        /// </summary>
+        [TestMethod]
+        public void TestChangeSjaOnRegistrationAndStudentSavesStudent()
+        {
+            #region Arrange
+            var studentRepository = new RepositoryWithTypedId<Student, Guid>();
+            var registration = RegistrationRepository.GetById(1);
+            registration.Student.SjaBlock = false;
+            registration.SjaBlock = false;
+            Assert.IsNotNull(registration.Student);
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitChanges();
+            Assert.IsFalse(registration.SjaBlock);
+            Assert.IsFalse(registration.Student.SjaBlock);
+            Console.WriteLine(@"Exiting Arrange");
+            #endregion Arrange
+
+            #region Act
+            registration.Student.SjaBlock = true;
+            registration.SjaBlock = true;
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitChanges();
+            Assert.IsTrue(registration.SjaBlock);
+            Assert.IsTrue(registration.Student.SjaBlock);
+            var saveStudentGuid = registration.Student.Id;
+            Console.WriteLine(@"Evicting...");
+            #endregion Act
+
+            #region Assert
+            NHibernateSessionManager.Instance.GetSession().Evict(registration.Student);
+            NHibernateSessionManager.Instance.GetSession().Evict(registration);
+            var student = studentRepository.GetById(saveStudentGuid);
+            Assert.IsNotNull(student);
+            Assert.IsTrue(student.SjaBlock);
+            #endregion Assert		
+        }
+
         /// <summary>
         /// Tests the delete registration does not delete major code.
         /// </summary>
@@ -2772,7 +2815,7 @@ namespace Commencement.Tests.Repositories
             Assert.IsFalse(registration.IsTransient());
             Assert.IsTrue(registration.IsValid());
 
-            Console.WriteLine("Evicting...");
+            Console.WriteLine(@"Evicting...");
 
             NHibernateSessionManager.Instance.GetSession().Evict(registration.ExtraTicketPetition);
             NHibernateSessionManager.Instance.GetSession().Evict(registration);

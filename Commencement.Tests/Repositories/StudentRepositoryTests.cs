@@ -640,7 +640,165 @@ namespace Commencement.Tests.Repositories
 
         #endregion Valid Tests
         #endregion FirstName Tests
-  
+        // ReSharper disable InconsistentNaming
+        #region MI Tests
+        #region Invalid Tests
+
+        /// <summary>
+        /// Tests the MI with too long value does not save.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestMIWithTooLongValueDoesNotSave()
+        {
+            Student student = null;
+            try
+            {
+                #region Arrange
+                student = GetValid(9);
+                student.MI = "x".RepeatTimes((50 + 1));
+                #endregion Arrange
+
+                #region Act
+                StudentRepository.DbContext.BeginTransaction();
+                StudentRepository.EnsurePersistent(student);
+                StudentRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception)
+            {
+                Assert.IsNotNull(student);
+                Assert.AreEqual(50 + 1, student.MI.Length);
+                var results = student.ValidationResults().AsMessageList();
+                results.AssertErrorsAre("MI: length must be between 0 and 50");
+                //Assert.IsTrue(student.IsTransient());
+                Assert.IsFalse(student.IsValid());
+                throw;
+            }
+        }
+        #endregion Invalid Tests
+
+        #region Valid Tests
+
+        /// <summary>
+        /// Tests the MI with null value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestMIWithNullValueSaves()
+        {
+            #region Arrange
+            var student = GetValid(9);
+            student.MI = null;
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(student.IsTransient());
+            Assert.IsTrue(student.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the MI with empty string saves.
+        /// </summary>
+        [TestMethod]
+        public void TestMIWithEmptyStringSaves()
+        {
+            #region Arrange
+            var student = GetValid(9);
+            student.MI = string.Empty;
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(student.IsTransient());
+            Assert.IsTrue(student.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the MI with one space saves.
+        /// </summary>
+        [TestMethod]
+        public void TestMIWithOneSpaceSaves()
+        {
+            #region Arrange
+            var student = GetValid(9);
+            student.MI = " ";
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(student.IsTransient());
+            Assert.IsTrue(student.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the MI with one character saves.
+        /// </summary>
+        [TestMethod]
+        public void TestMIWithOneCharacterSaves()
+        {
+            #region Arrange
+            var student = GetValid(9);
+            student.MI = "x";
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(student.IsTransient());
+            Assert.IsTrue(student.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the MI with long value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestMIWithLongValueSaves()
+        {
+            #region Arrange
+            var student = GetValid(9);
+            student.MI = "x".RepeatTimes(50);
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(50, student.MI.Length);
+            Assert.IsFalse(student.IsTransient());
+            Assert.IsTrue(student.IsValid());
+            #endregion Assert
+        }
+
+        #endregion Valid Tests
+        #endregion MI Tests
+        // ReSharper restore InconsistentNaming
         #region LastName Tests
         #region Invalid Tests
 
@@ -1413,6 +1571,157 @@ namespace Commencement.Tests.Repositories
         #endregion Valid Tests
         #endregion TermCode Tests
 
+        #region Ceremony Tests
+
+        #region Invalid Tests
+        /// <summary>
+        /// Tests the Ceremony with A new value does not save.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(NHibernate.TransientObjectException))]
+        public void TestCeremonyWithANewValueDoesNotSave()
+        {
+            Student student = null;
+            try
+            {
+                #region Arrange
+                student = GetValid(9);
+                student.Ceremony = new Ceremony();
+                #endregion Arrange
+
+                #region Act
+                StudentRepository.DbContext.BeginTransaction();
+                StudentRepository.EnsurePersistent(student);
+                StudentRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(student);
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("object references an unsaved transient instance - save the transient instance before flushing. Type: Commencement.Core.Domain.Ceremony, Entity: Commencement.Core.Domain.Ceremony", ex.Message);
+                throw;
+            }
+        }
+        #endregion Invalid Tests
+
+        #region Valid Tests
+
+        /// <summary>
+        /// Tests the ceremony with null value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestCeremonyWithNullValueSaves()
+        {
+            #region Arrange
+            var record = GetValid(9);
+            record.Ceremony = null;
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(record);
+            StudentRepository.DbContext.CommitChanges();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(record.IsTransient());
+            Assert.IsTrue(record.IsValid());
+            Assert.IsNull(record.Ceremony);
+            #endregion Assert
+        }
+        /// <summary>
+        /// Tests the ceremony with new value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestCeremonyWithExistingValueSaves()
+        {
+            #region Arrange
+            LoadCeremony(1);
+            var record = GetValid(9);
+            record.Ceremony = Repository.OfType<Ceremony>().GetById(1);
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(record);
+            StudentRepository.DbContext.CommitChanges();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(record.IsTransient());
+            Assert.IsTrue(record.IsValid());
+            Assert.IsNotNull(record.Ceremony);
+            #endregion Assert
+        }
+
+        #endregion Valid Tests
+        #endregion Ceremony Tests
+
+        #region SjaBlock Tests
+
+        /// <summary>
+        /// Tests the SjaBlock is false saves.
+        /// </summary>
+        [TestMethod]
+        public void TestSjaBlockIsFalseSaves()
+        {
+            #region Arrange
+
+            Student student = GetValid(9);
+            student.SjaBlock = false;
+
+            #endregion Arrange
+
+            #region Act
+
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+
+            #endregion Act
+
+            #region Assert
+
+            Assert.IsFalse(student.SjaBlock);
+            Assert.IsFalse(student.IsTransient());
+            Assert.IsTrue(student.IsValid());
+
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the SjaBlock is true saves.
+        /// </summary>
+        [TestMethod]
+        public void TestSjaBlockIsTrueSaves()
+        {
+            #region Arrange
+
+            var student = GetValid(9);
+            student.SjaBlock = true;
+
+            #endregion Arrange
+
+            #region Act
+
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+
+            #endregion Act
+
+            #region Assert
+
+            Assert.IsTrue(student.SjaBlock);
+            Assert.IsFalse(student.IsTransient());
+            Assert.IsTrue(student.IsValid());
+
+            #endregion Assert
+        }
+
+        #endregion SjaBlock Tests
+
         #region Majors Tests
 
         /// <summary>
@@ -1502,10 +1811,11 @@ namespace Commencement.Tests.Repositories
         /// Tests the full name returns expected result.
         /// </summary>
         [TestMethod]
-        public void TestFullNameReturnsExpectedResult()
+        public void TestFullNameReturnsExpectedResult1()
         {
             #region Arrange
-            var student = new Student();         
+            var student = new Student();
+            student.MI = null;
             #endregion Arrange
 
             #region Act
@@ -1516,6 +1826,67 @@ namespace Commencement.Tests.Repositories
             #region Assert
             Assert.AreEqual("Johan Fuller", student.FullName);
             #endregion Assert		
+        }
+        /// <summary>
+        /// Tests the full name returns expected result.
+        /// </summary>
+        [TestMethod]
+        public void TestFullNameReturnsExpectedResult2()
+        {
+            #region Arrange
+            var student = new Student();
+            student.MI = string.Empty;
+            #endregion Arrange
+
+            #region Act
+            student.FirstName = "Johan";
+            student.LastName = "Fuller";
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Johan Fuller", student.FullName);
+            #endregion Assert
+        }
+        /// <summary>
+        /// Tests the full name returns expected result.
+        /// </summary>
+        [TestMethod]
+        public void TestFullNameReturnsExpectedResult3()
+        {
+            #region Arrange
+            var student = new Student();
+            student.MI = "xx";
+            #endregion Arrange
+
+            #region Act
+            student.FirstName = "Johan";
+            student.LastName = "Fuller";
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Johan xx Fuller", student.FullName);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the full name returns expected result.
+        /// </summary>
+        [TestMethod]
+        public void TestFullNameReturnsExpectedResult4()
+        {
+            #region Arrange
+            var student = new Student();
+            student.MI = "   ";
+            #endregion Arrange
+
+            #region Act
+            student.FirstName = "Johan";
+            student.LastName = "Fuller";
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Johan Fuller", student.FullName);
+            #endregion Assert
         }
         #endregion FullName Tests
 
@@ -1714,6 +2085,7 @@ namespace Commencement.Tests.Repositories
             Assert.AreEqual("pidm", student.Pidm);
             Assert.AreEqual("studentId", student.StudentId);
             Assert.AreEqual("FName", student.FirstName);
+            Assert.AreEqual("MI", student.MI);
             Assert.AreEqual("LName", student.LastName);
             Assert.AreEqual(12.3m, student.Units);
             Assert.AreEqual("email", student.Email);
@@ -1820,6 +2192,42 @@ namespace Commencement.Tests.Repositories
             Assert.AreEqual("Name3", majorCodeRepository.GetById("3").Name);
             #endregion Assert		
         }
+
+
+        /// <summary>
+        /// Tests the delete student does not cascade to ceremony.
+        /// </summary>
+        [TestMethod]
+        public void TestDeleteStudentDoesNotCascadeToCeremony()
+        {
+            #region Arrange
+            Repository.OfType<Ceremony>().DbContext.BeginTransaction();
+            LoadCeremony(1);
+            Repository.OfType<Ceremony>().DbContext.CommitTransaction();
+            var student = GetValid(9);
+            var ceremony = Repository.OfType<Ceremony>().GetById(1);
+            student.Ceremony = ceremony;
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+            Assert.IsNotNull(student.Ceremony);
+            var saveCeremonyId = student.Ceremony.Id;
+            Console.WriteLine("Exiting Arrange...");
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.Remove(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Console.WriteLine("Evicting...");
+            NHibernateSessionManager.Instance.GetSession().Evict(ceremony);
+            ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.Id == saveCeremonyId).Single();
+            Assert.IsNotNull(ceremony);
+            #endregion Assert		
+        }
         #endregion Cascade Tests
 
         #region Reflection of Database.
@@ -1833,6 +2241,7 @@ namespace Commencement.Tests.Repositories
         {
             #region Arrange
             var expectedFields = new List<NameAndType>();
+            expectedFields.Add(new NameAndType("Ceremony", "Commencement.Core.Domain.Ceremony", new List<string>()));
             expectedFields.Add(new NameAndType("DateAdded", "System.DateTime", new List<string>()));
             expectedFields.Add(new NameAndType("DateUpdated", "System.DateTime", new List<string>()));
             expectedFields.Add(new NameAndType("Email", "System.String", new List<string>
@@ -1858,11 +2267,16 @@ namespace Commencement.Tests.Repositories
                  "[NHibernate.Validator.Constraints.LengthAttribute((Int32)50)]"
             }));
             expectedFields.Add(new NameAndType("Majors", "System.Collections.Generic.IList`1[Commencement.Core.Domain.MajorCode]", new List<string>()));
+            expectedFields.Add(new NameAndType("MI", "System.String", new List<string>
+            {
+                 "[NHibernate.Validator.Constraints.LengthAttribute((Int32)50)]"
+            }));
             expectedFields.Add(new NameAndType("Pidm", "System.String", new List<string>
             {
                  "[NHibernate.Validator.Constraints.LengthAttribute((Int32)8)]", 
                  "[UCDArch.Core.NHibernateValidator.Extensions.RequiredAttribute()]"
             }));
+            expectedFields.Add(new NameAndType("SjaBlock", "System.Boolean", new List<string>()));
             expectedFields.Add(new NameAndType("StrMajorCodes", "System.String", new List<string>()));
             expectedFields.Add(new NameAndType("StrMajors", "System.String", new List<string>()));            
             expectedFields.Add(new NameAndType("StudentId", "System.String", new List<string>
