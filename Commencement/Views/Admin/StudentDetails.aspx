@@ -22,11 +22,11 @@
         <li><div id="changeCeremony_btn"><%= Html.ActionLink<AdminController>(a=>a.ChangeCeremony(Model.Registration.Id), "Change Ceremony") %></div></li>
     <% } %>
     
-        <li><%= Html.ActionLink<AdminController>(a=>a.ToggleSJAStatus(Model.Registration.Id), "Change SJA Status") %></li>
+        <li><%= Html.ActionLink<AdminController>(a=>a.ToggleSJAStatus(Model.Student.Id), "Change SJA Status") %></li>
     
     </ul>
 
-    <% if (Model.Registration.SjaBlock) { %>
+    <% if (Model.Student.SjaBlock) { %>
         <div style="background-color:red;">
             SJA has asked that we not allow this student to walk.
         </div>

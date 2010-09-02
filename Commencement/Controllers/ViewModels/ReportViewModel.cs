@@ -21,7 +21,7 @@ namespace Commencement.Controllers.ViewModels
 
             var viewModel = new ReportViewModel()
                                 {
-                                    TermCodes = Enumerable.ToList<vTermCode>(repository.OfType<vTermCode>().Queryable.Where(a => a.StartDate < DateTime.Now && existingTerms.Contains(a.Id))),
+                                    TermCodes = Enumerable.ToList<vTermCode>(repository.OfType<vTermCode>().Queryable.Where(a => existingTerms.Contains(a.Id))),
                                     TermCode = TermService.GetCurrent()
                                 };
 
