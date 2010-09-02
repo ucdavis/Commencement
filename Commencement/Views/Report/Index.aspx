@@ -24,7 +24,9 @@
                     <%= Html.Hidden("Report", ReportController.Report.TotalRegisteredStudents) %>
                     <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class = "term_value"}) %>
                 <% } %>
-            </strong>          
+            </strong>
+            
+            List of all registered students for the selected term.
         </li>
         
         <li>
@@ -34,7 +36,9 @@
                     <%= Html.Hidden("Report", ReportController.Report.TotalRegistrationPetitions) %>
                     <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class = "term_value"}) %>
                 <% } %>
-            </strong>          
+            </strong>
+            
+            List of all registration petitions for the selected term.
         </li>
         
         <li>
@@ -45,6 +49,8 @@
                     <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class = "term_value"}) %>
                 <% } %>
             </strong>          
+            
+            Summary report of all tickets.
         </li>
         
         <li>
@@ -55,6 +61,8 @@
                     <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class = "term_value"}) %>
                 <% } %>
             </strong>          
+            
+            Special needs report for the selected term.
         </li>
         
         <li>
@@ -65,6 +73,20 @@
                     <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class = "term_value"}) %>
                 <% } %>
             </strong>          
+            
+            Registrar's Report.
+        </li>
+        
+        <li>
+            <strong>
+                <% using (Html.BeginForm("GetReport", "Report", FormMethod.Get)) { %>
+                    <a href="#" class="submit_anchor">Registrars Report</a>
+                    <%= Html.Hidden("Report", ReportController.Report.TicketSignOutSheet) %>
+                    <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class = "term_value"}) %>
+                <% } %>
+            </strong>          
+            
+            Ticket sign out sheet for the selected term.
         </li>
         
         <li><strong><%= Html.ActionLink<ReportController>(a=>a.RegistrationData(), "Registration Data") %></strong>
