@@ -57,6 +57,10 @@ namespace Commencement.Controllers
                     name = "RegistrarsReport";
                     parameters.Add("term", termCode);
                     break;
+                case Report.TicketSignOutSheet:
+                    name = "TicketSignOutSheet";
+                    parameters.Add("term", termCode);
+                    break;
             };
 
             return File(GetReport("/Commencement/"+name, parameters), name + ".xls");
@@ -99,7 +103,10 @@ namespace Commencement.Controllers
             return bytes;
         }
 
-        public enum Report { TotalRegisteredStudents=0, TotalRegistrationPetitions, SumOfAllTickets, SpecialNeedsRequest, RegistrarsReport }
+        public enum Report { TotalRegisteredStudents=0, TotalRegistrationPetitions
+                           , SumOfAllTickets, SpecialNeedsRequest, RegistrarsReport
+                           , TicketSignOutSheet
+                           }
         #endregion
 
         #region Label Generator
