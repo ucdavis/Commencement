@@ -301,7 +301,7 @@ namespace Commencement.Tests.Repositories
         [ExpectedException(typeof(NHibernate.TransientObjectException))]
         public void TestTemplateTypeWithAValueOfNewDoesNotSave()
         {
-            Template template = null;
+            Template template;
             try
             {
                 #region Arrange
@@ -383,14 +383,16 @@ namespace Commencement.Tests.Repositories
 
         #endregion TemplateType Tests
 
+        #region Constructor Tests
 
+        /// <summary>
+        /// Tests the constructor with no parameters does not set any values.
+        /// </summary>
         [TestMethod]
-        public void TestTest()
+        public void TestConstructorWithNoParametersDoesNotSetAnyValues()
         {
             #region Arrange
-
-            Assert.Inconclusive("Need constructor and cascade tests");
-
+            var record = new Template();            
             #endregion Arrange
 
             #region Act
@@ -398,9 +400,67 @@ namespace Commencement.Tests.Repositories
             #endregion Act
 
             #region Assert
-
+            Assert.IsNull(record.BodyText);
+            Assert.IsNull(record.TemplateType);
             #endregion Assert		
         }
+
+        /// <summary>
+        /// Tests the constructor with parameters does sets expected values.
+        /// </summary>
+        [TestMethod]
+        public void TestConstructorWithParametersDoesSetsExpectedValues()
+        {
+            #region Arrange
+            var record = new Template("Test", CreateValidEntities.TemplateType(9));
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Test", record.BodyText);
+            Assert.IsNotNull(record.TemplateType);
+            Assert.AreEqual("Name9", record.TemplateType.Name);
+            #endregion Assert
+        }
+        #endregion Constructor 
+
+        #region CascadeTests
+
+        /// <summary>
+        /// Tests the type of the delete template does not cascade to template.
+        /// </summary>
+        [TestMethod]
+        public void TestDeleteTemplateDoesNotCascadeToTemplateType()
+        {
+            #region Arrange
+            var record = new Template("Test", Repository.OfType<TemplateType>().GetById(2));
+            TemplateRepository.DbContext.BeginTransaction();
+            TemplateRepository.EnsurePersistent(record);
+            TemplateRepository.DbContext.CommitTransaction();
+            var saveTemplateTypeId = record.TemplateType.Id;
+            Console.WriteLine("Exiting Arrange...");
+            #endregion Arrange
+
+            #region Act
+            var templateType = Repository.OfType<TemplateType>().GetById(saveTemplateTypeId);
+            TemplateRepository.DbContext.BeginTransaction();
+            TemplateRepository.Remove(record);
+            TemplateRepository.DbContext.CommitTransaction();            
+            #endregion Act
+
+            #region Assert
+            Console.WriteLine("Evicting...");
+            NHibernateSessionManager.Instance.GetSession().Evict(templateType);
+            templateType = Repository.OfType<TemplateType>().Queryable.Where(a => a.Id == saveTemplateTypeId).Single();
+            Assert.IsNotNull(templateType);
+            #endregion Assert		
+        }
+        #endregion CascadeTests
+
+
 
         #region Reflection of Database.
 
