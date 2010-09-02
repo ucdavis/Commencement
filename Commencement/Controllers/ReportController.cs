@@ -109,11 +109,12 @@ namespace Commencement.Controllers
 
             if (printAll)
             {
-                registrations = Repository.OfType<Registration>().Queryable.Where(a => a.Student.TermCode.Id == termCode).ToList();
+                registrations = Repository.OfType<Registration>().Queryable.Where(a => a.Student.TermCode.Id == termCode && !a.SjaBlock).ToList();
             }
             else
             {
                 registrations = Repository.OfType<Registration>().Queryable.Where(a => a.Student.TermCode.Id == termCode
+                                                                                       && !a.SjaBlock
                                                                                        && (!a.LabelPrinted
                                                                                            ||
                                                                                            (a.ExtraTicketPetition != null && !a.ExtraTicketPetition.LabelPrinted)
