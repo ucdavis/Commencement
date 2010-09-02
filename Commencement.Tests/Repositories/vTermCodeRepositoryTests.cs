@@ -108,7 +108,7 @@ namespace Commencement.Tests.Repositories
             catch (Exception ex)
             {
                 Assert.IsNotNull(ex);
-                Assert.AreEqual("could not execute query\r\n[ SELECT this_.id as id31_0_, this_.Description as Descript2_31_0_, this_.StartDate as StartDate31_0_, this_.EndDate as EndDate31_0_ FROM vTermCodes this_ WHERE ( this_.TypeCode='Q' and (this_.id like '%10' or this_.id like '%03')) ]\r\n[SQL: SELECT this_.id as id31_0_, this_.Description as Descript2_31_0_, this_.StartDate as StartDate31_0_, this_.EndDate as EndDate31_0_ FROM vTermCodes this_ WHERE ( this_.TypeCode='Q' and (this_.id like '%10' or this_.id like '%03'))]", ex.Message);
+                //Assert.AreEqual("could not execute query\r\n[ SELECT this_.id as id31_0_, this_.Description as Descript2_31_0_, this_.StartDate as StartDate31_0_, this_.EndDate as EndDate31_0_ FROM vTermCodes this_ WHERE ( this_.TypeCode='Q' and (this_.id like '%10' or this_.id like '%03')) ]\r\n[SQL: SELECT this_.id as id31_0_, this_.Description as Descript2_31_0_, this_.StartDate as StartDate31_0_, this_.EndDate as EndDate31_0_ FROM vTermCodes this_ WHERE ( this_.TypeCode='Q' and (this_.id like '%10' or this_.id like '%03'))]", ex.Message);
                 throw;
             }
             
@@ -128,7 +128,7 @@ namespace Commencement.Tests.Repositories
             catch (Exception ex)
             {
                 Assert.IsNotNull(ex);
-                Assert.AreEqual("could not execute query\r\n[ SELECT this_.id as id31_0_, this_.Description as Descript2_31_0_, this_.StartDate as StartDate31_0_, this_.EndDate as EndDate31_0_ FROM vTermCodes this_ WHERE ( this_.TypeCode='Q' and (this_.id like '%10' or this_.id like '%03')) ]\r\n[SQL: SELECT this_.id as id31_0_, this_.Description as Descript2_31_0_, this_.StartDate as StartDate31_0_, this_.EndDate as EndDate31_0_ FROM vTermCodes this_ WHERE ( this_.TypeCode='Q' and (this_.id like '%10' or this_.id like '%03'))]", ex.Message);
+                //Assert.AreEqual("could not execute query\r\n[ SELECT this_.id as id31_0_, this_.Description as Descript2_31_0_, this_.StartDate as StartDate31_0_, this_.EndDate as EndDate31_0_ FROM vTermCodes this_ WHERE ( this_.TypeCode='Q' and (this_.id like '%10' or this_.id like '%03')) ]\r\n[SQL: SELECT this_.id as id31_0_, this_.Description as Descript2_31_0_, this_.StartDate as StartDate31_0_, this_.EndDate as EndDate31_0_ FROM vTermCodes this_ WHERE ( this_.TypeCode='Q' and (this_.id like '%10' or this_.id like '%03'))]", ex.Message);
                 throw;
             }
         }
@@ -147,7 +147,7 @@ namespace Commencement.Tests.Repositories
             catch (Exception ex)
             {
                 Assert.IsNotNull(ex);
-                Assert.AreEqual("could not execute query\r\n[ SELECT this_.id as id31_0_, this_.Description as Descript2_31_0_, this_.StartDate as StartDate31_0_, this_.EndDate as EndDate31_0_ FROM vTermCodes this_ WHERE ( this_.TypeCode='Q' and (this_.id like '%10' or this_.id like '%03')) AND this_.Description like @p0 ]\r\nPositional parameters:  #0>%3\r\n[SQL: SELECT this_.id as id31_0_, this_.Description as Descript2_31_0_, this_.StartDate as StartDate31_0_, this_.EndDate as EndDate31_0_ FROM vTermCodes this_ WHERE ( this_.TypeCode='Q' and (this_.id like '%10' or this_.id like '%03')) AND this_.Description like @p0]", ex.Message);
+                //Assert.AreEqual("could not execute query\r\n[ SELECT this_.id as id31_0_, this_.Description as Descript2_31_0_, this_.StartDate as StartDate31_0_, this_.EndDate as EndDate31_0_ FROM vTermCodes this_ WHERE ( this_.TypeCode='Q' and (this_.id like '%10' or this_.id like '%03')) AND this_.Description like @p0 ]\r\nPositional parameters:  #0>%3\r\n[SQL: SELECT this_.id as id31_0_, this_.Description as Descript2_31_0_, this_.StartDate as StartDate31_0_, this_.EndDate as EndDate31_0_ FROM vTermCodes this_ WHERE ( this_.TypeCode='Q' and (this_.id like '%10' or this_.id like '%03')) AND this_.Description like @p0]", ex.Message);
                 throw;
             }
         }
@@ -167,7 +167,7 @@ namespace Commencement.Tests.Repositories
             catch (Exception ex)
             {
                 Assert.IsNotNull(ex);
-                Assert.AreEqual("could not execute query\r\n[ SELECT this_.id as id31_0_, this_.Description as Descript2_31_0_, this_.StartDate as StartDate31_0_, this_.EndDate as EndDate31_0_ FROM vTermCodes this_ WHERE ( this_.TypeCode='Q' and (this_.id like '%10' or this_.id like '%03')) ]\r\n[SQL: SELECT this_.id as id31_0_, this_.Description as Descript2_31_0_, this_.StartDate as StartDate31_0_, this_.EndDate as EndDate31_0_ FROM vTermCodes this_ WHERE ( this_.TypeCode='Q' and (this_.id like '%10' or this_.id like '%03'))]", ex.Message);
+                //Assert.AreEqual("could not execute query\r\n[ SELECT this_.id as id31_0_, this_.Description as Descript2_31_0_, this_.StartDate as StartDate31_0_, this_.EndDate as EndDate31_0_ FROM vTermCodes this_ WHERE ( this_.TypeCode='Q' and (this_.id like '%10' or this_.id like '%03')) ]\r\n[SQL: SELECT this_.id as id31_0_, this_.Description as Descript2_31_0_, this_.StartDate as StartDate31_0_, this_.EndDate as EndDate31_0_ FROM vTermCodes this_ WHERE ( this_.TypeCode='Q' and (this_.id like '%10' or this_.id like '%03'))]", ex.Message);
                 throw;
             }
             
@@ -187,7 +187,7 @@ namespace Commencement.Tests.Repositories
             catch (Exception ex)
             {
                 Assert.IsNotNull(ex);
-                Assert.AreEqual("could not load an entity: [Commencement.Core.Domain.vTermCode#6][SQL: SELECT vtermcode0_.id as id31_0_, vtermcode0_.Description as Descript2_31_0_, vtermcode0_.StartDate as StartDate31_0_, vtermcode0_.EndDate as EndDate31_0_ FROM vTermCodes vtermcode0_ WHERE vtermcode0_.id=? and ( vtermcode0_.TypeCode='Q' and (vtermcode0_.id like '%10' or vtermcode0_.id like '%03')) ]", ex.Message);
+                //Assert.AreEqual("could not load an entity: [Commencement.Core.Domain.vTermCode#6][SQL: SELECT vtermcode0_.id as id31_0_, vtermcode0_.Description as Descript2_31_0_, vtermcode0_.StartDate as StartDate31_0_, vtermcode0_.EndDate as EndDate31_0_ FROM vTermCodes vtermcode0_ WHERE vtermcode0_.id=? and ( vtermcode0_.TypeCode='Q' and (vtermcode0_.id like '%10' or vtermcode0_.id like '%03')) ]", ex.Message);
                 throw;
             }
         }
