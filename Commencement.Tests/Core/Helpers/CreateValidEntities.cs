@@ -177,5 +177,12 @@ namespace Commencement.Tests.Core.Helpers
             rtValue.Name = "Name" + count.Extra();
             return rtValue;
         }
+
+        public static vTermCode vTermCode(int? count)
+        {
+            var rtValue = new vTermCode();
+            rtValue.Description = "Description" + count.Extra();
+            return rtValue;
+        }
     }
 }

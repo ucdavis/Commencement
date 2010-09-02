@@ -150,6 +150,7 @@
     <Compile Include="Repositories\StudentRepositoryTests.cs" />
     <Compile Include="Repositories\TemplateRepositoryTests.cs" />
     <Compile Include="Repositories\TemplateTypeRepositoryTests.cs" />
+    <Compile Include="Repositories\TermCodeRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />
