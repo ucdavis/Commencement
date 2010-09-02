@@ -191,7 +191,7 @@ namespace Commencement.Controllers
                 }
             }
 
-            if (!row.IsEmpty()) rows.Add(row);
+            rows.Add(row);
 
             return rows;
         }
