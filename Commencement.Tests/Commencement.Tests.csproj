@@ -149,6 +149,7 @@
     <Compile Include="Repositories\StateRepositoryTests.cs" />
     <Compile Include="Repositories\StudentRepositoryTests.cs" />
     <Compile Include="Repositories\TemplateRepositoryTests.cs" />
+    <Compile Include="Repositories\TemplateTypeRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />
