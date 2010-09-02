@@ -122,6 +122,12 @@ namespace Commencement.Controllers
 
             var doc = GenerateLabelDoc(registrations, printAll);
 
+            foreach(var r in registrations)
+            {
+                r.LabelPrinted = true;
+                Repository.OfType<Registration>().EnsurePersistent(r);
+            }
+
             ASCIIEncoding encoding = new ASCIIEncoding();
             var bytes = encoding.GetBytes(doc);
 
@@ -185,6 +191,8 @@ namespace Commencement.Controllers
                 }
             }
 
+            if (!row.IsEmpty()) rows.Add(row);
+
             return rows;
         }
         #endregion
@@ -208,6 +216,10 @@ namespace Commencement.Controllers
         public bool HasSpace()
         {
             return string.IsNullOrEmpty(Cell1) || string.IsNullOrEmpty(Cell2) || string.IsNullOrEmpty(Cell3);
+        }
+        public bool IsEmpty()
+        {
+            return string.IsNullOrEmpty(Cell1) && string.IsNullOrEmpty(Cell2) && string.IsNullOrEmpty(Cell3);
         }
         public bool AddCell(string contents)
         {
