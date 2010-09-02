@@ -28,6 +28,10 @@
       <Name>TotalRegistrationReport.rdl</Name>
       <FullPath>TotalRegistrationReport.rdl</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>RegistrarReport.rdl</Name>
+      <FullPath>RegistrarReport.rdl</FullPath>
+    </ProjectItem>
   </Reports>
   <Configurations>
     <Configuration>

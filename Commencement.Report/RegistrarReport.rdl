@@ -3,13 +3,17 @@
   <DataSources>
     <DataSource Name="Commencement">
       <DataSourceReference>Commencement</DataSourceReference>
-      <rd:DataSourceID>6cffa795-c3fb-491b-ae65-fe7eb84ce593</rd:DataSourceID>
+      <rd:DataSourceID>fe847180-6e33-4d1a-94db-a9c9be8d4759</rd:DataSourceID>
       <rd:SecurityType>None</rd:SecurityType>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="StudentData">
+    <DataSet Name="RegistrarReport">
       <Fields>
+        <Field Name="StudentId">
+          <DataField>StudentId</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="LastName">
           <DataField>LastName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -18,46 +22,30 @@
           <DataField>FirstName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="StudentId">
-          <DataField>StudentId</DataField>
+        <Field Name="MI">
+          <DataField>MI</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Major">
           <DataField>Major</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="PrimaryEmail">
-          <DataField>PrimaryEmail</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="SecondaryEmail">
-          <DataField>SecondaryEmail</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CeremonyTime">
-          <DataField>CeremonyTime</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="Term">
-          <DataField>Term</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
       </Fields>
       <Query>
         <DataSourceName>Commencement</DataSourceName>
-        <CommandText>SELECT     Students.LastName, Students.FirstName, Students.StudentId, vMajors.Name AS Major, Students.Email AS PrimaryEmail, Registrations.Email AS SecondaryEmail, 
-                      Ceremonies.DateTime AS CeremonyTime, TermCodes.Name AS Term
-FROM         Registrations INNER JOIN
-                      Students ON Students.Id = Registrations.Student_Id INNER JOIN
-                      Ceremonies ON Ceremonies.id = Registrations.CeremonyId INNER JOIN
-                      vMajors ON vMajors.id = Registrations.MajorCode INNER JOIN
-                      TermCodes ON Ceremonies.TermCode = TermCodes.id
-WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandText>
+        <CommandText>select students.StudentId, students.LastName, students.FirstName, students.MI, vmajors.Name Major
+from Registrations
+	inner join Students on Registrations.Student_Id = students.Id
+	inner join vMajors on Registrations.MajorCode = vmajors.id
+where Students.TermCode = @term
+	and Registrations.SJABlock = 0
+order by LastName</CommandText>
         <QueryParameters>
           <QueryParameter Name="@term">
             <Value>=Parameters!term.Value</Value>
           </QueryParameter>
         </QueryParameters>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
     </DataSet>
   </DataSets>
@@ -81,23 +69,10 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
               <TextAlign>Left</TextAlign>
             </Style>
           </Paragraph>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Computing Resources Unit</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                  <Color>Navy</Color>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Left</TextAlign>
-            </Style>
-          </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Name1</rd:DefaultName>
-        <Height>0.39965in</Height>
+        <Top>0.05964in</Top>
+        <Height>0.21215in</Height>
         <Width>4.22605in</Width>
         <Style>
           <Border>
@@ -110,26 +85,23 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Tablix Name="Tablix16">
+      <Tablix Name="Tablix3">
         <TablixBody>
           <TablixColumns>
-            <TablixColumn>
-              <Width>1.24404in</Width>
-            </TablixColumn>
             <TablixColumn>
               <Width>1in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.80157in</Width>
+              <Width>1.5in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.01692in</Width>
+              <Width>1.5in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.54167in</Width>
+              <Width>1.5in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.62109in</Width>
+              <Width>2.5in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -138,7 +110,41 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox48">
+                    <Textbox Name="Textbox68">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Student Id</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox68</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox70">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -155,25 +161,12 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox34</rd:DefaultName>
-                      <RepeatWith>TablixDetail</RepeatWith>
+                      <rd:DefaultName>Textbox70</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>DimGray</Color>
-                          <Style>None</Style>
-                          <Width>1.5pt</Width>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <LeftBorder>
-                          <Style>Solid</Style>
-                          <Width>1pt</Width>
-                        </LeftBorder>
-                        <RightBorder>
-                          <Style>Solid</Style>
-                          <Width>1pt</Width>
-                        </RightBorder>
                         <BackgroundColor>LightSteelBlue</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -185,7 +178,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox12">
+                    <Textbox Name="Textbox72">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -202,24 +195,12 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox12</rd:DefaultName>
+                      <rd:DefaultName>Textbox72</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>DimGray</Color>
-                          <Style>None</Style>
-                          <Width>1.5pt</Width>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <LeftBorder>
-                          <Style>Solid</Style>
-                          <Width>1pt</Width>
-                        </LeftBorder>
-                        <RightBorder>
-                          <Style>Solid</Style>
-                          <Width>1pt</Width>
-                        </RightBorder>
                         <BackgroundColor>LightSteelBlue</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -231,14 +212,14 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox15">
+                    <Textbox Name="Textbox74">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Student ID</Value>
+                              <Value>MI</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                                 <Color>Navy</Color>
@@ -248,24 +229,12 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox15</rd:DefaultName>
+                      <rd:DefaultName>Textbox74</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>DimGray</Color>
-                          <Style>None</Style>
-                          <Width>1.5pt</Width>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <LeftBorder>
-                          <Style>Solid</Style>
-                          <Width>1pt</Width>
-                        </LeftBorder>
-                        <RightBorder>
-                          <Style>Solid</Style>
-                          <Width>1pt</Width>
-                        </RightBorder>
                         <BackgroundColor>LightSteelBlue</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -277,7 +246,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox49">
+                    <Textbox Name="Textbox76">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -294,106 +263,13 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox8</rd:DefaultName>
-                      <RepeatWith>TablixDetail</RepeatWith>
+                      <rd:DefaultName>Textbox76</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>DimGray</Color>
-                          <Style>None</Style>
-                          <Width>1.5pt</Width>
-                        </Border>
-                        <BottomBorder>
+                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
-                        </BottomBorder>
-                        <LeftBorder>
-                          <Width>1pt</Width>
-                        </LeftBorder>
-                        <RightBorder>
-                          <Width>1pt</Width>
-                        </RightBorder>
+                        </Border>
                         <BackgroundColor>LightSteelBlue</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox34">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Special Needs</Value>
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>Navy</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox34</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightSteelBlue</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BottomBorder>
-                          <Width>1.5pt</Width>
-                        </BottomBorder>
-                        <LeftBorder>
-                          <Color>CornflowerBlue</Color>
-                        </LeftBorder>
-                        <BackgroundColor>AliceBlue</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox52">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Ceremony Date/Time</Value>
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>DimGray</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox8</rd:DefaultName>
-                      <RepeatWith>TablixDetail</RepeatWith>
-                      <Style>
-                        <Border>
-                          <Color>LightSteelBlue</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BottomBorder>
-                          <Width>1.5pt</Width>
-                        </BottomBorder>
-                        <BackgroundColor>AliceBlue</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -405,11 +281,41 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.23958in</Height>
+              <Height>0.25in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox38">
+                    <Textbox Name="StudentId">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!StudentId.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>StudentId</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="LastName">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -423,21 +329,12 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox36</rd:DefaultName>
+                      <rd:DefaultName>LastName</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
-                          <Style>None</Style>
+                          <Style>Solid</Style>
                         </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <LeftBorder>
-                          <Style>Solid</Style>
-                        </LeftBorder>
-                        <RightBorder>
-                          <Style>Solid</Style>
-                        </RightBorder>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -466,14 +363,8 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
-                          <Style>None</Style>
+                          <Style>Solid</Style>
                         </Border>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <RightBorder>
-                          <Style>Solid</Style>
-                        </RightBorder>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -484,29 +375,26 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox16">
+                    <Textbox Name="MI">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!StudentId.Value</Value>
+                              <Value>=Fields!MI.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox16</rd:DefaultName>
+                      <rd:DefaultName>MI</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>Silver</Color>
-                          <Style>None</Style>
-                        </Border>
-                        <BottomBorder>
+                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
-                        </BottomBorder>
+                        </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -517,7 +405,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="MajorCode4">
+                    <Textbox Name="Major">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -531,107 +419,12 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>MajorCode</rd:DefaultName>
+                      <rd:DefaultName>Major</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>Gray</Color>
-                          <Style>None</Style>
-                        </Border>
-                        <TopBorder>
-                          <Color>LightGrey</Color>
-                        </TopBorder>
-                        <BottomBorder>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
-                        </BottomBorder>
-                        <LeftBorder>
-                          <Color>Silver</Color>
-                          <Style>Solid</Style>
-                        </LeftBorder>
-                        <RightBorder>
-                          <Color>Silver</Color>
-                          <Style>Solid</Style>
-                        </RightBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="SpecialNeeds">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!SpecialNeeds.Value</Value>
-                              <Style />
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>SpecialNeeds</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightSteelBlue</Color>
-                          <Style>Solid</Style>
                         </Border>
-                        <BottomBorder>
-                          <Color>CornflowerBlue</Color>
-                        </BottomBorder>
-                        <LeftBorder>
-                          <Color>CornflowerBlue</Color>
-                        </LeftBorder>
-                        <BackgroundColor>AliceBlue</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="DateTime7">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!CeremonyTime.Value</Value>
-                              <Style>
-                                <Format>g</Format>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>DateTime1</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightSteelBlue</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BottomBorder>
-                          <Color>CornflowerBlue</Color>
-                        </BottomBorder>
-                        <RightBorder>
-                          <Style>Solid</Style>
-                        </RightBorder>
-                        <BackgroundColor>AliceBlue</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -651,113 +444,22 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
             <TablixMember />
             <TablixMember />
             <TablixMember />
-            <TablixMember />
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
             <TablixMember>
-              <TablixHeader>
-                <Size>0.16692in</Size>
-                <CellContents>
-                  <Textbox Name="Textbox21">
-                    <CanGrow>true</CanGrow>
-                    <KeepTogether>true</KeepTogether>
-                    <Paragraphs>
-                      <Paragraph>
-                        <TextRuns>
-                          <TextRun>
-                            <Value />
-                            <Style>
-                              <FontWeight>Bold</FontWeight>
-                              <Color>Navy</Color>
-                            </Style>
-                          </TextRun>
-                        </TextRuns>
-                        <Style />
-                      </Paragraph>
-                    </Paragraphs>
-                    <rd:DefaultName>Textbox18</rd:DefaultName>
-                    <RepeatWith>TablixDetail</RepeatWith>
-                    <Style>
-                      <Border>
-                        <Style>None</Style>
-                      </Border>
-                      <PaddingLeft>2pt</PaddingLeft>
-                      <PaddingRight>2pt</PaddingRight>
-                      <PaddingTop>2pt</PaddingTop>
-                      <PaddingBottom>2pt</PaddingBottom>
-                    </Style>
-                  </Textbox>
-                </CellContents>
-              </TablixHeader>
-              <TablixMembers>
-                <TablixMember />
-              </TablixMembers>
               <KeepWithGroup>After</KeepWithGroup>
-              <RepeatOnNewPage>true</RepeatOnNewPage>
             </TablixMember>
             <TablixMember>
-              <Group Name="Group2">
-                <GroupExpressions>
-                  <GroupExpression>=Fields!StudentId.Value</GroupExpression>
-                </GroupExpressions>
-              </Group>
-              <TablixHeader>
-                <Size>0.16692in</Size>
-                <CellContents>
-                  <Textbox Name="Textbox607">
-                    <CanGrow>true</CanGrow>
-                    <KeepTogether>true</KeepTogether>
-                    <Paragraphs>
-                      <Paragraph>
-                        <TextRuns>
-                          <TextRun>
-                            <Value />
-                            <Style />
-                          </TextRun>
-                        </TextRuns>
-                        <Style />
-                      </Paragraph>
-                    </Paragraphs>
-                    <rd:DefaultName>Textbox607</rd:DefaultName>
-                    <Style>
-                      <Border>
-                        <Color>LightGrey</Color>
-                        <Style>None</Style>
-                      </Border>
-                      <PaddingLeft>2pt</PaddingLeft>
-                      <PaddingRight>2pt</PaddingRight>
-                      <PaddingTop>2pt</PaddingTop>
-                      <PaddingBottom>2pt</PaddingBottom>
-                    </Style>
-                  </Textbox>
-                </CellContents>
-              </TablixHeader>
-              <TablixMembers>
-                <TablixMember>
-                  <Group Name="Details" />
-                </TablixMember>
-              </TablixMembers>
+              <Group Name="Details" />
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <RepeatColumnHeaders>true</RepeatColumnHeaders>
-        <RepeatRowHeaders>true</RepeatRowHeaders>
-        <KeepTogether>true</KeepTogether>
-        <DataSetName>SpecialNeeds</DataSetName>
-        <SortExpressions>
-          <SortExpression>
-            <Value>=Fields!LastName.Value</Value>
-          </SortExpression>
-          <SortExpression>
-            <Value>=Fields!FirstName.Value</Value>
-          </SortExpression>
-        </SortExpressions>
-        <Top>1.14114in</Top>
-        <Left>0.02069in</Left>
-        <Height>0.48958in</Height>
-        <Width>7.39221in</Width>
+        <DataSetName>RegistrarReport</DataSetName>
+        <Top>0.47856in</Top>
+        <Height>0.5in</Height>
+        <Width>8in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -765,93 +467,20 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
           </Border>
         </Style>
       </Tablix>
-      <Textbox Name="Textbox50">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>DETAIL BY Student</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                  <Color>MidnightBlue</Color>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox48</rd:DefaultName>
-        <Top>0.90799in</Top>
-        <Left>0.02069in</Left>
-        <Height>0.20537in</Height>
-        <Width>3.39012in</Width>
-        <ZIndex>2</ZIndex>
-        <Style>
-          <Border>
-            <Color>MidnightBlue</Color>
-            <Style>None</Style>
-            <Width>2pt</Width>
-          </Border>
-          <BottomBorder>
-            <Style>Solid</Style>
-          </BottomBorder>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox3">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Specical Needs Requested by Student</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox3</rd:DefaultName>
-        <Top>0.42743in</Top>
-        <Left>0.02069in</Left>
-        <Height>0.21276in</Height>
-        <Width>7.42788in</Width>
-        <ZIndex>3</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
     </ReportItems>
-    <Height>1.84409in</Height>
+    <Height>1.21875in</Height>
     <Style />
   </Body>
   <ReportParameters>
     <ReportParameter Name="term">
       <DataType>String</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>201003</Value>
-        </Values>
-      </DefaultValue>
       <Prompt>term</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Width>9.61133in</Width>
   <Page>
     <PageHeader>
-      <Height>0.97917in</Height>
+      <Height>1in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -862,7 +491,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Special Needs Requests</Value>
+                  <Value>Registrar's Report</Value>
                   <Style>
                     <FontSize>20pt</FontSize>
                     <FontWeight>Bold</FontWeight>
@@ -874,23 +503,9 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
                 <TextAlign>Left</TextAlign>
               </Style>
             </Paragraph>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>=Fields!Term.Value</Value>
-                  <Style>
-                    <FontWeight>Bold</FontWeight>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style>
-                <TextAlign>Left</TextAlign>
-              </Style>
-            </Paragraph>
           </Paragraphs>
           <rd:DefaultName>ExecutionTime</rd:DefaultName>
-          <Top>0.31944in</Top>
-          <Left>0.02069in</Left>
+          <Top>0.32985in</Top>
           <Height>0.65973in</Height>
           <Width>4.22945in</Width>
           <Style>
@@ -926,7 +541,8 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Name1</rd:DefaultName>
-          <Left>3.43165in</Left>
+          <Top>0.01041in</Top>
+          <Left>3.37768in</Left>
           <Height>0.25in</Height>
           <Width>4.01692in</Width>
           <ZIndex>1</ZIndex>
@@ -966,8 +582,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>ExecutionTime</rd:DefaultName>
-          <Top>0.01389in</Top>
-          <Left>0.02069in</Left>
+          <Top>0.0243in</Top>
           <Height>0.23611in</Height>
           <Width>2.41096in</Width>
           <ZIndex>2</ZIndex>
@@ -989,7 +604,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>0.59375in</Height>
+      <Height>0.50694in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -1008,8 +623,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox1</rd:DefaultName>
-          <Top>0.01389in</Top>
-          <Left>0.02069in</Left>
+          <Top>0.00694in</Top>
           <Height>0.25in</Height>
           <Width>3.41096in</Width>
           <Style>
@@ -1039,8 +653,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox1</rd:DefaultName>
-          <Top>0.26389in</Top>
-          <Left>0.02069in</Left>
+          <Top>0.25694in</Top>
           <Height>0.25in</Height>
           <Width>3.41096in</Width>
           <ZIndex>1</ZIndex>
@@ -1077,7 +690,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>PageNumber</rd:DefaultName>
-          <Left>3.43165in</Left>
+          <Left>3.37768in</Left>
           <Height>0.25in</Height>
           <Width>2.01692in</Width>
           <ZIndex>2</ZIndex>
@@ -1098,16 +711,12 @@ WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandT
         </Border>
       </Style>
     </PageFooter>
-    <PageHeight>8.5in</PageHeight>
-    <PageWidth>10.5in</PageWidth>
-    <InteractiveHeight>10.5in</InteractiveHeight>
-    <InteractiveWidth>8.5in</InteractiveWidth>
-    <LeftMargin>0.2in</LeftMargin>
-    <RightMargin>0.2in</RightMargin>
-    <TopMargin>0.2in</TopMargin>
-    <BottomMargin>0.2in</BottomMargin>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
     <Style />
   </Page>
-  <rd:ReportID>a5fab544-8664-47a4-87b8-4b02471eb721</rd:ReportID>
+  <rd:ReportID>5b64930b-f8a7-44aa-ad0a-44760b01780c</rd:ReportID>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
 </Report>
