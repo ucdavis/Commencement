@@ -73,7 +73,7 @@ namespace Commencement.Core.Domain
         {
             get
             {
-                return string.Format("{0}{1} {2}", FirstName, string.IsNullOrEmpty(MI) ? string.Empty : " " + MI, LastName);
+                return string.Format("{0}{1} {2}", FirstName, string.IsNullOrEmpty(MI) || MI.Trim() == string.Empty ? string.Empty : " " + MI, LastName);
             }
         }
 

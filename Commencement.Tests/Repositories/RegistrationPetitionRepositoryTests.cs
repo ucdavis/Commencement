@@ -665,6 +665,165 @@ namespace Commencement.Tests.Repositories
         #endregion Valid Tests
         #endregion FirstName Tests
 
+        #region MI Tests
+        #region Invalid Tests
+
+        /// <summary>
+        /// Tests the MI with too long value does not save.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestMIWithTooLongValueDoesNotSave()
+        {
+            RegistrationPetition registrationPetition = null;
+            try
+            {
+                #region Arrange
+                registrationPetition = GetValid(9);
+                registrationPetition.MI = "x".RepeatTimes((50 + 1));
+                #endregion Arrange
+
+                #region Act
+                RegistrationPetitionRepository.DbContext.BeginTransaction();
+                RegistrationPetitionRepository.EnsurePersistent(registrationPetition);
+                RegistrationPetitionRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception)
+            {
+                Assert.IsNotNull(registrationPetition);
+                Assert.AreEqual(50 + 1, registrationPetition.MI.Length);
+                var results = registrationPetition.ValidationResults().AsMessageList();
+                results.AssertErrorsAre("MI: length must be between 0 and 50");
+                Assert.IsTrue(registrationPetition.IsTransient());
+                Assert.IsFalse(registrationPetition.IsValid());
+                throw;
+            }
+        }
+        #endregion Invalid Tests
+
+        #region Valid Tests
+
+        /// <summary>
+        /// Tests the MI with null value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestMIWithNullValueSaves()
+        {
+            #region Arrange
+            var registrationPetition = GetValid(9);
+            registrationPetition.MI = null;
+            #endregion Arrange
+
+            #region Act
+            RegistrationPetitionRepository.DbContext.BeginTransaction();
+            RegistrationPetitionRepository.EnsurePersistent(registrationPetition);
+            RegistrationPetitionRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(registrationPetition.IsTransient());
+            Assert.IsTrue(registrationPetition.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the MI with empty string saves.
+        /// </summary>
+        [TestMethod]
+        public void TestMIWithEmptyStringSaves()
+        {
+            #region Arrange
+            var registrationPetition = GetValid(9);
+            registrationPetition.MI = string.Empty;
+            #endregion Arrange
+
+            #region Act
+            RegistrationPetitionRepository.DbContext.BeginTransaction();
+            RegistrationPetitionRepository.EnsurePersistent(registrationPetition);
+            RegistrationPetitionRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(registrationPetition.IsTransient());
+            Assert.IsTrue(registrationPetition.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the MI with one space saves.
+        /// </summary>
+        [TestMethod]
+        public void TestMIWithOneSpaceSaves()
+        {
+            #region Arrange
+            var registrationPetition = GetValid(9);
+            registrationPetition.MI = " ";
+            #endregion Arrange
+
+            #region Act
+            RegistrationPetitionRepository.DbContext.BeginTransaction();
+            RegistrationPetitionRepository.EnsurePersistent(registrationPetition);
+            RegistrationPetitionRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(registrationPetition.IsTransient());
+            Assert.IsTrue(registrationPetition.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the MI with one character saves.
+        /// </summary>
+        [TestMethod]
+        public void TestMIWithOneCharacterSaves()
+        {
+            #region Arrange
+            var registrationPetition = GetValid(9);
+            registrationPetition.MI = "x";
+            #endregion Arrange
+
+            #region Act
+            RegistrationPetitionRepository.DbContext.BeginTransaction();
+            RegistrationPetitionRepository.EnsurePersistent(registrationPetition);
+            RegistrationPetitionRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(registrationPetition.IsTransient());
+            Assert.IsTrue(registrationPetition.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the MI with long value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestMIWithLongValueSaves()
+        {
+            #region Arrange
+            var registrationPetition = GetValid(9);
+            registrationPetition.MI = "x".RepeatTimes(50);
+            #endregion Arrange
+
+            #region Act
+            RegistrationPetitionRepository.DbContext.BeginTransaction();
+            RegistrationPetitionRepository.EnsurePersistent(registrationPetition);
+            RegistrationPetitionRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(50, registrationPetition.MI.Length);
+            Assert.IsFalse(registrationPetition.IsTransient());
+            Assert.IsTrue(registrationPetition.IsValid());
+            #endregion Assert
+        }
+
+        #endregion Valid Tests
+        #endregion MI Tests
+
+
         #region LastName Tests
         #region Invalid Tests
 
@@ -1607,7 +1766,7 @@ namespace Commencement.Tests.Repositories
             {
                 Assert.IsNotNull(registrationPetition);
                 var results = registrationPetition.ValidationResults().AsMessageList();
-                results.AssertErrorsAre("CompletionTerm: may not be null or empty", "CompletionTerm: length must be between 6 and 6");
+                results.AssertErrorsAre("CompletionTerm: may not be null or empty");
                 Assert.IsTrue(registrationPetition.IsTransient());
                 Assert.IsFalse(registrationPetition.IsValid());
                 throw;
@@ -1639,77 +1798,79 @@ namespace Commencement.Tests.Repositories
             {
                 Assert.IsNotNull(registrationPetition);
                 var results = registrationPetition.ValidationResults().AsMessageList();
-                results.AssertErrorsAre("CompletionTerm: may not be null or empty", "CompletionTerm: length must be between 6 and 6");
+                results.AssertErrorsAre("CompletionTerm: may not be null or empty");
                 Assert.IsTrue(registrationPetition.IsTransient());
                 Assert.IsFalse(registrationPetition.IsValid());
                 throw;
             }
         }
 
-        /// <summary>
-        /// Tests the CompletionTerm with too long value does not save.
-        /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(ApplicationException))]
-        public void TestCompletionTermWithTooLongValueDoesNotSave()
-        {
-            RegistrationPetition registrationPetition = null;
-            try
-            {
-                #region Arrange
-                registrationPetition = GetValid(9);
-                registrationPetition.CompletionTerm = "x".RepeatTimes((6 + 1));
-                #endregion Arrange
+        ///// <summary>
+        ///// Tests the CompletionTerm with too long value does not save.
+        ///// </summary>
+        //[TestMethod]
+        //[ExpectedException(typeof(ApplicationException))]
+        //public void TestCompletionTermWithTooLongValueDoesNotSave()
+        //{
+        //    RegistrationPetition registrationPetition = null;
+        //    try
+        //    {
+        //        #region Arrange
+        //        registrationPetition = GetValid(9);
+        //        registrationPetition.CompletionTerm = "x".RepeatTimes((6 + 1));
+        //        #endregion Arrange
 
-                #region Act
-                RegistrationPetitionRepository.DbContext.BeginTransaction();
-                RegistrationPetitionRepository.EnsurePersistent(registrationPetition);
-                RegistrationPetitionRepository.DbContext.CommitTransaction();
-                #endregion Act
-            }
-            catch (Exception)
-            {
-                Assert.IsNotNull(registrationPetition);
-                Assert.AreEqual(6 + 1, registrationPetition.CompletionTerm.Length);
-                var results = registrationPetition.ValidationResults().AsMessageList();
-                results.AssertErrorsAre("CompletionTerm: length must be between 6 and 6");
-                Assert.IsTrue(registrationPetition.IsTransient());
-                Assert.IsFalse(registrationPetition.IsValid());
-                throw;
-            }
-        }
-        /// <summary>
-        /// Tests the completion term with too short value does not save.
-        /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(ApplicationException))]
-        public void TestCompletionTermWithTooShortValueDoesNotSave()
-        {
-            RegistrationPetition registrationPetition = null;
-            try
-            {
-                #region Arrange
-                registrationPetition = GetValid(9);
-                registrationPetition.CompletionTerm = "x".RepeatTimes((6 - 1));
-                #endregion Arrange
+        //        #region Act
+        //        RegistrationPetitionRepository.DbContext.BeginTransaction();
+        //        RegistrationPetitionRepository.EnsurePersistent(registrationPetition);
+        //        RegistrationPetitionRepository.DbContext.CommitTransaction();
+        //        #endregion Act
+        //    }
+        //    catch (Exception)
+        //    {
+        //        Assert.IsNotNull(registrationPetition);
+        //        Assert.AreEqual(6 + 1, registrationPetition.CompletionTerm.Length);
+        //        var results = registrationPetition.ValidationResults().AsMessageList();
+        //        results.AssertErrorsAre("CompletionTerm: length must be between 6 and 6");
+        //        Assert.IsTrue(registrationPetition.IsTransient());
+        //        Assert.IsFalse(registrationPetition.IsValid());
+        //        throw;
+        //    }
+        //}
 
-                #region Act
-                RegistrationPetitionRepository.DbContext.BeginTransaction();
-                RegistrationPetitionRepository.EnsurePersistent(registrationPetition);
-                RegistrationPetitionRepository.DbContext.CommitTransaction();
-                #endregion Act
-            }
-            catch (Exception)
-            {
-                Assert.IsNotNull(registrationPetition);
-                Assert.AreEqual(6 - 1, registrationPetition.CompletionTerm.Length);
-                var results = registrationPetition.ValidationResults().AsMessageList();
-                results.AssertErrorsAre("CompletionTerm: length must be between 6 and 6");
-                Assert.IsTrue(registrationPetition.IsTransient());
-                Assert.IsFalse(registrationPetition.IsValid());
-                throw;
-            }
-        }
+
+        ///// <summary>
+        ///// Tests the completion term with too short value does not save.
+        ///// </summary>
+        //[TestMethod]
+        //[ExpectedException(typeof(ApplicationException))]
+        //public void TestCompletionTermWithTooShortValueDoesNotSave()
+        //{
+        //    RegistrationPetition registrationPetition = null;
+        //    try
+        //    {
+        //        #region Arrange
+        //        registrationPetition = GetValid(9);
+        //        registrationPetition.CompletionTerm = "x".RepeatTimes((6 - 1));
+        //        #endregion Arrange
+
+        //        #region Act
+        //        RegistrationPetitionRepository.DbContext.BeginTransaction();
+        //        RegistrationPetitionRepository.EnsurePersistent(registrationPetition);
+        //        RegistrationPetitionRepository.DbContext.CommitTransaction();
+        //        #endregion Act
+        //    }
+        //    catch (Exception)
+        //    {
+        //        Assert.IsNotNull(registrationPetition);
+        //        Assert.AreEqual(6 - 1, registrationPetition.CompletionTerm.Length);
+        //        var results = registrationPetition.ValidationResults().AsMessageList();
+        //        results.AssertErrorsAre("CompletionTerm: length must be between 6 and 6");
+        //        Assert.IsTrue(registrationPetition.IsTransient());
+        //        Assert.IsFalse(registrationPetition.IsValid());
+        //        throw;
+        //    }
+        //}
         #endregion Invalid Tests
 
         #region Valid Tests
@@ -1733,6 +1894,54 @@ namespace Commencement.Tests.Repositories
 
             #region Assert
             Assert.AreEqual(6, registrationPetition.CompletionTerm.Length);
+            Assert.IsFalse(registrationPetition.IsTransient());
+            Assert.IsTrue(registrationPetition.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the completion term with too long value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestCompletionTermWithTooLongValueSaves()
+        {
+            #region Arrange
+            var registrationPetition = GetValid(9);
+            registrationPetition.CompletionTerm = "x".RepeatTimes(600);
+            #endregion Arrange
+
+            #region Act
+            RegistrationPetitionRepository.DbContext.BeginTransaction();
+            RegistrationPetitionRepository.EnsurePersistent(registrationPetition);
+            RegistrationPetitionRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(600, registrationPetition.CompletionTerm.Length);
+            Assert.IsFalse(registrationPetition.IsTransient());
+            Assert.IsTrue(registrationPetition.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the completion term with too short value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestCompletionTermWithTooShortValueSaves()
+        {
+            #region Arrange
+            var registrationPetition = GetValid(9);
+            registrationPetition.CompletionTerm = "x";
+            #endregion Arrange
+
+            #region Act
+            RegistrationPetitionRepository.DbContext.BeginTransaction();
+            RegistrationPetitionRepository.EnsurePersistent(registrationPetition);
+            RegistrationPetitionRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, registrationPetition.CompletionTerm.Length);
             Assert.IsFalse(registrationPetition.IsTransient());
             Assert.IsTrue(registrationPetition.IsValid());
             #endregion Assert
@@ -2349,16 +2558,104 @@ namespace Commencement.Tests.Repositories
         #endregion Valid Tests
         #endregion TermCode Tests
 
+        #region Ceremony Tests
+
+        #region Invalid Tests
+        /// <summary>
+        /// Tests the Ceremony with A new value does not save.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(NHibernate.TransientObjectException))]
+        public void TestCeremonyWithANewValueDoesNotSave()
+        {
+            RegistrationPetition registrationPetition = null;
+            try
+            {
+                #region Arrange
+                registrationPetition = GetValid(9);
+                registrationPetition.Ceremony = new Ceremony();
+                #endregion Arrange
+
+                #region Act
+                RegistrationPetitionRepository.DbContext.BeginTransaction();
+                RegistrationPetitionRepository.EnsurePersistent(registrationPetition);
+                RegistrationPetitionRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(registrationPetition);
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("object references an unsaved transient instance - save the transient instance before flushing. Type: Commencement.Core.Domain.Ceremony, Entity: Commencement.Core.Domain.Ceremony", ex.Message);
+                throw;
+            }	
+        }
+        #endregion Invalid Tests
+
+        #region Valid Tests
+        
+        /// <summary>
+        /// Tests the ceremony with null value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestCeremonyWithNullValueSaves()
+        {
+            #region Arrange
+            var record = GetValid(9);
+            record.Ceremony = null;         
+            #endregion Arrange
+
+            #region Act
+            RegistrationPetitionRepository.DbContext.BeginTransaction();
+            RegistrationPetitionRepository.EnsurePersistent(record);
+            RegistrationPetitionRepository.DbContext.CommitChanges();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(record.IsTransient());
+            Assert.IsTrue(record.IsValid());
+            Assert.IsNull(record.Ceremony);
+            #endregion Assert		
+        }
+        /// <summary>
+        /// Tests the ceremony with new value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestCeremonyWithExistingValueSaves()
+        {
+            #region Arrange
+            LoadCeremony(1);
+            var record = GetValid(9);
+            record.Ceremony = Repository.OfType<Ceremony>().GetById(1);
+            #endregion Arrange
+
+            #region Act
+            RegistrationPetitionRepository.DbContext.BeginTransaction();
+            RegistrationPetitionRepository.EnsurePersistent(record);
+            RegistrationPetitionRepository.DbContext.CommitChanges();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(record.IsTransient());
+            Assert.IsTrue(record.IsValid());
+            Assert.IsNotNull(record.Ceremony);
+            #endregion Assert
+        }
+
+        #endregion Valid Tests
+        #endregion Ceremony Tests
+
         #region FullName Tests
 
         /// <summary>
         /// Tests the full name returns expected result.
         /// </summary>
         [TestMethod]
-        public void TestFullNameReturnsExpectedResult()
+        public void TestFullNameReturnsExpectedResult1()
         {
             #region Arrange
-            var record = CreateValidEntities.RegistrationPetition(99);          
+            var record = CreateValidEntities.RegistrationPetition(99);
+            record.MI = null;
             #endregion Arrange
 
             #region Act
@@ -2368,6 +2665,63 @@ namespace Commencement.Tests.Repositories
             #region Assert
             Assert.AreEqual("FirstName99 LastName99", record.FullName);
             #endregion Assert		
+        }
+        /// <summary>
+        /// Tests the full name returns expected result.
+        /// </summary>
+        [TestMethod]
+        public void TestFullNameReturnsExpectedResult2()
+        {
+            #region Arrange
+            var record = CreateValidEntities.RegistrationPetition(99);
+            record.MI = string.Empty;
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("FirstName99 LastName99", record.FullName);
+            #endregion Assert
+        }
+        /// <summary>
+        /// Tests the full name returns expected result.
+        /// </summary>
+        [TestMethod]
+        public void TestFullNameReturnsExpectedResult3()
+        {
+            #region Arrange
+            var record = CreateValidEntities.RegistrationPetition(99);
+            record.MI = "    ";
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("FirstName99 LastName99", record.FullName);
+            #endregion Assert
+        }
+        /// <summary>
+        /// Tests the full name returns expected result.
+        /// </summary>
+        [TestMethod]
+        public void TestFullNameReturnsExpectedResult4()
+        {
+            #region Arrange
+            var record = CreateValidEntities.RegistrationPetition(99);
+            record.MI = "xxx";
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("FirstName99 xxx LastName99", record.FullName);
+            #endregion Assert
         }
         #endregion FullName Tests
 
@@ -2503,6 +2857,38 @@ namespace Commencement.Tests.Repositories
             Assert.AreEqual(termCodeCount, TermCodeRepository.GetAll().Count);
             #endregion Assert
         }
+
+        /// <summary>
+        /// Tests the delete registration petition does not delete ceremony.
+        /// </summary>
+        [TestMethod]
+        public void TestDeleteRegistrationPetitionDoesNotDeleteCeremony()
+        {
+            #region Arrange
+            Repository.OfType<Ceremony>().DbContext.BeginTransaction();
+            LoadCeremony(3);
+            Repository.OfType<Ceremony>().DbContext.CommitTransaction();
+            var ceremonyCount = Repository.OfType<Ceremony>().GetAll().Count;            
+            var registrationPetition = GetValid(9);
+            registrationPetition.Ceremony = Repository.OfType<Ceremony>().GetById(1);
+            RegistrationPetitionRepository.DbContext.BeginTransaction();
+            RegistrationPetitionRepository.EnsurePersistent(registrationPetition);
+            RegistrationPetitionRepository.DbContext.CommitChanges();
+            var registrationPetitionCount = RegistrationPetitionRepository.GetAll().Count;
+            Assert.IsNotNull(registrationPetition.Ceremony);
+            #endregion Arrange
+
+            #region Act
+            RegistrationPetitionRepository.DbContext.BeginTransaction();
+            RegistrationPetitionRepository.Remove(registrationPetition);
+            RegistrationPetitionRepository.DbContext.CommitChanges();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(registrationPetitionCount - 1, RegistrationPetitionRepository.GetAll().Count);
+            Assert.AreEqual(ceremonyCount, Repository.OfType<Ceremony>().GetAll().Count);
+            #endregion Assert
+        }
         #endregion Cascade Tests
 
         #region Reflection of Database.
@@ -2516,9 +2902,9 @@ namespace Commencement.Tests.Repositories
         {
             #region Arrange
             var expectedFields = new List<NameAndType>();
+            expectedFields.Add(new NameAndType("Ceremony", "Commencement.Core.Domain.Ceremony", new List<string>()));
             expectedFields.Add(new NameAndType("CompletionTerm", "System.String", new List<string>
             {
-                 "[NHibernate.Validator.Constraints.LengthAttribute((Int32)6, (Int32)6)]", 
                  "[UCDArch.Core.NHibernateValidator.Extensions.RequiredAttribute()]"
             }));
             expectedFields.Add(new NameAndType("DateDecision", "System.Nullable`1[System.DateTime]", new List<string>()));
@@ -2559,6 +2945,10 @@ namespace Commencement.Tests.Repositories
             expectedFields.Add(new NameAndType("MajorCode", "Commencement.Core.Domain.MajorCode", new List<string>
             {
                 "[NHibernate.Validator.Constraints.NotNullAttribute()]"
+            }));
+            expectedFields.Add(new NameAndType("MI", "System.String", new List<string>
+            {
+                 "[NHibernate.Validator.Constraints.LengthAttribute((Int32)50)]"
             }));
             expectedFields.Add(new NameAndType("Pidm", "System.String", new List<string>
             {
