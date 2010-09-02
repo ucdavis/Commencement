@@ -75,12 +75,20 @@
     <h2>Label Printing</h2>
     <ul class="">
         <li>
-            <strong><%= Html.ActionLink<ReportController>(a => a.GenerateAveryLabels(TermService.GetCurrent().Id, false), "Print Pending Labels")%></strong>
-            This will print all pending labels that need to be printed and will update records so that they will not be printed in this list again.
+            <strong><%= Html.ActionLink<ReportController>(a => a.GenerateAveryLabels(TermService.GetCurrent().Id, true, false), "Print Pending Mailing Labels")%></strong>
+            This will print all pending labels for mailing that need to be printed and will update records so that they will not be printed in this list again.
         </li>
         <li>
-            <strong><%= Html.ActionLink<ReportController>(a => a.GenerateAveryLabels(TermService.GetCurrent().Id, true), "Print All Labels")%></strong>
-            This will print all labels for the current term, regardless of whether they have been printed already.
+            <strong><%= Html.ActionLink<ReportController>(a => a.GenerateAveryLabels(TermService.GetCurrent().Id, false, false), "Print Pending Pickup Labels")%></strong>
+            This will print all pending labels for pickup that need to be printed and will update records so that they will not be printed in this list again.
+        </li>
+        <li>
+            <strong><%= Html.ActionLink<ReportController>(a => a.GenerateAveryLabels(TermService.GetCurrent().Id, true, true), "Print All Mailing Labels")%></strong>
+            This will print all mailing labels for the current term, regardless of whether they have been printed already.
+        </li>
+        <li>
+            <strong><%= Html.ActionLink<ReportController>(a => a.GenerateAveryLabels(TermService.GetCurrent().Id, true, true), "Print All Pickup Labels")%></strong>
+            This will print all pickup labels for the current term, regardless of whether they have been printed already.
         </li>
     </ul>
 

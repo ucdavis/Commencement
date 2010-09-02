@@ -103,23 +103,18 @@ namespace Commencement.Controllers
         #endregion
 
         #region Label Generator
-        public ActionResult GenerateAveryLabels(string termCode, bool printAll)
+        public ActionResult GenerateAveryLabels(string termCode, bool printMailing, bool printAll)
         {
-            List<Registration> registrations;
+            var query = from a in Repository.OfType<Registration>().Queryable
+                        where a.Student.TermCode.Id == termCode && !a.SjaBlock
+                            && a.MailTickets == printMailing
+                        orderby a.Student.LastName 
+                        select a;
 
-            if (printAll)
-            {
-                registrations = Repository.OfType<Registration>().Queryable.Where(a => a.Student.TermCode.Id == termCode && !a.SjaBlock).ToList();
-            }
-            else
-            {
-                registrations = Repository.OfType<Registration>().Queryable.Where(a => a.Student.TermCode.Id == termCode
-                                                                                       && !a.SjaBlock
-                                                                                       && (!a.LabelPrinted
-                                                                                           ||
-                                                                                           (a.ExtraTicketPetition != null && !a.ExtraTicketPetition.LabelPrinted)
-                                                                                          )).ToList();
-            }
+            // filter to only pending labels
+            if (!printAll) query.Where(a => (!a.LabelPrinted || (a.ExtraTicketPetition != null && !a.ExtraTicketPetition.LabelPrinted)));
+
+            var registrations = query.ToList();
 
             var doc = GenerateLabelDoc(registrations, printAll);
 
