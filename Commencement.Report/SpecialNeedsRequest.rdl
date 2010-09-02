@@ -74,7 +74,7 @@ WHERE     (Students.TermCode = @term) AND (Registrations.Comments IS NOT NULL) A
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Collage of Agricultural &amp; Environmental Sciences Dean's Office</Value>
+                <Value>College of Agricultural &amp; Environmental Sciences Dean's Office</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                   <Color>Navy</Color>

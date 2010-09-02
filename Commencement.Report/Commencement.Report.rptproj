@@ -9,10 +9,6 @@
   </DataSources>
   <Reports>
     <ProjectItem>
-      <Name>RegistrarsReport.rdl</Name>
-      <FullPath>RegistrarsReport.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
       <Name>SpecialNeedsRequest.rdl</Name>
       <FullPath>SpecialNeedsRequest.rdl</FullPath>
     </ProjectItem>
@@ -31,6 +27,10 @@
     <ProjectItem>
       <Name>RegistrarReport.rdl</Name>
       <FullPath>RegistrarReport.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>TicketSignOutSheet.rdl</Name>
+      <FullPath>TicketSignOutSheet.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>
