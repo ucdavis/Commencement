@@ -185,7 +185,7 @@ namespace Commencement.Tests.Core
         /// Determines whether this instance [can get all entities].
         /// </summary>
         [TestMethod]
-        public void CanGetAllEntities()
+        public virtual void CanGetAllEntities()
         {
             List<T> foundEntities;
             if (typeof(IdT) == typeof(int))
@@ -211,7 +211,7 @@ namespace Commencement.Tests.Core
         /// Determines whether this instance [can query entities].
         /// </summary>
         [TestMethod]
-        public void CanQueryEntities()
+        public virtual void CanQueryEntities()
         {
             List<T> foundEntry = GetQuery(3).ToList();
             Assert.AreEqual(1, foundEntry.Count);
