@@ -8,35 +8,11 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="TotalRegistrationsSummary">
+    <DataSet Name="SumOfAllTickets">
       <Fields>
-        <Field Name="RegistrationTickets">
-          <DataField>RegistrationTickets</DataField>
+        <Field Name="ceremonyid">
+          <DataField>ceremonyid</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="NumberExtraTicketsApproved">
-          <DataField>NumberExtraTicketsApproved</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="TotalTicketsApproved">
-          <DataField>TotalTicketsApproved</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="NumberExtraTickets">
-          <DataField>NumberExtraTickets</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="NumberExtraTicketsPending">
-          <DataField>NumberExtraTicketsPending</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="TotalTickets">
-          <DataField>TotalTickets</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="Location">
-          <DataField>Location</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DateTime">
           <DataField>DateTime</DataField>
@@ -46,45 +22,63 @@
           <DataField>TermCode</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ceremonyid">
-          <DataField>ceremonyid</DataField>
+        <Field Name="totalceremonytickets">
+          <DataField>totalceremonytickets</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="ExtraTicketsApproved">
-          <DataField>ExtraTicketsApproved</DataField>
+        <Field Name="RegistrationTickets">
+          <DataField>RegistrationTickets</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="ExtraTicketsIsPending">
-          <DataField>ExtraTicketsIsPending</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
+        <Field Name="PendingExtraTickets">
+          <DataField>PendingExtraTickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="AMPM">
-          <DataField>AMPM</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="TotalCeremonyTickets">
-          <DataField>TotalCeremonyTickets</DataField>
+        <Field Name="ApprovedExtraTickets">
+          <DataField>ApprovedExtraTickets</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
       <Query>
         <DataSourceName>Commencement</DataSourceName>
-        <CommandText>SELECT     Registrations.NumberTickets AS RegistrationTickets, (CASE WHEN ((ExtraTicketPetitions.NumberTickets IS NULL)) 
-                      THEN Registrations.NumberTickets ELSE Registrations.NumberTickets + ExtraTicketPetitions.NumberTickets END) AS TotalTickets, 
-                      (CASE WHEN ((ExtraTicketPetitions.NumberTickets IS NULL)) THEN 0 ELSE ExtraTicketPetitions.NumberTickets END) AS NumberExtraTickets, 
-                      (CASE WHEN (ExtraTicketPetitions.IsApproved = 1 AND (ExtraTicketPetitions.IsPending IS NULL OR
-                      ExtraTicketPetitions.IsPending = 0)) THEN ExtraTicketPetitions.NumberTickets ELSE 0 END) AS NumberExtraTicketsApproved, 
-                      (CASE WHEN (ExtraTicketPetitions.IsPending = 1) THEN ExtraTicketPetitions.NumberTickets ELSE 0 END) AS NumberExtraTicketsPending, 
-                      (CASE WHEN (ExtraTicketPetitions.IsApproved = 1 AND (ExtraTicketPetitions.IsPending IS NULL OR
-                      ExtraTicketPetitions.IsPending = 0)) THEN Registrations.NumberTickets + ExtraTicketPetitions.NumberTickets ELSE Registrations.NumberTickets END) 
-                      AS TotalTicketsApproved, Ceremonies.Location, Ceremonies.DateTime, Ceremonies.TermCode, Ceremonies.id AS ceremonyid, 
-                      (CASE WHEN (ExtraTicketPetitions.IsApproved = 1 AND (ExtraTicketPetitions.IsPending IS NULL OR
-                      ExtraTicketPetitions.IsPending = 0)) THEN 1 ELSE 0 END) AS ExtraTicketsApproved, ExtraTicketPetitions.IsPending AS ExtraTicketsIsPending, 
-                      CASE WHEN (DATEPART(hh, Ceremonies.DateTime) &gt;= 12) THEN 'PM' ELSE 'AM' END AS AMPM, Ceremonies.TotalTickets AS TotalCeremonyTickets
-FROM         ExtraTicketPetitions RIGHT OUTER JOIN
-                      Students INNER JOIN
-                      Registrations ON Students.Id = Registrations.Student_Id ON ExtraTicketPetitions.id = Registrations.ExtraTicketPetitionId LEFT OUTER JOIN
-                      Ceremonies ON Registrations.CeremonyId = Ceremonies.id</CommandText>
+        <CommandText>select Ceremonies.id ceremonyid, Ceremonies.[DateTime], Ceremonies.TermCode, Ceremonies.TotalTickets totalceremonytickets
+	, RegistrationTickets.NumberTickets RegistrationTickets
+	, ISNULL(PendingExtraTickets.NumberTickets, 0) PendingExtraTickets
+	, ISNULL(ApprovedExtraTickets.NumberTickets, 0) ApprovedExtraTickets
+from Ceremonies
+	left outer join (
+		select sum(NumberTickets) NumberTickets, registrations.CeremonyId from Registrations
+			inner join Students on Registrations.Student_Id = students.Id
+		where Registrations.SJABlock = 0
+			and students.TermCode = @term
+		group by Registrations.CeremonyId
+	) RegistrationTickets on RegistrationTickets.ceremonyid = ceremonies.id
+	left outer join (
+		select SUM(ExtraTicketPetitions.NumberTickets) NumberTickets, Registrations.CeremonyId from ExtraTicketPetitions
+			inner join Registrations on Registrations.ExtraTicketPetitionId = ExtraTicketPetitions.id
+			inner join Students on Registrations.Student_Id = students.Id
+		where Registrations.SJABlock = 0
+			and students.TermCode = @term
+			and ExtraTicketPetitions.IsPending = 1
+		group by Registrations.CeremonyId
+	) PendingExtraTickets on PendingExtraTickets.ceremonyid = ceremonies.id
+	left outer join (
+		select SUM(ExtraTicketPetitions.NumberTickets) NumberTickets, Registrations.CeremonyId from ExtraTicketPetitions
+			inner join Registrations on Registrations.ExtraTicketPetitionId = ExtraTicketPetitions.id
+			inner join Students on Registrations.Student_Id = students.Id
+		where Registrations.SJABlock = 0
+			and students.TermCode = @term
+			and ExtraTicketPetitions.IsPending = 0
+			and ExtraTicketPetitions.IsApproved = 1
+		group by Registrations.CeremonyId
+	) ApprovedExtraTickets on ApprovedExtraTickets.ceremonyid = ceremonies.id	
+where ceremonies.TermCode = @term</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@term">
+            <Value>=Parameters!term.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
     </DataSet>
   </DataSets>
@@ -202,7 +196,7 @@ FROM         ExtraTicketPetitions RIGHT OUTER JOIN
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!RegistrationTickets.Value)</Value>
+                              <Value>=Sum(Fields!RegistrationTickets.Value, "SumOfAllTickets")</Value>
                               <Style>
                                 <Format>#,0;(#,0)</Format>
                               </Style>
@@ -239,7 +233,7 @@ FROM         ExtraTicketPetitions RIGHT OUTER JOIN
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!NumberExtraTicketsApproved.Value)</Value>
+                              <Value>=Sum(Fields!ApprovedExtraTickets.Value, "SumOfAllTickets")</Value>
                               <Style>
                                 <Format>#,0;(#,0)</Format>
                               </Style>
@@ -290,7 +284,7 @@ FROM         ExtraTicketPetitions RIGHT OUTER JOIN
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!TotalTicketsApproved.Value)</Value>
+                              <Value>=Sum(Fields!RegistrationTickets.Value, "SumOfAllTickets") + Sum(Fields!ApprovedExtraTickets.Value, "SumOfAllTickets")</Value>
                               <Style>
                                 <Format>#,0;(#,0)</Format>
                               </Style>
@@ -494,7 +488,7 @@ FROM         ExtraTicketPetitions RIGHT OUTER JOIN
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <DataSetName>TotalRegistrationsSummary</DataSetName>
+        <DataSetName>SumOfAllTickets</DataSetName>
         <Top>0.93416in</Top>
         <Left>0.15292in</Left>
         <Height>1.15625in</Height>
@@ -526,7 +520,7 @@ FROM         ExtraTicketPetitions RIGHT OUTER JOIN
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!NumberExtraTicketsPending.Value)</Value>
+                              <Value>=Sum(Fields!PendingExtraTickets.Value, "SumOfAllTickets")</Value>
                               <Style>
                                 <Format>#,0;(#,0)</Format>
                               </Style>
@@ -577,7 +571,7 @@ FROM         ExtraTicketPetitions RIGHT OUTER JOIN
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!TotalTicketsApproved.Value)+Sum(Fields!NumberExtraTicketsPending.Value)</Value>
+                              <Value>=Sum(Fields!PendingExtraTickets.Value, "SumOfAllTickets")+Sum(Fields!ApprovedExtraTickets.Value, "SumOfAllTickets")</Value>
                               <Style>
                                 <Format>#,0;(#,0)</Format>
                               </Style>
@@ -695,7 +689,7 @@ FROM         ExtraTicketPetitions RIGHT OUTER JOIN
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <DataSetName>TotalRegistrationsSummary</DataSetName>
+        <DataSetName>SumOfAllTickets</DataSetName>
         <Top>2.25017in</Top>
         <Left>0.15292in</Left>
         <Height>0.5in</Height>
@@ -737,205 +731,240 @@ FROM         ExtraTicketPetitions RIGHT OUTER JOIN
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Tablix Name="Tablix4">
-        <TablixCorner>
-          <TablixCornerRows>
-            <TablixCornerRow>
-              <TablixCornerCell>
-                <CellContents>
-                  <Textbox Name="Textbox26">
-                    <CanGrow>true</CanGrow>
-                    <KeepTogether>true</KeepTogether>
-                    <Paragraphs>
-                      <Paragraph>
-                        <TextRuns>
-                          <TextRun>
-                            <Value>Ceremony Time</Value>
-                            <Style>
-                              <FontWeight>Bold</FontWeight>
-                              <Color>Navy</Color>
-                            </Style>
-                          </TextRun>
-                        </TextRuns>
-                        <Style>
-                          <TextAlign>Center</TextAlign>
-                        </Style>
-                      </Paragraph>
-                    </Paragraphs>
-                    <rd:DefaultName>Textbox20</rd:DefaultName>
-                    <Style>
-                      <Border>
-                        <Color>LightGrey</Color>
-                        <Style>Solid</Style>
-                      </Border>
-                      <BottomBorder>
-                        <Color>MidnightBlue</Color>
-                        <Style>Solid</Style>
-                        <Width>2pt</Width>
-                      </BottomBorder>
-                      <BackgroundColor>LightSteelBlue</BackgroundColor>
-                      <PaddingLeft>2pt</PaddingLeft>
-                      <PaddingRight>2pt</PaddingRight>
-                      <PaddingTop>2pt</PaddingTop>
-                      <PaddingBottom>2pt</PaddingBottom>
-                    </Style>
-                  </Textbox>
-                </CellContents>
-              </TablixCornerCell>
-            </TablixCornerRow>
-          </TablixCornerRows>
-        </TablixCorner>
+      <Tablix Name="Tablix1">
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.84374in</Width>
+              <Width>2.07291in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.8591in</Width>
+              <Width>1.23958in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.90625in</Width>
+              <Width>1.39583in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.61804in</Width>
+              <Width>1.10416in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.29513in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.16667in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.23958in</Height>
+              <Height>0.25in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="TotalCeremonyTickets2">
+                    <Textbox Name="Textbox4">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!TotalCeremonyTickets.Value)</Value>
+                              <Value>Ceremony Time</Value>
                               <Style>
-                                <Format>#,0;(#,0)</Format>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>TotalCeremonyTickets</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="TotalTicketsApproved3">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Sum(Fields!TotalTicketsApproved.Value)</Value>
-                              <Style>
-                                <Format>#,0;(#,0)</Format>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>TotalTicketsApproved</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox42">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Sum(Fields!TotalCeremonyTickets.Value)-Sum(Fields!TotalTicketsApproved.Value)</Value>
-                              <Style>
-                                <Format>#,0;(#,0)</Format>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox42</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <RightBorder>
-                          <Style>Double</Style>
-                        </RightBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="DateTime7">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Sum(Fields!NumberExtraTicketsPending.Value)</Value>
-                              <Style>
-                                <Format>#,0;(#,0)</Format>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Center</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>DateTime1</rd:DefaultName>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightSteelBlue</Color>
+                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <BottomBorder>
-                          <Color>CornflowerBlue</Color>
-                        </BottomBorder>
-                        <LeftBorder>
-                          <Style>Double</Style>
-                        </LeftBorder>
-                        <BackgroundColor>AliceBlue</BackgroundColor>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox22">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Ceremony Tickets</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox22</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox6">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Registration Tickets</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox6</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox8">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Approved  Extra Tickets</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox8</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox10">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Ceremony Tickets Remaining</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox10</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox12">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Tickets Pending</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox12</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -951,136 +980,371 @@ FROM         ExtraTicketPetitions RIGHT OUTER JOIN
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox46">
+                    <Textbox Name="DateTime">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!TotalCeremonyTickets.Value)</Value>
-                              <Style>
-                                <Format>#,0;(#,0)</Format>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox37</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>OldLace</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="TotalTicketsApproved2">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Sum(Fields!TotalTicketsApproved.Value)</Value>
-                              <Style>
-                                <Format>#,0;(#,0)</Format>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>TotalTicketsApproved</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>OldLace</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox43">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Sum(Fields!TotalCeremonyTickets.Value)-Sum(Fields!TotalTicketsApproved.Value)</Value>
-                              <Style>
-                                <Format>#,0;(#,0)</Format>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox43</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <RightBorder>
-                          <Style>Double</Style>
-                        </RightBorder>
-                        <BackgroundColor>OldLace</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox70">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Sum(Fields!NumberExtraTicketsPending.Value)</Value>
-                              <Style>
-                                <Format>#,0;(#,0)</Format>
-                              </Style>
+                              <Value>=Fields!DateTime.Value</Value>
+                              <Style />
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox70</rd:DefaultName>
+                      <rd:DefaultName>DateTime</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <LeftBorder>
-                          <Style>Double</Style>
-                        </LeftBorder>
-                        <BackgroundColor>AliceBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="totalceremonytickets">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!totalceremonytickets.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>totalceremonytickets</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="RegistrationTickets">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!RegistrationTickets.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>RegistrationTickets</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="ApprovedExtraTickets">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!ApprovedExtraTickets.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>ApprovedExtraTickets</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox11">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!totalceremonytickets.Value - (Fields!RegistrationTickets.Value+ Fields!ApprovedExtraTickets.Value)</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox11</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="PendingExtraTickets1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!PendingExtraTickets.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>PendingExtraTickets1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox14">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Total</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox14</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>OldLace</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox27">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!totalceremonytickets.Value)</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox27</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>OldLace</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="RegistrationTickets1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!RegistrationTickets.Value)</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>RegistrationTickets1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>OldLace</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="ApprovedExtraTickets1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!ApprovedExtraTickets.Value)</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>ApprovedExtraTickets1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>OldLace</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox17">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!totalceremonytickets.Value, "SumOfAllTickets")- Sum(Fields!RegistrationTickets.Value, "SumOfAllTickets")-Sum(Fields!ApprovedExtraTickets.Value, "SumOfAllTickets")</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox17</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>OldLace</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="PendingExtraTickets2">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!PendingExtraTickets.Value)</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>PendingExtraTickets2</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>OldLace</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1095,296 +1359,32 @@ FROM         ExtraTicketPetitions RIGHT OUTER JOIN
         </TablixBody>
         <TablixColumnHierarchy>
           <TablixMembers>
-            <TablixMember>
-              <TablixHeader>
-                <Size>0.41667in</Size>
-                <CellContents>
-                  <Textbox Name="Textbox36">
-                    <CanGrow>true</CanGrow>
-                    <KeepTogether>true</KeepTogether>
-                    <Paragraphs>
-                      <Paragraph>
-                        <TextRuns>
-                          <TextRun>
-                            <Value>Ceremony Tickets</Value>
-                            <Style>
-                              <FontWeight>Bold</FontWeight>
-                              <Color>Navy</Color>
-                            </Style>
-                          </TextRun>
-                        </TextRuns>
-                        <Style>
-                          <TextAlign>Right</TextAlign>
-                        </Style>
-                      </Paragraph>
-                    </Paragraphs>
-                    <rd:DefaultName>Textbox35</rd:DefaultName>
-                    <Style>
-                      <Border>
-                        <Color>LightGrey</Color>
-                        <Style>Solid</Style>
-                      </Border>
-                      <BottomBorder>
-                        <Color>MidnightBlue</Color>
-                        <Style>Solid</Style>
-                        <Width>2pt</Width>
-                      </BottomBorder>
-                      <BackgroundColor>LightSteelBlue</BackgroundColor>
-                      <PaddingLeft>2pt</PaddingLeft>
-                      <PaddingRight>2pt</PaddingRight>
-                      <PaddingTop>2pt</PaddingTop>
-                      <PaddingBottom>2pt</PaddingBottom>
-                    </Style>
-                  </Textbox>
-                </CellContents>
-              </TablixHeader>
-            </TablixMember>
-            <TablixMember>
-              <Group Name="ColumnGroup2">
-                <GroupExpressions>
-                  <GroupExpression />
-                </GroupExpressions>
-              </Group>
-              <TablixHeader>
-                <Size>0.41667in</Size>
-                <CellContents>
-                  <Textbox Name="Textbox44">
-                    <CanGrow>true</CanGrow>
-                    <KeepTogether>true</KeepTogether>
-                    <Paragraphs>
-                      <Paragraph>
-                        <TextRuns>
-                          <TextRun>
-                            <Value>Approved Tickets</Value>
-                            <Style>
-                              <FontWeight>Bold</FontWeight>
-                              <Color>Navy</Color>
-                            </Style>
-                          </TextRun>
-                        </TextRuns>
-                        <Style>
-                          <TextAlign>Right</TextAlign>
-                        </Style>
-                      </Paragraph>
-                    </Paragraphs>
-                    <rd:DefaultName>Textbox39</rd:DefaultName>
-                    <Style>
-                      <Border>
-                        <Color>LightGrey</Color>
-                        <Style>Solid</Style>
-                      </Border>
-                      <BottomBorder>
-                        <Color>MidnightBlue</Color>
-                        <Style>Solid</Style>
-                        <Width>2pt</Width>
-                      </BottomBorder>
-                      <BackgroundColor>LightSteelBlue</BackgroundColor>
-                      <PaddingLeft>2pt</PaddingLeft>
-                      <PaddingRight>2pt</PaddingRight>
-                      <PaddingTop>2pt</PaddingTop>
-                      <PaddingBottom>2pt</PaddingBottom>
-                    </Style>
-                  </Textbox>
-                </CellContents>
-              </TablixHeader>
-            </TablixMember>
-            <TablixMember>
-              <TablixHeader>
-                <Size>0.41667in</Size>
-                <CellContents>
-                  <Textbox Name="Textbox39">
-                    <CanGrow>true</CanGrow>
-                    <KeepTogether>true</KeepTogether>
-                    <Paragraphs>
-                      <Paragraph>
-                        <TextRuns>
-                          <TextRun>
-                            <Value>Ceremony Tickets Remaining</Value>
-                            <Style>
-                              <FontWeight>Bold</FontWeight>
-                              <Color>Navy</Color>
-                            </Style>
-                          </TextRun>
-                        </TextRuns>
-                        <Style>
-                          <TextAlign>Right</TextAlign>
-                        </Style>
-                      </Paragraph>
-                    </Paragraphs>
-                    <rd:DefaultName>Textbox39</rd:DefaultName>
-                    <Style>
-                      <Border>
-                        <Color>LightGrey</Color>
-                        <Style>Solid</Style>
-                      </Border>
-                      <BottomBorder>
-                        <Color>MidnightBlue</Color>
-                        <Style>Solid</Style>
-                        <Width>2pt</Width>
-                      </BottomBorder>
-                      <RightBorder>
-                        <Style>Double</Style>
-                      </RightBorder>
-                      <BackgroundColor>LightSteelBlue</BackgroundColor>
-                      <PaddingLeft>2pt</PaddingLeft>
-                      <PaddingRight>2pt</PaddingRight>
-                      <PaddingTop>2pt</PaddingTop>
-                      <PaddingBottom>2pt</PaddingBottom>
-                    </Style>
-                  </Textbox>
-                </CellContents>
-              </TablixHeader>
-            </TablixMember>
-            <TablixMember>
-              <TablixHeader>
-                <Size>0.41667in</Size>
-                <CellContents>
-                  <Textbox Name="Textbox107">
-                    <CanGrow>true</CanGrow>
-                    <KeepTogether>true</KeepTogether>
-                    <Paragraphs>
-                      <Paragraph>
-                        <TextRuns>
-                          <TextRun>
-                            <Value>Tickets Pending</Value>
-                            <Style>
-                              <FontWeight>Bold</FontWeight>
-                              <Color>DimGray</Color>
-                            </Style>
-                          </TextRun>
-                        </TextRuns>
-                        <Style>
-                          <TextAlign>Right</TextAlign>
-                        </Style>
-                      </Paragraph>
-                    </Paragraphs>
-                    <rd:DefaultName>Textbox107</rd:DefaultName>
-                    <Style>
-                      <Border>
-                        <Color>LightSteelBlue</Color>
-                        <Style>Solid</Style>
-                      </Border>
-                      <BottomBorder>
-                        <Width>1.5pt</Width>
-                      </BottomBorder>
-                      <LeftBorder>
-                        <Style>Double</Style>
-                      </LeftBorder>
-                      <BackgroundColor>AliceBlue</BackgroundColor>
-                      <PaddingLeft>2pt</PaddingLeft>
-                      <PaddingRight>2pt</PaddingRight>
-                      <PaddingTop>2pt</PaddingTop>
-                      <PaddingBottom>2pt</PaddingBottom>
-                    </Style>
-                  </Textbox>
-                </CellContents>
-              </TablixHeader>
-            </TablixMember>
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
             <TablixMember>
-              <Group Name="AMPM">
-                <GroupExpressions>
-                  <GroupExpression>=Fields!DateTime.Value</GroupExpression>
-                </GroupExpressions>
-              </Group>
-              <SortExpressions>
-                <SortExpression>
-                  <Value>=Fields!AMPM.Value</Value>
-                </SortExpression>
-              </SortExpressions>
-              <TablixMembers>
-                <TablixMember>
-                  <TablixHeader>
-                    <Size>1.60965in</Size>
-                    <CellContents>
-                      <Textbox Name="Textbox24">
-                        <CanGrow>true</CanGrow>
-                        <KeepTogether>true</KeepTogether>
-                        <Paragraphs>
-                          <Paragraph>
-                            <TextRuns>
-                              <TextRun>
-                                <Value>=Fields!DateTime.Value</Value>
-                                <Style />
-                              </TextRun>
-                            </TextRuns>
-                            <Style>
-                              <TextAlign>Center</TextAlign>
-                            </Style>
-                          </Paragraph>
-                        </Paragraphs>
-                        <rd:DefaultName>Textbox19</rd:DefaultName>
-                        <Style>
-                          <Border>
-                            <Color>LightGrey</Color>
-                            <Style>Solid</Style>
-                          </Border>
-                          <PaddingLeft>2pt</PaddingLeft>
-                          <PaddingRight>2pt</PaddingRight>
-                          <PaddingTop>2pt</PaddingTop>
-                          <PaddingBottom>2pt</PaddingBottom>
-                        </Style>
-                      </Textbox>
-                    </CellContents>
-                  </TablixHeader>
-                  <TablixMembers>
-                    <TablixMember />
-                  </TablixMembers>
-                </TablixMember>
-              </TablixMembers>
+              <KeepWithGroup>After</KeepWithGroup>
             </TablixMember>
             <TablixMember>
-              <TablixHeader>
-                <Size>1.60965in</Size>
-                <CellContents>
-                  <Textbox Name="Textbox33">
-                    <CanGrow>true</CanGrow>
-                    <KeepTogether>true</KeepTogether>
-                    <Paragraphs>
-                      <Paragraph>
-                        <TextRuns>
-                          <TextRun>
-                            <Value>Total</Value>
-                            <Style />
-                          </TextRun>
-                        </TextRuns>
-                        <Style />
-                      </Paragraph>
-                    </Paragraphs>
-                    <rd:DefaultName>Textbox31</rd:DefaultName>
-                    <Style>
-                      <Border>
-                        <Color>LightGrey</Color>
-                        <Style>Solid</Style>
-                      </Border>
-                      <BackgroundColor>OldLace</BackgroundColor>
-                      <PaddingLeft>2pt</PaddingLeft>
-                      <PaddingRight>2pt</PaddingRight>
-                      <PaddingTop>2pt</PaddingTop>
-                      <PaddingBottom>2pt</PaddingBottom>
-                    </Style>
-                  </Textbox>
-                </CellContents>
-              </TablixHeader>
-              <TablixMembers>
-                <TablixMember />
-              </TablixMembers>
+              <Group Name="Details" />
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>Before</KeepWithGroup>
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <DataSetName>TotalRegistrationsSummary</DataSetName>
-        <SortExpressions>
-          <SortExpression>
-            <Value>=Fields!DateTime.Value</Value>
-          </SortExpression>
-        </SortExpressions>
-        <Top>3.0835in</Top>
+        <DataSetName>SumOfAllTickets</DataSetName>
+        <Top>2.955in</Top>
         <Left>0.15293in</Left>
-        <Height>0.90625in</Height>
-        <Width>4.83678in</Width>
+        <Height>0.75in</Height>
+        <Width>8.27427in</Width>
         <ZIndex>4</ZIndex>
         <Style>
           <Border>
@@ -1393,10 +1393,16 @@ FROM         ExtraTicketPetitions RIGHT OUTER JOIN
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>5.32326in</Height>
+    <Height>3.97951in</Height>
     <Style />
   </Body>
-  <Width>7.46017in</Width>
+  <ReportParameters>
+    <ReportParameter Name="term">
+      <DataType>String</DataType>
+      <Prompt>term</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Width>8.4272in</Width>
   <Page>
     <PageHeader>
       <Height>0.97917in</Height>

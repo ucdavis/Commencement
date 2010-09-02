@@ -52,7 +52,7 @@ FROM         Registrations INNER JOIN
                       Ceremonies ON Ceremonies.id = Registrations.CeremonyId INNER JOIN
                       vMajors ON vMajors.id = Registrations.MajorCode INNER JOIN
                       TermCodes ON Ceremonies.TermCode = TermCodes.id
-WHERE     (Students.TermCode = @term)</CommandText>
+WHERE     (Students.TermCode = @term) AND (Registrations.SJABlock = 0)</CommandText>
         <QueryParameters>
           <QueryParameter Name="@term">
             <Value>=Parameters!term.Value</Value>

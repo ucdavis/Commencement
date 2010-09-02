@@ -112,6 +112,7 @@ FROM         Registrations INNER JOIN
                       Ceremonies ON Ceremonies.id = Registrations.CeremonyId INNER JOIN
                       vMajors ON vMajors.id = Registrations.MajorCode INNER JOIN
                       TermCodes ON Ceremonies.TermCode = TermCodes.id
+WHERE     (Registrations.SJABlock = 0)
 GROUP BY Students.LastName, Students.FirstName, Students.StudentId, vMajors.Name, Registrations.Address1, Registrations.Address2, Registrations.City, 
                       Registrations.State, Registrations.Zip, Students.Email, Registrations.Email, Registrations.NumberTickets, ExtraTicketPetitions.NumberTickets, 
                       Registrations.MailTickets, Ceremonies.DateTime, Students.TermCode, TermCodes.Name
