@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using Commencement.Controllers.Helpers;
+﻿using Commencement.Controllers.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Commencement.Tests.Misc

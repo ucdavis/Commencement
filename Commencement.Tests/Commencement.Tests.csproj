@@ -121,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContinuousDeploymentIntegrationHack.cs" />
+    <Compile Include="Controllers\AccountControllerTests.cs" />
     <Compile Include="Controllers\CeremonyControllerTests.cs" />
     <Compile Include="Controllers\ErrorControllerTests.cs" />
     <Compile Include="Controllers\PetitionControllerTests.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Core\Helpers\CreateValidEntities.cs" />
     <Compile Include="Core\Helpers\NameAndType.cs" />
     <Compile Include="Core\Helpers\SpecificGuid.cs" />
+    <Compile Include="Misc\CopyHelperTests.cs" />
     <Compile Include="Misc\StringExtensionTests.cs" />
     <Compile Include="Repositories\AuditRepositoryTests.cs" />
     <Compile Include="Repositories\CeremonyEditorRepositoryTests.cs" />
