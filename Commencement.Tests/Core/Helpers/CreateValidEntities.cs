@@ -184,5 +184,12 @@ namespace Commencement.Tests.Core.Helpers
             rtValue.Description = "Description" + count.Extra();
             return rtValue;
         }
+
+        public static SearchStudent SearchStudent(int? count)
+        {
+            var rtValue = new SearchStudent();
+            rtValue.FirstName = "FirstName" + count.Extra();
+            return rtValue;
+        }
     }
 }

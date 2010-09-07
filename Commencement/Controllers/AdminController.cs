@@ -49,6 +49,12 @@ namespace Commencement.Controllers
 
             return View(viewModel);
         }
+        /// <summary>
+        /// Students the details.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="registration">This value is used in the pages, not the controller. Don't remove it.</param>
+        /// <returns></returns>
         public ActionResult StudentDetails(Guid id, bool? registration)
         {
             var student = _studentRepository.GetNullableById(id);
