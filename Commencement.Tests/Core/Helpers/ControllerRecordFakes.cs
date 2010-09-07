@@ -13,26 +13,30 @@ namespace Commencement.Tests.Core.Helpers
     /// </summary>
     public static class ControllerRecordFakes
     {
+
         /// <summary>
-        /// Fakes the student.
-        /// Note: Using more than 20 will not be reliable because the Guids will be random
+        /// Fakes the student. Note: Using more than 20 will not be reliable
+        /// because the Guids will be random
         /// </summary>
         /// <param name="count">The count.</param>
         /// <param name="studentRepository">The student repository.</param>
-        public static void FakeStudent(int count, IRepositoryWithTypedId<Student, Guid> studentRepository)
+        /// <param name="studentRepository2">The student repository2.</param>
+        public static void FakeStudent(int count, IRepositoryWithTypedId<Student, Guid> studentRepository, IRepository<Student> studentRepository2)
         {
             var students = new List<Student>();
-            FakeStudent(count, studentRepository, students);
+            FakeStudent(count, studentRepository, students, studentRepository2);
         }
 
+
         /// <summary>
-        /// Fakes the student.
-        /// Note: Using more than 20 will not be reliable because the Guids will be random
+        /// Fakes the student. Note: Using more than 20 will not be reliable
+        /// because the Guids will be random
         /// </summary>
         /// <param name="count">The count.</param>
         /// <param name="studentRepository">The student repository.</param>
         /// <param name="specificStudents">The specific students.</param>
-        public static void FakeStudent(int count, IRepositoryWithTypedId<Student, Guid> studentRepository, List<Student> specificStudents)
+        /// <param name="studentRepository2">The student repository2.</param>
+        public static void FakeStudent(int count, IRepositoryWithTypedId<Student, Guid> studentRepository, List<Student> specificStudents, IRepository<Student> studentRepository2)
         {
             var students = new List<Student>();
             var specificStudentsCount = 0;
@@ -56,7 +60,7 @@ namespace Commencement.Tests.Core.Helpers
                 students[i].SetIdTo(SpecificGuid.GetGuid(i+1));
                 int i1 = i;
                 studentRepository
-                    .Expect(a => a.GetNullableById(students[i1+1].Id))
+                    .Expect(a => a.GetNullableById(students[i1].Id))
                     .Return(students[i])
                     .Repeat
                     .Any();
@@ -64,6 +68,11 @@ namespace Commencement.Tests.Core.Helpers
             studentRepository.Expect(a => a.GetNullableById(SpecificGuid.GetGuid(totalCount + 1))).Return(null).Repeat.Any();
             studentRepository.Expect(a => a.Queryable).Return(students.AsQueryable()).Repeat.Any();
             studentRepository.Expect(a => a.GetAll()).Return(students).Repeat.Any();
+            if(studentRepository2 != null)
+            {
+                studentRepository2.Expect(a => a.Queryable).Return(students.AsQueryable()).Repeat.Any();
+                studentRepository2.Expect(a => a.GetAll()).Return(students).Repeat.Any();
+            }
         }
 
 
@@ -222,14 +231,14 @@ namespace Commencement.Tests.Core.Helpers
             repository.OfType<State>().Expect(a => a.GetAll()).Return(states).Repeat.Any();
         }
 
-        public static void FakeTermCode(int count, IRepository repository)
+        public static void FakeTermCode(int count, IRepository<TermCode> termCodeRepository)
         {
             var termCodes = new List<TermCode>();
-            FakeTermCode(count, repository, termCodes);
+            FakeTermCode(count, termCodeRepository, termCodes);
         }
 
 
-        public static void FakeTermCode(int count, IRepository repository, List<TermCode> specificTermCodes)
+        public static void FakeTermCode(int count, IRepository<TermCode> termCodeRepository, List<TermCode> specificTermCodes)
         {
             var termCodes = new List<TermCode>();
             var specificTermCodesCount = 0;
@@ -260,8 +269,8 @@ namespace Commencement.Tests.Core.Helpers
             }
             //State is not an Int Id, if I need to fake this, I'll need to pass a different repository
             //repository.OfType<TermCode>().Expect(a => a.GetNullableById(totalCount + 1)).Return(null).Repeat.Any();
-            repository.OfType<TermCode>().Expect(a => a.Queryable).Return(termCodes.AsQueryable()).Repeat.Any();
-            repository.OfType<TermCode>().Expect(a => a.GetAll()).Return(termCodes).Repeat.Any();
+            termCodeRepository.Expect(a => a.Queryable).Return(termCodes.AsQueryable()).Repeat.Any();
+            termCodeRepository.Expect(a => a.GetAll()).Return(termCodes).Repeat.Any();
         }
     }
 }

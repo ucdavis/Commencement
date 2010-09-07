@@ -37,12 +37,19 @@ namespace Commencement.Tests.Controllers
         private IEmailService _emailService;
         private IMajorService _majorService;
 
+        protected IRepository<Student> StudentRepository2;
+        protected IRepository<Registration> RegistrationRepository;
+
         public IRepository<TermCode> TermCodeRepository;
         #region Init
 
         public AdminControllerTests()
         {
-            TermCodeRepository = MockRepository.GenerateStub<IRepository<TermCode>>();
+            StudentRepository2 = FakeRepository<Student>();
+            Controller.Repository.Expect(a => a.OfType<Student>()).Return(StudentRepository2).Repeat.Any();
+
+            RegistrationRepository = FakeRepository<Registration>();
+            Controller.Repository.Expect(a => a.OfType<Registration>()).Return(RegistrationRepository).Repeat.Any();
         }
 
         protected override void SetupController()
@@ -63,9 +70,14 @@ namespace Commencement.Tests.Controllers
             new RouteConfigurator().RegisterRoutes();
         }
 
+        /// <summary>
+        /// Need to do this because the call to the static class TermService.
+        /// </summary>
+        /// <param name="container"></param>
         protected override void RegisterAdditionalServices(IWindsorContainer container)
         {
-            container.AddComponent("termCodeRepository", typeof (IRepository<TermCode>), typeof (Repository<TermCode>));
+            TermCodeRepository = MockRepository.GenerateStub<IRepository<TermCode>>();
+            container.Kernel.AddComponentInstance<IRepository<TermCode>>(TermCodeRepository);
             base.RegisterAdditionalServices(container);
         }
         #endregion Init
@@ -118,23 +130,42 @@ namespace Commencement.Tests.Controllers
 
         #region Students Tests
 
+        /// <summary>
+        /// Tests the students returns view.
+        /// </summary>
         [TestMethod]
         public void TestStudentsReturnsView()
         {
             #region Arrange
+            var termCodes = new List<TermCode>();
+            termCodes.Add(CreateValidEntities.TermCode(1));
+            termCodes[0].IsActive = true;
+            termCodes[0].SetIdTo("1");
+            ControllerRecordFakes.FakeTermCode(0, TermCodeRepository, termCodes);
 
+            var majorCodes = new List<MajorCode>();
+            majorCodes.Add(CreateValidEntities.MajorCode(1));
+            _majorService.Expect(a => a.GetAESMajors()).Return(majorCodes.AsEnumerable()).Repeat.Any();
 
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students.Add(CreateValidEntities.Student(2));
+            students.Add(CreateValidEntities.Student(3));
+            students[1].TermCode = termCodes[0];
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
 
-            //var repository = SmartServiceLocator<IRepository<TermCode>>.GetService();
-            //var test = repository.Queryable.Where(a => a.IsActive).FirstOrDefault();
+            var ceremony = CreateValidEntities.Ceremony(1);
+            ceremony.TermCode = termCodes[0];
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Ceremony = ceremony;
+            ControllerRecordFakes.FakeRegistration(0, RegistrationRepository, registrations);
 
             #endregion Arrange
 
             #region Act
-
             var result = Controller.Students("1", null, null, null)
                 .AssertViewRendered();
-
             #endregion Act
 
             #region Assert
