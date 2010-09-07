@@ -51,11 +51,17 @@
     <AssemblyAttributes Include="AssemblyVersion">
       <Value>1.8.16.2010</Value>
     </AssemblyAttributes>
+    <WebConfigReplacementFiles Include="appSettings-Prod.config">
+      <Section>appSettings</Section>
+    </WebConfigReplacementFiles>
     <WebConfigReplacementFiles Include="connectionStrings-Prod.config">
       <Section>connectionStrings</Section>
     </WebConfigReplacementFiles>
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <WebConfigReplacementFiles Include="appSettings-Test.config">
+      <Section>appSettings</Section>
+    </WebConfigReplacementFiles>
     <WebConfigReplacementFiles Include="connectionStrings-Test.config">
       <Section>connectionStrings</Section>
     </WebConfigReplacementFiles>

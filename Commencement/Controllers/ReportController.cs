@@ -63,7 +63,7 @@ namespace Commencement.Controllers
                     break;
             };
 
-            return File(GetReport("/Commencement/"+name, parameters), name + ".xls");
+            return File(GetReport(string.Format("/commencement/{0}", name), parameters), "application/excel", string.Format("{0}.xls", name));
         }
 
         private byte[] GetReport(string ReportName, Dictionary<string, string> parameters)
