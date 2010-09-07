@@ -221,5 +221,47 @@ namespace Commencement.Tests.Core.Helpers
             repository.OfType<State>().Expect(a => a.Queryable).Return(states.AsQueryable()).Repeat.Any();
             repository.OfType<State>().Expect(a => a.GetAll()).Return(states).Repeat.Any();
         }
+
+        public static void FakeTermCode(int count, IRepository repository)
+        {
+            var termCodes = new List<TermCode>();
+            FakeTermCode(count, repository, termCodes);
+        }
+
+
+        public static void FakeTermCode(int count, IRepository repository, List<TermCode> specificTermCodes)
+        {
+            var termCodes = new List<TermCode>();
+            var specificTermCodesCount = 0;
+            if (specificTermCodes != null)
+            {
+                specificTermCodesCount = specificTermCodes.Count;
+                for (int i = 0; i < specificTermCodesCount; i++)
+                {
+                    termCodes.Add(specificTermCodes[i]);
+                }
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                termCodes.Add(CreateValidEntities.TermCode(i + specificTermCodesCount + 1));
+            }
+
+            var totalCount = termCodes.Count;
+            for (int i = 0; i < totalCount; i++)
+            {
+                termCodes[i].SetIdTo((i + 1).ToString());
+                //int i1 = i;
+                //repository.OfType<State>()
+                //    .Expect(a => a.GetNullableById(i1 + 1))
+                //    .Return(TermCode[i])
+                //    .Repeat
+                //    .Any();
+            }
+            //State is not an Int Id, if I need to fake this, I'll need to pass a different repository
+            //repository.OfType<TermCode>().Expect(a => a.GetNullableById(totalCount + 1)).Return(null).Repeat.Any();
+            repository.OfType<TermCode>().Expect(a => a.Queryable).Return(termCodes.AsQueryable()).Repeat.Any();
+            repository.OfType<TermCode>().Expect(a => a.GetAll()).Return(termCodes).Repeat.Any();
+        }
     }
 }

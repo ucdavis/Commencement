@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
+using Castle.MicroKernel.Registration;
 using Commencement.Controllers;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
@@ -36,12 +37,12 @@ namespace Commencement.Tests.Controllers
         private IEmailService _emailService;
         private IMajorService _majorService;
 
-        private IRepository<TermCode> TermCodeRepository;
+        public IRepository<TermCode> TermCodeRepository;
         #region Init
 
         public AdminControllerTests()
         {
-            TermCodeRepository = FakeRepository<TermCode>();
+            TermCodeRepository = MockRepository.GenerateStub<IRepository<TermCode>>();
         }
 
         protected override void SetupController()
@@ -60,6 +61,12 @@ namespace Commencement.Tests.Controllers
         protected override void RegisterRoutes()
         {
             new RouteConfigurator().RegisterRoutes();
+        }
+
+        protected override void RegisterAdditionalServices(IWindsorContainer container)
+        {
+            container.AddComponent("termCodeRepository", typeof (IRepository<TermCode>), typeof (Repository<TermCode>));
+            base.RegisterAdditionalServices(container);
         }
         #endregion Init
 
@@ -115,14 +122,11 @@ namespace Commencement.Tests.Controllers
         public void TestStudentsReturnsView()
         {
             #region Arrange
-            IWindsorContainer container = new WindsorContainer();
-            container.AddComponent("repository", typeof(IRepository), typeof(Repository));
-            ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
-            container.Expect(a => a.GetService<IRepository<TermCode>>()).Return(TermCodeRepository).Repeat.Any();
 
-            //IRepository validatorService = SmartServiceLocator<IValidator>.GetService();
 
-            //Assert.IsNotNull(validatorService);
+
+            //var repository = SmartServiceLocator<IRepository<TermCode>>.GetService();
+            //var test = repository.Queryable.Where(a => a.IsActive).FirstOrDefault();
 
             #endregion Arrange
 
