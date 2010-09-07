@@ -54,7 +54,7 @@ namespace Commencement.Controllers
                     parameters.Add("term", termCode);
                     break;
                 case Report.RegistrarsReport:
-                    name = "RegistrarsReport";
+                    name = "RegistrarReport";
                     parameters.Add("term", termCode);
                     break;
                 case Report.TicketSignOutSheet:

@@ -80,7 +80,7 @@
         <li>
             <strong>
                 <% using (Html.BeginForm("GetReport", "Report", FormMethod.Get)) { %>
-                    <a href="#" class="submit_anchor">Registrars Report</a>
+                    <a href="#" class="submit_anchor">Ticket Sign Out Sheet</a>
                     <%= Html.Hidden("Report", ReportController.Report.TicketSignOutSheet) %>
                     <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class = "term_value"}) %>
                 <% } %>
