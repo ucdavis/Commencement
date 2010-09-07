@@ -173,7 +173,570 @@ namespace Commencement.Tests.Controllers
             #endregion Assert		
         }
 
-        #endregion Students Tests
+
+        /// <summary>
+        /// Tests the students calls get AES majors.
+        /// </summary>
+        [TestMethod]
+        public void TestStudentsCallsGetAESMajors()
+        {
+            #region Arrange
+            var termCodes = new List<TermCode>();
+            termCodes.Add(CreateValidEntities.TermCode(1));
+            termCodes[0].IsActive = true;
+            termCodes[0].SetIdTo("1");
+            ControllerRecordFakes.FakeTermCode(0, TermCodeRepository, termCodes);
+
+            var majorCodes = new List<MajorCode>();
+            majorCodes.Add(CreateValidEntities.MajorCode(1));
+            _majorService.Expect(a => a.GetAESMajors()).Return(majorCodes.AsEnumerable()).Repeat.Any();
+
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students.Add(CreateValidEntities.Student(2));
+            students.Add(CreateValidEntities.Student(3));
+            students[1].TermCode = termCodes[0];
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+
+            var ceremony = CreateValidEntities.Ceremony(1);
+            ceremony.TermCode = termCodes[0];
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Ceremony = ceremony;
+            ControllerRecordFakes.FakeRegistration(0, RegistrationRepository, registrations);
+            #endregion Arrange
+
+            #region Act
+            Controller.Students("1", null, null, null)
+                .AssertViewRendered();
+            #endregion Act
+
+            #region Assert
+            _majorService.AssertWasCalled(a => a.GetAESMajors());
+            #endregion Assert		
+        }
+
+        /// <summary>
+        /// Tests the students filters out students where the student id does not contain the passed student id.
+        /// </summary>
+        [TestMethod]
+        public void TestStudentsFiltersOutStudentsWhereTheStudentIdDoesNotContainThePassedStudentId()
+        {
+            #region Arrange
+            var termCodes = new List<TermCode>();
+            termCodes.Add(CreateValidEntities.TermCode(1));
+            termCodes[0].IsActive = true;
+            termCodes[0].SetIdTo("1");
+            ControllerRecordFakes.FakeTermCode(0, TermCodeRepository, termCodes);
+
+            var majorCodes = new List<MajorCode>();
+            majorCodes.Add(CreateValidEntities.MajorCode(1));
+            _majorService.Expect(a => a.GetAESMajors()).Return(majorCodes.AsEnumerable()).Repeat.Any();
+
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students.Add(CreateValidEntities.Student(2));
+            students.Add(CreateValidEntities.Student(3));
+            students[0].TermCode = termCodes[0];
+            students[1].TermCode = termCodes[0];
+            students[2].TermCode = termCodes[0];
+            students[0].StudentId = "123456789";
+            students[1].StudentId = "111156789";
+            students[2].StudentId = "123456799";
+
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+
+            var ceremony = CreateValidEntities.Ceremony(1);
+            ceremony.TermCode = termCodes[0];
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Ceremony = ceremony;
+            ControllerRecordFakes.FakeRegistration(0, RegistrationRepository, registrations);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Students("234", null, null, null)
+                .AssertViewRendered()
+                .WithViewData<AdminStudentViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result.StudentRegistrationModels.Count);
+            foreach (var studentRegistrationModel in result.StudentRegistrationModels)
+            {
+                Assert.IsTrue(studentRegistrationModel.Student.Id == students[0].Id ||
+                              studentRegistrationModel.Student.Id == students[2].Id);
+            }
+            #endregion Assert		
+        }
+
+        /// <summary>
+        /// Tests the last name of the students filters out students where the student last name does not contain the passed.
+        /// </summary>
+        [TestMethod]
+        public void TestStudentsFiltersOutStudentsWhereTheStudentLastNameDoesNotContainThePassedLastName()
+        {
+            #region Arrange
+            var termCodes = new List<TermCode>();
+            termCodes.Add(CreateValidEntities.TermCode(1));
+            termCodes[0].IsActive = true;
+            termCodes[0].SetIdTo("1");
+            ControllerRecordFakes.FakeTermCode(0, TermCodeRepository, termCodes);
+
+            var majorCodes = new List<MajorCode>();
+            majorCodes.Add(CreateValidEntities.MajorCode(1));
+            _majorService.Expect(a => a.GetAESMajors()).Return(majorCodes.AsEnumerable()).Repeat.Any();
+
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students.Add(CreateValidEntities.Student(2));
+            students.Add(CreateValidEntities.Student(3));
+            students[0].TermCode = termCodes[0];
+            students[1].TermCode = termCodes[0];
+            students[2].TermCode = termCodes[0];
+            students[0].LastName = "John";
+            students[1].LastName = "Jimbo";
+            students[2].LastName = "Johny";
+
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+
+            var ceremony = CreateValidEntities.Ceremony(1);
+            ceremony.TermCode = termCodes[0];
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Ceremony = ceremony;
+            ControllerRecordFakes.FakeRegistration(0, RegistrationRepository, registrations);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Students(null, "john", null, null)
+                .AssertViewRendered()
+                .WithViewData<AdminStudentViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result.StudentRegistrationModels.Count);
+            foreach (var studentRegistrationModel in result.StudentRegistrationModels)
+            {
+                Assert.IsTrue(studentRegistrationModel.Student.Id == students[0].Id ||
+                              studentRegistrationModel.Student.Id == students[2].Id);
+            }
+            #endregion Assert
+        }
+        /// <summary>
+        /// Tests the last name of the students filters out students where the student last name does not contain the passed.
+        /// </summary>
+        [TestMethod]
+        public void TestStudentsFiltersOutStudentsWhereTheStudentFirstNameDoesNotContainThePassedFirstName()
+        {
+            #region Arrange
+            var termCodes = new List<TermCode>();
+            termCodes.Add(CreateValidEntities.TermCode(1));
+            termCodes[0].IsActive = true;
+            termCodes[0].SetIdTo("1");
+            ControllerRecordFakes.FakeTermCode(0, TermCodeRepository, termCodes);
+
+            var majorCodes = new List<MajorCode>();
+            majorCodes.Add(CreateValidEntities.MajorCode(1));
+            _majorService.Expect(a => a.GetAESMajors()).Return(majorCodes.AsEnumerable()).Repeat.Any();
+
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students.Add(CreateValidEntities.Student(2));
+            students.Add(CreateValidEntities.Student(3));
+            students[0].TermCode = termCodes[0];
+            students[1].TermCode = termCodes[0];
+            students[2].TermCode = termCodes[0];
+            students[0].FirstName = "John";
+            students[1].FirstName = "Jimbo";
+            students[2].FirstName = "Johny";
+
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+
+            var ceremony = CreateValidEntities.Ceremony(1);
+            ceremony.TermCode = termCodes[0];
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Ceremony = ceremony;
+            ControllerRecordFakes.FakeRegistration(0, RegistrationRepository, registrations);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Students(null, null, "JOHN", null)
+                .AssertViewRendered()
+                .WithViewData<AdminStudentViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result.StudentRegistrationModels.Count);
+            foreach (var studentRegistrationModel in result.StudentRegistrationModels)
+            {
+                Assert.IsTrue(studentRegistrationModel.Student.Id == students[0].Id ||
+                              studentRegistrationModel.Student.Id == students[2].Id);
+            }
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the last name of the students filters out students where the student last name does not contain the passed.
+        /// </summary>
+        [TestMethod]
+        public void TestStudentsFiltersOutStudentsWhereTheStudentHasAndLogic()
+        {
+            #region Arrange
+            var termCodes = new List<TermCode>();
+            termCodes.Add(CreateValidEntities.TermCode(1));
+            termCodes[0].IsActive = true;
+            termCodes[0].SetIdTo("1");
+            ControllerRecordFakes.FakeTermCode(0, TermCodeRepository, termCodes);
+
+            var majorCodes = new List<MajorCode>();
+            majorCodes.Add(CreateValidEntities.MajorCode(1));
+            _majorService.Expect(a => a.GetAESMajors()).Return(majorCodes.AsEnumerable()).Repeat.Any();
+
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students.Add(CreateValidEntities.Student(2));
+            students.Add(CreateValidEntities.Student(3));
+            students[0].TermCode = termCodes[0];
+            students[1].TermCode = termCodes[0];
+            students[2].TermCode = termCodes[0];
+            students[0].LastName = "John";
+            students[1].LastName = "Jimbo";
+            students[2].LastName = "Johny";
+            students[0].FirstName = "Mark";
+            students[1].FirstName = "John";
+            students[2].FirstName = "Markus";
+
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+
+            var ceremony = CreateValidEntities.Ceremony(1);
+            ceremony.TermCode = termCodes[0];
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Ceremony = ceremony;
+            ControllerRecordFakes.FakeRegistration(0, RegistrationRepository, registrations);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Students(null, "john", "US", null)
+                .AssertViewRendered()
+                .WithViewData<AdminStudentViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.StudentRegistrationModels.Count);
+            foreach (var studentRegistrationModel in result.StudentRegistrationModels)
+            {
+                Assert.IsTrue(studentRegistrationModel.Student.Id == students[2].Id);
+            }
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestStudentsFiltersOutStudentsWhereTheStudentHasAndLogic2()
+        {
+            #region Arrange
+            var termCodes = new List<TermCode>();
+            termCodes.Add(CreateValidEntities.TermCode(1));
+            termCodes[0].IsActive = true;
+            termCodes[0].SetIdTo("1");
+            ControllerRecordFakes.FakeTermCode(0, TermCodeRepository, termCodes);
+
+            var majorCodes = new List<MajorCode>();
+            majorCodes.Add(CreateValidEntities.MajorCode(1));
+            _majorService.Expect(a => a.GetAESMajors()).Return(majorCodes.AsEnumerable()).Repeat.Any();
+
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students.Add(CreateValidEntities.Student(2));
+            students.Add(CreateValidEntities.Student(3));
+            students[0].TermCode = termCodes[0];
+            students[1].TermCode = termCodes[0];
+            students[2].TermCode = termCodes[0];
+            students[0].LastName = "John";
+            students[1].LastName = "Jimbo";
+            students[2].LastName = "Johny";
+            students[0].StudentId = "Mark";
+            students[1].StudentId = "John";
+            students[2].StudentId = "Markus";
+
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+
+            var ceremony = CreateValidEntities.Ceremony(1);
+            ceremony.TermCode = termCodes[0];
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Ceremony = ceremony;
+            ControllerRecordFakes.FakeRegistration(0, RegistrationRepository, registrations);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Students("us", "john", null, null)
+                .AssertViewRendered()
+                .WithViewData<AdminStudentViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.StudentRegistrationModels.Count);
+            foreach (var studentRegistrationModel in result.StudentRegistrationModels)
+            {
+                Assert.IsTrue(studentRegistrationModel.Student.Id == students[2].Id);
+            }
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestStudentsFiltersOutStudentsDuplicateStudents()
+        {
+            #region Arrange
+            var termCodes = new List<TermCode>();
+            termCodes.Add(CreateValidEntities.TermCode(1));
+            termCodes[0].IsActive = true;
+            termCodes[0].SetIdTo("1");
+            ControllerRecordFakes.FakeTermCode(0, TermCodeRepository, termCodes);
+
+            var majorCodes = new List<MajorCode>();
+            majorCodes.Add(CreateValidEntities.MajorCode(1));
+            _majorService.Expect(a => a.GetAESMajors()).Return(majorCodes.AsEnumerable()).Repeat.Any();
+
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students.Add(CreateValidEntities.Student(2));
+            students.Add(CreateValidEntities.Student(3));
+            students[0].TermCode = termCodes[0];
+            students[1].TermCode = termCodes[0];
+            students[2].TermCode = termCodes[0];
+            
+            students[1].LastName = "Jimbo";
+            
+
+
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+            students[0].SetIdTo(SpecificGuid.GetGuid(9));
+            students[2].SetIdTo(SpecificGuid.GetGuid(9));
+
+            var ceremony = CreateValidEntities.Ceremony(1);
+            ceremony.TermCode = termCodes[0];
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Ceremony = ceremony;
+            ControllerRecordFakes.FakeRegistration(0, RegistrationRepository, registrations);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Students(null, null, null, null)
+                .AssertViewRendered()
+                .WithViewData<AdminStudentViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result.StudentRegistrationModels.Count);
+            foreach (var studentRegistrationModel in result.StudentRegistrationModels)
+            {
+                Assert.IsTrue(studentRegistrationModel.Student.Id == students[0].Id ||studentRegistrationModel.Student.Id == students[1].Id);
+            }
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestStudentsFiltersOutStudentsWithMajorCode()
+        {
+            #region Arrange
+            var termCodes = new List<TermCode>();
+            termCodes.Add(CreateValidEntities.TermCode(1));
+            termCodes[0].IsActive = true;
+            termCodes[0].SetIdTo("1");
+            ControllerRecordFakes.FakeTermCode(0, TermCodeRepository, termCodes);
+
+            var majorCodes = new List<MajorCode>();
+            majorCodes.Add(CreateValidEntities.MajorCode(1));
+            majorCodes.Add(CreateValidEntities.MajorCode(2));
+            majorCodes.Add(CreateValidEntities.MajorCode(3));
+            majorCodes[0].SetIdTo("1");
+            majorCodes[1].SetIdTo("2");
+            majorCodes[2].SetIdTo("3");
+            _majorService.Expect(a => a.GetAESMajors()).Return(majorCodes.AsEnumerable()).Repeat.Any();
+
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students.Add(CreateValidEntities.Student(2));
+            students.Add(CreateValidEntities.Student(3));
+            students[0].TermCode = termCodes[0];
+            students[1].TermCode = termCodes[0];
+            students[2].TermCode = termCodes[0];
+            students[0].Majors.Add(majorCodes[0]);
+            students[0].Majors.Add(majorCodes[1]);
+            students[0].Majors.Add(majorCodes[2]);
+            students[1].Majors.Add(majorCodes[1]);
+            students[2].Majors.Add(majorCodes[2]);
+
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+
+            var ceremony = CreateValidEntities.Ceremony(1);
+            ceremony.TermCode = termCodes[0];
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Ceremony = ceremony;
+            ControllerRecordFakes.FakeRegistration(0, RegistrationRepository, registrations);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Students(null, null, null, majorCodes[2].Id)
+                .AssertViewRendered()
+                .WithViewData<AdminStudentViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result.StudentRegistrationModels.Count);
+            foreach (var studentRegistrationModel in result.StudentRegistrationModels)
+            {
+                Assert.IsTrue(studentRegistrationModel.Student.Id == students[0].Id || studentRegistrationModel.Student.Id == students[2].Id);
+            }
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the students checks if it is registered.
+        /// </summary>
+        [TestMethod]
+        public void TestStudentsChecksIfItIsRegistered()
+        {
+            #region Arrange
+            var termCodes = new List<TermCode>();
+            termCodes.Add(CreateValidEntities.TermCode(1));
+            termCodes[0].IsActive = true;
+            termCodes[0].SetIdTo("1");
+            ControllerRecordFakes.FakeTermCode(0, TermCodeRepository, termCodes);
+
+            var majorCodes = new List<MajorCode>();
+            majorCodes.Add(CreateValidEntities.MajorCode(1));
+            majorCodes.Add(CreateValidEntities.MajorCode(2));
+            majorCodes.Add(CreateValidEntities.MajorCode(3));
+            majorCodes[0].SetIdTo("1");
+            majorCodes[1].SetIdTo("2");
+            majorCodes[2].SetIdTo("3");
+            _majorService.Expect(a => a.GetAESMajors()).Return(majorCodes.AsEnumerable()).Repeat.Any();
+
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students.Add(CreateValidEntities.Student(2));
+            students.Add(CreateValidEntities.Student(3));
+            students[0].TermCode = termCodes[0];
+            students[1].TermCode = termCodes[0];
+            students[2].TermCode = termCodes[0];
+            students[0].Majors.Add(majorCodes[0]);
+            students[0].Majors.Add(majorCodes[1]);
+            students[0].Majors.Add(majorCodes[2]);
+            students[1].Majors.Add(majorCodes[1]);
+            students[2].Majors.Add(majorCodes[2]);
+
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+
+            var ceremony = CreateValidEntities.Ceremony(1);
+            ceremony.TermCode = termCodes[0];
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Ceremony = ceremony;
+            ControllerRecordFakes.FakeRegistration(0, RegistrationRepository, registrations);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Students(null, null, null, null)
+                .AssertViewRendered()
+                .WithViewData<AdminStudentViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(3, result.StudentRegistrationModels.Count);
+            foreach (var studentRegistrationModel in result.StudentRegistrationModels)
+            {
+                Assert.IsFalse(studentRegistrationModel.Registration);
+            }
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the students checks if it is registered.
+        /// </summary>
+        [TestMethod]
+        public void TestStudentsChecksIfItIsRegistered2()
+        {
+            #region Arrange
+            var termCodes = new List<TermCode>();
+            termCodes.Add(CreateValidEntities.TermCode(1));
+            termCodes[0].IsActive = true;
+            termCodes[0].SetIdTo("1");
+            ControllerRecordFakes.FakeTermCode(0, TermCodeRepository, termCodes);
+
+            var majorCodes = new List<MajorCode>();
+            majorCodes.Add(CreateValidEntities.MajorCode(1));
+            majorCodes.Add(CreateValidEntities.MajorCode(2));
+            majorCodes.Add(CreateValidEntities.MajorCode(3));
+            majorCodes[0].SetIdTo("1");
+            majorCodes[1].SetIdTo("2");
+            majorCodes[2].SetIdTo("3");
+            _majorService.Expect(a => a.GetAESMajors()).Return(majorCodes.AsEnumerable()).Repeat.Any();
+
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students.Add(CreateValidEntities.Student(2));
+            students.Add(CreateValidEntities.Student(3));
+            students[0].TermCode = termCodes[0];
+            students[1].TermCode = termCodes[0];
+            students[2].TermCode = termCodes[0];
+            students[0].Majors.Add(majorCodes[0]);
+            students[0].Majors.Add(majorCodes[1]);
+            students[0].Majors.Add(majorCodes[2]);
+            students[1].Majors.Add(majorCodes[1]);
+            students[2].Majors.Add(majorCodes[2]);
+
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+
+            var ceremony = CreateValidEntities.Ceremony(1);
+            ceremony.TermCode = termCodes[0];
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations.Add(CreateValidEntities.Registration(2));
+            registrations.Add(CreateValidEntities.Registration(3));
+            registrations[0].Ceremony = ceremony;
+            registrations[1].Ceremony = ceremony;
+            registrations[2].Ceremony = ceremony;
+            registrations[1].Student = students[1];
+            ControllerRecordFakes.FakeRegistration(0, RegistrationRepository, registrations);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Students(null, null, null, null)
+                .AssertViewRendered()
+                .WithViewData<AdminStudentViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(3, result.StudentRegistrationModels.Count);
+            foreach (var studentRegistrationModel in result.StudentRegistrationModels)
+            {
+                if(studentRegistrationModel.Student.Id == students[1].Id)
+                {
+                    Assert.IsTrue(studentRegistrationModel.Registration);
+                }
+                else 
+                {
+                Assert.IsFalse(studentRegistrationModel.Registration);
+                }
+            }
+            #endregion Assert
+        }
+        #endregion Students Tests 
 
         #region Reflection
         #region Controller Class Tests
@@ -312,7 +875,7 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(1, result.Count(), "It looks like a method was added or removed from the controller.");
+            Assert.AreEqual(2, result.Count(), "It looks like a method was added or removed from the controller.");
             #endregion Assert
         }
 
@@ -336,6 +899,27 @@ namespace Commencement.Tests.Controllers
 
             #region Assert
            // Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
+            Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the controller method students contains expected attributes.
+        /// #2
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodStudentsContainsExpectedAttributes()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            var controllerMethod = controllerClass.GetMethod("Students");
+            #endregion Arrange
+
+            #region Act
+            var allAttributes = controllerMethod.GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
             Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
             #endregion Assert
         }
