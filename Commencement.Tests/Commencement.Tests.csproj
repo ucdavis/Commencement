@@ -125,8 +125,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContinuousDeploymentIntegrationHack.cs" />
-    <Compile Include="Controllers\AccountControllerTests.cs" />
-    <Compile Include="Controllers\AdminControllerTests.cs" />
+    <Compile Include="Controllers\AccountControllerTest.cs" />
+    <Compile Include="Controllers\AdminControllerTests\AdminControllerInit.cs" />
+    <Compile Include="Controllers\AdminControllerTests\AdminControllerTestsPart01.cs" />
+    <Compile Include="Controllers\AdminControllerTests\AdminControllerTestsPart02.cs" />
+    <Compile Include="Controllers\AdminControllerTests\AdminControllerTestsPart03.cs" />
+    <Compile Include="Controllers\AdminControllerTests\AdminControllerTestsPart04.cs" />
+    <Compile Include="Controllers\AdminControllerTests\AdminControllerTestsPart05.cs" />
     <Compile Include="Controllers\CeremonyControllerTests.cs" />
     <Compile Include="Controllers\ErrorControllerTests.cs" />
     <Compile Include="Controllers\PetitionControllerTests.cs" />
