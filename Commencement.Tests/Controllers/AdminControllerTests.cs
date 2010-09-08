@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Principal;
-using Castle.MicroKernel.Registration;
+using Castle.Windsor;
 using Commencement.Controllers;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
@@ -10,18 +9,12 @@ using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Tests.Core.Extensions;
 using Commencement.Tests.Core.Helpers;
-using Microsoft.Practices.ServiceLocation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MvcContrib.Attributes;
 using MvcContrib.TestHelper;
 using Rhino.Mocks;
-using UCDArch.Core;
 using UCDArch.Core.PersistanceSupport;
-using UCDArch.Data.NHibernate;
 using UCDArch.Testing;
 using UCDArch.Web.Attributes;
-using Castle.Windsor;
-using UCDArch.Web.IoC;
 
 //using Microsoft.Practices.ServiceLocation;
 
@@ -918,6 +911,200 @@ namespace Commencement.Tests.Controllers
 
         #endregion AddStudent Tests
 
+        #region AddStudentConfirm Tests
+
+        #region Get Tests
+
+        /// <summary>
+        /// Tests the add student confirm get redirects when student id is null.
+        /// </summary>
+        [TestMethod]
+        public void TestAddStudentConfirmGetRedirectsWhenStudentIdIsNull()
+        {
+            #region Arrange
+            string studentId = null;
+            string majorId = "Test";     
+            #endregion Arrange
+
+            #region Act
+            Controller.AddStudentConfirm(studentId, majorId)
+                .AssertActionRedirect()
+                .ToAction<AdminController>(a => a.AddStudent(studentId));
+            #endregion Act
+
+            #region Assert
+
+            #endregion Assert		
+        }
+
+        /// <summary>
+        /// Tests the add student confirm get redirects when student id is empty.
+        /// </summary>
+        [TestMethod]
+        public void TestAddStudentConfirmGetRedirectsWhenStudentIdIsEmpty()
+        {
+            #region Arrange
+            string studentId = string.Empty;
+            string majorId = "Test";
+            #endregion Arrange
+
+            #region Act
+            Controller.AddStudentConfirm(studentId, majorId)
+                .AssertActionRedirect()
+                .ToAction<AdminController>(a => a.AddStudent(studentId));
+            #endregion Act
+
+            #region Assert
+
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the add student confirm get redirects when major id is null.
+        /// </summary>
+        [TestMethod]
+        public void TestAddStudentConfirmGetRedirectsWhenMajorIdIsNull()
+        {
+            #region Arrange
+            string studentId = "Test";
+            string majorId = null;
+            #endregion Arrange
+
+            #region Act
+            Controller.AddStudentConfirm(studentId, majorId)
+                .AssertActionRedirect()
+                .ToAction<AdminController>(a => a.AddStudent(studentId));
+            #endregion Act
+
+            #region Assert
+
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the add student confirm get redirects when major id is empty.
+        /// </summary>
+        [TestMethod]
+        public void TestAddStudentConfirmGetRedirectsWhenMajorIdIsEmpty()
+        {
+            #region Arrange
+            string studentId = "Test";
+            string majorId = string.Empty;
+            #endregion Arrange
+
+            #region Act
+            Controller.AddStudentConfirm(studentId, majorId)
+                .AssertActionRedirect()
+                .ToAction<AdminController>(a => a.AddStudent(studentId));
+            #endregion Act
+
+            #region Assert
+
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the add student confirm throws exception if no students found.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
+        public void TestAddStudentConfirmGetThrowsExceptionIfNoStudentsFound1()
+        {
+            #region Arrange
+            string studentId = "1";
+            string majorId = "1";
+            string termCode = "201003";
+            LoadTermCodes(termCode);
+            _studentService.Expect(a => a.SearchStudent(studentId, termCode)).Return(new List<SearchStudent>()).Repeat.Any();
+
+            #endregion Arrange
+            try
+            {
+                #region Act
+                Controller.AddStudentConfirm(studentId, majorId);
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("Unable to find requested record.", ex.Message);
+                _studentService.AssertWasCalled(a => a.SearchStudent(studentId, termCode));
+                throw;
+            }	
+        }
+
+        /// <summary>
+        /// Tests the add student confirm throws exception if no students found.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
+        public void TestAddStudentConfirmGetThrowsExceptionIfNoStudentsFound2()
+        {
+            #region Arrange
+            string studentId = "1";
+            string majorId = "1";
+            string termCode = "201003";
+            LoadTermCodes(termCode);
+            var searchStudents = new List<SearchStudent>();
+            searchStudents.Add(CreateValidEntities.SearchStudent(1));
+            searchStudents.Add(CreateValidEntities.SearchStudent(2));
+            _studentService.Expect(a => a.SearchStudent(studentId, termCode)).Return(searchStudents).Repeat.Any();
+
+            #endregion Arrange
+            try
+            {
+                #region Act
+                Controller.AddStudentConfirm(studentId, majorId);
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("Unable to find requested record.", ex.Message);
+                _studentService.AssertWasCalled(a => a.SearchStudent(studentId, termCode));
+                throw;
+            }
+        }
+
+
+        /// <summary>
+        /// Tests the add student confirm get returns view if A student is found.
+        /// </summary>
+        [TestMethod]
+        public void TestAddStudentConfirmGetReturnsViewIfAStudentIsFound1()
+        {
+            #region Arrange
+            string studentId = "1";
+            string majorId = "1";
+            string termCode = "201003";
+            LoadTermCodes(termCode);
+            var majors = new List<MajorCode>();
+            majors.Add(CreateValidEntities.MajorCode(1));
+            ControllerRecordFakes.FakeMajors(0, _majorRepository, majors);
+            var searchStudents = new List<SearchStudent>();
+            searchStudents.Add(CreateValidEntities.SearchStudent(1));
+            searchStudents.Add(CreateValidEntities.SearchStudent(1));
+            searchStudents[0].MajorCode = majorId;
+            searchStudents[1].MajorCode = majorId;
+            _studentService.Expect(a => a.SearchStudent(studentId, termCode)).Return(searchStudents).Repeat.Any();           
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.AddStudentConfirm(studentId, majorId)
+                .AssertViewRendered()
+                .WithViewData<Student>();
+
+            #endregion Act
+
+            #region Assert
+
+            #endregion Assert		
+        }
+
+        #endregion Get Tests
+
+        #endregion AddStudentConfirm Tests
+
         #region Reflection
         #region Controller Class Tests
         /// <summary>
@@ -1333,5 +1520,18 @@ namespace Commencement.Tests.Controllers
         #endregion Controller Method Tests
 
         #endregion Reflection
+
+        #region Helpers
+
+        private void LoadTermCodes(string termCode)
+        {
+            var termCodes = new List<TermCode>();
+            termCodes.Add(CreateValidEntities.TermCode(1));
+            termCodes[0].IsActive = true;            
+            ControllerRecordFakes.FakeTermCode(0, TermCodeRepository, termCodes);
+            termCodes[0].SetIdTo(termCode);
+        }
+
+        #endregion Helpers
     }
 }

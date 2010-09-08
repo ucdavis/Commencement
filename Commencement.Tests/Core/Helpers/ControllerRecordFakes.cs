@@ -272,5 +272,45 @@ namespace Commencement.Tests.Core.Helpers
             termCodeRepository.Expect(a => a.Queryable).Return(termCodes.AsQueryable()).Repeat.Any();
             termCodeRepository.Expect(a => a.GetAll()).Return(termCodes).Repeat.Any();
         }
+
+        public static void FakeMajors(int count, IRepositoryWithTypedId<MajorCode, string> majorRepository)
+        {
+            var majorCodes = new List<MajorCode>();
+            FakeMajors(count, majorRepository, majorCodes);
+        }
+
+        public static void FakeMajors(int count, IRepositoryWithTypedId<MajorCode, string> majorRepository, List<MajorCode> specificMajorCodes)
+        {
+            var majorCodes = new List<MajorCode>();
+            var specificMajorCodesCount = 0;
+            if (specificMajorCodes != null)
+            {
+                specificMajorCodesCount = specificMajorCodes.Count;
+                for (int i = 0; i < specificMajorCodesCount; i++)
+                {
+                    majorCodes.Add(specificMajorCodes[i]);
+                }
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                majorCodes.Add(CreateValidEntities.MajorCode(i + specificMajorCodesCount + 1));
+            }
+
+            var totalCount = majorCodes.Count;
+            for (int i = 0; i < totalCount; i++)
+            {
+                majorCodes[i].SetIdTo((i + 1).ToString());
+                int i1 = i;
+                majorRepository
+                    .Expect(a => a.GetNullableById((i1 + 1).ToString()))
+                    .Return(majorCodes[i])
+                    .Repeat
+                    .Any();
+            }
+            majorRepository.Expect(a => a.GetNullableById((totalCount + 1).ToString())).Return(null).Repeat.Any();
+            majorRepository.Expect(a => a.Queryable).Return(majorCodes.AsQueryable()).Repeat.Any();
+            majorRepository.Expect(a => a.GetAll()).Return(majorCodes).Repeat.Any();
+        }
     }
 }
