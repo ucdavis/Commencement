@@ -10,6 +10,7 @@ using Commencement.Core.Domain;
 using Commencement.Tests.Core.Extensions;
 using Commencement.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MvcContrib.Attributes;
 using MvcContrib.TestHelper;
 using Rhino.Mocks;
 using UCDArch.Core.PersistanceSupport;
@@ -33,6 +34,7 @@ namespace Commencement.Tests.Controllers
         protected IRepository<Student> StudentRepository2;
         protected IRepository<Registration> RegistrationRepository;
         protected IRepository<State> StateRepository;
+        protected IRepository<Ceremony> CeremonyRepository;
 
         public IRepository<TermCode> TermCodeRepository;
         #region Init
@@ -47,6 +49,9 @@ namespace Commencement.Tests.Controllers
 
             StateRepository = FakeRepository<State>();
             Controller.Repository.Expect(a => a.OfType<State>()).Return(StateRepository).Repeat.Any();
+
+            CeremonyRepository = FakeRepository<Ceremony>();
+            Controller.Repository.Expect(a => a.OfType<Ceremony>()).Return(CeremonyRepository).Repeat.Any();
         }
 
         protected override void SetupController()
@@ -106,6 +111,51 @@ namespace Commencement.Tests.Controllers
         public void TestStudentDetailsMapping()
         {
             "~/Admin/StudentDetails/".ShouldMapTo<AdminController>(a => a.StudentDetails(Guid.Empty,true), true);
+        }
+
+        /// <summary>
+        /// Tests the add student mapping.
+        /// </summary>
+        [TestMethod]
+        public void TestAddStudentMapping()
+        {
+            "~/Admin/AddStudent/".ShouldMapTo<AdminController>(a => a.AddStudent(null), true);
+        }
+
+        /// <summary>
+        /// Tests the add student confirm get mapping.
+        /// </summary>
+        [TestMethod]
+        public void TestAddStudentConfirmGetMapping()
+        {
+            "~/Admin/AddStudentConfirm/".ShouldMapTo<AdminController>(a => a.AddStudentConfirm(null,null), true);
+        }
+
+        /// <summary>
+        /// Tests the add student confirm post mapping.
+        /// </summary>
+        [TestMethod]
+        public void TestAddStudentConfirmPostMapping()
+        {
+            "~/Admin/AddStudentConfirm/".ShouldMapTo<AdminController>(a => a.AddStudentConfirm(null, null,null), true);
+        }
+
+        /// <summary>
+        /// Tests the change major get mapping.
+        /// </summary>
+        [TestMethod]
+        public void TestChangeMajorGetMapping()
+        {
+            "~/Admin/ChangeMajor/5".ShouldMapTo<AdminController>(a => a.ChangeMajor(5));
+        }
+
+        /// <summary>
+        /// Tests the change major post mapping.
+        /// </summary>
+        [TestMethod]
+        public void TestChangeMajorPostMapping()
+        {
+            "~/Admin/ChangeMajor/5".ShouldMapTo<AdminController>(a => a.ChangeMajor(5, "123"), true);
         }
         #endregion Mapping Tests
 
@@ -1083,7 +1133,7 @@ namespace Commencement.Tests.Controllers
             ControllerRecordFakes.FakeMajors(0, _majorRepository, majors);
             var searchStudents = new List<SearchStudent>();
             searchStudents.Add(CreateValidEntities.SearchStudent(1));
-            searchStudents.Add(CreateValidEntities.SearchStudent(1));
+            searchStudents.Add(CreateValidEntities.SearchStudent(2));
             searchStudents[0].MajorCode = majorId;
             searchStudents[1].MajorCode = majorId;
             _studentService.Expect(a => a.SearchStudent(studentId, termCode)).Return(searchStudents).Repeat.Any();           
@@ -1097,13 +1147,527 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
-
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Pidm1", result.Pidm);
+            Assert.AreEqual("Id1", result.StudentId);
+            Assert.AreEqual("FirstName1", result.FirstName);
+            Assert.AreEqual("MI1", result.MI);
+            Assert.AreEqual("LastName1", result.LastName);
+            Assert.AreEqual(100m, result.Units);
+            Assert.AreEqual("Email1", result.Email);
+            Assert.AreEqual("LoginId1", result.Login);
+            Assert.AreEqual("201003", result.TermCode.Id);
+            Assert.AreSame(majors[0], result.Majors[0]);
             #endregion Assert		
         }
 
         #endregion Get Tests
 
+        #region Post Tests
+        /// <summary>
+        /// Tests the add student confirm post throws exception if student is null.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
+        public void TestAddStudentConfirmPostThrowsExceptionIfStudentIsNull()
+        {
+            #region Arrange
+            string studentId = "1";
+            string majorId = "1";
+            string termCode = "201003";
+            LoadTermCodes(termCode);
+            var majors = new List<MajorCode>();
+            majors.Add(CreateValidEntities.MajorCode(1));
+            ControllerRecordFakes.FakeMajors(0, _majorRepository, majors);
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            ceremonies[0].Majors.Add(majors[0]);
+            ControllerRecordFakes.FakeCeremony(0, CeremonyRepository, ceremonies);
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students[0].StudentId = studentId;
+            students[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+            #endregion Arrange
+            try
+            {
+                #region Act
+                Controller.AddStudentConfirm(studentId, majorId, null);
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("Student cannot be null.", ex.Message);
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
+        public void TestAddStudentConfirmPostThrowsExceptionIfMajorCodeNull()
+        {
+            #region Arrange
+            string studentId = "1";
+            string majorId = null;
+            string termCode = "201003";
+            LoadTermCodes(termCode);
+            var majors = new List<MajorCode>();
+            majors.Add(CreateValidEntities.MajorCode(1));
+            ControllerRecordFakes.FakeMajors(0, _majorRepository, majors);
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            ceremonies[0].Majors.Add(majors[0]);
+            ControllerRecordFakes.FakeCeremony(0, CeremonyRepository, ceremonies);
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students[0].StudentId = studentId;
+            students[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+            #endregion Arrange
+            try
+            {
+                #region Act
+                Controller.AddStudentConfirm(studentId, majorId, new Student());
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("Major code is required.", ex.Message);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Tests the add student confirm post throws exception if major code not found.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
+        public void TestAddStudentConfirmPostThrowsExceptionIfMajorCodeNotFound()
+        {
+            #region Arrange
+            string studentId = "1";
+            string majorId = "2";
+            string termCode = "201003";
+            LoadTermCodes(termCode);
+            var majors = new List<MajorCode>();
+            majors.Add(CreateValidEntities.MajorCode(1));
+            ControllerRecordFakes.FakeMajors(0, _majorRepository, majors);
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            ceremonies[0].Majors.Add(majors[0]);
+            ControllerRecordFakes.FakeCeremony(0, CeremonyRepository, ceremonies);
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students[0].StudentId = studentId;
+            students[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+            #endregion Arrange
+            try
+            {
+                #region Act
+                Controller.AddStudentConfirm(studentId, majorId, new Student());
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("Unable to find major.", ex.Message);
+                throw;
+            }
+        }
+
+
+        /// <summary>
+        /// Tests the add student confirm post does not save if ceremony not found.
+        /// </summary>
+        [TestMethod]
+        public void TestAddStudentConfirmPostDoesNotSaveIfCeremonyNotFound1()
+        {
+            #region Arrange
+            string studentId = "1";
+            string majorId = "1";
+            string termCode = "201003";
+            LoadTermCodes(termCode);
+            var majors = new List<MajorCode>();
+            majors.Add(CreateValidEntities.MajorCode(1));
+            ControllerRecordFakes.FakeMajors(0, _majorRepository, majors);
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].TermCode = CreateValidEntities.TermCode(9); //TermCodeRepository.Queryable.FirstOrDefault();
+            ceremonies[0].Majors.Add(majors[0]);
+            ControllerRecordFakes.FakeCeremony(0, CeremonyRepository, ceremonies);
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students[0].StudentId = studentId;
+            students[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.AddStudentConfirm(studentId, majorId, new Student())
+                .AssertViewRendered()
+                .WithViewData<Student>();
+            #endregion Act
+
+            #region Assert
+            Controller.ModelState.AssertErrorsAre("No ceremony exists for this major for the current term.");
+            Assert.IsNotNull(result);
+            Assert.AreEqual(termCode, result.TermCode.Id);
+            StudentRepository2.AssertWasNotCalled(a => a.EnsurePersistent(Arg<Student>.Is.Anything));
+            #endregion Assert		
+        }
+
+        /// <summary>
+        /// Tests the add student confirm post does not save if ceremony not found.
+        /// </summary>
+        [TestMethod]
+        public void TestAddStudentConfirmPostDoesNotSaveIfCeremonyNotFound2()
+        {
+            #region Arrange
+            string studentId = "1";
+            string majorId = "1";
+            string termCode = "201003";
+            LoadTermCodes(termCode);
+            var majors = new List<MajorCode>();
+            majors.Add(CreateValidEntities.MajorCode(1));
+            ControllerRecordFakes.FakeMajors(0, _majorRepository, majors);
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            ceremonies[0].Majors.Add(CreateValidEntities.MajorCode(98));
+            ceremonies[0].Majors.Add(CreateValidEntities.MajorCode(99));
+            ControllerRecordFakes.FakeCeremony(0, CeremonyRepository, ceremonies);
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students[0].StudentId = studentId;
+            students[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.AddStudentConfirm(studentId, majorId, new Student())
+                .AssertViewRendered()
+                .WithViewData<Student>();
+            #endregion Act
+
+            #region Assert
+            Controller.ModelState.AssertErrorsAre("No ceremony exists for this major for the current term.");
+            Assert.IsNotNull(result);
+            Assert.AreEqual(termCode, result.TermCode.Id);
+            StudentRepository2.AssertWasNotCalled(a => a.EnsurePersistent(Arg<Student>.Is.Anything));
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the add student confirm post does not save if student already exists and has that major.
+        /// </summary>
+        [TestMethod]
+        public void TestAddStudentConfirmPostDoesNotSaveIfStudentAlreadyExistsAndHasThatMajor()
+        {
+            #region Arrange
+            string studentId = "1";
+            string majorId = "1";
+            string termCode = "201003";
+            LoadTermCodes(termCode);
+            var majors = new List<MajorCode>();
+            majors.Add(CreateValidEntities.MajorCode(1));
+            ControllerRecordFakes.FakeMajors(0, _majorRepository, majors);
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            ceremonies[0].Majors.Add(CreateValidEntities.MajorCode(98));
+            ceremonies[0].Majors.Add(CreateValidEntities.MajorCode(99));
+            ceremonies[0].Majors.Add(majors[0]);
+            ControllerRecordFakes.FakeCeremony(0, CeremonyRepository, ceremonies);
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students[0].StudentId = studentId;
+            students[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            students[0].Majors.Add(majors[0]);
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.AddStudentConfirm(studentId, majorId, new Student())
+                .AssertViewRendered()
+                .WithViewData<Student>();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Student already exists.", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(termCode, result.TermCode.Id);
+            StudentRepository2.AssertWasNotCalled(a => a.EnsurePersistent(Arg<Student>.Is.Anything));
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the add student confirm post does save if student already exists and does not have that major.
+        /// </summary>
+        [TestMethod]
+        public void TestAddStudentConfirmPostDoesSaveIfStudentAlreadyExistsAndDoesNotHaveThatMajor()
+        {
+            #region Arrange
+            string studentId = "1";
+            string majorId = "1";
+            string termCode = "201003";
+            LoadTermCodes(termCode);
+            var majors = new List<MajorCode>();
+            majors.Add(CreateValidEntities.MajorCode(1));
+            ControllerRecordFakes.FakeMajors(0, _majorRepository, majors);
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            ceremonies[0].Majors.Add(CreateValidEntities.MajorCode(98));
+            ceremonies[0].Majors.Add(CreateValidEntities.MajorCode(99));
+            ceremonies[0].Majors.Add(majors[0]);
+            ControllerRecordFakes.FakeCeremony(0, CeremonyRepository, ceremonies);
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students[0].StudentId = studentId;
+            students[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            students[0].Majors.Add(ceremonies[0].Majors[0]);
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+            #endregion Arrange
+
+            #region Act
+            Controller.AddStudentConfirm(studentId, majorId, new Student())
+                .AssertActionRedirect()
+                .ToAction<AdminController>(a => a.Students(studentId, null, null, null));
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(Controller.Message);
+            StudentRepository2.AssertWasCalled(a => a.EnsurePersistent(Arg<Student>.Is.Anything));
+            _emailService.AssertWasCalled(a => a.SendAddPermission(Arg<IRepository>.Is.Anything, Arg<Student>.Is.Anything, Arg<Ceremony>.Is.Anything));
+            var args = (Student)StudentRepository2.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<Student>.Is.Anything))[0][0];
+            Assert.IsNotNull(args);
+            Assert.AreEqual(2, args.Majors.Count);
+            Assert.AreSame(ceremonies[0].Majors[0], args.Majors[0]);
+            Assert.AreSame(majors[0], args.Majors[1]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the add student confirm post does save if student already exists and does not have that major notifies users if email did not work.
+        /// </summary>
+        [TestMethod]
+        public void TestAddStudentConfirmPostDoesSaveIfStudentAlreadyExistsAndDoesNotHaveThatMajorNotifiesUsersIfEmailDidNotWork()
+        {
+            #region Arrange
+            string studentId = "1";
+            string majorId = "1";
+            string termCode = "201003";
+            LoadTermCodes(termCode);
+            var majors = new List<MajorCode>();
+            majors.Add(CreateValidEntities.MajorCode(1));
+            ControllerRecordFakes.FakeMajors(0, _majorRepository, majors);
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            ceremonies[0].Majors.Add(CreateValidEntities.MajorCode(98));
+            ceremonies[0].Majors.Add(CreateValidEntities.MajorCode(99));
+            ceremonies[0].Majors.Add(majors[0]);
+            ControllerRecordFakes.FakeCeremony(0, CeremonyRepository, ceremonies);
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students[0].StudentId = studentId;
+            students[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            students[0].Majors.Add(ceremonies[0].Majors[0]);
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+            _emailService.Expect(a =>a.SendAddPermission(Arg<IRepository>.Is.Anything, 
+                Arg<Student>.Is.Anything, 
+                Arg<Ceremony>.Is.Anything)).Throw(new Exception("An Exception."));
+            #endregion Arrange
+
+            #region Act
+            Controller.AddStudentConfirm(studentId, majorId, new Student())
+                .AssertActionRedirect()
+                .ToAction<AdminController>(a => a.Students(studentId, null, null, null));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("There was a problem sending FirstName1 LastName1 an email.", Controller.Message);
+            StudentRepository2.AssertWasCalled(a => a.EnsurePersistent(Arg<Student>.Is.Anything));
+            _emailService.AssertWasCalled(a => a.SendAddPermission(Arg<IRepository>.Is.Anything, Arg<Student>.Is.Anything, Arg<Ceremony>.Is.Anything));
+            var args = (Student)StudentRepository2.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<Student>.Is.Anything))[0][0];
+            Assert.IsNotNull(args);
+            Assert.AreEqual(2, args.Majors.Count);
+            Assert.AreSame(ceremonies[0].Majors[0], args.Majors[0]);
+            Assert.AreSame(majors[0], args.Majors[1]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the add student confirm post does not save if student has validation errors.
+        /// </summary>
+        [TestMethod]
+        public void TestAddStudentConfirmPostDoesNotSaveIfStudentHasValidationErrors()
+        {
+            #region Arrange
+            string studentId = "1";
+            string majorId = "1";
+            string termCode = "201003";
+            LoadTermCodes(termCode);
+            var majors = new List<MajorCode>();
+            majors.Add(CreateValidEntities.MajorCode(1));
+            ControllerRecordFakes.FakeMajors(0, _majorRepository, majors);
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            ceremonies[0].Majors.Add(CreateValidEntities.MajorCode(98));
+            ceremonies[0].Majors.Add(CreateValidEntities.MajorCode(99));
+            ceremonies[0].Majors.Add(majors[0]);
+            ControllerRecordFakes.FakeCeremony(0, CeremonyRepository, ceremonies);
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students[0].StudentId = studentId;
+            students[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            students[0].Majors.Add(ceremonies[0].Majors[0]);
+            students[0].Pidm = null; //Invalid
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+            #endregion Arrange
+
+            #region Act
+            Controller.AddStudentConfirm(studentId, majorId, new Student())
+                .AssertViewRendered()
+                .WithViewData<Student>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(Controller.Message);
+            StudentRepository2.AssertWasNotCalled(a => a.EnsurePersistent(Arg<Student>.Is.Anything));
+            Controller.ModelState.AssertErrorsAre("Pidm: may not be null or empty");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the add student confirm post does save if student does not exist.
+        /// </summary>
+        [TestMethod]
+        public void TestAddStudentConfirmPostDoesSaveIfStudentDoesNotExist()
+        {
+            #region Arrange
+            string studentId = "1";
+            string majorId = "1";
+            string termCode = "201003";
+            LoadTermCodes(termCode);
+            var majors = new List<MajorCode>();
+            majors.Add(CreateValidEntities.MajorCode(1));
+            ControllerRecordFakes.FakeMajors(0, _majorRepository, majors);
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            ceremonies[0].Majors.Add(CreateValidEntities.MajorCode(98));
+            ceremonies[0].Majors.Add(CreateValidEntities.MajorCode(99));
+            ceremonies[0].Majors.Add(majors[0]);
+            ControllerRecordFakes.FakeCeremony(0, CeremonyRepository, ceremonies);
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(99));
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+            #endregion Arrange
+
+            #region Act
+            Controller.AddStudentConfirm(studentId, majorId, CreateValidEntities.Student(3))
+                .AssertActionRedirect()
+                .ToAction<AdminController>(a => a.Students(studentId, null, null, null));
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(Controller.Message);
+            StudentRepository2.AssertWasCalled(a => a.EnsurePersistent(Arg<Student>.Is.Anything));
+            _emailService.AssertWasCalled(a => a.SendAddPermission(Arg<IRepository>.Is.Anything, Arg<Student>.Is.Anything, Arg<Ceremony>.Is.Anything));
+            var args = (Student)StudentRepository2.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<Student>.Is.Anything))[0][0];
+            Assert.IsNotNull(args);
+            Assert.AreEqual(1, args.Majors.Count);
+            Assert.AreSame(majors[0], args.Majors[0]);
+            Assert.AreEqual("FirstName3", args.FirstName);
+            Assert.AreNotEqual(Guid.Empty, args.Id);
+            Console.WriteLine(args.Id);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the add student confirm post does save if student does not exist for that term.
+        /// </summary>
+        [TestMethod]
+        public void TestAddStudentConfirmPostDoesSaveIfStudentDoesNotExistForThatTerm()
+        {
+            #region Arrange
+            string studentId = "1";
+            string majorId = "1";
+            string termCode = "201003";
+            LoadTermCodes(termCode);
+            var majors = new List<MajorCode>();
+            majors.Add(CreateValidEntities.MajorCode(1));
+            ControllerRecordFakes.FakeMajors(0, _majorRepository, majors);
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].TermCode = TermCodeRepository.Queryable.FirstOrDefault();
+            ceremonies[0].Majors.Add(CreateValidEntities.MajorCode(98));
+            ceremonies[0].Majors.Add(CreateValidEntities.MajorCode(99));
+            ceremonies[0].Majors.Add(majors[0]);
+            ControllerRecordFakes.FakeCeremony(0, CeremonyRepository, ceremonies);
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(3));
+            students[0].TermCode = CreateValidEntities.TermCode(9);
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, StudentRepository2);
+            #endregion Arrange
+
+            #region Act
+            Controller.AddStudentConfirm(students[0].StudentId, majorId, CreateValidEntities.Student(3))
+                .AssertActionRedirect()
+                .ToAction<AdminController>(a => a.Students(studentId, null, null, null));
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(Controller.Message);
+            StudentRepository2.AssertWasCalled(a => a.EnsurePersistent(Arg<Student>.Is.Anything));
+            _emailService.AssertWasCalled(a => a.SendAddPermission(Arg<IRepository>.Is.Anything, Arg<Student>.Is.Anything, Arg<Ceremony>.Is.Anything));
+            var args = (Student)StudentRepository2.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<Student>.Is.Anything))[0][0];
+            Assert.IsNotNull(args);
+            Assert.AreEqual(1, args.Majors.Count);
+            Assert.AreSame(majors[0], args.Majors[0]);
+            Assert.AreEqual("FirstName3", args.FirstName);
+            Assert.AreNotEqual(Guid.Empty, args.Id);
+            Assert.AreEqual(students[0].StudentId, args.StudentId);
+            Assert.AreNotSame(students[0].TermCode, args.TermCode);
+            #endregion Assert
+        }
+        #endregion Post Tests
+
         #endregion AddStudentConfirm Tests
+
+        #region ChangeMajor Tests
+        #region Get Tests
+
+        [TestMethod]
+        public void TestChangeMajorRedirectsWhenRegistrationIsNotFound()
+        {
+            #region Arrange
+            ControllerRecordFakes.FakeRegistration(2, RegistrationRepository);            
+            #endregion Arrange
+
+            #region Act
+            Controller.ChangeMajor(3)
+                .AssertActionRedirect()
+                .ToAction<AdminController>(a => a.Students(null, null, null, null));
+            #endregion Act
+
+            #region Assert
+
+            #endregion Assert		
+        }
+        #endregion Get Tests
+        #region Post Tests
+
+        #endregion Post Tests
+        #endregion ChangeMajor Tests
 
         #region Reflection
         #region Controller Class Tests
@@ -1242,7 +1806,7 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(4, result.Count(), "It looks like a method was added or removed from the controller.");
+            Assert.AreEqual(6, result.Count(), "It looks like a method was added or removed from the controller.");
             #endregion Assert
         }
 
@@ -1333,189 +1897,52 @@ namespace Commencement.Tests.Controllers
             #endregion Assert
         }
 
-        ///// <summary>
-        ///// Tests the controller method choose ceremony contains expected attributes.
-        ///// #2
-        ///// </summary>
-        //[TestMethod]
-        //public void TestControllerMethodChooseCeremonyContainsExpectedAttributes()
-        //{
-        //    #region Arrange
-        //    var controllerClass = _controllerClass;
-        //    var controllerMethod = controllerClass.GetMethod("ChooseCeremony");
-        //    #endregion Arrange
+        /// <summary>
+        /// Tests the controller method add student confirm get contains expected attributes.
+        /// #5
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodAddStudentConfirmGetContainsExpectedAttributes()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "AddStudentConfirm");
+            #endregion Arrange
 
-        //    #region Act
-        //    var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
-        //    var allAttributes = controllerMethod.GetCustomAttributes(true);
-        //    #endregion Act
+            #region Act
+            //var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<AcceptPostAttribute>();
+            var allAttributes = controllerMethod.ElementAt(0).GetCustomAttributes(true);
+            #endregion Act
 
-        //    #region Assert
-        //    Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
-        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
+            #region Assert
+            //Assert.AreEqual(1, expectedAttribute.Count(), "AcceptPostAttribute not found");
+            Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
 
-        ///// <summary>
-        ///// Tests the controller method display registration contains expected attributes.
-        ///// #3
-        ///// </summary>
-        //[TestMethod]
-        //public void TestControllerMethodDisplayRegistrationContainsExpectedAttributes()
-        //{
-        //    #region Arrange
-        //    var controllerClass = _controllerClass;
-        //    var controllerMethod = controllerClass.GetMethod("DisplayRegistration");
-        //    #endregion Arrange
+        /// <summary>
+        /// Tests the controller method add student confirm post contains expected attributes.
+        /// #6
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodAddStudentConfirmPostContainsExpectedAttributes()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "AddStudentConfirm");
+            #endregion Arrange
 
-        //    #region Act
-        //    var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
-        //    var allAttributes = controllerMethod.GetCustomAttributes(true);
-        //    #endregion Act
+            #region Act
+            var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<AcceptPostAttribute>();
+            var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
+            #endregion Act
 
-        //    #region Assert
-        //    Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
-        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "AcceptPostAttribute not found");
+            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
 
-        ///// <summary>
-        ///// Tests the controller method registration confirmation contains expected attributes.
-        ///// #4
-        ///// </summary>
-        //[TestMethod]
-        //public void TestControllerMethodRegistrationConfirmationContainsExpectedAttributes()
-        //{
-        //    #region Arrange
-        //    var controllerClass = _controllerClass;
-        //    var controllerMethod = controllerClass.GetMethod("RegistrationConfirmation");
-        //    #endregion Arrange
-
-        //    #region Act
-        //    var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
-        //    var allAttributes = controllerMethod.GetCustomAttributes(true);
-        //    #endregion Act
-
-        //    #region Assert
-        //    Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
-        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
-
-        ///// <summary>
-        ///// Tests the controller method register get contains expected attributes.
-        ///// #5
-        ///// </summary>
-        //[TestMethod]
-        //public void TestControllerMethodRegisterGetContainsExpectedAttributes()
-        //{
-        //    #region Arrange
-        //    var controllerClass = _controllerClass;
-        //    var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "Register");
-        //    #endregion Arrange
-
-        //    #region Act
-        //    var expectedAttribute = controllerMethod.ElementAt(0).GetCustomAttributes(true).OfType<PageTrackingFilter>();
-        //    var allAttributes = controllerMethod.ElementAt(0).GetCustomAttributes(true);
-        //    #endregion Act
-
-        //    #region Assert
-        //    Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
-        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
-
-        ///// <summary>
-        ///// Tests the controller method register post contains expected attributes.
-        ///// #6
-        ///// </summary>
-        //[TestMethod]
-        //public void TestControllerMethodRegisterPostContainsExpectedAttributes()
-        //{
-        //    #region Arrange
-        //    var controllerClass = _controllerClass;
-        //    var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "Register");
-        //    #endregion Arrange
-
-        //    #region Act
-        //    var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<AcceptPostAttribute>();
-        //    var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
-        //    #endregion Act
-
-        //    #region Assert
-        //    Assert.AreEqual(1, expectedAttribute.Count(), "AcceptPostAttribute not found");
-        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
-
-        ///// <summary>
-        ///// Tests the controller method edit registration get contains expected attributes.
-        ///// #7
-        ///// </summary>
-        //[TestMethod]
-        //public void TestControllerMethodEditRegistrationGetContainsExpectedAttributes()
-        //{
-        //    #region Arrange
-        //    var controllerClass = _controllerClass;
-        //    var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "EditRegistration");
-        //    #endregion Arrange
-
-        //    #region Act
-        //    var expectedAttribute = controllerMethod.ElementAt(0).GetCustomAttributes(true).OfType<PageTrackingFilter>();
-        //    var allAttributes = controllerMethod.ElementAt(0).GetCustomAttributes(true);
-        //    #endregion Act
-
-        //    #region Assert
-        //    Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
-        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
-
-        ///// <summary>
-        ///// Tests the controller method edit registration post contains expected attributes.
-        ///// #8
-        ///// </summary>
-        //[TestMethod]
-        //public void TestControllerMethodEditRegistrationPostContainsExpectedAttributes()
-        //{
-        //    #region Arrange
-        //    var controllerClass = _controllerClass;
-        //    var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "EditRegistration");
-        //    #endregion Arrange
-
-        //    #region Act
-        //    var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<AcceptPostAttribute>();
-        //    var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
-        //    #endregion Act
-
-        //    #region Assert
-        //    Assert.AreEqual(1, expectedAttribute.Count(), "AcceptPostAttribute not found");
-        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
-
-        ///// <summary>
-        ///// Tests the controller method no ceremony contains expected attributes.
-        ///// #9 Note: this one is not being used.
-        ///// </summary>
-        //[TestMethod]
-        //public void TestControllerMethodNoCeremonyContainsExpectedAttributes()
-        //{
-        //    #region Arrange
-        //    var controllerClass = _controllerClass;
-        //    var controllerMethod = controllerClass.GetMethod("NoCeremony");
-        //    #endregion Arrange
-
-        //    #region Act
-        //    var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
-        //    var allAttributes = controllerMethod.GetCustomAttributes(true);
-        //    #endregion Act
-
-        //    #region Assert
-        //    Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
-        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
 
         #endregion Controller Method Tests
 

@@ -188,7 +188,19 @@ namespace Commencement.Tests.Core.Helpers
         public static SearchStudent SearchStudent(int? count)
         {
             var rtValue = new SearchStudent();
+            rtValue.Id = "Id" + count.Extra();
+            rtValue.Pidm = "Pidm" + count.Extra();
             rtValue.FirstName = "FirstName" + count.Extra();
+            rtValue.MI = "MI" + count.Extra();
+            rtValue.LastName = "LastName" + count.Extra();
+            rtValue.HoursEarned = 100m;
+            rtValue.Email = "Email" + count.Extra();
+            rtValue.MajorCode = "MajorCode" + count.Extra();
+            rtValue.CollegeCode = "CollegeCode" + count.Extra();
+            rtValue.LoginId = "LoginId" + count.Extra();
+            rtValue.Astd = "Astd" + count.Extra();
+            
+            
             return rtValue;
         }
     }
