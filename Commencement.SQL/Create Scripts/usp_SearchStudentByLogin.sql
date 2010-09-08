@@ -39,7 +39,6 @@ AS
 				from zgvlcfs
 				where zgvlcfs_term_code_eff = '''''+@term+'''''
 					and zgvlcfs_levl_code in (''''UG'''', ''''U2'''')
-					and zgvlcfs_coll_code = ''''AE''''
 			) curriculum on curriculum.zgvlcfs_pidm = spriden_pidm
 			left outer join shrdgmr on shrdgmr_pidm = spriden_pidm and shrdgmr_term_code_sturec = '''''+@term+'''''
 			left outer join shrttrm on shrttrm_pidm = spriden_pidm
