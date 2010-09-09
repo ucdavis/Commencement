@@ -43,8 +43,10 @@ namespace Commencement.Controllers.ViewModels
                                       MajorCode = "AANS"
                                   });
 
+            //var searchResults = studentService.SearchStudentByLogin("yalaniz", TermService.GetCurrent().Id);
+
 #else
-            var searchResults = studentService.SearchStudent(principal.Identity.Name, TermService.GetCurrent().Id);
+            var searchResults = studentService.SearchStudentByLogin(principal.Identity.Name, TermService.GetCurrent().Id);
 #endif
 
             var ss = searchResults.FirstOrDefault();

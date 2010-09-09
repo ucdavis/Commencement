@@ -162,6 +162,7 @@ namespace Commencement.Controllers
         }
 
         [PageTrackingFilter]
+        [Authorize]
         public ActionResult Register()
         {
             // do a check to see if a student has already submitted a petition
@@ -180,6 +181,7 @@ namespace Commencement.Controllers
         }
 
         [AcceptPost]
+        [Authorize]
         public ActionResult Register(RegistrationPetition registrationPetition)
         {
             // validate the object
@@ -208,6 +210,7 @@ namespace Commencement.Controllers
         }
 
         [PageTrackingFilter]
+        [Authorize]
         public ActionResult RegisterConfirmation()
         {
             return View();

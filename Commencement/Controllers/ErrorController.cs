@@ -30,8 +30,8 @@ namespace Commencement.Controllers
                     description = "File not found.";
                     break;
                 case ErrorType.StudentNotFound:
-                    title = "Student not found";
-                    description = "The student you are looking for was not found.";
+                    title = "Record not found.";
+                    description = "We were unable to find your record.  Please contact the commencement coordinator at commencement@caes.ucdavis.edu.";
                     break;
                 case ErrorType.NoCeremony:
                     title = "No available ceremony found.";

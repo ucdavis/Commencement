@@ -74,6 +74,7 @@ namespace Commencement.Controllers.Helpers
 
             searchQuery.SetString("studentid", studentId);
             searchQuery.SetString("term", termCode);
+            searchQuery.SetTimeout(120);
 
             return searchQuery.List<SearchStudent>();
         }
