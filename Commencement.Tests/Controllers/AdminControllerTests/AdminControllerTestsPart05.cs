@@ -268,6 +268,53 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         }
 
         [TestMethod]
+        public void TestChangeMajorDoesNotSaveWhenDifferentCeremonyHasNotEnoughAvailableTickets()
+        {
+            #region Arrange
+            LoadTermCodes("201003");
+
+            var majors = new List<MajorCode>();
+            majors.Add(CreateValidEntities.MajorCode(1));
+            majors.Add(CreateValidEntities.MajorCode(2));
+
+            var ceremonies = new List<Ceremony>();
+            ceremonies.Add(CreateValidEntities.Ceremony(1));
+            ceremonies[0].Majors.Add(majors[0]);
+            ceremonies[0].TermCode = TermService.GetCurrent();
+            ceremonies.Add(CreateValidEntities.Ceremony(2));
+            ceremonies[1].Majors.Add(majors[1]);
+            ceremonies[1].TermCode = TermService.GetCurrent();
+
+            var registrations = new List<Registration>();
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Ceremony = ceremonies[0];
+            registrations[0].Major = majors[0];
+            registrations[0].NumberTickets = 5;
+
+            ControllerRecordFakes.FakeRegistration(0, RegistrationRepository, registrations);
+            ControllerRecordFakes.FakeMajors(0, MajorRepository, majors);
+            ControllerRecordFakes.FakeCeremony(0, CeremonyRepository, ceremonies);
+            MajorService.Expect(a => a.GetAESMajors()).Return(majors.AsEnumerable()).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.ChangeMajor(1, "2")
+                .AssertViewRendered()
+                .WithViewData<ChangeMajorViewModel>();
+            #endregion Act
+
+            #region Assert
+            Controller.ModelState.AssertErrorsAre("There are enough tickets to move this students major.Student will be moved into a different ceremony if you proceed.");
+            Assert.IsFalse(Controller.ModelState.IsValid);
+            RegistrationRepository.AssertWasNotCalled(a => a.EnsurePersistent(Arg<Registration>.Is.Anything));
+            MajorService.AssertWasCalled(a => a.GetAESMajors());
+            Assert.IsNotNull(result);
+            Assert.AreSame(majors[1], result.Registration.Major);
+            Assert.AreSame(ceremonies[1], result.Registration.Ceremony, "Depending on how this should work, changing the major should also be able to change the ceremony.");
+            #endregion Assert
+        }
+
+        [TestMethod]
         public void TestRemainingTests()
         {
             #region Arrange
