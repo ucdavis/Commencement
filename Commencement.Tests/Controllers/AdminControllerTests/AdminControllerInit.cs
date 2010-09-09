@@ -221,7 +221,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(6, result.Count(), "It looks like a method was added or removed from the controller.");
+            Assert.AreEqual(7, result.Count(), "It looks like a method was added or removed from the controller.");
             #endregion Assert
         }
 
@@ -358,6 +358,25 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             #endregion Assert
         }
 
+        /// <summary>
+        /// Tests the controller method change major get contains expected attributes.
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodChangeMajorGetContainsExpectedAttributes()
+        {
+            #region Arrange
+            var controllerClass = ControllerClass;
+            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "ChangeMajor");
+            #endregion Arrange
+
+            #region Act
+            var allAttributes = controllerMethod.ElementAt(0).GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
 
         #endregion Controller Method Tests
 

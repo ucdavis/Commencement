@@ -80,12 +80,62 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         #endregion Get Tests
         #region Post Tests
 
+        /// <summary>
+        /// Tests the change major post redirects when registration not found.
+        /// </summary>
         [TestMethod]
-        public void TestDescription()
+        public void TestChangeMajorPostRedirectsWhenRegistrationNotFound()
         {
             #region Arrange
+            ControllerRecordFakes.FakeRegistration(2, RegistrationRepository);
+            ControllerRecordFakes.FakeMajors(2, MajorRepository);
+            #endregion Arrange
 
-            Assert.Inconclusive("Test ChangeMarjorPost method");
+            #region Act
+            Controller.ChangeMajor(3, "1")
+                .AssertActionRedirect()
+                .ToAction<AdminController>(a => a.Students(null, null, null, null));
+            #endregion Act
+            
+            #region Assert
+            Assert.AreEqual("Registration or major information was missing.", Controller.Message);
+            #endregion Assert		
+        }
+
+        /// <summary>
+        /// Tests the change major post redirects when major not found.
+        /// </summary>
+        [TestMethod]
+        public void TestChangeMajorPostRedirectsWhenMajorNotFound()
+        {
+            #region Arrange
+            ControllerRecordFakes.FakeRegistration(2, RegistrationRepository);
+            ControllerRecordFakes.FakeMajors(2, MajorRepository);
+            #endregion Arrange
+
+            #region Act
+            Controller.ChangeMajor(1, "3")
+                .AssertActionRedirect()
+                .ToAction<AdminController>(a => a.Students(null, null, null, null));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Registration or major information was missing.", Controller.Message);
+            #endregion Assert
+        }
+
+
+        [TestMethod]
+        public void TestRemainingTests()
+        {
+            #region Arrange
+            Assert.Inconclusive("Test that the major is changed.");
+            Assert.Inconclusive("Test that the ceremony is changed.");
+            Assert.Inconclusive("Test that exceptions are thrown for private methods.");
+            Assert.Inconclusive("Test that an invalid registration does not save.");
+            Assert.Inconclusive("Test that a valid registration with major change is saved.");
+            Assert.Inconclusive("Test that a valid registration with major change and ceremony is saved.");
+            
 
             #endregion Arrange
 
@@ -97,6 +147,9 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
 
             #endregion Assert		
         }
+        //Test that major is assigned to registration
+        //Test exceptions are thrown
+
         #endregion Post Tests
         #endregion ChangeMajor Tests
     }
