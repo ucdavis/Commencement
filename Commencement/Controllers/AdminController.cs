@@ -201,6 +201,10 @@ namespace Commencement.Controllers
             {
                 ModelState.AddModelError("Major Code", validationMessages);
             }
+            if (!CeremonyHasAvailability(ceremony, registration))
+            {
+                registration.Ceremony = ceremony;
+            }
 
             registration.TransferValidationMessagesTo(ModelState);
 
@@ -298,7 +302,6 @@ namespace Commencement.Controllers
                 {
                     message.Append("There are enough tickets to move this students major.");
                     message.Append("Student will be moved into a different ceremony if you proceed.");
-                    registration.Ceremony = ceremony;
                 }
                 else
                 {
