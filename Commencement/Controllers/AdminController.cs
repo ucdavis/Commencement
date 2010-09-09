@@ -194,8 +194,8 @@ namespace Commencement.Controllers
             }
             registration.Major = major;
 
-            var message = ValidateMajorChange(registration, major);
-            if (!string.IsNullOrEmpty(message)) ModelState.AddModelError("Major Code", message);
+            var ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == TermService.GetCurrent() && a.Majors.Contains(major)).FirstOrDefault();
+            if (!CeremonyHasAvailability(ceremony, registration)) ModelState.AddModelError("Major Code", ValidateMajorChange(registration, major));
 
             registration.TransferValidationMessagesTo(ModelState);
 
@@ -231,8 +231,7 @@ namespace Commencement.Controllers
             }
             registration.Ceremony = ceremony;
 
-            var message = ValidateAvailabilityAtCeremony(ceremony, registration);
-            if (!string.IsNullOrEmpty(message)) ModelState.AddModelError("Ceremony", message);
+            if (!CeremonyHasAvailability(ceremony, registration)) ModelState.AddModelError("Major Code", ValidateAvailabilityAtCeremony(ceremony, registration));
 
             registration.TransferValidationMessagesTo(ModelState);
 
@@ -293,10 +292,24 @@ namespace Commencement.Controllers
                 if (ceremony.AvailableTickets - registration.TotalTickets > 0) message.Append("There are enough tickets to move this students major.");
                 else message.Append("There are not enough tickets to move this student to the ceremony.");
 
-                message.Append("Student is being moved into a different ceremony");
+                message.Append("Student will be moved into a different ceremony if you proceed.");
             }
 
             return message.ToString();
+        }
+
+        private bool CeremonyHasAvailability(Ceremony ceremony, Registration registration)
+        {
+            Check.Require(ceremony != null, "Ceremony is required.");
+            Check.Require(registration != null, "Registration is required.");
+
+            if (ceremony != registration.Ceremony)
+            {
+                if (ceremony.AvailableTickets - registration.TotalTickets > 0) return true;
+                return false;
+            }
+
+            return true;
         }
         #endregion
 
