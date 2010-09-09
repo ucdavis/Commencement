@@ -195,7 +195,12 @@ namespace Commencement.Controllers
             registration.Major = major;
 
             var ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == TermService.GetCurrent() && a.Majors.Contains(major)).FirstOrDefault();
-            if (!CeremonyHasAvailability(ceremony, registration)) ModelState.AddModelError("Major Code", ValidateMajorChange(registration, major));
+            //if (!CeremonyHasAvailability(ceremony, registration)) ModelState.AddModelError("Major Code", ValidateMajorChange(registration, major));
+            var validationMessages = ValidateMajorChange(registration, major);
+            if(!string.IsNullOrEmpty(validationMessages))
+            {
+                ModelState.AddModelError("Major Code", validationMessages);
+            }
 
             registration.TransferValidationMessagesTo(ModelState);
 
@@ -289,10 +294,18 @@ namespace Commencement.Controllers
             if (ceremony == null) message.Append("There is no matching ceremony for the current term with the major specified.");
             else if (ceremony != registration.Ceremony)
             {
-                if (ceremony.AvailableTickets - registration.TotalTickets > 0) message.Append("There are enough tickets to move this students major.");
-                else message.Append("There are not enough tickets to move this student to the ceremony.");
+                if (ceremony.AvailableTickets - registration.TotalTickets >= 0)
+                {
+                    message.Append("There are enough tickets to move this students major.");
+                    message.Append("Student will be moved into a different ceremony if you proceed.");
+                    registration.Ceremony = ceremony;
+                }
+                else
+                {
+                    message.Append("There are not enough tickets to move this student to the ceremony.");                     
+                }
 
-                message.Append("Student will be moved into a different ceremony if you proceed.");
+                
             }
 
             return message.ToString();
