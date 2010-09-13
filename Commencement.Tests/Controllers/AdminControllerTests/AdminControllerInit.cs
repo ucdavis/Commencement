@@ -367,10 +367,17 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             #region Arrange
             var controllerClass = ControllerClass;
             var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "ChangeMajor");
+            int getElement = 0;
+            if (controllerMethod.ElementAt(0).GetParameters().Count() != 1)
+            {
+                getElement = 1;
+            }
             #endregion Arrange
 
             #region Act
-            var allAttributes = controllerMethod.ElementAt(0).GetCustomAttributes(true);
+            var allAttributes = controllerMethod.ElementAt(getElement).GetCustomAttributes(true);
+            
+
             #endregion Act
 
             #region Assert
