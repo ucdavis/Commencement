@@ -304,7 +304,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             #endregion Act
 
             #region Assert
-            Controller.ModelState.AssertErrorsAre("There are enough tickets to move this students major.Student will be moved into a different ceremony if you proceed.");
+            Controller.ModelState.AssertErrorsAre("There are not enough tickets to move this student to the ceremony.");
             Assert.IsFalse(Controller.ModelState.IsValid);
             RegistrationRepository.AssertWasNotCalled(a => a.EnsurePersistent(Arg<Registration>.Is.Anything));
             MajorService.AssertWasCalled(a => a.GetAESMajors());
