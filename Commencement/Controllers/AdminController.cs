@@ -199,7 +199,7 @@ namespace Commencement.Controllers
             var validationMessages = ValidateMajorChange(registration, major);
             if(!string.IsNullOrEmpty(validationMessages))
             {
-                ModelState.AddModelError("Major Code", validationMessages);
+                ModelState.AddModelError("Major Code", validationMessages); //TODO: Review
             }
             if (!CeremonyHasAvailability(ceremony, registration))
             {
