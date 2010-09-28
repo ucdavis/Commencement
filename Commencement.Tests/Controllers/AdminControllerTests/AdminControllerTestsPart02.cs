@@ -203,9 +203,9 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             students[0].TermCode = termCodes[0];
             students[1].TermCode = termCodes[0];
             students[2].TermCode = termCodes[0];
-            students[0].LastName = "John";
-            students[1].LastName = "Jim";
-            students[2].LastName = "Johny";
+            students[0].LastName = "john";
+            students[1].LastName = "jim";
+            students[2].LastName = "johny";
 
             ControllerRecordFakes.FakeStudent(0, StudentRepository, students, StudentRepository2);
 
@@ -240,6 +240,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         public void TestStudentsFiltersOutStudentsWhereTheStudentFirstNameDoesNotContainThePassedFirstName()
         {
             #region Arrange
+            
             var termCodes = new List<TermCode>();
             termCodes.Add(CreateValidEntities.TermCode(1));
             termCodes[0].IsActive = true;
@@ -257,9 +258,9 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             students[0].TermCode = termCodes[0];
             students[1].TermCode = termCodes[0];
             students[2].TermCode = termCodes[0];
-            students[0].FirstName = "John";
-            students[1].FirstName = "Jim";
-            students[2].FirstName = "Johny";
+            students[0].FirstName = "JOHN";
+            students[1].FirstName = "JIM";
+            students[2].FirstName = "JOHNY";
 
             ControllerRecordFakes.FakeStudent(0, StudentRepository, students, StudentRepository2);
 
@@ -288,6 +289,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             #endregion Assert
         }
 
+
         /// <summary>
         /// Tests the last name of the students filters out students where the student last name does not contain the passed.
         /// </summary>
@@ -312,12 +314,12 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             students[0].TermCode = termCodes[0];
             students[1].TermCode = termCodes[0];
             students[2].TermCode = termCodes[0];
-            students[0].LastName = "John";
-            students[1].LastName = "Jim";
-            students[2].LastName = "Johny";
-            students[0].FirstName = "Mark";
-            students[1].FirstName = "John";
-            students[2].FirstName = "Markus";
+            students[0].LastName = "john";
+            students[1].LastName = "jim";
+            students[2].LastName = "johny";
+            students[0].FirstName = "mark";
+            students[1].FirstName = "john";
+            students[2].FirstName = "markus";
 
             ControllerRecordFakes.FakeStudent(0, StudentRepository, students, StudentRepository2);
 
@@ -330,7 +332,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.Students(null, "john", "US", null)
+            var result = Controller.Students(null, "john", "us", null)
                 .AssertViewRendered()
                 .WithViewData<AdminStudentViewModel>();
             #endregion Act
@@ -366,12 +368,12 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             students[0].TermCode = termCodes[0];
             students[1].TermCode = termCodes[0];
             students[2].TermCode = termCodes[0];
-            students[0].LastName = "John";
-            students[1].LastName = "Jim";
-            students[2].LastName = "Johny";
-            students[0].StudentId = "Mark";
-            students[1].StudentId = "John";
-            students[2].StudentId = "Markus";
+            students[0].LastName = "john";
+            students[1].LastName = "jim";
+            students[2].LastName = "johny";
+            students[0].StudentId = "mark";
+            students[1].StudentId = "john";
+            students[2].StudentId = "markus";
 
             ControllerRecordFakes.FakeStudent(0, StudentRepository, students, StudentRepository2);
 
@@ -421,7 +423,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             students[1].TermCode = termCodes[0];
             students[2].TermCode = termCodes[0];
 
-            students[1].LastName = "Jim";
+            //students[1].LastName = "Jim";
 
 
 
