@@ -42,8 +42,8 @@ namespace Commencement.Controllers.ViewModels
             var students = repository.OfType<Student>().Queryable.Where(a =>
                 a.TermCode == termCode
                 && (a.StudentId.Contains(string.IsNullOrEmpty(studentid) ? string.Empty : studentid))
-                && (a.LastName.ToLower().Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName.ToLower()))
-                && (a.FirstName.ToLower().Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName.ToLower()))
+                && (a.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName))
+                && (a.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName))
                 ).Distinct().ToList();
 
             // get all active registrations
