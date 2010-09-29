@@ -59,6 +59,7 @@ from openquery (sis, '
 		and shrlgpa_hours_earned in ( select max(shrlgpa_hours_earned) from shrlgpa ishrlgpa where shrlgpa.shrlgpa_pidm = ishrlgpa.shrlgpa_pidm )
 		and shrlgpa_hours_earned >= 140		
 		and shrdgmr_degs_code <> ''DA''
+		and shrdgmr_seq_no in (select min(ishrdgmr.shrdgmr_seq_no) from shrdgmr ishrdgmr where shrdgmr.shrdgmr_pidm = ishrdgmr.shrdgmr_pidm and ishrdgmr.shrdgmr_coll_code_1 = ''AE'')
 		and wormoth_acct_type = ''Z''
 		and wormoth_acct_status = ''A''
 		and shrttrm_term_code = (select max(stvterm_code) from stvterm where stvterm_end_date < sysdate and stvterm_trmt_code = ''Q'')	
