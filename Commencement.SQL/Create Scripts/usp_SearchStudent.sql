@@ -18,7 +18,7 @@ AS
 declare @tsql varchar(max)
 
 set @tsql = '
-	select spriden_pidm, spriden_id, spriden_first_name, spriden_mi, spriden_last_name, shrlgpa_hours_earned, goremal_email_address, zgvlcfs_majr_code, zgvlcfs_coll_code, shrdgmr_degs_code, login_id, shrttrm_astd_code_end_of_term, lower(wormoth_login_id) loginid
+	select spriden_pidm, spriden_id, spriden_first_name, spriden_mi, spriden_last_name, shrlgpa_hours_earned, goremal_email_address, zgvlcfs_majr_code, zgvlcfs_coll_code, shrdgmr_degs_code, login_id, lower(wormoth_login_id) loginid, shrttrm_astd_code_end_of_term
 	from (	
 		select * from openquery (sis, ''
 		select spriden_pidm, spriden_id, spriden_first_name, spriden_mi, spriden_last_name, shrlgpa_hours_earned, email.goremal_email_address, zgvlcfs_majr_code
