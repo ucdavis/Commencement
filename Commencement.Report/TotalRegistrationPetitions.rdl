@@ -1,85 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
-  <DataSources>
-    <DataSource Name="Commencement">
-      <DataSourceReference>Commencement</DataSourceReference>
-      <rd:DataSourceID>6cffa795-c3fb-491b-ae65-fe7eb84ce593</rd:DataSourceID>
-      <rd:SecurityType>None</rd:SecurityType>
-    </DataSource>
-  </DataSources>
-  <DataSets>
-    <DataSet Name="TotalPetitions">
-      <Fields>
-        <Field Name="LastName">
-          <DataField>LastName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="FirstName">
-          <DataField>FirstName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="StudentId">
-          <DataField>StudentId</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Major">
-          <DataField>Major</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CeremonyTime">
-          <DataField>CeremonyTime</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="ExceptionReason">
-          <DataField>ExceptionReason</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="PetitionStatus">
-          <DataField>PetitionStatus</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="TotalPendingPetitions">
-          <DataField>TotalPendingPetitions</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="TotalApprovedPetitions">
-          <DataField>TotalApprovedPetitions</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="TotalDeniedPetitions">
-          <DataField>TotalDeniedPetitions</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="Term">
-          <DataField>Term</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-      <Query>
-        <DataSourceName>Commencement</DataSourceName>
-        <CommandText>SELECT     RegistrationPetitions.LastName, RegistrationPetitions.FirstName, RegistrationPetitions.StudentId, vMajors.Name AS Major, Ceremonies.DateTime AS CeremonyTime, 
-                      RegistrationPetitions.ExceptionReason, CASE WHEN RegistrationPetitions.IsPending = 1 THEN 'Pending' WHEN RegistrationPetitions.IsPending = 0 AND 
-                      RegistrationPetitions.IsApproved = 1 THEN 'Approved' ELSE 'Denied' END AS PetitionStatus, 
-                      COUNT(CASE WHEN RegistrationPetitions.IsPending = 1 THEN RegistrationPetitions.id END) AS TotalPendingPetitions, 
-                      COUNT(CASE WHEN RegistrationPetitions.IsPending = 0 AND RegistrationPetitions.IsApproved = 1 THEN RegistrationPetitions.id END) AS TotalApprovedPetitions, 
-                      COUNT(CASE WHEN RegistrationPetitions.IsPending = 0 AND RegistrationPetitions.IsApproved = 0 THEN RegistrationPetitions.id END) AS TotalDeniedPetitions, 
-                      TermCodes.Name AS Term
-FROM         TermCodes INNER JOIN
-                      Ceremonies ON TermCodes.id = Ceremonies.TermCode RIGHT OUTER JOIN
-                      RegistrationPetitions INNER JOIN
-                      vMajors ON vMajors.id = RegistrationPetitions.MajorCode LEFT OUTER JOIN
-                      CeremonyMajors ON CeremonyMajors.MajorCode = RegistrationPetitions.MajorCode ON Ceremonies.id = CeremonyMajors.MajorCode
-WHERE     (RegistrationPetitions.TermCode = @term)
-GROUP BY RegistrationPetitions.LastName, RegistrationPetitions.FirstName, RegistrationPetitions.StudentId, vMajors.Name, Ceremonies.DateTime, 
-                      RegistrationPetitions.ExceptionReason, RegistrationPetitions.IsPending, RegistrationPetitions.IsApproved, TermCodes.Name</CommandText>
-        <QueryParameters>
-          <QueryParameter Name="@term">
-            <Value>=Parameters!term.Value</Value>
-          </QueryParameter>
-        </QueryParameters>
-      </Query>
-    </DataSet>
-  </DataSets>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
       <Textbox Name="Name8">
@@ -1300,17 +1220,6 @@ GROUP BY RegistrationPetitions.LastName, RegistrationPetitions.FirstName, Regist
     <Height>2.97951in</Height>
     <Style />
   </Body>
-  <ReportParameters>
-    <ReportParameter Name="term">
-      <DataType>String</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>201003</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>term</Prompt>
-    </ReportParameter>
-  </ReportParameters>
   <Width>14.01498in</Width>
   <Page>
     <PageHeader>
@@ -1571,6 +1480,99 @@ GROUP BY RegistrationPetitions.LastName, RegistrationPetitions.FirstName, Regist
     <BottomMargin>0.2in</BottomMargin>
     <Style />
   </Page>
-  <rd:ReportID>a5fab544-8664-47a4-87b8-4b02471eb721</rd:ReportID>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Commencement">
+      <DataSourceReference>Commencement</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>6cffa795-c3fb-491b-ae65-fe7eb84ce593</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="TotalPetitions">
+      <Query>
+        <DataSourceName>Commencement</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@term">
+            <Value>=Parameters!term.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>SELECT     RegistrationPetitions.LastName, RegistrationPetitions.FirstName, RegistrationPetitions.StudentId, vMajors.Name AS Major, Ceremonies.[DateTime] AS CeremonyTime,
+                      RegistrationPetitions.ExceptionReason, 
+                      CASE WHEN RegistrationPetitions.IsPending = 1 THEN 'Pending' WHEN RegistrationPetitions.IsPending = 0 AND 
+                      RegistrationPetitions.IsApproved = 1 THEN 'Approved' ELSE 'Denied' END AS PetitionStatus, 
+                      COUNT(CASE WHEN RegistrationPetitions.IsPending = 1 THEN RegistrationPetitions.id END) AS TotalPendingPetitions, 
+                      COUNT(CASE WHEN RegistrationPetitions.IsPending = 0 AND RegistrationPetitions.IsApproved = 1 THEN RegistrationPetitions.id END) AS TotalApprovedPetitions, 
+                      COUNT(CASE WHEN RegistrationPetitions.IsPending = 0 AND RegistrationPetitions.IsApproved = 0 THEN RegistrationPetitions.id END) AS TotalDeniedPetitions, 
+                      TermCodes.Name AS Term
+from RegistrationPetitions
+	inner join TermCodes on RegistrationPetitions.TermCode = TermCodes.id
+	inner join vMajors on vMajors.id = RegistrationPetitions.MajorCode
+	inner join Ceremonies on Ceremonies.id = RegistrationPetitions.CeremonyId
+WHERE     (RegistrationPetitions.TermCode = @term)
+GROUP BY RegistrationPetitions.LastName, RegistrationPetitions.FirstName, RegistrationPetitions.StudentId, vMajors.Name, Ceremonies.DateTime, 
+                      RegistrationPetitions.ExceptionReason, RegistrationPetitions.IsPending, RegistrationPetitions.IsApproved, TermCodes.Name
+</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="LastName">
+          <DataField>LastName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FirstName">
+          <DataField>FirstName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="StudentId">
+          <DataField>StudentId</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Major">
+          <DataField>Major</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CeremonyTime">
+          <DataField>CeremonyTime</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="ExceptionReason">
+          <DataField>ExceptionReason</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PetitionStatus">
+          <DataField>PetitionStatus</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TotalPendingPetitions">
+          <DataField>TotalPendingPetitions</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="TotalApprovedPetitions">
+          <DataField>TotalApprovedPetitions</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="TotalDeniedPetitions">
+          <DataField>TotalDeniedPetitions</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Term">
+          <DataField>Term</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="term">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>201003</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>term</Prompt>
+    </ReportParameter>
+  </ReportParameters>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>a5fab544-8664-47a4-87b8-4b02471eb721</rd:ReportID>
 </Report>
