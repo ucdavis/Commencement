@@ -61,7 +61,8 @@
       <Options>
         <OutputPath>bin\Release</OutputPath>
         <TargetServerVersion>SSRS2008</TargetServerVersion>
-        <TargetFolder>Commencement.Report</TargetFolder>
+        <TargetServerURL>http://blotto/reportserver</TargetServerURL>
+        <TargetFolder>Commencement</TargetFolder>
         <TargetDataSourceFolder>Data Sources</TargetDataSourceFolder>
       </Options>
     </Configuration>
