@@ -112,7 +112,7 @@
             This will print all mailing labels for the current term, regardless of whether they have been printed already.
         </li>
         <li>
-            <strong><%= Html.ActionLink<ReportController>(a => a.GenerateAveryLabels(TermService.GetCurrent().Id, true, true), "Print All Pickup Labels")%></strong>
+            <strong><%= Html.ActionLink<ReportController>(a => a.GenerateAveryLabels(TermService.GetCurrent().Id, false, true), "Print All Pickup Labels")%></strong>
             <br />
             This will print all pickup labels for the current term, regardless of whether they have been printed already.
         </li>
