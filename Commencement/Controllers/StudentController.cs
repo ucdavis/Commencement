@@ -78,6 +78,7 @@ namespace Commencement.Controllers
             {
                 var ceremony = majorsAndCeremonies.Single();
                 
+                if (currentStudent.Majors.Count != 1) return this.RedirectToAction(x => x.Register(ceremony.Ceremony.Id, majorsAndCeremonies.Single().MajorCode.Id));
                 return this.RedirectToAction(x => x.Register(ceremony.Ceremony.Id, string.Empty));
             }
             
