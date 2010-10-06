@@ -16,6 +16,7 @@ using Rhino.Mocks;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Testing;
 using UCDArch.Web.Attributes;
+using System.Web.Mvc;
 
 //using Microsoft.Practices.ServiceLocation;
 
@@ -348,7 +349,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             #endregion Arrange
 
             #region Act
-            var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<AcceptPostAttribute>();
+            var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<HttpPostAttribute>();
             var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
             #endregion Act
 

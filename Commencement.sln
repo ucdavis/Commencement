@@ -1,8 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{8CD6B092-AE22-4016-8214-957E96D50FF8}"
 	ProjectSection(SolutionItems) = preProject
+		Bin\AutoMapper.dll = Bin\AutoMapper.dll
 		Bin\Castle.Core.dll = Bin\Castle.Core.dll
 		Bin\Castle.DynamicProxy2.dll = Bin\Castle.DynamicProxy2.dll
 		Bin\Castle.MicroKernel.dll = Bin\Castle.MicroKernel.dll
@@ -30,7 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{8CD6B092-AE2
 		Bin\Rhino.Mocks.dll = Bin\Rhino.Mocks.dll
 		Bin\Spring.Aop.dll = Bin\Spring.Aop.dll
 		Bin\Spring.Core.dll = Bin\Spring.Core.dll
-		Bin\System.Data.SQLite.dll = Bin\System.Data.SQLite.dll
+		Bin\System.Data.SQLite.DLL = Bin\System.Data.SQLite.DLL
 		Bin\Telerik.Web.Mvc.dll = Bin\Telerik.Web.Mvc.dll
 		Bin\UCDArch.Core.dll = Bin\UCDArch.Core.dll
 		Bin\UCDArch.Core.NHibernateValidator.dll = Bin\UCDArch.Core.NHibernateValidator.dll
@@ -45,7 +46,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commencement", "Commencemen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commencement.Core", "Commencement.Core\Commencement.Core.csproj", "{0BB21F7B-8340-4B6E-A168-7929B0AB8C75}"
 EndProject
-Project("{4F174C21-8C12-11D0-8340-0000F80270F8}") = "Commencement.SQL", "Commencement.SQL\Commencement.SQL.dbp", "{80BAEEC6-59A6-4269-9100-7D5E9F0E8AC3}"
+Project("{C8D11400-126E-41CD-887F-60BD40844F9E}") = "Commencement.SQL", "Commencement.SQL\Commencement.SQL.dbproj", "{67CBC824-A49E-4E9B-A947-360F3DFE65C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commencement.Tests", "Commencement.Tests\Commencement.Tests.csproj", "{38BA913C-9CD8-441E-A209-8555324164C4}"
 EndProject
@@ -57,7 +58,7 @@ Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 7
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.caes.ucdavis.edu:8088/tfs
+		SccTeamFoundationServer = https://tfs.caes.ucdavis.edu:8088/tfs/defaultcollection
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = Commencement\\Commencement.csproj
 		SccProjectName1 = Commencement
@@ -65,18 +66,18 @@ Global
 		SccProjectUniqueName2 = Commencement.Core\\Commencement.Core.csproj
 		SccProjectName2 = Commencement.Core
 		SccLocalPath2 = Commencement.Core
-		SccProjectUniqueName3 = Commencement.SQL\\Commencement.SQL.dbp
-		SccProjectName3 = Commencement.SQL
-		SccLocalPath3 = Commencement.SQL
-		SccProjectUniqueName4 = Commencement.Tests\\Commencement.Tests.csproj
-		SccProjectName4 = Commencement.Tests
-		SccLocalPath4 = Commencement.Tests
-		SccProjectUniqueName5 = Commencement.Report\\Commencement.Report.rptproj
-		SccProjectName5 = Commencement.Report
-		SccLocalPath5 = Commencement.Report
-		SccProjectUniqueName6 = Commencement.Deploy\\Commencement.Deploy.wdproj
-		SccProjectName6 = Commencement.Deploy
-		SccLocalPath6 = Commencement.Deploy
+		SccProjectUniqueName3 = Commencement.Tests\\Commencement.Tests.csproj
+		SccProjectName3 = Commencement.Tests
+		SccLocalPath3 = Commencement.Tests
+		SccProjectUniqueName4 = Commencement.Report\\Commencement.Report.rptproj
+		SccProjectName4 = Commencement.Report
+		SccLocalPath4 = Commencement.Report
+		SccProjectUniqueName5 = Commencement.Deploy\\Commencement.Deploy.wdproj
+		SccProjectName5 = Commencement.Deploy
+		SccLocalPath5 = Commencement.Deploy
+		SccProjectUniqueName6 = Commencement.SQL\\Commencement.SQL.dbproj
+		SccProjectName6 = Commencement.SQL
+		SccLocalPath6 = Commencement.SQL
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +102,10 @@ Global
 		{0BB21F7B-8340-4B6E-A168-7929B0AB8C75}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0BB21F7B-8340-4B6E-A168-7929B0AB8C75}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{0BB21F7B-8340-4B6E-A168-7929B0AB8C75}.Test|Any CPU.Build.0 = Test|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Test|Any CPU.ActiveCfg = Debug|Any CPU
 		{38BA913C-9CD8-441E-A209-8555324164C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{38BA913C-9CD8-441E-A209-8555324164C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38BA913C-9CD8-441E-A209-8555324164C4}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU

@@ -28,7 +28,7 @@ namespace Commencement.Controllers
 
             return View(viewModel);
         }
-        [AcceptPost]
+        [HttpPost]
         [ValidateInput(false)]
         public ActionResult Create(Template template)
         {

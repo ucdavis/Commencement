@@ -134,7 +134,7 @@ namespace Commencement.Controllers
         }
 
         [AnyoneWithRole]
-        [AcceptPost]
+        [HttpPost]
         public JsonResult UpdateTicketAmount(int id, int tickets)
         {
             var registration = Repository.OfType<Registration>().GetNullableById(id);
@@ -180,7 +180,7 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
-        [AcceptPost]
+        [HttpPost]
         [Authorize]
         public ActionResult Register(RegistrationPetition registrationPetition)
         {
@@ -252,7 +252,7 @@ namespace Commencement.Controllers
             return View(viewModel);
          }
 
-        [AcceptPost]
+        [HttpPost]
         [StudentsOnly]
         public ActionResult ExtraTicketPetition(int id, int numberTickets)
         {

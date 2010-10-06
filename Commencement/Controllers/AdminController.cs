@@ -108,7 +108,7 @@ namespace Commencement.Controllers
 
             return View(student);
         }
-        [AcceptPost]
+        [HttpPost]
         public ActionResult AddStudentConfirm(string studentId, string majorCode, Student student)
         {
             Check.Require(student != null, "Student cannot be null.");
@@ -182,7 +182,7 @@ namespace Commencement.Controllers
             var viewModel = ChangeMajorViewModel.Create(Repository, _majorService, registration);
             return View(viewModel);
         }
-        [AcceptPost]
+        [HttpPost]
         public ActionResult ChangeMajor(int id, string majorCode)
         {
             var registration = Repository.OfType<Registration>().GetNullableById(id);
@@ -227,7 +227,7 @@ namespace Commencement.Controllers
             var viewModel = ChangeCeremonyViewModel.Create(Repository, registration);
             return View(viewModel);
         }
-        [AcceptPost]
+        [HttpPost]
         public ActionResult ChangeCeremony(int id, int ceremonyId)
         {
             var registration = Repository.OfType<Registration>().GetNullableById(id);

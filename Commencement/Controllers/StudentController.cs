@@ -155,7 +155,7 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
-        [AcceptPost]        
+        [HttpPost]        
         public ActionResult Register(int id, Registration registration, bool agreeToDisclaimer)
         {
             registration.Student = GetCurrentStudent();
@@ -237,7 +237,7 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
-        [AcceptPost]
+        [HttpPost]
         public ActionResult EditRegistration(int id, Registration registration, bool agreeToDisclaimer)
         {
             var registrationToEdit = _registrationRepository.GetNullableById(id);

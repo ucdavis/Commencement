@@ -44,7 +44,7 @@ namespace Commencement.Controllers
             
             return View(viewModel);
         }
-        [AcceptPost]
+        [HttpPost]
         public ActionResult Edit(CeremonyEditModel ceremonyEditModel)
         {
             Check.Require(ceremonyEditModel.Ceremony != null, "Ceremony cannot be null.");
@@ -79,7 +79,7 @@ namespace Commencement.Controllers
 
             return View(viewModel);
         }
-        [AcceptPost]
+        [HttpPost]
         //public ActionResult Create(Ceremony ceremony, string term)
         public ActionResult Create(CeremonyEditModel ceremonyEditModel)
         {
