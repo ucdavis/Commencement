@@ -180,14 +180,14 @@ namespace Commencement.Controllers
                     {
                         var address2 = string.IsNullOrEmpty(reg.Address2) ? string.Empty : string.Format(Labels.Avergy5160_Mail_Address2, reg.Address2);
                         cell = string.Format(Labels.Avery5160_MailCell, reg.Student.FullName, reg.Address1,
-                                                 address2, reg.City + ", " + reg.State.Id + " " + reg.Zip, tickets);
+                                                 address2, reg.City + ", " + reg.State.Id + " " + reg.Zip, reg.Ceremony.DateTime.ToString("t") + "-" + tickets);
 
 
                     }
                     else
                     {
                         cell = string.Format(Labels.Avery5160_PickupCell, reg.Student.FullName,
-                                             reg.Student.StudentId, reg.Major.Name, tickets);
+                                             reg.Student.StudentId, reg.Major.Name, reg.Ceremony.DateTime.ToString("t") + "-" + tickets);
                     }
 
                     row.AddCell(cell);

@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Avergy5160_Mail_Address2" xml:space="preserve">
     <value>&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
@@ -302,7 +302,7 @@
 		&lt;w:p wsp:rsidR="00B70BA2" wsp:rsidRPr="00C53B26" wsp:rsidRDefault="00B70BA2" wsp:rsidP="00C53B26"&gt;
 			&lt;w:pPr&gt;
 				&lt;w:spacing w:after="0" w:line="240" w:line-rule="auto"/&gt;
-				&lt;w:ind w:left="2880" w:right="115"/&gt;
+				&lt;w:ind w:left="1500" w:right="115"/&gt;
 				&lt;w:rPr&gt;
 					&lt;w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/&gt;
 					&lt;wx:font wx:val="Arial"/&gt;
