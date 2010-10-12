@@ -46,7 +46,7 @@ namespace Commencement.Tests.Controllers
          [TestMethod]
          public void TestIndexMapping()
          {
-             "~/Error/Index".ShouldMapTo<ErrorController>(a => a.Index(new Commencement.Controllers.ErrorController.ErrorType()));
+             "~/Error/Index".ShouldMapTo<ErrorController>(a => a.Index(null));
          }
 
         #endregion Mapping

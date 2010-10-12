@@ -1076,7 +1076,7 @@ namespace Commencement.Tests.Controllers
             Assert.AreEqual(3, result.States.Count());
             Assert.AreNotSame(ceremonies[0], result.Registration.Ceremony);
             Assert.AreSame(student, result.Registration.Student);
-            Controller.ModelState.AssertErrorsAre("Ceremony: may not be empty");
+            Controller.ModelState.AssertErrorsAre("Ceremony: may not be null");
             _registrationRepository.AssertWasNotCalled(a => a.EnsurePersistent(Arg<Registration>.Is.Anything));
             #endregion Assert
         }
