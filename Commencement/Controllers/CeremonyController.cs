@@ -30,7 +30,7 @@ namespace Commencement.Controllers
         // GET: /Commencement/
         public ActionResult Index()
         {
-            var viewModel = CommencementViewModel.Create(Repository);
+            var viewModel = CommencementViewModel.Create(Repository, User.Identity.Name);
 
             return View(viewModel);
         }
@@ -39,6 +39,11 @@ namespace Commencement.Controllers
             var ceremony = Repository.OfType<Ceremony>().GetNullableById(id);
 
             if (ceremony == null) return this.RedirectToAction(a => a.Index());
+            if (!ceremony.IsEditor(User.Identity.Name))
+            {
+                Message = "You do not have permission to edit selected ceremony.";
+                return this.RedirectToAction(a => a.Index());
+            }
 
             var viewModel = CeremonyViewModel.Create(Repository, _majorService, ceremony);
             
@@ -51,6 +56,12 @@ namespace Commencement.Controllers
 
             var destCeremony = Repository.OfType<Ceremony>().GetNullableById(ceremonyEditModel.Id);
             if (ceremonyEditModel.Ceremony == null) return this.RedirectToAction(a => a.Index());
+
+            if (!destCeremony.IsEditor(User.Identity.Name))
+            {
+                Message = "You do not have permission to edit selected ceremony.";
+                return this.RedirectToAction(a => a.Index());
+            }
 
             // update the term
             var termCode = _termRepository.GetNullableById(ceremonyEditModel.Term);
@@ -101,6 +112,7 @@ namespace Commencement.Controllers
             Ceremony ceremony = new Ceremony();
             CopyCeremony(ceremony, ceremonyEditModel.Ceremony, ceremonyEditModel.CeremonyMajors);
             ceremony.TermCode = termCode;
+            ceremony.AddEditor(User.Identity.Name, true);
 
             ceremony.TransferValidationMessagesTo(ModelState);
 

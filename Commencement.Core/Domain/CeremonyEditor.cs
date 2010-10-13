@@ -6,6 +6,17 @@ namespace Commencement.Core.Domain
 {
     public class CeremonyEditor : DomainObject
     {
+        public CeremonyEditor()
+        {
+            
+        }
+
+        public CeremonyEditor(string loginId, bool owner)
+        {
+            LoginId = loginId;
+            Owner = owner;
+        }
+
         [Required]
         [Length(50)]
         public virtual string LoginId { get; set; }

@@ -33,6 +33,8 @@ namespace Commencement.Core.Domain
             Registrations = new List<Registration>();
             Majors = new List<MajorCode>();
             RegistrationPetitions = new List<RegistrationPetition>();
+            Editors = new List<CeremonyEditor>();
+
             DateTime = DateTime.Now;
             RegistrationDeadline = DateTime.Now;
             ExtraTicketDeadline = DateTime.Now;
@@ -74,6 +76,7 @@ namespace Commencement.Core.Domain
         [NotNull]
         public virtual IList<RegistrationPetition> RegistrationPetitions { get; set; }
 
+        public virtual IList<CeremonyEditor> Editors { get; set; }
 
         public virtual string Name { 
             get
@@ -126,6 +129,19 @@ namespace Commencement.Core.Domain
             {
                 return Registrations.Where(a => !a.SjaBlock).Sum(a => a.TotalTickets);
             }
+        }
+
+        public virtual void AddEditor(string userId, bool owner = false)
+        {
+            var editor = new CeremonyEditor(userId, owner);
+            editor.Ceremony = this;
+
+            Editors.Add(editor);
+        }
+
+        public virtual bool IsEditor(string userId)
+        {
+            return Editors.Where(a => a.LoginId == userId).Any();
         }
     }
 }

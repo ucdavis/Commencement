@@ -140,7 +140,7 @@
     <EmbeddedResource Include="Domain\Ceremony.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Domain\CeremonyEditors.hbm.xml" />
+    <EmbeddedResource Include="Domain\CeremonyEditor.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Domain\TermCode.hbm.xml" />
