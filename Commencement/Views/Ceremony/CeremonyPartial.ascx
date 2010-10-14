@@ -1,4 +1,5 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.ViewModels.CeremonyViewModel>" %>
+<%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
     <%--<script src="<%= Url.Content("~/Scripts/jquery.ui.datetimepicker.min.js") %>" type="text/javascript"></script>--%>
     <link href="<%= Url.Content("~/Content/anytimec.css") %>" type="text/css" rel="Stylesheet" />
@@ -85,19 +86,22 @@
         </li>
         <li>
             <strong>Program Printing Deadline:</strong>
-            <%= Html.TextBoxFor(x=>x.Ceremony.PrintingDeadline.ToString("d")) %>
+            <%--<%= Html.TextBoxFor(x=>x.Ceremony.PrintingDeadlineString) %>--%>
+            <%: Html.TextBox("PrintingDeadling", Model.Ceremony.PrintingDeadline.ToString("d")) %>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.PrintingDeadline) %>
             * Registration will continue to be open past this date.
         </li>
         <li>
             <strong>Registration Closure:</strong>
-            <%= Html.TextBoxFor(x => x.Ceremony.RegistrationDeadline.ToString("d"))%>
+            <%--<%= Html.TextBoxFor(x => x.Ceremony.RegistrationDeadlineString)%>--%>
+            <%: Html.TextBox("RegistrationDeadline", Model.Ceremony.RegistrationDeadline.ToString("d"))%>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.RegistrationDeadline) %>
             * Registration will be blocked after this date.
         </li>
         <li>
             <strong>Extra Ticket Request Deadline:</strong>
-            <%= Html.TextBoxFor(x=>x.Ceremony.ExtraTicketDeadline.ToString("d")) %>
+            <%--<%= Html.TextBoxFor(x => x.Ceremony.ExtraTicketDeadlineString)%>--%>
+            <%: Html.TextBox("ExtraTicketDeadline", Model.Ceremony.ExtraTicketDeadline.ToString("d")) %>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.ExtraTicketDeadline) %>
             * Last date to accept extra ticket requests
         </li>
