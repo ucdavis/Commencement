@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using Commencement.Controllers;
+using Commencement.Core.Domain;
 using Microsoft.Practices.ServiceLocation;
 using MvcContrib.Castle;
 using Castle.Windsor;
@@ -31,6 +32,8 @@ namespace Commencement
             ModelBinders.Binders.DefaultBinder = new UCDArchModelBinder();
 
             IWindsorContainer container = InitializeServiceLocator();
+
+            NHibernateSessionConfiguration.Mappings.UseFluentMappings(typeof(StudentMap).Assembly);
 
             NHibernateSessionManager.Instance.RegisterInterceptor(container.Resolve<IInterceptor>());
         }

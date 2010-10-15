@@ -31,7 +31,8 @@ namespace Commencement.Core.Domain
             Id(x => x.Id);
 
             Map(x => x.BodyText);
-            Map(x => x.TemplateType);
+
+            References(x => x.TemplateType);
         }
     }
 }

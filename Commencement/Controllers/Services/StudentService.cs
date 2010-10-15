@@ -70,22 +70,26 @@ namespace Commencement.Controllers.Services
 
         public IList<SearchStudent> SearchStudent(string studentId, string termCode)
         {
-            var searchQuery = NHibernateSessionManager.Instance.GetSession().GetNamedQuery("SearchStudents");
+            var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery("EXEC usp_SearchStudent :studentid, :term");
 
             searchQuery.SetString("studentid", studentId);
             searchQuery.SetString("term", termCode);
             searchQuery.SetTimeout(120);
 
+            searchQuery.AddEntity(typeof (SearchStudent));
+            
             return searchQuery.List<SearchStudent>();
         }
 
         public IList<SearchStudent> SearchStudentByLogin(string login, string termCode)
         {
-            var searchQuery = NHibernateSessionManager.Instance.GetSession().GetNamedQuery("SearchStudentByLogin");
+            var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery("EXEC usp_SearchStudentByLogin :login, :term");
 
             searchQuery.SetString("login", login);
             searchQuery.SetString("term", termCode);
 
+            searchQuery.AddEntity(typeof (SearchStudent));
+            
             return searchQuery.List<SearchStudent>();
         }
     }
