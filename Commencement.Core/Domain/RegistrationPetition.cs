@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 using UCDArch.Core.NHibernateValidator.Extensions;
@@ -85,4 +86,32 @@ namespace Commencement.Core.Domain
         }
 
     }
+
+    public class RegistrationPetitionMap : ClassMap<RegistrationPetition>
+    {
+        public RegistrationPetitionMap()
+        {
+            Id(x => x.Id);
+
+            Map(x => x.Pidm);
+            Map(x => x.StudentId);
+            Map(x => x.FirstName);
+            Map(x => x.MI);
+            Map(x => x.LastName);
+            Map(x => x.Email);
+            Map(x => x.Login);
+            Map(x => x.Units);
+            Map(x => x.ExceptionReason);
+            Map(x => x.CompletionTerm);
+            Map(x => x.TransferUnitsFrom);
+            Map(x => x.TransferUnits);
+            Map(x => x.IsPending);
+            Map(x => x.IsApproved);
+
+            References(x => x.MajorCode);
+            References(x => x.TermCode);
+            References(x => x.Ceremony);
+        }
+    }
+
 }

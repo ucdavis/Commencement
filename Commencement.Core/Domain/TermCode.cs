@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 using UCDArch.Core.NHibernateValidator.Extensions;
@@ -33,4 +34,18 @@ namespace Commencement.Core.Domain
 
         public virtual IList<Ceremony> Ceremonies { get; set; }
     }
+
+    public class TermCodeMap : ClassMap<TermCode>
+    {
+        public TermCodeMap()
+        {
+            Id(x => x.Id);
+
+            Map(x => x.Name);
+            Map(x => x.IsActive);
+            
+            HasMany(x => x.Ceremonies).Cascade.None().Inverse();
+        }
+    }
+
 }

@@ -16,13 +16,13 @@ namespace Commencement.Tests.Repositories
     /// LookupFieldName:	Name
     /// </summary>
     [TestClass]
-    public class SchoolRepositoryTests : AbstractRepositoryTests<School, string >
+    public class SchoolRepositoryTests : AbstractRepositoryTests<College, string >
     {
         /// <summary>
         /// Gets or sets the School repository.
         /// </summary>
         /// <value>The School repository.</value>
-        public IRepositoryWithTypedId<School, string > SchoolRepository { get; set; }
+        public IRepositoryWithTypedId<College, string > SchoolRepository { get; set; }
 		
         #region Init and Overrides
 
@@ -32,7 +32,7 @@ namespace Commencement.Tests.Repositories
         public SchoolRepositoryTests()
         {
             ForceSave = true;
-            SchoolRepository = new RepositoryWithTypedId<School, string>();
+            SchoolRepository = new RepositoryWithTypedId<College, string>();
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Commencement.Tests.Repositories
         /// </summary>
         /// <param name="counter">The counter.</param>
         /// <returns>A valid entity of type T</returns>
-        protected override School GetValid(int? counter)
+        protected override College GetValid(int? counter)
         {
             var rtValue = CreateValidEntities.School(counter);
             var localCount = "99";
@@ -57,7 +57,7 @@ namespace Commencement.Tests.Repositories
         /// </summary>
         /// <param name="numberAtEnd"></param>
         /// <returns></returns>
-        protected override IQueryable<School> GetQuery(int numberAtEnd)
+        protected override IQueryable<College> GetQuery(int numberAtEnd)
         {
             return SchoolRepository.Queryable.Where(a => a.Name.EndsWith(numberAtEnd.ToString()));
         }
@@ -68,7 +68,7 @@ namespace Commencement.Tests.Repositories
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="counter"></param>
-        protected override void FoundEntityComparison(School entity, int counter)
+        protected override void FoundEntityComparison(College entity, int counter)
         {
             Assert.AreEqual("Name" + counter, entity.Name);
         }
@@ -78,7 +78,7 @@ namespace Commencement.Tests.Repositories
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <param name="action">The action.</param>
-        protected override void UpdateUtility(School entity, ARTAction action)
+        protected override void UpdateUtility(College entity, ARTAction action)
         {
             const string updateValue = "Updated";
             switch (action)
@@ -252,7 +252,7 @@ namespace Commencement.Tests.Repositories
             expectedFields.Add(new NameAndType("Name", "System.String", new List<string>()));
             #endregion Arrange
 
-            AttributeAndFieldValidation.ValidateFieldsAndAttributes(expectedFields, typeof(School));
+            AttributeAndFieldValidation.ValidateFieldsAndAttributes(expectedFields, typeof(College));
 
         }
 

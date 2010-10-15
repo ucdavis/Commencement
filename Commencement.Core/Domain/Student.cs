@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 using UCDArch.Core.NHibernateValidator.Extensions;
@@ -92,5 +93,30 @@ namespace Commencement.Core.Domain
             }
         }
         #endregion
+    }
+
+    public class StudentMap : ClassMap<Student>
+    {
+        public StudentMap()
+        {
+            Id(x => x.Id);
+
+            Map(x => x.Pidm);
+            Map(x => x.StudentId);
+            Map(x => x.FirstName);
+            Map(x => x.MI);
+            Map(x => x.LastName);
+            Map(x => x.Units);
+            Map(x => x.Email);
+            Map(x => x.Login);
+            Map(x => x.DateAdded);
+            Map(x => x.DateUpdated);
+            Map(x => x.SjaBlock);
+
+            References(x => x.TermCode);
+            References(x => x.Ceremony);
+
+            HasMany(x => x.Majors).Cascade.SaveUpdate().Fetch.Subselect().KeyColumn("Student_Id");
+        }
     }
 }

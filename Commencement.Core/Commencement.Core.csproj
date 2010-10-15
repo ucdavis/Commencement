@@ -68,6 +68,13 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\Commencement\Bin\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=2.1.2.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate.Validator, Version=1.2.0.2002, Culture=neutral, PublicKeyToken=70154e18752585bd, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\NHibernate.Validator.dll</HintPath>
@@ -103,7 +110,7 @@
     <Compile Include="Domain\PageTracking.cs" />
     <Compile Include="Domain\Registration.cs" />
     <Compile Include="Domain\RegistrationPetition.cs" />
-    <Compile Include="Domain\School.cs" />
+    <Compile Include="Domain\College.cs" />
     <Compile Include="Domain\SearchStudent.cs" />
     <Compile Include="Domain\State.cs" />
     <Compile Include="Domain\Student.cs" />
@@ -131,7 +138,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Domain\MajorCode.hbm.xml" />
     <EmbeddedResource Include="Domain\Registration.hbm.xml" />
-    <EmbeddedResource Include="Domain\School.hbm.xml" />
     <EmbeddedResource Include="Domain\State.hbm.xml" />
     <EmbeddedResource Include="Domain\Student.hbm.xml" />
     <EmbeddedResource Include="Domain\vTermCode.hbm.xml" />

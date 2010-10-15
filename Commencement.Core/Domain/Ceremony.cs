@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FluentNHibernate.Mapping;
 using UCDArch.Core.NHibernateValidator.Extensions;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
@@ -144,4 +145,33 @@ namespace Commencement.Core.Domain
             return Editors.Where(a => a.LoginId == userId).Any();
         }
     }
+
+    public class CeremonyMap : ClassMap<Ceremony>
+    {
+        public CeremonyMap()
+        {
+            Id(x => x.Id);
+            Map(x => x.Location);
+            Map(x => x.DateTime);
+            Map(x => x.TicketsPerStudent);
+            Map(x => x.TotalTickets);
+            Map(x => x.PrintingDeadline);
+            Map(x => x.RegistrationDeadline);
+            Map(x => x.ExtraTicketDeadline);
+            Map(x => x.ExtraTicketPerStudent);
+
+            References(x => x.TermCode);
+
+            HasMany(x => x.Registrations).Cascade.AllDeleteOrphan().Inverse();
+            HasMany(x => x.RegistrationPetitions).Cascade.None().Inverse();
+            HasMany(x => x.Editors).Cascade.AllDeleteOrphan().Inverse();
+
+            HasManyToMany(x => x.Majors)
+                .ParentKeyColumn("CeremonyId")
+                .ChildKeyColumn("MajorCode")
+                .Table("CeremonyMajors")
+                .Cascade.SaveUpdate();
+        }
+    }
+
 }

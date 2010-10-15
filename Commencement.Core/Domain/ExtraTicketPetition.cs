@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 
@@ -37,5 +38,20 @@ namespace Commencement.Core.Domain
         public virtual DateTime? DateDecision { get; set; }
 
         public virtual bool LabelPrinted { get; set; }
+    }
+
+    public class ExtraTicketPetitionMap : ClassMap<ExtraTicketPetition>
+    {
+        public ExtraTicketPetitionMap()
+        {
+            Id(x => x.Id);
+
+            Map(x => x.NumberTickets);
+            Map(x => x.IsPending);
+            Map(x => x.IsApproved);
+            Map(x => x.DateSubmitted);
+            Map(x => x.DateDecision);
+            Map(x => x.LabelPrinted);
+        }
     }
 }

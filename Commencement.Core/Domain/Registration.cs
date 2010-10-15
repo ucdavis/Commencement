@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 using UCDArch.Core.NHibernateValidator.Extensions;
@@ -84,5 +85,32 @@ namespace Commencement.Core.Domain
         }
 
         public virtual bool SjaBlock { get; set; }
+    }
+
+    public class RegistrationMap : ClassMap<Registration>
+    {
+        public RegistrationMap()
+        {
+            Id(x => x.Id);
+
+            References(x => x.Student).Fetch.Join();
+            References(x => x.Major);
+            References(x => x.State);
+            References(x => x.Ceremony);
+            References(x => x.ExtraTicketPetition);
+
+            Map(x => x.Address1);
+            Map(x => x.Address2);
+            Map(x => x.Address3);
+            Map(x => x.City);
+            Map(x => x.Zip);
+            Map(x => x.Email);
+            Map(x => x.NumberTickets);
+            Map(x => x.MailTickets);
+            Map(x => x.Comments);
+            Map(x => x.DateRegistered);
+            Map(x => x.LabelPrinted);
+            Map(x => x.SjaBlock);
+        }
     }
 }

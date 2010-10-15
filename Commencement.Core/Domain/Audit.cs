@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 using UCDArch.Core.NHibernateValidator.Extensions;
@@ -40,6 +41,19 @@ namespace Commencement.Core.Domain
                 default:
                     throw new ArgumentOutOfRangeException("auditActionType");
             }
+        }
+    }
+
+    public class AuditMap : ClassMap<Audit>
+    {
+        public AuditMap()
+        {
+            Id(x => x.Id);
+            Map(x => x.ObjectName);
+            Map(x => x.ObjectId);
+            Map(x => x.AuditActionTypeId);
+            Map(x => x.Username);
+            Map(x => x.AuditDate);
         }
     }
 

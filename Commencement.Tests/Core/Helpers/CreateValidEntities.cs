@@ -157,9 +157,9 @@ namespace Commencement.Tests.Core.Helpers
             return rtValue;
         }
 
-        public static School School(int? count)
+        public static College School(int? count)
         {
-            var rtValue = new School();
+            var rtValue = new College();
             rtValue.Name = "Name" + count.Extra();
             return rtValue;
         }
