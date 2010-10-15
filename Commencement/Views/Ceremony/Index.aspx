@@ -4,7 +4,7 @@
 <%@ Import Namespace="Telerik.Web.Mvc.UI" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Index
+	Commencement Ceremonies
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -14,7 +14,7 @@
     <%= Html.ActionLink<AdminController>(a=>a.Index(), "Home") %>
     </li></ul>
 
-    <h2>Index</h2>
+    <h2>Ceremonies</h2>
 
     <%= Html.ActionLink<CeremonyController>(a=>a.Create(), "Create New") %>
 

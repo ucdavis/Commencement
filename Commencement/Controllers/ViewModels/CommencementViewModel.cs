@@ -14,11 +14,16 @@ namespace Commencement.Controllers.ViewModels
         public static CommencementViewModel Create(IRepository repository, string userId)
         {
             Check.Require(repository != null, "Repository is required.");
+            Check.Require(!string.IsNullOrEmpty(userId), "User Id is required.");
+
+            var ceremonyIds = (from a in repository.OfType<CeremonyEditor>().Queryable
+                               where a.LoginId == userId
+                               select a.Ceremony.Id).ToList();
 
             var viewModel = new CommencementViewModel()
                                 {
                                     TermCodes = repository.OfType<TermCode>().GetAll(),
-                                    Ceremonies = repository.OfType<CeremonyEditor>().Queryable.Where(a => a.LoginId == userId).Select(a => a.Ceremony).Distinct().ToList()
+                                    Ceremonies = repository.OfType<Ceremony>().Queryable.Where(a=>ceremonyIds.Contains(a.Id)).ToList()
                                 };
 
             return viewModel;
