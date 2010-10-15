@@ -160,7 +160,7 @@ namespace Commencement.Core.Domain
             Map(x => x.ExtraTicketDeadline);
             Map(x => x.ExtraTicketPerStudent);
 
-            References(x => x.TermCode);
+            References(x => x.TermCode).Column("TermCode");
 
             HasMany(x => x.Registrations).Cascade.AllDeleteOrphan().Inverse();
             HasMany(x => x.RegistrationPetitions).Cascade.None().Inverse();

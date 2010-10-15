@@ -108,8 +108,8 @@ namespace Commencement.Core.Domain
             Map(x => x.IsPending);
             Map(x => x.IsApproved);
 
-            References(x => x.MajorCode);
-            References(x => x.TermCode);
+            References(x => x.MajorCode).Column("MajorCode");
+            References(x => x.TermCode).Column("TermCode");
             References(x => x.Ceremony);
         }
     }

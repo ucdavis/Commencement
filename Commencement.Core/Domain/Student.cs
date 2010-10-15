@@ -113,7 +113,7 @@ namespace Commencement.Core.Domain
             Map(x => x.DateUpdated);
             Map(x => x.SjaBlock);
 
-            References(x => x.TermCode);
+            References(x => x.TermCode).Column("TermCode");
             References(x => x.Ceremony);
 
             HasMany(x => x.Majors).Cascade.SaveUpdate().Fetch.Subselect().KeyColumn("Student_Id");

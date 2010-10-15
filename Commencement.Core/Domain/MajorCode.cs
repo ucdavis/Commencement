@@ -23,10 +23,10 @@ namespace Commencement.Core.Domain
             Id(x => x.Id);
 
             Map(x => x.Name);
-            Map(x => x.DepartmentCode);
+            Map(x => x.DepartmentCode).Column("Dept");
             Map(x => x.DisciplineCode);
 
-            References(x => x.College);
+            References(x => x.College).Column("CollegeCode");
         }
     }
 
