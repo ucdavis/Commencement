@@ -229,4 +229,10 @@
         commencement@caes.ucdavis.edu
     &lt;/p&gt;</value>
   </data>
+	<data name="StudentService_SearchStudent_SQL">
+		<value xml:space="preserve">EXEC usp_SearchStudent :studentid, :term</value>
+	</data>
+	<data name="StudentService_SearchStudentByLogin_SQL">
+		<value xml:space="preserve">EXEC usp_SearchStudentByLogin :login, :term</value>
+	</data>
 </root>

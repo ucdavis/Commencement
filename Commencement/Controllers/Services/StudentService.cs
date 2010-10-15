@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Principal;
 using Commencement.Controllers.Helpers;
 using Commencement.Core.Domain;
+using Commencement.Core.Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Data.NHibernate;
 
@@ -70,7 +71,7 @@ namespace Commencement.Controllers.Services
 
         public IList<SearchStudent> SearchStudent(string studentId, string termCode)
         {
-            var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery("EXEC usp_SearchStudent :studentid, :term");
+            var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery(StaticValues.StudentService_SearchStudent_SQL);
 
             searchQuery.SetString("studentid", studentId);
             searchQuery.SetString("term", termCode);
@@ -83,7 +84,7 @@ namespace Commencement.Controllers.Services
 
         public IList<SearchStudent> SearchStudentByLogin(string login, string termCode)
         {
-            var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery("EXEC usp_SearchStudentByLogin :login, :term");
+            var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery(StaticValues.StudentService_SearchStudentByLogin_SQL);
 
             searchQuery.SetString("login", login);
             searchQuery.SetString("term", termCode);

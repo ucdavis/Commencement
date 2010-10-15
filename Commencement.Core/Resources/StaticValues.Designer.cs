@@ -142,6 +142,24 @@ namespace Commencement.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EXEC usp_SearchStudent :studentid, :term.
+        /// </summary>
+        public static string StudentService_SearchStudent_SQL {
+            get {
+                return ResourceManager.GetString("StudentService_SearchStudent_SQL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EXEC usp_SearchStudentByLogin :login, :term.
+        /// </summary>
+        public static string StudentService_SearchStudentByLogin_SQL {
+            get {
+                return ResourceManager.GetString("StudentService_SearchStudentByLogin_SQL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Registration Confirmation.
         /// </summary>
         public static string Template_RegistrationConfirmation {
