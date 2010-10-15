@@ -5,6 +5,7 @@ using System.Security.Principal;
 using Commencement.Controllers;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
+using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Tests.Core.Extensions;

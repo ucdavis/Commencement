@@ -2,6 +2,7 @@
 <%@ Import Namespace="Commencement.Controllers" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 <%@ Import Namespace="Commencement.Core.Resources" %>
+<%@ Import Namespace="Commencement.Controllers.Services" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Index

@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<System.Collections.Generic.List<Commencement.Controllers.Helpers.CeremonyWithMajor>>"
+<%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<System.Collections.Generic.List<Commencement.Controllers.Services.CeremonyWithMajor>>"
     MasterPageFile="~/Views/Shared/Site.Master" %>
 
 <%--<%@ Import Namespace="Resources" %>--%>

@@ -1,6 +1,7 @@
 ﻿using System;
 using Commencement.Controllers;
 using Commencement.Controllers.Helpers;
+using Commencement.Controllers.Services;
 using Commencement.Core.Domain;
 using Commencement.Tests.Core.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

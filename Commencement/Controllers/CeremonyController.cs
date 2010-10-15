@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
+using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using MvcContrib.Attributes;
@@ -18,19 +19,21 @@ namespace Commencement.Controllers
         private readonly IRepositoryWithTypedId<TermCode, string> _termRepository;
         private readonly IRepositoryWithTypedId<vTermCode, string> _vTermRepository;
         private readonly IMajorService _majorService;
+        private readonly ICeremonyService _ceremonyService;
 
-        public CeremonyController(IRepositoryWithTypedId<TermCode, string> termRepository, IRepositoryWithTypedId<vTermCode, string> vTermRepository, IMajorService majorService)
+        public CeremonyController(IRepositoryWithTypedId<TermCode, string> termRepository, IRepositoryWithTypedId<vTermCode, string> vTermRepository, IMajorService majorService, ICeremonyService ceremonyService)
         {
             _termRepository = termRepository;
             _vTermRepository = vTermRepository;
             _majorService = majorService;
+            _ceremonyService = ceremonyService;
         }
 
         //
         // GET: /Commencement/
         public ActionResult Index()
         {
-            var viewModel = CommencementViewModel.Create(Repository, User.Identity.Name);
+            var viewModel = CommencementViewModel.Create(Repository, _ceremonyService, User.Identity.Name);
 
             return View(viewModel);
         }

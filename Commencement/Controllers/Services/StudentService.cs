@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
-using System.Web;
+using Commencement.Controllers.Helpers;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Data.NHibernate;
 
-namespace Commencement.Controllers.Helpers
+namespace Commencement.Controllers.Services
 {
     public interface IStudentService
     {

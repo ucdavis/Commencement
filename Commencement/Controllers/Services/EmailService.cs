@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Mail;
-using System.Web;
+using Commencement.Controllers.Helpers;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
+using Queryable = System.Linq.Queryable;
 
-namespace Commencement.Controllers.Helpers
+namespace Commencement.Controllers.Services
 {
     public interface IEmailService
     {
@@ -50,7 +49,7 @@ namespace Commencement.Controllers.Helpers
             if (registration.Email != null) message.To.Add(registration.Email);
 
             // get the latest registration confirmation template
-            var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationConfirmation).OrderByDescending(a => a.Id).FirstOrDefault();
+            var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationConfirmation).OrderByDescending(a => a.Id));
             Check.Require(template != null, "No template is available.");
 
             // process the template text
@@ -71,7 +70,7 @@ namespace Commencement.Controllers.Helpers
             message.Subject = term.Name + " Commencement Registration";
             message.To.Add(student.Email);
 
-            var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved).OrderByDescending(a => a.Id).FirstOrDefault();
+            var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved).OrderByDescending(a => a.Id));
             Check.Require(template != null, "No template is available");
 
             message.Body = letterGenerator.GenerateAddPermission(student, template, ceremony);
@@ -92,7 +91,7 @@ namespace Commencement.Controllers.Helpers
             message.To.Add(registration.Student.Email);
             if (registration.Email != null) message.To.Add(registration.Email);
 
-            var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision).OrderByDescending(a => a.Id).FirstOrDefault();
+            var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision).OrderByDescending(a => a.Id));
             Check.Require(template != null, "No template is available.");
 
             message.Body = letterGenerator.GenerateExtraTicketRequestPetitionDecision(registration, template);
@@ -113,7 +112,7 @@ namespace Commencement.Controllers.Helpers
             message.To.Add(registration.Student.Email);
             if (registration.Email != null) message.To.Add(registration.Email);
 
-            var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition).OrderByDescending(a => a.Id).FirstOrDefault();
+            var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition).OrderByDescending(a => a.Id));
             Check.Require(template != null, "No template is available.");
 
             message.Body = letterGenerator.GenerateExtraTicketRequestPetitionDecision(registration, template);
@@ -132,7 +131,7 @@ namespace Commencement.Controllers.Helpers
             message.Subject = term.Name + " Commencement Registration Petition";
             message.To.Add(registrationPetition.Email);
 
-            var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition).OrderByDescending(a => a.Id).FirstOrDefault();
+            var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition).OrderByDescending(a => a.Id));
             Check.Require(template != null, "No template is available.");
 
             message.Body = letterGenerator.GenerateRegistrationPetitionConfirmation(registrationPetition, template);
@@ -151,7 +150,7 @@ namespace Commencement.Controllers.Helpers
             message.Subject = term.Name + " Commencement Registration Petition";
             message.To.Add(registrationPetition.Email);
 
-            var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition).OrderByDescending(a => a.Id).FirstOrDefault();
+            var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition).OrderByDescending(a => a.Id));
             Check.Require(template != null, "No template is available.");
 
             message.Body = letterGenerator.GenerateRegistrationPetitionConfirmation(registrationPetition, template);
@@ -198,7 +197,7 @@ namespace Commencement.Controllers.Helpers
             message.To.Add("srkirkland@ucdavis.edu");
 
             // get the latest registration confirmation template
-            var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationConfirmation).OrderByDescending(a => a.Id).FirstOrDefault();
+            var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationConfirmation).OrderByDescending(a => a.Id));
             Check.Require(template != null, "No template is available.");
 
             // process the template text
@@ -218,7 +217,7 @@ namespace Commencement.Controllers.Helpers
             var message = InitializeMessage();
             message.Subject = term.Name + " Commencement Registration";
 
-            var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved).OrderByDescending(a => a.Id).FirstOrDefault();
+            var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved).OrderByDescending(a => a.Id));
             Check.Require(template != null, "No template is available");
 
             message.Body = letterGenerator.GenerateAddPermission(student, template, ceremony);
@@ -238,7 +237,7 @@ namespace Commencement.Controllers.Helpers
             message.Subject = term.Name + " Commencement Extra Ticket Petition";
             message.To.Add("anlai@ucdavis.edu");
 
-            var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision).OrderByDescending(a => a.Id).FirstOrDefault();
+            var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision).OrderByDescending(a => a.Id));
             Check.Require(template != null, "No template is available.");
 
             message.Body = letterGenerator.GenerateExtraTicketRequestPetitionDecision(registration, template);
@@ -258,7 +257,7 @@ namespace Commencement.Controllers.Helpers
             message.Subject = term.Name + " Commencement Extra Ticket Petition";
             message.To.Add("anlai@ucdavis.edu");
 
-            var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition).OrderByDescending(a => a.Id).FirstOrDefault();
+            var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition).OrderByDescending(a => a.Id));
             Check.Require(template != null, "No template is available.");
 
             message.Body = letterGenerator.GenerateExtraTicketRequestPetitionDecision(registration, template);
@@ -277,7 +276,7 @@ namespace Commencement.Controllers.Helpers
             message.Subject = term.Name + " Commencement Registration Petition";
             message.To.Add("anlai@ucdavis.edu");
 
-            var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition).OrderByDescending(a => a.Id).FirstOrDefault();
+            var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition).OrderByDescending(a => a.Id));
             Check.Require(template != null, "No template is available.");
 
             message.Body = letterGenerator.GenerateRegistrationPetitionConfirmation(registrationPetition, template);
@@ -296,7 +295,7 @@ namespace Commencement.Controllers.Helpers
             message.Subject = term.Name + " Commencement Registration Petition";
             message.To.Add("anlai@ucdavis.edu");
 
-            var template = repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition).OrderByDescending(a => a.Id).FirstOrDefault();
+            var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition).OrderByDescending(a => a.Id));
             Check.Require(template != null, "No template is available.");
 
             message.Body = letterGenerator.GenerateRegistrationPetitionConfirmation(registrationPetition, template);

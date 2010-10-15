@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Security;
 using Castle.Windsor;
+using Commencement.Controllers.Services;
 using UCDArch.Core.CommonValidator;
 using UCDArch.Core.NHibernateValidator.CommonValidatorAdapter;
 using UCDArch.Core.PersistanceSupport;
@@ -28,6 +29,7 @@ namespace Commencement
             container.AddComponent("majorService", typeof (IMajorService), typeof (MajorService));
             container.AddComponent("auditInterceptor", typeof (NHibernate.IInterceptor), typeof (AuditInterceptor));
             container.AddComponent("principal", typeof (IPrincipal), typeof (WebPrincipal));
+            container.AddComponent("ceremonyService", typeof (ICeremonyService), typeof (CeremonyService));
 
             AddRepositoriesTo(container);
         }

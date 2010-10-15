@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 using Commencement.Controllers.Helpers;
+using Commencement.Controllers.Services;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -18,14 +21,15 @@ namespace Commencement.Controllers.ViewModels
         public string majorCodeFilter { get; set; }
         public int ceremonyFilter { get; set; }
 
-        public static AdminRegistrationViewModel Create(IRepository repository, IMajorService majorService, TermCode termCode, string studentid, string lastName, string firstName, string majorCode, int? ceremonyId)
+        public static AdminRegistrationViewModel Create(IRepository repository, IMajorService majorService, ICeremonyService ceremonyService, TermCode termCode, string userId, string studentid, string lastName, string firstName, string majorCode, int? ceremonyId)
         {
             Check.Require(repository != null, "Repository is required.");
+            Check.Require(majorService != null, "Major service is required.");
 
             var viewModel = new AdminRegistrationViewModel()
                                 {
                                     MajorCodes = majorService.GetAESMajors(),
-                                    Ceremonies = repository.OfType<Ceremony>().Queryable.Where(a=>a.TermCode == termCode).ToList(),
+                                    Ceremonies = ceremonyService.GetCeremonies(userId, termCode),
                                     studentidFilter = studentid,
                                     lastNameFilter = lastName,
                                     firstNameFilter = firstName,
@@ -35,10 +39,10 @@ namespace Commencement.Controllers.ViewModels
 
             var query = repository.OfType<Registration>().Queryable.Where(a =>
                                 a.Ceremony.TermCode == termCode
+                                && ceremonyService.GetCeremonyIds(userId, termCode).Contains(a.Ceremony.Id)
                                 && (a.Student.StudentId.Contains(string.IsNullOrEmpty(studentid) ? string.Empty : studentid))
                                 && (a.Student.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName))
                                 && (a.Student.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName))
-                                //&& (a.Student.Majors.Select(b=>b.Id).Contains(string.IsNullOrEmpty(majorCode) ? string.Empty : majorCode))
                                 );
 
             if (ceremonyId.HasValue && ceremonyId.Value > 0)
@@ -51,6 +55,5 @@ namespace Commencement.Controllers.ViewModels
 
             return viewModel;
         }
-
     }
 }

@@ -4,6 +4,7 @@ using System.Text;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
+using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
@@ -23,14 +24,16 @@ namespace Commencement.Controllers
         private readonly IStudentService _studentService;
         private readonly IEmailService _emailService;
         private readonly IMajorService _majorService;
+        private readonly ICeremonyService _ceremonyService;
 
-        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService, IEmailService emailService, IMajorService majorService)
+        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService, IEmailService emailService, IMajorService majorService, ICeremonyService ceremonyService)
         {
             _studentRepository = studentRepository;
             _majorRepository = majorRepository;
             _studentService = studentService;
             _emailService = emailService;
             _majorService = majorService;
+            _ceremonyService = ceremonyService;
         }
 
         //
@@ -357,7 +360,7 @@ namespace Commencement.Controllers
         public ActionResult Registrations(string studentid, string lastName, string firstName, string majorCode, int? ceremonyId)
         {
             var term = TermService.GetCurrent();
-            var viewModel = AdminRegistrationViewModel.Create(Repository, _majorService, term, studentid, lastName, firstName, majorCode, ceremonyId);
+            var viewModel = AdminRegistrationViewModel.Create(Repository, _majorService, _ceremonyService, term, User.Identity.Name, studentid, lastName, firstName, majorCode, ceremonyId);
             return View(viewModel);
         }
     }
