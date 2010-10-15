@@ -93,9 +93,9 @@ namespace Commencement.Core.Domain
         {
             Id(x => x.Id);
 
-            References(x => x.Student).Fetch.Join();
-            References(x => x.Major);
-            References(x => x.State);
+            References(x => x.Student).Column("Student_Id").Fetch.Join();
+            References(x => x.Major).Column("MajorCode");
+            References(x => x.State).Column("State");
             References(x => x.Ceremony);
             References(x => x.ExtraTicketPetition);
 

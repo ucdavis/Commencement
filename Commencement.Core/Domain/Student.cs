@@ -116,7 +116,12 @@ namespace Commencement.Core.Domain
             References(x => x.TermCode).Column("TermCode");
             References(x => x.Ceremony);
 
-            HasMany(x => x.Majors).Cascade.SaveUpdate().Fetch.Subselect().KeyColumn("Student_Id");
+            HasManyToMany(x => x.Majors)
+                .ParentKeyColumn("Student_Id")
+                .ChildKeyColumn("MajorCode")
+                .Table("StudentMajors")
+                .Cascade.SaveUpdate()
+                .Fetch.Subselect();
         }
     }
 }
