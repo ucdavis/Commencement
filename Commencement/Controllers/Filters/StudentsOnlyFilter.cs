@@ -18,7 +18,7 @@ namespace Commencement.Controllers.Filters
         public void OnAuthorization(AuthorizationContext filterContext)
         {
             var repository = SmartServiceLocator<IRepository>.GetService();
-            var repositoryWithTypeid = SmartServiceLocator<IRepositoryWithTypedId<Student, string>>.GetService();
+            var repositoryWithTypeid = SmartServiceLocator<IRepositoryWithTypedId<Student, Guid>>.GetService();
 
             var urlHelper = new UrlHelper(filterContext.RequestContext);  
 

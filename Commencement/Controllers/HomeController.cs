@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
 using Commencement.Core.Domain;
@@ -13,7 +14,7 @@ namespace Commencement.Controllers
     {
         private readonly IRepositoryWithTypedId<Student, Guid> _studentRepository;
 
-        public HomeController(IRepositoryWithTypedId<Student,string> studentRepository)
+        public HomeController(IRepositoryWithTypedId<Student,Guid> studentRepository)
         {
             _studentRepository = studentRepository;
         }
