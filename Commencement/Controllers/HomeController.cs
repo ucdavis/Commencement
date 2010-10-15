@@ -11,7 +11,7 @@ namespace Commencement.Controllers
     //[HandleTransactionsManually]
     public class HomeController : ApplicationController
     {
-        private readonly IRepositoryWithTypedId<Student, string> _studentRepository;
+        private readonly IRepositoryWithTypedId<Student, Guid> _studentRepository;
 
         public HomeController(IRepositoryWithTypedId<Student,string> studentRepository)
         {

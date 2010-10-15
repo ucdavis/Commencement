@@ -8,6 +8,8 @@ namespace Commencement.Core.Domain
         public virtual string Name { get; set; }
         public virtual string DepartmentCode { get; set; }
         public virtual string DisciplineCode { get; set; }
+
+        public virtual College College { get; set; }
     }
 
     public class MajorCodeMap : ClassMap<MajorCode>
@@ -23,6 +25,8 @@ namespace Commencement.Core.Domain
             Map(x => x.Name);
             Map(x => x.DepartmentCode);
             Map(x => x.DisciplineCode);
+
+            References(x => x.College);
         }
     }
 

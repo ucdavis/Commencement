@@ -20,14 +20,14 @@ namespace Commencement.Tests.Controllers
     public class HomeControllerTest : ControllerTestBase<HomeController>
     {
         private readonly Type _controllerClass = typeof(HomeController);
-        private IRepositoryWithTypedId<Student, string> _studentRepository;
+        private IRepositoryWithTypedId<Student, Guid> _studentRepository;
 
         #region Init
 
 
         protected override void SetupController()
         {
-            _studentRepository = MockRepository.GenerateStub<IRepositoryWithTypedId<Student, string>>();
+            _studentRepository = MockRepository.GenerateStub<IRepositoryWithTypedId<Student, Guid>>();
             Controller = new TestControllerBuilder().CreateController<HomeController>(_studentRepository);
         }
         /// <summary>

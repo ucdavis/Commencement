@@ -78,7 +78,7 @@ namespace Commencement.Controllers.Filters
         /// <returns>
         /// 	<c>true</c> if the specified student repository is student; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsStudent(IRepositoryWithTypedId<Student, string> studentRepository, string loginId)
+        public static bool IsStudent(IRepositoryWithTypedId<Student, Guid> studentRepository, string loginId)
         {
             var term = TermService.GetCurrent();
             var student = studentRepository.Queryable.Where(s => s.Login == loginId && s.TermCode == term).FirstOrDefault();
@@ -94,7 +94,7 @@ namespace Commencement.Controllers.Filters
             }
         }
 
-        public static bool IsStudentSjaBlocked(IRepositoryWithTypedId<Student, string> studentRepository, string loginId)
+        public static bool IsStudentSjaBlocked(IRepositoryWithTypedId<Student, Guid> studentRepository, string loginId)
         {
             var term = TermService.GetCurrent();
             var student = studentRepository.Queryable.Where(s => s.Login == loginId && s.TermCode == term).FirstOrDefault();

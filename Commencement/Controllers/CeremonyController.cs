@@ -94,7 +94,6 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        //public ActionResult Create(Ceremony ceremony, string term)
         public ActionResult Create(CeremonyEditModel ceremonyEditModel)
         {
             if (string.IsNullOrEmpty(ceremonyEditModel.Term))
