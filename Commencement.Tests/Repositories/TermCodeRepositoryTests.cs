@@ -355,7 +355,7 @@ namespace Commencement.Tests.Repositories
         /// <summary>
         /// Tests the Ceremonies with A value of new does not save.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         [ExpectedException(typeof(NHibernate.TransientObjectException))]
         public void TestCeremoniesWithAValueOfNewDoesNotSave()
         {
@@ -447,6 +447,30 @@ namespace Commencement.Tests.Repositories
             termCode.Ceremonies = new List<Ceremony>();
             termCode.Ceremonies.Add(Repository.OfType<Ceremony>().GetById(2));
             termCode.Ceremonies.Add(Repository.OfType<Ceremony>().GetById(4));
+            #endregion Arrange
+
+            #region Act
+            TermCodeRepository.DbContext.BeginTransaction();
+            TermCodeRepository.EnsurePersistent(termCode, true);
+            TermCodeRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(termCode.Ceremonies);
+            Assert.AreEqual(2, termCode.Ceremonies.Count);
+            Assert.IsFalse(termCode.IsTransient());
+            Assert.IsTrue(termCode.IsValid());
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestCeremoniesWithPopulatedUnSavedValuesSaves()
+        {
+            #region Arrange
+            var termCode = GetValid(9);
+            termCode.Ceremonies = new List<Ceremony>();
+            termCode.Ceremonies.Add(CreateValidEntities.Ceremony(24));
+            termCode.Ceremonies.Add(CreateValidEntities.Ceremony(25));
             #endregion Arrange
 
             #region Act

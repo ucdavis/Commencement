@@ -97,7 +97,7 @@ namespace Commencement.Core.Domain
             References(x => x.Major).Column("MajorCode");
             References(x => x.State).Column("State");
             References(x => x.Ceremony);
-            References(x => x.ExtraTicketPetition);
+            References(x => x.ExtraTicketPetition).Cascade.All();
 
             Map(x => x.Address1);
             Map(x => x.Address2);
