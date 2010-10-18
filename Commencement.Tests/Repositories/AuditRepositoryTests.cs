@@ -17,7 +17,7 @@ namespace Commencement.Tests.Repositories
     /// LookupFieldName:	ObjectName
     /// </summary>
     [TestClass]
-    public class AuditRepositoryTests : AbstractRepositoryTests<Audit, Guid>
+    public class AuditRepositoryTests : AbstractRepositoryTests<Audit, Guid, AuditMap>
     {
         /// <summary>
         /// Gets or sets the Audit repository.

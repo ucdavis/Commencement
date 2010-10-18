@@ -18,7 +18,7 @@ namespace Commencement.Tests.Repositories
     /// LookupFieldName:	Name
     /// </summary>
     [TestClass]
-    public class TermCodeRepositoryTests : AbstractRepositoryTests<TermCode, string >
+    public class TermCodeRepositoryTests : AbstractRepositoryTests<TermCode, string, TermCodeMap >
     {
         /// <summary>
         /// Gets or sets the TermCode repository.

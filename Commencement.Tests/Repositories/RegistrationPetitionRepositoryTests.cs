@@ -17,7 +17,7 @@ namespace Commencement.Tests.Repositories
 	/// LookupFieldName:	LastName
 	/// </summary>
 	[TestClass]
-	public class RegistrationPetitionRepositoryTests : AbstractRepositoryTests<RegistrationPetition, int>
+	public class RegistrationPetitionRepositoryTests : AbstractRepositoryTests<RegistrationPetition, int, RegistrationPetitionMap>
 	{
 		/// <summary>
 		/// Gets or sets the RegistrationPetition repository.

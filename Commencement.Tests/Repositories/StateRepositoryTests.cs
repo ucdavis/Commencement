@@ -17,7 +17,7 @@ namespace Commencement.Tests.Repositories
 	/// LookupFieldName:	Name
 	/// </summary>
 	[TestClass]
-	public class StateRepositoryTests : AbstractRepositoryTests<State, string >
+	public class StateRepositoryTests : AbstractRepositoryTests<State, string , StateMap>
 	{
 		/// <summary>
 		/// Gets or sets the State repository.

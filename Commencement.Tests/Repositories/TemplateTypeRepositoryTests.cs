@@ -12,12 +12,12 @@ using UCDArch.Testing.Extensions;
 
 namespace Commencement.Tests.Repositories
 {
+
     /// <summary>
-    /// Entity Name:		TemplateType
-    /// LookupFieldName:	Name
+    /// 
     /// </summary>
     [TestClass]
-    public class TemplateTypeRepositoryTests : AbstractRepositoryTests<TemplateType, int>
+    public class TemplateTypeRepositoryTests : AbstractRepositoryTests<TemplateType, int, TemplateTypeMap>
     {
         /// <summary>
         /// Gets or sets the TemplateType repository.

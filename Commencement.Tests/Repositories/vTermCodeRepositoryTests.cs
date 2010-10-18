@@ -18,7 +18,7 @@ namespace Commencement.Tests.Repositories
     /// LookupFieldName:	Description
     /// </summary>
     [TestClass]
-    public class vTermCodeRepositoryTests : AbstractRepositoryTests<vTermCode, string >
+    public class vTermCodeRepositoryTests : AbstractRepositoryTests<vTermCode, string , vTermCodeMap>
     {
         /// <summary>
         /// Gets or sets the vTermCode repository.

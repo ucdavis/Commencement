@@ -17,7 +17,7 @@ namespace Commencement.Tests.Repositories
 	/// LookupFieldName:	BodyText
 	/// </summary>
 	[TestClass]
-	public class TemplateRepositoryTests : AbstractRepositoryTests<Template, int>
+	public class TemplateRepositoryTests : AbstractRepositoryTests<Template, int, TemplateMap>
 	{
 		/// <summary>
 		/// Gets or sets the Template repository.

@@ -16,7 +16,7 @@ namespace Commencement.Tests.Repositories
     /// LookupFieldName:	NumberTickets
     /// </summary>
     [TestClass]
-    public class ExtraTicketPetitionRepositoryTests : AbstractRepositoryTests<ExtraTicketPetition, int>
+    public class ExtraTicketPetitionRepositoryTests : AbstractRepositoryTests<ExtraTicketPetition, int, ExtraTicketPetitionMap>
     {
         /// <summary>
         /// Gets or sets the ExtraTicketPetition repository.

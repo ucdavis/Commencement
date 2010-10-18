@@ -16,7 +16,7 @@ namespace Commencement.Tests.Repositories
     /// LookupFieldName:	Name
     /// </summary>
     [TestClass]
-    public class SchoolRepositoryTests : AbstractRepositoryTests<College, string >
+    public class SchoolRepositoryTests : AbstractRepositoryTests<College, string, CollegeMap >
     {
         /// <summary>
         /// Gets or sets the School repository.

@@ -17,7 +17,7 @@ namespace Commencement.Tests.Repositories
 	/// LookupFieldName:	LoginId
 	/// </summary>
 	[TestClass]
-	public class CeremonyEditorRepositoryTests : AbstractRepositoryTests<CeremonyEditor, int>
+	public class CeremonyEditorRepositoryTests : AbstractRepositoryTests<CeremonyEditor, int, CeremonyEditorMap>
 	{
 		/// <summary>
 		/// Gets or sets the CeremonyEditor repository.

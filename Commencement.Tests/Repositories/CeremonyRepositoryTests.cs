@@ -18,7 +18,7 @@ namespace Commencement.Tests.Repositories
 	/// LookupFieldName:	Location
 	/// </summary>
 	[TestClass]
-	public class CeremonyRepositoryTests : AbstractRepositoryTests<Ceremony, int>
+	public class CeremonyRepositoryTests : AbstractRepositoryTests<Ceremony, int, CeremonyMap>
 	{
 		/// <summary>
 		/// Gets or sets the Ceremony repository.

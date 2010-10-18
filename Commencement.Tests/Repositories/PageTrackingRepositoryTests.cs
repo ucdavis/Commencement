@@ -17,7 +17,7 @@ namespace Commencement.Tests.Repositories
     /// LookupFieldName:	LoginId
     /// </summary>
     [TestClass]
-    public class PageTrackingRepositoryTests : AbstractRepositoryTests<PageTracking, int>
+    public class PageTrackingRepositoryTests : AbstractRepositoryTests<PageTracking, int, PageTrackingMap>
     {
         /// <summary>
         /// Gets or sets the PageTracking repository.
