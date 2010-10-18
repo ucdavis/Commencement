@@ -204,5 +204,12 @@ namespace Commencement.Tests.Core.Helpers
             
             return rtValue;
         }
+
+        public static College College(int? count)
+        {
+            var rtValue = new College();
+            rtValue.Name = "Name" + count.Extra();
+            return rtValue;
+        }
     }
 }

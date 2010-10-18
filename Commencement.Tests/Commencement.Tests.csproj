@@ -179,6 +179,7 @@
     <Compile Include="Repositories\AuditRepositoryTests.cs" />
     <Compile Include="Repositories\CeremonyEditorRepositoryTests.cs" />
     <Compile Include="Repositories\CeremonyRepositoryTests.cs" />
+    <Compile Include="Repositories\CollegeRepositoryTests.cs" />
     <Compile Include="Repositories\ExtraTicketPetitionRepositoryTests.cs" />
     <Compile Include="Repositories\MajorCodeRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

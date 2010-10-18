@@ -1894,6 +1894,7 @@ namespace Commencement.Tests.Repositories
 			Assert.IsNotNull(ceremony.Registrations);
 			Assert.IsNotNull(ceremony.Majors);
 			Assert.IsNotNull(ceremony.RegistrationPetitions);
+            Assert.IsNotNull(ceremony.Editors);
 			Assert.AreEqual(DateTime.Now.Date, ceremony.DateTime.Date);
 			Assert.AreEqual(DateTime.Now.Date, ceremony.RegistrationDeadline.Date);
 			Assert.AreEqual(DateTime.Now.Date, ceremony.ExtraTicketDeadline.Date);
@@ -1920,6 +1921,7 @@ namespace Commencement.Tests.Repositories
 			Assert.IsNotNull(ceremony.Registrations);
 			Assert.IsNotNull(ceremony.Majors);
 			Assert.IsNotNull(ceremony.RegistrationPetitions);
+            Assert.IsNotNull(ceremony.Editors);
 			Assert.AreEqual(DateTime.Now.AddDays(10).Date, ceremony.DateTime.Date);
 			Assert.AreEqual(10, ceremony.TicketsPerStudent);
 			Assert.AreEqual(100, ceremony.TotalTickets);
