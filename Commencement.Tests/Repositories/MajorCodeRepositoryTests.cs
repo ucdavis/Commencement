@@ -33,6 +33,7 @@ namespace Commencement.Tests.Repositories
         {
             #region Arrange
             var expectedFields = new List<NameAndType>();
+            expectedFields.Add(new NameAndType("College", "Commencement.Core.Domain.College", new List<string>()));
             expectedFields.Add(new NameAndType("DepartmentCode", "System.String", new List<string>()));
             expectedFields.Add(new NameAndType("DisciplineCode", "System.String", new List<string>()));
             expectedFields.Add(new NameAndType("Id", "System.String", new List<string>
