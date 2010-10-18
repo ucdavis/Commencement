@@ -258,7 +258,7 @@ namespace Commencement.Tests.Repositories
         #region Majors Tests
 
         [TestMethod]
-        public void TesMojorsWithNullValueSaves()
+        public void TesMajorsWithNullValueSaves()
         {
             #region Arrange
             var college = GetValid(9);

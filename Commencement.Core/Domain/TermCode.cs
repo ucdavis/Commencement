@@ -44,7 +44,7 @@ namespace Commencement.Core.Domain
             Map(x => x.Name);
             Map(x => x.IsActive);
             
-            HasMany(x => x.Ceremonies).Cascade.None().Inverse();
+            HasMany(x => x.Ceremonies).KeyColumn("TermCode").Cascade.None().Inverse();
         }
     }
 

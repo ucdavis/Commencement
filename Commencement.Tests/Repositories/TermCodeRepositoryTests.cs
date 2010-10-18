@@ -606,6 +606,9 @@ namespace Commencement.Tests.Repositories
             #endregion Act
 
             #region Assert
+            Console.WriteLine("TermCodeId = " + record.Id);
+            var foundCer = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == record).ToList();
+            Console.WriteLine(foundCer.Count);
             Assert.AreEqual(3, record.Ceremonies.Count);
             #endregion Assert		
         }
