@@ -37,7 +37,7 @@ namespace Commencement.Tests.Core
             {
                 _intRepository = new Repository<T>();
             }
-            if(typeof(IdT) == typeof(Guid))
+            if (typeof(IdT) == typeof(Guid))
             {
                 _guidRepository = new RepositoryWithTypedId<T, Guid>();
             }
@@ -90,7 +90,7 @@ namespace Commencement.Tests.Core
                 {
                     _intRepository.EnsurePersistent(validEntity);
                 }
-                else if(typeof(IdT) == typeof(Guid))
+                else if (typeof(IdT) == typeof(Guid))
                 {
                     _guidRepository.EnsurePersistent(validEntity, true);
                 }
@@ -474,7 +474,7 @@ namespace Commencement.Tests.Core
                 var validEntity = CreateValidEntities.TermCode(i + 1);
                 validEntity.SetIdTo((i + 1).ToString());
                 termCodeRepository.EnsurePersistent(validEntity, true);
-            }     
+            }
         }
 
         protected void LoadTemplateType(int entriesToAdd)
@@ -537,7 +537,16 @@ namespace Commencement.Tests.Core
                 var validEntity = CreateValidEntities.Ceremony(i + 1);
                 validEntity.TermCode = termCodeRepository.GetById("1");
                 Repository.OfType<Ceremony>().EnsurePersistent(validEntity);
-            }     
+            }
+        }
+
+        protected void LoadCeremonyEditors(int entriesToAdd)
+        {
+            for (int i = 0; i < entriesToAdd; i++)
+            {
+                var validEntity = CreateValidEntities.CeremonyEditor(i + 1);
+                Repository.OfType<CeremonyEditor>().EnsurePersistent(validEntity);
+            }
         }
 
         /// <summary>
@@ -556,7 +565,7 @@ namespace Commencement.Tests.Core
                 validEntity.MajorCode = majorCodeRepository.GetById("1");
                 validEntity.TermCode = termCodeRepository.GetById("1");
                 Repository.OfType<RegistrationPetition>().EnsurePersistent(validEntity);
-            } 
+            }
         }
 
 

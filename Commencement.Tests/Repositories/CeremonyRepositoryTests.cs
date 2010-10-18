@@ -1646,6 +1646,102 @@ namespace Commencement.Tests.Repositories
 
 		#endregion TotalRequestedTickets Tests
 
+	    #region Editor Tests
+
+	    [TestMethod]
+	    public void TestEditorsWithNullValueSaves()
+	    {
+            #region Arrange
+            var ceremony = GetValid(9);
+	        ceremony.Editors = null;
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(ceremony.Editors);
+            Assert.IsFalse(ceremony.IsTransient());
+            Assert.IsTrue(ceremony.IsValid());
+            #endregion Assert			
+	    }
+
+        [TestMethod]
+        public void TestEditorsWithEmptyListSaves()
+        {
+            #region Arrange
+            var ceremony = GetValid(9);
+            ceremony.Editors = new List<CeremonyEditor>();
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(ceremony.Editors);
+            Assert.AreEqual(0, ceremony.Editors.Count);
+            Assert.IsFalse(ceremony.IsTransient());
+            Assert.IsTrue(ceremony.IsValid());
+            #endregion Assert
+        }
+
+        [TestMethod]
+	    public void TestEditorsWithPopulatedListSaves()
+	    {
+            #region Arrange
+            var ceremony = GetValid(9);
+	        ceremony.Editors = new List<CeremonyEditor>();
+            ceremony.Editors.Add(CreateValidEntities.CeremonyEditor(1));
+            ceremony.Editors[0].Ceremony = ceremony;
+            ceremony.Editors.Add(CreateValidEntities.CeremonyEditor(2));
+            ceremony.Editors[1].Ceremony = ceremony;
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(ceremony.Editors);
+            Assert.AreEqual(2,ceremony.Editors.Count);
+            Assert.IsFalse(ceremony.IsTransient());
+            Assert.IsTrue(ceremony.IsValid());
+            #endregion Assert			
+	    }
+
+        [TestMethod]
+        public void TestEditorsWithPopulatedListAddedByAddEditorSaves()
+        {
+            #region Arrange
+            var ceremony = GetValid(9);
+            ceremony.Editors = new List<CeremonyEditor>();
+            ceremony.AddEditor("test1", true);
+            ceremony.AddEditor("test2", false);
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(ceremony.Editors);
+            Assert.AreEqual(2, ceremony.Editors.Count);
+            Assert.IsFalse(ceremony.IsTransient());
+            Assert.IsTrue(ceremony.IsValid());
+            #endregion Assert
+        }
+	    #endregion Editor Tests
+
 		#region Cascade Update And Delete Tests
 
 		/// <summary>
@@ -1853,6 +1949,7 @@ namespace Commencement.Tests.Repositories
 				"[NHibernate.Validator.Constraints.FutureAttribute()]", 
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
 			}));
+            expectedFields.Add(new NameAndType("Editors", "System.Collections.Generic.IList`1[Commencement.Core.Domain.CeremonyEditor]", new List<string>()));
 			expectedFields.Add(new NameAndType("ExtraRequestedtickets", "System.Int32", new List<string>()));
 			expectedFields.Add(new NameAndType("ExtraTicketDeadline", "System.DateTime", new List<string>
 			{
