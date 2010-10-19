@@ -77,6 +77,9 @@ namespace Commencement.Core.Domain
         [NotNull]
         public virtual IList<RegistrationPetition> RegistrationPetitions { get; set; }
 
+        [NotNull]
+        public virtual IList<College> Colleges { get; set; }
+
         public virtual IList<CeremonyEditor> Editors { get; set; }
 
         public virtual string Name { 
@@ -165,6 +168,12 @@ namespace Commencement.Core.Domain
             HasMany(x => x.Registrations).Cascade.AllDeleteOrphan().Inverse();
             HasMany(x => x.RegistrationPetitions).Cascade.None().Inverse();
             HasMany(x => x.Editors).Cascade.AllDeleteOrphan().Inverse();
+
+            HasManyToMany(x => x.Colleges)
+                .ParentKeyColumn("CeremonyId")
+                .ChildKeyColumn("CollegeCode")
+                .Table("CeremonyColleges")
+                .Cascade.SaveUpdate();
 
             HasManyToMany(x => x.Majors)
                 .ParentKeyColumn("CeremonyId")

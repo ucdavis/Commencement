@@ -13,12 +13,12 @@ namespace Commencement.Controllers.ViewModels
     public class CeremonyViewModel
     {
         // list of majors
-        public IEnumerable<MajorCode> MajorCodes { get; set; }
+        //public IEnumerable<MajorCode> MajorCodes { get; set; }
         public Ceremony Ceremony { get; set; }
         public IEnumerable<vTermCode> TermCodes { get; set; }
         public IEnumerable<College> Colleges { get; set; }
 
-        //public MultiSelectList Majors { get; set; }
+        public MultiSelectList Majors { get; set; }
 
 
         public static CeremonyViewModel Create(IRepository repository, IMajorService majorService , Ceremony ceremony)
@@ -30,13 +30,13 @@ namespace Commencement.Controllers.ViewModels
 
             var viewModel = new CeremonyViewModel()
                                 {
-                                    MajorCodes = majorCodes,
+                                    //MajorCodes = majorCodes,
                                     TermCodes = repository.OfType<vTermCode>().Queryable.Where(a=>a.EndDate > DateTime.Now).ToList(),
                                     Ceremony = ceremony,
                                     Colleges = repository.OfType<College>().Queryable.Where(a=>a.Display).ToList()
                                 }; 
 
-            //viewModel.Majors = new MultiSelectList(majorCodes, "Id", "Name", ceremony.Majors.Select(x=>x.Id).ToList());
+            viewModel.Majors = new MultiSelectList(majorCodes, "Id", "Name", ceremony.Majors.Select(x=>x.Id).ToList());
 
             return viewModel;
         }

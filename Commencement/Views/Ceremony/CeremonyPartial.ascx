@@ -54,24 +54,6 @@
 
                 var $available = $select.siblings("div").find("ul.available").css("height", "280px");
                 var $selected = $select.siblings("div").find("ul.selected").css("height", "280px");
-
-                //                var $select = $("#CeremonyMajors");
-                //                var $available = $select.siblings("div").find("ul.available").css("height", "280px");
-                //                var $selected = $select.siblings("div").find("ul.selected").css("height", "280px");
-
-                //                $.each(result, function (index, item) {
-                //                    var option = $("<option>").val(item.Id).html(item.Name);
-                //                    $select.append(option);
-
-                //                    var ali = $("<li>").addClass("ui-state-default ui-element ui-draggable node").attr("title", item.Name).css("display", "block");
-                //                    ali.append($("<span>").addClass("ui-helper-hidden"));
-                //                    ali.append(item.Name);
-                //                    var anchor = $("<a>").addClass("action").attr("href", "#");
-                //                    anchor.append($("<span>").addClass("ui-corner-all ui-icon ui-icon-plus"));
-                //                    ali.append(anchor);
-                //                    $available.append(ali);
-
-                //                });
             });
             
         }
