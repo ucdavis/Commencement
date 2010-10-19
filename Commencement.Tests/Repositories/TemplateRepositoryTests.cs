@@ -5,6 +5,7 @@ using Commencement.Core.Domain;
 using Commencement.Tests.Core;
 using Commencement.Tests.Core.Extensions;
 using Commencement.Tests.Core.Helpers;
+using FluentNHibernate.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Data.NHibernate;
@@ -103,6 +104,28 @@ namespace Commencement.Tests.Repositories
 		}
 
 		#endregion Init and Overrides	
+
+        #region Fluent Mapping Tests
+        [TestMethod]
+        public void TestCanCorrectlyMapAttachment()
+        {
+            #region Arrange
+            var id = TemplateRepository.Queryable.Max(x => x.Id) + 1;
+            var session = NHibernateSessionManager.Instance.GetSession();
+            LoadTemplateType(2);
+            var templateType = Repository.OfType<TemplateType>().GetNullableById(1);
+            Assert.IsNotNull(templateType);
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<Template>(session)
+                .CheckProperty(c => c.Id, id)
+                .CheckProperty(c => c.BodyText, "Body Text")
+                .CheckReference(c => c.TemplateType, templateType)
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+        #endregion Fluent Mapping Tests
 		
 		#region BodyText Tests
 		#region Invalid Tests
