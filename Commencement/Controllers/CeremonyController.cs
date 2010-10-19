@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
@@ -8,6 +10,7 @@ using Commencement.Core.Domain;
 using MvcContrib.Attributes;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
+using UCDArch.Web.ActionResults;
 using UCDArch.Web.Helpers;
 using MvcContrib;
 
@@ -18,13 +21,15 @@ namespace Commencement.Controllers
     {
         private readonly IRepositoryWithTypedId<TermCode, string> _termRepository;
         private readonly IRepositoryWithTypedId<vTermCode, string> _vTermRepository;
+        private readonly IRepositoryWithTypedId<College, string> _collegeRepository;
         private readonly IMajorService _majorService;
         private readonly ICeremonyService _ceremonyService;
 
-        public CeremonyController(IRepositoryWithTypedId<TermCode, string> termRepository, IRepositoryWithTypedId<vTermCode, string> vTermRepository, IMajorService majorService, ICeremonyService ceremonyService)
+        public CeremonyController(IRepositoryWithTypedId<TermCode, string> termRepository, IRepositoryWithTypedId<vTermCode, string> vTermRepository, IRepositoryWithTypedId<College, string> collegeRepository, IMajorService majorService, ICeremonyService ceremonyService)
         {
             _termRepository = termRepository;
             _vTermRepository = vTermRepository;
+            _collegeRepository = collegeRepository;
             _majorService = majorService;
             _ceremonyService = ceremonyService;
         }
@@ -153,6 +158,19 @@ namespace Commencement.Controllers
             destCeremony.PrintingDeadline = srcCeremony.PrintingDeadline;
 
             MergeCeremonyMajors(destCeremony.Majors, srcMajors);
+        }
+
+        public JsonNetResult GetMajors(string[] colleges)
+        {
+            var colls = new List<College>();
+
+            // get the colleges
+            foreach (var college in colleges)
+            {
+                colls.Add(_collegeRepository.GetById(college));
+            }
+
+            return new JsonNetResult(_majorService.GetByCollege(colls).Select(a=> new {Id=a.Id, Name=a.Name}));
         }
     }
 

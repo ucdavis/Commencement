@@ -8,6 +8,8 @@ namespace Commencement.Controllers.Services
     public interface IMajorService
     {
         IEnumerable<MajorCode> GetAESMajors();
+        IEnumerable<MajorCode> GetMajors();
+        IEnumerable<MajorCode> GetByCollege(List<College> colleges);
     }
 
     public class MajorService : IMajorService
@@ -27,6 +29,11 @@ namespace Commencement.Controllers.Services
         public IEnumerable<MajorCode> GetAESMajors()
         {
             return _majorRepository.Queryable.Where(a => a.Id.StartsWith("A")).ToList();
+        }
+
+        public IEnumerable<MajorCode> GetByCollege(List<College> colleges)
+        {
+            return _majorRepository.Queryable.Where(a => colleges.Contains(a.College)).ToList();
         }
     }
 }

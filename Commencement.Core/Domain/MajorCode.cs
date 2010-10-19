@@ -6,9 +6,8 @@ namespace Commencement.Core.Domain
     public class MajorCode : DomainObjectWithTypedId<string>
     {
         public virtual string Name { get; set; }
-        public virtual string DepartmentCode { get; set; }
         public virtual string DisciplineCode { get; set; }
-
+        
         public virtual College College { get; set; }
     }
 
@@ -16,14 +15,11 @@ namespace Commencement.Core.Domain
     {
         public MajorCodeMap()
         {
-            ReadOnly();
-            Where("IsMajor=1");
-            Table("vMajors");
+            Table("Majors");
 
             Id(x => x.Id);
 
             Map(x => x.Name);
-            Map(x => x.DepartmentCode).Column("Dept");
             Map(x => x.DisciplineCode);
 
             References(x => x.College).Column("CollegeCode");

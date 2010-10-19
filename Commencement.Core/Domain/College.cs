@@ -7,6 +7,7 @@ namespace Commencement.Core.Domain
     public class College : DomainObjectWithTypedId<string>
     {
         public virtual string Name { get; set; }
+        public virtual bool Display { get; set; }
 
         public virtual IList<MajorCode> Majors { get; set; }
     }
@@ -15,13 +16,9 @@ namespace Commencement.Core.Domain
     {
         public CollegeMap()
         {
-            Table("vColleges");
-            ReadOnly();
-
-            Id(x => x.Id);
-
+            Id(x => x.Id).GeneratedBy.Assigned();
             Map(x => x.Name);
-
+            Map(x => x.Display);
             HasMany(x => x.Majors).KeyColumn("CollegeCode").Inverse();
         }
     }

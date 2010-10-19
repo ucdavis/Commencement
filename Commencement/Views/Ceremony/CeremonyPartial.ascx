@@ -7,13 +7,14 @@
     
     <script src="<%= Url.Content("~/Scripts/jquery.anytime.js") %>" type="text/javascript"></script>
     <script src="<%= Url.Content("~/Scripts/ui.multiselect.js") %>" type="text/javascript"></script>
-    
+    <script src="<%= Url.Content("~/Scripts/jquery.livequery.js") %>" type="text/javascript"></script>
+
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             //$("#Ceremony_DateTime").AnyTime_picker();
             $("#CeremonyDate").datepicker();
 
-            $(".ceremony_time").change(function() {
+            $(".ceremony_time").change(function () {
                 var date = $("#CeremonyDate").val();
                 var hour = $("#CeremonyHour").val();
                 var minute = $("#CeremonyMinutes").val();
@@ -27,7 +28,53 @@
             $("#Ceremony_ExtraTicketDeadline").datepicker();
 
             $("#CeremonyMajors").multiselect();
+
+            $(".college").change(function () { GetMajors(); });
         });
+
+        function GetMajors() {
+            var url = '<%= Url.Action("GetMajors", "Ceremony") %>';
+            $.each($(".college:checked"), function (index, item) {
+                if (index == 0) url = url + "?colleges=" + $(item).val();
+                else url = url + "&colleges=" + $(item).val();
+
+            });
+
+            $.getJSON(url, function (result) {
+
+                var $select = $("<select>").addClass("newData").attr("name", "CeremonyMajors").attr("id", "CeremonyMajors").attr("multiple", "multiple").hide();
+
+                $.each(result, function (index, item) {
+                    var option = $("<option>").val(item.Id).html(item.Name);
+                    $select.append(option);
+                });
+
+                $select.insertAfter($("#CeremonyMajors"));
+                $("#CeremonyMajors").remove();
+
+                var $available = $select.siblings("div").find("ul.available").css("height", "280px");
+                var $selected = $select.siblings("div").find("ul.selected").css("height", "280px");
+
+                //                var $select = $("#CeremonyMajors");
+                //                var $available = $select.siblings("div").find("ul.available").css("height", "280px");
+                //                var $selected = $select.siblings("div").find("ul.selected").css("height", "280px");
+
+                //                $.each(result, function (index, item) {
+                //                    var option = $("<option>").val(item.Id).html(item.Name);
+                //                    $select.append(option);
+
+                //                    var ali = $("<li>").addClass("ui-state-default ui-element ui-draggable node").attr("title", item.Name).css("display", "block");
+                //                    ali.append($("<span>").addClass("ui-helper-hidden"));
+                //                    ali.append(item.Name);
+                //                    var anchor = $("<a>").addClass("action").attr("href", "#");
+                //                    anchor.append($("<span>").addClass("ui-corner-all ui-icon ui-icon-plus"));
+                //                    ali.append(anchor);
+                //                    $available.append(ali);
+
+                //                });
+            });
+            
+        }
 
     </script>
 
@@ -106,11 +153,20 @@
             * Last date to accept extra ticket requests
         </li>
         <li>
+            <strong>Colleges:</strong>
+            <%= this.CheckBoxList("Colleges").Options(Model.Colleges, x=>x.Id, x=>x.Name).ItemClass("college") %>
+        </li>
+
+        <li>
+            <select id="CeremonyMajors" style="width: 700px;" name="CeremonyMajors" multiple="multiple"></select>
+        </li>
+
+<%--        <li>
             <strong>Majors:</strong>
             <span>
-                <%= Html.ListBox("CeremonyMajors", Model.Majors, new {style="width:700px"})%>
+                <%= Html.ListBox("CeremonyMajors", new {style="width:700px"})%>
             </span>
-        </li>
+        </li>--%>
         
         <li>
             <strong></strong>
