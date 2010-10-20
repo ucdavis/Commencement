@@ -25,10 +25,11 @@ namespace Commencement.Controllers.ViewModels
         {
             Check.Require(repository != null, "Repository is required.");
             Check.Require(majorService != null, "Major service is required.");
+            Check.Require(ceremonyService != null, "ceremonyService is required.");
 
             var viewModel = new AdminRegistrationViewModel()
                                 {
-                                    MajorCodes = majorService.GetAESMajors(),
+                                    MajorCodes = majorService.GetByCeremonies(userId),
                                     Ceremonies = ceremonyService.GetCeremonies(userId, termCode),
                                     studentidFilter = studentid,
                                     lastNameFilter = lastName,
