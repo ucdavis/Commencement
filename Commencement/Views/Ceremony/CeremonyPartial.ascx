@@ -44,18 +44,21 @@
 
             $.getJSON(url, function (result) {
 
-                var $select = $("<select>").addClass("newData").attr("name", "CeremonyMajors").attr("id", "CeremonyMajors").attr("multiple", "multiple").hide();
+                if (result == null || result.length <= 0) $("li.node").remove();
+                else {
+                    var $select = $("<select>").addClass("newData").attr("name", "CeremonyMajors").attr("id", "CeremonyMajors").attr("multiple", "multiple").hide();
 
-                $.each(result, function (index, item) {
-                    var option = $("<option>").val(item.Id).html(item.Name);
-                    $select.append(option);
-                });
+                    $.each(result, function (index, item) {
+                        var option = $("<option>").val(item.Id).html(item.Name);
+                        $select.append(option);
+                    });
 
-                $select.insertAfter($("#CeremonyMajors"));
-                $("#CeremonyMajors").remove();
+                    $select.insertAfter($("#CeremonyMajors"));
+                    $("#CeremonyMajors").remove();
 
-                var $available = $select.siblings("div").find("ul.available").css("height", "280px");
-                var $selected = $select.siblings("div").find("ul.selected").css("height", "280px");
+                    var $available = $select.siblings("div").find("ul.available").css("height", "280px");
+                    var $selected = $select.siblings("div").find("ul.selected").css("height", "280px");
+                }
             });
             
         }
