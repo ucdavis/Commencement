@@ -61,12 +61,13 @@
     </script>
 
     <ul class="registration_form">
-        <li>
-            <strong>Term Code:</strong>
+<%--        <li>
+            <strong>Term Code:</strong> 
             <%= this.Select("term").Options(Model.TermCodes, x => x.Id, x => x.Description)
                     .FirstOption("--Select a Term--")
                     .Selected(Model.Ceremony.TermCode != null ? Model.Ceremony.TermCode.Id : string.Empty)
-                %>
+                %> --%>
+<%--           <%= Html.DropDownListFor(x=>x.Ceremony.TermCode, Model.TermCodes) %>
         </li>
         <li>
             <strong>Date/Time of Ceremony:</strong>
@@ -115,21 +116,18 @@
         </li>
         <li>
             <strong>Program Printing Deadline:</strong>
-            <%--<%= Html.TextBoxFor(x=>x.Ceremony.PrintingDeadlineString) %>--%>
             <%: Html.TextBox("Ceremony.PrintingDeadling", Model.Ceremony.PrintingDeadline.ToString("d")) %>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.PrintingDeadline) %>
             * Registration will continue to be open past this date.
         </li>
         <li>
             <strong>Registration Closure:</strong>
-            <%--<%= Html.TextBoxFor(x => x.Ceremony.RegistrationDeadlineString)%>--%>
             <%: Html.TextBox("Ceremony.RegistrationDeadline", Model.Ceremony.RegistrationDeadline.ToString("d"))%>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.RegistrationDeadline) %>
             * Registration will be blocked after this date.
         </li>
         <li>
             <strong>Extra Ticket Request Deadline:</strong>
-            <%--<%= Html.TextBoxFor(x => x.Ceremony.ExtraTicketDeadlineString)%>--%>
             <%: Html.TextBox("Ceremony.ExtraTicketDeadline", Model.Ceremony.ExtraTicketDeadline.ToString("d"))%>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.ExtraTicketDeadline) %>
             * Last date to accept extra ticket requests
@@ -145,13 +143,6 @@
             <% } else { %>
             <select id="CeremonyMajors" style="width: 700px;" name="CeremonyMajors" multiple="multiple"></select>
             <% } %>
-        </li>
-
-<%--        <li>
-            <strong>Majors:</strong>
-            <span>
-                <%= Html.ListBox("CeremonyMajors", new {style="width:700px"})%>
-            </span>
         </li>--%>
         
         <li>

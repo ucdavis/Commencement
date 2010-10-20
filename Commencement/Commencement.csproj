@@ -266,6 +266,7 @@
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\branding.jpg" />
     <Content Include="Images\logo-caes.png" />
     <Content Include="Images\logo-ucdavis.png" />

@@ -162,6 +162,8 @@ namespace Commencement.Controllers
 
         public JsonNetResult GetMajors(string[] colleges)
         {
+             if (colleges == null) return new JsonNetResult();
+
             var colls = new List<College>();
 
             // get the colleges
@@ -180,6 +182,7 @@ namespace Commencement.Controllers
         public Ceremony Ceremony { get; set; }
         public string Term { get; set; }
         public IList<MajorCode> CeremonyMajors { get; set; }
+        public IList<College> Colleges { get; set; }
 
         public CeremonyEditModel()
         {
