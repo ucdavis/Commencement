@@ -12,19 +12,17 @@ namespace Commencement.Core.Domain
             
         }
 
-        public CeremonyEditor(string loginId, bool owner)
+        public CeremonyEditor(vUser user, bool owner)
         {
-            LoginId = loginId;
+            User = user;
             Owner = owner;
         }
 
-        [Required]
-        [Length(50)]
-        public virtual string LoginId { get; set; }
-        
         public virtual bool Owner { get; set; }
         [NotNull]
         public virtual Ceremony Ceremony { get; set; }
+
+        public virtual vUser User { get; set; }
     }
 
     public class CeremonyEditorMap : ClassMap<CeremonyEditor>
@@ -32,10 +30,10 @@ namespace Commencement.Core.Domain
         public CeremonyEditorMap()
         {
             Id(x => x.Id);
-            Map(x => x.LoginId);
             Map(x => x.Owner);
 
             References(x => x.Ceremony);
+            References(x => x.User).Column("UserId");
         }
     }
 }

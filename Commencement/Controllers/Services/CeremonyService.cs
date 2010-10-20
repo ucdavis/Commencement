@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
+using UCDArch.Core.Utils;
 
 namespace Commencement.Controllers.Services
 {
@@ -43,8 +44,16 @@ namespace Commencement.Controllers.Services
         {
             // get a list of ceremonies that the user has access to
             return (from a in _repository.OfType<CeremonyEditor>().Queryable
-                    where a.LoginId == userId
+                    where a.User.LoginId == userId
                     select a.Ceremony.Id).ToList();
+        }
+
+        public virtual bool HasAccess(int id, string userId)
+        {
+            var ceremony = _repository.OfType<Ceremony>().GetNullableById(id);
+            Check.Require(ceremony != null, "ceremony is required.");
+
+            return ceremony.IsEditor(userId);
         }
     }
 }

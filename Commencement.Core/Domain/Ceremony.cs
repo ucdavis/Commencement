@@ -35,6 +35,7 @@ namespace Commencement.Core.Domain
             Majors = new List<MajorCode>();
             RegistrationPetitions = new List<RegistrationPetition>();
             Editors = new List<CeremonyEditor>();
+            Colleges = new List<College>();
 
             DateTime = DateTime.Now;
             RegistrationDeadline = DateTime.Now;
@@ -82,6 +83,9 @@ namespace Commencement.Core.Domain
 
         public virtual IList<CeremonyEditor> Editors { get; set; }
 
+        /// <summary>
+        /// Derived string name
+        /// </summary>
         public virtual string Name { 
             get
             {
@@ -135,9 +139,9 @@ namespace Commencement.Core.Domain
             }
         }
 
-        public virtual void AddEditor(string userId, bool owner = false)
+        public virtual void AddEditor(vUser user, bool owner = false)
         {
-            var editor = new CeremonyEditor(userId, owner);
+            var editor = new CeremonyEditor(user, owner);
             editor.Ceremony = this;
 
             Editors.Add(editor);
@@ -145,7 +149,7 @@ namespace Commencement.Core.Domain
 
         public virtual bool IsEditor(string userId)
         {
-            return Editors.Where(a => a.LoginId == userId).Any();
+            return Editors.Where(a => a.User.LoginId == userId).Any();
         }
     }
 

@@ -186,6 +186,8 @@
     <Compile Include="Controllers\Services\MajorService.cs" />
     <Compile Include="Controllers\Services\StudentService.cs" />
     <Compile Include="Controllers\Services\TermService.cs" />
+    <Compile Include="Controllers\Services\UserService.cs" />
+    <Compile Include="Controllers\ViewModels\AddEditorViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminPetitionsViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeCeremonyViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeMajorViewModel.cs" />
@@ -531,9 +533,11 @@
     <Content Include="Views\Admin\Registrations.aspx" />
     <Content Include="Views\Admin\StudentDetails.aspx" />
     <Content Include="Views\Admin\Students.aspx" />
+    <Content Include="Views\Ceremony\AddEditor.aspx" />
     <Content Include="Views\Ceremony\CeremonyPartial.ascx" />
     <Content Include="Views\Ceremony\Create.aspx" />
     <Content Include="Views\Ceremony\Edit.aspx" />
+    <Content Include="Views\Ceremony\EditPermissions.aspx" />
     <Content Include="Views\Ceremony\Index.aspx" />
     <Content Include="Views\Error\Index.aspx" />
     <Content Include="Views\Petition\ExtraTicketPetition.aspx" />

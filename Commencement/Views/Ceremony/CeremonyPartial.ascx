@@ -29,6 +29,8 @@
 
             $("#CeremonyMajors").multiselect();
 
+            
+
             $(".college").change(function () { GetMajors(); });
         });
 
@@ -61,13 +63,12 @@
     </script>
 
     <ul class="registration_form">
-<%--        <li>
+        <li>
             <strong>Term Code:</strong> 
-            <%= this.Select("term").Options(Model.TermCodes, x => x.Id, x => x.Description)
+            <%= this.Select("Term").Options(Model.TermCodes)
                     .FirstOption("--Select a Term--")
                     .Selected(Model.Ceremony.TermCode != null ? Model.Ceremony.TermCode.Id : string.Empty)
-                %> --%>
-<%--           <%= Html.DropDownListFor(x=>x.Ceremony.TermCode, Model.TermCodes) %>
+                %>
         </li>
         <li>
             <strong>Date/Time of Ceremony:</strong>
@@ -143,7 +144,7 @@
             <% } else { %>
             <select id="CeremonyMajors" style="width: 700px;" name="CeremonyMajors" multiple="multiple"></select>
             <% } %>
-        </li>--%>
+        </li>
         
         <li>
             <strong></strong>

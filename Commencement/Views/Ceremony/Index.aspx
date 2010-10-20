@@ -25,6 +25,8 @@
                             col.Template(a =>
                                         {   %>
                                             <%= Html.ActionLink<CeremonyController>(b=>b.Edit(a.Id), "Select") %>                                            
+                                            |
+                                            <%= Html.ActionLink<CeremonyController>(b=>b.EditPermissions(a.Id), "Permissions") %>
                                             <%
                                         });
                             col.Bound(a => a.TermCode.Id).Title("Term Code");
