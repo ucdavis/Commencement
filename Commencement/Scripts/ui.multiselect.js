@@ -124,8 +124,18 @@
 
             // hack when a new data set arrives, we want to rebuild the list
             $("select.newData").livequery(function () {
+
+                var selected = [];
+                $.each(that.selectedContainer.find("li.node"), function (index, item) { selected.push($(item).attr("title")); });
+
                 that.selectedContainer.find("li.node").remove();
                 that.availableContainer.find("li.node").remove();
+
+                // get the current list
+                $.each($(this).find("option"), function (index, item) {
+                    if ($.inArray($(item).html(), selected) > -1) $(item).attr("selected", "selected");
+                });
+
                 that._populateLists($(this).find("option"));
             });
         },
