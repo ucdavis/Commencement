@@ -153,6 +153,9 @@
     <NotInBuild Include="Create Scripts\usp_SearchStudentByLogin.sql" />
     <NotInBuild Include="Fill Scripts\Insert_States.sql" />
     <NotInBuild Include="Fill Scripts\Insert_TemplateTypes.sql" />
+    <NotInBuild Include="DownloadStudentsv2.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
   </ItemGroup>
   <ItemGroup>
     <BuildContributorArgument Include="OutDir=$(OutDir)" />

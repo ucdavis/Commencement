@@ -85,6 +85,7 @@ namespace Commencement.Core.Domain
         }
 
         public virtual bool SjaBlock { get; set; }
+        public virtual bool Cancelled { get; set; }
     }
 
     public class RegistrationMap : ClassMap<Registration>
@@ -111,6 +112,7 @@ namespace Commencement.Core.Domain
             Map(x => x.DateRegistered);
             Map(x => x.LabelPrinted);
             Map(x => x.SjaBlock);
+            Map(x => x.Cancelled);
         }
     }
 }

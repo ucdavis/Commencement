@@ -21,6 +21,8 @@
             <a href="<%= Url.Action("Register", new { id = ceremonyWithMajor.Ceremony.Id, major = ceremonyWithMajor.MajorCode.Id }) %>">
                 Commencement for <%= Html.Encode(ceremonyWithMajor.MajorCode.Name) %>.
                 <br />
+                College of <%: ceremonyWithMajor.MajorCode.College.Name %>
+                <br />
                 <%= Html.Encode(string.Format("Will take place on {0} at {1}", ceremonyWithMajor.Ceremony.DateTime, ceremonyWithMajor.Ceremony.Location)) %>
             
             </a>

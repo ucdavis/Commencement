@@ -62,7 +62,7 @@ namespace Commencement.Controllers
         public ActionResult Edit(CeremonyEditModel ceremonyEditModel)
         {
             Check.Require(ceremonyEditModel.Ceremony != null, "Ceremony cannot be null.");
-            Check.Require(!ceremonyEditModel.id.HasValue, "Ceremony Id is required.");
+            //Check.Require(!ceremonyEditModel.id.HasValue, "Ceremony Id is required.");
 
             var destCeremony = Repository.OfType<Ceremony>().GetNullableById(ceremonyEditModel.id.Value);
             if (ceremonyEditModel.Ceremony == null) return this.RedirectToAction(a => a.Index());
