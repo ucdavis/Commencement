@@ -23,7 +23,7 @@
                 $("#Ceremony_DateTime").val(date + " " + hour + ":" + minute + ":00 " + ampm);
             });
 
-            $("#Ceremony_PrintingDeadline").datepicker();
+            $("#Ceremony_PrintingDeadling").datepicker();
             $("#Ceremony_RegistrationDeadline").datepicker();
             $("#Ceremony_ExtraTicketDeadline").datepicker();
 
@@ -116,31 +116,35 @@
         <li>
             <strong>Program Printing Deadline:</strong>
             <%--<%= Html.TextBoxFor(x=>x.Ceremony.PrintingDeadlineString) %>--%>
-            <%: Html.TextBox("PrintingDeadling", Model.Ceremony.PrintingDeadline.ToString("d")) %>
+            <%: Html.TextBox("Ceremony.PrintingDeadling", Model.Ceremony.PrintingDeadline.ToString("d")) %>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.PrintingDeadline) %>
             * Registration will continue to be open past this date.
         </li>
         <li>
             <strong>Registration Closure:</strong>
             <%--<%= Html.TextBoxFor(x => x.Ceremony.RegistrationDeadlineString)%>--%>
-            <%: Html.TextBox("RegistrationDeadline", Model.Ceremony.RegistrationDeadline.ToString("d"))%>
+            <%: Html.TextBox("Ceremony.RegistrationDeadline", Model.Ceremony.RegistrationDeadline.ToString("d"))%>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.RegistrationDeadline) %>
             * Registration will be blocked after this date.
         </li>
         <li>
             <strong>Extra Ticket Request Deadline:</strong>
             <%--<%= Html.TextBoxFor(x => x.Ceremony.ExtraTicketDeadlineString)%>--%>
-            <%: Html.TextBox("ExtraTicketDeadline", Model.Ceremony.ExtraTicketDeadline.ToString("d")) %>
+            <%: Html.TextBox("Ceremony.ExtraTicketDeadline", Model.Ceremony.ExtraTicketDeadline.ToString("d"))%>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.ExtraTicketDeadline) %>
             * Last date to accept extra ticket requests
         </li>
         <li>
             <strong>Colleges:</strong>
-            <%= this.CheckBoxList("Colleges").Options(Model.Colleges, x=>x.Id, x=>x.Name).ItemClass("college") %>
+            <%= this.CheckBoxList("Colleges").Options(Model.Colleges).ItemClass("college") %>
         </li>
 
         <li>
+            <% if (Model.Majors != null) { %>
+            <%= Html.ListBox("CeremonyMajors", Model.Majors, new {style="width:700px"}) %>
+            <% } else { %>
             <select id="CeremonyMajors" style="width: 700px;" name="CeremonyMajors" multiple="multiple"></select>
+            <% } %>
         </li>
 
 <%--        <li>
