@@ -59,9 +59,9 @@ namespace Commencement.Controllers.Services
              if (ceremonies == null) ceremonies = _ceremonyService.GetCeremonies(userId, TermService.GetCurrent());
 
              var majors = new List<MajorCode>();
-             foreach(var a in ceremonies)
+             foreach (var a in ceremonies)
              {
-                 foreach(var b in a.Majors) majors.Add(b);
+                 foreach (var b in a.Majors) majors.Add(b);
              }
 
              return majors.Distinct();

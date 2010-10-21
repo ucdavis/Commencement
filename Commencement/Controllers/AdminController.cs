@@ -25,8 +25,9 @@ namespace Commencement.Controllers
         private readonly IEmailService _emailService;
         private readonly IMajorService _majorService;
         private readonly ICeremonyService _ceremonyService;
+        private readonly IRegistrationService _registrationService;
 
-        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService, IEmailService emailService, IMajorService majorService, ICeremonyService ceremonyService)
+        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService, IEmailService emailService, IMajorService majorService, ICeremonyService ceremonyService, IRegistrationService registrationService)
         {
             _studentRepository = studentRepository;
             _majorRepository = majorRepository;
@@ -34,6 +35,7 @@ namespace Commencement.Controllers
             _emailService = emailService;
             _majorService = majorService;
             _ceremonyService = ceremonyService;
+            _registrationService = registrationService;
         }
 
         //
@@ -195,7 +197,9 @@ namespace Commencement.Controllers
                 Message = "Registration or major information was missing.";
                 return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null)); 
             }
+            
             registration.Major = major;
+            registration.College = major.College;
 
             var ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == TermService.GetCurrent() && a.Majors.Contains(major)).FirstOrDefault();
             //if (!CeremonyHasAvailability(ceremony, registration)) ModelState.AddModelError("Major Code", ValidateMajorChange(registration, major));
@@ -357,10 +361,10 @@ namespace Commencement.Controllers
             return this.RedirectToAction(a => a.StudentDetails(id, false));
         }
 
-        public ActionResult Registrations(string studentid, string lastName, string firstName, string majorCode, int? ceremonyId)
+        public ActionResult Registrations(string studentid, string lastName, string firstName, string majorCode, int? ceremonyId, string collegeCode)
         {
             var term = TermService.GetCurrent();
-            var viewModel = AdminRegistrationViewModel.Create(Repository, _majorService, _ceremonyService, term, User.Identity.Name, studentid, lastName, firstName, majorCode, ceremonyId);
+            var viewModel = AdminRegistrationViewModel.Create(Repository, _majorService, _ceremonyService, _registrationService, term, User.Identity.Name, studentid, lastName, firstName, majorCode, ceremonyId, collegeCode);
             return View(viewModel);
         }
     }

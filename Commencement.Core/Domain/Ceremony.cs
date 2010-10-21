@@ -171,7 +171,7 @@ namespace Commencement.Core.Domain
 
             HasMany(x => x.Registrations).Cascade.AllDeleteOrphan().Inverse();
             HasMany(x => x.RegistrationPetitions).Cascade.None().Inverse();
-            HasMany(x => x.Editors).Cascade.AllDeleteOrphan().Inverse();
+            HasMany(x => x.Editors).Cascade.AllDeleteOrphan().Inverse().Fetch.Subselect();
 
             HasManyToMany(x => x.Colleges)
                 .ParentKeyColumn("CeremonyId")

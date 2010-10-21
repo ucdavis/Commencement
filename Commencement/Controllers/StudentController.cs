@@ -153,6 +153,9 @@ namespace Commencement.Controllers
                 viewModel.Registration.Major = student.Majors.Where(x => x.Id == major).Single();
             }
 
+            // set the college from the major
+            viewModel.Registration.College = viewModel.Registration.Major.College;
+
             return View(viewModel);
         }
 
@@ -162,7 +165,7 @@ namespace Commencement.Controllers
             registration.Student = GetCurrentStudent();
             registration.Ceremony = _ceremonyRepository.GetNullableById(id);
             NullOutBlankFields(registration);
-            
+
             //The check of a null ceremony will get caught by the domain values check.)
             if (registration.Ceremony != null && registration.Ceremony.RegistrationDeadline <= DateTime.Now)
             {
@@ -170,7 +173,7 @@ namespace Commencement.Controllers
                 //return this.RedirectToAction(a => a.Index());
                 return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.RegistrationClosed));
             }
-            
+
             registration.TransferValidationMessagesTo(ModelState);
 
             if (agreeToDisclaimer == false)
@@ -187,16 +190,16 @@ namespace Commencement.Controllers
 
                 try
                 {
-                    _emailService.SendRegistrationConfirmation(Repository, registration);    
+                    _emailService.SendRegistrationConfirmation(Repository, registration);
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     Message += StaticValues.Student_Email_Problem;
                 }
-                
+
                 return this.RedirectToAction(x => x.RegistrationConfirmation(registration.Id));
             }
-            
+
             var viewModel = RegistrationModel.Create(Repository, registration.Ceremony, registration.Student);
             viewModel.Registration = registration;
 

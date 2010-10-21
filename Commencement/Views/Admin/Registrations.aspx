@@ -39,6 +39,10 @@
                         .Selected(Model.ceremonyFilter)
                         %>
             </li>
+            <li>
+                <strong>College</strong>
+                <%= this.Select("collegeCode").Options(Model.Colleges,x=>x.Id, x=>x.Name).FirstOption(string.Empty, "--Select a College--").Selected(Model.collegeFilter) %>
+            </li>
             <li><strong></strong><%= Html.SubmitButton("Submit", "Filter") %></li>
         </ul>
         <% } %>
@@ -87,7 +91,7 @@
                             col.Bound(a => a.Ceremony.DateTime).Format("{0:MM/dd/yyyy hh:mm tt}").Title("Ceremony");
                             col.Bound(a => a.Major.Id).Title("Major");
                         })
-           .DataBinding(binding=>binding.Server().Select<AdminController>(a=>a.Registrations(Model.studentidFilter, Model.lastNameFilter, Model.firstNameFilter, Model.majorCodeFilter, Model.ceremonyFilter)))
+           .DataBinding(binding=>binding.Server().Select<AdminController>(a=>a.Registrations(Model.studentidFilter, Model.lastNameFilter, Model.firstNameFilter, Model.majorCodeFilter, Model.ceremonyFilter, Model.collegeFilter)))
            .Pageable(p=>p.PageSize(100))
            .Sortable(s=>s.OrderBy(a=>a.Add(b=>b.Student.LastName)))
            .Render();

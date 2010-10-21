@@ -3,8 +3,10 @@
 <%@ Import Namespace="Commencement.Core.Resources" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
-    <input type="hidden" name="Registration.Ceremony" id="Registration_Ceremony" value="<%= Model.Registration.Ceremony == null ? 0 : Model.Registration.Ceremony.Id %>" />
+    <%--<input type="hidden" name="Registration.Ceremony" id="Registration_Ceremony" value="<%= Model.Registration.Ceremony == null ? 0 : Model.Registration.Ceremony.Id %>" />--%>
     
+    <%: Html.HiddenFor(x=>x.Registration.Id, Model.Registration.Ceremony == null ? 0 : Model.Registration.Ceremony.Id) %>
+
     <h2>
         Student Information</h2>
     <ul class="registration_form">
@@ -17,7 +19,9 @@
             <span>
                 <%= Html.Encode(Model.Registration.Major.Name)%>
             </span>
-                <input type="hidden" value="<%= Model.Registration.Major.Id %>" name="Registration.Major" id="Registration_Major">
+                <%--<input type="hidden" value="<%= Model.Registration.Major.Id %>" name="Registration.Major" id="Registration_Major">--%>
+                <%: Html.HiddenFor(x=>x.Registration.Major.Id, Model.Registration.Major.Id) %>
+                <%: Html.HiddenFor(x=>x.Registration.College.Id, Model.Registration.College.Id) %>
         </li>
         
     </ul>

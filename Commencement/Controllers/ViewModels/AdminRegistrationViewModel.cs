@@ -15,41 +15,52 @@ namespace Commencement.Controllers.ViewModels
         public IEnumerable<Registration> Registrations { get; set; }
         public IEnumerable<Ceremony> Ceremonies { get; set; }
         public IEnumerable<MajorCode> MajorCodes { get; set; }
+        public IEnumerable<College> Colleges { get; set; }
         public string studentidFilter { get; set; }
         public string lastNameFilter { get; set; }
         public string firstNameFilter { get; set; }
         public string majorCodeFilter { get; set; }
         public int ceremonyFilter { get; set; }
+        public string collegeFilter { get; set; }
 
-        public static AdminRegistrationViewModel Create(IRepository repository, IMajorService majorService, ICeremonyService ceremonyService, TermCode termCode, string userId, string studentid, string lastName, string firstName, string majorCode, int? ceremonyId)
+        public static AdminRegistrationViewModel Create(IRepository repository, IMajorService majorService, ICeremonyService ceremonyService, IRegistrationService registrationService, TermCode termCode, string userId, string studentid, string lastName, string firstName, string majorCode, int? ceremonyId, string collegeCode)
         {
             Check.Require(repository != null, "Repository is required.");
             Check.Require(majorService != null, "Major service is required.");
             Check.Require(ceremonyService != null, "ceremonyService is required.");
 
+            var ceremonies = ceremonyService.GetCeremonies(userId, termCode);
+            var colleges = new List<College>();
+            foreach(var a in ceremonies) colleges.AddRange(a.Colleges);
+
             var viewModel = new AdminRegistrationViewModel()
                                 {
-                                    MajorCodes = majorService.GetByCeremonies(userId),
-                                    Ceremonies = ceremonyService.GetCeremonies(userId, termCode),
+                                    MajorCodes = majorService.GetByCeremonies(userId, ceremonies),
+                                    Colleges = colleges.Distinct().ToList(),
+                                    Ceremonies = ceremonies,
                                     studentidFilter = studentid,
                                     lastNameFilter = lastName,
                                     firstNameFilter = firstName,
                                     majorCodeFilter = majorCode,
-                                    ceremonyFilter = ceremonyId ?? -1
+                                    ceremonyFilter = ceremonyId ?? -1,
+                                    collegeFilter = collegeCode,
+                                    Registrations = registrationService.GetFilteredList(userId, studentid, lastName, firstName, majorCode, ceremonyId, collegeCode, ceremonies, termCode)
                                 };
 
-            var query = repository.OfType<Registration>().Queryable.Where(a =>
-                                a.Ceremony.TermCode == termCode
-                                && ceremonyService.GetCeremonyIds(userId, termCode).Contains(a.Ceremony.Id)
-                                && (a.Student.StudentId.Contains(string.IsNullOrEmpty(studentid) ? string.Empty : studentid))
-                                && (a.Student.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName))
-                                && (a.Student.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName))
-                                );
+            //var query = repository.OfType<Registration>().Queryable.Where(a =>
+            //                    a.Ceremony.TermCode == termCode
+            //                    && viewModel.Ceremonies.Contains(a.Ceremony)
+            //                    && a.College.Id.Contains(string.IsNullOrEmpty(collegeCode) ? string.Empty : collegeCode)
+            //                    && ceremonyIds.Contains(a.Ceremony.Id)
+            //                    && (a.Student.StudentId.Contains(string.IsNullOrEmpty(studentid) ? string.Empty : studentid))
+            //                    && (a.Student.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName))
+            //                    && (a.Student.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName))
+            //                    );
 
-            if (ceremonyId.HasValue && ceremonyId.Value > 0)
-                query = query.Where(a => a.Ceremony.Id == ceremonyId.Value);
+            //if (ceremonyId.HasValue && ceremonyId.Value > 0)
+            //    query = query.Where(a => a.Ceremony.Id == ceremonyId.Value);
 
-            viewModel.Registrations = query.ToList();
+            //viewModel.Registrations = query.ToList();
 
             if (!string.IsNullOrEmpty(majorCode))
                 viewModel.Registrations = viewModel.Registrations.Where(a => a.Student.StrMajorCodes.Contains(majorCode));

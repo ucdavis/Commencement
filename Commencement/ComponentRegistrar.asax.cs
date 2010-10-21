@@ -31,6 +31,7 @@ namespace Commencement
             container.AddComponent("principal", typeof (IPrincipal), typeof (WebPrincipal));
             container.AddComponent("ceremonyService", typeof (ICeremonyService), typeof (CeremonyService));
             container.AddComponent("userService", typeof (IUserService), typeof (UserService));
+            container.AddComponent("registrationService", typeof (IRegistrationService), typeof (RegistrationService));
 
             AddRepositoriesTo(container);
         }

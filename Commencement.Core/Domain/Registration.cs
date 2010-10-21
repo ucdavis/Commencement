@@ -86,6 +86,7 @@ namespace Commencement.Core.Domain
 
         public virtual bool SjaBlock { get; set; }
         public virtual bool Cancelled { get; set; }
+        public virtual College College { get; set; }
     }
 
     public class RegistrationMap : ClassMap<Registration>
@@ -99,6 +100,7 @@ namespace Commencement.Core.Domain
             References(x => x.State).Column("State");
             References(x => x.Ceremony);
             References(x => x.ExtraTicketPetition).Cascade.All();
+            References(x => x.College).Column("CollegeCode");
 
             Map(x => x.Address1);
             Map(x => x.Address2);
