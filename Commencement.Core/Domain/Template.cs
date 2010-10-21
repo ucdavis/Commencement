@@ -22,6 +22,11 @@ namespace Commencement.Core.Domain
 
         [NotNull]
         public virtual TemplateType TemplateType { get; set; }
+
+        [NotNull]
+        public virtual Ceremony Ceremony { get; set; }
+
+        public virtual bool IsActive { get; set; }
     }
 
     public class TemplateMap : ClassMap<Template>
@@ -31,8 +36,10 @@ namespace Commencement.Core.Domain
             Id(x => x.Id);
 
             Map(x => x.BodyText);
+            Map(x => x.IsActive);
 
             References(x => x.TemplateType);
+            References(x => x.Ceremony);
         }
     }
 }

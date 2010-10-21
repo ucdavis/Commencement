@@ -11,6 +11,7 @@ namespace Commencement.Core.Domain
 {
     public class Ceremony : DomainObject
     {
+        #region Constructors
         public Ceremony(string location, DateTime dateTime, int ticketsPerStudent, int totalTickets, DateTime printingDeadline, DateTime registrationDeadline, TermCode termCode)
         {
             SetDefaults();
@@ -36,13 +37,16 @@ namespace Commencement.Core.Domain
             RegistrationPetitions = new List<RegistrationPetition>();
             Editors = new List<CeremonyEditor>();
             Colleges = new List<College>();
+            Templates = new List<Template>();
 
             DateTime = DateTime.Now;
             RegistrationDeadline = DateTime.Now;
             ExtraTicketDeadline = DateTime.Now;
             PrintingDeadline = DateTime.Now;
         }
+        #endregion
 
+        #region Mapped Fields
         [Required]
         [Length(200)]
         public virtual string Location { get; set; }
@@ -77,12 +81,16 @@ namespace Commencement.Core.Domain
         public virtual IList<MajorCode> Majors { get; set; }
         [NotNull]
         public virtual IList<RegistrationPetition> RegistrationPetitions { get; set; }
-
         [NotNull]
         public virtual IList<College> Colleges { get; set; }
-
+        [NotNull]
         public virtual IList<CeremonyEditor> Editors { get; set; }
+        [NotNull]
+        public virtual IList<Template> Templates { get; set; }
+        #endregion
 
+
+        #region Extended Fields / Methods
         /// <summary>
         /// Derived string name
         /// </summary>
@@ -151,6 +159,7 @@ namespace Commencement.Core.Domain
         {
             return Editors.Where(a => a.User.LoginId == userId).Any();
         }
+        #endregion
     }
 
     public class CeremonyMap : ClassMap<Ceremony>
@@ -172,6 +181,7 @@ namespace Commencement.Core.Domain
             HasMany(x => x.Registrations).Cascade.AllDeleteOrphan().Inverse();
             HasMany(x => x.RegistrationPetitions).Cascade.None().Inverse();
             HasMany(x => x.Editors).Cascade.AllDeleteOrphan().Inverse().Fetch.Subselect();
+            HasMany(x => x.Templates).Cascade.AllDeleteOrphan().Inverse();
 
             HasManyToMany(x => x.Colleges)
                 .ParentKeyColumn("CeremonyId")

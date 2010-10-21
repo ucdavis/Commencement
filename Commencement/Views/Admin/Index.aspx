@@ -6,8 +6,6 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
-    <h2>Admin Home</h2>
     
     <ul class="front_menu">
         <li class="left">
@@ -19,12 +17,12 @@
         <li>
             <a href="<%= Url.Action("Registrations", "Admin") %>"><img src="<%= Url.Content("~/Images/registrations.png") %>" /><br />Registrations</a>
         </li>
-        <li class="left">
-            <a href="<%= Url.Action("Index", "Template") %>"><img src="<%= Url.Content("~/Images/email_template.png") %>" /><br />Email Templates</a></li>
+<%--        <li class="left">
+            <a href="<%= Url.Action("Index", "Template") %>"><img src="<%= Url.Content("~/Images/email_template.png") %>" /><br />Email Templates</a></li>--%>
         <li class="left">
             <a href="<%= Url.Action("Index", "Petition") %>"><img src="<%= Url.Content("~/Images/pending_petition.png") %>" /><br />Pending Petitions</a>
         </li>
-        <li>
+        <li class="left">
             <a href="<%= Url.Action("Index", "Report") %>"><img src="<%= Url.Content("~/Images/report.png") %>" /><br />Reporting</a>
         </li>
     </ul>

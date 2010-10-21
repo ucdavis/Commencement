@@ -10,7 +10,14 @@
 <ul class="btn">
     <li>
     <%= Html.ActionLink<CeremonyController>(a => a.Index() , "Back to List") %>
-    </li></ul>
+    </li>
+    <li>
+        <%: Html.ActionLink<CeremonyController>(a=>a.EditPermissions(Model.Ceremony.Id), "Permissions") %>
+    </li>
+    <li>
+        <%= Html.ActionLink<TemplateController>(a=>a.Index(Model.Ceremony.Id), "Email Templates") %>
+    </li>
+</ul>
 
     <h2>Edit Ceremony</h2>
 

@@ -3,19 +3,19 @@
 <%@ Import Namespace="Commencement.Controllers.Helpers"%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Index
+	Email Templates
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
 <ul class="btn">
     <li>
-    <%= Html.ActionLink<AdminController>(a=>a.Index(), "Home") %>
+    <%= Html.ActionLink<CeremonyController>(a=>a.Edit(Model.Ceremony.Id), "Back to Ceremony") %>
     </li></ul>
 
-    <h2>Templates</h2>
+    <h2>Email Templates for <%: Model.Ceremony.Name %></h2>
 
-    <%= Html.ActionLink("Create", "Create", "Template") %>
+    <%= Html.ActionLink<TemplateController>(a=>a.Create(Model.Ceremony.Id), "Create  New Template") %>
 
     <div id="template_container">
     
@@ -39,11 +39,6 @@
         <% } %>
     
     </div>
-
-<%--    <% Html.Grid(Model.Templates)
-           .Transactional()
-           .Name("Templates")
-           .Render(); %>--%>
 
 </asp:Content>
 

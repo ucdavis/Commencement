@@ -13,9 +13,12 @@ namespace Commencement.Controllers
     {
         //
         // GET: /Template/
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            var viewModel = TemplateViewModel.Create(Repository);
+            var ceremony = Repository.OfType<Ceremony>().GetNullableById(id);
+            if (ceremony == null) return this.RedirectToAction<CeremonyController>(a => a.Index());
+
+            var viewModel = TemplateViewModel.Create(Repository, ceremony);
 
             return View(viewModel);
         }
@@ -40,7 +43,7 @@ namespace Commencement.Controllers
             {
                 Repository.OfType<Template>().EnsurePersistent(newTemplate);
 
-                return this.RedirectToAction(a => a.Index());
+                return this.RedirectToAction(a => a.Index(1));
             }
 
             var viewModel = TemplateCreateViewModel.Create(Repository, newTemplate);

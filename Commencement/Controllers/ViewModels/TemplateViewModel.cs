@@ -9,24 +9,28 @@ namespace Commencement.Controllers.ViewModels
     public class TemplateViewModel
     {
         public ICollection<Template> Templates { get; set; }
-        
+        public Ceremony Ceremony{ get; set; }
 
-        public static TemplateViewModel Create(IRepository repository)
+        public static TemplateViewModel Create(IRepository repository, Ceremony ceremony)
         {
             Check.Require(repository != null, "Repository is required.");
 
-            var viewModel = new TemplateViewModel() {
-                Templates = new List<Template>()
-            };
-
-            // add the newest of each of the templates
-            foreach(var tt in repository.OfType<TemplateType>().GetAll())
-            {
-                var t = repository.OfType<Template>().Queryable.Where(a => a.TemplateType == tt).OrderByDescending(a => a.Id).FirstOrDefault();
-                if (t != null) viewModel.Templates.Add(t);
-            }
+            var viewModel = new TemplateViewModel() {Templates = ceremony.Templates, Ceremony = ceremony};
 
             return viewModel;
+
+            //var viewModel = new TemplateViewModel() {
+            //    Templates = new List<Template>()
+            //};
+
+            //// add the newest of each of the templates
+            //foreach(var tt in repository.OfType<TemplateType>().GetAll())
+            //{
+            //    var t = repository.OfType<Template>().Queryable.Where(a => a.TemplateType == tt).OrderByDescending(a => a.Id).FirstOrDefault();
+            //    if (t != null) viewModel.Templates.Add(t);
+            //}
+
+            //return viewModel;
         }
     }
 
