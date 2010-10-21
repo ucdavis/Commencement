@@ -16,6 +16,7 @@ using Commencement.Controllers.Helpers;
 namespace Commencement.Controllers
 {
     [StudentsOnly]
+    [SessionExpirationFilter]
     public class StudentController : ApplicationController
     {
         private readonly IRepositoryWithTypedId<Student, Guid> _studentRepository;

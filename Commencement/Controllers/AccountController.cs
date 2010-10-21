@@ -43,7 +43,7 @@ namespace Commencement.Controllers
 
             FormsAuthentication.RedirectFromLoginPage(loginId, false);
             EmulationFlag = true;
-            HttpContext.Response.Cookies.Add(new HttpCookie(StaticIndexes.EmulationKey, origUser));
+            //HttpContext.Response.Cookies.Add(new HttpCookie(StaticIndexes.EmulationKey, origUser));
             return this.RedirectToAction<HomeController>(a => a.Index());
         }
 
@@ -51,7 +51,7 @@ namespace Commencement.Controllers
         {
             FormsAuthentication.SignOut();
             EmulationFlag = false;
-            HttpContext.Response.Cookies.Remove(StaticIndexes.EmulationKey);
+            //HttpContext.Response.Cookies.Remove(StaticIndexes.EmulationKey);
             return this.RedirectToAction<HomeController>(a => a.Index());
         }
     }

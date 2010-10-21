@@ -9,7 +9,6 @@ using MvcContrib;
 
 namespace Commencement.Controllers
 {
-    //[HandleTransactionsManually]
     public class HomeController : ApplicationController
     {
         private readonly IRepositoryWithTypedId<Student, Guid> _studentRepository;
