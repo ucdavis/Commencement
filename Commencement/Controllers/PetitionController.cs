@@ -22,13 +22,18 @@ namespace Commencement.Controllers
         private readonly IStudentService _studentService;
         private readonly IEmailService _emailService;
         private readonly IRepositoryWithTypedId<MajorCode, string> _majorService;
+        private readonly ICeremonyService _ceremonyService;
+        private readonly IPetitionService _petitionService;
 
 
-        public PetitionController(IStudentService studentService, IEmailService emailService, IRepositoryWithTypedId<MajorCode, string> majorService)
+        public PetitionController(IStudentService studentService, IEmailService emailService, IRepositoryWithTypedId<MajorCode, string> majorService, ICeremonyService ceremonyService, IPetitionService petitionService)
         {
             _studentService = studentService;
             _emailService = emailService;
             _majorService = majorService;
+            _ceremonyService = ceremonyService;
+            _petitionService = petitionService;
+        
         }
 
         //
@@ -37,7 +42,7 @@ namespace Commencement.Controllers
         [AnyoneWithRole]
         public ActionResult Index()
         {
-            var viewModel = AdminPetitionsViewModel.Create(Repository);
+            var viewModel = AdminPetitionsViewModel.Create(Repository, _ceremonyService, _petitionService, CurrentUser.Identity.Name, TermService.GetCurrent());
 
             return View(viewModel);
         }

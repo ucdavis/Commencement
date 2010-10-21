@@ -66,6 +66,7 @@
                                                         </span>
                                                     </div>
                                                  <%}).Title("# Extra Tickets");
+                                     col.Bound(a => a.TotalTickets).Title("# Tickets");
                                      col.Bound(a => a.ExtraTicketPetition.DateSubmitted);
                                  })
                     .Render();
