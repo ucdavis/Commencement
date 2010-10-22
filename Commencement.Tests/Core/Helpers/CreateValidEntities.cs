@@ -121,7 +121,8 @@ namespace Commencement.Tests.Core.Helpers
         public static CeremonyEditor CeremonyEditor(int? count)
         {
             var rtValue = new CeremonyEditor();
-            rtValue.LoginId = "LoginId" + count.Extra();
+            rtValue.User = new vUser();
+            //rtValue.LoginId = "LoginId" + count.Extra();
             rtValue.Ceremony = new Ceremony();
 
             return rtValue;
