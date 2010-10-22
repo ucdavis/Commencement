@@ -28,7 +28,8 @@ namespace Commencement.Tests.Repositories
 		public IRepositoryWithTypedId<TermCode, string> TermCodeRepository { get; set; }
 		public IRepositoryWithTypedId<MajorCode, string> MajorCodeRepository { get; set; }
 		public IRepositoryWithTypedId<State, string> StateRepository { get; set; }
-		
+        public IRepositoryWithTypedId<College, string> CollegeRepository { get; set; }
+
 		#region Init and Overrides
 
 		/// <summary>
@@ -40,6 +41,7 @@ namespace Commencement.Tests.Repositories
 			TermCodeRepository = new RepositoryWithTypedId<TermCode, string>();
 			MajorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
 			StateRepository = new RepositoryWithTypedId<State, string>();
+		    CollegeRepository = new RepositoryWithTypedId<College, string>();
 		}
 
 		/// <summary>
@@ -1648,27 +1650,41 @@ namespace Commencement.Tests.Repositories
 
 	    #region Editor Tests
 
-	    [TestMethod]
-	    public void TestEditorsWithNullValueSaves()
-	    {
-            #region Arrange
-            var ceremony = GetValid(9);
-	        ceremony.Editors = null;
-            #endregion Arrange
+	    #region Invalid Tests
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestEditorsWithNullValueDoesNotSave()
+        {
+            Ceremony ceremony = null;
+            try
+            {
+                #region Arrange
+                ceremony = GetValid(9);
+                ceremony.Editors = null;
+                #endregion Arrange
 
-            #region Act
-            CeremonyRepository.DbContext.BeginTransaction();
-            CeremonyRepository.EnsurePersistent(ceremony);
-            CeremonyRepository.DbContext.CommitTransaction();
-            #endregion Act
+                #region Act
+                CeremonyRepository.DbContext.BeginTransaction();
+                CeremonyRepository.EnsurePersistent(ceremony);
+                CeremonyRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception)
+            {
+                Assert.IsNotNull(ceremony);
+                var results = ceremony.ValidationResults().AsMessageList();
+                results.AssertErrorsAre("Editors: may not be null");
+                Assert.IsTrue(ceremony.IsTransient());
+                Assert.IsFalse(ceremony.IsValid());
+                throw;
+            }
+        }
 
-            #region Assert
-            Assert.IsNull(ceremony.Editors);
-            Assert.IsFalse(ceremony.IsTransient());
-            Assert.IsTrue(ceremony.IsValid());
-            #endregion Assert			
-	    }
+	    #endregion Invalid Tests
 
+	    #region Valid Tests
+
+	    
         [TestMethod]
         public void TestEditorsWithEmptyListSaves()
         {
@@ -1722,10 +1738,10 @@ namespace Commencement.Tests.Repositories
         {
             #region Arrange
             var ceremony = GetValid(9);
+            LoadUsers(3);
             ceremony.Editors = new List<CeremonyEditor>();
-            Assert.Inconclusive("Need to add vUsers");
-            //ceremony.AddEditor("test1", true);
-            //ceremony.AddEditor("test2", false);
+            ceremony.AddEditor(Repository.OfType<vUser>().GetById(1), true);
+            ceremony.AddEditor(Repository.OfType<vUser>().GetById(3), false);
             #endregion Arrange
 
             #region Act
@@ -1737,15 +1753,208 @@ namespace Commencement.Tests.Repositories
             #region Assert
             Assert.IsNotNull(ceremony.Editors);
             Assert.AreEqual(2, ceremony.Editors.Count);
+            Assert.IsNotNull(ceremony.Editors[0].User);
             Assert.IsFalse(ceremony.IsTransient());
             Assert.IsTrue(ceremony.IsValid());
             #endregion Assert
         }
-	    #endregion Editor Tests
 
-		#region Cascade Update And Delete Tests
+        #endregion Valid Tests
 
-		/// <summary>
+
+        #endregion Editor Tests
+
+        #region Colleges Tests
+        #region Invalid Tests
+
+        /// <summary>
+        /// Tests the Colleges with A value of null does not save.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestCollegesWithAValueOfNullDoesNotSave()
+        {
+            Ceremony ceremony = null;
+            try
+            {
+                #region Arrange
+                ceremony = GetValid(9);
+                ceremony.Colleges = null;
+                #endregion Arrange
+
+                #region Act
+                CeremonyRepository.DbContext.BeginTransaction();
+                CeremonyRepository.EnsurePersistent(ceremony);
+                CeremonyRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception)
+            {
+                Assert.IsNotNull(ceremony);
+                Assert.AreEqual(ceremony.Colleges, null);
+                var results = ceremony.ValidationResults().AsMessageList();
+                results.AssertErrorsAre("Colleges: may not be null");
+                Assert.IsTrue(ceremony.IsTransient());
+                Assert.IsFalse(ceremony.IsValid());
+                throw;
+            }
+        }
+        #endregion Invalid Tests
+
+        #region Valid Tests
+
+        /// <summary>
+        /// Tests the Colleges with empty list saves.
+        /// </summary>
+        [TestMethod]
+        public void TestCollegesWithEmptyListSaves()
+        {
+            #region Arrange
+            var ceremony = GetValid(9);
+            ceremony.Colleges = new List<College>();
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(0, ceremony.Colleges.Count());
+            Assert.IsFalse(ceremony.IsTransient());
+            Assert.IsTrue(ceremony.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the Colleges with populated list saves.
+        /// </summary>
+        [TestMethod]
+        public void TestCollegessWithPopulatedListSaves()
+        {
+            #region Arrange
+            LoadColleges(5);
+            var ceremony = GetValid(9);
+            ceremony.Colleges = new List<College>();
+            ceremony.Colleges.Add(CollegeRepository.GetById("2"));
+            ceremony.Colleges.Add(CollegeRepository.GetById("4"));
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(2, ceremony.Colleges.Count());
+            Assert.IsFalse(ceremony.IsTransient());
+            Assert.IsTrue(ceremony.IsValid());
+            #endregion Assert
+        }
+
+        #endregion Valid Tests
+
+        #endregion Colleges Tests
+
+        #region Templates Tests
+        #region Invalid Tests
+
+        /// <summary>
+        /// Tests the Templates with A value of null does not save.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestTemplatesWithAValueOfNullDoesNotSave()
+        {
+            Ceremony ceremony = null;
+            try
+            {
+                #region Arrange
+                ceremony = GetValid(9);
+                ceremony.Templates = null;
+                #endregion Arrange
+
+                #region Act
+                CeremonyRepository.DbContext.BeginTransaction();
+                CeremonyRepository.EnsurePersistent(ceremony);
+                CeremonyRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception)
+            {
+                Assert.IsNotNull(ceremony);
+                Assert.AreEqual(ceremony.Templates, null);
+                var results = ceremony.ValidationResults().AsMessageList();
+                results.AssertErrorsAre("Templates: may not be null");
+                Assert.IsTrue(ceremony.IsTransient());
+                Assert.IsFalse(ceremony.IsValid());
+                throw;
+            }
+        }
+        #endregion Invalid Tests
+
+        #region Valid Tests
+
+        /// <summary>
+        /// Tests the Templates with empty list saves.
+        /// </summary>
+        [TestMethod]
+        public void TestTemplatesWithEmptyListSaves()
+        {
+            #region Arrange
+            var ceremony = GetValid(9);
+            ceremony.Templates = new List<Template>();
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(0, ceremony.Templates.Count());
+            Assert.IsFalse(ceremony.IsTransient());
+            Assert.IsTrue(ceremony.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the Templates with populated list saves.
+        /// </summary>
+        [TestMethod]
+        public void TestTemplatesWithPopulatedListSaves()
+        {
+            #region Arrange
+            LoadTemplateType(3);
+            var ceremony = GetValid(9);
+            ceremony.Templates = new List<Template>();
+            ceremony.Templates.Add(new Template("The Body", Repository.OfType<TemplateType>().GetById(1), ceremony));
+            ceremony.Templates.Add(new Template("The Body Other", Repository.OfType<TemplateType>().GetById(2), ceremony));
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(2, ceremony.Templates.Count());
+            Assert.IsFalse(ceremony.IsTransient());
+            Assert.IsTrue(ceremony.IsValid());
+            #endregion Assert
+        }
+
+        #endregion Valid Tests
+
+        #endregion Colleges Tests
+
+        #region Cascade Update And Delete Tests
+
+        /// <summary>
 		/// Tests the cascade delete removed related registrations.
 		/// </summary>
 		[TestMethod]
@@ -1831,48 +2040,13 @@ namespace Commencement.Tests.Repositories
 			#endregion Assert
 		}
 
-		[TestMethod, Ignore] //TODO: Investiagte, and/or remove test
-		public void TestSaveCeremonyDoesNotUpdateRegistrationPetitions()
-		{
-			#region Arrange
-			Repository.OfType<RegistrationPetition>().DbContext.BeginTransaction();
-			LoadMajorCode(1);
-			LoadRegistrationPetitions(5);
-			var registrationPetition = Repository.OfType<RegistrationPetition>().GetById(2);
-			registrationPetition.Ceremony = CeremonyRepository.GetById(2);
-			Repository.OfType<RegistrationPetition>().EnsurePersistent(registrationPetition);
-			registrationPetition = Repository.OfType<RegistrationPetition>().GetById(4);
-			registrationPetition.Ceremony = CeremonyRepository.GetById(2);
-			Repository.OfType<RegistrationPetition>().EnsurePersistent(registrationPetition);
-			Repository.OfType<RegistrationPetition>().DbContext.CommitTransaction();
 
-			var ceremony = CeremonyRepository.GetById(2);
-			NHibernateSessionManager.Instance.GetSession().Evict(ceremony);
-			ceremony = CeremonyRepository.GetById(2);
-			Assert.AreEqual(2, ceremony.RegistrationPetitions.Count);           
-			#endregion Arrange
-
-			#region Act
-			CeremonyRepository.DbContext.BeginTransaction();
-			ceremony.RegistrationPetitions[0].Email = "UpdatedEmail";
-			var saveId = ceremony.RegistrationPetitions[0].Id;
-			Console.WriteLine("Saving Ceremony"); 
-			
-			CeremonyRepository.EnsurePersistent(ceremony);
-			CeremonyRepository.DbContext.CommitTransaction();
-			
-			
-			var regPet = Repository.OfType<RegistrationPetition>().GetById(saveId);
-			NHibernateSessionManager.Instance.GetSession().Evict(regPet);
-			NHibernateSessionManager.Instance.GetSession().Evict(ceremony);
-			regPet = Repository.OfType<RegistrationPetition>().GetById(saveId);
-			#endregion Act
-
-			#region Assert
-			Assert.AreNotEqual("UpdatedEmail", regPet.Email);
-			#endregion Assert
-		}
-	   
+	    [TestMethod]
+	    public void TestCascadesTests()
+	    {
+	        Assert.IsTrue(false, "Still need to test rest of related tables.");
+            Assert.IsTrue(false, "Still need to do mapping tests");
+	    }
 		#endregion Cascade Update And Delete Tests
 
 		#region Constructor Tests
@@ -1896,6 +2070,8 @@ namespace Commencement.Tests.Repositories
 			Assert.IsNotNull(ceremony.Majors);
 			Assert.IsNotNull(ceremony.RegistrationPetitions);
             Assert.IsNotNull(ceremony.Editors);
+            Assert.IsNotNull(ceremony.Colleges);
+            Assert.IsNotNull(ceremony.Templates);
 			Assert.AreEqual(DateTime.Now.Date, ceremony.DateTime.Date);
 			Assert.AreEqual(DateTime.Now.Date, ceremony.RegistrationDeadline.Date);
 			Assert.AreEqual(DateTime.Now.Date, ceremony.ExtraTicketDeadline.Date);
@@ -1923,6 +2099,8 @@ namespace Commencement.Tests.Repositories
 			Assert.IsNotNull(ceremony.Majors);
 			Assert.IsNotNull(ceremony.RegistrationPetitions);
             Assert.IsNotNull(ceremony.Editors);
+            Assert.IsNotNull(ceremony.Colleges);
+            Assert.IsNotNull(ceremony.Templates);
 			Assert.AreEqual(DateTime.Now.AddDays(10).Date, ceremony.DateTime.Date);
 			Assert.AreEqual(10, ceremony.TicketsPerStudent);
 			Assert.AreEqual(100, ceremony.TotalTickets);
@@ -1947,12 +2125,19 @@ namespace Commencement.Tests.Repositories
 			#region Arrange
 			var expectedFields = new List<NameAndType>();
 			expectedFields.Add(new NameAndType("AvailableTickets", "System.Int32", new List<string>()));
+            expectedFields.Add(new NameAndType("Colleges", "System.Collections.Generic.IList`1[Commencement.Core.Domain.College]", new List<string>
+			{
+				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
+			}));
 			expectedFields.Add(new NameAndType("DateTime", "System.DateTime", new List<string>
 			{
 				"[NHibernate.Validator.Constraints.FutureAttribute()]", 
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
 			}));
-            expectedFields.Add(new NameAndType("Editors", "System.Collections.Generic.IList`1[Commencement.Core.Domain.CeremonyEditor]", new List<string>()));
+            expectedFields.Add(new NameAndType("Editors", "System.Collections.Generic.IList`1[Commencement.Core.Domain.CeremonyEditor]", new List<string>
+			{
+				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
+			}));
 			expectedFields.Add(new NameAndType("ExtraRequestedtickets", "System.Int32", new List<string>()));
 			expectedFields.Add(new NameAndType("ExtraTicketDeadline", "System.DateTime", new List<string>
 			{
@@ -1990,6 +2175,14 @@ namespace Commencement.Tests.Repositories
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
 			}));
 			expectedFields.Add(new NameAndType("RequestedTickets", "System.Int32", new List<string>()));
+            expectedFields.Add(new NameAndType("Templates", "System.Collections.Generic.IList`1[Commencement.Core.Domain.Template]", new List<string>
+			{
+				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
+			}));
+
+
+
+
 			expectedFields.Add(new NameAndType("TermCode", "Commencement.Core.Domain.TermCode", new List<string>
 			{
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"

@@ -513,6 +513,17 @@ namespace Commencement.Tests.Core
             }
         }
 
+        protected void LoadColleges(int entriesToAdd)
+        {
+            var collegeRepository = new RepositoryWithTypedId<College, string>();
+            for (int i = 0; i < entriesToAdd; i++)
+            {
+                var validEntity = CreateValidEntities.College(i + 1);
+                validEntity.SetIdTo((i + 1).ToString());
+                collegeRepository.EnsurePersistent(validEntity, true);
+            }
+        }
+
         protected void LoadStudent(int entriesToAdd)
         {
             var studentRepository = new RepositoryWithTypedId<Student, Guid>();
