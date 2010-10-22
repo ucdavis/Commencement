@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Commencement.Core.Domain;
@@ -38,19 +39,21 @@ namespace Commencement.Controllers.ViewModels
     {
         public IEnumerable<TemplateType> TemplateTypes { get; set; }
         public Template Template { get; set; }
+        public Ceremony Ceremony { get; set; }
 
-        public static TemplateCreateViewModel Create(IRepository repository, Template template)
+        public static TemplateCreateViewModel Create(IRepository repository, Template template, Ceremony ceremony)
         {
             Check.Require(repository != null, "Repository is required.");
+            Check.Require(ceremony != null, "ceremony is required.");
 
             var viewModel = new TemplateCreateViewModel()
                                 {
                                     TemplateTypes = repository.OfType<TemplateType>().GetAll(),
-                                    Template = template
+                                    Template = template,
+                                    Ceremony = ceremony
                                 };
 
             return viewModel;
         }
-
     }
 }

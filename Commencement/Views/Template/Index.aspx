@@ -15,15 +15,17 @@
 
     <h2>Email Templates for <%: Model.Ceremony.Name %></h2>
 
-    <%= Html.ActionLink<TemplateController>(a=>a.Create(Model.Ceremony.Id), "Create  New Template") %>
+    <%= Html.ActionLink<TemplateController>(a=>a.Create(Model.Ceremony.Id, null), "Create  New Template") %>
 
     <div id="template_container">
     
+        <% if (Model.Templates.Count > 0) { %>
+
         <% foreach(var t in Model.Templates) { %>
         
             <fieldset class="template">
                 <legend>
-                    <%= Html.ActionLink<TemplateController>(a=>a.Create(t.Id), t.TemplateType.Name) %>
+                    <%= Html.ActionLink<TemplateController>(a=>a.Create(Model.Ceremony.Id, t.Id), t.TemplateType.Name) %>
                 </legend>
                 
                 <div class="template_description">
@@ -38,6 +40,11 @@
         
         <% } %>
     
+        <% } else { %>
+
+            No email templates have been created.
+
+        <% } %>
     </div>
 
 </asp:Content>

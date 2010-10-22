@@ -1,5 +1,6 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.TemplateCreateViewModel>" %>
 <%@ Import Namespace="Commencement.Controllers" %>
+<%@ Import Namespace="Commencement.Core.Domain" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Create
@@ -9,7 +10,7 @@
 <div id="fix">
 <ul class="btn">
     <li>
-    <%= Html.ActionLink<TemplateController>(a=>a.Index(), "Back to List") %>
+    <%= Html.ActionLink<TemplateController>(a=>a.Index(Model.Ceremony.Id), "Back to List") %>
     </li></ul>
 
     <h2>Create</h2>
@@ -20,7 +21,7 @@
     <% using (Html.BeginForm()) {%>
 
         <%= Html.AntiForgeryToken() %>
-
+        <%: Html.Hidden("Ceremony", Model.Ceremony.Id) %>
 
             <p>
                 <strong>Template Type:</strong>
@@ -37,31 +38,9 @@
                 <%= Html.ValidationMessageFor(a=>a.Template.BodyText) %> </p>
                 
                 <div id="right_menu">
-                        <ul class="registration_form">
-                    <div id="shared_tokens">
-                        <li><a href="javascript:;" class="add_token">{StudentId}</a></li>
-                        <li><a href="javascript:;" class="add_token">{StudentName}</a></li>
-                        <li><a href="javascript:;" class="add_token">{CeremonyName}</a></li>
-                        <li><a href="javascript:;" class="add_token">{CeremonyTime}</a></li>
-                        <li><a href="javascript:;" class="add_token">{CeremonyLocation}</a></li>
-                        <li><a href="javascript:;" class="add_token">{NumberOfTickets}</a></li>
-                        <li><a href="javascript:;" class="add_token">{AddressLine1}</a></li>
-                        <li><a href="javascript:;" class="add_token">{AddressLine2}</a></li>
-                        <li><a href="javascript:;" class="add_token">{City}</a></li>
-                        <li><a href="javascript:;" class="add_token">{State}</a></li>
-                        <li><a href="javascript:;" class="add_token">{Zip}</a></li>
-                        <li><a href="javascript:;" class="add_token">{DistributionMethod}</a></li>
-                    </div>
-                    <div id="registration_tokens" >
-                        <li><a href="javascript:;" class="add_token">{SpecialNeeds}</a></li>
-                        <li><a href="javascript:;" class="add_token">{Major}</a></li>
-                    <div id="registration_petition_tokens" >
-                        <li><a href="javascript:;" class="add_token">{ExceptionReason}</a></li>
-                        <li><a href="javascript:;" class="add_token">{CompletionTerm}</a></li>
-                    </div>
-                       <li><a href="javascript:;" class="add_token">{NumberOfExtraTickets}</a></li>
-                       <li><a href="javascript:;" class="add_token">{PetitionDecision}</a></li>
-               </ul>
+                      <ul class="registration_form">
+                       <% Html.RenderPartial("TokenPartial", Model.Template != null ? Model.Template.TemplateType : new TemplateType()); %>
+                      </ul>
                </div>     
  
            
@@ -83,12 +62,28 @@
     <script src="<%= Url.Content("~/Scripts/jquery.enableTinyMce.js") %>" type="text/javascript"></script>
 
     <script type="text/javascript">
+
+        var templatecodes = [];
+
         $(document).ready(function() {
             $("#BodyText").enableTinyMce({ script_location: '<%= Url.Content("~/Scripts/tiny_mce/tiny_mce.js") %>', overrideWidth: "700" });
             $(".add_token").click(function(event) {
                 tinyMCE.execInstanceCommand("BodyText", "mceInsertContent", false, $(this).html());
             });
+
+            <% foreach(var a in Model.TemplateTypes) { %>
+                templatecodes['<%: a.Name %>'] = '<%: a.Code %>';
+            <% } %>
+
+            $("#TemplateType").change(function(){
+                $(".tokens").hide();    // hide all token containers
+
+                // show the one we want
+                var selected = $("#TemplateType option:selected").text();
+                $("#" + templatecodes[selected]).show();
+            });
         });
+
    </script>
    </div>
 </asp:Content>

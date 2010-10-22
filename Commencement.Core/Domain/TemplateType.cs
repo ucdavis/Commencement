@@ -12,6 +12,8 @@ namespace Commencement.Core.Domain
         public virtual string Name { get; set; }
 
         public virtual string Description { get; set; }
+
+        public virtual string Code { get; set; }
     }
 
     public class TemplateTypeMap : ClassMap<TemplateType>
@@ -22,6 +24,7 @@ namespace Commencement.Core.Domain
 
             Map(x => x.Name);
             Map(x => x.Description);
+            Map(x => x.Code);
         }
     }
 }

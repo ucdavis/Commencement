@@ -554,6 +554,7 @@
     <Content Include="Views\Shared\RegistrationDisplay.ascx" />
     <Content Include="Views\Template\Create.aspx" />
     <Content Include="Views\Template\Index.aspx" />
+    <Content Include="Views\Template\TokenPartial.ascx" />
     <Content Include="Web.config" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\MicrosoftAjax.js" />

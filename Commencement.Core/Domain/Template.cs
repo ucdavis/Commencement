@@ -7,14 +7,23 @@ namespace Commencement.Core.Domain
 {
     public class Template : DomainObject
     {
-        public Template(string bodyText, TemplateType templateType)
+        public Template(string bodyText, TemplateType templateType, Ceremony ceremony)
         {
             BodyText = bodyText;
             TemplateType = templateType;
+            Ceremony = ceremony;
+
+            SetDefaults();
         }
 
         public Template()
         {
+            SetDefaults();
+        }
+
+        private void SetDefaults()
+        {
+            IsActive = true;
         }
 
         [Required]

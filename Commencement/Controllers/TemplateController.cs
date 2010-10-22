@@ -22,20 +22,24 @@ namespace Commencement.Controllers
 
             return View(viewModel);
         }
-        public ActionResult Create(int? id)
+        public ActionResult Create(int id, int? templateId)
         {
+            var ceremony = Repository.OfType<Ceremony>().GetNullableById(id);
             Template template = null;
-            if (id.HasValue) template = Repository.OfType<Template>().GetNullableById(id.Value);
-            
-            var viewModel = TemplateCreateViewModel.Create(Repository, template);
+            if (templateId.HasValue) template = Repository.OfType<Template>().GetNullableById(templateId.Value);
+
+            if (ceremony == null ) return this.RedirectToAction<CeremonyController>(a => a.Index());
+
+            var viewModel = TemplateCreateViewModel.Create(Repository, template, ceremony);
 
             return View(viewModel);
         }
+
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Create(Template template)
         {
-            var newTemplate = new Template(template.BodyText, template.TemplateType);//, template.RegistrationConfirmation, template.RegistrationPetition, template.ExtraTicketPetition);
+            var newTemplate = new Template(template.BodyText, template.TemplateType, template.Ceremony);//, template.RegistrationConfirmation, template.RegistrationPetition, template.ExtraTicketPetition);
 
             newTemplate.TransferValidationMessagesTo(ModelState);
 
@@ -43,10 +47,10 @@ namespace Commencement.Controllers
             {
                 Repository.OfType<Template>().EnsurePersistent(newTemplate);
 
-                return this.RedirectToAction(a => a.Index(1));
+                return this.RedirectToAction(a => a.Index(newTemplate.Ceremony.Id));
             }
 
-            var viewModel = TemplateCreateViewModel.Create(Repository, newTemplate);
+            var viewModel = TemplateCreateViewModel.Create(Repository, newTemplate, newTemplate.Ceremony);
             return View(viewModel);
         }
     }
