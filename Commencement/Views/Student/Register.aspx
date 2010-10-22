@@ -11,7 +11,11 @@
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
     <h1><%= Model.Ceremony.Name %></h1>
     <p>
-        <%= Html.Encode(string.Format(StaticValues.Txt_Introduction, Model.Student.FirstName)) %>
+        <% if (Model.Ceremony.PrintingDeadline > DateTime.Now) { %>
+            <%= Html.Encode(string.Format(StaticValues.Txt_Introduction, Model.Student.FirstName)) %>
+        <% } else { %>
+            <%: string.Format(StaticValues.Txt_Introduction_AfterPrintingDeadling, Model.Student.FirstName) %>
+        <% } %>
     </p>
     
     <%= Html.ValidationSummary("Please correct all errors below") %>
@@ -22,6 +26,13 @@
 
     <% Html.RenderPartial("RegistrationEditForm"); %>    
     
+    <h3>
+        <%= string.Format(StaticValues.Txt_Disclaimer) ) %>
+        
+        <br />
+        <label for="agreeToDisclaimer">I Agree</label> <%= Html.CheckBox("agreeToDisclaimer", new { @class = "required" }) %>
+    </h3>
+
     <input type="submit" value="Register for Commencement" />
     
     <% } %>

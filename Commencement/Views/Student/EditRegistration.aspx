@@ -16,7 +16,7 @@
 
     <% Html.RenderPartial("RegistrationEditForm"); %>    
     
-    <input type="submit" value="Register for Commencement" />
+    <input type="submit" value="Update Registration" />
     
     <% } %>
 

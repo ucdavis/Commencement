@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Student_Add_Permission_Problem" xml:space="preserve">
     <value>There was a problem sending {0} an email.</value>
@@ -157,7 +157,11 @@
     <value>Ticket Petition</value>
   </data>
   <data name="Txt_Disclaimer" xml:space="preserve">
-    <value>I agree to adhere to the University's student code of conduct.  I understand College of Agricultural &amp; Environmental Sciences has a &lt;a href="{0}"&gt;zero tolerance policy&lt;/a&gt; for alcohol and illegal substances.</value>
+    <value>I agree to adhere to the University policy which prohibits the unlawful use, sale, distribution, dispensing, or possession of alcohol or of controlled substances by students on University premises and official University functions.  Students shall not use illegal substances or abuse legal substances in a manner that impairs scholarly activities or student life.  (Adapted from UCDP&amp;P  Manual Chapter 380, Section 18) Students violating this policy may be excluded from privileges and activities when there is reasonable cause to believe that their conduct 1) threatens the safety of themselves and others on University property or at University functions; and/or 2) disrupts the orderly operation of the campus (Adapted from UC Board of Regents Policy on Student Conduct &amp; Discipline).
+&lt;br/&gt;
+Any student who is found selling tickets or in possession of counterfeit tickets will be dismissed from commencement and reported to Student Judicial Affairs.
+&lt;br/&gt;
+*Please share these policies with your family &amp; friends attending.</value>
   </data>
   <data name="Txt_Introduction" xml:space="preserve">
     <value>Welcome {0}.  After you have submitted your registration you may log back in and update any of your information up until the registration deadline.</value>
@@ -229,10 +233,13 @@
         commencement@caes.ucdavis.edu
     &lt;/p&gt;</value>
   </data>
-	<data name="StudentService_SearchStudent_SQL">
-		<value xml:space="preserve">EXEC usp_SearchStudent :studentid, :term</value>
-	</data>
-	<data name="StudentService_SearchStudentByLogin_SQL">
-		<value xml:space="preserve">EXEC usp_SearchStudentByLogin :login, :term</value>
-	</data>
+  <data name="StudentService_SearchStudent_SQL" xml:space="preserve">
+    <value>EXEC usp_SearchStudent :studentid, :term</value>
+  </data>
+  <data name="StudentService_SearchStudentByLogin_SQL" xml:space="preserve">
+    <value>EXEC usp_SearchStudentByLogin :login, :term</value>
+  </data>
+  <data name="Txt_Introduction_AfterPrintingDeadling" xml:space="preserve">
+    <value>Welcome {0}.  You are registering AFTER the registration deadline.  Please note that due to the late registration we can not guarantee your name will appear in the program or that you will receive the maximum # of tickets alloted per person.  After the deadline tickets are distributed on a first come first serve basis.</value>
+  </data>
 </root>

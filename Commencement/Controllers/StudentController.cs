@@ -243,7 +243,7 @@ namespace Commencement.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditRegistration(int id, Registration registration, bool agreeToDisclaimer)
+        public ActionResult EditRegistration(int id, Registration registration)
         {
             var registrationToEdit = _registrationRepository.GetNullableById(id);
             var student = GetCurrentStudent();
@@ -264,11 +264,6 @@ namespace Commencement.Controllers
             NullOutBlankFields(registrationToEdit);
 
             registrationToEdit.TransferValidationMessagesTo(ModelState);
-
-            if (agreeToDisclaimer == false)
-            {
-                ModelState.AddModelError("agreeToDisclaimer", StaticValues.Student_agree_to_disclaimer);
-            }
 
             if (ModelState.IsValid)
             {

@@ -205,7 +205,7 @@ namespace Commencement.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I agree to adhere to the University&apos;s student code of conduct.  I understand College of Agricultural &amp; Environmental Sciences has a &lt;a href=&quot;{0}&quot;&gt;zero tolerance policy&lt;/a&gt; for alcohol and illegal substances..
+        ///   Looks up a localized string similar to I agree to adhere to the University policy which prohibits the unlawful use, sale, distribution, dispensing, or possession of alcohol or of controlled substances by students on University premises and official University functions.  Students shall not use illegal substances or abuse legal substances in a manner that impairs scholarly activities or student life.  (Adapted from UCDP&amp;P  Manual Chapter 380, Section 18) Students violating this policy may be excluded from privileges and activities when there is r [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Txt_Disclaimer {
             get {
@@ -249,6 +249,15 @@ namespace Commencement.Core.Resources {
         public static string Txt_Introduction {
             get {
                 return ResourceManager.GetString("Txt_Introduction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome {0}.  You are registering AFTER the registration deadline.  Please note that due to the late registration we can not guarantee your name will appear in the program or that you will receive the maximum # of tickets alloted per person.  After the deadline tickets are distributed on a first come first serve basis..
+        /// </summary>
+        public static string Txt_Introduction_AfterPrintingDeadling {
+            get {
+                return ResourceManager.GetString("Txt_Introduction_AfterPrintingDeadling", resourceCulture);
             }
         }
         

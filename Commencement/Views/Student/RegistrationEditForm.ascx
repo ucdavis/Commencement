@@ -3,8 +3,6 @@
 <%@ Import Namespace="Commencement.Core.Resources" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
-    <%--<input type="hidden" name="Registration.Ceremony" id="Registration_Ceremony" value="<%= Model.Registration.Ceremony == null ? 0 : Model.Registration.Ceremony.Id %>" />--%>
-    
     <%: Html.HiddenFor(x=>x.Registration.Id, Model.Registration.Ceremony == null ? 0 : Model.Registration.Ceremony.Id) %>
 
     <h2>
@@ -81,17 +79,10 @@
                 <% } %>
             </select>
         </li>
-        <li class="prefilled"><strong>Ceremony Date:</strong> <span><%= Html.Encode(string.Format("{0}", Model.Ceremony.DateTime)) %></span> </li>
+        <li class="prefilled"><strong>Ceremony Date:</strong> <span><%= Html.Encode(string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.Ceremony.DateTime))%></span> </li>
         <li>
-            <strong>Special Needs:<br />(Extra Ticket requested should be submitted after registration is completed)</strong>
+            <strong>Special Needs:<br />(This is only for limited mobility or disability assistance.  Any extra ticket requests here will be disregarded)</strong>
             <%= Html.TextAreaFor(x=>x.Registration.Comments, 10, 40, null) %>
             <%= Html.ValidationMessageFor(x=>x.Registration.Comments) %>
         </li>
     </ul>
-    
-    <h3>
-        <%= string.Format(StaticValues.Txt_Disclaimer,Url.Content("~/Forms/alcohol_policy.pdf") ) %>
-        
-        <br />
-        <label for="agreeToDisclaimer">I Agree</label> <%= Html.CheckBox("agreeToDisclaimer", new { @class = "required" }) %>
-    </h3>
