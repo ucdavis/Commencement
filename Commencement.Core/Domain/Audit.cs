@@ -48,7 +48,7 @@ namespace Commencement.Core.Domain
     {
         public AuditMap()
         {
-            Id(x => x.Id);
+            Id(x => x.Id).GeneratedBy.GuidComb();
             Map(x => x.ObjectName);
             Map(x => x.ObjectId);
             Map(x => x.AuditActionTypeId);

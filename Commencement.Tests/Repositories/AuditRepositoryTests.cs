@@ -1,10 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Commencement.Core.Domain;
 using Commencement.Tests.Core;
 using Commencement.Tests.Core.Extensions;
 using Commencement.Tests.Core.Helpers;
+using FluentNHibernate.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Data.NHibernate;
@@ -106,6 +108,56 @@ namespace Commencement.Tests.Repositories
 
         #endregion Init and Overrides	
         
+        #region Fluent Mapping Tests
+        [TestMethod]
+        public void TestCanCorrectlyMapAttachment()
+        {
+            #region Arrange
+            var id = Guid.NewGuid();
+            var session = NHibernateSessionManager.Instance.GetSession();
+            var dateToCheck = new DateTime(2010, 01, 01);
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<Audit>(session, new AuditEqualityComparer())
+                .CheckProperty(c => c.Id, id)
+                .CheckProperty(c => c.AuditDate, dateToCheck)
+                .CheckProperty(c => c.AuditActionTypeId, "S")
+                .CheckProperty(c => c.ObjectId, "ObjectId")
+                .CheckProperty(c => c.ObjectName, "ObjectName")
+                .CheckProperty(c => c.Username, "UserName")
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+
+        public class AuditEqualityComparer : IEqualityComparer
+        {
+            public bool Equals(object x, object y)
+            {
+                if (x == null || y == null)
+                {
+                    return false;
+                }
+                if (x is Guid && y is Guid)
+                {
+                    if (((Guid)x) != ((Guid)y))
+                    {
+                        return true;
+                    }
+                    return false; //They should never match
+                }
+
+                return x.Equals(y);
+            }
+
+            public int GetHashCode(object obj)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion Fluent Mapping Tests
+
         #region ObjectName Tests
         #region Invalid Tests
 
