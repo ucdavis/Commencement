@@ -549,6 +549,15 @@ namespace Commencement.Tests.Core
             }
         }
 
+        protected void LoadUsers(int entriesToAdd)
+        {
+            for (int i = 0; i < entriesToAdd; i++)
+            {
+                var validEntity = CreateValidEntities.vUser(i + 1);
+                Repository.OfType<vUser>().EnsurePersistent(validEntity);
+            }
+        }
+
         /// <summary>
         /// Loads the registration petitions.
         /// Needs MajorCode

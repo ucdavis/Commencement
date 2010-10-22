@@ -178,7 +178,6 @@
     <Compile Include="Misc\StringExtensionTests.cs" />
     <Compile Include="Repositories\AuditRepositoryTests.cs" />
     <Compile Include="Repositories\CeremonyEditorRepositoryTests.cs" />
-    <Compile Include="Repositories\CeremonyEditorRepositoryTestsold.cs" />
     <Compile Include="Repositories\CeremonyRepositoryTests.cs" />
     <Compile Include="Repositories\CollegeRepositoryTests.cs" />
     <Compile Include="Repositories\ExtraTicketPetitionRepositoryTests.cs" />

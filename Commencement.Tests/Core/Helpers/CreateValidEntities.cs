@@ -121,7 +121,7 @@ namespace Commencement.Tests.Core.Helpers
         public static CeremonyEditor CeremonyEditor(int? count)
         {
             var rtValue = new CeremonyEditor();
-            rtValue.User = new vUser();
+            //rtValue.User = new vUser();
             //rtValue.LoginId = "LoginId" + count.Extra();
             rtValue.Ceremony = new Ceremony();
 
@@ -184,6 +184,17 @@ namespace Commencement.Tests.Core.Helpers
         {
             var rtValue = new vTermCode();
             rtValue.Description = "Description" + count.Extra();
+            return rtValue;
+        }
+
+        public static  vUser vUser(int? count)
+        {
+            var rtValue = new vUser();
+            rtValue.LoginId = "LoginId" + count.Extra();
+            rtValue.LastName = "LastName" + count.Extra();
+            rtValue.FirstName = "FirstName" + count.Extra();
+            rtValue.Email = "test@test.com";
+
             return rtValue;
         }
 
