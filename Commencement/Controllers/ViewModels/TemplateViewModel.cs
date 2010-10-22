@@ -16,22 +16,9 @@ namespace Commencement.Controllers.ViewModels
         {
             Check.Require(repository != null, "Repository is required.");
 
-            var viewModel = new TemplateViewModel() {Templates = ceremony.Templates, Ceremony = ceremony};
+            var viewModel = new TemplateViewModel() {Templates = ceremony.Templates.Where(a=>a.IsActive).ToList(), Ceremony = ceremony};
 
             return viewModel;
-
-            //var viewModel = new TemplateViewModel() {
-            //    Templates = new List<Template>()
-            //};
-
-            //// add the newest of each of the templates
-            //foreach(var tt in repository.OfType<TemplateType>().GetAll())
-            //{
-            //    var t = repository.OfType<Template>().Queryable.Where(a => a.TemplateType == tt).OrderByDescending(a => a.Id).FirstOrDefault();
-            //    if (t != null) viewModel.Templates.Add(t);
-            //}
-
-            //return viewModel;
         }
     }
 

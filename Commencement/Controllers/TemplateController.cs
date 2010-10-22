@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.ViewModels;
@@ -39,12 +40,20 @@ namespace Commencement.Controllers
         [ValidateInput(false)]
         public ActionResult Create(Template template)
         {
-            var newTemplate = new Template(template.BodyText, template.TemplateType, template.Ceremony);//, template.RegistrationConfirmation, template.RegistrationPetition, template.ExtraTicketPetition);
+            var newTemplate = new Template(template.BodyText, template.TemplateType, template.Ceremony);
 
             newTemplate.TransferValidationMessagesTo(ModelState);
 
+            // get any existing ones
+            var oldTemplates = template.Ceremony.Templates.Where(a => a.TemplateType == template.TemplateType && a.IsActive);
+
             if (ModelState.IsValid)
             {
+                foreach (var a in oldTemplates)
+                {
+                    a.IsActive = false;
+                    Repository.OfType<Template>().EnsurePersistent(a);
+                }
                 Repository.OfType<Template>().EnsurePersistent(newTemplate);
 
                 return this.RedirectToAction(a => a.Index(newTemplate.Ceremony.Id));

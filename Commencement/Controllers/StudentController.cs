@@ -191,7 +191,7 @@ namespace Commencement.Controllers
 
                 try
                 {
-                    _emailService.SendRegistrationConfirmation(Repository, registration);
+                    _emailService.SendRegistrationConfirmation(registration);
                 }
                 catch (Exception)
                 {
@@ -279,7 +279,7 @@ namespace Commencement.Controllers
 
                 try
                 {
-                    _emailService.SendRegistrationConfirmation(Repository, registrationToEdit);
+                    _emailService.SendRegistrationConfirmation(registrationToEdit);
                 }
                 catch (Exception)
                 {

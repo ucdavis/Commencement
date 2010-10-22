@@ -67,7 +67,7 @@ namespace Commencement.Controllers
 
                 try
                 {
-                    _emailService.SendExtraTicketPetitionDecision(Repository, registration);
+                    _emailService.SendExtraTicketPetitionDecision(registration);
                 }
                 catch (Exception)
                 {
@@ -121,7 +121,7 @@ namespace Commencement.Controllers
                 {
                     try
                     {
-                        _emailService.SendRegistrationPetitionApproved(Repository, registrationPetition);
+                        _emailService.SendRegistrationPetitionApproved(registrationPetition);
                     }
                     catch
                     {
@@ -200,7 +200,7 @@ namespace Commencement.Controllers
 
                 try
                 {
-                    _emailService.SendRegistrationPetitionConfirmation(Repository, registrationPetition);
+                    _emailService.SendRegistrationPetitionConfirmation(registrationPetition);
                 }
                 catch
                 {
@@ -300,7 +300,7 @@ namespace Commencement.Controllers
 
                 try
                 {
-                    _emailService.SendExtraTicketPetitionConfirmation(Repository, registration);
+                    _emailService.SendExtraTicketPetitionConfirmation(registration);
                 }
                 catch (Exception)
                 {

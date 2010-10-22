@@ -161,7 +161,7 @@ namespace Commencement.Controllers
 
                 try
                 {
-                    _emailService.SendAddPermission(Repository, student, ceremony);
+                    _emailService.SendAddPermission(student, ceremony);
                 }
                 catch (Exception)
                 {
