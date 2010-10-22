@@ -9,7 +9,6 @@ namespace Commencement.Controllers.ViewModels
 {
     public class CommencementViewModel
     {
-        public IEnumerable<TermCode> TermCodes { get; set; }
         public IEnumerable<Core.Domain.Ceremony> Ceremonies { get; set; }
 
         public static CommencementViewModel Create(IRepository repository, ICeremonyService ceremonyService, string userId)
@@ -17,14 +16,9 @@ namespace Commencement.Controllers.ViewModels
             Check.Require(repository != null, "Repository is required.");
             Check.Require(!string.IsNullOrEmpty(userId), "User Id is required.");
 
-            //var ceremonyIds = (from a in repository.OfType<CeremonyEditor>().Queryable
-            //                   where a.LoginId == userId
-            //                   select a.Ceremony.Id).ToList();
-
             var viewModel = new CommencementViewModel()
                                 {
-                                    TermCodes = repository.OfType<TermCode>().GetAll(),
-                                    Ceremonies = ceremonyService.GetCeremonies(userId, TermService.GetCurrent())
+                                    Ceremonies = ceremonyService.GetCeremonies(userId)
                                 };
 
             return viewModel;

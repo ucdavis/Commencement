@@ -64,6 +64,7 @@
         Ceremony Information</h2>
     <ul class="registration_form">
         <li><strong>Tickets Requested:</strong>
+            <% if (Model.Registration.Id <= 0) { %>
             <select id="Registration_NumberTickets" name="Registration.NumberTickets">
                 <% for (int i = 1; i <= Model.Ceremony.TicketsPerStudent; i++)
                    { %>
@@ -78,6 +79,11 @@
 
                 <% } %>
             </select>
+            <% } else { %>
+                <%= Html.Encode(Model.Registration.NumberTickets) %>
+                <%= Html.Hidden("Registration.NumberTickets", Model.Registration.NumberTickets) %>
+
+            <% } %>
         </li>
         <li class="prefilled"><strong>Ceremony Date:</strong> <span><%= Html.Encode(string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.Ceremony.DateTime))%></span> </li>
         <li>

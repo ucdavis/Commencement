@@ -14,8 +14,6 @@ namespace Commencement.Controllers.ViewModels
     {
         // list of majors
         public Ceremony Ceremony { get; set; }
-        //public IEnumerable<vTermCode> TermCodes { get; set; }
-        //public IEnumerable<College> Colleges { get; set; }
 
         public IEnumerable<SelectListItem> TermCodes { get; set; }
         public MultiSelectList Majors { get; set; }
@@ -28,10 +26,8 @@ namespace Commencement.Controllers.ViewModels
 
             var viewModel = new CeremonyViewModel()
                                 {
-                                    //TermCodes = repository.OfType<vTermCode>().Queryable.Where(a=>a.EndDate > DateTime.Now).ToList(),
                                     TermCodes = repository.OfType<vTermCode>().Queryable.Where(a => a.EndDate > DateTime.Now).Select(a=>new SelectListItem(){Text = a.Description, Value = a.Id}),
                                     Ceremony = ceremony
-                                    //Colleges = repository.OfType<College>().Queryable.Where(a=>a.Display).ToList()
                                 };
 
             // poplate the colleges

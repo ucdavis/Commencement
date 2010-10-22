@@ -31,21 +31,22 @@ namespace Commencement.Controllers.Services
                         where ceremonyIds.Contains(a.Id)
                         select a;
 
-            // add the restriction on term if needed
-            if (termCode != null)
-            {
-                query = query.Where(a => a.TermCode == termCode);
-            }
-
             return query.ToList();
         }
 
         public virtual List<int> GetCeremonyIds (string userId, TermCode termCode = null)
         {
             // get a list of ceremonies that the user has access to
-            return (from a in _repository.OfType<CeremonyEditor>().Queryable
-                    where a.User.LoginId == userId
-                    select a.Ceremony.Id).ToList();
+            var query = from a in _repository.OfType<CeremonyEditor>().Queryable
+                        where a.User.LoginId == userId
+                        select a;
+
+            if (termCode != null)
+            {
+                query = query.Where(a => a.Ceremony.TermCode == termCode);
+            }
+
+            return query.Select(a => a.Ceremony.Id).ToList();
         }
 
         public virtual bool HasAccess(int id, string userId)
