@@ -32,6 +32,10 @@
                     <%= Html.Encode(t.TemplateType.Description) %>
                 </div>
                 
+                <div class="template_subject">
+                    <%: t.Subject %>
+                </div>
+
                 <div class="template_body">
                     <%= Html.HtmlEncode(t.BodyText) %>
                 </div>

@@ -36,6 +36,9 @@ namespace Commencement.Core.Domain
         public virtual Ceremony Ceremony { get; set; }
 
         public virtual bool IsActive { get; set; }
+
+        [Length(100)]
+        public virtual string Subject { get; set; }
     }
 
     public class TemplateMap : ClassMap<Template>

@@ -32,8 +32,11 @@
                         .Selected(Model.Template != null ? Model.Template.TemplateType.Id.ToString() : string.Empty) %>
             </p>
             <p>
+                <strong>Subject: </strong>
+                <%: Html.TextBox("Subject", Model.Template != null ? Model.Template.Subject : string.Empty) %>
+            </p>
+            <p>
                 <strong>BodyText:</strong>
-                <%--<%= Html.TextAreaFor(a=>a.Template.BodyText) %>--%>
                 <%= Html.TextArea("BodyText", Model.Template != null ? Model.Template.BodyText : string.Empty) %>
                 <%= Html.ValidationMessageFor(a=>a.Template.BodyText) %> </p>
                 
