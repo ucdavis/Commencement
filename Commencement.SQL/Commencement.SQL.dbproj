@@ -63,6 +63,7 @@
     <Folder Include="Scripts\Post-Deployment" />
     <Folder Include="Data Generation Plans" />
     <Folder Include="Schema Comparisons" />
+    <Folder Include="Report Scripts" />
   </ItemGroup>
   <ItemGroup>
     <PropertiesFile Include="Properties\Database.sqlsettings">
@@ -165,6 +166,24 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="Fill Scripts\Insert_Majors-Colleges.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Report Scripts\usp_RegistrarReport.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Report Scripts\usp_SpecialNeedsReport.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Report Scripts\usp_SummaryReport.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Report Scripts\usp_TicketSignOutSheet.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Report Scripts\usp_TotalRegistrationPetitions.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Report Scripts\usp_TotalRegisteredStudents.proc.sql">
       <SubType>Code</SubType>
     </Build>
   </ItemGroup>
