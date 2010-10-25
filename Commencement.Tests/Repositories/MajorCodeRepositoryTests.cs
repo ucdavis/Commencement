@@ -11,7 +11,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Data.NHibernate;
 using UCDArch.Testing;
-using UCDArch.Testing.Extensions;
 
 namespace Commencement.Tests.Repositories
 {
@@ -118,7 +117,6 @@ namespace Commencement.Tests.Repositories
         public void TestCanCorrectlyMapAttachment()
         {
             #region Arrange
-            var id = "APRF";
             var session = NHibernateSessionManager.Instance.GetSession();
             LoadColleges(3);
             var college = CollegeRepository.GetById("2");
@@ -127,7 +125,7 @@ namespace Commencement.Tests.Repositories
 
             #region Act/Assert
             new PersistenceSpecification<MajorCode>(session, new MajorCodeEqualityComparer())
-                .CheckProperty(c => c.Id, id)
+                .CheckProperty(c => c.Id, "APRF")
                 .CheckProperty(c => c.College, college)
                 .CheckProperty(c => c.DisciplineCode, "ENVSC")
                 .CheckProperty(c => c.Name, "Pre Forestry (C.W.0.) Program")                
@@ -137,7 +135,14 @@ namespace Commencement.Tests.Repositories
 
         public class MajorCodeEqualityComparer : IEqualityComparer
         {
-            public bool Equals(object x, object y)
+            /// <summary>
+            /// Determines whether the specified objects are equal.
+            /// </summary>
+            /// <returns>
+            /// true if the specified objects are equal; otherwise, false.
+            /// </returns>
+            /// <param name="x">The first object to compare.</param><param name="y">The second object to compare.</param><exception cref="T:System.ArgumentException"><paramref name="x"/> and <paramref name="y"/> are of different types and neither one can handle comparisons with the other.</exception>
+            bool IEqualityComparer.Equals(object x, object y)
             {
                 if (x is College && y is College)
                 {
@@ -145,7 +150,7 @@ namespace Commencement.Tests.Repositories
                     {
                         return true;
                     }
-                    return false; //They should never match
+                    return false;
                 }
 
                 return x.Equals(y);
