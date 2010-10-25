@@ -67,7 +67,7 @@ namespace Commencement.Core.Domain
         public virtual Ceremony Ceremony { get; set; }
 
         public virtual bool SjaBlock { get; set; }
-        public virtual bool Removed { get; set; }
+        public virtual bool Blocked { get; set; }
 
         public virtual IList<MajorCode> Majors { get; set; }
 
@@ -113,7 +113,7 @@ namespace Commencement.Core.Domain
             Map(x => x.DateAdded);
             Map(x => x.DateUpdated);
             Map(x => x.SjaBlock);
-            Map(x => x.Removed);
+            Map(x => x.Blocked);
 
             References(x => x.TermCode).Column("TermCode");
             References(x => x.Ceremony);
