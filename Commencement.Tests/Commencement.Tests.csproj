@@ -194,7 +194,6 @@
     <Compile Include="Repositories\CeremonyRepositoryTests\CeremonyRepositoryTestsPart13.cs" />
     <Compile Include="Repositories\CollegeRepositoryTests.cs" />
     <Compile Include="Repositories\ExtraTicketPetitionRepositoryTests.cs" />
-    <Compile Include="Repositories\MajorCodeRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Repositories\PageTrackingRepositoryTests.cs" />
