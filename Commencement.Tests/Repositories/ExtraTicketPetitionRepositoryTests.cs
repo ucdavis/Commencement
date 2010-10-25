@@ -4,6 +4,7 @@ using System.Linq;
 using Commencement.Core.Domain;
 using Commencement.Tests.Core;
 using Commencement.Tests.Core.Helpers;
+using FluentNHibernate.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Data.NHibernate;
@@ -105,6 +106,33 @@ namespace Commencement.Tests.Repositories
 
         #endregion Init and Overrides	
         
+        #region Fluent Mapping Tests
+        [TestMethod]
+        public void TestCanCorrectlyMapAttachment()
+        {
+            #region Arrange
+            var id = ExtraTicketPetitionRepository.Queryable.Max(x => x.Id) + 1;
+            var session = NHibernateSessionManager.Instance.GetSession();
+            var dateToCheck1 = new DateTime(2010, 01, 01);
+            var dateToCheck2 = new DateTime(2010, 01, 02);
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<ExtraTicketPetition>(session)
+                .CheckProperty(c => c.Id, id)
+                .CheckProperty(c => c.DateDecision, dateToCheck1)
+                .CheckProperty(c => c.DateSubmitted, dateToCheck2)
+                .CheckProperty(c => c.IsApproved, true)
+                .CheckProperty(c => c.IsPending, true)
+                .CheckProperty(c => c.LabelPrinted, false)
+                .CheckProperty(c => c.NumberTickets, 12)
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+
+
+        #endregion Fluent Mapping Tests
+
         #region NumberTickets Tests
 
         #region Invalid Tests
@@ -324,7 +352,6 @@ namespace Commencement.Tests.Repositories
         }
 
         #endregion IsApproved Tests
-
   
         #region DateSubmitted Tests
 
