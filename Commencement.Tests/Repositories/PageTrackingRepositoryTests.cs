@@ -5,10 +5,10 @@ using Commencement.Core.Domain;
 using Commencement.Tests.Core;
 using Commencement.Tests.Core.Extensions;
 using Commencement.Tests.Core.Helpers;
+using FluentNHibernate.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Data.NHibernate;
-using UCDArch.Testing.Extensions;
 
 namespace Commencement.Tests.Repositories
 {
@@ -100,6 +100,31 @@ namespace Commencement.Tests.Repositories
         }
 
         #endregion Init and Overrides	
+
+        #region Fluent Mapping Tests
+        [TestMethod]
+        public void TestCanCorrectlyMapAttachment()
+        {
+            #region Arrange
+            var session = NHibernateSessionManager.Instance.GetSession();
+            var id = PageTrackingRepository.Queryable.Max(x => x.Id) + 1;
+            var dateToCompare = new DateTime(2010,01,01);
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<PageTracking>(session)
+                .CheckProperty(c => c.Id, id)
+                .CheckProperty(c => c.DateTime, dateToCompare)
+                .CheckProperty(c => c.IPAddress, "IPAddress")
+                .CheckProperty(c => c.Location, "Location")
+                .CheckProperty(c => c.LoginId, "LoginId")               
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+
+
+
+        #endregion Fluent Mapping Tests
 
         #region LoginId Tests
 
@@ -695,8 +720,7 @@ namespace Commencement.Tests.Repositories
             #endregion Assert		
         }
         
-        #endregion Constructor Tests
-        
+        #endregion Constructor Tests        
         
         #region Reflection of Database.
 
