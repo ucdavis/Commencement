@@ -196,6 +196,7 @@
     <Compile Include="Repositories\ExtraTicketPetitionRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
+    <Compile Include="Repositories\MajorCodeRepositoryTests.cs" />
     <Compile Include="Repositories\PageTrackingRepositoryTests.cs" />
     <Compile Include="Repositories\RegistrationPetitionRepositoryTests.cs" />
     <Compile Include="Repositories\RegistrationRepositoryTests.cs" />
