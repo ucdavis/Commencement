@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Commencement.Core.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using UCDArch.Data.NHibernate;
 using UCDArch.Testing.Extensions;
 
 namespace Commencement.Tests.Repositories.CeremonyRepositoryTests

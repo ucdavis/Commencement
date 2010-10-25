@@ -59,7 +59,6 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             #endregion Assert
         }
 
-
         /// <summary>
         /// Tests the cascade delete does not remove registration petitions.
         /// </summary>
@@ -117,7 +116,6 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             #endregion Assert
         }
 
-
         [TestMethod]
         public void TestCascadeDeleteRemovesRelatedEditors()
         {
@@ -132,6 +130,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             CeremonyRepository.DbContext.CommitTransaction();
             NHibernateSessionManager.Instance.GetSession().Evict(ceremony);
             var totalCeremonyEditors = Repository.OfType<CeremonyEditor>().GetAll().Count;
+            ceremony = CeremonyRepository.GetById(2);
             #endregion Arrange
 
             #region Act
@@ -145,13 +144,102 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             #endregion Assert
         }
 
+        [TestMethod]
+        public void TestCascadeDeleteRemovesRelatedTemplates()
+        {
+            #region Arrange
+            LoadTemplateType(1);
+            LoadTemplate(3);
+            var ceremony = CeremonyRepository.GetById(2);
+            var templates = Repository.OfType<Template>().GetAll();
+            Repository.OfType<Template>().DbContext.BeginTransaction();
+            foreach (var template in templates)
+            {
+                template.Ceremony = ceremony;
+                Repository.OfType<Template>().EnsurePersistent(template);
+            }
+            Repository.OfType<Template>().DbContext.CommitChanges();
+            Assert.IsTrue(Repository.OfType<Template>().GetAll().Count > 0);
+            NHibernateSessionManager.Instance.GetSession().Evict(ceremony);            
+            ceremony = CeremonyRepository.GetById(2);
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.Remove(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(0, Repository.OfType<CeremonyEditor>().GetAll().Count);
+            #endregion Assert
+        }
+
 
         [TestMethod]
-        public void TestCascadesTests()
+        public void TestCascadeDeleteDoesNotRemoveCollege()
         {
-            Assert.IsTrue(false, "Still need to test rest of related tables.");
-            Assert.IsTrue(false, "Still need to do mapping tests");
+            #region Arrange
+            LoadColleges(3);
+            var colleges = Repository.OfType<College>().GetAll();
+            var totalColleges = colleges.Count;
+            var ceremony = CeremonyRepository.GetById(2);
+            foreach (var college in colleges)
+            {
+                ceremony.Colleges.Add(college);
+            }
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            NHibernateSessionManager.Instance.GetSession().Evict(ceremony);
+            ceremony = CeremonyRepository.GetById(2);
+            Assert.AreEqual(totalColleges, ceremony.Colleges.Count);
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.Remove(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(totalColleges, Repository.OfType<College>().GetAll().Count);
+            #endregion Assert		
         }
+
+        [TestMethod]
+        public void TestCascadeDeleteDoesNotRemoveMajorCodes()
+        {
+            #region Arrange
+            LoadMajorCode(3);
+            var majors = Repository.OfType<MajorCode>().GetAll();
+            var totalMajors = majors.Count;
+            var ceremony = CeremonyRepository.GetById(2);
+            foreach (var major in majors)
+            {
+                ceremony.Majors.Add(major);
+            }
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            NHibernateSessionManager.Instance.GetSession().Evict(ceremony);
+            ceremony = CeremonyRepository.GetById(2);
+            Assert.IsTrue(totalMajors > 0);
+            Assert.AreEqual(totalMajors, ceremony.Majors.Count);
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.Remove(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(totalMajors, Repository.OfType<MajorCode>().GetAll().Count);
+            #endregion Assert
+        }
+
+
         #endregion Cascade Update And Delete Tests
 
 
