@@ -199,7 +199,6 @@
     <Compile Include="Repositories\MajorCodeRepositoryTests.cs" />
     <Compile Include="Repositories\PageTrackingRepositoryTests.cs" />
     <Compile Include="Repositories\RegistrationPetitionRepositoryTests.cs" />
-    <Compile Include="Repositories\RegistrationRepositoryTestsOld.cs" />
     <Compile Include="Repositories\RegistrationRepositoryTests\RegistrationRepositoryTestsInit.cs" />
     <Compile Include="Repositories\RegistrationRepositoryTests\RegistrationRepositoryTestsPart01.cs" />
     <Compile Include="Repositories\RegistrationRepositoryTests\RegistrationRepositoryTestsPart10.cs" />
@@ -213,6 +212,7 @@
     <Compile Include="Repositories\RegistrationRepositoryTests\RegistrationRepositoryTestsPart09.cs" />
     <Compile Include="Repositories\RegistrationRepositoryTests\RegistrationRepositoryTestsPart11.cs" />
     <Compile Include="Repositories\RegistrationRepositoryTests\RegistrationRepositoryTestsPart12.cs" />
+    <Compile Include="Repositories\RegistrationRepositoryTests\RegistrationRepositoryTestsPart13.cs" />
     <Compile Include="Repositories\StateRepositoryTests.cs" />
     <Compile Include="Repositories\StudentRepositoryTests.cs" />
     <Compile Include="Repositories\TemplateRepositoryTests.cs" />

@@ -232,6 +232,25 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
             #endregion Assert
         }
 
+
+        [TestMethod]
+        public void TestCollegeCascadeTests()
+        {
+            #region Arrange
+
+            Assert.IsTrue(false, "Need to do college cascade tests");
+
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+
+            #endregion Assert		
+        }
+
         #endregion Cascade Tests
 
         #region Constructor Tests

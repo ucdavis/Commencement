@@ -24,6 +24,7 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
 		public IRepositoryWithTypedId<State, string> StateRepository { get; set; }
 		public IRepositoryWithTypedId<Student, Guid> StudentRepository { get; set; }
 		public IRepositoryWithTypedId<MajorCode, string> MajorCodeRepository { get; set; }
+        public IRepositoryWithTypedId<College, string> CollegeRepository { get; set; }
 		
 		#region Init and Overrides
 
@@ -36,6 +37,7 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
 			StateRepository = new RepositoryWithTypedId<State, string>();
 			StudentRepository = new RepositoryWithTypedId<Student, Guid>();
 			MajorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
+		    CollegeRepository = new RepositoryWithTypedId<College, string>();
 		}
 
 		/// <summary>
