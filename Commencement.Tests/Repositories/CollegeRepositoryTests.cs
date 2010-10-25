@@ -1,10 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Commencement.Core.Domain;
 using Commencement.Tests.Core;
 using Commencement.Tests.Core.Extensions;
 using Commencement.Tests.Core.Helpers;
+using FluentNHibernate.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Data.NHibernate;
@@ -24,7 +26,7 @@ namespace Commencement.Tests.Repositories
         /// Gets or sets the College repository.
         /// </summary>
         /// <value>The College repository.</value>
-        public IRepository<College> CollegeRepository { get; set; }
+        public IRepositoryWithTypedId<College, string > CollegeRepository { get; set; }
 		
         #region Init and Overrides
 
@@ -33,7 +35,7 @@ namespace Commencement.Tests.Repositories
         /// </summary>
         public CollegeRepositoryTests()
         {
-            CollegeRepository = new Repository<College>();
+            CollegeRepository = new RepositoryWithTypedId<College, string>();
         }
 
         /// <summary>
@@ -97,27 +99,6 @@ namespace Commencement.Tests.Repositories
             }
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(NHibernate.HibernateException))]
-        public override void CanDeleteEntity()
-        {
-            try
-            {
-                base.CanDeleteEntity();
-            }
-            catch (Exception ex)
-            {
-                Assert.IsNotNull(ex);
-                Assert.AreEqual("Attempted to delete an object of immutable class: [Commencement.Core.Domain.College]", ex.Message);
-                throw;
-            }
-        }
-
-        [TestMethod]
-        public override void CanUpdateEntity()
-        {
-            CanUpdateEntity(false);
-        }
 
         /// <summary>
         /// Loads the data.
@@ -131,6 +112,89 @@ namespace Commencement.Tests.Repositories
 
         #endregion Init and Overrides	
         
+        #region Fluent Mapping Tests
+        [TestMethod]
+        public void TestCanCorrectlyMapAttachment()
+        {
+            #region Arrange
+            var session = NHibernateSessionManager.Instance.GetSession();
+            var college = CreateValidEntities.College(9);
+            college.SetIdTo("AE");
+            LoadMajorCode(3);
+            var majors = Repository.OfType<MajorCode>().GetAll();
+            Repository.OfType<MajorCode>().DbContext.BeginTransaction();
+            foreach (var majorCode in majors)
+            {
+                majorCode.College = college;
+                Repository.OfType<MajorCode>().EnsurePersistent(majorCode);
+            }
+            Repository.OfType<MajorCode>().DbContext.CommitTransaction();
+            Assert.IsNotNull(majors);
+            Assert.AreEqual(3, majors.Count);
+            LoadState(1);
+            LoadCeremony(1);
+            LoadRegistrations(4);
+            var registrations = Repository.OfType<Registration>().GetAll();
+            Repository.OfType<Registration>().DbContext.BeginTransaction();
+            foreach (var registration in registrations)
+            {
+                registration.College = college;
+                Repository.OfType<Registration>().EnsurePersistent(registration);
+            }
+            Repository.OfType<Registration>().DbContext.CommitTransaction();
+            Assert.AreEqual(4, registrations.Count);
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<College>(session, new CollegeEqualityComparer())
+                .CheckProperty(c => c.Id, "AE")
+                .CheckProperty(c => c.Display, true)
+                .CheckProperty(c => c.Name, "Agric & Environmental Sciences")
+                .CheckProperty(c => c.Majors, majors)
+                .CheckProperty(c => c.Registrations, registrations)
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+
+        public class CollegeEqualityComparer : IEqualityComparer
+        {
+            public bool Equals(object x, object y)
+            {
+                if (x is IList<MajorCode> && y is IList<MajorCode>)
+                {
+                    var xVal = (IList<MajorCode>)x;
+                    var yVal = (IList<MajorCode>)y;
+                    Assert.AreEqual(xVal.Count, yVal.Count);
+                    for (int i = 0; i < xVal.Count; i++)
+                    {
+                        Assert.AreEqual(xVal[i].Name, yVal[i].Name);
+                        Assert.AreEqual(xVal[i].DisciplineCode, yVal[i].DisciplineCode);
+                    }
+                    return true;
+                }
+                if (x is IList<Registration> && y is IList<Registration>)
+                {
+                    var xVal = (IList<Registration>)x;
+                    var yVal = (IList<Registration>)y;
+                    Assert.AreEqual(xVal.Count, yVal.Count);
+                    for (int i = 0; i < xVal.Count; i++)
+                    {
+                        Assert.AreEqual(xVal[i].Address1, yVal[i].Address1);
+                    }
+                    return true;
+                }
+
+                return x.Equals(y);
+            }
+
+            public int GetHashCode(object obj)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion Fluent Mapping Tests
+
         #region Name Tests
 
 
@@ -255,10 +319,74 @@ namespace Commencement.Tests.Repositories
         #endregion Valid Tests
         #endregion Name Tests
 
+        #region Display Tests
+
+        /// <summary>
+        /// Tests the Display is false saves.
+        /// </summary>
+        [TestMethod]
+        public void TestDisplayIsFalseSaves()
+        {
+            #region Arrange
+
+            College college = GetValid(9);
+            college.Display = false;
+
+            #endregion Arrange
+
+            #region Act
+
+            CollegeRepository.DbContext.BeginTransaction();
+            CollegeRepository.EnsurePersistent(college);
+            CollegeRepository.DbContext.CommitTransaction();
+
+            #endregion Act
+
+            #region Assert
+
+            Assert.IsFalse(college.Display);
+            Assert.IsFalse(college.IsTransient());
+            Assert.IsTrue(college.IsValid());
+
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the Display is true saves.
+        /// </summary>
+        [TestMethod]
+        public void TestDisplayIsTrueSaves()
+        {
+            #region Arrange
+
+            var college = GetValid(9);
+            college.Display = true;
+
+            #endregion Arrange
+
+            #region Act
+
+            CollegeRepository.DbContext.BeginTransaction();
+            CollegeRepository.EnsurePersistent(college);
+            CollegeRepository.DbContext.CommitTransaction();
+
+            #endregion Act
+
+            #region Assert
+
+            Assert.IsTrue(college.Display);
+            Assert.IsFalse(college.IsTransient());
+            Assert.IsTrue(college.IsValid());
+
+            #endregion Assert
+        }
+
+        #endregion Display Tests
+
         #region Majors Tests
 
         [TestMethod]
-        public void TesMajorsWithNullValueSaves()
+        public void TestMajorsWithNullValueSaves()
         {
             #region Arrange
             var college = GetValid(9);
@@ -301,7 +429,7 @@ namespace Commencement.Tests.Repositories
         }
 
         [TestMethod]
-        public void TestEditorsWithPopulatedListSaves()
+        public void TestMajorsWithPopulatedListSaves()
         {
             #region Arrange
             var college = GetValid(9);
@@ -328,9 +456,170 @@ namespace Commencement.Tests.Repositories
 
 
         #endregion Majors Tests
-        
-        
-        
+
+        #region Registration Tests
+
+        [TestMethod]
+        public void TestRegistrationWithNullValueSaves()
+        {
+            #region Arrange
+            var college = GetValid(9);
+            college.Registrations = null;
+            #endregion Arrange
+
+            #region Act
+            CollegeRepository.DbContext.BeginTransaction();
+            CollegeRepository.EnsurePersistent(college);
+            CollegeRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(college.Registrations);
+            Assert.IsFalse(college.IsTransient());
+            Assert.IsTrue(college.IsValid());
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestRegistrationWithEmptyListSaves()
+        {
+            #region Arrange
+            var college = GetValid(9);
+            college.Registrations = new List<Registration>();
+            #endregion Arrange
+
+            #region Act
+            CollegeRepository.DbContext.BeginTransaction();
+            CollegeRepository.EnsurePersistent(college);
+            CollegeRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(college.Registrations);
+            Assert.AreEqual(0, college.Registrations.Count);
+            Assert.IsFalse(college.IsTransient());
+            Assert.IsTrue(college.IsValid());
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestRegistrationWithPopulatedListSaves()
+        {
+            #region Arrange
+            var college = GetValid(9);
+            college.Registrations = new List<Registration>();
+            college.Registrations.Add(CreateValidEntities.Registration(1));
+            college.Registrations.Add(CreateValidEntities.Registration(2));
+            #endregion Arrange
+
+            #region Act
+            CollegeRepository.DbContext.BeginTransaction();
+            CollegeRepository.EnsurePersistent(college);
+            CollegeRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(college.Registrations);
+            Assert.AreEqual(2, college.Registrations.Count);
+            Assert.IsFalse(college.IsTransient());
+            Assert.IsTrue(college.IsValid());
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestRegistrationWithPopulatedListSavesButDoesNotCascade()
+        {
+            #region Arrange
+            var college = GetValid(9);
+            college.Registrations = new List<Registration>();
+            college.Registrations.Add(CreateValidEntities.Registration(1));
+            college.Registrations.Add(CreateValidEntities.Registration(2));
+            #endregion Arrange
+
+            #region Act
+            CollegeRepository.DbContext.BeginTransaction();
+            CollegeRepository.EnsurePersistent(college);
+            CollegeRepository.DbContext.CommitTransaction();
+            var collegeId = college.Id;
+            NHibernateSessionManager.Instance.GetSession().Evict(college);
+            college = CollegeRepository.GetById(collegeId);
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(college.Registrations);
+            Assert.AreEqual(0, college.Registrations.Count);
+            Assert.IsFalse(college.IsTransient());
+            Assert.IsTrue(college.IsValid());
+            #endregion Assert
+        }
+
+
+        #endregion Registration Tests
+
+        #region Cascade Tests
+
+
+        [TestMethod]
+        public void TestRemoveCollegeDoesNotCascadeToRegistrations()
+        {
+            #region Arrange
+            var college = CollegeRepository.GetById("2");
+            LoadMajorCode(3);
+            LoadState(1);
+            LoadCeremony(1);
+            LoadRegistrations(4);
+            var registrations = Repository.OfType<Registration>().GetAll();
+            Repository.OfType<Registration>().DbContext.BeginTransaction();
+            foreach (var registration in registrations)
+            {
+                registration.College = college;
+                Repository.OfType<Registration>().EnsurePersistent(registration);
+            }
+            Repository.OfType<Registration>().DbContext.CommitTransaction();
+            Assert.AreEqual(4, registrations.Count);
+            #endregion Arrange
+
+            #region Act
+            CollegeRepository.DbContext.BeginTransaction();
+            CollegeRepository.Remove(college);
+            CollegeRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(4, Repository.OfType<Registration>().GetAll().Count);
+            #endregion Assert		
+        }
+
+        [TestMethod]
+        public void TestRemoveCollegeDoesNotCascadeToMajorCodes()
+        {
+            #region Arrange
+            var college = CollegeRepository.GetById("2");
+            LoadMajorCode(3);
+            var majors = Repository.OfType<MajorCode>().GetAll();
+            Repository.OfType<MajorCode>().DbContext.BeginTransaction();
+            foreach (var major in majors)
+            {
+                major.College = college;
+                Repository.OfType<MajorCode>().EnsurePersistent(major);
+            }
+            Repository.OfType<MajorCode>().DbContext.CommitTransaction();
+            Assert.AreEqual(3, majors.Count);
+            #endregion Arrange
+
+            #region Act
+            CollegeRepository.DbContext.BeginTransaction();
+            CollegeRepository.Remove(college);
+            CollegeRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(3, Repository.OfType<MajorCode>().GetAll().Count);
+            #endregion Assert
+        }
+
+        #endregion Cascade Tests
+
         #region Reflection of Database.
 
         /// <summary>
@@ -342,7 +631,7 @@ namespace Commencement.Tests.Repositories
         {
             #region Arrange
             var expectedFields = new List<NameAndType>();
-
+            expectedFields.Add(new NameAndType("Display", "System.Boolean", new List<string>()));
             expectedFields.Add(new NameAndType("Id", "System.String", new List<string>
             {
                 "[Newtonsoft.Json.JsonPropertyAttribute()]", 
@@ -350,6 +639,7 @@ namespace Commencement.Tests.Repositories
             }));
             expectedFields.Add(new NameAndType("Majors", "System.Collections.Generic.IList`1[Commencement.Core.Domain.MajorCode]", new List<string>()));
             expectedFields.Add(new NameAndType("Name", "System.String", new List<string>()));
+            expectedFields.Add(new NameAndType("Registrations", "System.Collections.Generic.IList`1[Commencement.Core.Domain.Registration]", new List<string>()));
             #endregion Arrange
 
             AttributeAndFieldValidation.ValidateFieldsAndAttributes(expectedFields, typeof(College));
