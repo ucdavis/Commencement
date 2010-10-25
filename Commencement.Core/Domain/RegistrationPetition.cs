@@ -107,6 +107,8 @@ namespace Commencement.Core.Domain
             Map(x => x.TransferUnits);
             Map(x => x.IsPending);
             Map(x => x.IsApproved);
+            Map(x => x.DateDecision);
+            Map(x => x.DateSubmitted);
 
             References(x => x.MajorCode).Column("MajorCode");
             References(x => x.TermCode).Column("TermCode");

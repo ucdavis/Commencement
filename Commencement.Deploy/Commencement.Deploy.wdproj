@@ -64,6 +64,12 @@
     </WebConfigReplacementFiles>
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <AssemblyAttributes Include="AssemblyFileVersion">
+      <Value>1.2010.10.25</Value>
+    </AssemblyAttributes>
+    <AssemblyAttributes Include="AssemblyVersion">
+      <Value>1.2010.10.25</Value>
+    </AssemblyAttributes>
     <WebConfigReplacementFiles Include="appSettings-Test.config">
       <Section>appSettings</Section>
     </WebConfigReplacementFiles>

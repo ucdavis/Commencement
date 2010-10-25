@@ -160,6 +160,9 @@
     <NotInBuild Include="Fill Scripts\FakeStudents.sql">
       <SubType>NotInBuild</SubType>
     </NotInBuild>
+    <NotInBuild Include="Fill Scripts\Insert_AuditActions.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
   </ItemGroup>
   <ItemGroup>
     <BuildContributorArgument Include="OutDir=$(OutDir)" />
