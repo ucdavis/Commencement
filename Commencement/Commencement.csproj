@@ -546,6 +546,7 @@
     <Content Include="Views\Petition\ExtraTicketPetition.aspx" />
     <Content Include="Views\Petition\Register.aspx" />
     <Content Include="Views\Admin\StudentInformationPartial.ascx" />
+    <Content Include="Views\Shared\LogoDisplay.ascx" />
     <Content Include="Views\Student\ChooseCeremony.aspx" />
     <Content Include="Views\Student\DisplayRegistration.aspx" />
     <Content Include="Views\Student\Index.aspx" />

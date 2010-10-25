@@ -31,6 +31,7 @@
 <h2>
     Ceremony Information</h2>
 <ul class="registration_form">
+    <li><strong>Date Registered:</strong><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateRegistered) %></li>
     <li><strong>Tickets Requested:</strong><span><%= Html.Encode(Model.NumberTickets) %></span>
     </li>
     <li>

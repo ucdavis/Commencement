@@ -8,6 +8,11 @@
     Commencement Registration</asp:Content>
 <asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent">
 </asp:Content>
+
+<asp:Content runat="server" ID="Content3" ContentPlaceHolderID="logoContent">
+    <% Html.RenderPartial("LogoDisplay", Model.Registration.College); %>
+</asp:Content>
+
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
     <h1><%= Model.Ceremony.Name %></h1>
     <p>
@@ -27,7 +32,7 @@
     <% Html.RenderPartial("RegistrationEditForm"); %>    
     
     <h3>
-        <%= string.Format(StaticValues.Txt_Disclaimer) ) %>
+        <%= string.Format(StaticValues.Txt_Disclaimer) %>
         
         <br />
         <label for="agreeToDisclaimer">I Agree</label> <%= Html.CheckBox("agreeToDisclaimer", new { @class = "required" }) %>
