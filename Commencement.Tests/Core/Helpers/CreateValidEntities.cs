@@ -87,6 +87,7 @@ namespace Commencement.Tests.Core.Helpers
         {
             var rtValue = new MajorCode();
             rtValue.Name = "Name" + count.Extra();
+            rtValue.DisciplineCode = "DisciplineCode" + count.Extra();
  
             return rtValue;
         }
@@ -169,7 +170,9 @@ namespace Commencement.Tests.Core.Helpers
         {
             var rtValue = new Template();
             rtValue.BodyText = "BodyText" + count.Extra();
+            rtValue.Subject = "Subject" + count.Extra();
             rtValue.TemplateType = new TemplateType();
+            rtValue.Ceremony = new Ceremony();
             return rtValue;
         }
 

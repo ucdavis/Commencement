@@ -49,6 +49,7 @@ namespace Commencement.Core.Domain
 
             Map(x => x.BodyText);
             Map(x => x.IsActive);
+            Map(x => x.Subject);
 
             References(x => x.TemplateType);
             References(x => x.Ceremony);

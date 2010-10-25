@@ -486,6 +486,40 @@ namespace Commencement.Tests.Core
                 Repository.OfType<TemplateType>().EnsurePersistent(validEntity);
             }
         }
+        /// <summary>
+        /// Needs:
+        ///     TemplateType
+        ///     Ceremony
+        /// </summary>
+        /// <param name="entriesToAdd"></param>
+        protected void LoadTemplate(int entriesToAdd)
+        {
+            for (int i = 0; i < entriesToAdd; i++)
+            {
+                var validEntity = CreateValidEntities.Template(i + 1);
+                validEntity.TemplateType = Repository.OfType<TemplateType>().Queryable.First();
+                validEntity.Ceremony = Repository.OfType<Ceremony>().Queryable.First();
+                Repository.OfType<Template>().EnsurePersistent(validEntity);
+            }
+        }
+        /// <summary>
+        /// Needs: 
+        ///     MajorCode
+        ///     State
+        ///     Ceremony
+        /// </summary>
+        /// <param name="entriesToAdd"></param>
+        protected void LoadRegistrations(int entriesToAdd)
+        {
+            for (int i = 0; i < entriesToAdd; i++)
+            {
+                var validEntity = CreateValidEntities.Registration(i + 1);
+                validEntity.Major = Repository.OfType<MajorCode>().Queryable.First();
+                validEntity.State = Repository.OfType<State>().Queryable.First();
+                validEntity.Ceremony = Repository.OfType<Ceremony>().Queryable.First();
+                Repository.OfType<Registration>().EnsurePersistent(validEntity);
+            }
+        }
 
         /// <summary>
         /// Loads the state.
