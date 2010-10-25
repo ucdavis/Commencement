@@ -20,6 +20,7 @@
                 <li><strong>Ceremony Time:</strong><%= rd.Ceremony.DateTime.ToString("g") %></li>
                 
                 <li><strong># of Registrants:</strong><%= rd.Registrants %></li>
+                <li><strong># of Cancelled Registrants:</strong><%= rd.CancelledRegistrants %></li>
                 <li><strong># of Registration Petitions Submitted:</strong><%= rd.RegistrationPetitionsSubmitted %></li>
                 <li><strong># of Registration Petitions Approved:</strong><%= rd.RegistrationPetitionsApproved %></li>
                 <li><strong># of Tickets Requested with Registration:</strong><%= rd.TicketsRequested %></li>

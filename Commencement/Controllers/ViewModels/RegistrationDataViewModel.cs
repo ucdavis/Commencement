@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Commencement.Controllers.Services;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -10,31 +11,30 @@ namespace Commencement.Controllers.ViewModels
     {
         public IList<RegistrationData> RegistrationData { get; set; }
 
-        public static RegistrationDataViewModel Create(IRepository repository)
+        public static RegistrationDataViewModel Create(IRepository repository, ICeremonyService ceremonyService, string userId, TermCode termCode)
         {
             Check.Require(repository != null, "Repository is required.");
 
             var viewModel = new RegistrationDataViewModel();
             viewModel.RegistrationData = new List<RegistrationData>();
 
-            var termCodes = repository.OfType<TermCode>().GetAll();
-            foreach (var tc in termCodes)
-            {
-                foreach (var ceremony in tc.Ceremonies)
-                {
-                    var registrationData = new RegistrationData();
-                    registrationData.TermCode = tc;
-                    registrationData.Ceremony = ceremony;
-                    registrationData.Registrants = ceremony.Registrations.Count;
-                    registrationData.RegistrationPetitionsSubmitted = ceremony.RegistrationPetitions.Count;
-                    registrationData.RegistrationPetitionsApproved = ceremony.RegistrationPetitions.Where(a => a.IsApproved && !a.IsPending).Count();
-                    registrationData.TicketsRequested = ceremony.RequestedTickets;
-                    registrationData.ExtraTicketsRequested = ceremony.ExtraRequestedtickets;
-                    registrationData.TotalTickets = ceremony.TotalTickets;
+            var ceremonies = ceremonyService.GetCeremonies(userId, termCode);
 
-                    viewModel.RegistrationData.Add(registrationData);
-                }
-            }
+            viewModel.RegistrationData = ceremonies.Select(a => new RegistrationData()
+                                                  {
+                                                      TermCode = a.TermCode,
+                                                      Ceremony = a,
+                                                      Registrants =
+                                                          a.Registrations.Where(b => !b.SjaBlock && !b.Cancelled).Count(),
+                                                      CancelledRegistrants = a.Registrations.Where(b=>b.Cancelled).Count(),
+                                                      RegistrationPetitionsSubmitted = a.RegistrationPetitions.Count,
+                                                      RegistrationPetitionsApproved =
+                                                          a.RegistrationPetitions.Where(
+                                                              b => b.IsApproved && !b.IsPending).Count(),
+                                                      TicketsRequested = a.RequestedTickets,
+                                                      ExtraTicketsRequested = a.ExtraRequestedtickets,
+                                                      TotalTickets = a.TotalTickets
+                                                  }).ToList();
 
             return viewModel;
         }
@@ -48,6 +48,10 @@ namespace Commencement.Controllers.ViewModels
         /// # of registrants
         /// </summary>
         public int Registrants { get; set; }
+        /// <summary>
+        /// # of cancelled registrants
+        /// </summary>
+        public int CancelledRegistrants { get; set; }
         /// <summary>
         /// # of registration petitions submitted
         /// </summary>

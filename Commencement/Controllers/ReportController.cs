@@ -214,7 +214,7 @@ namespace Commencement.Controllers
 
         public ActionResult RegistrationData()
         {
-            var viewModel = RegistrationDataViewModel.Create(Repository);
+            var viewModel = RegistrationDataViewModel.Create(Repository, _ceremonyService, CurrentUser.Identity.Name, TermService.GetCurrent());
             return View(viewModel);
         }
     }
