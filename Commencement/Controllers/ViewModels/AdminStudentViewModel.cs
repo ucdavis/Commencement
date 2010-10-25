@@ -26,12 +26,6 @@ namespace Commencement.Controllers.ViewModels
 
             var viewModel = new AdminStudentViewModel()
                                 {
-                                    //Students = repository.OfType<Student>().Queryable.Where(a =>
-                                    //    a.TermCode == termCode
-                                    //    && (a.StudentId.Contains(string.IsNullOrEmpty(studentid) ? string.Empty : studentid))
-                                    //    && (a.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName))
-                                    //    && (a.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName))
-                                    //    ),
                                     MajorCodes = majorService.GetAESMajors(),
                                     studentidFilter = studentid,
                                     lastNameFilter = lastName,
@@ -48,7 +42,7 @@ namespace Commencement.Controllers.ViewModels
                 ).Distinct().ToList();
 
             // get all active registrations
-            var registrations = repository.OfType<Registration>().Queryable.Where(a => a.Ceremony.TermCode == termCode).ToList();
+            var registrations = repository.OfType<Registration>().Queryable.Where(a => a.Ceremony.TermCode == termCode && !a.SjaBlock && !a.Cancelled).ToList();
             var regStudents = registrations.Select(a => a.Student);
 
             // filter student by majors if requested.

@@ -97,7 +97,7 @@ namespace Commencement.Core.Domain
         public virtual string Name { 
             get
             {
-                var sb = new StringBuilder("CA&ES");
+                var sb = new StringBuilder();
 
                 if (this.TermCode.Id.EndsWith("03")) sb.Append(" Spring");
                 else if (this.TermCode.Id.EndsWith("10")) sb.Append(" Fall");

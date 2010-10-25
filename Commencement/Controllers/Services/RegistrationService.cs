@@ -34,6 +34,7 @@ namespace Commencement.Controllers.Services
 
             var query = _registrationRepository.Queryable.Where(a =>
                                 a.Ceremony.TermCode == termCode
+                                && !a.SjaBlock && !a.Cancelled
                                 && ceremonies.Contains(a.Ceremony)
                                 && a.College.Id.Contains(string.IsNullOrEmpty(collegeCode) ? string.Empty : collegeCode)
                                 && ceremonyIds.Contains(a.Ceremony.Id)

@@ -274,6 +274,10 @@
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\branding.jpg" />
     <Content Include="Images\logo-caes.png" />
+    <Content Include="Images\logo-cbs.png" />
+    <Content Include="Images\logo-coe.png" />
+    <Content Include="Images\logo-gs.png" />
+    <Content Include="Images\logo-ls.png" />
     <Content Include="Images\logo-ucdavis.png" />
     <Content Include="Images\logo.jpg" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />

@@ -25,7 +25,7 @@ FROM         Registrations INNER JOIN
                       Ceremonies ON Ceremonies.id = Registrations.CeremonyId INNER JOIN
                       vMajors ON vMajors.id = Registrations.MajorCode INNER JOIN
                       TermCodes ON Ceremonies.TermCode = TermCodes.id
-WHERE     (Registrations.SJABlock = 0)
+WHERE     (Registrations.SJABlock = 0) and registrations.cancelled = 0
 	and Ceremonies.id in 
 			(select CeremonyId from Ceremonies
 				inner join ceremonyeditors on ceremonies.id = ceremonyeditors.CeremonyId

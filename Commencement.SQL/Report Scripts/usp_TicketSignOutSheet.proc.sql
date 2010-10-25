@@ -20,6 +20,7 @@ AS
 		inner join vMajors on Registrations.MajorCode = vmajors.id
 	where Students.TermCode = @term
 		and Registrations.SJABlock = 0
+		and Registrations.Cancelled = 0
 		and Registrations.CeremonyId in 
 			(select CeremonyId from Ceremonies
 			inner join ceremonyeditors on ceremonies.id = ceremonyeditors.CeremonyId

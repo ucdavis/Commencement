@@ -5,10 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
+using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using Microsoft.Reporting.WebForms;
+using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
 
 namespace Commencement.Controllers
@@ -16,7 +18,17 @@ namespace Commencement.Controllers
     [AnyoneWithRole]
     public class ReportController : ApplicationController
     {
+        private readonly IRepositoryWithTypedId<TermCode, string> _termRepository;
+        private readonly IUserService _userService;
+        private readonly ICeremonyService _ceremonyService;
         private readonly string _serverLocation = ConfigurationManager.AppSettings["ReportServer"];
+
+        public ReportController(IRepositoryWithTypedId<TermCode, string> termRepository, IUserService userService, ICeremonyService ceremonyService)
+        {
+            _termRepository = termRepository;
+            _userService = userService;
+            _ceremonyService = ceremonyService;
+        }
 
         //
         // GET: /Report/
@@ -35,31 +47,28 @@ namespace Commencement.Controllers
             var name = string.Empty;
             var parameters = new Dictionary<string, string>();
 
+            parameters.Add("term", termCode);
+            parameters.Add("userId", _userService.GetCurrentUser(CurrentUser).Id.ToString());
+
             switch(report)
             {
                 case Report.TotalRegisteredStudents:
                     name = "TotalRegistrationReport";
-                    parameters.Add("term", termCode);
                     break;
                 case Report.TotalRegistrationPetitions:
                     name = "TotalRegistrationPetitions";
-                    parameters.Add("term", termCode);
                     break;
                 case Report.SumOfAllTickets:
                     name = "SummaryReport";
-                    parameters.Add("term", termCode);
                     break;
                 case Report.SpecialNeedsRequest:
                     name = "SpecialNeedsRequest";
-                    parameters.Add("term", termCode);
                     break;
                 case Report.RegistrarsReport:
                     name = "RegistrarReport";
-                    parameters.Add("term", termCode);
                     break;
                 case Report.TicketSignOutSheet:
                     name = "TicketSignOutSheet";
-                    parameters.Add("term", termCode);
                     break;
             };
 
@@ -112,8 +121,11 @@ namespace Commencement.Controllers
         #region Label Generator
         public ActionResult GenerateAveryLabels(string termCode, bool printMailing, bool printAll)
         {
+            var term = _termRepository.GetNullableById(termCode);
+
             var query = from a in Repository.OfType<Registration>().Queryable
-                        where a.Student.TermCode.Id == termCode && !a.SjaBlock
+                        where  _ceremonyService.GetCeremonies(CurrentUser.Identity.Name, term).Contains(a.Ceremony)
+                            && !a.SjaBlock && !a.Cancelled
                             && a.MailTickets == printMailing
                         orderby a.Student.LastName 
                         select a;
