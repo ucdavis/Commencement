@@ -1,6 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using Commencement.Controllers.Filters;
 using Commencement.Core.Resources;
 using UCDArch.Web.Attributes;
 using UCDArch.Web.Authentication;
@@ -37,6 +38,7 @@ namespace Commencement.Controllers
             return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.UnauthorizedAccess));
         }
 
+        [AnyoneWithRole]
         public ActionResult Emulate(string loginId)
         {
             var origUser = HttpContext.User.Identity.Name;

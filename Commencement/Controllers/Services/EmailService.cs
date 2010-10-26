@@ -281,7 +281,7 @@ namespace Commencement.Controllers.Services
             message.Subject = term.Name + " Commencement Registration Petition";
 
             //var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition).OrderByDescending(a => a.Id));
-            var template = registrationPetition.Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition && a.IsActive).FirstOrDefault();
+            var template = registrationPetition.Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved && a.IsActive).FirstOrDefault();
             Check.Require(template != null, "No template is available.");
 
             message.Body = letterGenerator.GenerateRegistrationPetitionConfirmation(registrationPetition, template);

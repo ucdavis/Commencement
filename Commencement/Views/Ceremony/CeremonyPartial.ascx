@@ -138,6 +138,12 @@
         </li>
         <li>
             <strong>Colleges:</strong>
+
+   <%--         <% foreach (var a in Model.Colleges) {  %>
+                <%: Html.CheckBox("Colleges", a.Selected, new {@class="college", value=a.Value}) %>
+                <%: Html.Label(a.Text) %>
+            <% } %>--%>
+
             <%= this.CheckBoxList("Colleges").Options(Model.Colleges).ItemClass("college") %>
         </li>
 
