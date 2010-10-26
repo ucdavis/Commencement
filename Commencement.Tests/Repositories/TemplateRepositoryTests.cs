@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Commencement.Core.Domain;
@@ -45,6 +46,7 @@ namespace Commencement.Tests.Repositories
 		{
 			var rtValue = CreateValidEntities.Template(counter);
 			rtValue.TemplateType = Repository.OfType<TemplateType>().GetById(1);
+		    rtValue.Ceremony = Repository.OfType<Ceremony>().GetById(1);
 			return rtValue;
 		}
 
@@ -98,6 +100,8 @@ namespace Commencement.Tests.Repositories
 		protected override void LoadData()
 		{
 			TemplateRepository.DbContext.BeginTransaction();
+		    LoadTermCode(3);
+		    LoadCeremony(3);
 			LoadTemplateType(3);
 			LoadRecords(5);
 			TemplateRepository.DbContext.CommitTransaction();
@@ -115,6 +119,7 @@ namespace Commencement.Tests.Repositories
             LoadTemplateType(2);
             var templateType = Repository.OfType<TemplateType>().GetNullableById(1);
             Assert.IsNotNull(templateType);
+            var ceremony = Repository.OfType<Ceremony>().GetById(1);
             #endregion Arrange
 
             #region Act/Assert
@@ -122,8 +127,42 @@ namespace Commencement.Tests.Repositories
                 .CheckProperty(c => c.Id, id)
                 .CheckProperty(c => c.BodyText, "Body Text")
                 .CheckReference(c => c.TemplateType, templateType)
+                .CheckProperty(c => c.Ceremony, ceremony)
+                .CheckProperty(c => c.Subject, "Subject")
+                .CheckProperty(c => c.IsActive, true)
                 .VerifyTheMappings();
             #endregion Act/Assert
+        }
+
+        public class TemplateEqualityComparer : IEqualityComparer
+        {
+            bool IEqualityComparer.Equals(object x, object y)
+            {
+
+                if (x is Ceremony && y is Ceremony)
+                {
+                    if (((Ceremony)x).Id == ((Ceremony)y).Id && ((Ceremony)x).Location == ((Ceremony)y).Location)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+
+                if (x is TemplateType && y is TemplateType)
+                {
+                    if (((TemplateType)x).Id == ((TemplateType)y).Id && ((TemplateType)x).Name == ((TemplateType)y).Name)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+                return x.Equals(y);
+            }
+
+            public int GetHashCode(object obj)
+            {
+                throw new NotImplementedException();
+            }
         }
         #endregion Fluent Mapping Tests
 		
@@ -281,6 +320,331 @@ namespace Commencement.Tests.Repositories
 		#endregion Valid Tests
 		#endregion BodyText Tests
 
+        #region Ceremony Tests
+
+        #region Invalid Tests
+
+        /// <summary>
+        /// Tests the Template with null ceremony does not save.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestTemplateWithNullCeremonyDoesNotSave()
+        {
+            Template template = null;
+            try
+            {
+                #region Arrange
+                template = GetValid(9);
+                template.Ceremony = null;
+                #endregion Arrange
+
+                #region Act
+                TemplateRepository.DbContext.BeginTransaction();
+                TemplateRepository.EnsurePersistent(template);
+                TemplateRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception)
+            {
+                Assert.IsNotNull(template);
+                var results = template.ValidationResults().AsMessageList();
+                results.AssertErrorsAre("Ceremony: may not be null");
+                Assert.IsTrue(template.IsTransient());
+                Assert.IsFalse(template.IsValid());
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Tests the Template with new ceremony does not save.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(NHibernate.TransientObjectException))]
+        public void TestTemplateWithNewCeremonyDoesNotSave()
+        {
+            var termCodeRepository = new RepositoryWithTypedId<TermCode, string>();
+            Template template;
+            try
+            {
+                #region Arrange
+                template = GetValid(9);
+                template.Ceremony = CreateValidEntities.Ceremony(9);
+                template.Ceremony.TermCode = termCodeRepository.GetById("1");
+                #endregion Arrange
+
+                #region Act
+                TemplateRepository.DbContext.BeginTransaction();
+                TemplateRepository.EnsurePersistent(template);
+                TemplateRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("object references an unsaved transient instance - save the transient instance before flushing. Type: Commencement.Core.Domain.Ceremony, Entity: Commencement.Core.Domain.Ceremony", ex.Message);
+                throw;
+            }
+        }
+
+        #endregion Invalid Tests
+
+        #region Valid Tests
+
+        /// <summary>
+        /// Tests the Template with valid ceremony saves.
+        /// </summary>
+        [TestMethod]
+        public void TestTemplateWithValidCeremonySaves()
+        {
+            #region Arrange
+            var termCodeRepository = new RepositoryWithTypedId<TermCode, string>();
+            Repository.OfType<Ceremony>().DbContext.BeginTransaction();
+            var ceremony = CreateValidEntities.Ceremony(9);
+            ceremony.TermCode = termCodeRepository.GetById("1");
+            Repository.OfType<Ceremony>().EnsurePersistent(ceremony);
+            Repository.OfType<Ceremony>().DbContext.CommitTransaction();
+            var template = CreateValidEntities.Template(9);
+            template.TemplateType = Repository.OfType<TemplateType>().GetById(1);
+            template.Ceremony = ceremony;
+            #endregion Arrange
+
+            #region Act
+            TemplateRepository.DbContext.BeginTransaction();
+            TemplateRepository.EnsurePersistent(template);
+            TemplateRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(template.IsTransient());
+            Assert.IsTrue(template.IsValid());
+            #endregion Assert
+        }
+        #endregion Valid Tests
+        #endregion Ceremony Tests
+
+	    #region IsActive Tests
+
+	    /// <summary>
+	    /// Tests the IsActive is false saves.
+	    /// </summary>
+	    [TestMethod]
+	    public void TestIsActiveIsFalseSaves()
+	    {
+	        #region Arrange
+
+	        Template template = GetValid(9);
+	        template.IsActive = false;
+
+	        #endregion Arrange
+
+	        #region Act
+
+	        TemplateRepository.DbContext.BeginTransaction();
+	        TemplateRepository.EnsurePersistent(template);
+	        TemplateRepository.DbContext.CommitTransaction();
+
+	        #endregion Act
+
+	        #region Assert
+
+	        Assert.IsFalse(template.IsActive);
+	        Assert.IsFalse(template.IsTransient());
+	        Assert.IsTrue(template.IsValid());
+
+	        #endregion Assert
+	    }
+
+	    /// <summary>
+	    /// Tests the IsActive is true saves.
+	    /// </summary>
+	    [TestMethod]
+	    public void TestIsActiveIsTrueSaves()
+	    {
+	        #region Arrange
+
+	        var template = GetValid(9);
+	        template.IsActive = true;
+
+	        #endregion Arrange
+
+	        #region Act
+
+	        TemplateRepository.DbContext.BeginTransaction();
+	        TemplateRepository.EnsurePersistent(template);
+	        TemplateRepository.DbContext.CommitTransaction();
+
+	        #endregion Act
+
+	        #region Assert
+
+	        Assert.IsTrue(template.IsActive);
+	        Assert.IsFalse(template.IsTransient());
+	        Assert.IsTrue(template.IsValid());
+
+	        #endregion Assert
+	    }
+
+	    #endregion IsActive Tests
+
+	    #region Subject Tests
+	    #region Invalid Tests
+
+	    /// <summary>
+	    /// Tests the Subject with too long value does not save.
+	    /// </summary>
+	    [TestMethod]
+	    [ExpectedException(typeof(ApplicationException))]
+	    public void TestSubjectWithTooLongValueDoesNotSave()
+	    {
+	        Template template = null;
+	        try
+	        {
+	            #region Arrange
+	            template = GetValid(9);
+	            template.Subject = "x".RepeatTimes((100 + 1));
+	            #endregion Arrange
+
+	            #region Act
+	            TemplateRepository.DbContext.BeginTransaction();
+	            TemplateRepository.EnsurePersistent(template);
+	            TemplateRepository.DbContext.CommitTransaction();
+	            #endregion Act
+	        }
+	        catch (Exception)
+	        {
+	            Assert.IsNotNull(template);
+	            Assert.AreEqual(100 + 1, template.Subject.Length);
+	            var results = template.ValidationResults().AsMessageList();
+	            results.AssertErrorsAre("Subject: length must be between 0 and 100");
+	            Assert.IsTrue(template.IsTransient());
+	            Assert.IsFalse(template.IsValid());
+	            throw;
+	        }
+	    }
+	    #endregion Invalid Tests
+
+	    #region Valid Tests
+
+	    /// <summary>
+	    /// Tests the Subject with null value saves.
+	    /// </summary>
+	    [TestMethod]
+	    public void TestSubjectWithNullValueSaves()
+	    {
+	        #region Arrange
+	        var template = GetValid(9);
+	        template.Subject = null;
+	        #endregion Arrange
+
+	        #region Act
+	        TemplateRepository.DbContext.BeginTransaction();
+	        TemplateRepository.EnsurePersistent(template);
+	        TemplateRepository.DbContext.CommitTransaction();
+	        #endregion Act
+
+	        #region Assert
+	        Assert.IsFalse(template.IsTransient());
+	        Assert.IsTrue(template.IsValid());
+	        #endregion Assert
+	    }
+
+	    /// <summary>
+	    /// Tests the Subject with empty string saves.
+	    /// </summary>
+	    [TestMethod]
+	    public void TestSubjectWithEmptyStringSaves()
+	    {
+	        #region Arrange
+	        var template = GetValid(9);
+	        template.Subject = string.Empty;
+	        #endregion Arrange
+
+	        #region Act
+	        TemplateRepository.DbContext.BeginTransaction();
+	        TemplateRepository.EnsurePersistent(template);
+	        TemplateRepository.DbContext.CommitTransaction();
+	        #endregion Act
+
+	        #region Assert
+	        Assert.IsFalse(template.IsTransient());
+	        Assert.IsTrue(template.IsValid());
+	        #endregion Assert
+	    }
+
+	    /// <summary>
+	    /// Tests the Subject with one space saves.
+	    /// </summary>
+	    [TestMethod]
+	    public void TestSubjectWithOneSpaceSaves()
+	    {
+	        #region Arrange
+	        var template = GetValid(9);
+	        template.Subject = " ";
+	        #endregion Arrange
+
+	        #region Act
+	        TemplateRepository.DbContext.BeginTransaction();
+	        TemplateRepository.EnsurePersistent(template);
+	        TemplateRepository.DbContext.CommitTransaction();
+	        #endregion Act
+
+	        #region Assert
+	        Assert.IsFalse(template.IsTransient());
+	        Assert.IsTrue(template.IsValid());
+	        #endregion Assert
+	    }
+
+	    /// <summary>
+	    /// Tests the Subject with one character saves.
+	    /// </summary>
+	    [TestMethod]
+	    public void TestSubjectWithOneCharacterSaves()
+	    {
+	        #region Arrange
+	        var template = GetValid(9);
+	        template.Subject = "x";
+	        #endregion Arrange
+
+	        #region Act
+	        TemplateRepository.DbContext.BeginTransaction();
+	        TemplateRepository.EnsurePersistent(template);
+	        TemplateRepository.DbContext.CommitTransaction();
+	        #endregion Act
+
+	        #region Assert
+	        Assert.IsFalse(template.IsTransient());
+	        Assert.IsTrue(template.IsValid());
+	        #endregion Assert
+	    }
+
+	    /// <summary>
+	    /// Tests the Subject with long value saves.
+	    /// </summary>
+	    [TestMethod]
+	    public void TestSubjectWithLongValueSaves()
+	    {
+	        #region Arrange
+	        var template = GetValid(9);
+	        template.Subject = "x".RepeatTimes(100);
+	        #endregion Arrange
+
+	        #region Act
+	        TemplateRepository.DbContext.BeginTransaction();
+	        TemplateRepository.EnsurePersistent(template);
+	        TemplateRepository.DbContext.CommitTransaction();
+	        #endregion Act
+
+	        #region Assert
+	        Assert.AreEqual(100, template.Subject.Length);
+	        Assert.IsFalse(template.IsTransient());
+	        Assert.IsTrue(template.IsValid());
+	        #endregion Assert
+	    }
+
+	    #endregion Valid Tests
+	    #endregion Subject Tests
+
 		#region TemplateType Tests
 
 		#region Invalid Test
@@ -434,20 +798,21 @@ namespace Commencement.Tests.Repositories
 		[TestMethod]
 		public void TestConstructorWithParametersDoesSetsExpectedValues()
 		{
-            Assert.Inconclusive("Review");
-            //#region Arrange
-            //var record = new Template("Test", CreateValidEntities.TemplateType(9));
-            //#endregion Arrange
+            #region Arrange
+            var record = new Template("Test", CreateValidEntities.TemplateType(9),CreateValidEntities.Ceremony(9));
+            #endregion Arrange
 
-            //#region Act
+            #region Act
 
-            //#endregion Act
+            #endregion Act
 
-            //#region Assert
-            //Assert.AreEqual("Test", record.BodyText);
-            //Assert.IsNotNull(record.TemplateType);
-            //Assert.AreEqual("Name9", record.TemplateType.Name);
-            //#endregion Assert
+            #region Assert
+            Assert.AreEqual("Test", record.BodyText);
+            Assert.IsNotNull(record.TemplateType);
+            Assert.AreEqual("Name9", record.TemplateType.Name);
+            Assert.IsNotNull(record.Ceremony);
+            Assert.AreEqual("Location9", record.Ceremony.Location);
+            #endregion Assert
 		}
 		#endregion Constructor 
 
@@ -459,30 +824,56 @@ namespace Commencement.Tests.Repositories
 		[TestMethod]
 		public void TestDeleteTemplateDoesNotCascadeToTemplateType()
 		{
-            Assert.Inconclusive("Review");
-            //#region Arrange
-            //var record = new Template("Test", Repository.OfType<TemplateType>().GetById(2));
-            //TemplateRepository.DbContext.BeginTransaction();
-            //TemplateRepository.EnsurePersistent(record);
-            //TemplateRepository.DbContext.CommitTransaction();
-            //var saveTemplateTypeId = record.TemplateType.Id;
-            //Console.WriteLine("Exiting Arrange...");
-            //#endregion Arrange
+            #region Arrange
+            var record = new Template("Test", Repository.OfType<TemplateType>().GetById(2), Repository.OfType<Ceremony>().GetById(2));
+            TemplateRepository.DbContext.BeginTransaction();
+            TemplateRepository.EnsurePersistent(record);
+            TemplateRepository.DbContext.CommitTransaction();
+            var saveTemplateTypeId = record.TemplateType.Id;
+            Console.WriteLine("Exiting Arrange...");
+            #endregion Arrange
 
-            //#region Act
-            //var templateType = Repository.OfType<TemplateType>().GetById(saveTemplateTypeId);
-            //TemplateRepository.DbContext.BeginTransaction();
-            //TemplateRepository.Remove(record);
-            //TemplateRepository.DbContext.CommitTransaction();            
-            //#endregion Act
+            #region Act
+            var templateType = Repository.OfType<TemplateType>().GetById(saveTemplateTypeId);
+            TemplateRepository.DbContext.BeginTransaction();
+            TemplateRepository.Remove(record);
+            TemplateRepository.DbContext.CommitTransaction();
+            #endregion Act
 
-            //#region Assert
-            //Console.WriteLine("Evicting...");
-            //NHibernateSessionManager.Instance.GetSession().Evict(templateType);
-            //templateType = Repository.OfType<TemplateType>().Queryable.Where(a => a.Id == saveTemplateTypeId).Single();
-            //Assert.IsNotNull(templateType);
-            //#endregion Assert		
+            #region Assert
+            Console.WriteLine("Evicting...");
+            NHibernateSessionManager.Instance.GetSession().Evict(templateType);
+            templateType = Repository.OfType<TemplateType>().Queryable.Where(a => a.Id == saveTemplateTypeId).Single();
+            Assert.IsNotNull(templateType);
+            #endregion Assert		
 		}
+
+        [TestMethod]
+        public void TestDeleteTemplateDoesNotCascadeToCeremony()
+        {
+            #region Arrange
+            var record = new Template("Test", Repository.OfType<TemplateType>().GetById(2), Repository.OfType<Ceremony>().GetById(2));
+            TemplateRepository.DbContext.BeginTransaction();
+            TemplateRepository.EnsurePersistent(record);
+            TemplateRepository.DbContext.CommitTransaction();
+            var saveCeremonyId = record.Ceremony.Id;
+            Console.WriteLine("Exiting Arrange...");
+            #endregion Arrange
+
+            #region Act
+            var ceremony = Repository.OfType<Ceremony>().GetById(saveCeremonyId);
+            TemplateRepository.DbContext.BeginTransaction();
+            TemplateRepository.Remove(record);
+            TemplateRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Console.WriteLine("Evicting...");
+            NHibernateSessionManager.Instance.GetSession().Evict(ceremony);
+            ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.Id == saveCeremonyId).Single();
+            Assert.IsNotNull(ceremony);
+            #endregion Assert
+        }
 		#endregion CascadeTests
 
 
@@ -503,12 +894,20 @@ namespace Commencement.Tests.Repositories
 			{
 				 "[UCDArch.Core.NHibernateValidator.Extensions.RequiredAttribute()]"
 			}));
-		
+            expectedFields.Add(new NameAndType("Ceremony", "Commencement.Core.Domain.Ceremony", new List<string>
+			{
+				 "[NHibernate.Validator.Constraints.NotNullAttribute()]"
+			}));
 			expectedFields.Add(new NameAndType("Id", "System.Int32", new List<string>
 			{
 				"[Newtonsoft.Json.JsonPropertyAttribute()]", 
 				"[System.Xml.Serialization.XmlIgnoreAttribute()]"
 			}));
+            expectedFields.Add(new NameAndType("IsActive", "System.Boolean", new List<string>()));
+            expectedFields.Add(new NameAndType("Subject", "System.String", new List<string>
+            {
+                 "[NHibernate.Validator.Constraints.LengthAttribute((Int32)100)]"
+            }));
 			expectedFields.Add(new NameAndType("TemplateType", "Commencement.Core.Domain.TemplateType", new List<string>
 			{
 				 "[NHibernate.Validator.Constraints.NotNullAttribute()]"
