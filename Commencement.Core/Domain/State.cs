@@ -19,7 +19,7 @@ namespace Commencement.Core.Domain
         {
             ReadOnly();
 
-            Id(x => x.Id);
+            Id(x => x.Id).GeneratedBy.Assigned();
 
             Map(x => x.Name);
         }
