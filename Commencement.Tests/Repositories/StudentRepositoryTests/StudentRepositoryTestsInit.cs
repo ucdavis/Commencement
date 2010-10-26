@@ -11,7 +11,7 @@ using UCDArch.Data.NHibernate;
 using UCDArch.Testing;
 using UCDArch.Testing.Extensions;
 
-namespace Commencement.Tests.Repositories
+namespace Commencement.Tests.Repositories.StudentRepositoryTests
 {
     /// <summary>
     /// Entity Name:		Student

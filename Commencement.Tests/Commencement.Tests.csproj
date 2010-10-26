@@ -231,7 +231,7 @@
     <Compile Include="Repositories\RegistrationRepositoryTests\RegistrationRepositoryTestsPart12.cs" />
     <Compile Include="Repositories\RegistrationRepositoryTests\RegistrationRepositoryTestsPart13.cs" />
     <Compile Include="Repositories\StateRepositoryTests.cs" />
-    <Compile Include="Repositories\StudentRepositoryTests.cs" />
+    <Compile Include="Repositories\StudentRepositoryTests\StudentRepositoryTestsInit.cs" />
     <Compile Include="Repositories\TemplateRepositoryTests.cs" />
     <Compile Include="Repositories\TemplateTypeRepositoryTests.cs" />
     <Compile Include="Repositories\TermCodeRepositoryTests.cs" />
