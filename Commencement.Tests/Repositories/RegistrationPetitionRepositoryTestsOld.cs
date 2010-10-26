@@ -17,7 +17,7 @@ namespace Commencement.Tests.Repositories
 	/// LookupFieldName:	LastName
 	/// </summary>
 	[TestClass]
-	public class RegistrationPetitionRepositoryTests : AbstractRepositoryTests<RegistrationPetition, int, RegistrationPetitionMap>
+	public class RegistrationPetitionRepositoryTestsOld : AbstractRepositoryTests<RegistrationPetition, int, RegistrationPetitionMap>
 	{
 		/// <summary>
 		/// Gets or sets the RegistrationPetition repository.
@@ -30,9 +30,9 @@ namespace Commencement.Tests.Repositories
 		#region Init and Overrides
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RegistrationPetitionRepositoryTests"/> class.
+		/// Initializes a new instance of the <see cref="RegistrationPetitionRepositoryTestsOld"/> class.
 		/// </summary>
-		public RegistrationPetitionRepositoryTests()
+		public RegistrationPetitionRepositoryTestsOld()
 		{
 			MajorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
 			TermCodeRepository = new RepositoryWithTypedId<TermCode, string>();
@@ -822,7 +822,6 @@ namespace Commencement.Tests.Repositories
 
 		#endregion Valid Tests
 		#endregion MI Tests
-
 
 		#region LastName Tests
 		#region Invalid Tests
