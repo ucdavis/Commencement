@@ -30,6 +30,15 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
 
             var extraTicketPetition = CreateValidEntities.ExtraTicketPetition(9);
 
+            //LoadMajorCode(1);
+            var major = MajorCodeRepository.GetById("1");
+            
+            //LoadState(1);
+            var state = StateRepository.GetById("1");
+
+            //LoadStudent(1);
+            var student = StudentRepository.Queryable.First();
+
             #endregion Arrange
 
             #region Act/Assert
@@ -48,11 +57,11 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
                 .CheckProperty(c => c.ExtraTicketPetition, extraTicketPetition)
                 .CheckProperty(c => c.LabelPrinted, false)
                 .CheckProperty(c => c.MailTickets, true)
-                //.CheckProperty(c => c.Major)
+                .CheckProperty(c => c.Major, major)
                 .CheckProperty(c => c.NumberTickets, 12)
                 .CheckProperty(c => c.SjaBlock, true)
-                //.CheckProperty(c => c.State, )
-                //.CheckProperty(c => c.Student)
+                .CheckProperty(c => c.State, state)
+                .CheckProperty(c => c.Student, student)
                 .CheckProperty(c => c.Zip, "95616")
                 .VerifyTheMappings();
             #endregion Act/Assert
@@ -86,9 +95,38 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
                     return false;
                 }
 
+                //Check if the date is the same (seconds may be different)
                 if (x is ExtraTicketPetition && y is ExtraTicketPetition)
                 {
-                    if (((ExtraTicketPetition)x).DateSubmitted == ((ExtraTicketPetition)y).DateSubmitted)
+                    if (((ExtraTicketPetition)x).DateSubmitted.Date == ((ExtraTicketPetition)y).DateSubmitted.Date &&
+                        ((ExtraTicketPetition)x).Id == ((ExtraTicketPetition)y).Id)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+
+                if (x is MajorCode && y is MajorCode)
+                {
+                    if (((MajorCode)x).Name == ((MajorCode)y).Name && ((MajorCode)x).DisciplineCode == ((MajorCode)y).DisciplineCode)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+
+                if (x is State && y is State)
+                {
+                    if (((State)x).Id == ((State)y).Id && ((State)x).Name == ((State)y).Name)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+
+                if (x is Student && y is Student)
+                {
+                    if (((Student)x).Id == ((Student)y).Id && ((Student)x).FirstName == ((Student)y).FirstName)
                     {
                         return true;
                     }

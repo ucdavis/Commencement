@@ -234,20 +234,32 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
 
 
         [TestMethod]
-        public void TestCollegeCascadeTests()
+        public void TestDeleteRegistrationDoesNotCascadeToCollege()
         {
             #region Arrange
-
-            Assert.IsTrue(false, "Need to do college cascade tests");
-
+            LoadColleges(3);
+            var registration = GetValid(9);
+            registration.College = CollegeRepository.GetById("1");
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitTransaction();            
+            var collegeCount = CollegeRepository.GetAll().Count;
+            var registrationId = registration.Id;
+            NHibernateSessionManager.Instance.GetSession().Evict(registration);
+            registration = RegistrationRepository.GetById(registrationId);
+            Assert.IsNotNull(registration);
+            Assert.IsNotNull(registration.College);
             #endregion Arrange
 
             #region Act
-
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.Remove(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
             #endregion Act
 
             #region Assert
-
+            Assert.IsNull(RegistrationRepository.GetNullableById(registrationId));
+            Assert.AreEqual(collegeCount, CollegeRepository.GetAll().Count);
             #endregion Assert		
         }
 

@@ -160,7 +160,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             #endregion Act
 
             #region Assert
-            Assert.AreEqual("CA&ES Spring Commencement 2010", result);
+            Assert.AreEqual("Spring Commencement 2010", result);
             #endregion Assert
         }
 
@@ -185,7 +185,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             #endregion Act
 
             #region Assert
-            Assert.AreEqual("CA&ES Fall Commencement 2012", result);
+            Assert.AreEqual("Fall Commencement 2012", result);
             #endregion Assert
         }
 
@@ -210,7 +210,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             #endregion Act
 
             #region Assert
-            Assert.AreEqual("CA&ES Commencement 2011", result);
+            Assert.AreEqual(" Commencement 2011", result);
             #endregion Assert
         }
 

@@ -99,8 +99,8 @@ namespace Commencement.Core.Domain
             {
                 var sb = new StringBuilder();
 
-                if (this.TermCode.Id.EndsWith("03")) sb.Append(" Spring");
-                else if (this.TermCode.Id.EndsWith("10")) sb.Append(" Fall");
+                if (this.TermCode.Id.EndsWith("03")) sb.Append("Spring");
+                else if (this.TermCode.Id.EndsWith("10")) sb.Append("Fall");
 
                 sb.Append(" Commencement");
                 sb.Append(" " + this.TermCode.Id.Substring(0, 4));
