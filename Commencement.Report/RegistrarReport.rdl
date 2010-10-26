@@ -407,7 +407,7 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <DataSetName>RegistrarReport</DataSetName>
+        <DataSetName>RegistrarsReport</DataSetName>
         <Top>0.47856in</Top>
         <Height>0.5in</Height>
         <Width>8in</Width>
@@ -671,22 +671,19 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="RegistrarReport">
+    <DataSet Name="RegistrarsReport">
       <Query>
         <DataSourceName>Commencement</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@term">
             <Value>=Parameters!term.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@userId">
+            <Value>=Parameters!userId.Value</Value>
+          </QueryParameter>
         </QueryParameters>
-        <CommandText>select students.StudentId, students.LastName, students.FirstName, students.MI, vmajors.Name Major
-from Registrations
-	inner join Students on Registrations.Student_Id = students.Id
-	inner join vMajors on Registrations.MajorCode = vmajors.id
-where Students.TermCode = @term
-	and Registrations.SJABlock = 0
-order by LastName</CommandText>
-        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>usp_RegistrarReport</CommandText>
       </Query>
       <Fields>
         <Field Name="StudentId">
@@ -716,6 +713,10 @@ order by LastName</CommandText>
     <ReportParameter Name="term">
       <DataType>String</DataType>
       <Prompt>term</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="userId">
+      <DataType>Integer</DataType>
+      <Prompt>userId</Prompt>
     </ReportParameter>
   </ReportParameters>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
