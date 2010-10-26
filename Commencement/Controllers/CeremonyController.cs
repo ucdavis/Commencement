@@ -128,11 +128,11 @@ namespace Commencement.Controllers
             if (ModelState.IsValid)
             {
                 // save
-                //_termRepository.EnsurePersistent(termCode, true);
-                //Repository.OfType<Ceremony>().EnsurePersistent(ceremony);
+                _termRepository.EnsurePersistent(termCode, true);
+                Repository.OfType<Ceremony>().EnsurePersistent(ceremony);
 
                 // redirect to the list
-                //return this.RedirectToAction(a => a.Index());
+                return this.RedirectToAction(a => a.Index());
             }
 
             // redirect back to the page
