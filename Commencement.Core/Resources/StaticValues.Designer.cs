@@ -262,7 +262,7 @@ namespace Commencement.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You are eligible for multiple ceremonies, please choose the major you would like to walk with during the ceremony..
+        ///   Looks up a localized string similar to You are eligible for multiple ceremonies, please &lt;strong&gt;choose the major&lt;/strong&gt; you would like to walk with during the ceremony..
         /// </summary>
         public static string Txt_MultipleCeremonies {
             get {

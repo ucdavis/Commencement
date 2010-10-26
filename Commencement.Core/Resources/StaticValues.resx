@@ -167,7 +167,7 @@ Any student who is found selling tickets or in possession of counterfeit tickets
     <value>Welcome {0}.  After you have submitted your registration you may log back in and update any of your information up until the registration deadline.</value>
   </data>
   <data name="Txt_MultipleCeremonies" xml:space="preserve">
-    <value>You are eligible for multiple ceremonies, please choose the major you would like to walk with during the ceremony.</value>
+    <value>You are eligible for multiple ceremonies, please &lt;strong&gt;choose the major&lt;/strong&gt; you would like to walk with during the ceremony.</value>
   </data>
   <data name="Txt_ExtraTicketRequestDisclaimer" xml:space="preserve">
     <value>If you selected to get your tickets through mail, your extra tickets will be mailed to you.  Otherwise you will have to come to the Dean's Office at 150 Mrak Hall to pickup your tickets.</value>

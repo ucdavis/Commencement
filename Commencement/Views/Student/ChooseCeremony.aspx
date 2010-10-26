@@ -10,9 +10,9 @@
 <asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent">
 </asp:Content>
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
-    <h2>
-        <%= Html.Encode(StaticValues.Txt_MultipleCeremonies) %>
-    </h2>
+    <p class="choose_ceremony_message">
+        <%= StaticValues.Txt_MultipleCeremonies %>
+    </p>
         <br />
     <ul class="choose_ceremony_menu">
         <% foreach (var ceremonyWithMajor in Model)
