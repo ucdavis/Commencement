@@ -1510,36 +1510,35 @@ namespace Commencement.Tests.Controllers
         [TestMethod]
         public void TestEditRegistrationDoesNotSaveIfNewValueIsInvalid()
         {
-            Assert.Inconclusive("Review");
-            //#region Arrange
-            //var student = CreateValidEntities.Student(1);
-            //var registrations = new List<Registration>(1);
-            //registrations.Add(CreateValidEntities.Registration(1));
-            //registrations[0].Student = student;
-            //registrations[0].Ceremony = CreateValidEntities.Ceremony(1);
-            //registrations[0].Ceremony.RegistrationDeadline = DateTime.Now.AddDays(5);
-            //ControllerRecordFakes.FakeRegistration(0, _registrationRepository, registrations);
-            //_studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
+            #region Arrange
+            var student = CreateValidEntities.Student(1);
+            var registrations = new List<Registration>(1);
+            registrations.Add(CreateValidEntities.Registration(1));
+            registrations[0].Student = student;
+            registrations[0].Ceremony = CreateValidEntities.Ceremony(1);
+            registrations[0].Ceremony.RegistrationDeadline = DateTime.Now.AddDays(5);
+            ControllerRecordFakes.FakeRegistration(0, _registrationRepository, registrations);
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
 
-            //var registration = registrations[0];
-            //registration.Address1 = string.Empty;
-            //#endregion Arrange
+            var registration = registrations[0];
+            registration.Address1 = string.Empty;
+            #endregion Arrange
 
-            //#region Act
-            //var result = Controller.EditRegistration(1, registration, true)
-            //    .AssertViewRendered()
-            //    .WithViewData<RegistrationModel>();
-            //#endregion Act
+            #region Act
+            var result = Controller.EditRegistration(1, registration)
+                .AssertViewRendered()
+                .WithViewData<RegistrationModel>();
+            #endregion Act
 
-            //#region Assert
-            //_studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
-            //_registrationRepository.AssertWasNotCalled(a => a.EnsurePersistent(Arg<Registration>.Is.Anything));
-            //_emailService.AssertWasNotCalled(a => a.SendRegistrationConfirmation(Controller.Repository, registrations[0]));
-            //Assert.IsNull(Controller.Message);
-            //Controller.ModelState.AssertErrorsAre("Address1: may not be null or empty");
-            //Assert.IsNotNull(result);
-            //Assert.AreSame(registrations[0], result.Registration);
-            //#endregion Assert			
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            _registrationRepository.AssertWasNotCalled(a => a.EnsurePersistent(Arg<Registration>.Is.Anything));
+            _emailService.AssertWasNotCalled(a => a.SendRegistrationConfirmation(registrations[0]));
+            Assert.IsNull(Controller.Message);
+            Controller.ModelState.AssertErrorsAre("Address1: may not be null or empty");
+            Assert.IsNotNull(result);
+            Assert.AreSame(registrations[0], result.Registration);
+            #endregion Assert			
         }
 
         #endregion EditRegistration Post Tests

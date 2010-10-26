@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Commencement.Controllers;
+using Commencement.Controllers.Filters;
 using Commencement.Tests.Core.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;
@@ -322,10 +323,12 @@ namespace Commencement.Tests.Controllers
 
             #region Act
             var allAttributes = controllerMethod.GetCustomAttributes(true);
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<AnyoneWithRoleAttribute>();
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
+            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+            Assert.AreEqual(1, expectedAttribute.Count(), "AnyoneWithRoleAttribute not found.");
             #endregion Assert
         }
 

@@ -38,13 +38,25 @@ namespace Commencement.Controllers
             _registrationService = registrationService;
         }
 
-        //
-        // GET: /Admin/
+        /// <summary>
+        /// GET: /Admin/
+        /// #1
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        /// Students
+        /// #2
+        /// </summary>
+        /// <param name="studentid"></param>
+        /// <param name="lastName"></param>
+        /// <param name="firstName"></param>
+        /// <param name="majorCode"></param>
+        /// <returns></returns>
         public ActionResult Students(string studentid, string lastName, string firstName, string majorCode)
         {
             // get the newest active term

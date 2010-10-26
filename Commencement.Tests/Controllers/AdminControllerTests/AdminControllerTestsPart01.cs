@@ -12,6 +12,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
 
         /// <summary>
         /// Tests the index mapping.
+        /// #1
         /// </summary>
         [TestMethod]
         public void TestIndexMapping()
@@ -21,6 +22,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
 
         /// <summary>
         /// Tests the students mapping.
+        /// #2
         /// </summary>
         [TestMethod]
         public void TestStudentsMapping()

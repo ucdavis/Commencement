@@ -19,15 +19,36 @@ namespace Commencement.Tests.Controllers
         private IStudentService _studentService;
         private IEmailService _emailService;
         private IRepositoryWithTypedId<MajorCode, string> _majorService;
+        private ICeremonyService _ceremonyService;
+        private IPetitionService _petitionService;
 
         #region Init
+        /*
+        private readonly IStudentService _studentService;
+        private readonly IEmailService _emailService;
+        private readonly IRepositoryWithTypedId<MajorCode, string> _majorService;
+        private readonly ICeremonyService _ceremonyService;
+        private readonly IPetitionService _petitionService;
 
+
+        public PetitionController(IStudentService studentService, IEmailService emailService, IRepositoryWithTypedId<MajorCode, string> majorService, ICeremonyService ceremonyService, IPetitionService petitionService)
+        {
+            _studentService = studentService;
+            _emailService = emailService;
+            _majorService = majorService;
+            _ceremonyService = ceremonyService;
+            _petitionService = petitionService;
+        
+        }
+         */
         protected override void SetupController()
         {
             _studentService = MockRepository.GenerateStub<IStudentService>();
             _emailService = MockRepository.GenerateStub<IEmailService>();
             _majorService = MockRepository.GenerateStub<IRepositoryWithTypedId<MajorCode, string>>();
-            Controller = new TestControllerBuilder().CreateController<PetitionController>(_studentService,_emailService, _majorService);
+            _ceremonyService = MockRepository.GenerateStub<ICeremonyService>();
+            _petitionService = MockRepository.GenerateStub<IPetitionService>();
+            Controller = new TestControllerBuilder().CreateController<PetitionController>(_studentService,_emailService, _majorService, _ceremonyService, _petitionService);
         }
         /// <summary>
         /// Registers the routes.

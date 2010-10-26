@@ -24,18 +24,40 @@ namespace Commencement.Tests.Controllers
     {
         private  IRepositoryWithTypedId<TermCode, string> _termRepository;
         private  IRepositoryWithTypedId<vTermCode, string> _vTermRepository;
+        private  IRepositoryWithTypedId<College, string> _collegeRepository;
         private  IMajorService _majorService;
-
+        private ICeremonyService _ceremonyService;
+        private IUserService _userService;
         #region Init
+        /*
+        private readonly IRepositoryWithTypedId<TermCode, string> _termRepository;
+        private readonly IRepositoryWithTypedId<vTermCode, string> _vTermRepository;
+        private readonly IRepositoryWithTypedId<College, string> _collegeRepository;
+        private readonly IMajorService _majorService;
+        private readonly ICeremonyService _ceremonyService;
+        private readonly IUserService _userService;
 
+        public CeremonyController(IRepositoryWithTypedId<TermCode, string> termRepository, IRepositoryWithTypedId<vTermCode, string> vTermRepository, IRepositoryWithTypedId<College, string> collegeRepository, IMajorService majorService, ICeremonyService ceremonyService, IUserService userService)
+        {
+            _termRepository = termRepository;
+            _vTermRepository = vTermRepository;
+            _collegeRepository = collegeRepository;
+            _majorService = majorService;
+            _ceremonyService = ceremonyService;
+            _userService = userService;
+        }
+         */
 
         protected override void SetupController()
         {
             _termRepository = MockRepository.GenerateStub<IRepositoryWithTypedId<TermCode, string>>();
             _vTermRepository = MockRepository.GenerateStub<IRepositoryWithTypedId<vTermCode, string>>();
             _majorService = MockRepository.GenerateStub<IMajorService>();
+            _collegeRepository = MockRepository.GenerateStub<IRepositoryWithTypedId<College, string>>();
+            _ceremonyService = MockRepository.GenerateStub<ICeremonyService>();
+            _userService = MockRepository.GenerateStub<IUserService>();
 
-            Controller = new TestControllerBuilder().CreateController<CeremonyController>(_termRepository,_vTermRepository,_majorService);
+            Controller = new TestControllerBuilder().CreateController<CeremonyController>(_termRepository,_vTermRepository, _collegeRepository, _majorService, _ceremonyService, _userService);
         }
         /// <summary>
         /// Registers the routes.
