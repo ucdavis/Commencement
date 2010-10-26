@@ -1,87 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
-  <DataSources>
-    <DataSource Name="Commencement">
-      <DataSourceReference>Commencement</DataSourceReference>
-      <rd:DataSourceID>6cffa795-c3fb-491b-ae65-fe7eb84ce593</rd:DataSourceID>
-      <rd:SecurityType>None</rd:SecurityType>
-    </DataSource>
-  </DataSources>
-  <DataSets>
-    <DataSet Name="SumOfAllTickets">
-      <Fields>
-        <Field Name="ceremonyid">
-          <DataField>ceremonyid</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="DateTime">
-          <DataField>DateTime</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="TermCode">
-          <DataField>TermCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="totalceremonytickets">
-          <DataField>totalceremonytickets</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="RegistrationTickets">
-          <DataField>RegistrationTickets</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="PendingExtraTickets">
-          <DataField>PendingExtraTickets</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="ApprovedExtraTickets">
-          <DataField>ApprovedExtraTickets</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-      </Fields>
-      <Query>
-        <DataSourceName>Commencement</DataSourceName>
-        <CommandText>select Ceremonies.id ceremonyid, Ceremonies.[DateTime], Ceremonies.TermCode, Ceremonies.TotalTickets totalceremonytickets
-	, RegistrationTickets.NumberTickets RegistrationTickets
-	, ISNULL(PendingExtraTickets.NumberTickets, 0) PendingExtraTickets
-	, ISNULL(ApprovedExtraTickets.NumberTickets, 0) ApprovedExtraTickets
-from Ceremonies
-	left outer join (
-		select sum(NumberTickets) NumberTickets, registrations.CeremonyId from Registrations
-			inner join Students on Registrations.Student_Id = students.Id
-		where Registrations.SJABlock = 0
-			and students.TermCode = @term
-		group by Registrations.CeremonyId
-	) RegistrationTickets on RegistrationTickets.ceremonyid = ceremonies.id
-	left outer join (
-		select SUM(ExtraTicketPetitions.NumberTickets) NumberTickets, Registrations.CeremonyId from ExtraTicketPetitions
-			inner join Registrations on Registrations.ExtraTicketPetitionId = ExtraTicketPetitions.id
-			inner join Students on Registrations.Student_Id = students.Id
-		where Registrations.SJABlock = 0
-			and students.TermCode = @term
-			and ExtraTicketPetitions.IsPending = 1
-		group by Registrations.CeremonyId
-	) PendingExtraTickets on PendingExtraTickets.ceremonyid = ceremonies.id
-	left outer join (
-		select SUM(ExtraTicketPetitions.NumberTickets) NumberTickets, Registrations.CeremonyId from ExtraTicketPetitions
-			inner join Registrations on Registrations.ExtraTicketPetitionId = ExtraTicketPetitions.id
-			inner join Students on Registrations.Student_Id = students.Id
-		where Registrations.SJABlock = 0
-			and students.TermCode = @term
-			and ExtraTicketPetitions.IsPending = 0
-			and ExtraTicketPetitions.IsApproved = 1
-		group by Registrations.CeremonyId
-	) ApprovedExtraTickets on ApprovedExtraTickets.ceremonyid = ceremonies.id	
-where ceremonies.TermCode = @term</CommandText>
-        <QueryParameters>
-          <QueryParameter Name="@term">
-            <Value>=Parameters!term.Value</Value>
-          </QueryParameter>
-        </QueryParameters>
-        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
-      </Query>
-    </DataSet>
-  </DataSets>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
       <Textbox Name="Name8">
@@ -1397,12 +1315,6 @@ where ceremonies.TermCode = @term</CommandText>
     <Height>3.97951in</Height>
     <Style />
   </Body>
-  <ReportParameters>
-    <ReportParameter Name="term">
-      <DataType>String</DataType>
-      <Prompt>term</Prompt>
-    </ReportParameter>
-  </ReportParameters>
   <Width>8.42721in</Width>
   <Page>
     <PageHeader>
@@ -1644,6 +1556,72 @@ where ceremonies.TermCode = @term</CommandText>
     <BottomMargin>0.2in</BottomMargin>
     <Style />
   </Page>
-  <rd:ReportID>a5fab544-8664-47a4-87b8-4b02471eb721</rd:ReportID>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Commencement">
+      <DataSourceReference>Commencement</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>6cffa795-c3fb-491b-ae65-fe7eb84ce593</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="SumOfAllTickets">
+      <Query>
+        <DataSourceName>Commencement</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@term">
+            <Value>=Parameters!term.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@userid">
+            <Value>=Parameters!userid.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>usp_SummaryReport</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="ceremonyid">
+          <DataField>ceremonyid</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="DateTime">
+          <DataField>DateTime</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="TermCode">
+          <DataField>TermCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="totalceremonytickets">
+          <DataField>totalceremonytickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="RegistrationTickets">
+          <DataField>RegistrationTickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="PendingExtraTickets">
+          <DataField>PendingExtraTickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ApprovedExtraTickets">
+          <DataField>ApprovedExtraTickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="term">
+      <DataType>String</DataType>
+      <Prompt>term</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="userid">
+      <DataType>Integer</DataType>
+      <Prompt>userid</Prompt>
+    </ReportParameter>
+  </ReportParameters>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>a5fab544-8664-47a4-87b8-4b02471eb721</rd:ReportID>
 </Report>

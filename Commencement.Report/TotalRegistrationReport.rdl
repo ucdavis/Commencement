@@ -1,130 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
-  <DataSources>
-    <DataSource Name="Commencement">
-      <DataSourceReference>Commencement</DataSourceReference>
-      <rd:DataSourceID>6cffa795-c3fb-491b-ae65-fe7eb84ce593</rd:DataSourceID>
-      <rd:SecurityType>None</rd:SecurityType>
-    </DataSource>
-  </DataSources>
-  <DataSets>
-    <DataSet Name="TotalRegistrations">
-      <Fields>
-        <Field Name="StudentId">
-          <DataField>StudentId</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="FirstName">
-          <DataField>FirstName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Major">
-          <DataField>Major</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="LastName">
-          <DataField>LastName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="RegistrationTickets">
-          <DataField>RegistrationTickets</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="Address1">
-          <DataField>Address1</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Address2">
-          <DataField>Address2</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="City">
-          <DataField>City</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="State">
-          <DataField>State</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="TotalTickets">
-          <DataField>TotalTickets</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="Zip">
-          <DataField>Zip</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="PrimaryEmail">
-          <DataField>PrimaryEmail</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="SecondaryEmail">
-          <DataField>SecondaryEmail</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ExtraTicketPetitions">
-          <DataField>ExtraTicketPetitions</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="NumberTickets">
-          <DataField>NumberTickets</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="MailTickets">
-          <DataField>MailTickets</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
-        </Field>
-        <Field Name="CeremonyTime">
-          <DataField>CeremonyTime</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="Tickets">
-          <DataField>Tickets</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="TermCode">
-          <DataField>TermCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Term">
-          <DataField>Term</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="DistributionMethod">
-          <DataField>DistributionMethod</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-      <Query>
-        <DataSourceName>Commencement</DataSourceName>
-        <CommandText>SELECT     Students.LastName, Students.FirstName, Students.StudentId, vMajors.Name AS Major, Registrations.Address1, Registrations.Address2, Registrations.City, 
-                      Registrations.State, Registrations.Zip, Students.Email AS PrimaryEmail, Registrations.Email AS SecondaryEmail, Registrations.NumberTickets, 
-                      ExtraTicketPetitions.NumberTickets AS ExtraTicketPetitions, Registrations.MailTickets, Ceremonies.DateTime AS CeremonyTime, 
-                      CASE WHEN ExtraTicketPetitions.NumberTickets IS NULL 
-                      THEN Registrations.NumberTickets ELSE ExtraTicketPetitions.NumberTickets + Registrations.NumberTickets END AS Tickets, SUM(Registrations.NumberTickets) 
-                      AS RegistrationTickets, SUM((CASE WHEN ((ExtraTicketPetitions.NumberTickets IS NULL)) 
-                      THEN Registrations.NumberTickets ELSE Registrations.NumberTickets + ExtraTicketPetitions.NumberTickets END)) AS TotalTickets, Students.TermCode, 
-                      TermCodes.Name AS Term, CASE WHEN MailTickets = 1 THEN 'Mail' ELSE 'Pickup' END AS DistributionMethod
-FROM         Registrations INNER JOIN
-                      Students ON Students.Id = Registrations.Student_Id LEFT OUTER JOIN
-                      ExtraTicketPetitions ON ExtraTicketPetitions.id = Registrations.ExtraTicketPetitionId AND ExtraTicketPetitions.IsApproved = 1 AND 
-                      ExtraTicketPetitions.IsPending = 0 INNER JOIN
-                      Ceremonies ON Ceremonies.id = Registrations.CeremonyId INNER JOIN
-                      vMajors ON vMajors.id = Registrations.MajorCode INNER JOIN
-                      TermCodes ON Ceremonies.TermCode = TermCodes.id
-WHERE     (Registrations.SJABlock = 0)
-GROUP BY Students.LastName, Students.FirstName, Students.StudentId, vMajors.Name, Registrations.Address1, Registrations.Address2, Registrations.City, 
-                      Registrations.State, Registrations.Zip, Students.Email, Registrations.Email, Registrations.NumberTickets, ExtraTicketPetitions.NumberTickets, 
-                      Registrations.MailTickets, Ceremonies.DateTime, Students.TermCode, TermCodes.Name
-HAVING      (Students.TermCode = @term)</CommandText>
-        <QueryParameters>
-          <QueryParameter Name="@term">
-            <Value>=Parameters!term.Value</Value>
-          </QueryParameter>
-        </QueryParameters>
-      </Query>
-    </DataSet>
-  </DataSets>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
       <Textbox Name="Name8">
@@ -1927,17 +1802,6 @@ HAVING      (Students.TermCode = @term)</CommandText>
     <Height>2.97951in</Height>
     <Style />
   </Body>
-  <ReportParameters>
-    <ReportParameter Name="term">
-      <DataType>String</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>201003</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>term</Prompt>
-    </ReportParameter>
-  </ReportParameters>
   <Width>14.1504in</Width>
   <Page>
     <PageHeader>
@@ -2098,6 +1962,132 @@ HAVING      (Students.TermCode = @term)</CommandText>
     <BottomMargin>0.2in</BottomMargin>
     <Style />
   </Page>
-  <rd:ReportID>a5fab544-8664-47a4-87b8-4b02471eb721</rd:ReportID>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Commencement">
+      <DataSourceReference>Commencement</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>6cffa795-c3fb-491b-ae65-fe7eb84ce593</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="TotalRegistrations">
+      <Query>
+        <DataSourceName>Commencement</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@term">
+            <Value>=Parameters!term.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@userid">
+            <Value>=Parameters!userid.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>usp_TotalRegisteredStudents</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="StudentId">
+          <DataField>StudentId</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FirstName">
+          <DataField>FirstName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Major">
+          <DataField>Major</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="LastName">
+          <DataField>LastName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RegistrationTickets">
+          <DataField>RegistrationTickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Address1">
+          <DataField>Address1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Address2">
+          <DataField>Address2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="City">
+          <DataField>City</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="State">
+          <DataField>State</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TotalTickets">
+          <DataField>TotalTickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Zip">
+          <DataField>Zip</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PrimaryEmail">
+          <DataField>PrimaryEmail</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SecondaryEmail">
+          <DataField>SecondaryEmail</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ExtraTicketPetitions">
+          <DataField>ExtraTicketPetitions</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="NumberTickets">
+          <DataField>NumberTickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="MailTickets">
+          <DataField>MailTickets</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="CeremonyTime">
+          <DataField>CeremonyTime</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Tickets">
+          <DataField>Tickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="TermCode">
+          <DataField>TermCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Term">
+          <DataField>Term</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DistributionMethod">
+          <DataField>DistributionMethod</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="term">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>201003</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>term</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="userid">
+      <DataType>Integer</DataType>
+      <Prompt>userid</Prompt>
+    </ReportParameter>
+  </ReportParameters>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>a5fab544-8664-47a4-87b8-4b02471eb721</rd:ReportID>
 </Report>
