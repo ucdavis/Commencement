@@ -5,6 +5,7 @@ using Commencement.Core.Domain;
 using Commencement.Tests.Core;
 using Commencement.Tests.Core.Extensions;
 using Commencement.Tests.Core.Helpers;
+using FluentNHibernate.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Data.NHibernate;
@@ -101,6 +102,27 @@ namespace Commencement.Tests.Repositories
 
         #endregion Init and Overrides	
         
+        #region Fluent Mapping Tests
+        [TestMethod]
+        public void TestCanCorrectlyMapAttachment()
+        {
+            #region Arrange
+            var id = TemplateTypeRepository.Queryable.Max(x => x.Id) + 1;
+            var session = NHibernateSessionManager.Instance.GetSession();   
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<TemplateType>(session)
+                .CheckProperty(c => c.Id, id)
+                .CheckProperty(c => c.Code, "Code")
+                .CheckProperty(c => c.Description, "Description")
+                .CheckProperty(c => c.Name, "Name")
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+
+        #endregion Fluent Mapping Tests
+
         #region Name Tests
         #region Invalid Tests
 
@@ -409,8 +431,128 @@ namespace Commencement.Tests.Repositories
         #endregion Valid Tests
         #endregion Description Tests
 
-        
-        
+        #region Code Tests  
+
+        #region Valid Tests
+
+        /// <summary>
+        /// Tests the Code with null value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestCodeWithNullValueSaves()
+        {
+            #region Arrange
+            var templateType = GetValid(9);
+            templateType.Code = null;
+            #endregion Arrange
+
+            #region Act
+            TemplateTypeRepository.DbContext.BeginTransaction();
+            TemplateTypeRepository.EnsurePersistent(templateType);
+            TemplateTypeRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(templateType.IsTransient());
+            Assert.IsTrue(templateType.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the Code with empty string saves.
+        /// </summary>
+        [TestMethod]
+        public void TestCodeWithEmptyStringSaves()
+        {
+            #region Arrange
+            var templateType = GetValid(9);
+            templateType.Code = string.Empty;
+            #endregion Arrange
+
+            #region Act
+            TemplateTypeRepository.DbContext.BeginTransaction();
+            TemplateTypeRepository.EnsurePersistent(templateType);
+            TemplateTypeRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(templateType.IsTransient());
+            Assert.IsTrue(templateType.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the Code with one space saves.
+        /// </summary>
+        [TestMethod]
+        public void TestCodeWithOneSpaceSaves()
+        {
+            #region Arrange
+            var templateType = GetValid(9);
+            templateType.Code = " ";
+            #endregion Arrange
+
+            #region Act
+            TemplateTypeRepository.DbContext.BeginTransaction();
+            TemplateTypeRepository.EnsurePersistent(templateType);
+            TemplateTypeRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(templateType.IsTransient());
+            Assert.IsTrue(templateType.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the Code with one character saves.
+        /// </summary>
+        [TestMethod]
+        public void TestCodeWithOneCharacterSaves()
+        {
+            #region Arrange
+            var templateType = GetValid(9);
+            templateType.Code = "x";
+            #endregion Arrange
+
+            #region Act
+            TemplateTypeRepository.DbContext.BeginTransaction();
+            TemplateTypeRepository.EnsurePersistent(templateType);
+            TemplateTypeRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(templateType.IsTransient());
+            Assert.IsTrue(templateType.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the Code with long value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestCodeWithLongValueSaves()
+        {
+            #region Arrange
+            var templateType = GetValid(9);
+            templateType.Code = "x".RepeatTimes(999);
+            #endregion Arrange
+
+            #region Act
+            TemplateTypeRepository.DbContext.BeginTransaction();
+            TemplateTypeRepository.EnsurePersistent(templateType);
+            TemplateTypeRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(999, templateType.Code.Length);
+            Assert.IsFalse(templateType.IsTransient());
+            Assert.IsTrue(templateType.IsValid());
+            #endregion Assert
+        }
+
+        #endregion Valid Tests
+        #endregion Code Tests       
         
         #region Reflection of Database.
 
@@ -423,6 +565,7 @@ namespace Commencement.Tests.Repositories
         {
             #region Arrange
             var expectedFields = new List<NameAndType>();
+            expectedFields.Add(new NameAndType("Code", "System.String", new List<string>()));
             expectedFields.Add(new NameAndType("Description", "System.String", new List<string>()));
             expectedFields.Add(new NameAndType("Id", "System.Int32", new List<string>
             {
