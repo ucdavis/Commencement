@@ -75,7 +75,7 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
                     {
                         return false;
                     }
-                    if (((Guid)x) != ((Guid)y))
+                    if (((Guid)x) == ((Guid)y))
                     {
                         return true;
                     }
