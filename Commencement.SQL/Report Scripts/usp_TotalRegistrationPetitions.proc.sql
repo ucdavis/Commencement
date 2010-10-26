@@ -10,7 +10,7 @@ CREATE PROCEDURE [dbo].[usp_TotalRegistrationPetitions]
 	@userid int
 AS
 	
-SELECT     RegistrationPetitions.LastName, RegistrationPetitions.FirstName, RegistrationPetitions.StudentId, vMajors.Name AS Major, Ceremonies.[DateTime] AS CeremonyTime,
+SELECT     RegistrationPetitions.LastName, RegistrationPetitions.FirstName, RegistrationPetitions.StudentId, Majors.Name AS Major, Ceremonies.[DateTime] AS CeremonyTime,
                       RegistrationPetitions.ExceptionReason, 
                       CASE WHEN RegistrationPetitions.IsPending = 1 THEN 'Pending' WHEN RegistrationPetitions.IsPending = 0 AND 
                       RegistrationPetitions.IsApproved = 1 THEN 'Approved' ELSE 'Denied' END AS PetitionStatus, 
@@ -20,14 +20,14 @@ SELECT     RegistrationPetitions.LastName, RegistrationPetitions.FirstName, Regi
                       TermCodes.Name AS Term
 from RegistrationPetitions
 	inner join TermCodes on RegistrationPetitions.TermCode = TermCodes.id
-	inner join vMajors on vMajors.id = RegistrationPetitions.MajorCode
+	inner join Majors on Majors.id = RegistrationPetitions.MajorCode
 	inner join Ceremonies on Ceremonies.id = RegistrationPetitions.CeremonyId
 WHERE RegistrationPetitions.CeremonyId in 
 		(select CeremonyId from Ceremonies
 			inner join ceremonyeditors on ceremonies.id = ceremonyeditors.CeremonyId
 		where UserId = @userid
 			and TermCode = @term)
-GROUP BY RegistrationPetitions.LastName, RegistrationPetitions.FirstName, RegistrationPetitions.StudentId, vMajors.Name, Ceremonies.DateTime, 
+GROUP BY RegistrationPetitions.LastName, RegistrationPetitions.FirstName, RegistrationPetitions.StudentId, Majors.Name, Ceremonies.DateTime, 
                       RegistrationPetitions.ExceptionReason, RegistrationPetitions.IsPending, RegistrationPetitions.IsApproved, TermCodes.Name
 
 RETURN 0

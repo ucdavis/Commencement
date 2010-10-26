@@ -10,7 +10,7 @@ CREATE PROCEDURE [dbo].[usp_TotalRegisteredStudents]
 	@userid int
 AS
 
-SELECT     Students.LastName, Students.FirstName, Students.StudentId, vMajors.Name AS Major, Registrations.Address1, Registrations.Address2, Registrations.City, 
+SELECT     Students.LastName, Students.FirstName, Students.StudentId, Majors.Name AS Major, Registrations.Address1, Registrations.Address2, Registrations.City, 
                       Registrations.State, Registrations.Zip, Students.Email AS PrimaryEmail, Registrations.Email AS SecondaryEmail, Registrations.NumberTickets, 
                       ExtraTicketPetitions.NumberTickets AS ExtraTicketPetitions, Registrations.MailTickets, Ceremonies.DateTime AS CeremonyTime, 
                       CASE WHEN ExtraTicketPetitions.NumberTickets IS NULL 
@@ -23,7 +23,7 @@ FROM         Registrations INNER JOIN
                       ExtraTicketPetitions ON ExtraTicketPetitions.id = Registrations.ExtraTicketPetitionId AND ExtraTicketPetitions.IsApproved = 1 AND 
                       ExtraTicketPetitions.IsPending = 0 INNER JOIN
                       Ceremonies ON Ceremonies.id = Registrations.CeremonyId INNER JOIN
-                      vMajors ON vMajors.id = Registrations.MajorCode INNER JOIN
+                      Majors ON Majors.id = Registrations.MajorCode INNER JOIN
                       TermCodes ON Ceremonies.TermCode = TermCodes.id
 WHERE     (Registrations.SJABlock = 0) and registrations.cancelled = 0
 	and Ceremonies.id in 
@@ -31,7 +31,7 @@ WHERE     (Registrations.SJABlock = 0) and registrations.cancelled = 0
 				inner join ceremonyeditors on ceremonies.id = ceremonyeditors.CeremonyId
 			where UserId = @userid
 				and TermCode = @term)
-GROUP BY Students.LastName, Students.FirstName, Students.StudentId, vMajors.Name, Registrations.Address1, Registrations.Address2, Registrations.City, 
+GROUP BY Students.LastName, Students.FirstName, Students.StudentId, Majors.Name, Registrations.Address1, Registrations.Address2, Registrations.City, 
                       Registrations.State, Registrations.Zip, Students.Email, Registrations.Email, Registrations.NumberTickets, ExtraTicketPetitions.NumberTickets, 
                       Registrations.MailTickets, Ceremonies.DateTime, Students.TermCode, TermCodes.Name
 HAVING      (Students.TermCode = @term)

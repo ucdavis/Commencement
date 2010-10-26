@@ -10,14 +10,14 @@ CREATE PROCEDURE [dbo].[usp_TicketSignOutSheet]
 	@userid int
 AS
 	
-	select students.LastName, students.FirstName, students.StudentId, vmajors.Name Major
+	select students.LastName, students.FirstName, students.StudentId, Majors.Name Major
 	 , Registrations.NumberTickets RegistrationTickets
 	 , ISNULL(ExtraTicketPetitions.numbertickets, 0) ExtraTickets
 	 , Registrations.CeremonyId		
 	from Registrations
 		left outer join ExtraTicketPetitions on Registrations.ExtraTicketPetitionId = ExtraTicketPetitions.id and ExtraTicketPetitions.IsPending = 0 and ExtraTicketPetitions.IsApproved = 1
 		inner join Students on Registrations.Student_Id = students.Id
-		inner join vMajors on Registrations.MajorCode = vmajors.id
+		inner join Majors on Registrations.MajorCode = Majors.id
 	where Students.TermCode = @term
 		and Registrations.SJABlock = 0
 		and Registrations.Cancelled = 0
