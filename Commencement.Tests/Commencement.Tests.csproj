@@ -232,6 +232,17 @@
     <Compile Include="Repositories\RegistrationRepositoryTests\RegistrationRepositoryTestsPart13.cs" />
     <Compile Include="Repositories\StateRepositoryTests.cs" />
     <Compile Include="Repositories\StudentRepositoryTests\StudentRepositoryTestsInit.cs" />
+    <Compile Include="Repositories\StudentRepositoryTests\StudentRepositoryTestsPart01.cs" />
+    <Compile Include="Repositories\StudentRepositoryTests\StudentRepositoryTestsPart02.cs" />
+    <Compile Include="Repositories\StudentRepositoryTests\StudentRepositoryTestsPart03.cs" />
+    <Compile Include="Repositories\StudentRepositoryTests\StudentRepositoryTestsPart04.cs" />
+    <Compile Include="Repositories\StudentRepositoryTests\StudentRepositoryTestsPart05.cs" />
+    <Compile Include="Repositories\StudentRepositoryTests\StudentRepositoryTestsPart06.cs" />
+    <Compile Include="Repositories\StudentRepositoryTests\StudentRepositoryTestsPart07.cs" />
+    <Compile Include="Repositories\StudentRepositoryTests\StudentRepositoryTestsPart08.cs" />
+    <Compile Include="Repositories\StudentRepositoryTests\StudentRepositoryTestsPart09.cs" />
+    <Compile Include="Repositories\StudentRepositoryTests\StudentRepositoryTestsPart10.cs" />
+    <Compile Include="Repositories\StudentRepositoryTests\StudentRepositoryTestsPart11.cs" />
     <Compile Include="Repositories\TemplateRepositoryTests.cs" />
     <Compile Include="Repositories\TemplateTypeRepositoryTests.cs" />
     <Compile Include="Repositories\TermCodeRepositoryTests.cs" />

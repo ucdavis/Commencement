@@ -100,7 +100,7 @@ namespace Commencement.Core.Domain
     {
         public StudentMap()
         {
-            Id(x => x.Id).GeneratedBy.Assigned();
+            Id(x => x.Id).GeneratedBy.Guid();
 
             Map(x => x.Pidm);
             Map(x => x.StudentId);
