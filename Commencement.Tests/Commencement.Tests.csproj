@@ -198,7 +198,6 @@
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Repositories\MajorCodeRepositoryTests.cs" />
     <Compile Include="Repositories\PageTrackingRepositoryTests.cs" />
-    <Compile Include="Repositories\RegistrationPetitionRepositoryTestsOld.cs" />
     <Compile Include="Repositories\RegistrationPetitionRepositoryTests\RegistrationPetitionRepositoryTestsInit.cs" />
     <Compile Include="Repositories\RegistrationPetitionRepositoryTests\RegistrationPetitionRepositoryTestsPart01.cs" />
     <Compile Include="Repositories\RegistrationPetitionRepositoryTests\RegistrationPetitionRepositoryTestsPart02.cs" />
