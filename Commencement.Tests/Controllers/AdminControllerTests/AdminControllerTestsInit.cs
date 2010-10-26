@@ -37,6 +37,8 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         protected IRepository<Registration> RegistrationRepository;
         protected IRepository<State> StateRepository;
         protected IRepository<Ceremony> CeremonyRepository;
+        protected ICeremonyService CeremonyService;
+        protected IRegistrationService RegistrationService;
 
         public IRepository<TermCode> TermCodeRepository;
         #region Init
@@ -55,6 +57,26 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             CeremonyRepository = FakeRepository<Ceremony>();
             Controller.Repository.Expect(a => a.OfType<Ceremony>()).Return(CeremonyRepository).Repeat.Any();
         }
+        /*
+        private readonly IRepositoryWithTypedId<Student, Guid> _studentRepository;
+        private readonly IRepositoryWithTypedId<MajorCode, string> _majorRepository;
+        private readonly IStudentService _studentService;
+        private readonly IEmailService _emailService;
+        private readonly IMajorService _majorService;
+        private readonly ICeremonyService _ceremonyService;
+        private readonly IRegistrationService _registrationService;
+
+        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService, IEmailService emailService, IMajorService majorService, ICeremonyService ceremonyService, IRegistrationService registrationService)
+        {
+            _studentRepository = studentRepository;
+            _majorRepository = majorRepository;
+            _studentService = studentService;
+            _emailService = emailService;
+            _majorService = majorService;
+            _ceremonyService = ceremonyService;
+            _registrationService = registrationService;
+        }          
+         */
 
         protected override void SetupController()
         {
@@ -63,8 +85,10 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             StudentService = MockRepository.GenerateStub<IStudentService>();
             EmailService = MockRepository.GenerateStub<IEmailService>();
             MajorService = MockRepository.GenerateStub<IMajorService>();
+            CeremonyService = MockRepository.GenerateStub<ICeremonyService>();
+            RegistrationService = MockRepository.GenerateStub<IRegistrationService>();
 
-            Controller = new TestControllerBuilder().CreateController<AdminController>(StudentRepository, MajorRepository, StudentService, EmailService, MajorService);
+            Controller = new TestControllerBuilder().CreateController<AdminController>(StudentRepository, MajorRepository, StudentService, EmailService, MajorService, CeremonyService, RegistrationService);
         }
         /// <summary>
         /// Registers the routes.
