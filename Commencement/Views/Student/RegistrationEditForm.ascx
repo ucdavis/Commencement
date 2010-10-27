@@ -3,7 +3,7 @@
 <%@ Import Namespace="Commencement.Core.Resources" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
-    <%: Html.HiddenFor(x=>x.Registration.Id, Model.Registration.Ceremony == null ? 0 : Model.Registration.Ceremony.Id) %>
+    <%: Html.HiddenFor(x=>x.Registration.Ceremony.Id, Model.Registration.Ceremony == null ? 0 : Model.Registration.Ceremony.Id) %>
 
     <h2>
         Student Information</h2>

@@ -16,10 +16,10 @@ namespace Commencement.Controllers.Helpers
             registrationTo.Comments = registrationFrom.Comments;
             
             registrationTo.MailTickets = registrationFrom.MailTickets;
-            registrationTo.NumberTickets = registrationFrom.NumberTickets;
+            //registrationTo.NumberTickets = registrationFrom.NumberTickets;
 
-            registrationTo.Ceremony = registrationFrom.Ceremony;
-            registrationTo.Major = registrationFrom.Major;
+            //registrationTo.Ceremony = registrationFrom.Ceremony;
+            //registrationTo.Major = registrationFrom.Major;
         }
     }
 }
