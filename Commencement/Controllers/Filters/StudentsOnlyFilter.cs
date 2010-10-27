@@ -41,6 +41,11 @@ namespace Commencement.Controllers.Filters
                 filterContext.Result = new RedirectResult(urlHelper.Action("Index", "Error", new { ErrorType = ErrorController.ErrorType.PreviouslyWalked }));
             }
 
+            if (StudentAccess.IsStudentBlocked(repositoryWithTypeid, filterContext.HttpContext.User.Identity.Name))
+            {
+                filterContext.Result = new RedirectResult(urlHelper.Action("Index", "Error", new { ErrorType = ErrorController.ErrorType.NotEligible }));
+            }
+            
             // change to writing a custom cookie when emulation is enabled and constantly check for that and the authenticated name
 
             var emulation = (bool?)filterContext.HttpContext.Session[StaticIndexes.EmulationKey] ?? false;
@@ -105,6 +110,19 @@ namespace Commencement.Controllers.Filters
 
             return false;
         }
+
+        public static bool IsStudentBlocked(IRepositoryWithTypedId<Student, Guid> studentRepository, string loginId)
+        {
+            var term = TermService.GetCurrent();
+            var student = studentRepository.Queryable.Where(s => s.Login == loginId && s.TermCode == term).FirstOrDefault();
+            if (student != null)
+            {
+                return student.Blocked;
+            }
+
+            return false;
+        }
+
 
         // check if a student has previously registered
         public static bool HasPreviouslyRegistered(IRepository repository, string loginId)
