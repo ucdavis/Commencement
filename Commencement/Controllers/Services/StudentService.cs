@@ -14,7 +14,7 @@ namespace Commencement.Controllers.Services
     {
         Student GetCurrentStudent(IPrincipal currentUser);
         List<CeremonyWithMajor> GetMajorsAndCeremoniesForStudent(Student student);
-        Registration GetPriorRegistration(Student student);
+        Registration GetPriorRegistration(Student student, TermCode termCode) ;
         IList<SearchStudent> SearchStudent(string studentId, string termCode);
         IList<SearchStudent> SearchStudentByLogin(string login, string termCode);
 
@@ -65,10 +65,10 @@ namespace Commencement.Controllers.Services
             return possibleCeremonies;
         }
 
-        public Registration GetPriorRegistration(Student student)
+        public Registration GetPriorRegistration(Student student, TermCode termCode)
         {
             //Get any prior registration for the given student.  There should be either none or one
-            return _registrationRepository.Queryable.SingleOrDefault(x => x.Student == student);
+            return _registrationRepository.Queryable.SingleOrDefault(x => x.Student == student && x.Ceremony.TermCode == termCode);
         }
 
         public IList<SearchStudent> SearchStudent(string studentId, string termCode)
@@ -149,10 +149,10 @@ namespace Commencement.Controllers.Services
             return possibleCeremonies;
         }
 
-        public Registration GetPriorRegistration(Student student)
+        public Registration GetPriorRegistration(Student student, TermCode termCode)
         {
             //Get any prior registration for the given student.  There should be either none or one
-            return _registrationRepository.Queryable.SingleOrDefault(x => x.Student == student);
+            return _registrationRepository.Queryable.SingleOrDefault(x => x.Student == student && x.Ceremony.TermCode == termCode);
         }
 
         public IList<SearchStudent> SearchStudent(string studentId, string termCode)

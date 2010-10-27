@@ -44,7 +44,7 @@ namespace Commencement.Controllers
         public ActionResult Index()
         {
             //Check for prior registration
-            var priorRegistration = _studentService.GetPriorRegistration(GetCurrentStudent());
+            var priorRegistration = _studentService.GetPriorRegistration(GetCurrentStudent(), TermService.GetCurrent());
             
             if (priorRegistration != null)
             {
