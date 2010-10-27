@@ -39,18 +39,17 @@ namespace Commencement.Controllers.ViewModels
                 && (a.StudentId.Contains(string.IsNullOrEmpty(studentid) ? string.Empty : studentid))
                 && (a.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName))
                 && (a.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName))
-                ).Distinct().ToList();
+                );
+
+            if (!string.IsNullOrEmpty(majorCode)) students = students.Where(a => a.StrMajorCodes.Contains(majorCode));
 
             // get all active registrations
             var registrations = repository.OfType<Registration>().Queryable.Where(a => a.Ceremony.TermCode == termCode && !a.SjaBlock && !a.Cancelled).ToList();
             var regStudents = registrations.Select(a => a.Student);
 
-            // filter student by majors if requested.
-            if (!string.IsNullOrEmpty(majorCode)) students = students.Where(a => a.StrMajorCodes.Contains(majorCode)).ToList();
-
             viewModel.StudentRegistrationModels = new List<StudentRegistrationModel>();
 
-            foreach(var s in students)
+            foreach(var s in students.Distinct().ToList())
             {
                 var reged = regStudents.Any(a => a == s);
 

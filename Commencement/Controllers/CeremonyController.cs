@@ -130,8 +130,9 @@ namespace Commencement.Controllers
                 // save
                 _termRepository.EnsurePersistent(termCode, true);
                 Repository.OfType<Ceremony>().EnsurePersistent(ceremony);
+                TermService.UpdateCurrent(termCode);    // update the cache.
 
-                // redirect to the list
+                // redirect to the list);
                 return this.RedirectToAction(a => a.Index());
             }
 

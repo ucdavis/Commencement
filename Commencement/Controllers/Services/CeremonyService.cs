@@ -17,6 +17,18 @@ namespace Commencement.Controllers.Services
     {
         private readonly IRepository _repository;
 
+        private readonly string UserCeremoniesKey = "UserCeremoniesKey";
+        private readonly string UserCeremonyIdsKey = "UserCeremonyIdsKey";
+        private List<Ceremony> UserCeremonies { 
+            get { return (List<Ceremony>)System.Web.HttpContext.Current.Session[UserCeremoniesKey]; }
+            set { System.Web.HttpContext.Current.Session[UserCeremoniesKey] = value; }
+        }
+        private List<int> UserCeremonyIds
+        {
+            get { return (List<int>)System.Web.HttpContext.Current.Session[UserCeremonyIdsKey]; }
+            set { System.Web.HttpContext.Current.Session[UserCeremonyIdsKey] = value; }
+        }
+
         public CeremonyService(IRepository repository)
         {
             _repository = repository;
@@ -24,29 +36,40 @@ namespace Commencement.Controllers.Services
 
         public virtual List<Ceremony> GetCeremonies (string userId, TermCode termCode = null)
         {
-            var ceremonyIds = GetCeremonyIds(userId, termCode);
+            if (UserCeremonies == null)
+            {
 
-            // build the query for getting the available ceremonies
-            var query = from a in _repository.OfType<Ceremony>().Queryable
-                        where ceremonyIds.Contains(a.Id)
-                        select a;
+                var ceremonyIds = GetCeremonyIds(userId, termCode);
 
-            return query.ToList();
+                // build the query for getting the available ceremonies
+                var query = from a in _repository.OfType<Ceremony>().Queryable
+                            where ceremonyIds.Contains(a.Id)
+                            select a;
+
+                UserCeremonies = query.ToList();
+            }
+
+            return UserCeremonies;
         }
 
         public virtual List<int> GetCeremonyIds (string userId, TermCode termCode = null)
         {
-            // get a list of ceremonies that the user has access to
-            var query = from a in _repository.OfType<CeremonyEditor>().Queryable
-                        where a.User.LoginId == userId
-                        select a;
-
-            if (termCode != null)
+            if (UserCeremonyIds == null)
             {
-                query = query.Where(a => a.Ceremony.TermCode == termCode);
+                // get a list of ceremonies that the user has access to
+                var query = from a in _repository.OfType<CeremonyEditor>().Queryable
+                            where a.User.LoginId == userId
+                            select a;
+
+                if (termCode != null)
+                {
+                    query = query.Where(a => a.Ceremony.TermCode == termCode);
+                }
+
+                UserCeremonyIds = query.Select(a => a.Ceremony.Id).ToList();
             }
 
-            return query.Select(a => a.Ceremony.Id).ToList();
+            return UserCeremonyIds;
         }
 
         public virtual bool HasAccess(int id, string userId)

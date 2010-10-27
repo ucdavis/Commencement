@@ -47,21 +47,6 @@ namespace Commencement.Controllers.ViewModels
                                     Registrations = registrationService.GetFilteredList(userId, studentid, lastName, firstName, majorCode, ceremonyId, collegeCode, ceremonies, termCode)
                                 };
 
-            //var query = repository.OfType<Registration>().Queryable.Where(a =>
-            //                    a.Ceremony.TermCode == termCode
-            //                    && viewModel.Ceremonies.Contains(a.Ceremony)
-            //                    && a.College.Id.Contains(string.IsNullOrEmpty(collegeCode) ? string.Empty : collegeCode)
-            //                    && ceremonyIds.Contains(a.Ceremony.Id)
-            //                    && (a.Student.StudentId.Contains(string.IsNullOrEmpty(studentid) ? string.Empty : studentid))
-            //                    && (a.Student.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName))
-            //                    && (a.Student.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName))
-            //                    );
-
-            //if (ceremonyId.HasValue && ceremonyId.Value > 0)
-            //    query = query.Where(a => a.Ceremony.Id == ceremonyId.Value);
-
-            //viewModel.Registrations = query.ToList();
-
             if (!string.IsNullOrEmpty(majorCode))
                 viewModel.Registrations = viewModel.Registrations.Where(a => a.Student.StrMajorCodes.Contains(majorCode));
 
