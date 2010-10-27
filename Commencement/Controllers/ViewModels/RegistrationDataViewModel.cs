@@ -33,7 +33,7 @@ namespace Commencement.Controllers.ViewModels
                                                               b => b.IsApproved && !b.IsPending).Count(),
                                                       TicketsRequested = a.RequestedTickets,
                                                       ExtraTicketsRequested = a.ExtraRequestedtickets,
-                                                      TotalTickets = a.TotalTickets
+                                                      TotalTickets = a.TotalRequestedTickets
                                                   }).ToList();
 
             return viewModel;

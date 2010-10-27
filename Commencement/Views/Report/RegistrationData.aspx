@@ -24,7 +24,7 @@
                 <li><strong># of Registration Petitions Submitted:</strong><%= rd.RegistrationPetitionsSubmitted %></li>
                 <li><strong># of Registration Petitions Approved:</strong><%= rd.RegistrationPetitionsApproved %></li>
                 <li><strong># of Tickets Requested with Registration:</strong><%= rd.TicketsRequested %></li>
-                <li><strong># of Tickets Requested by Petition:</strong><%= rd.ExtraTicketsRequested %></li>
+                <li><strong># of Tickets Approved by Petition:</strong><%= rd.ExtraTicketsRequested %></li>
                 <li><strong>Total Tickets Approved:</strong><%= rd.TotalTickets %></li>
                 
             </ul>

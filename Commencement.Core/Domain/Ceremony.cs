@@ -124,7 +124,7 @@ namespace Commencement.Core.Domain
         /// </summary>
         public virtual int RequestedTickets
         {
-            get { return Registrations.Where(a => !a.SjaBlock).Sum(a => a.NumberTickets); }
+            get { return Registrations.Where(a => !a.SjaBlock && !a.Cancelled).Sum(a => a.NumberTickets); }
         }
 
         /// <summary>
@@ -134,16 +134,21 @@ namespace Commencement.Core.Domain
         {
             get
             {
-                return Registrations.Where(a => a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved && !a.ExtraTicketPetition.IsPending && !a.SjaBlock)
+                return Registrations.Where(a => a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved 
+                                            && !a.ExtraTicketPetition.IsPending && !a.SjaBlock && !a.Cancelled)
                                     .Sum(a => a.ExtraTicketPetition.NumberTickets);
             }
         }
 
+        /// <summary>
+        /// Total # of requested tickets (original request and extra ticket approved)
+        /// </summary>
         public virtual int TotalRequestedTickets
         {
             get
             {
-                return Registrations.Where(a => !a.SjaBlock).Sum(a => a.TotalTickets);
+                // a.TotalTickets filters and returns 0 for cancelled or sjablock registrations
+                return Registrations.Sum(a => a.TotalTickets);
             }
         }
 
