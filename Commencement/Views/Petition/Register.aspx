@@ -6,6 +6,11 @@
     Commencement Petition Registration</asp:Content>
 <asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent">
 </asp:Content>
+
+<asp:Content runat="server" ID="Content3" ContentPlaceHolderID="logoContent">
+    <% Html.RenderPartial("LogoDisplay", Model.RegistrationPetition.MajorCode.College); %>
+</asp:Content>
+
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
     <h1><%= Model.CurrentTerm.Name %> Commencement</h1>
     <p>

@@ -137,6 +137,7 @@
                 });
 
                 that._populateLists($(this).find("option"));
+                that.element = $(this); // make the reference back to the new drop down, overwriting the old reference to the old object
             });
         },
         destroy: function () {

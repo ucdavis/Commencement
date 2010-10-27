@@ -1,6 +1,11 @@
 <%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.RegistrationModel>" MasterPageFile="~/Views/Shared/Site.Master" %>
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">Edit registration</asp:Content>
 <asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent"></asp:Content>
+
+<asp:Content runat="server" ID="Content3" ContentPlaceHolderID="logoContent">
+    <% Html.RenderPartial("LogoDisplay", Model.Registration.College); %>
+</asp:Content>
+
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
 
 <h1><%= Model.Ceremony.Name %></h1>
