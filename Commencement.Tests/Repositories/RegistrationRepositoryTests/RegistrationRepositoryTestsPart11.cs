@@ -158,6 +158,30 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
             Assert.AreEqual(0, registration.TotalTickets);
             #endregion Assert
         }
+
+        [TestMethod]
+        public void TestTotalTicketsWhenExtraTicketPetitionApprovedAndOnly2TicketsRequestedButCancelled()
+        {
+            #region Arrange
+            var registration = GetValid(9);
+            registration.NumberTickets = 2;
+            registration.ExtraTicketPetition = CreateValidEntities.ExtraTicketPetition(1);
+            registration.ExtraTicketPetition.NumberTickets = 9;
+            registration.ExtraTicketPetition.IsApproved = true;
+            registration.ExtraTicketPetition.IsPending = false;
+            registration.Cancelled = true;
+            #endregion Arrange
+
+            #region Act
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitChanges();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(0, registration.TotalTickets);
+            #endregion Assert
+        }
         #endregion TotalTickets Tests
 
         #region SjaBlock Tests
