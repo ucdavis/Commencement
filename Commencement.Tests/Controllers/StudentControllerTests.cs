@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
+using Castle.Windsor;
 using Commencement.Controllers;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
@@ -31,6 +32,8 @@ namespace Commencement.Tests.Controllers
         private IStudentService _studentService;
         private IEmailService _emailService;
         private readonly IRepository<State> _stateRepository;
+
+        public IRepository<TermCode> TermCodeRepository;
 
         #region Init
 
@@ -62,6 +65,17 @@ namespace Commencement.Tests.Controllers
         protected override void RegisterRoutes()
         {
             new RouteConfigurator().RegisterRoutes();
+        }
+
+        /// <summary>
+        /// Need to do this because the call to the static class TermService.
+        /// </summary>
+        /// <param name="container"></param>
+        protected override void RegisterAdditionalServices(IWindsorContainer container)
+        {
+            TermCodeRepository = MockRepository.GenerateStub<IRepository<TermCode>>();
+            container.Kernel.AddComponentInstance<IRepository<TermCode>>(TermCodeRepository);
+            base.RegisterAdditionalServices(container);
         }
         #endregion Init
 
@@ -147,6 +161,7 @@ namespace Commencement.Tests.Controllers
         public void TestIndexRedirectsToChooseCeremonyWhenPriorRegistrationIsNull()
         {
             #region Arrange
+            LoadTermCodes("2010");
             //ControllerRecordFakes.FakeStudent(3, _studentRepository)
             var student = CreateValidEntities.Student(1);
             _studentService.Expect(a => a.GetPriorRegistration(Arg<Student>.Is.Anything, Arg<TermCode>.Is.Anything)).Return(null).Repeat.Any();
@@ -170,6 +185,7 @@ namespace Commencement.Tests.Controllers
         public void TestIndexRedirectsToDisplayRegistrationWhenPriorRegistrationIsNotNull()
         {
             #region Arrange
+            LoadTermCodes("2010");
             var registration = CreateValidEntities.Registration(1);
             var student = CreateValidEntities.Student(1);
             _studentService.Expect(a => a.GetPriorRegistration(Arg<Student>.Is.Anything, Arg<TermCode>.Is.Anything)).Return(registration).Repeat.Any();
@@ -1917,5 +1933,18 @@ namespace Commencement.Tests.Controllers
         #endregion Controller Method Tests
 
         #endregion Reflection
+
+        #region Utilities
+
+        protected void LoadTermCodes(string termCode)
+        {
+            var termCodes = new List<TermCode>();
+            termCodes.Add(CreateValidEntities.TermCode(1));
+            termCodes[0].IsActive = true;
+            ControllerRecordFakes.FakeTermCode(0, TermCodeRepository, termCodes);
+            termCodes[0].SetIdTo(termCode);
+        }
+
+        #endregion Utilities
     }
 }
