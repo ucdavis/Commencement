@@ -726,8 +726,8 @@
           <QueryParameter Name="@term">
             <Value>=Parameters!term.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@userid">
-            <Value>=Parameters!userid.Value</Value>
+          <QueryParameter Name="@userId">
+            <Value>=Parameters!userId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -771,9 +771,9 @@
       <DataType>String</DataType>
       <Prompt>term</Prompt>
     </ReportParameter>
-    <ReportParameter Name="userid">
+    <ReportParameter Name="userId">
       <DataType>Integer</DataType>
-      <Prompt>userid</Prompt>
+      <Prompt>userId</Prompt>
     </ReportParameter>
   </ReportParameters>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>

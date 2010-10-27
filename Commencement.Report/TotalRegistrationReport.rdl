@@ -103,7 +103,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!RegistrationTickets.Value)</Value>
+                              <Value>=Sum(Fields!RegistrationTickets.Value, "TotalRegisteredStudents")</Value>
                               <Style>
                                 <Format>#,0;(#,0)</Format>
                               </Style>
@@ -175,7 +175,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!ExtraTicketPetitions.Value)</Value>
+                              <Value>=Sum(Fields!ExtraTicketPetitions.Value, "TotalRegisteredStudents")</Value>
                               <Style>
                                 <Format>#,0;(#,0)</Format>
                               </Style>
@@ -247,7 +247,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!TotalTickets.Value)</Value>
+                              <Value>=Sum(Fields!TotalTickets.Value, "TotalRegisteredStudents")</Value>
                               <Style>
                                 <Format>#,0;(#,0)</Format>
                               </Style>
@@ -391,7 +391,7 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <DataSetName>TotalRegistrations</DataSetName>
+        <DataSetName>TotalRegisteredStudents</DataSetName>
         <Top>0.75825in</Top>
         <Left>0.18761in</Left>
         <Height>1.0317in</Height>
@@ -1710,7 +1710,7 @@
         <RepeatColumnHeaders>true</RepeatColumnHeaders>
         <RepeatRowHeaders>true</RepeatRowHeaders>
         <KeepTogether>true</KeepTogether>
-        <DataSetName>TotalRegistrations</DataSetName>
+        <DataSetName>TotalRegisteredStudents</DataSetName>
         <SortExpressions>
           <SortExpression>
             <Value>=Fields!LastName.Value</Value>
@@ -1971,40 +1971,36 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="TotalRegistrations">
+    <DataSet Name="TotalRegisteredStudents">
       <Query>
         <DataSourceName>Commencement</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@term">
             <Value>=Parameters!term.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@userid">
-            <Value>=Parameters!userid.Value</Value>
+          <QueryParameter Name="@userId">
+            <Value>=Parameters!userId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>usp_TotalRegisteredStudents</CommandText>
       </Query>
       <Fields>
-        <Field Name="StudentId">
-          <DataField>StudentId</DataField>
+        <Field Name="LastName">
+          <DataField>LastName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="FirstName">
           <DataField>FirstName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="StudentId">
+          <DataField>StudentId</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="Major">
           <DataField>Major</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="LastName">
-          <DataField>LastName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="RegistrationTickets">
-          <DataField>RegistrationTickets</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Address1">
           <DataField>Address1</DataField>
@@ -2022,10 +2018,6 @@
           <DataField>State</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="TotalTickets">
-          <DataField>TotalTickets</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="Zip">
           <DataField>Zip</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -2038,12 +2030,12 @@
           <DataField>SecondaryEmail</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ExtraTicketPetitions">
-          <DataField>ExtraTicketPetitions</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="NumberTickets">
           <DataField>NumberTickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ExtraTicketPetitions">
+          <DataField>ExtraTicketPetitions</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="MailTickets">
@@ -2056,6 +2048,14 @@
         </Field>
         <Field Name="Tickets">
           <DataField>Tickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="RegistrationTickets">
+          <DataField>RegistrationTickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="TotalTickets">
+          <DataField>TotalTickets</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="TermCode">
@@ -2083,9 +2083,9 @@
       </DefaultValue>
       <Prompt>term</Prompt>
     </ReportParameter>
-    <ReportParameter Name="userid">
+    <ReportParameter Name="userId">
       <DataType>Integer</DataType>
-      <Prompt>userid</Prompt>
+      <Prompt>userId</Prompt>
     </ReportParameter>
   </ReportParameters>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>

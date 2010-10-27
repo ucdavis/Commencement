@@ -381,7 +381,7 @@
             <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
-        <DataSetName>TotalPetitions</DataSetName>
+        <DataSetName>TotalRegistrationPetitions</DataSetName>
         <Top>0.75825in</Top>
         <Left>0.18761in</Left>
         <Height>1.01585in</Height>
@@ -1133,7 +1133,7 @@
         <RepeatColumnHeaders>true</RepeatColumnHeaders>
         <RepeatRowHeaders>true</RepeatRowHeaders>
         <KeepTogether>true</KeepTogether>
-        <DataSetName>TotalPetitions</DataSetName>
+        <DataSetName>TotalRegistrationPetitions</DataSetName>
         <SortExpressions>
           <SortExpression>
             <Value>=Fields!LastName.Value</Value>
@@ -1489,15 +1489,15 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="TotalPetitions">
+    <DataSet Name="TotalRegistrationPetitions">
       <Query>
         <DataSourceName>Commencement</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@term">
             <Value>=Parameters!term.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@userid">
-            <Value>=Parameters!userid.Value</Value>
+          <QueryParameter Name="@userId">
+            <Value>=Parameters!userId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -1561,9 +1561,9 @@
       </DefaultValue>
       <Prompt>term</Prompt>
     </ReportParameter>
-    <ReportParameter Name="userid">
+    <ReportParameter Name="userId">
       <DataType>Integer</DataType>
-      <Prompt>userid</Prompt>
+      <Prompt>userId</Prompt>
     </ReportParameter>
   </ReportParameters>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
