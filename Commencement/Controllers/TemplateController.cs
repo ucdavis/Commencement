@@ -41,6 +41,7 @@ namespace Commencement.Controllers
         public ActionResult Create(Template template)
         {
             var newTemplate = new Template(template.BodyText, template.TemplateType, template.Ceremony);
+            newTemplate.Subject = template.Subject;
 
             newTemplate.TransferValidationMessagesTo(ModelState);
 

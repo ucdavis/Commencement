@@ -23,7 +23,7 @@
     <% } %>
     
         <li><%= Html.ActionLink<AdminController>(a=>a.ToggleSJAStatus(Model.Student.Id), "Change SJA Status") %></li>
-    
+        <li><%= Html.ActionLink<AdminController>(a=>a.ToggleBlock(Model.Student.Id), "Block from Reg") %></li>
     </ul>
 
     <% if (Model.Student.SjaBlock) { %>

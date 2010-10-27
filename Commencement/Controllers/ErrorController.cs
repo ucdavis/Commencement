@@ -55,6 +55,10 @@ namespace Commencement.Controllers
                     description =
                         "According to our records you are not eligible for participation in the commencement ceremony.  If you have any questions please contact Student Judicial Affairs for further information. Thank you";
                     break;
+                case ErrorType.NotEligible:
+                    title = "Commencement Registration for the College of Agricultural and Environmental Sciences";
+                    description = "According to our records you are not eligible for participation in the commencement ceremony.";
+                    break;
                 case ErrorType.PreviouslyWalked:
                     title = "Commencement Registration for the College of Agricultural and Environmental Sciences";
                     description = "Our records indicate that you have previously participated in a commencement ceremony.";
@@ -94,7 +98,7 @@ namespace Commencement.Controllers
             DuplicatePetition,
             RegistrationClosed,
             SubmittedPetition,
-            SJA,
+            SJA, NotEligible,
             PreviouslyWalked
         }
     }

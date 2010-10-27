@@ -373,6 +373,30 @@ namespace Commencement.Controllers
             return this.RedirectToAction(a => a.StudentDetails(id, false));
         }
 
+        public ActionResult ToggleBlock(Guid id)
+        {
+            var student = _studentRepository.GetNullableById(id);
+            if (student == null) return this.RedirectToAction(a => a.Index());
+
+            var blocked = !student.Blocked;
+
+            // check for a registration
+            var registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student && a.Ceremony.TermCode == TermService.GetCurrent()).FirstOrDefault();
+            if (registration != null)
+            {
+                registration.Cancelled = blocked;
+                registration.Student.Blocked = blocked;
+                Repository.OfType<Registration>().EnsurePersistent(registration);   // saves student as well
+            }
+            else
+            {
+                student.Blocked = blocked;
+                _studentRepository.EnsurePersistent(student);
+            }
+
+            return this.RedirectToAction(a => a.StudentDetails(id, false));
+        }
+
         public ActionResult Registrations(string studentid, string lastName, string firstName, string majorCode, int? ceremonyId, string collegeCode)
         {
             var term = TermService.GetCurrent();

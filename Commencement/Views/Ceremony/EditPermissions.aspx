@@ -10,7 +10,7 @@
 
     <ul class="btn">
     <li>
-    <%= Html.ActionLink<CeremonyController>(a => a.Index() , "Back to List") %>
+    <%= Html.ActionLink<CeremonyController>(a => a.Edit(Model.Id) , "Back to Ceremony") %>
     </li>
     <li>
         <%= Html.ActionLink<CeremonyController>(a=>a.AddEditor(Model.Id), "Add Editor") %>
