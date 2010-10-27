@@ -149,7 +149,7 @@ namespace Commencement.Tests.Controllers
             #region Arrange
             //ControllerRecordFakes.FakeStudent(3, _studentRepository)
             var student = CreateValidEntities.Student(1);
-            _studentService.Expect(a => a.GetPriorRegistration(Arg<Student>.Is.Anything, TODO)).Return(null).Repeat.Any();
+            _studentService.Expect(a => a.GetPriorRegistration(Arg<Student>.Is.Anything, Arg<TermCode>.Is.Anything)).Return(null).Repeat.Any();
             _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
             #endregion Arrange
 
@@ -172,7 +172,7 @@ namespace Commencement.Tests.Controllers
             #region Arrange
             var registration = CreateValidEntities.Registration(1);
             var student = CreateValidEntities.Student(1);
-            _studentService.Expect(a => a.GetPriorRegistration(Arg<Student>.Is.Anything, TODO)).Return(registration).Repeat.Any();
+            _studentService.Expect(a => a.GetPriorRegistration(Arg<Student>.Is.Anything, Arg<TermCode>.Is.Anything)).Return(registration).Repeat.Any();
             _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
             #endregion Arrange
 
