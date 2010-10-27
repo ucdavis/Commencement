@@ -109,9 +109,13 @@ namespace Commencement.Controllers
 
             if (ModelState.IsValid)
             {
+                // save the decision
                 Repository.OfType<RegistrationPetition>().EnsurePersistent(registrationPetition);
 
-                if (isApproved)
+                // if approved and does not already exist for this term the save the student,
+                // otherwise the student has already been added either by auto download or admin addition
+                // do not save a duplicate
+                if (isApproved && !_studentService.CheckExisting(student.Login, TermService.GetCurrent()))
                 {
                     // persist the student
                     Repository.OfType<Student>().EnsurePersistent(student);

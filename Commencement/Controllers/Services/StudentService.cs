@@ -17,6 +17,8 @@ namespace Commencement.Controllers.Services
         Registration GetPriorRegistration(Student student);
         IList<SearchStudent> SearchStudent(string studentId, string termCode);
         IList<SearchStudent> SearchStudentByLogin(string login, string termCode);
+
+        bool CheckExisting(string login, TermCode term);
     }
 
     public class StudentService : IStudentService
@@ -93,6 +95,11 @@ namespace Commencement.Controllers.Services
             
             return searchQuery.List<SearchStudent>();
         }
+
+        public bool CheckExisting(string login, TermCode term)
+        {
+            return _studentRepository.Queryable.Where(a => a.Login == login && a.TermCode == term).Any();
+        }
     }
 
     public class DevStudentService : IStudentService
@@ -166,6 +173,11 @@ namespace Commencement.Controllers.Services
             searchQuery.SetString("term", termCode);
 
             return searchQuery.List<SearchStudent>();
+        }
+
+        public bool CheckExisting(string login, TermCode term)
+        {
+            return _studentRepository.Queryable.Where(a => a.Login == login && a.TermCode == term).Any();
         }
     }
 
