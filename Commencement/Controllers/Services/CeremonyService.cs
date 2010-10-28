@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Commencement.Core.Domain;
+using Commencement.Core.Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
 
@@ -17,16 +18,14 @@ namespace Commencement.Controllers.Services
     {
         private readonly IRepository _repository;
 
-        private readonly string UserCeremoniesKey = "UserCeremoniesKey";
-        private readonly string UserCeremonyIdsKey = "UserCeremonyIdsKey";
         private List<Ceremony> UserCeremonies { 
-            get { return (List<Ceremony>)System.Web.HttpContext.Current.Session[UserCeremoniesKey]; }
-            set { System.Web.HttpContext.Current.Session[UserCeremoniesKey] = value; }
+            get { return (List<Ceremony>)System.Web.HttpContext.Current.Session[StaticIndexes.UserCeremoniesKey]; }
+            set { System.Web.HttpContext.Current.Session[StaticIndexes.UserCeremoniesKey] = value; }
         }
         private List<int> UserCeremonyIds
         {
-            get { return (List<int>)System.Web.HttpContext.Current.Session[UserCeremonyIdsKey]; }
-            set { System.Web.HttpContext.Current.Session[UserCeremonyIdsKey] = value; }
+            get { return (List<int>)System.Web.HttpContext.Current.Session[StaticIndexes.UserCeremonyIdsKey]; }
+            set { System.Web.HttpContext.Current.Session[StaticIndexes.UserCeremonyIdsKey] = value; }
         }
 
         public CeremonyService(IRepository repository)

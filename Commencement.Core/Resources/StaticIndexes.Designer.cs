@@ -61,11 +61,47 @@ namespace Commencement.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CurrentStudent.
+        /// </summary>
+        public static string CurrentStudentKey {
+            get {
+                return ResourceManager.GetString("CurrentStudentKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CurrentTerm.
+        /// </summary>
+        public static string CurrentTermKey {
+            get {
+                return ResourceManager.GetString("CurrentTermKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Emulation.
         /// </summary>
         public static string EmulationKey {
             get {
                 return ResourceManager.GetString("EmulationKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UserCeremonies.
+        /// </summary>
+        public static string UserCeremoniesKey {
+            get {
+                return ResourceManager.GetString("UserCeremoniesKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UserCeremonyIds.
+        /// </summary>
+        public static string UserCeremonyIdsKey {
+            get {
+                return ResourceManager.GetString("UserCeremonyIdsKey", resourceCulture);
             }
         }
     }

@@ -15,39 +15,50 @@ namespace Commencement.Controllers.Filters
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public class StudentsOnly : FilterAttribute, IAuthorizationFilter
     {
+        private Student CurrentStudent { 
+            get { return (Student)System.Web.HttpContext.Current.Session[StaticIndexes.CurrentStudentKey]; }
+            set { System.Web.HttpContext.Current.Session[StaticIndexes.CurrentStudentKey] = value; }
+        }
+
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-            var repository = SmartServiceLocator<IRepository>.GetService();
-            var repositoryWithTypeid = SmartServiceLocator<IRepositoryWithTypedId<Student, Guid>>.GetService();
+            var registrationRepository = SmartServiceLocator<IRepository<Registration>>.GetService();
+            var studentRepository = SmartServiceLocator<IRepositoryWithTypedId<Student, Guid>>.GetService();
 
-            var urlHelper = new UrlHelper(filterContext.RequestContext);  
+            var urlHelper = new UrlHelper(filterContext.RequestContext);
 
-            // user is not a student
-            if (!StudentAccess.IsStudent(repositoryWithTypeid, filterContext.HttpContext.User.Identity.Name))
-            {
-                // redirect to the error message that they are not a CAES Student
-                //filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Account", action = "NotCAESStudent" }));
-                filterContext.Result = new RedirectResult(urlHelper.Action("Index", "Error", new { ErrorType = ErrorController.ErrorType.UnauthorizedAccess }));
-
-            }
-
-            if (StudentAccess.IsStudentSjaBlocked(repositoryWithTypeid, filterContext.HttpContext.User.Identity.Name))
-            {
-                filterContext.Result = new RedirectResult(urlHelper.Action("Index", "Error", new { ErrorType = ErrorController.ErrorType.SJA }));
-            }
-
-            if (StudentAccess.HasPreviouslyRegistered(repository, filterContext.HttpContext.User.Identity.Name))
+            // check if the student has walked previously, there is no exception
+            if (registrationRepository.Queryable.Where(a => a.Student.Login == filterContext.HttpContext.User.Identity.Name && a.Student.TermCode != TermService.GetCurrent()).Any())
             {
                 filterContext.Result = new RedirectResult(urlHelper.Action("Index", "Error", new { ErrorType = ErrorController.ErrorType.PreviouslyWalked }));
             }
 
-            if (StudentAccess.IsStudentBlocked(repositoryWithTypeid, filterContext.HttpContext.User.Identity.Name))
+            // get the student object
+            var student = CurrentStudent;
+            if (student == null)
+            {
+                student = studentRepository.Queryable.Where(a => a.Login == filterContext.HttpContext.User.Identity.Name && a.TermCode == TermService.GetCurrent()).FirstOrDefault();
+                CurrentStudent = student;   // set the session variable
+            }
+            
+            // user is not a student
+            if (student == null)
+            {
+                // redirect to the error message that they are not a CAES Student
+                filterContext.Result = new RedirectResult(urlHelper.Action("Index", "Error", new { ErrorType = ErrorController.ErrorType.UnauthorizedAccess }));
+
+            }
+
+            if (student.SjaBlock)
+            {
+                filterContext.Result = new RedirectResult(urlHelper.Action("Index", "Error", new { ErrorType = ErrorController.ErrorType.SJA }));
+            }
+
+            if (student.Blocked)
             {
                 filterContext.Result = new RedirectResult(urlHelper.Action("Index", "Error", new { ErrorType = ErrorController.ErrorType.NotEligible }));
             }
             
-            // change to writing a custom cookie when emulation is enabled and constantly check for that and the authenticated name
-
             var emulation = (bool?)filterContext.HttpContext.Session[StaticIndexes.EmulationKey] ?? false;
 
             // check session value
@@ -72,63 +83,63 @@ namespace Commencement.Controllers.Filters
         }
     }
 
-    public class StudentAccess
-    {
+    //public class StudentAccess
+    //{
 
-        /// <summary>
-        /// Determines whether the specified student repository is student.
-        /// </summary>
-        /// <param name="studentRepository">The student repository.</param>
-        /// <param name="loginId">The login id.</param>
-        /// <returns>
-        /// 	<c>true</c> if the specified student repository is student; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsStudent(IRepositoryWithTypedId<Student, Guid> studentRepository, string loginId)
-        {
-            var term = TermService.GetCurrent();
-            var student = studentRepository.Queryable.Where(s => s.Login == loginId && s.TermCode == term).FirstOrDefault();
-
-
-            if (student != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public static bool IsStudentSjaBlocked(IRepositoryWithTypedId<Student, Guid> studentRepository, string loginId)
-        {
-            var term = TermService.GetCurrent();
-            var student = studentRepository.Queryable.Where(s => s.Login == loginId && s.TermCode == term).FirstOrDefault();
-            if (student != null)
-            {
-                return student.SjaBlock;
-            }
-
-            return false;
-        }
-
-        public static bool IsStudentBlocked(IRepositoryWithTypedId<Student, Guid> studentRepository, string loginId)
-        {
-            var term = TermService.GetCurrent();
-            var student = studentRepository.Queryable.Where(s => s.Login == loginId && s.TermCode == term).FirstOrDefault();
-            if (student != null)
-            {
-                return student.Blocked;
-            }
-
-            return false;
-        }
+    //    /// <summary>
+    //    /// Determines whether the specified student repository is student.
+    //    /// </summary>
+    //    /// <param name="studentRepository">The student repository.</param>
+    //    /// <param name="loginId">The login id.</param>
+    //    /// <returns>
+    //    /// 	<c>true</c> if the specified student repository is student; otherwise, <c>false</c>.
+    //    /// </returns>
+    //    public static bool IsStudent(IRepositoryWithTypedId<Student, Guid> studentRepository, string loginId)
+    //    {
+    //        var term = TermService.GetCurrent();
+    //        var student = studentRepository.Queryable.Where(s => s.Login == loginId && s.TermCode == term).FirstOrDefault();
 
 
-        // check if a student has previously registered
-        public static bool HasPreviouslyRegistered(IRepository repository, string loginId)
-        {
-            var term = TermService.GetCurrent();
-            return repository.OfType<Registration>().Queryable.Where(a => a.Student.Login == loginId && a.Student.TermCode != term).Any();
-        }
-    }
+    //        if (student != null)
+    //        {
+    //            return true;
+    //        }
+    //        else
+    //        {
+    //            return false;
+    //        }
+    //    }
+
+    //    public static bool IsStudentSjaBlocked(IRepositoryWithTypedId<Student, Guid> studentRepository, string loginId)
+    //    {
+    //        var term = TermService.GetCurrent();
+    //        var student = studentRepository.Queryable.Where(s => s.Login == loginId && s.TermCode == term).FirstOrDefault();
+    //        if (student != null)
+    //        {
+    //            return student.SjaBlock;
+    //        }
+
+    //        return false;
+    //    }
+
+    //    public static bool IsStudentBlocked(IRepositoryWithTypedId<Student, Guid> studentRepository, string loginId)
+    //    {
+    //        var term = TermService.GetCurrent();
+    //        var student = studentRepository.Queryable.Where(s => s.Login == loginId && s.TermCode == term).FirstOrDefault();
+    //        if (student != null)
+    //        {
+    //            return student.Blocked;
+    //        }
+
+    //        return false;
+    //    }
+
+
+    //    // check if a student has previously registered
+    //    public static bool HasPreviouslyRegistered(IRepository repository, string loginId)
+    //    {
+    //        var term = TermService.GetCurrent();
+    //        return repository.OfType<Registration>().Queryable.Where(a => a.Student.Login == loginId && a.Student.TermCode != term).Any();
+    //    }
+    //}
 }

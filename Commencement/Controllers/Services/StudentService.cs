@@ -27,6 +27,12 @@ namespace Commencement.Controllers.Services
         private readonly IRepository<Ceremony> _ceremonyRepository;
         private readonly IRepository<Registration> _registrationRepository;
 
+        private Student CurrentStudent
+        {
+            get { return (Student)System.Web.HttpContext.Current.Session[StaticIndexes.CurrentStudentKey]; }
+            set { System.Web.HttpContext.Current.Session[StaticIndexes.CurrentStudentKey] = value; }
+        }
+
         public StudentService(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepository<Ceremony> ceremonyRepository, IRepository<Registration> registrationRepository)
         {
             _studentRepository = studentRepository;
@@ -107,6 +113,12 @@ namespace Commencement.Controllers.Services
         private readonly IRepository<Student> _studentRepository;
         private readonly IRepository<Ceremony> _ceremonyRepository;
         private readonly IRepository<Registration> _registrationRepository;
+
+        private Student CurrentStudent
+        {
+            get { return (Student)System.Web.HttpContext.Current.Session[StaticIndexes.CurrentStudentKey]; }
+            set { System.Web.HttpContext.Current.Session[StaticIndexes.CurrentStudentKey] = value; }
+        }
 
         public DevStudentService(IRepository<Student> studentRepository, IRepository<Ceremony> ceremonyRepository, IRepository<Registration> registrationRepository)
         {
