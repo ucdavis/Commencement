@@ -3,7 +3,7 @@
 <%@ Import Namespace="Commencement.Core.Resources" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
-    <%: Html.HiddenFor(x=>x.Registration.Ceremony.Id, Model.Registration.Ceremony == null ? 0 : Model.Registration.Ceremony.Id) %>
+    <%--<%: Html.HiddenFor(x=>x.Registration.Ceremony.Id, Model.Ceremony.Id) %>--%>
 
     <h2>
         Student Information</h2>
@@ -56,8 +56,16 @@
         <li>
             <strong>Ticket Distribution Method:</strong>
             <%= this.RadioButton("Registration.MailTickets").Id("rMailTickets").Value(true).LabelAfter("Mail tickets to the address above").Checked(Model.Registration.MailTickets) %>
-            <%= this.RadioButton("Registration.MailTickets").Id("rPickupTickets").Value(false).LabelAfter("I will pick up my tickets at the Arc Ticket Office").Checked(Model.Registration.MailTickets == false) %>
             
+        </li>
+        <li>
+            <strong></strong>
+            <% if (Model.Ceremony.PrintingDeadline > DateTime.Now) { %>
+                <%= this.RadioButton("Registration.MailTickets").Id("rPickupTickets").Value(false).LabelAfter("I will pick up my tickets at the Arc Ticket Office").Checked(Model.Registration.MailTickets == false) %>
+            <% } else { %>
+                <%= this.RadioButton("Registration.MailTickets").Id("rPickupTickets").Value(false).LabelAfter("I will pick up my tickets in person.  See web site for ticket pickup details.").Checked(Model.Registration.MailTickets == false) %>
+                <a href="http://caes.ucdavis.edu/NewsEvents/Events/Commencement/frequently-asked-questions#when-will-i-receive">here</a>
+            <% } %>
         </li>
     </ul>
     <h2>

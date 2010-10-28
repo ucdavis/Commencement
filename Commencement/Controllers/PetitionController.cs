@@ -24,16 +24,17 @@ namespace Commencement.Controllers
         private readonly IRepositoryWithTypedId<MajorCode, string> _majorService;
         private readonly ICeremonyService _ceremonyService;
         private readonly IPetitionService _petitionService;
+        private readonly IErrorService _errorService;
 
 
-        public PetitionController(IStudentService studentService, IEmailService emailService, IRepositoryWithTypedId<MajorCode, string> majorService, ICeremonyService ceremonyService, IPetitionService petitionService)
+        public PetitionController(IStudentService studentService, IEmailService emailService, IRepositoryWithTypedId<MajorCode, string> majorService, ICeremonyService ceremonyService, IPetitionService petitionService, IErrorService errorService)
         {
             _studentService = studentService;
             _emailService = emailService;
             _majorService = majorService;
             _ceremonyService = ceremonyService;
             _petitionService = petitionService;
-        
+            _errorService = errorService;
         }
 
         //
@@ -69,8 +70,9 @@ namespace Commencement.Controllers
                 {
                     _emailService.SendExtraTicketPetitionDecision(registration);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    _errorService.ReportError(ex);
                     Message += StaticValues.Student_Email_Problem;
                 }
             }
@@ -127,8 +129,9 @@ namespace Commencement.Controllers
                     {
                         _emailService.SendRegistrationPetitionApproved(registrationPetition);
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        _errorService.ReportError(ex);
                         Message += StaticValues.Student_Email_Problem;
                     }
                 }
@@ -206,8 +209,9 @@ namespace Commencement.Controllers
                 {
                     _emailService.SendRegistrationPetitionConfirmation(registrationPetition);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    _errorService.ReportError(ex);
                     Message += StaticValues.Student_Email_Problem;
                 }
 
@@ -306,8 +310,9 @@ namespace Commencement.Controllers
                 {
                     _emailService.SendExtraTicketPetitionConfirmation(registration);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    _errorService.ReportError(ex);
                     Message += StaticValues.Student_Email_Problem;
                 }
 

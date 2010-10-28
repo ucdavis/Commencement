@@ -186,6 +186,7 @@
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\Services\CeremonyService.cs" />
     <Compile Include="Controllers\Services\EmailService.cs" />
+    <Compile Include="Controllers\Services\ErrorService.cs" />
     <Compile Include="Controllers\Services\MajorService.cs" />
     <Compile Include="Controllers\Services\PetitionService.cs" />
     <Compile Include="Controllers\Services\RegistrationService.cs" />

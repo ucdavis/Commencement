@@ -22,6 +22,7 @@ namespace Commencement.Controllers
         private readonly IRepositoryWithTypedId<Student, Guid> _studentRepository;
         private readonly IRepository<Ceremony> _ceremonyRepository;
         private readonly IRepository<Registration> _registrationRepository;
+        private readonly IErrorService _errorService;
         private readonly IStudentService _studentService;
         private readonly IEmailService _emailService;
 
@@ -29,11 +30,13 @@ namespace Commencement.Controllers
             IEmailService emailService,
             IRepositoryWithTypedId<Student, Guid> studentRepository, 
             IRepository<Ceremony> ceremonyRepository, 
-            IRepository<Registration> registrationRepository)
+            IRepository<Registration> registrationRepository,
+            IErrorService errorService)
         {
             _studentRepository = studentRepository;
             _ceremonyRepository = ceremonyRepository;
             _registrationRepository = registrationRepository;
+            _errorService = errorService;
             _studentService = studentService;
             _emailService = emailService;
         }
@@ -193,8 +196,9 @@ namespace Commencement.Controllers
                 {
                     _emailService.SendRegistrationConfirmation(registration);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    _errorService.ReportError(ex);
                     Message += StaticValues.Student_Email_Problem;
                 }
 
@@ -276,8 +280,9 @@ namespace Commencement.Controllers
                 {
                     _emailService.SendRegistrationConfirmation(registrationToEdit);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    _errorService.ReportError(ex);
                     Message += StaticValues.Student_Email_Problem;
                 }
 
