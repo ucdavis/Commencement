@@ -68,10 +68,16 @@
     <ul class="registration_form">
         <li>
             <strong>Term Code:</strong> 
-            <%= this.Select("Term").Options(Model.TermCodes)
-                    .FirstOption("--Select a Term--")
-                    .Selected(Model.Ceremony.TermCode != null ? Model.Ceremony.TermCode.Id : string.Empty)
-                %>
+            <% if (Model.IsAdmin && Model.Ceremony.Id == 0) { %>
+                <%= this.Select("Term").Options(Model.TermCodes)
+                        .FirstOption("--Select a Term--")
+                        .Selected(Model.Ceremony.TermCode != null ? Model.Ceremony.TermCode.Id : string.Empty)
+                    %>
+            <% } else { %>
+                <%: Html.Hidden("Term", Model.TermCode.Id) %>
+                <%: Model.TermCode.Name %>
+            <% } %>
+
         </li>
         <li>
             <strong>Date/Time of Ceremony:</strong>

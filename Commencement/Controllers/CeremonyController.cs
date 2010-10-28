@@ -16,7 +16,7 @@ using MvcContrib;
 
 namespace Commencement.Controllers
 {
-    [AdminOnly]
+    [AnyoneWithRole]
     public class CeremonyController : ApplicationController
     {
         private readonly IRepositoryWithTypedId<TermCode, string> _termRepository;
@@ -54,7 +54,7 @@ namespace Commencement.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            var viewModel = CeremonyViewModel.Create(Repository, _majorService, ceremony);
+            var viewModel = CeremonyViewModel.Create(Repository, User, _majorService, ceremony);
             
             return View(viewModel);
         }
@@ -90,13 +90,13 @@ namespace Commencement.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            var viewModel = CeremonyViewModel.Create(Repository, _majorService, destCeremony);
+            var viewModel = CeremonyViewModel.Create(Repository, User, _majorService, destCeremony);
 
             return View(viewModel);
         }
         public ActionResult Create()
         {
-            var viewModel = CeremonyViewModel.Create(Repository, _majorService, new Ceremony());
+            var viewModel = CeremonyViewModel.Create(Repository, User, _majorService, new Ceremony());
 
             return View(viewModel);
         }
@@ -137,7 +137,7 @@ namespace Commencement.Controllers
             }
 
             // redirect back to the page
-            var viewModel = CeremonyViewModel.Create(Repository, _majorService, ceremony);
+            var viewModel = CeremonyViewModel.Create(Repository, User, _majorService, ceremony);
             viewModel.Ceremony = ceremony;
 
             return View(viewModel);

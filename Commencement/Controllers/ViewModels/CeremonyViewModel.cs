@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Web.Mvc;
+using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
 using Commencement.Controllers.Services;
 using Commencement.Core.Domain;
@@ -16,10 +18,12 @@ namespace Commencement.Controllers.ViewModels
         public Ceremony Ceremony { get; set; }
 
         public IEnumerable<SelectListItem> TermCodes { get; set; }
+        public TermCode TermCode { get; set; }
+        public bool IsAdmin { get; set; }
         public MultiSelectList Majors { get; set; }
         public MultiSelectList Colleges { get; set; }
 
-        public static CeremonyViewModel Create(IRepository repository, IMajorService majorService , Ceremony ceremony)
+        public static CeremonyViewModel Create(IRepository repository, IPrincipal user, IMajorService majorService , Ceremony ceremony)
         {
             Check.Require(repository != null, "Repository is required.");
             Check.Require(majorService != null, "Major Service is required.");
@@ -27,6 +31,8 @@ namespace Commencement.Controllers.ViewModels
             var viewModel = new CeremonyViewModel()
                                 {
                                     TermCodes = repository.OfType<vTermCode>().Queryable.Where(a => a.EndDate > DateTime.Now).Select(a=>new SelectListItem(){Text = a.Description, Value = a.Id}).ToList(),
+                                    TermCode = TermService.GetCurrent(),
+                                    IsAdmin = user.IsInRole(RoleNames.RoleAdmin),
                                     Ceremony = ceremony
                                 };
 
