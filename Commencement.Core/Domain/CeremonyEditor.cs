@@ -33,7 +33,7 @@ namespace Commencement.Core.Domain
             Map(x => x.Owner);
 
             References(x => x.Ceremony);
-            References(x => x.User).Column("UserId");
+            References(x => x.User).Column("UserId").Fetch.Join();
         }
     }
 }

@@ -192,7 +192,8 @@ namespace Commencement.Core.Domain
                 .ParentKeyColumn("CeremonyId")
                 .ChildKeyColumn("CollegeCode")
                 .Table("CeremonyColleges")
-                .Cascade.SaveUpdate();
+                .Cascade.SaveUpdate()
+                .Fetch.Subselect();
 
             HasManyToMany(x => x.Majors)
                 .ParentKeyColumn("CeremonyId")

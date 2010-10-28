@@ -26,7 +26,7 @@ namespace Commencement.Controllers.ViewModels
 
             var viewModel = new CeremonyViewModel()
                                 {
-                                    TermCodes = repository.OfType<vTermCode>().Queryable.Where(a => a.EndDate > DateTime.Now).Select(a=>new SelectListItem(){Text = a.Description, Value = a.Id}),
+                                    TermCodes = repository.OfType<vTermCode>().Queryable.Where(a => a.EndDate > DateTime.Now).Select(a=>new SelectListItem(){Text = a.Description, Value = a.Id}).ToList(),
                                     Ceremony = ceremony
                                 };
 
