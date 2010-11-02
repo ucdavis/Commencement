@@ -26,7 +26,7 @@ namespace Commencement.Controllers.Services
 
         public IEnumerable<MajorCode> GetMajors()
         {
-            return GetAESMajors();
+            return _majorRepository.GetAll("Name", true);
         }
 
         /// <summary>

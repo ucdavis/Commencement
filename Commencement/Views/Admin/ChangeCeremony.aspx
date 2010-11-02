@@ -14,6 +14,8 @@
 
     <h2>Change Ceremony</h2>
 
+    <%= Html.ValidationSummary("Please correct all errors below") %>
+
     <% using (Html.BeginForm()) { %>
 
     <%= Html.AntiForgeryToken() %>
@@ -26,7 +28,7 @@
             <%= Html.Encode(Model.Student.FullName) %>
         </li>
         <li><strong>Registered Major:</strong>
-            <%= Html.Encode(Model.Registration.Major.Id) %>
+            <%= Html.Encode(Model.Registration.Major.Name) %>
         </li>
         <li><strong># of Tickets</strong>
             <%= Html.Encode(Model.Registration.NumberTickets) %>

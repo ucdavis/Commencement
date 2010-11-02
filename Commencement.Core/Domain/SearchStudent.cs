@@ -1,4 +1,5 @@
-﻿using UCDArch.Core.DomainModel;
+﻿using FluentNHibernate.Mapping;
+using UCDArch.Core.DomainModel;
 
 namespace Commencement.Core.Domain
 {
@@ -34,5 +35,25 @@ namespace Commencement.Core.Domain
         }
 
         public virtual int? CeremonyId { get; set; }
+    }
+
+    public class SearchStudentMap : ClassMap<SearchStudent>
+    {
+        public SearchStudentMap()
+        {
+            Id(x => x.Id).Column("Spriden_Id");
+
+            Map(x => x.Pidm).Column("Spriden_Pidm");
+            Map(x => x.FirstName).Column("Spriden_First_Name");
+            Map(x => x.MI).Column("Spriden_MI");
+            Map(x => x.LastName).Column("Spriden_Last_Name");
+            Map(x => x.HoursEarned).Column("Shrlgpa_Hours_Earned");
+            Map(x => x.Email).Column("Goremal_Email_Address");
+            Map(x => x.MajorCode).Column("Zgvlcfs_Majr_Code");
+            Map(x => x.CollegeCode).Column("Zgvlcfs_Coll_Code");
+            Map(x => x.DegreeCode).Column("Zgvlcfs_Degs_Code");
+            Map(x => x.LoginId).Column("loginid");
+            Map(x => x.Astd).Column("shrttrm_astd_code_end_of_term");
+        }
     }
 }

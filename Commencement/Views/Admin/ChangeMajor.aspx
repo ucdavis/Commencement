@@ -14,6 +14,8 @@
 
     <h2>Change Major</h2>
 
+    <%= Html.ValidationSummary("Please correct all errors below") %>
+
     <% using (Html.BeginForm()) { %>
 
     <%= Html.AntiForgeryToken() %>
@@ -26,7 +28,7 @@
             <%= Html.Encode(Model.Student.FullName) %>
         </li>
         <li><strong>Registered Major:</strong>
-            <%= Html.Encode(Model.Registration.Major.Id) %>
+            <%= Html.Encode(Model.Registration.Major.Name) %>
         </li>
         <li><strong># of Tickets</strong>
             <%= Html.Encode(Model.Registration.NumberTickets) %>
@@ -49,7 +51,7 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
     <script type="text/javascript">
         $(document).ready(function() {
-            $("#ChangeMajor").change(function() {
+            $("#majorCode").change(function() {
                 $.getJSON('<%= Url.Action("ChangeMajorValidation", "Admin") %>'
                     , { regId: '<%= Model.Registration.Id %>', major: $(this).val() }
                     , function(result) { $("#check_response").html(result); }

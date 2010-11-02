@@ -34,13 +34,13 @@ namespace Commencement.Controllers.ViewModels
                                       CollegeCode = "AE",
                                       DegreeCode = "SO",
                                       Email = "fake@ucdavis.edu",
-                                      FirstName = "Philip",
-                                      MI = "Jay",
-                                      LastName = "Fry",
+                                      FirstName = "Zapp",
+                                      MI = "",
+                                      LastName = "Brannigan",
                                       HoursEarned = 145,
-                                      LoginId = "pjfry",
-                                      Id = "123456789",
-                                      Pidm = "1234567",
+                                      LoginId = "brannigan",
+                                      Id = "542158469",
+                                      Pidm = "542158",
                                       MajorCode = "AANS"
                                   });
 

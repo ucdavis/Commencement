@@ -8,7 +8,7 @@
 </asp:Content>
 
 <asp:Content runat="server" ID="Content3" ContentPlaceHolderID="logoContent">
-    <% Html.RenderPartial("LogoDisplay", Model.RegistrationPetition.MajorCode.College); %>
+    <%--<% Html.RenderPartial("LogoDisplay", Model.RegistrationPetition.MajorCode.College); %>--%>
 </asp:Content>
 
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">

@@ -20,7 +20,7 @@ namespace Commencement.Controllers.ViewModels
 
             var viewModel = new ChangeMajorViewModel()
                                 {
-                                    MajorCodes = majorService.GetAESMajors(),
+                                    MajorCodes = majorService.GetMajors(),
                                     Student = registration.Student,
                                     Registration = registration
                                 };

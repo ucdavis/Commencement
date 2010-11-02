@@ -215,12 +215,17 @@ namespace Commencement.Controllers
 
             var ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == TermService.GetCurrent() && a.Majors.Contains(major)).FirstOrDefault();
             //if (!CeremonyHasAvailability(ceremony, registration)) ModelState.AddModelError("Major Code", ValidateMajorChange(registration, major));
-            var validationMessages = ValidateMajorChange(registration, major);
-            if(!string.IsNullOrEmpty(validationMessages))
-            {
-                ModelState.AddModelError("Major Code", validationMessages); //TODO: Review
-            }
+            //var validationMessages = ValidateMajorChange(registration, major);
+            //if(!string.IsNullOrEmpty(validationMessages))
+            //{
+            //    ModelState.AddModelError("Major Code", validationMessages); //TODO: Review
+            //}
             if (!CeremonyHasAvailability(ceremony, registration))
+            {
+                //registration.Ceremony = ceremony;
+                ModelState.AddModelError("Ceremony", "Ceremony does not have enough tickets to move this student.");
+            }
+            else
             {
                 registration.Ceremony = ceremony;
             }
@@ -284,7 +289,7 @@ namespace Commencement.Controllers
 
             if (string.IsNullOrEmpty(message)) message = "There are no problems changing this student's major.";
 
-            return Json(message);
+            return Json(message, JsonRequestBehavior.AllowGet);
         }
         private string ValidateMajorChange(Registration registration, MajorCode majorCode)
         {
@@ -308,7 +313,7 @@ namespace Commencement.Controllers
             var message = ValidateAvailabilityAtCeremony(ceremony, registration);
             if (string.IsNullOrEmpty(message)) message = "This is the student's currently assigned ceremony.";
 
-            return Json(message);
+            return Json(message, JsonRequestBehavior.AllowGet);
         }
         private string ValidateAvailabilityAtCeremony(Ceremony ceremony, Registration registration)
         {
