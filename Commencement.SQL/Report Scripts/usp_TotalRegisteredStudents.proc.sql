@@ -17,7 +17,8 @@ SELECT     Students.LastName, Students.FirstName, Students.StudentId, Majors.Nam
                       THEN Registrations.NumberTickets ELSE ExtraTicketPetitions.NumberTickets + Registrations.NumberTickets END AS Tickets, SUM(Registrations.NumberTickets) 
                       AS RegistrationTickets, SUM((CASE WHEN ((ExtraTicketPetitions.NumberTickets IS NULL)) 
                       THEN Registrations.NumberTickets ELSE Registrations.NumberTickets + ExtraTicketPetitions.NumberTickets END)) AS TotalTickets, Students.TermCode, 
-                      TermCodes.Name AS Term, CASE WHEN MailTickets = 1 THEN 'Mail' ELSE 'Pickup' END AS DistributionMethod
+                      TermCodes.Name AS Term, CASE WHEN MailTickets = 1 THEN 'Mail' ELSE 'Pickup' END AS DistributionMethod,
+					  Registrations.DateRegistered
 FROM         Registrations INNER JOIN
                       Students ON Students.Id = Registrations.Student_Id LEFT OUTER JOIN
                       ExtraTicketPetitions ON ExtraTicketPetitions.id = Registrations.ExtraTicketPetitionId AND ExtraTicketPetitions.IsApproved = 1 AND 
