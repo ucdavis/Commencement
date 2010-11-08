@@ -32,6 +32,7 @@ namespace Commencement.Tests.Controllers
         private IStudentService _studentService;
         private IEmailService _emailService;
         private readonly IRepository<State> _stateRepository;
+        private IErrorService _errorService;
 
         public IRepository<TermCode> TermCodeRepository;
 
@@ -51,14 +52,19 @@ namespace Commencement.Tests.Controllers
             _ceremonyRepository = MockRepository.GenerateStub<IRepository<Ceremony>>();
             _registrationRepository = MockRepository.GenerateStub<IRepository<Registration>>();
             _studentRepository = MockRepository.GenerateStub<IRepositoryWithTypedId<Student, Guid>>();
+            _errorService = MockRepository.GenerateStub<IErrorService>();
+
 
             Controller = new TestControllerBuilder().CreateController<StudentController>
                 (_studentService,
                 _emailService, 
                 _studentRepository,
                 _ceremonyRepository,
-                _registrationRepository);
+                _registrationRepository,
+                _errorService);
         }
+
+
         /// <summary>
         /// Registers the routes.
         /// </summary>
