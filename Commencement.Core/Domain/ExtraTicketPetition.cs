@@ -2,6 +2,7 @@
 using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
+using UCDArch.Core.NHibernateValidator.Extensions;
 
 namespace Commencement.Core.Domain
 {
@@ -30,7 +31,7 @@ namespace Commencement.Core.Domain
         }
 
         [Min(1)]
-        public virtual int NumberTickets { get; set; }
+        public virtual int NumberTicketsRequested { get; set; }
         public virtual bool IsPending { get; set; }
         public virtual bool IsApproved { get; set; }
 
@@ -38,6 +39,12 @@ namespace Commencement.Core.Domain
         public virtual DateTime? DateDecision { get; set; }
 
         public virtual bool LabelPrinted { get; set; }
+
+        public virtual int? NumberTickets { get; set; }
+        public virtual int? NumberTicketsStreaming { get; set; }
+        [Required]
+        [Length(100)]
+        public virtual string Reason { get; set; }
     }
 
     public class ExtraTicketPetitionMap : ClassMap<ExtraTicketPetition>
@@ -46,12 +53,16 @@ namespace Commencement.Core.Domain
         {
             Id(x => x.Id);
 
-            Map(x => x.NumberTickets);
+            Map(x => x.NumberTicketsRequested);
             Map(x => x.IsPending);
             Map(x => x.IsApproved);
             Map(x => x.DateSubmitted);
             Map(x => x.DateDecision);
             Map(x => x.LabelPrinted);
+
+            Map(x => x.NumberTickets);
+            Map(x => x.NumberTicketsStreaming);
+            Map(x => x.Reason);
         }
     }
 }

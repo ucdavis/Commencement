@@ -105,6 +105,7 @@
     <Compile Include="Domain\Audit.cs" />
     <Compile Include="Domain\Ceremony.cs" />
     <Compile Include="Domain\CeremonyEditor.cs" />
+    <Compile Include="Domain\EmailQueue.cs" />
     <Compile Include="Domain\ExtraTicketPetition.cs" />
     <Compile Include="Domain\MajorCode.cs" />
     <Compile Include="Domain\PageTracking.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Domain\RegistrationPetition.cs" />
     <Compile Include="Domain\College.cs" />
     <Compile Include="Domain\SearchStudent.cs" />
+    <Compile Include="Domain\SpecialNeed.cs" />
     <Compile Include="Domain\State.cs" />
     <Compile Include="Domain\Student.cs" />
     <Compile Include="Domain\Template.cs" />

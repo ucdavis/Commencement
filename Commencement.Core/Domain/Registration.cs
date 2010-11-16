@@ -72,7 +72,7 @@ namespace Commencement.Core.Domain
                 
                 var extraTickets = ExtraTicketPetition != null && !ExtraTicketPetition.IsPending &&
                                    ExtraTicketPetition.IsApproved
-                                       ? ExtraTicketPetition.NumberTickets
+                                       ? ExtraTicketPetition.NumberTickets.Value
                                        : 0;
 
                 return NumberTickets + extraTickets; 

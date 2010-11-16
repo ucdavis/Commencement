@@ -182,7 +182,7 @@ namespace Commencement.Controllers
 
                 // calculate the number of tickets
                 var tickets = !reg.LabelPrinted || printAll ?  reg.NumberTickets : 0;
-                tickets += reg.ExtraTicketPetition != null && !reg.ExtraTicketPetition.IsPending && reg.ExtraTicketPetition.IsApproved && (!reg.LabelPrinted || printAll) ? reg.ExtraTicketPetition.NumberTickets : 0;
+                tickets += reg.ExtraTicketPetition != null && !reg.ExtraTicketPetition.IsPending && reg.ExtraTicketPetition.IsApproved && (!reg.LabelPrinted || printAll) ? reg.ExtraTicketPetition.NumberTickets.Value : 0;
 
                 if (tickets > 0)
                 {

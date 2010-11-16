@@ -40,7 +40,9 @@ namespace Commencement.Core.Domain
             Templates = new List<Template>();
 
             DateTime = DateTime.Now;
+            RegistrationBegin = DateTime.Now;
             RegistrationDeadline = DateTime.Now;
+            ExtraTicketBegin = DateTime.Now;
             ExtraTicketDeadline = DateTime.Now;
             PrintingDeadline = DateTime.Now;
         }
@@ -66,7 +68,11 @@ namespace Commencement.Core.Domain
         [NotNull]
         public virtual DateTime PrintingDeadline { get; set; }
         [NotNull]
+        public virtual DateTime RegistrationBegin { get; set; }
+        [NotNull]
         public virtual DateTime RegistrationDeadline { get; set; }
+        [NotNull]
+        public virtual DateTime ExtraTicketBegin { get; set; }
         [NotNull]
         public virtual DateTime ExtraTicketDeadline { get; set; }
 
@@ -87,6 +93,10 @@ namespace Commencement.Core.Domain
         public virtual IList<CeremonyEditor> Editors { get; set; }
         [NotNull]
         public virtual IList<Template> Templates { get; set; }
+
+        public virtual decimal MinUnits { get; set; }
+        public virtual decimal PetitionThreshold { get; set; }
+        
         #endregion
 
 
@@ -136,7 +146,7 @@ namespace Commencement.Core.Domain
             {
                 return Registrations.Where(a => a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved 
                                             && !a.ExtraTicketPetition.IsPending && !a.SjaBlock && !a.Cancelled)
-                                    .Sum(a => a.ExtraTicketPetition.NumberTickets);
+                                    .Sum(a => a.ExtraTicketPetition.NumberTickets.Value);
             }
         }
 

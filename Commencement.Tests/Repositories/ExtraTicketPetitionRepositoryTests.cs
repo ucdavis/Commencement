@@ -88,7 +88,7 @@ namespace Commencement.Tests.Repositories
                     entity.NumberTickets = IntRestoreValue;
                     break;
                 case ARTAction.Update:
-                    IntRestoreValue = entity.NumberTickets;
+                    IntRestoreValue = entity.NumberTickets.Value;
                     entity.NumberTickets = updateValue;
                     break;
             }
