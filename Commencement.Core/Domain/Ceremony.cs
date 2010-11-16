@@ -94,8 +94,8 @@ namespace Commencement.Core.Domain
         [NotNull]
         public virtual IList<Template> Templates { get; set; }
 
-        public virtual decimal MinUnits { get; set; }
-        public virtual decimal PetitionThreshold { get; set; }
+        public virtual int MinUnits { get; set; }
+        public virtual int PetitionThreshold { get; set; }
         
         #endregion
 
@@ -186,10 +186,15 @@ namespace Commencement.Core.Domain
             Map(x => x.DateTime);
             Map(x => x.TicketsPerStudent);
             Map(x => x.TotalTickets);
+            Map(x => x.RegistrationBegin);
             Map(x => x.PrintingDeadline);
             Map(x => x.RegistrationDeadline);
+            Map(x => x.ExtraTicketBegin);
             Map(x => x.ExtraTicketDeadline);
             Map(x => x.ExtraTicketPerStudent);
+
+            Map(x => x.MinUnits);
+            Map(x => x.PetitionThreshold);
 
             References(x => x.TermCode).Column("TermCode");
 

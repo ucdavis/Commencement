@@ -17,7 +17,6 @@ namespace Commencement.Controllers.ViewModels
         // list of majors
         public Ceremony Ceremony { get; set; }
 
-        public IEnumerable<SelectListItem> TermCodes { get; set; }
         public TermCode TermCode { get; set; }
         public bool IsAdmin { get; set; }
         public MultiSelectList Majors { get; set; }
@@ -30,31 +29,26 @@ namespace Commencement.Controllers.ViewModels
 
             var viewModel = new CeremonyViewModel()
                                 {
-                                    TermCodes = repository.OfType<vTermCode>().Queryable.Where(a => a.EndDate > DateTime.Now).Select(a=>new SelectListItem(){Text = a.Description, Value = a.Id}).ToList(),
                                     TermCode = TermService.GetCurrent(),
                                     IsAdmin = user.IsInRole(RoleNames.RoleAdmin),
                                     Ceremony = ceremony
                                 };
 
-            // poplate the colleges
+            // poplate the colleges and majors
             var colleges = repository.OfType<College>().Queryable.Where(a => a.Display).ToList();
+            IEnumerable<MajorCode> majors;
             if (ceremony.Id != 0)
             {
                 viewModel.Colleges = new MultiSelectList(colleges, "Id", "Name", ceremony.Colleges.Select(x=>x.Id).ToList());
+                viewModel.TermCode = ceremony.TermCode;
+
+                majors = majorService.GetByCollege(ceremony.Colleges.ToList());
+                viewModel.Majors = new MultiSelectList(majors, "Id", "Name", ceremony.Majors.Select(x => x.Id).ToList());
             }
             else
             {
                 viewModel.Colleges = new MultiSelectList(colleges, "Id", "Name");
             }
-
-            // populate the majors
-            IEnumerable<MajorCode> majors;
-            if (ceremony.Id != 0)
-            {
-                majors = majorService.GetByCollege(ceremony.Colleges.ToList());
-                viewModel.Majors = new MultiSelectList(majors, "Id", "Name", ceremony.Majors.Select(x => x.Id).ToList());
-            }
-            
 
             return viewModel;
         }

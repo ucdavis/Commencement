@@ -1,7 +1,6 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.ViewModels.CeremonyViewModel>" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
-    <%--<script src="<%= Url.Content("~/Scripts/jquery.ui.datetimepicker.min.js") %>" type="text/javascript"></script>--%>
     <link href="<%= Url.Content("~/Content/anytimec.css") %>" type="text/css" rel="Stylesheet" />
     <link href="<%= Url.Content("~/Content/ui.multiselect.css") %>" type="text/css" rel="Stylesheet" />
     
@@ -23,13 +22,15 @@
                 $("#Ceremony_DateTime").val(date + " " + hour + ":" + minute + ":00 " + ampm);
             });
 
-            $("#Ceremony_PrintingDeadling").datepicker();
+            $("#Ceremony_PrintingDeadline").datepicker();
+            $("#Ceremony_RegistrationBegin").datepicker();
             $("#Ceremony_RegistrationDeadline").datepicker();
+            $("#Ceremony_ExtraTicketBegin").datepicker();
             $("#Ceremony_ExtraTicketDeadline").datepicker();
 
             $("#CeremonyMajors").multiselect();
 
-            
+
 
             $(".college").change(function () { GetMajors(); });
         });
@@ -68,16 +69,8 @@
     <ul class="registration_form">
         <li>
             <strong>Term Code:</strong> 
-            <% if (Model.IsAdmin && Model.Ceremony.Id == 0) { %>
-                <%= this.Select("Term").Options(Model.TermCodes)
-                        .FirstOption("--Select a Term--")
-                        .Selected(Model.Ceremony.TermCode != null ? Model.Ceremony.TermCode.Id : string.Empty)
-                    %>
-            <% } else { %>
-                <%: Html.Hidden("Term", Model.TermCode.Id) %>
-                <%: Model.TermCode.Name %>
-            <% } %>
-
+            <%: Html.Hidden("Term", Model.TermCode.Id) %>
+            <%: Model.TermCode.Name %>
         </li>
         <li>
             <strong>Date/Time of Ceremony:</strong>
@@ -122,7 +115,30 @@
             <strong>Total Tickets:</strong>
             <%= Html.TextBoxFor(x=>x.Ceremony.TotalTickets) %>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.TotalTickets) %>
-            
+            * Total # tickets available to everyone.            
+        </li>
+        <li>
+            <strong>Minimum Units:</strong>
+            <%: Html.TextBoxFor(x=>x.Ceremony.MinUnits) %>
+            <%: Html.ValidationMessageFor(x=>x.Ceremony.MinUnits) %>
+            * Minimum # of units required to register.
+        </li>
+        <li>
+            <strong>Petition Threshold:</strong>
+            <%: Html.TextBoxFor(x=>x.Ceremony.PetitionThreshold) %>
+            <%: Html.ValidationMessageFor(x=>x.Ceremony.PetitionThreshold) %>
+            * Minimum # of units to be allowed to submit registration petition
+        </li>
+        <li>
+            <strong>Registration Begin:</strong>
+            <%: Html.TextBox("Ceremony.RegistrationBegin", Model.Ceremony.RegistrationBegin.ToString("d")) %>
+            <%: Html.ValidationMessageFor(x=>x.Ceremony.RegistrationBegin) %>
+        </li>
+        <li>
+            <strong>Registration Closure:</strong>
+            <%: Html.TextBox("Ceremony.RegistrationDeadline", Model.Ceremony.RegistrationDeadline.ToString("d"))%>
+            <%= Html.ValidationMessageFor(x=>x.Ceremony.RegistrationDeadline) %>
+            * Registration will be blocked after this date.
         </li>
         <li>
             <strong>Program Printing Deadline:</strong>
@@ -131,10 +147,9 @@
             * Registration will continue to be open past this date.
         </li>
         <li>
-            <strong>Registration Closure:</strong>
-            <%: Html.TextBox("Ceremony.RegistrationDeadline", Model.Ceremony.RegistrationDeadline.ToString("d"))%>
-            <%= Html.ValidationMessageFor(x=>x.Ceremony.RegistrationDeadline) %>
-            * Registration will be blocked after this date.
+            <strong>Extra Ticket Request Begin:</strong>
+            <%: Html.TextBox("Ceremony.ExtraTicketBegin", Model.Ceremony.ExtraTicketBegin.ToString("d")) %>
+            <%: Html.ValidationMessageFor(x=>x.Ceremony.ExtraTicketBegin) %>
         </li>
         <li>
             <strong>Extra Ticket Request Deadline:</strong>
@@ -144,11 +159,6 @@
         </li>
         <li>
             <strong>Colleges:</strong>
-
-   <%--         <% foreach (var a in Model.Colleges) {  %>
-                <%: Html.CheckBox("Colleges", a.Selected, new {@class="college", value=a.Value}) %>
-                <%: Html.Label(a.Text) %>
-            <% } %>--%>
 
             <%= this.CheckBoxList("Colleges").Options(Model.Colleges).ItemClass("college") %>
         </li>

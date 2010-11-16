@@ -41,13 +41,72 @@ namespace Commencement.Controllers
         public ActionResult Index()
         {
             var viewModel = CommencementViewModel.Create(Repository, _ceremonyService, User.Identity.Name);
+            return View(viewModel);
+        }
+
+        public ActionResult Create()
+        {
+            var viewModel = CeremonyViewModel.Create(Repository, User, _majorService, new Ceremony());
 
             return View(viewModel);
         }
+        [HttpPost]
+        public ActionResult Create(CeremonyEditModel ceremonyEditModel)
+        {
+            if (string.IsNullOrEmpty(ceremonyEditModel.Term))
+            {
+                ModelState.AddModelError("Term Code", "Term code must be selected.");
+            }
+
+            var termCode = _termRepository.GetNullableById(ceremonyEditModel.Term);
+
+            if (termCode == null && !string.IsNullOrEmpty(ceremonyEditModel.Term))
+            {
+                // term code doesn't exist, create a new one
+                var vTermCode = _vTermRepository.GetNullableById(ceremonyEditModel.Term);
+
+                termCode = new TermCode(vTermCode);
+            }
+
+            Ceremony ceremony = new Ceremony();
+            CopyCeremony(ceremony, ceremonyEditModel.Ceremony, ceremonyEditModel.CeremonyMajors, ceremonyEditModel.Colleges);
+            ceremony.TermCode = termCode;
+            ceremony.AddEditor(_userService.GetCurrentUser(User), true);
+
+            // fix the time on the end dates, so it ends on
+
+
+            ceremony.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                // save
+                _termRepository.EnsurePersistent(termCode, true);
+                Repository.OfType<Ceremony>().EnsurePersistent(ceremony);
+                TermService.UpdateCurrent(termCode);    // update the cache.
+
+                // null out the current list of ceremonies the user has access to
+                _ceremonyService.ResetUserCeremonies();
+
+                // redirect to the list
+                return this.RedirectToAction(a => a.Edit(ceremony.Id));
+            }
+
+            // redirect back to the page
+            var viewModel = CeremonyViewModel.Create(Repository, User, _majorService, ceremony);
+            viewModel.Ceremony = ceremony;
+
+            return View(viewModel);
+        }
+        
         public ActionResult Edit(int id)
         {
             var ceremony = Repository.OfType<Ceremony>().GetNullableById(id);
-            if (ceremony == null) return this.RedirectToAction(a => a.Index());
+            if (ceremony == null)
+            {
+                Message = "Unable to find ceremony.";
+                return this.RedirectToAction(a => a.Index());
+            }
             if (!ceremony.IsEditor(User.Identity.Name))
             {
                 Message = "You do not have permission to edit selected ceremony.";
@@ -94,55 +153,7 @@ namespace Commencement.Controllers
 
             return View(viewModel);
         }
-        public ActionResult Create()
-        {
-            var viewModel = CeremonyViewModel.Create(Repository, User, _majorService, new Ceremony());
-
-            return View(viewModel);
-        }
-        [HttpPost]
-        public ActionResult Create(CeremonyEditModel ceremonyEditModel)
-        {
-            if (string.IsNullOrEmpty(ceremonyEditModel.Term))
-            {
-                ModelState.AddModelError("Term Code", "Term code must be selected.");
-            }
-
-            var termCode = _termRepository.GetNullableById(ceremonyEditModel.Term);
-
-            if (termCode == null && !string.IsNullOrEmpty(ceremonyEditModel.Term))
-            {
-                // term code doesn't exist, create a new one
-                var vTermCode = _vTermRepository.GetNullableById(ceremonyEditModel.Term);
-
-                termCode = new TermCode(vTermCode);
-            }
-
-            Ceremony ceremony = new Ceremony();
-            CopyCeremony(ceremony, ceremonyEditModel.Ceremony, ceremonyEditModel.CeremonyMajors, ceremonyEditModel.Colleges);
-            ceremony.TermCode = termCode;
-            ceremony.AddEditor(_userService.GetCurrentUser(User), true);
-
-            ceremony.TransferValidationMessagesTo(ModelState);
-
-            if (ModelState.IsValid)
-            {
-                // save
-                _termRepository.EnsurePersistent(termCode, true);
-                Repository.OfType<Ceremony>().EnsurePersistent(ceremony);
-                TermService.UpdateCurrent(termCode);    // update the cache.
-
-                // redirect to the list);
-                return this.RedirectToAction(a => a.Index());
-            }
-
-            // redirect back to the page
-            var viewModel = CeremonyViewModel.Create(Repository, User, _majorService, ceremony);
-            viewModel.Ceremony = ceremony;
-
-            return View(viewModel);
-        }
-
+        
         public ActionResult EditPermissions(int id)
         {
             var ceremony = Repository.OfType<Ceremony>().GetNullableById(id);
@@ -179,7 +190,6 @@ namespace Commencement.Controllers
             var viewModel = AddEditorViewModel.Create(Repository, ceremony);
             return View(viewModel);
         }
-
         [HttpPost]
         public ActionResult AddEditor(int id, int userId)
         {
@@ -239,13 +249,22 @@ namespace Commencement.Controllers
             destCeremony.Location = srcCeremony.Location;
             destCeremony.TicketsPerStudent = srcCeremony.TicketsPerStudent;
             destCeremony.TotalTickets = srcCeremony.TotalTickets;
-            destCeremony.RegistrationDeadline = srcCeremony.RegistrationDeadline;
-            destCeremony.ExtraTicketDeadline = srcCeremony.ExtraTicketDeadline;
+            destCeremony.RegistrationBegin = srcCeremony.RegistrationBegin;
+            destCeremony.RegistrationDeadline = CreateDeadline(srcCeremony.RegistrationDeadline);
+            destCeremony.ExtraTicketBegin = srcCeremony.ExtraTicketBegin;
+            destCeremony.ExtraTicketDeadline = CreateDeadline(srcCeremony.ExtraTicketDeadline);
             destCeremony.ExtraTicketPerStudent = srcCeremony.ExtraTicketPerStudent;
             destCeremony.PrintingDeadline = srcCeremony.PrintingDeadline;
+            destCeremony.MinUnits = srcCeremony.MinUnits;
+            destCeremony.PetitionThreshold = srcCeremony.PetitionThreshold;
             destCeremony.Colleges = srcColleges;
 
             MergeCeremonyMajors(destCeremony.Majors, srcMajors, srcColleges);
+        }
+
+        private DateTime CreateDeadline(DateTime src)
+        {
+            return new DateTime(src.Year, src.Month, src.Day, 23, 59, 59);
         }
         #endregion
     }

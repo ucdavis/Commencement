@@ -12,6 +12,8 @@ namespace Commencement.Controllers.Services
     {
         List<Ceremony> GetCeremonies(string userId, TermCode termCode = null);
         List<int> GetCeremonyIds(string userId, TermCode termCode = null);
+        void ResetUserCeremonies();
+        bool HasAccess(int id, string userId);
     }
 
     public class CeremonyService : ICeremonyService
@@ -35,9 +37,8 @@ namespace Commencement.Controllers.Services
 
         public virtual List<Ceremony> GetCeremonies (string userId, TermCode termCode = null)
         {
-            if (UserCeremonies == null)
+            if (UserCeremonies == null || ((List<Ceremony>)UserCeremonies).Count <= 0)
             {
-
                 var ceremonyIds = GetCeremonyIds(userId, termCode);
 
                 // build the query for getting the available ceremonies
@@ -69,6 +70,12 @@ namespace Commencement.Controllers.Services
             }
 
             return UserCeremonyIds;
+        }
+
+        public virtual void ResetUserCeremonies()
+        {
+            UserCeremonies = null;
+            UserCeremonyIds = null;
         }
 
         public virtual bool HasAccess(int id, string userId)
