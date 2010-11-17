@@ -95,6 +95,8 @@ namespace Commencement.Tests.Core.Helpers
         public static ExtraTicketPetition ExtraTicketPetition(int count)
         {
             var rtValue = new ExtraTicketPetition(count);
+            rtValue.NumberTicketsRequested = 1;
+            rtValue.Reason = "Reason" + count;
             //rtValue.SetIdTo(count);
 
             return rtValue;
