@@ -189,5 +189,8 @@
     <Build Include="Report Scripts\usp_TotalRegisteredStudents.proc.sql">
       <SubType>Code</SubType>
     </Build>
+    <Build Include="Create Scripts\usp_DownloadStudentsMultiCollege.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
   </ItemGroup>
 </Project>
