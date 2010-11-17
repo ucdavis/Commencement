@@ -3,7 +3,7 @@
     @param2 int
 AS
     
-    IF object_id('tempdb..#Students') IS NOT NULL
+IF object_id('tempdb..#Students') IS NOT NULL
 BEGIN
     DROP TABLE #Students
 END
