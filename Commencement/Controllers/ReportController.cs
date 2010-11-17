@@ -131,10 +131,16 @@ namespace Commencement.Controllers
                         select a;
 
             // filter to only pending labels
-            if (!printAll) query.Where(a => (!a.LabelPrinted || (a.ExtraTicketPetition != null && !a.ExtraTicketPetition.LabelPrinted)));
+            if (!printAll)
+            {
+                query = (IOrderedQueryable<Registration>)query.Where(a =>
+                                                        (!a.LabelPrinted)
+                                                        ||
+                                                        (a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved && !a.ExtraTicketPetition.LabelPrinted)
+                                                        );
+            }
 
             var registrations = query.ToList();
-
             var doc = GenerateLabelDoc(registrations, printAll);
 
             foreach(var r in registrations)
@@ -182,7 +188,7 @@ namespace Commencement.Controllers
 
                 // calculate the number of tickets
                 var tickets = !reg.LabelPrinted || printAll ?  reg.NumberTickets : 0;
-                tickets += reg.ExtraTicketPetition != null && !reg.ExtraTicketPetition.IsPending && reg.ExtraTicketPetition.IsApproved && (!reg.LabelPrinted || printAll) ? reg.ExtraTicketPetition.NumberTickets.Value : 0;
+                tickets += reg.ExtraTicketPetition != null && !reg.ExtraTicketPetition.IsPending && reg.ExtraTicketPetition.IsApproved && (!reg.ExtraTicketPetition.LabelPrinted || printAll) ? reg.ExtraTicketPetition.NumberTickets.Value : 0;
 
                 if (tickets > 0)
                 {
