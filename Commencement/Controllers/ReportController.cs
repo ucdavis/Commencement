@@ -146,6 +146,7 @@ namespace Commencement.Controllers
             foreach(var r in registrations)
             {
                 r.LabelPrinted = true;
+                if (r.ExtraTicketPetition != null) r.ExtraTicketPetition.LabelPrinted = true;
                 Repository.OfType<Registration>().EnsurePersistent(r);
             }
 
