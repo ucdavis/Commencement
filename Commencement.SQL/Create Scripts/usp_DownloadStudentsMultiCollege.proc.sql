@@ -91,7 +91,7 @@ while (@@FETCH_STATUS = 0)
                 left outer join shrttrm on shrttrm_pidm = zgvlcfs_pidm
             where spriden_change_ind is null
                 and zgvlcfs_term_code_eff = '''''+@term+''''' and zgvlcfs_coll_code = '''''+@coll+'''''
-                and (EarnedUnits.units + nvl(CurrentUnits.units,0)) > 140
+                and (EarnedUnits.units + nvl(CurrentUnits.units,0)) > ' + cast(@minUnits as varchar(6)) + '
                 and shrttrm_term_code in ( select max(shrttrm_term_code) from shrttrm ishrttrm where shrttrm.shrttrm_pidm = ishrttrm.shrttrm_pidm )
 				and wormoth_acct_type = ''''Z''''
 				and wormoth_acct_status = ''''A''''
@@ -128,7 +128,7 @@ while (@@FETCH_STATUS = 0)
                         ) CurrentUnits on shrlgpa_pidm = currentunits.pidm
                     where shrlgpa_gpa_type_ind = ''''O''''
                         and shrlgpa_levl_code = ''''UG''''
-                        and (shrlgpa_hours_earned + nvl(CurrentUnits.units, 0)) > 150
+                        and (shrlgpa_hours_earned + nvl(CurrentUnits.units, 0)) > '+cast(@minUnits as varchar(6))+'
                 ) Units on Units.pidm = Curriculum.pidm
             '')'
 
