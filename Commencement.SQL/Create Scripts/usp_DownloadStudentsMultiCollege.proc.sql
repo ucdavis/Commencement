@@ -1,6 +1,4 @@
 ﻿CREATE PROCEDURE [dbo].[usp_DownloadStudentsMultiCollege]
-    @param1 int = 0, 
-    @param2 int
 AS
     
 IF object_id('tempdb..#Students') IS NOT NULL
