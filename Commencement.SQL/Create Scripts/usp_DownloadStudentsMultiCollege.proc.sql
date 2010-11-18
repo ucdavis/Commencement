@@ -6,10 +6,10 @@ BEGIN
     DROP TABLE #Students
 END
 
-IF object_id('tempdb..#Majors') IS NOT NULL
-BEGIN
-    DROP TABLE #Majors
-END
+--IF object_id('tempdb..#Majors') IS NOT NULL
+--BEGIN
+--    DROP TABLE #Majors
+--END
 
 CREATE TABLE #Students
 (
@@ -22,21 +22,22 @@ CREATE TABLE #Students
     CurrentUnits decimal(6,3),
     Email varchar(100),
     LoginId varchar(50),
-    std varchar(2)
-)
-
-CREATE TABLE #Majors
-(
-    pidm varchar(8),
+    std varchar(2),
     major varchar(4)
 )
+
+--CREATE TABLE #Majors
+--(
+--    pidm varchar(8),
+--    major varchar(4)
+--)
 
 declare @term varchar(6), @minUnits int, @coll char(2)
 declare @tsql varchar(max)
 
 if (exists (select * from termcodes where isactive = 1) )
 begin
-    set @term = (select MAX(termcode) from termcodes where isactive = 1)
+    set @term = (select MAX(id) from termcodes where isactive = 1)
 end
 
 
@@ -64,6 +65,7 @@ while (@@FETCH_STATUS = 0)
                 , email.goremal_email_address
                 , lower(wormoth_login_id) loginId
                 , shrttrm_astd_code_end_of_term
+                , zgvlcfs_majr_code
             from zgvlcfs
                 inner join spriden on spriden_pidm = zgvlcfs_pidm
                 inner join ( 
@@ -101,38 +103,38 @@ while (@@FETCH_STATUS = 0)
 
 
         --load majors
-        set @tsql = '
-            insert into #Majors
-            select distinct * from openquery (sis, ''
-                 select Curriculum.pidm, curriculum.majr
-                 from 
-                 (
-                    select zgvlcfs_pidm as pidm, zgvlcfs_majr_code majr
-                    from zgvlcfs
-                    where zgvlcfs_term_code_eff = ''''' + @term + '''''
-                        and zgvlcfs_levl_code = ''''UG''''
-                        and zgvlcfs_coll_code = '''''+@coll+'''''
-                 ) Curriculum 
-                 inner join (
-                    select shrlgpa_pidm as pidm, shrlgpa_hours_earned as EarnedUnits, CurrentUnits.units as CurrentUnits
-                        , (shrlgpa_hours_earned + nvl(CurrentUnits.units, 0)) TotalUnits
-                    from shrlgpa
-                        left outer join (
-                            select sfrstcr_pidm as pidm,  sum(sfrstcr_credit_hr) as units
-                            from sfrstcr
-                                left join shrtckn on sfrstcr_pidm = shrtckn_pidm
-                                                 and sfrstcr_term_code = shrtckn_term_code
-                                                 and sfrstcr_crn = shrtckn_crn
-                            where shrtckn_pidm is null
-                            group by sfrstcr_pidm
-                        ) CurrentUnits on shrlgpa_pidm = currentunits.pidm
-                    where shrlgpa_gpa_type_ind = ''''O''''
-                        and shrlgpa_levl_code = ''''UG''''
-                        and (shrlgpa_hours_earned + nvl(CurrentUnits.units, 0)) > '+cast(@minUnits as varchar(6))+'
-                ) Units on Units.pidm = Curriculum.pidm
-            '')'
+        --set @tsql = '
+        --    insert into #Majors
+        --    select distinct * from openquery (sis, ''
+        --         select Curriculum.pidm, curriculum.majr
+        --         from 
+        --         (
+        --            select zgvlcfs_pidm as pidm, zgvlcfs_majr_code majr
+        --            from zgvlcfs
+        --            where zgvlcfs_term_code_eff = ''''' + @term + '''''
+        --                and zgvlcfs_levl_code = ''''UG''''
+        --                and zgvlcfs_coll_code = '''''+@coll+'''''
+        --         ) Curriculum 
+        --         inner join (
+        --            select shrlgpa_pidm as pidm, shrlgpa_hours_earned as EarnedUnits, CurrentUnits.units as CurrentUnits
+        --                , (shrlgpa_hours_earned + nvl(CurrentUnits.units, 0)) TotalUnits
+        --            from shrlgpa
+        --                left outer join (
+        --                    select sfrstcr_pidm as pidm,  sum(sfrstcr_credit_hr) as units
+        --                    from sfrstcr
+        --                        left join shrtckn on sfrstcr_pidm = shrtckn_pidm
+        --                                         and sfrstcr_term_code = shrtckn_term_code
+        --                                         and sfrstcr_crn = shrtckn_crn
+        --                    where shrtckn_pidm is null
+        --                    group by sfrstcr_pidm
+        --                ) CurrentUnits on shrlgpa_pidm = currentunits.pidm
+        --            where shrlgpa_gpa_type_ind = ''''O''''
+        --                and shrlgpa_levl_code = ''''UG''''
+        --                and (shrlgpa_hours_earned + nvl(CurrentUnits.units, 0)) > '+cast(@minUnits as varchar(6))+'
+        --        ) Units on Units.pidm = Curriculum.pidm
+        --    '')'
 
-        exec(@tsql)
+        --exec(@tsql)
         
         fetch next from @collCursor into @minUnits, @coll
     end
@@ -140,8 +142,8 @@ while (@@FETCH_STATUS = 0)
 close @collCursor
 deallocate @collCursor
     
-    select * from #Students
-    select * from #Majors
+    --select * from #Students
+    --select * from #Majors
     
     merge into students t
     using (	select distinct pidm, studentid, firstname, mi
@@ -156,15 +158,14 @@ deallocate @collCursor
         insert (pidm, studentid, firstname, mi, lastname, earnedunits, CurrentUnits, email, termcode, [login])
         values(s.pidm, s.studentid, s.firstname, s.mi, s.lastname, s.earnedunits, s.currentunits, s.email, s.termcode, s.[loginId]);
 
-
     delete from StudentMajors
     where Student_Id in ( select id from Students where TermCode = @term )
 
     insert into StudentMajors 
-    select distinct students.id, major from #majors
-            inner join students on #majors.pidm = students.pidm and students.termcode = @term
+    select distinct students.id, major from #students
+            inner join students on #students.pidm = students.pidm and students.termcode = @term
         
 DROP TABLE #Students
-DROP TABLE #Majors
+--DROP TABLE #Majors
 
 RETURN 0
