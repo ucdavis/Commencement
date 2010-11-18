@@ -66,7 +66,7 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
             Assert.AreEqual("FName", student.FirstName);
             Assert.AreEqual("MI", student.MI);
             Assert.AreEqual("LName", student.LastName);
-            Assert.AreEqual(12.3m, student.Units);
+            Assert.AreEqual(12.3m, student.CurrentUnits);
             Assert.AreEqual("email", student.Email);
             Assert.AreEqual("login", student.Login);
             Assert.AreEqual("Tname", student.TermCode.Name);

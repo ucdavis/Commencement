@@ -180,7 +180,7 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
         {
             #region Arrange
             var record = GetValid(9);
-            record.Units = decimal.MaxValue;
+            record.CurrentUnits = decimal.MaxValue;
             #endregion Arrange
 
             #region Act
@@ -190,7 +190,7 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(decimal.MaxValue, record.Units);
+            Assert.AreEqual(decimal.MaxValue, record.CurrentUnits);
             Assert.IsFalse(record.IsTransient());
             Assert.IsTrue(record.IsValid());
             #endregion Assert
@@ -204,7 +204,7 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
         {
             #region Arrange
             var record = GetValid(9);
-            record.Units = decimal.MinValue;
+            record.CurrentUnits = decimal.MinValue;
             #endregion Arrange
 
             #region Act
@@ -214,7 +214,7 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(decimal.MinValue, record.Units);
+            Assert.AreEqual(decimal.MinValue, record.CurrentUnits);
             Assert.IsFalse(record.IsTransient());
             Assert.IsTrue(record.IsValid());
             #endregion Assert
@@ -228,7 +228,7 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
         {
             #region Arrange
             var record = GetValid(9);
-            record.Units = 0m;
+            record.CurrentUnits = 0m;
             #endregion Arrange
 
             #region Act
@@ -238,7 +238,7 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(0m, record.Units);
+            Assert.AreEqual(0m, record.CurrentUnits);
             Assert.IsFalse(record.IsTransient());
             Assert.IsTrue(record.IsValid());
             #endregion Assert

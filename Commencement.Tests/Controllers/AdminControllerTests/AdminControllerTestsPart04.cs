@@ -206,7 +206,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             Assert.AreEqual("FirstName1", result.FirstName);
             Assert.AreEqual("MI1", result.MI);
             Assert.AreEqual("LastName1", result.LastName);
-            Assert.AreEqual(100m, result.Units);
+            Assert.AreEqual(100m, result.CurrentUnits);
             Assert.AreEqual("Email1", result.Email);
             Assert.AreEqual("LoginId1", result.Login);
             Assert.AreEqual("201003", result.TermCode.Id);

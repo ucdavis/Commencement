@@ -56,7 +56,7 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
                 .CheckProperty(c => c.SjaBlock, false)
                 .CheckProperty(c => c.StudentId, "123456789")
                 .CheckProperty(c => c.TermCode, termCode)
-                .CheckProperty(c =>c.Units, 200m)
+                .CheckProperty(c =>c.CurrentUnits, 200m)
                 .VerifyTheMappings();
             #endregion Act/Assert
         }

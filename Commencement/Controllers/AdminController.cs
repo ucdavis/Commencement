@@ -147,7 +147,7 @@ namespace Commencement.Controllers
 
             if (existingStudent == null)
             {
-                newStudent = new Student(student.Pidm, student.StudentId, student.FirstName, student.MI, student.LastName, student.Units, student.Email, student.Login, student.TermCode);
+                newStudent = new Student(student.Pidm, student.StudentId, student.FirstName, student.MI, student.LastName, student.TotalUnits, student.Email, student.Login, student.TermCode);
                 newStudent.Majors.Add(major);
             }
             else if (!existingStudent.Majors.Contains(major))

@@ -10,7 +10,8 @@ namespace Commencement.Core.Domain
 {
     public class Student : DomainObjectWithTypedId<Guid>
     {
-        public Student(string pidm, string studentId, string firstName, string mi, string lastName, decimal units, string email, string login, TermCode termCode)
+        #region Constructors
+        public Student(string pidm, string studentId, string firstName, string mi, string lastName, decimal currentUnits, string email, string login, TermCode termCode)
         {
             Id = Guid.NewGuid();
             
@@ -19,7 +20,7 @@ namespace Commencement.Core.Domain
             FirstName = firstName;
             MI = mi;
             LastName = lastName;
-            Units = units;
+            CurrentUnits = CurrentUnits;
             Email = email;
             Login = login;
             TermCode = termCode;
@@ -39,7 +40,9 @@ namespace Commencement.Core.Domain
             DateAdded = DateTime.Now;
             DateUpdated = DateTime.Now;
         }
+        #endregion
 
+        #region Mapped Fields
         [Length(8)]
         [Required]
         public virtual string Pidm { get; set; }
@@ -52,7 +55,8 @@ namespace Commencement.Core.Domain
         public virtual string MI { get; set; }
         [Length(50)]
         public virtual string LastName { get; set; }
-        public virtual decimal Units { get; set; }
+        public virtual decimal EarnedUnits { get; set; }
+        public virtual decimal CurrentUnits { get; set; }
         [Length(100)]
         public virtual string Email { get; set; }
         [Length(50)]
@@ -70,6 +74,7 @@ namespace Commencement.Core.Domain
         public virtual bool Blocked { get; set; }
 
         public virtual IList<MajorCode> Majors { get; set; }
+        #endregion
 
         #region Extended Properties
         public virtual string FullName
@@ -93,6 +98,10 @@ namespace Commencement.Core.Domain
                 return string.Join(",", Majors.Select(x => x.Id).ToArray());
             }
         }
+
+        public virtual decimal TotalUnits { 
+            get { return EarnedUnits + CurrentUnits; } 
+        }
         #endregion
     }
 
@@ -107,7 +116,8 @@ namespace Commencement.Core.Domain
             Map(x => x.FirstName);
             Map(x => x.MI);
             Map(x => x.LastName);
-            Map(x => x.Units);
+            Map(x => x.EarnedUnits);
+            Map(x => x.CurrentUnits);
             Map(x => x.Email);
             Map(x => x.Login);
             Map(x => x.DateAdded);
