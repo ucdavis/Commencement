@@ -18,13 +18,13 @@ AS
 	
 	set @tsql = '
 		select * from openquery(sis, ''
-			select spriden_pidm, spriden_first_name, spriden_mi, spriden_last_name
-				, email.goremal_email_address
+			select spriden_pidm as pidm, spriden_first_name as firstName, spriden_mi as mi, spriden_last_name as lastName
+				, email.goremal_email_address as email
 				, earnedunits.units earnedunits
 				, currentunits.units currentunits
-				, zgvlcfs_majr_code
+				, zgvlcfs_majr_code as major
 				, zgvlcfs_term_code_eff as lastTerm
-				, shrttrm_astd_code_end_of_term
+				, shrttrm_astd_code_end_of_term as astd
 			from wormoth 
 				inner join zgvlcfs on wormoth_pidm = zgvlcfs_pidm
 				inner join spriden on wormoth_pidm = spriden_pidm

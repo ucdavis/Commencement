@@ -46,18 +46,41 @@ namespace Commencement.Controllers
         [PageTrackingFilter]
         public ActionResult Index()
         {
-            //Check for prior registration
-            var priorRegistration = _studentService.GetPriorRegistration(GetCurrentStudent(), TermService.GetCurrent());
-            
-            if (priorRegistration != null)
-            {
-                // show an existing registration
-                return this.RedirectToAction(x => x.DisplayRegistration(priorRegistration.Id));
-            }
+            return View(TermService.GetCurrent());
 
-            //Check student untis and major))))
-            return this.RedirectToAction(x => x.ChooseCeremony());
+            ////Check for prior registration
+            //var priorRegistration = _studentService.GetPriorRegistration(GetCurrentStudent(), TermService.GetCurrent());
+
+            //if (priorRegistration != null)
+            //{
+            //    // show an existing registration
+            //    return this.RedirectToAction(x => x.DisplayRegistration(priorRegistration.Id));
+            //}
+
+            ////Check student untis and major))))
+            //return this.RedirectToAction(x => x.ChooseCeremony());
         }
+
+        [PageTrackingFilter]
+        public RedirectResult RegistrationRouting()
+        {
+            var term = TermService.GetCurrent();
+            //var student = GetCurrentStudent();
+            var student = _studentService.GetCurrentStudent(CurrentUser);
+
+            // if we got here then we have a valid term and student)
+
+            throw new NotImplementedException();
+        }
+
+
+        [PageTrackingFilter]
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        // to be removed
         [PageTrackingFilter]
         public ActionResult ChooseCeremony()
         {
@@ -71,7 +94,7 @@ namespace Commencement.Controllers
             var majorsAndCeremonies = _studentService.GetMajorsAndCeremoniesForStudent(currentStudent);
 
             var numPossibleCeremonies = majorsAndCeremonies.Count();
-            
+
             // no matching ceremony for student's major
             if (numPossibleCeremonies == 0)
             {
@@ -82,11 +105,11 @@ namespace Commencement.Controllers
             if (numPossibleCeremonies == 1)
             {
                 var ceremony = majorsAndCeremonies.Single();
-                
+
                 if (currentStudent.Majors.Count != 1) return this.RedirectToAction(x => x.Register(ceremony.Ceremony.Id, majorsAndCeremonies.Single().MajorCode.Id));
                 return this.RedirectToAction(x => x.Register(ceremony.Ceremony.Id, string.Empty));
             }
-            
+
             // multiple ceremonies, let the student pick one
             return View(majorsAndCeremonies);
         }
@@ -96,7 +119,7 @@ namespace Commencement.Controllers
             var registration = _registrationRepository.GetNullableById(id);
 
             // not valid registration or current logged in student doesn't match owner of registration
-            if (registration == null  || registration.Student != _studentService.GetCurrentStudent(CurrentUser)) return this.RedirectToAction(x => x.Index());
+            if (registration == null || registration.Student != _studentService.GetCurrentStudent(CurrentUser)) return this.RedirectToAction(x => x.Index());
 
             ViewData["CanEditRegistration"] = registration.Ceremony.RegistrationDeadline > DateTime.Now;
 
@@ -129,14 +152,14 @@ namespace Commencement.Controllers
                 Message = StaticValues.Student_No_Ceremony_Found;
                 return this.RedirectToAction(x => x.Index());
             }
-            if(ceremony.RegistrationDeadline <= DateTime.Now)
+            if (ceremony.RegistrationDeadline <= DateTime.Now)
             {
                 //Message = StaticValues.Student_CeremonyDeadlinePassed;
                 return this.RedirectToAction<ErrorController>(x => x.Index(ErrorController.ErrorType.RegistrationClosed));
             }
 
             var student = GetCurrentStudent();
-            
+
             //Get student info and create registration model
             var viewModel = RegistrationModel.Create(Repository, ceremony, student);
 
@@ -147,7 +170,7 @@ namespace Commencement.Controllers
                 {
                     Message = StaticValues.Student_Major_Code_Not_Supplied;
                     return this.RedirectToAction(x => x.Index());
-                } 
+                }
 
                 viewModel.Registration.Major = student.Majors.Single();
             }
@@ -163,7 +186,7 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
-        [HttpPost]        
+        [HttpPost]
         public ActionResult Register(int id, Registration registration, bool agreeToDisclaimer)
         {
             registration.Student = GetCurrentStudent();
@@ -226,19 +249,19 @@ namespace Commencement.Controllers
         public ActionResult EditRegistration(int id)
         {
             var registration = _registrationRepository.GetNullableById(id);
-            
+
             var student = GetCurrentStudent();
-            
+
             if (registration == null || registration.Student != student)
             {
                 Message = StaticValues.Student_No_Registration_Found;
                 return this.RedirectToAction(a => a.Index());
             }
-            if(registration.Ceremony.RegistrationDeadline <= DateTime.Now)
-            {                
+            if (registration.Ceremony.RegistrationDeadline <= DateTime.Now)
+            {
                 return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.RegistrationClosed));
             }
-            
+
             //Get student info and create registration model
             var viewModel = RegistrationModel.Create(Repository, registration.Ceremony, student);
             viewModel.Registration = registration;

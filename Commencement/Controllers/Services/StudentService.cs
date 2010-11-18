@@ -46,7 +46,19 @@ namespace Commencement.Controllers.Services
             
             if (currentStudent == null)
             {
-                throw new NotImplementedException("Student was not found");
+                //throw new NotImplementedException("Student was not found");
+
+
+                var searchResults = SearchStudentByLogin(currentUser.Identity.Name, TermService.GetCurrent().Id);
+
+
+                if (searchResults.Count > 0)
+                {
+                    var s = searchResults[0];
+                    currentStudent = new Student(s.Pidm, s.Id, s.FirstName, s.MI, s.LastName, s.HoursEarned, s.Email, s.LoginId, TermService.GetCurrent());
+                }
+
+
             }
 
             return currentStudent;

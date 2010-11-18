@@ -32,6 +32,9 @@ namespace Commencement.Core.Domain
         public virtual string Name { get; set; }
         public virtual bool IsActive { get; set; }
 
+        public virtual string LandingText { get; set; }
+        public virtual string RegistrationWelcome { get; set; }
+
         public virtual IList<Ceremony> Ceremonies { get; set; }
     }
 
@@ -43,6 +46,8 @@ namespace Commencement.Core.Domain
 
             Map(x => x.Name);
             Map(x => x.IsActive);
+            Map(x => x.LandingText);
+            Map(x => x.RegistrationWelcome);
             
             HasMany(x => x.Ceremonies).KeyColumn("TermCode").Cascade.None().Inverse();
         }
