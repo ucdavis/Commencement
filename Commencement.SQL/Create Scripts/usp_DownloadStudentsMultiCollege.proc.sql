@@ -95,6 +95,8 @@ while (@@FETCH_STATUS = 0)
                 and zgvlcfs_term_code_eff = '''''+@term+''''' and zgvlcfs_coll_code = '''''+@coll+'''''
                 and (EarnedUnits.units + nvl(CurrentUnits.units,0)) > 140
                 and shrttrm_term_code in ( select max(shrttrm_term_code) from shrttrm ishrttrm where shrttrm.shrttrm_pidm = ishrttrm.shrttrm_pidm )
+				and wormoth_acct_type = ''''Z''''
+				and wormoth_acct_status = ''''A''''
             '')'
 
         exec(@tsql)
