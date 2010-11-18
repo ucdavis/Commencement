@@ -221,6 +221,7 @@
     <Compile Include="RouteConfigurator.asax.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Commencement.Publish.xml" />
     <Content Include="Content\anytimec.css" />
     <Content Include="Content\Common\Icons\Ajax\Editor.png" />
     <Content Include="Content\Common\Icons\Ajax\Grid.png" />
@@ -619,6 +620,12 @@
     <None Include="Content\font\Cicle_Shadow-webfont.woff" />
     <None Include="Forms\extra_ticket_request.pdf" />
     <None Include="Forms\registration_petition.pdf" />
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Test.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="app_offline2.htm" />

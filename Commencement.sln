@@ -53,11 +53,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commencement.Tests", "Comme
 EndProject
 Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "Commencement.Report", "Commencement.Report\Commencement.Report.rptproj", "{194A3973-CC14-4CFC-96B0-E3915A1B0E49}"
 EndProject
-Project("{2CFEAB61-6A3B-4EB8-B523-560B4BEEF521}") = "Commencement.Deploy", "Commencement.Deploy\Commencement.Deploy.wdproj", "{AE20F08C-BCD7-4326-A86D-F808F4FB2439}"
-EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 7
+		SccNumberOfProjects = 6
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.caes.ucdavis.edu:8088/tfs/defaultcollection
 		SccLocalPath0 = .
@@ -73,12 +71,9 @@ Global
 		SccProjectUniqueName4 = Commencement.Report\\Commencement.Report.rptproj
 		SccProjectName4 = Commencement.Report
 		SccLocalPath4 = Commencement.Report
-		SccProjectUniqueName5 = Commencement.Deploy\\Commencement.Deploy.wdproj
-		SccProjectName5 = Commencement.Deploy
-		SccLocalPath5 = Commencement.Deploy
-		SccProjectUniqueName6 = Commencement.SQL\\Commencement.SQL.dbproj
-		SccProjectName6 = Commencement.SQL
-		SccLocalPath6 = Commencement.SQL
+		SccProjectUniqueName5 = Commencement.SQL\\Commencement.SQL.dbproj
+		SccProjectName5 = Commencement.SQL
+		SccLocalPath5 = Commencement.SQL
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -112,9 +107,7 @@ Global
 		{38BA913C-9CD8-441E-A209-8555324164C4}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
 		{38BA913C-9CD8-441E-A209-8555324164C4}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{38BA913C-9CD8-441E-A209-8555324164C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{38BA913C-9CD8-441E-A209-8555324164C4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{38BA913C-9CD8-441E-A209-8555324164C4}.Test|Any CPU.ActiveCfg = Test|Any CPU
-		{38BA913C-9CD8-441E-A209-8555324164C4}.Test|Any CPU.Build.0 = Test|Any CPU
 		{194A3973-CC14-4CFC-96B0-E3915A1B0E49}.Debug|Any CPU.ActiveCfg = DebugLocal
 		{194A3973-CC14-4CFC-96B0-E3915A1B0E49}.DebugLocal|Any CPU.ActiveCfg = DebugLocal
 		{194A3973-CC14-4CFC-96B0-E3915A1B0E49}.DebugLocal|Any CPU.Build.0 = DebugLocal
@@ -123,13 +116,6 @@ Global
 		{194A3973-CC14-4CFC-96B0-E3915A1B0E49}.Release|Any CPU.Build.0 = Release
 		{194A3973-CC14-4CFC-96B0-E3915A1B0E49}.Release|Any CPU.Deploy.0 = Release
 		{194A3973-CC14-4CFC-96B0-E3915A1B0E49}.Test|Any CPU.ActiveCfg = Release
-		{AE20F08C-BCD7-4326-A86D-F808F4FB2439}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE20F08C-BCD7-4326-A86D-F808F4FB2439}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE20F08C-BCD7-4326-A86D-F808F4FB2439}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
-		{AE20F08C-BCD7-4326-A86D-F808F4FB2439}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE20F08C-BCD7-4326-A86D-F808F4FB2439}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AE20F08C-BCD7-4326-A86D-F808F4FB2439}.Test|Any CPU.ActiveCfg = Test|Any CPU
-		{AE20F08C-BCD7-4326-A86D-F808F4FB2439}.Test|Any CPU.Build.0 = Test|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
