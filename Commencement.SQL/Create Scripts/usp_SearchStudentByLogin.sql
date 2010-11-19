@@ -18,7 +18,8 @@ AS
 	
 	set @tsql = '
 		select * from openquery(sis, ''
-			select spriden_pidm as pidm, spriden_first_name as firstName, spriden_mi as mi, spriden_last_name as lastName
+			select spriden_pidm as pidm, spriden_id as studentId
+				, spriden_first_name as firstName, spriden_mi as mi, spriden_last_name as lastName
 				, email.goremal_email_address as email
 				, earnedunits.units earnedunits
 				, currentunits.units currentunits

@@ -45,12 +45,13 @@ namespace Commencement.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
+            var ceremonies = Repository.OfType<Ceremony>().GetAll();
+
             return View();
         }
 
         /// <summary>
         /// Students
-        /// #2
         /// </summary>
         /// <param name="studentid"></param>
         /// <param name="lastName"></param>
@@ -209,8 +210,8 @@ namespace Commencement.Controllers
                 Message = "Registration or major information was missing.";
                 return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null)); 
             }
-            
-            registration.Major = major;
+
+            registration.RegistrationParticipations[0].Major = major;
             registration.College = major.College;
 
             var ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == TermService.GetCurrent() && a.Majors.Contains(major)).FirstOrDefault();
@@ -227,7 +228,7 @@ namespace Commencement.Controllers
             }
             else
             {
-                registration.Ceremony = ceremony;
+                registration.RegistrationParticipations[0].Ceremony = ceremony;
             }
 
             registration.TransferValidationMessagesTo(ModelState);
@@ -262,7 +263,7 @@ namespace Commencement.Controllers
                 Message = "Registration or ceremony information was missing.";
                 return this.RedirectToAction(a => a.Students(null, null, null, null));
             }
-            registration.Ceremony = ceremony;
+            registration.RegistrationParticipations[0].Ceremony = ceremony;
 
             if (!CeremonyHasAvailability(ceremony, registration)) ModelState.AddModelError("Major Code", ValidateAvailabilityAtCeremony(ceremony, registration));
 
@@ -320,7 +321,7 @@ namespace Commencement.Controllers
             StringBuilder message = new StringBuilder();
 
             if (ceremony == null) message.Append("There is no matching ceremony for the current term with the major specified.");
-            else if (ceremony != registration.Ceremony)
+            else if (ceremony != registration.RegistrationParticipations[0].Ceremony)
             {
                 if (ceremony.AvailableTickets - registration.TotalTickets >= 0)
                 {
@@ -343,7 +344,7 @@ namespace Commencement.Controllers
             Check.Require(ceremony != null, "Ceremony is required.");
             Check.Require(registration != null, "Registration is required.");
 
-            if (ceremony != registration.Ceremony)
+            if (ceremony != registration.RegistrationParticipations[0].Ceremony)
             {
                 if (ceremony.AvailableTickets - registration.TotalTickets > 0) return true;
                 return false;
@@ -386,7 +387,7 @@ namespace Commencement.Controllers
             var blocked = !student.Blocked;
 
             // check for a registration
-            var registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student && a.Ceremony.TermCode == TermService.GetCurrent()).FirstOrDefault();
+            var registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student && a.RegistrationParticipations[0].Ceremony.TermCode == TermService.GetCurrent()).FirstOrDefault();
             if (registration != null)
             {
                 registration.Cancelled = blocked;

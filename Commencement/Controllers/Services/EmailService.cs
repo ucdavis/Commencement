@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net.Mail;
 using Commencement.Controllers.Helpers;
 using Commencement.Core.Domain;
@@ -17,6 +18,8 @@ namespace Commencement.Controllers.Services
         void SendExtraTicketPetitionConfirmation(Registration registration);
         void SendRegistrationPetitionConfirmation(RegistrationPetition registrationPetition);
         void SendRegistrationPetitionApproved(RegistrationPetition registrationPetition);
+
+        void QueueRegistrationConfirmation(Registration registration);
     }
 
     public class EmailService : IEmailService
@@ -35,14 +38,14 @@ namespace Commencement.Controllers.Services
             Check.Require(registration != null, "Registration is required.");
 
             var message = InitializeMessage();
-            message.Subject = registration.Ceremony.Name + " Registration";
+            message.Subject = registration.RegistrationParticipations[0].Ceremony.Name + " Registration";
 
             // add who to mail the message to
             message.To.Add(registration.Student.Email);
             if (registration.Email != null) message.To.Add(registration.Email);
 
             // get the latest registration confirmation template
-            var template = registration.Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationConfirmation && a.IsActive).FirstOrDefault();
+            var template = registration.RegistrationParticipations[0].Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationConfirmation && a.IsActive).FirstOrDefault();
             Check.Require(template != null, "No template is available.");
 
             //var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationConfirmation).OrderByDescending(a => a.Id));
@@ -87,7 +90,7 @@ namespace Commencement.Controllers.Services
             if (registration.Email != null) message.To.Add(registration.Email);
 
             //var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision).OrderByDescending(a => a.Id));
-            var template = registration.Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision && a.IsActive).FirstOrDefault();
+            var template = registration.RegistrationParticipations[0].Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision && a.IsActive).FirstOrDefault();
             Check.Require(template != null, "No template is available.");
 
             message.Body = letterGenerator.GenerateExtraTicketRequestPetitionDecision(registration, template);
@@ -108,7 +111,7 @@ namespace Commencement.Controllers.Services
             if (registration.Email != null) message.To.Add(registration.Email);
 
             //var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition).OrderByDescending(a => a.Id));
-            var template = registration.Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition && a.IsActive).FirstOrDefault();
+            var template = registration.RegistrationParticipations[0].Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition && a.IsActive).FirstOrDefault();
             Check.Require(template != null, "No template is available.");
 
             message.Body = letterGenerator.GenerateExtraTicketRequestPetitionDecision(registration, template);
@@ -154,6 +157,11 @@ namespace Commencement.Controllers.Services
             Send(message);
         }
 
+        public void QueueRegistrationConfirmation(Registration registration)
+        {
+            throw new NotImplementedException();
+        }
+
         private MailMessage InitializeMessage()
         {
             var message = new MailMessage();
@@ -176,8 +184,15 @@ namespace Commencement.Controllers.Services
     public class DevEmailService : IEmailService
     {
         private readonly IRepository<Template> _templateRepository;
+        private readonly IRepository<EmailQueue> _emailQueueRepository;
         SmtpClient client = new SmtpClient();
         LetterGenerator letterGenerator = new LetterGenerator();
+
+        public DevEmailService(IRepository<Template> templateRepository, IRepository<EmailQueue> emailQueueRepository)
+        {
+            _templateRepository = templateRepository;
+            _emailQueueRepository = emailQueueRepository;
+        }
 
         private readonly string emailAddr = "anlai@ucdavis.edu";
 
@@ -186,16 +201,32 @@ namespace Commencement.Controllers.Services
             Check.Require(registration != null, "Registration is required.");
 
             var message = InitializeMessage();
-            message.Subject = registration.Ceremony.Name + " Registration";
+            message.Subject = registration.RegistrationParticipations[0].Ceremony.Name + " Registration";
 
             // get the latest registration confirmation template
-            var template = registration.Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationConfirmation && a.IsActive).FirstOrDefault();
+            var template = registration.RegistrationParticipations[0].Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationConfirmation && a.IsActive).FirstOrDefault();
             Check.Require(template != null, "No template is available.");
 
             // process the template text
             message.Body = letterGenerator.GenerateRegistrationConfirmation(registration, template);
 
             Send(message);
+        }
+
+        public void QueueRegistrationConfirmation(Registration registration)
+        {
+            Check.Require(registration != null, "Registration is required.");
+            Check.Require(registration.Id > 0, "Completed registration is required.");
+
+            // get the latest registration confirmation template
+            var template = registration.RegistrationParticipations[0].Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationConfirmation && a.IsActive).FirstOrDefault();
+            Check.Require(template != null, "No template is available.");
+
+            var body = letterGenerator.GenerateRegistrationConfirmation(registration, template);
+
+            var emailQueue = new EmailQueue(registration.Student, template, template.Subject, body, true);
+            emailQueue.Registration = registration;
+            _emailQueueRepository.EnsurePersistent(emailQueue);
         }
 
         public void SendAddPermission(Student student, Ceremony ceremony)
@@ -227,7 +258,7 @@ namespace Commencement.Controllers.Services
             message.Subject = term.Name + " Commencement Extra Ticket Petition";
 
             //var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision).OrderByDescending(a => a.Id));
-            var template = registration.Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision && a.IsActive).FirstOrDefault();
+            var template = registration.RegistrationParticipations[0].Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision && a.IsActive).FirstOrDefault();
             Check.Require(template != null, "No template is available.");
 
             message.Body = letterGenerator.GenerateExtraTicketRequestPetitionDecision(registration, template);
@@ -246,7 +277,7 @@ namespace Commencement.Controllers.Services
             message.Subject = term.Name + " Commencement Extra Ticket Petition";
 
             //var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition).OrderByDescending(a => a.Id));
-            var template = registration.Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition && a.IsActive).FirstOrDefault();
+            var template = registration.RegistrationParticipations[0].Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition && a.IsActive).FirstOrDefault();
             Check.Require(template != null, "No template is available.");
 
             message.Body = letterGenerator.GenerateExtraTicketRequestPetitionDecision(registration, template);

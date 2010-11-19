@@ -5,7 +5,7 @@
         <li class="prefilled"><strong>Name:</strong> <span><%= Html.Encode(Model.FullName) %></span>
         </li>
         <li class="prefilled"><strong>Student ID:</strong> <span><%= Html.Encode(Model.StudentId) %></span> </li>
-        <li class="prefilled"><strong>Units Complted:</strong> <span><%= Html.Encode(Model.Units) %></span> </li>
+        <li class="prefilled"><strong>Units Complted:</strong> <span><%= Html.Encode(Model.TotalUnits) %></span> </li>
         <li class="prefilled">
             <strong>Major:</strong>
             <span>

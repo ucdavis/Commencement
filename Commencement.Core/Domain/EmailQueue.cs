@@ -47,6 +47,10 @@ namespace Commencement.Core.Domain
         [Required]
         public virtual string Body { get; set; }
         public virtual bool Immediate { get; set; }
+
+        public virtual Registration Registration { get; set; }
+        public virtual RegistrationPetition RegistrationPetition { get; set; }
+        public virtual ExtraTicketPetition ExtraTicketPetition { get; set; }
     }
 
     public class EmailQueueMap : ClassMap<EmailQueue>
@@ -64,6 +68,9 @@ namespace Commencement.Core.Domain
             Map(x => x.Subject);
             Map(x => x.Body);
             Map(x => x.Immediate);
+            References(x => x.Registration);
+            References(x => x.RegistrationPetition);
+            References(x => x.ExtraTicketPetition);
         }
     }
 

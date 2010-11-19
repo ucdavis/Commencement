@@ -88,7 +88,7 @@ namespace Commencement.Core.Domain
         {
             get
             {
-                return string.Join(",", Majors.Select(x=>x.Name).ToArray());
+                return string.Join(",", Majors.Select(x=>x.MajorName).ToArray());
             }
         }
         public virtual string StrMajorCodes

@@ -20,7 +20,7 @@ namespace Commencement.Controllers.Helpers
             Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationConfirmation);
             Check.Require(registration.Student != null, "Student is required.");
 
-            _ceremony = registration.Ceremony;
+            _ceremony = registration.RegistrationParticipations[0].Ceremony;
             Registration = registration;
             Student = registration.Student;
 
@@ -68,7 +68,7 @@ namespace Commencement.Controllers.Helpers
             Check.Require(template.TemplateType.Name == StaticValues.Template_TicketPetition);
 
             Registration = registration;
-            _ceremony = registration.Ceremony;
+            _ceremony = registration.RegistrationParticipations[0].Ceremony;
             Student = registration.Student;
             ExtraTicketPetition = registration.ExtraTicketPetition;
 
@@ -82,7 +82,7 @@ namespace Commencement.Controllers.Helpers
             Check.Require(template.TemplateType.Name == StaticValues.Template_TicketPetition_Decision);
 
             Registration = registration;
-            _ceremony = registration.Ceremony;
+            _ceremony = registration.RegistrationParticipations[0].Ceremony;
             Student = registration.Student;
             ExtraTicketPetition = registration.ExtraTicketPetition;
 
@@ -224,7 +224,7 @@ namespace Commencement.Controllers.Helpers
                 case "major":
                     Check.Require(Registration != null, "Registration is required.");
 
-                    return Registration.Major.Name;
+                    return Registration.RegistrationParticipations[0].Major.Name;
                 case "exceptionreason":
                     Check.Require(RegistrationPetition != null, "Registration petition is required.");
 

@@ -17,11 +17,13 @@ namespace Commencement.Controllers.Services
     {
         private readonly IRepository<Registration> _registrationRepository;
         private readonly ICeremonyService _ceremonyService;
+        private readonly IRepository<RegistrationParticipation> _registrationParticipationRepository;
 
-        public RegistrationService(IRepository<Registration> registrationRepository, ICeremonyService ceremonyService)
+        public RegistrationService(IRepository<Registration> registrationRepository, ICeremonyService ceremonyService, IRepository<RegistrationParticipation> registrationParticipationRepository)
         {
             _registrationRepository = registrationRepository;
             _ceremonyService = ceremonyService;
+            _registrationParticipationRepository = registrationParticipationRepository;
         }
 
         public List<Registration> GetFilteredList(string userId, string studentid, string lastName, string firstName, string majorCode, int? ceremonyId, string collegeCode, List<Ceremony> ceremonies = null, TermCode termCode = null)
@@ -32,21 +34,23 @@ namespace Commencement.Controllers.Services
 
             var ceremonyIds = ceremonies.Select(a => a.Id).ToList();
 
-            var query = _registrationRepository.Queryable.Where(a =>
-                                a.Ceremony.TermCode == termCode
-                                && !a.SjaBlock && !a.Cancelled
-                                && ceremonies.Contains(a.Ceremony)
-                                && a.College.Id.Contains(string.IsNullOrEmpty(collegeCode) ? string.Empty : collegeCode)
-                                && ceremonyIds.Contains(a.Ceremony.Id)
-                                && (a.Student.StudentId.Contains(string.IsNullOrEmpty(studentid) ? string.Empty : studentid))
-                                && (a.Student.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName))
-                                && (a.Student.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName))
-                                );
+            var query = _registrationParticipationRepository.Queryable.Where(a =>
+                            a.Registration.TermCode == termCode
+                            && !a.Registration.Student.SjaBlock && !a.Registration.Cancelled
+                            && ceremonies.Contains(a.Ceremony)
+                            && a.Major.College.Id.Contains(string.IsNullOrEmpty(collegeCode) ? string.Empty : collegeCode)
+                            && ceremonyIds.Contains(a.Ceremony.Id)
+                            && (a.Registration.Student.StudentId.Contains(string.IsNullOrEmpty(studentid) ? string.Empty : studentid))
+                            && (a.Registration.Student.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName))
+                            && (a.Registration.Student.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName))
+                );
 
             if (ceremonyId.HasValue && ceremonyId.Value > 0)
                 query = query.Where(a => a.Ceremony.Id == ceremonyId.Value);
 
-            return query.ToList();
+            var regIds = query.Select(a => a.Registration.Id).ToList();
+
+            return _registrationRepository.Queryable.Where(a => regIds.Contains(a.Id)).ToList();
         }
     }
 }

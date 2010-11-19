@@ -11,7 +11,7 @@
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
 
 <h2>
-    Your registration was successfull for <%= Html.Encode(Model.Ceremony.Name) %>.  
+    <%--Your registration was successfull for <%= Html.Encode(Model.Ceremony.Name) %>.  --%>
 </h2>
 <h3 style="font-size:large;">You are required to complete the following exit survey <a href="<%= ConfigurationManager.AppSettings["SurveyUrl"] %>">here</a></h3>
 <h3>

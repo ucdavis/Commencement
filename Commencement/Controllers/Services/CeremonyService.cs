@@ -14,6 +14,8 @@ namespace Commencement.Controllers.Services
         List<int> GetCeremonyIds(string userId, TermCode termCode = null);
         void ResetUserCeremonies();
         bool HasAccess(int id, string userId);
+
+        List<Ceremony> StudentEligibility(List<MajorCode> majors, TermCode termCode = null);
     }
 
     public class CeremonyService : ICeremonyService
@@ -84,6 +86,40 @@ namespace Commencement.Controllers.Services
             Check.Require(ceremony != null, "ceremony is required.");
 
             return ceremony.IsEditor(userId);
+        }
+
+        /// <summary>
+        /// Returns ceremonies that this student is eligible for
+        /// </summary>
+        /// <param name="majors"></param>
+        /// <returns>List of ceremonies, if empty, student not eligible for ceremony is system.</returns>
+        public virtual List<Ceremony> StudentEligibility(List<MajorCode> majors, TermCode termCode = null)
+        {
+            // get term code if we don't have one
+            if (termCode == null) termCode = TermService.GetCurrent();
+
+            // load all valid ceremonies for current term
+            var ceremonies = _repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == termCode).ToList();
+
+            var eligibleCeremonies = new List<Ceremony>();
+
+            // find ceremonies, student is eligible for
+            foreach (var a in ceremonies)
+            {
+                // go through each of the student's major
+                foreach (var b in majors)
+                {
+                    // if major is in ceremony
+                    if (a.Majors.Contains(b))
+                    {
+                        // add to the list of valid
+                        eligibleCeremonies.Add(a);
+                    }
+                }
+            }
+
+            // return distinct list
+            return eligibleCeremonies.Distinct().ToList();
         }
     }
 }

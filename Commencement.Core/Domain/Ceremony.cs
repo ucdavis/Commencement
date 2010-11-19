@@ -134,7 +134,8 @@ namespace Commencement.Core.Domain
         /// </summary>
         public virtual int RequestedTickets
         {
-            get { return Registrations.Where(a => !a.SjaBlock && !a.Cancelled).Sum(a => a.NumberTickets); }
+            //get { return Registrations.Where(a => !a.SjaBlock && !a.Cancelled).Sum(a => a.NumberTickets); }
+            get { return 0; }
         }
 
         /// <summary>

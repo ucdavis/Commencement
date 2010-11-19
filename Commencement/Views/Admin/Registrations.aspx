@@ -49,7 +49,7 @@
         </div>
         <h3><a href="#">Totals</a></h3>
         <div>
-            <% if (Model.Registrations.Count() > 0) { %>
+<%--            <% if (Model.Registrations.Count() > 0) { %>
             <ul>
                 <% foreach(var c in Model.Registrations.Select(x=>x.Ceremony).Distinct()) { %>
                     <li>
@@ -62,7 +62,7 @@
                 <p>
                     No registrations for the current term have been found.
                 </p>
-            <% } %>
+            <% } %>--%>
             
         </div>
     </div>
@@ -88,8 +88,8 @@
                             col.Bound(a => a.Student.FirstName);
                             col.Bound(a => a.TotalTickets);
                             col.Bound(a => a.MailTickets);
-                            col.Bound(a => a.Ceremony.DateTime).Format("{0:MM/dd/yyyy hh:mm tt}").Title("Ceremony");
-                            col.Bound(a => a.Major.Id).Title("Major");
+                            //col.Bound(a => a.Ceremony.DateTime).Format("{0:MM/dd/yyyy hh:mm tt}").Title("Ceremony");
+                            //col.Bound(a => a.Major.Id).Title("Major");
                         })
            .DataBinding(binding=>binding.Server().Select<AdminController>(a=>a.Registrations(Model.studentidFilter, Model.lastNameFilter, Model.firstNameFilter, Model.majorCodeFilter, Model.ceremonyFilter, Model.collegeFilter)))
            .Pageable(p=>p.PageSize(100))

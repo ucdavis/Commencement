@@ -124,7 +124,7 @@ namespace Commencement.Controllers
             var term = _termRepository.GetNullableById(termCode);
 
             var query = from a in Repository.OfType<Registration>().Queryable
-                        where  _ceremonyService.GetCeremonies(CurrentUser.Identity.Name, term).Contains(a.Ceremony)
+                        where _ceremonyService.GetCeremonies(CurrentUser.Identity.Name, term).Contains(a.RegistrationParticipations[0].Ceremony)
                             && !a.SjaBlock && !a.Cancelled
                             && a.MailTickets == printMailing
                         orderby a.Student.LastName 
@@ -188,7 +188,7 @@ namespace Commencement.Controllers
                 }
 
                 // calculate the number of tickets
-                var tickets = !reg.LabelPrinted || printAll ?  reg.NumberTickets : 0;
+                var tickets = !reg.LabelPrinted || printAll ? reg.RegistrationParticipations[0].NumberTickets : 0;
                 tickets += reg.ExtraTicketPetition != null && !reg.ExtraTicketPetition.IsPending && reg.ExtraTicketPetition.IsApproved && (!reg.ExtraTicketPetition.LabelPrinted || printAll) ? reg.ExtraTicketPetition.NumberTickets.Value : 0;
 
                 if (tickets > 0)
@@ -199,14 +199,14 @@ namespace Commencement.Controllers
                     {
                         var address2 = string.IsNullOrEmpty(reg.Address2) ? string.Empty : string.Format(Labels.Avergy5160_Mail_Address2, reg.Address2);
                         cell = string.Format(Labels.Avery5160_MailCell, reg.Student.FullName, reg.Address1,
-                                                 address2, reg.City + ", " + reg.State.Id + " " + reg.Zip, reg.Ceremony.DateTime.ToString("t") + "-" + tickets);
+                                                 address2, reg.City + ", " + reg.State.Id + " " + reg.Zip, reg.RegistrationParticipations[0].Ceremony.DateTime.ToString("t") + "-" + tickets);
 
 
                     }
                     else
                     {
                         cell = string.Format(Labels.Avery5160_PickupCell, reg.Student.FullName,
-                                             reg.Student.StudentId, reg.Major.Name, reg.Ceremony.DateTime.ToString("t") + "-" + tickets);
+                                             reg.Student.StudentId, reg.RegistrationParticipations[0].Major.Name, reg.RegistrationParticipations[0].Ceremony.DateTime.ToString("t") + "-" + tickets);
                     }
 
                     row.AddCell(cell);

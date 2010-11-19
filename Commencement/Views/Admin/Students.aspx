@@ -57,7 +57,7 @@
                             col.Bound(x => x.Student.StudentId).Title("Student Id");
                             col.Bound(x => x.Student.LastName).Title("Last Name");
                             col.Bound(x => x.Student.FirstName).Title("First Name");
-                            col.Bound(x => x.Student.Units);
+                            col.Bound(x => x.Student.TotalUnits);
                             col.Bound(x => x.Student.Email);
                             col.Bound(x => x.Student.StrMajorCodes ).Title("Majors");
                             col.Bound(x => x.Registration).Title("Registered").Width(40);

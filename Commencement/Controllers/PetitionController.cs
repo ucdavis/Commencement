@@ -248,7 +248,7 @@ namespace Commencement.Controllers
             }
 
             // extra ticket deadline has passed or no more tickets
-            if (registration.Ceremony.ExtraTicketDeadline <= DateTime.Now || registration.Ceremony.AvailableTickets < registration.Ceremony.TicketsPerStudent)
+            if (registration.RegistrationParticipations[0].Ceremony.ExtraTicketDeadline <= DateTime.Now || registration.RegistrationParticipations[0].Ceremony.AvailableTickets < registration.RegistrationParticipations[0].Ceremony.TicketsPerStudent)
             {
                 Message = "Deadline for extra ticket requests has passed or there are no more tickets available.";
                 return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
@@ -279,7 +279,7 @@ namespace Commencement.Controllers
             }
 
             // extra ticket deadline has passed or no more tickets
-            if (registration.Ceremony.ExtraTicketDeadline <= DateTime.Now || registration.Ceremony.AvailableTickets < registration.Ceremony.TicketsPerStudent)
+            if (registration.RegistrationParticipations[0].Ceremony.ExtraTicketDeadline <= DateTime.Now || registration.RegistrationParticipations[0].Ceremony.AvailableTickets < registration.RegistrationParticipations[0].Ceremony.TicketsPerStudent)
             {
                 Message = "Deadline for extra ticket requests has passed or there are no more tickets available.";
                 return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));

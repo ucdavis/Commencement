@@ -242,4 +242,7 @@ Any student who is found selling tickets or in possession of counterfeit tickets
   <data name="Txt_Introduction_AfterPrintingDeadling" xml:space="preserve">
     <value>Welcome {0}.  You are registering AFTER the registration deadline.  Please note that due to the late registration we can not guarantee your name will appear in the program or that you will receive the maximum # of tickets alloted per person.  After the deadline tickets are distributed on a first come first serve basis.</value>
   </data>
+  <data name="StudentService_BannerLookupByLogin_SQL" xml:space="preserve">
+    <value>EXEC uspa_SearchStudentByLogin :login</value>
+  </data>
 </root>

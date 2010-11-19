@@ -21,7 +21,7 @@ namespace Commencement.Controllers.ViewModels
                                 {
                                     Registration = registration, 
                                     ExtraTicketPetition = new ExtraTicketPetition(),
-                                    DisclaimerStartDate = registration.Ceremony.RegistrationDeadline.AddDays(7)
+                                    DisclaimerStartDate = DateTime.Now//registration.Ceremony.RegistrationDeadline.AddDays(7)
                                 };
             return viewModel;
         }

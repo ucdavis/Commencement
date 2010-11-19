@@ -6,9 +6,11 @@
     </li>
     <li class="prefilled"><strong>Student ID:</strong><span><%= Html.Encode(Model.Student.StudentId) %></span>
     </li>
-    <li class="prefilled"><strong>Units Complted:</strong><span><%= Html.Encode(Model.Student.Units) %></span>
+    <li class="prefilled"><strong>Units Complted:</strong><span><%= Html.Encode(Model.Student.TotalUnits) %></span>
     </li>
-    <li class="prefilled"><strong>Major:</strong><span><%= Html.Encode(Model.Major.Name)%></span></li>
+    <li class="prefilled"><strong>Major:</strong>
+        <span><%: Model.Student.StrMajors %></span>
+    </li>
 </ul>
 <h2>
     Contact Information</h2>
@@ -28,22 +30,24 @@
     </li>
     <% } %>
 </ul>
-<h2>
-    Ceremony Information</h2>
-<ul class="registration_form">
-    <li><strong>Date Registered:</strong><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateRegistered) %></li>
-    <li><strong>Tickets Requested:</strong><span><%= Html.Encode(Model.NumberTickets) %></span>
-    </li>
-    <li>
-        <strong>Ticket Distribution Method:</strong>
-        <span><%= Html.Encode(Model.TicketDistributionMethod) %></span>
-    </li>
-    <li class="prefilled"><strong>Ceremony Date:</strong> <span>
-        <%= Html.Encode(string.Format("{0}", Model.Ceremony.DateTime.ToString("g"))) %></span> </li>
-        <li class="prefilled"><strong>Special Requests:</strong>
-            <%= Html.Encode(Model.Comments) %>
+<h2>Ceremony Information</h2>
+<% foreach (var a in Model.RegistrationParticipations) { %>
+    <ul class="registration_form">
+        <li><strong>Date Registered:</strong><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", a.Registration.DateRegistered) %></li>
+        <li><strong>Tickets Requested:</strong><span><%= Html.Encode(a.NumberTickets) %></span>
         </li>
-</ul>
+        <li>
+            <strong>Ticket Distribution Method:</strong>
+            <span><%= Html.Encode(Model.TicketDistributionMethod) %></span>
+        </li>
+        <li class="prefilled"><strong>Ceremony Date:</strong> <span>
+            <%= Html.Encode(string.Format("{0}", a.Ceremony.DateTime.ToString("g"))) %></span> </li>
+            <li class="prefilled"><strong>Special Requests:</strong>
+                <%= Html.Encode(Model.Comments) %>
+            </li>
+    </ul>
+<% } %>
+
 
 <% if (Model.ExtraTicketPetition != null) { %>
     <h2>Extra Ticket Petition</h2>

@@ -10,13 +10,13 @@
 </asp:Content>
 
 <asp:Content runat="server" ID="Content3" ContentPlaceHolderID="logoContent">
-    <% Html.RenderPartial("LogoDisplay", Model.Registration.College); %>
+    
 </asp:Content>
 
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
-    <h1><%= Model.Ceremony.Name %></h1>
+    <%--<h1><%= Model.Ceremony.Name %></h1>--%>
     <p>
-        <% if (Model.Ceremony.PrintingDeadline > DateTime.Now) { %>
+        <% if (Model.Ceremonies.Min(a=>a.PrintingDeadline) > DateTime.Now) { %>
             <%= Html.Encode(string.Format(StaticValues.Txt_Introduction, Model.Student.FirstName)) %>
         <% } else { %>
             <%: string.Format(StaticValues.Txt_Introduction_AfterPrintingDeadling, Model.Student.FirstName) %>

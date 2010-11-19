@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
@@ -11,12 +12,16 @@ namespace Commencement.Core.Domain
         public Registration()
         {
             DateRegistered = DateTime.Now;
+
+            RegistrationParticipations = new List<RegistrationParticipation>();
+            SpecialNeeds = new List<SpecialNeed>();
+
         }
 
         [NotNull]
         public virtual Student Student { get; set; }
-        [NotNull]
-        public virtual MajorCode Major { get; set; }
+        //[NotNull]
+        //public virtual MajorCode Major { get; set; }
 
         [Required]
         [Length(200)]
@@ -38,16 +43,16 @@ namespace Commencement.Core.Domain
         [Email]
         public virtual string Email { get; set; }
         
-        [Min(1)]
-        public virtual int NumberTickets { get; set; }
+        //[Min(1)]
+        //public virtual int NumberTickets { get; set; }
         
         public virtual bool MailTickets { get; set; }
 
         [Length(1000, Message = "Please enter less than 1,000 characters")]
         public virtual string Comments { get; set; }
         
-        [NotNull]
-        public virtual Ceremony Ceremony { get; set; }
+        //[NotNull]
+        //public virtual Ceremony Ceremony { get; set; }
 
         public virtual ExtraTicketPetition ExtraTicketPetition { get; set; }
 
@@ -55,10 +60,14 @@ namespace Commencement.Core.Domain
 
         public virtual bool LabelPrinted { get; set; }
 
-        public virtual string TicketDistributionMethod { 
-            get {
-                return MailTickets ? "Mail tickets to provided address" :
-                    (Ceremony.PrintingDeadline > DateTime.Now ? "Pickup tickets at Arc Ticket Office" : "Pickup tickets in person as specified in web site FAQ");
+        public virtual string TicketDistributionMethod
+        {
+            get
+            {
+                //return MailTickets ? "Mail tickets to provided address" :
+                //    (Ceremony.PrintingDeadline > DateTime.Now ? "Pickup tickets at Arc Ticket Office" : "Pickup tickets in person as specified in web site FAQ");
+
+                return "work on me";
             }
         }
 
@@ -67,15 +76,17 @@ namespace Commencement.Core.Domain
         {
             get
             {
-                // sja blocked or cancelled no tickets given
-                if (SjaBlock || Cancelled) return 0;
-                
-                var extraTickets = ExtraTicketPetition != null && !ExtraTicketPetition.IsPending &&
-                                   ExtraTicketPetition.IsApproved
-                                       ? ExtraTicketPetition.NumberTickets.Value
-                                       : 0;
+                //// sja blocked or cancelled no tickets given
+                //if (SjaBlock || Cancelled) return 0;
 
-                return NumberTickets + extraTickets; 
+                //var extraTickets = ExtraTicketPetition != null && !ExtraTicketPetition.IsPending &&
+                //                   ExtraTicketPetition.IsApproved
+                //                       ? ExtraTicketPetition.NumberTickets.Value
+                //                       : 0;
+
+                //return NumberTickets + extraTickets;
+
+                return 0;
             }
         }
 
@@ -88,6 +99,18 @@ namespace Commencement.Core.Domain
         public virtual bool SjaBlock { get; set; }
         public virtual bool Cancelled { get; set; }
         public virtual College College { get; set; }
+        public virtual TermCode TermCode { get; set; }
+
+        public virtual IList<RegistrationParticipation> RegistrationParticipations { get; set; }
+        public virtual IList<SpecialNeed> SpecialNeeds { get; set; }
+
+        public virtual void AddParticipation(MajorCode major, Ceremony ceremony, int numberTickets)
+        {
+            var participation = new RegistrationParticipation()
+                                    {Major = major, Ceremony = ceremony, NumberTickets = numberTickets, Registration = this};
+
+            RegistrationParticipations.Add(participation);
+        }
     }
 
     public class RegistrationMap : ClassMap<Registration>
@@ -97,9 +120,9 @@ namespace Commencement.Core.Domain
             Id(x => x.Id);
 
             References(x => x.Student).Column("Student_Id").Fetch.Join();
-            References(x => x.Major).Column("MajorCode");
+            //References(x => x.Major).Column("MajorCode");
             References(x => x.State).Column("State");
-            References(x => x.Ceremony);
+            //References(x => x.Ceremony);
             References(x => x.ExtraTicketPetition).Cascade.All();
             References(x => x.College).Column("CollegeCode");
 
@@ -109,13 +132,22 @@ namespace Commencement.Core.Domain
             Map(x => x.City);
             Map(x => x.Zip);
             Map(x => x.Email);
-            Map(x => x.NumberTickets);
+            //Map(x => x.NumberTickets);
             Map(x => x.MailTickets);
             Map(x => x.Comments);
             Map(x => x.DateRegistered);
             Map(x => x.LabelPrinted);
             Map(x => x.SjaBlock);
             Map(x => x.Cancelled);
+            References(x => x.TermCode).Column("TermCode");
+
+            HasMany(a => a.RegistrationParticipations).Inverse().Cascade.AllDeleteOrphan();
+            HasManyToMany(x => x.SpecialNeeds)
+                .ParentKeyColumn("RegistrationId")
+                .ChildKeyColumn("SpecialNeedId")
+                .Table("RegistrationSpecialNeeds")
+                .Cascade.SaveUpdate()
+                .Fetch.Subselect();
         }
     }
 }

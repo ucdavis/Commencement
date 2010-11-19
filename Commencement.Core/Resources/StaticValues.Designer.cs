@@ -142,6 +142,15 @@ namespace Commencement.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EXEC uspa_SearchStudentByLogin :login.
+        /// </summary>
+        public static string StudentService_BannerLookupByLogin_SQL {
+            get {
+                return ResourceManager.GetString("StudentService_BannerLookupByLogin_SQL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EXEC usp_SearchStudent :studentid, :term.
         /// </summary>
         public static string StudentService_SearchStudent_SQL {

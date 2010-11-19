@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Audit.cs" />
+    <Compile Include="Domain\BannerStudent.cs" />
     <Compile Include="Domain\Ceremony.cs" />
     <Compile Include="Domain\CeremonyEditor.cs" />
     <Compile Include="Domain\EmailQueue.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Domain\MajorCode.cs" />
     <Compile Include="Domain\PageTracking.cs" />
     <Compile Include="Domain\Registration.cs" />
+    <Compile Include="Domain\RegistrationParticipation.cs" />
     <Compile Include="Domain\RegistrationPetition.cs" />
     <Compile Include="Domain\College.cs" />
     <Compile Include="Domain\SearchStudent.cs" />

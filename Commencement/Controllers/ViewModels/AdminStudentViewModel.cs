@@ -44,9 +44,12 @@ namespace Commencement.Controllers.ViewModels
             if (!string.IsNullOrEmpty(majorCode)) students = students.Where(a => a.StrMajorCodes.Contains(majorCode));
 
             // get all active registrations
-            var registrations = repository.OfType<Registration>().Queryable.Where(a => a.Ceremony.TermCode == termCode && !a.SjaBlock && !a.Cancelled).ToList();
-            var regStudents = registrations.Select(a => a.Student);
+            var reg = repository.OfType<RegistrationParticipation>().Queryable.Where(
+                    a => a.Ceremony.TermCode == termCode && !a.Registration.Student.SjaBlock && !a.Registration.Cancelled).
+                    ToList();
 
+            var regStudents = reg.Select(a => a.Registration.Student);
+            
             viewModel.StudentRegistrationModels = new List<StudentRegistrationModel>();
 
             foreach(var s in students.Distinct().ToList())

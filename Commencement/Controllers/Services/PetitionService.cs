@@ -43,7 +43,7 @@ namespace Commencement.Controllers.Services
                 _registrationRepository.Queryable.Where(
                     a =>
                     a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsPending &&
-                    ceremonyIds.Contains(a.Ceremony.Id));
+                    ceremonyIds.Contains(a.RegistrationParticipations[0].Ceremony.Id));
 
 
             return registrations.ToList();

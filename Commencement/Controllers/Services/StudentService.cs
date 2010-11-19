@@ -18,6 +18,8 @@ namespace Commencement.Controllers.Services
         IList<SearchStudent> SearchStudent(string studentId, string termCode);
         IList<SearchStudent> SearchStudentByLogin(string login, string termCode);
 
+        IList<BannerStudent> BannerLookupByLogin(string login);
+
         bool CheckExisting(string login, TermCode term);
     }
 
@@ -26,6 +28,7 @@ namespace Commencement.Controllers.Services
         private readonly IRepositoryWithTypedId<Student, Guid> _studentRepository;
         private readonly IRepository<Ceremony> _ceremonyRepository;
         private readonly IRepository<Registration> _registrationRepository;
+        private readonly IRepositoryWithTypedId<MajorCode, string> _majorService;
 
         private Student CurrentStudent
         {
@@ -33,11 +36,12 @@ namespace Commencement.Controllers.Services
             set { System.Web.HttpContext.Current.Session[StaticIndexes.CurrentStudentKey] = value; }
         }
 
-        public StudentService(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepository<Ceremony> ceremonyRepository, IRepository<Registration> registrationRepository)
+        public StudentService(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepository<Ceremony> ceremonyRepository, IRepository<Registration> registrationRepository, IRepositoryWithTypedId<MajorCode, string> majorService)
         {
             _studentRepository = studentRepository;
             _ceremonyRepository = ceremonyRepository;
             _registrationRepository = registrationRepository;
+            _majorService = majorService;
         }
 
         public Student GetCurrentStudent(IPrincipal currentUser)
@@ -46,19 +50,19 @@ namespace Commencement.Controllers.Services
             
             if (currentStudent == null)
             {
-                //throw new NotImplementedException("Student was not found");
-
-
-                var searchResults = SearchStudentByLogin(currentUser.Identity.Name, TermService.GetCurrent().Id);
-
+                var searchResults = BannerLookupByLogin(currentUser.Identity.Name);
 
                 if (searchResults.Count > 0)
                 {
                     var s = searchResults[0];
-                    currentStudent = new Student(s.Pidm, s.Id, s.FirstName, s.MI, s.LastName, s.HoursEarned, s.Email, s.LoginId, TermService.GetCurrent());
+                    currentStudent = new Student(s.Pidm, s.StudentId, s.FirstName, s.Mi, s.LastName, s.EarnedUnits, s.Email, currentUser.Identity.Name, TermService.GetCurrent());
+                    currentStudent.CurrentUnits = s.CurrentUnits;
+
+                    foreach (var bannerStudent in searchResults)
+                    {
+                        currentStudent.Majors.Add(_majorService.GetById(bannerStudent.Major));
+                    }
                 }
-
-
             }
 
             return currentStudent;
@@ -86,7 +90,7 @@ namespace Commencement.Controllers.Services
         public Registration GetPriorRegistration(Student student, TermCode termCode)
         {
             //Get any prior registration for the given student.  There should be either none or one
-            return _registrationRepository.Queryable.SingleOrDefault(x => x.Student == student && x.Ceremony.TermCode == termCode);
+            return _registrationRepository.Queryable.SingleOrDefault(x => x.Student == student && x.RegistrationParticipations[0].Ceremony.TermCode == termCode);
         }
 
         public IList<SearchStudent> SearchStudent(string studentId, string termCode)
@@ -112,6 +116,17 @@ namespace Commencement.Controllers.Services
             searchQuery.AddEntity(typeof (SearchStudent));
             
             return searchQuery.List<SearchStudent>();
+        }
+
+        public IList<BannerStudent> BannerLookupByLogin(string login)
+        {
+            var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery(StaticValues.StudentService_BannerLookupByLogin_SQL);
+
+            searchQuery.SetString("login", login);
+
+            searchQuery.AddEntity(typeof (BannerStudent));
+
+            return searchQuery.List<BannerStudent>();
         }
 
         public bool CheckExisting(string login, TermCode term)
@@ -176,7 +191,7 @@ namespace Commencement.Controllers.Services
         public Registration GetPriorRegistration(Student student, TermCode termCode)
         {
             //Get any prior registration for the given student.  There should be either none or one
-            return _registrationRepository.Queryable.SingleOrDefault(x => x.Student == student && x.Ceremony.TermCode == termCode);
+            return _registrationRepository.Queryable.SingleOrDefault(x => x.Student == student && x.RegistrationParticipations[0].Ceremony.TermCode == termCode);
         }
 
         public IList<SearchStudent> SearchStudent(string studentId, string termCode)
@@ -197,6 +212,11 @@ namespace Commencement.Controllers.Services
             searchQuery.SetString("term", termCode);
 
             return searchQuery.List<SearchStudent>();
+        }
+
+        public IList<BannerStudent> BannerLookupByLogin(string login)
+        {
+            throw new NotImplementedException();
         }
 
         public bool CheckExisting(string login, TermCode term)
