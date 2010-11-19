@@ -35,18 +35,20 @@ namespace Commencement.Controllers.Services
         /// <returns>Return registration so user has access to name and what not</returns>
         public List<Registration> GetPendingExtraTicket(string userId, TermCode termCode = null, List<int> ceremonyIds = null)
         {
-            // get the list of my valid ceremonies
-            if (ceremonyIds == null) ceremonyIds = _ceremonyService.GetCeremonyIds(userId, termCode ?? TermService.GetCurrent());
+            //// get the list of my valid ceremonies
+            //if (ceremonyIds == null) ceremonyIds = _ceremonyService.GetCeremonyIds(userId, termCode ?? TermService.GetCurrent());
 
-            // filter the registrations to what we are looking for
-            var registrations =
-                _registrationRepository.Queryable.Where(
-                    a =>
-                    a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsPending &&
-                    ceremonyIds.Contains(a.RegistrationParticipations[0].Ceremony.Id));
+            //// filter the registrations to what we are looking for
+            //var registrations =
+            //    _registrationRepository.Queryable.Where(
+            //        a =>
+            //        a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsPending &&
+            //        ceremonyIds.Contains(a.RegistrationParticipations[0].Ceremony.Id));
 
 
-            return registrations.ToList();
+            //return registrations.ToList();
+
+            return null;
         }
 
         public List<RegistrationPetition> GetPendingRegistration(string userId, TermCode termCode, List<int> ceremonyIds = null)

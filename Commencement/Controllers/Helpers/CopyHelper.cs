@@ -13,13 +13,8 @@ namespace Commencement.Controllers.Helpers
             registrationTo.Zip = registrationFrom.Zip;
             
             registrationTo.Email = registrationFrom.Email;
-            registrationTo.Comments = registrationFrom.Comments;
             
             registrationTo.MailTickets = registrationFrom.MailTickets;
-            //registrationTo.NumberTickets = registrationFrom.NumberTickets;
-
-            //registrationTo.Ceremony = registrationFrom.Ceremony;
-            //registrationTo.Major = registrationFrom.Major;
         }
     }
 }

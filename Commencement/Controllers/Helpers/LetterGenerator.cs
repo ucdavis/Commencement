@@ -70,7 +70,7 @@ namespace Commencement.Controllers.Helpers
             Registration = registration;
             _ceremony = registration.RegistrationParticipations[0].Ceremony;
             Student = registration.Student;
-            ExtraTicketPetition = registration.ExtraTicketPetition;
+            //ExtraTicketPetition = registration.ExtraTicketPetition;
 
             return HandleBody(template.BodyText);
         }
@@ -84,7 +84,7 @@ namespace Commencement.Controllers.Helpers
             Registration = registration;
             _ceremony = registration.RegistrationParticipations[0].Ceremony;
             Student = registration.Student;
-            ExtraTicketPetition = registration.ExtraTicketPetition;
+            //ExtraTicketPetition = registration.ExtraTicketPetition;
 
             return HandleBody(template.BodyText);
         }
@@ -219,8 +219,8 @@ namespace Commencement.Controllers.Helpers
                     return Registration.TicketDistributionMethod;
                 case "specialneeds":
                     Check.Require(Registration != null, "Registration is required.");
-
-                    return Registration.Comments;
+                    return string.Empty;
+                    //return Registration.Comments;
                 case "major":
                     Check.Require(Registration != null, "Registration is required.");
 

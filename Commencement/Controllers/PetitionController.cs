@@ -54,32 +54,32 @@ namespace Commencement.Controllers
             var registration = Repository.OfType<Registration>().GetNullableById(id);
             if (registration == null) return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.UnknownError));
 
-            registration.ExtraTicketPetition.IsPending = false;
-            registration.ExtraTicketPetition.IsApproved = isApproved;
-            registration.ExtraTicketPetition.DateDecision = DateTime.Now;
+            //registration.ExtraTicketPetition.IsPending = false;
+            //registration.ExtraTicketPetition.IsApproved = isApproved;
+            //registration.ExtraTicketPetition.DateDecision = DateTime.Now;
 
-            registration.ExtraTicketPetition.TransferValidationMessagesTo(ModelState);
+            //registration.ExtraTicketPetition.TransferValidationMessagesTo(ModelState);
 
-            if (ModelState.IsValid)
-            {
-                Repository.OfType<ExtraTicketPetition>().EnsurePersistent(registration.ExtraTicketPetition);
+            //if (ModelState.IsValid)
+            //{
+            //    Repository.OfType<ExtraTicketPetition>().EnsurePersistent(registration.ExtraTicketPetition);
 
-                Message = string.Format("Decision for {0} has been saved.", registration.Student.FullName);
+            //    Message = string.Format("Decision for {0} has been saved.", registration.Student.FullName);
 
-                try
-                {
-                    _emailService.SendExtraTicketPetitionDecision(registration);
-                }
-                catch (Exception ex)
-                {
-                    _errorService.ReportError(ex);
-                    Message += StaticValues.Student_Email_Problem;
-                }
-            }
-            else
-            {
-                Message = string.Format("There was a problem saving decision for {0}", registration.Student.FullName);
-            }
+            //    try
+            //    {
+            //        _emailService.SendExtraTicketPetitionDecision(registration);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        _errorService.ReportError(ex);
+            //        Message += StaticValues.Student_Email_Problem;
+            //    }
+            //}
+            //else
+            //{
+            //    Message = string.Format("There was a problem saving decision for {0}", registration.Student.FullName);
+            //}
 
             return this.RedirectToAction(a => a.Index());
         }
@@ -152,11 +152,11 @@ namespace Commencement.Controllers
         {
             var registration = Repository.OfType<Registration>().GetNullableById(id);
             if (registration == null) return Json(false);
-            if (!registration.ExtraTicketPetition.IsPending) return Json(false);    // do not change non-pending petitions
+            //if (!registration.ExtraTicketPetition.IsPending) return Json(false);    // do not change non-pending petitions
 
-            registration.ExtraTicketPetition.NumberTickets = tickets > 0 ? tickets : 0;
+            //registration.ExtraTicketPetition.NumberTickets = tickets > 0 ? tickets : 0;
 
-            Repository.OfType<ExtraTicketPetition>().EnsurePersistent(registration.ExtraTicketPetition);
+            //Repository.OfType<ExtraTicketPetition>().EnsurePersistent(registration.ExtraTicketPetition);
 
             return Json(true);
         }
@@ -255,11 +255,11 @@ namespace Commencement.Controllers
             }
 
             // already submitted extra ticket petition
-            if (registration.ExtraTicketPetition != null)
-            {
-                Message = "You have already submitted an extra ticket petition.";
-                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
-            }
+            //if (registration.ExtraTicketPetition != null)
+            //{
+            //    Message = "You have already submitted an extra ticket petition.";
+            //    return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
+            //}
 
             var viewModel = ExtraTicketPetitionModel.Create(Repository, registration);
 
@@ -286,15 +286,15 @@ namespace Commencement.Controllers
             }
 
             // already submitted extra ticket petition
-            if (registration.ExtraTicketPetition != null)
-            {
-                Message = "You have already submitted an extra ticket petition.";
-                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
-            }
+            //if (registration.ExtraTicketPetition != null)
+            //{
+            //    Message = "You have already submitted an extra ticket petition.";
+            //    return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
+            //}
 
             var ticketPetition = new ExtraTicketPetition(numberTickets);
 
-            registration.ExtraTicketPetition = ticketPetition;
+            //registration.ExtraTicketPetition = ticketPetition;
 
             // validate the object
             ticketPetition.TransferValidationMessagesTo(ModelState);

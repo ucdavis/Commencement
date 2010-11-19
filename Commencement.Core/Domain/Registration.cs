@@ -12,11 +12,8 @@ namespace Commencement.Core.Domain
     {
         public Registration()
         {
-            DateRegistered = DateTime.Now;
-
             RegistrationParticipations = new List<RegistrationParticipation>();
             SpecialNeeds = new List<SpecialNeed>();
-
         }
 
         #region Mapped Fields
@@ -27,8 +24,6 @@ namespace Commencement.Core.Domain
         public virtual string Address1 { get; set; }
         [Length(200)]
         public virtual string Address2 { get; set; }
-        [Length(200)]
-        public virtual string Address3 { get; set; }
         [Required]
         [Length(100)]
         public virtual string City { get; set; }
@@ -37,16 +32,16 @@ namespace Commencement.Core.Domain
         [Required]
         [Length(15)]
         public virtual string Zip { get; set; }
+        /// <summary>
+        /// Secondary email
+        /// </summary>
         [Length(100)]
         [Email]
         public virtual string Email { get; set; }
         public virtual bool MailTickets { get; set; }
-        [Length(1000, Message = "Please enter less than 1,000 characters")]
-        public virtual string Comments { get; set; }
-        public virtual ExtraTicketPetition ExtraTicketPetition { get; set; }
-        public virtual DateTime DateRegistered { get; set; }
         [NotNull]
         public virtual TermCode TermCode { get; set; }
+
         public virtual IList<RegistrationParticipation> RegistrationParticipations { get; set; }
         public virtual IList<SpecialNeed> SpecialNeeds { get; set; }
         #endregion
@@ -62,6 +57,8 @@ namespace Commencement.Core.Domain
         //[NotNull]
         //public virtual Ceremony Ceremony { get; set; }
         //public virtual bool LabelPrinted { get; set; }
+        //[Length(200)]
+        //public virtual string Address3 { get; set; }
 
         // total number of tickets given to student, includes count from extra ticket petition
         public virtual int TotalTickets
@@ -116,36 +113,35 @@ namespace Commencement.Core.Domain
 
             RegistrationParticipations.Add(participation);
         }
+        //public virtual int TicketsByCeremonies(List<Ceremony> ceremonies)
+        //{
+        //    // not allowed to count
+        //    if (Student.SjaBlock || Student.Blocked) return 0;
 
-        public virtual int TicketsByCeremonies(List<Ceremony> ceremonies)
-        {
-            // not allowed to count
-            if (Student.SjaBlock || Student.Blocked) return 0;
+        //    // initial count of tickets
+        //    var tickets = 0;
+        //    foreach (var a in RegistrationParticipations)
+        //    {
+        //        if (ceremonies.Contains(a.Ceremony))
+        //        {
+        //            tickets += a.NumberTickets;
+        //        }
+        //    }
 
-            // initial count of tickets
-            var tickets = 0;
-            foreach (var a in RegistrationParticipations)
-            {
-                if (ceremonies.Contains(a.Ceremony))
-                {
-                    tickets += a.NumberTickets;
-                }
-            }
+        //    return tickets;
+        //}
+        //public virtual int ExtraTicketsByCeremonies(List<Ceremony> ceremonies)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public virtual int TotalTicketsByCeremonies(List<Ceremony> ceremonies)
+        //{
+        //    var tickets = TicketsByCeremonies(ceremonies);
 
-            return tickets;
-        }
-        public virtual int ExtraTicketsByCeremonies(List<Ceremony> ceremonies)
-        {
-            throw new NotImplementedException();
-        }
-        public virtual int TotalTicketsByCeremonies(List<Ceremony> ceremonies)
-        {
-            var tickets = TicketsByCeremonies(ceremonies);
+        //    //TODO: count extra petition tickets
 
-            //TODO: count extra petition tickets
-
-            return tickets;
-        }
+        //    return tickets;
+        //}
         #endregion
     }
 
@@ -156,25 +152,14 @@ namespace Commencement.Core.Domain
             Id(x => x.Id);
 
             References(x => x.Student).Column("Student_Id").Fetch.Join();
-            //References(x => x.Major).Column("MajorCode");
             References(x => x.State).Column("State");
-            //References(x => x.Ceremony);
-            References(x => x.ExtraTicketPetition).Cascade.All();
-            //References(x => x.College).Column("CollegeCode");
 
             Map(x => x.Address1);
             Map(x => x.Address2);
-            Map(x => x.Address3);
             Map(x => x.City);
             Map(x => x.Zip);
             Map(x => x.Email);
-            //Map(x => x.NumberTickets);
             Map(x => x.MailTickets);
-            Map(x => x.Comments);
-            Map(x => x.DateRegistered);
-            //Map(x => x.LabelPrinted);
-            //Map(x => x.SjaBlock);
-            //Map(x => x.Cancelled);
             References(x => x.TermCode).Column("TermCode");
 
             HasMany(a => a.RegistrationParticipations).Inverse().Cascade.AllDeleteOrphan();

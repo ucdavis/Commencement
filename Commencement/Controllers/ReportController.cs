@@ -131,14 +131,14 @@ namespace Commencement.Controllers
                         select a;
 
             // filter to only pending labels
-            if (!printAll)
-            {
-                query = (IOrderedQueryable<Registration>)query.Where(a =>
-                                                        //(!a.LabelPrinted)
-                                                        //||
-                                                        (a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved && !a.ExtraTicketPetition.LabelPrinted)
-                                                        );
-            }
+            //if (!printAll)
+            //{
+            //    query = (IOrderedQueryable<Registration>)query.Where(a =>
+            //                                            //(!a.LabelPrinted)
+            //                                            //||
+            //                                            //(a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved && !a.ExtraTicketPetition.LabelPrinted)
+            //                                            );
+            //}
 
             var registrations = query.ToList();
             var doc = GenerateLabelDoc(registrations, printAll);
@@ -146,7 +146,7 @@ namespace Commencement.Controllers
             foreach(var r in registrations)
             {
                 //r.LabelPrinted = true;
-                if (r.ExtraTicketPetition != null) r.ExtraTicketPetition.LabelPrinted = true;
+                //if (r.ExtraTicketPetition != null) r.ExtraTicketPetition.LabelPrinted = true;
                 Repository.OfType<Registration>().EnsurePersistent(r);
             }
 
@@ -189,7 +189,7 @@ namespace Commencement.Controllers
 
                 // calculate the number of tickets
                 var tickets = 0;// !reg.LabelPrinted || printAll ? reg.RegistrationParticipations[0].NumberTickets : 0;
-                tickets += reg.ExtraTicketPetition != null && !reg.ExtraTicketPetition.IsPending && reg.ExtraTicketPetition.IsApproved && (!reg.ExtraTicketPetition.LabelPrinted || printAll) ? reg.ExtraTicketPetition.NumberTickets.Value : 0;
+                //tickets += reg.ExtraTicketPetition != null && !reg.ExtraTicketPetition.IsPending && reg.ExtraTicketPetition.IsApproved && (!reg.ExtraTicketPetition.LabelPrinted || printAll) ? reg.ExtraTicketPetition.NumberTickets.Value : 0;
 
                 if (tickets > 0)
                 {
