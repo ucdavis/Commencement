@@ -178,6 +178,7 @@
     <Compile Include="Controllers\Filters\StudentsOnlyFilter.cs" />
     <Compile Include="Controllers\Helpers\CustomGridBuilder.cs" />
     <Compile Include="Controllers\Helpers\HtmlHelperExtensions.cs" />
+    <Compile Include="Controllers\Helpers\LabelExtensions.cs" />
     <Compile Include="Controllers\Helpers\LetterGenerator.cs" />
     <Compile Include="Controllers\Helpers\RegistrationPetitionHelper.cs" />
     <Compile Include="Controllers\Helpers\StringExtension.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="Controllers\Services\StudentService.cs" />
     <Compile Include="Controllers\Services\TermService.cs" />
     <Compile Include="Controllers\Services\UserService.cs" />
+    <Compile Include="Controllers\TermCodeController.cs" />
     <Compile Include="Controllers\ViewModels\AddEditorViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminPetitionsViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeCeremonyViewModel.cs" />
@@ -210,6 +212,7 @@
     <Compile Include="Controllers\ViewModels\ExtraTicketPetitionModel.cs" />
     <Compile Include="Controllers\ViewModels\RegistrationPetitionModel.cs" />
     <Compile Include="Controllers\ViewModels\RegistrationModel.cs" />
+    <Compile Include="Controllers\ViewModels\TermcodeViewModel.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -564,6 +567,9 @@
     <Content Include="Views\Template\Create.aspx" />
     <Content Include="Views\Template\Index.aspx" />
     <Content Include="Views\Template\TokenPartial.ascx" />
+    <Content Include="Views\TermCode\Details.aspx" />
+    <Content Include="Views\TermCode\Edit.aspx" />
+    <Content Include="Views\TermCode\Index.aspx" />
     <Content Include="Web.config" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\MicrosoftAjax.js" />
