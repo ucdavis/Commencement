@@ -45,7 +45,7 @@ namespace Commencement.Controllers.ViewModels
 
             // get all active registrations
             var reg = repository.OfType<RegistrationParticipation>().Queryable.Where(
-                    a => a.Ceremony.TermCode == termCode && !a.Registration.Student.SjaBlock && !a.Registration.Cancelled).
+                    a => a.Ceremony.TermCode == termCode).// && !a.Registration.Student.SjaBlock && !a.Registration.Cancelled).
                     ToList();
 
             var regStudents = reg.Select(a => a.Registration.Student);

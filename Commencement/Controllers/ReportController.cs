@@ -125,7 +125,7 @@ namespace Commencement.Controllers
 
             var query = from a in Repository.OfType<Registration>().Queryable
                         where _ceremonyService.GetCeremonies(CurrentUser.Identity.Name, term).Contains(a.RegistrationParticipations[0].Ceremony)
-                            && !a.SjaBlock && !a.Cancelled
+                            //&& !a.SjaBlock && !a.Cancelled
                             && a.MailTickets == printMailing
                         orderby a.Student.LastName 
                         select a;
@@ -134,8 +134,8 @@ namespace Commencement.Controllers
             if (!printAll)
             {
                 query = (IOrderedQueryable<Registration>)query.Where(a =>
-                                                        (!a.LabelPrinted)
-                                                        ||
+                                                        //(!a.LabelPrinted)
+                                                        //||
                                                         (a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved && !a.ExtraTicketPetition.LabelPrinted)
                                                         );
             }
@@ -145,7 +145,7 @@ namespace Commencement.Controllers
 
             foreach(var r in registrations)
             {
-                r.LabelPrinted = true;
+                //r.LabelPrinted = true;
                 if (r.ExtraTicketPetition != null) r.ExtraTicketPetition.LabelPrinted = true;
                 Repository.OfType<Registration>().EnsurePersistent(r);
             }
@@ -188,7 +188,7 @@ namespace Commencement.Controllers
                 }
 
                 // calculate the number of tickets
-                var tickets = !reg.LabelPrinted || printAll ? reg.RegistrationParticipations[0].NumberTickets : 0;
+                var tickets = 0;// !reg.LabelPrinted || printAll ? reg.RegistrationParticipations[0].NumberTickets : 0;
                 tickets += reg.ExtraTicketPetition != null && !reg.ExtraTicketPetition.IsPending && reg.ExtraTicketPetition.IsApproved && (!reg.ExtraTicketPetition.LabelPrinted || printAll) ? reg.ExtraTicketPetition.NumberTickets.Value : 0;
 
                 if (tickets > 0)

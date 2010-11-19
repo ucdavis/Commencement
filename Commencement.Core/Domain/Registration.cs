@@ -4,6 +4,7 @@ using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 using UCDArch.Core.NHibernateValidator.Extensions;
+using System.Linq;
 
 namespace Commencement.Core.Domain
 {
@@ -18,11 +19,9 @@ namespace Commencement.Core.Domain
 
         }
 
+        #region Mapped Fields
         [NotNull]
         public virtual Student Student { get; set; }
-        //[NotNull]
-        //public virtual MajorCode Major { get; set; }
-
         [Required]
         [Length(200)]
         public virtual string Address1 { get; set; }
@@ -38,38 +37,31 @@ namespace Commencement.Core.Domain
         [Required]
         [Length(15)]
         public virtual string Zip { get; set; }
-
         [Length(100)]
         [Email]
         public virtual string Email { get; set; }
-        
-        //[Min(1)]
-        //public virtual int NumberTickets { get; set; }
-        
         public virtual bool MailTickets { get; set; }
-
         [Length(1000, Message = "Please enter less than 1,000 characters")]
         public virtual string Comments { get; set; }
-        
+        public virtual ExtraTicketPetition ExtraTicketPetition { get; set; }
+        public virtual DateTime DateRegistered { get; set; }
+        [NotNull]
+        public virtual TermCode TermCode { get; set; }
+        public virtual IList<RegistrationParticipation> RegistrationParticipations { get; set; }
+        public virtual IList<SpecialNeed> SpecialNeeds { get; set; }
+        #endregion
+
+        #region Fields to Remove
+        //public virtual bool SjaBlock { get; set; }
+        //public virtual bool Cancelled { get; set; }
+        //public virtual College College { get; set; }
+        //[NotNull]
+        //public virtual MajorCode Major { get; set; }
+        //[Min(1)]
+        //public virtual int NumberTickets { get; set; }
         //[NotNull]
         //public virtual Ceremony Ceremony { get; set; }
-
-        public virtual ExtraTicketPetition ExtraTicketPetition { get; set; }
-
-        public virtual DateTime DateRegistered { get; set; }
-
-        public virtual bool LabelPrinted { get; set; }
-
-        public virtual string TicketDistributionMethod
-        {
-            get
-            {
-                //return MailTickets ? "Mail tickets to provided address" :
-                //    (Ceremony.PrintingDeadline > DateTime.Now ? "Pickup tickets at Arc Ticket Office" : "Pickup tickets in person as specified in web site FAQ");
-
-                return "work on me";
-            }
-        }
+        //public virtual bool LabelPrinted { get; set; }
 
         // total number of tickets given to student, includes count from extra ticket petition
         public virtual int TotalTickets
@@ -89,21 +81,34 @@ namespace Commencement.Core.Domain
                 return 0;
             }
         }
-
         public virtual void SetLabelPrinted()
         {
-            LabelPrinted = true;
-            if (ExtraTicketPetition != null) ExtraTicketPetition.LabelPrinted = true;
+            //LabelPrinted = true;
+            //if (ExtraTicketPetition != null) ExtraTicketPetition.LabelPrinted = true;
         }
+        public virtual string TicketDistributionMethod
+        {
+            get
+            {
+                //return MailTickets ? "Mail tickets to provided address" :
+                //    (Ceremony.PrintingDeadline > DateTime.Now ? "Pickup tickets at Arc Ticket Office" : "Pickup tickets in person as specified in web site FAQ");
 
-        public virtual bool SjaBlock { get; set; }
-        public virtual bool Cancelled { get; set; }
-        public virtual College College { get; set; }
-        public virtual TermCode TermCode { get; set; }
+                return "work on me";
+            }
+        }
+        #endregion
 
-        public virtual IList<RegistrationParticipation> RegistrationParticipations { get; set; }
-        public virtual IList<SpecialNeed> SpecialNeeds { get; set; }
+        #region Calculated Fields
+        public virtual string Majors { 
+            get { return string.Join(", ", RegistrationParticipations.Select(a => a.Major.MajorName).ToList()); } 
+        }
+        public virtual string MajorCodes
+        {
+            get { return string.Join(", ", RegistrationParticipations.Select(a => a.Major.Major.Id).ToList()); }
+        }
+        #endregion
 
+        #region Methods
         public virtual void AddParticipation(MajorCode major, Ceremony ceremony, int numberTickets)
         {
             var participation = new RegistrationParticipation()
@@ -111,6 +116,37 @@ namespace Commencement.Core.Domain
 
             RegistrationParticipations.Add(participation);
         }
+
+        public virtual int TicketsByCeremonies(List<Ceremony> ceremonies)
+        {
+            // not allowed to count
+            if (Student.SjaBlock || Student.Blocked) return 0;
+
+            // initial count of tickets
+            var tickets = 0;
+            foreach (var a in RegistrationParticipations)
+            {
+                if (ceremonies.Contains(a.Ceremony))
+                {
+                    tickets += a.NumberTickets;
+                }
+            }
+
+            return tickets;
+        }
+        public virtual int ExtraTicketsByCeremonies(List<Ceremony> ceremonies)
+        {
+            throw new NotImplementedException();
+        }
+        public virtual int TotalTicketsByCeremonies(List<Ceremony> ceremonies)
+        {
+            var tickets = TicketsByCeremonies(ceremonies);
+
+            //TODO: count extra petition tickets
+
+            return tickets;
+        }
+        #endregion
     }
 
     public class RegistrationMap : ClassMap<Registration>
@@ -124,7 +160,7 @@ namespace Commencement.Core.Domain
             References(x => x.State).Column("State");
             //References(x => x.Ceremony);
             References(x => x.ExtraTicketPetition).Cascade.All();
-            References(x => x.College).Column("CollegeCode");
+            //References(x => x.College).Column("CollegeCode");
 
             Map(x => x.Address1);
             Map(x => x.Address2);
@@ -136,9 +172,9 @@ namespace Commencement.Core.Domain
             Map(x => x.MailTickets);
             Map(x => x.Comments);
             Map(x => x.DateRegistered);
-            Map(x => x.LabelPrinted);
-            Map(x => x.SjaBlock);
-            Map(x => x.Cancelled);
+            //Map(x => x.LabelPrinted);
+            //Map(x => x.SjaBlock);
+            //Map(x => x.Cancelled);
             References(x => x.TermCode).Column("TermCode");
 
             HasMany(a => a.RegistrationParticipations).Inverse().Cascade.AllDeleteOrphan();

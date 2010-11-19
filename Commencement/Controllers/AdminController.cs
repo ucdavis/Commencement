@@ -212,7 +212,7 @@ namespace Commencement.Controllers
             }
 
             registration.RegistrationParticipations[0].Major = major;
-            registration.College = major.College;
+            //registration.College = major.College;
 
             var ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == TermService.GetCurrent() && a.Majors.Contains(major)).FirstOrDefault();
             //if (!CeremonyHasAvailability(ceremony, registration)) ModelState.AddModelError("Major Code", ValidateMajorChange(registration, major));
@@ -366,7 +366,7 @@ namespace Commencement.Controllers
             var registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student).FirstOrDefault();
             if (registration != null)
             {
-                registration.SjaBlock = sja;
+                //registration.SjaBlock = sja;
                 registration.Student.SjaBlock = sja;
                 Repository.OfType<Registration>().EnsurePersistent(registration);   // saves student as well
             }
@@ -390,7 +390,7 @@ namespace Commencement.Controllers
             var registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student && a.RegistrationParticipations[0].Ceremony.TermCode == TermService.GetCurrent()).FirstOrDefault();
             if (registration != null)
             {
-                registration.Cancelled = blocked;
+                //registration.Cancelled = blocked;
                 registration.Student.Blocked = blocked;
                 Repository.OfType<Registration>().EnsurePersistent(registration);   // saves student as well
             }

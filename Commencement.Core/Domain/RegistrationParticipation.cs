@@ -13,6 +13,7 @@ namespace Commencement.Core.Domain
         public virtual MajorCode Major { get; set; }
         public virtual Ceremony Ceremony { get; set; }
         public virtual int NumberTickets { get; set; }
+        public virtual bool Cancelled { get; set; }
     }
 
     public class RegistrationParticipationMap : ClassMap<RegistrationParticipation>
@@ -25,6 +26,7 @@ namespace Commencement.Core.Domain
             References(x => x.Major).Column("MajorCode").Cascade.None().Fetch.Join();
             References(x => x.Ceremony).Cascade.None().Fetch.Join();
             Map(x => x.NumberTickets);
+            Map(x => x.Cancelled);
         }
     }
 }

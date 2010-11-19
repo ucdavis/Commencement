@@ -86,10 +86,8 @@
                             col.Bound(a => a.Student.StudentId);
                             col.Bound(a => a.Student.LastName);
                             col.Bound(a => a.Student.FirstName);
-                            col.Bound(a => a.TotalTickets);
                             col.Bound(a => a.MailTickets);
-                            //col.Bound(a => a.Ceremony.DateTime).Format("{0:MM/dd/yyyy hh:mm tt}").Title("Ceremony");
-                            //col.Bound(a => a.Major.Id).Title("Major");
+                            col.Bound(a => a.MajorCodes).Title("Majors");
                         })
            .DataBinding(binding=>binding.Server().Select<AdminController>(a=>a.Registrations(Model.studentidFilter, Model.lastNameFilter, Model.firstNameFilter, Model.majorCodeFilter, Model.ceremonyFilter, Model.collegeFilter)))
            .Pageable(p=>p.PageSize(100))

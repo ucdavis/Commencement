@@ -24,9 +24,8 @@ namespace Commencement.Controllers.ViewModels
                                                   {
                                                       TermCode = a.TermCode,
                                                       Ceremony = a,
-                                                      Registrants =
-                                                          a.Registrations.Where(b => !b.SjaBlock && !b.Cancelled).Count(),
-                                                      CancelledRegistrants = a.Registrations.Where(b=>b.Cancelled).Count(),
+                                                      Registrants = a.Registrations.Count(),
+                                                      CancelledRegistrants = a.Registrations.Count(),
                                                       RegistrationPetitionsSubmitted = a.RegistrationPetitions.Count,
                                                       RegistrationPetitionsApproved =
                                                           a.RegistrationPetitions.Where(
