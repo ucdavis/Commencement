@@ -54,53 +54,6 @@
            .Render();  %>
     </div>
 
-<%--    <table>
-        <tr>
-            <th></th>
-            <th>
-                TermCodeId
-            </th>
-            <th>
-                Name
-            </th>
-            <th>
-                IsActive
-            </th>
-            <th>
-                IsInTermCode
-            </th>
-        </tr>
-
-    <% foreach (var item in Model) { %>
-    
-        <tr>
-            <td>
-                <%: Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) %> |
-                <%: Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })%> |
-                <%: Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })%>
-            </td>
-            <td>
-                <%: item.TermCodeId %>
-            </td>
-            <td>
-                <%: item.Name %>
-            </td>
-            <td>
-                <%: item.IsActive %>
-            </td>
-            <td>
-                <%: item.IsInTermCode %>
-            </td>
-        </tr>
-    
-    <% } %>
-
-    </table>--%>
-
-    <p>
-        <%: Html.ActionLink("Create New", "Create") %>
-    </p>
-
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">

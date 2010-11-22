@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -40,7 +41,7 @@ namespace Commencement.Controllers
             termCode.IsActive = false;
             Repository.OfType<TermCode>().EnsurePersistent(termCode);
 
-            return this.RedirectToAction(a => a.Index());
+            return this.RedirectToAction(a => a.Edit(termCode.Id));
         }
 
         /// <summary>
@@ -80,6 +81,7 @@ namespace Commencement.Controllers
         // POST: /TermCode/Edit/5
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Edit(string id, TermCode termCode)
         {
             var termCodeToUpdate = Repository.OfType<TermCode>().Queryable.Where(a => a.Id == id).Single();
@@ -90,10 +92,10 @@ namespace Commencement.Controllers
             if (ModelState.IsValid)
             {
                 Repository.OfType<TermCode>().EnsurePersistent(termCodeToUpdate);
-                Message = "Term Code Saved.";
+                Message = id + " Term Code Saved.";
                 return this.RedirectToAction(a => a.Index());
             }
-            Message = "Unable to save.";
+            Message = id + " Unable to save.";
             return View(termCode);
         }
 

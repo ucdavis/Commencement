@@ -27,19 +27,21 @@ namespace Commencement.Controllers.Helpers
             return StaticValues.Txt_GoogleAnalytics;
 #endif
         }
-
-        #region HtmlEncode
+        
         private const string HtmlTag = @"&lt;{0}&gt;";
         private const string Span = "span";
         private const string SpanEncodedStyled = @"&lt;span style=&quot;{0}&quot;&gt;";
         private const string SpanStyled = @"<span style=""{0}"">";
-
+        // ReSharper disable InconsistentNaming
         private const string Underline = "text-decoration: underline;";
         private const string XXSmallText = "font-size: xx-small;";
         private const string XSmallText = "font-size: x-small;";
         private const string SmallText = "font-size: small;";
         private const string MediumText = "font-size: medium;";
         private const string LargeText = "font-size: large;";
+        private const string XLargeText = "font-size: x-large;";
+        private const string XXLargeText = "font-size: xx-large;";
+        // ReSharper restore InconsistentNaming
 
         /// <summary>
         /// This allows limited html encoding, while still encoding the rest of the string
@@ -62,7 +64,7 @@ namespace Commencement.Controllers.Helpers
         /// <param name="helper"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static FormattedString HtmlEncode(this HtmlHelper helper, string text)
+        public static string HtmlEncode(this HtmlHelper helper, string text)
         {
             // encode the string
             string encodedText = HttpUtility.HtmlEncode(text);
@@ -86,8 +88,8 @@ namespace Commencement.Controllers.Helpers
             ReplaceTagContents(formattedEncodedText, "h6");
             ReplaceSingleTagContents(formattedEncodedText, "br");
 
-            // replace &nbsp;
             formattedEncodedText = formattedEncodedText.Replace(@"&amp;nbsp;", @"&nbsp;");
+            formattedEncodedText = formattedEncodedText.Replace(@"&amp;mdash;", @"&mdash;");
 
             // <span style="text-decoration:underline;">
             ReplaceComplexTag(formattedEncodedText, Span,
@@ -95,7 +97,7 @@ namespace Commencement.Controllers.Helpers
                               string.Format(SpanStyled, Underline));
 
             // <span style="font-size: xx-small;">
-            ReplaceComplexTag(formattedEncodedText, Span, 
+            ReplaceComplexTag(formattedEncodedText, Span,
                               string.Format(SpanEncodedStyled, XXSmallText),
                               string.Format(SpanStyled, XXSmallText));
 
@@ -119,8 +121,17 @@ namespace Commencement.Controllers.Helpers
                               string.Format(SpanEncodedStyled, LargeText),
                               string.Format(SpanStyled, LargeText));
 
-            //return formattedEncodedText.ToString();
-            return new FormattedString(){FormattedValue = formattedEncodedText.ToString()};
+            // <span style="font-size: xlarge;">
+            ReplaceComplexTag(formattedEncodedText, Span,
+                              string.Format(SpanEncodedStyled, XLargeText),
+                              string.Format(SpanStyled, XLargeText));
+
+            // <span style="font-size: xxlarge;">
+            ReplaceComplexTag(formattedEncodedText, Span,
+                              string.Format(SpanEncodedStyled, XXLargeText),
+                              string.Format(SpanStyled, XXLargeText));
+
+            return formattedEncodedText.ToString();
         }
 
         public static void ReplaceTagContents(StringBuilder formattedText, string tag)
@@ -149,13 +160,13 @@ namespace Commencement.Controllers.Helpers
 
             // replace html encoded tag with the correct formatted tag
             formattedText.Replace(searchTag, replacementTag);
-            
+
             // determine information needed to replace correctly
             var map = MapOpeningTags(formattedText.ToString(), replacementTag, tag, closingTag);
             var stack = CalculateStack(map);
 
             // process and replace closing tags
-            while(stack.Count > 0)
+            while (stack.Count > 0)
             {
                 var tm = stack.Pop();
 
@@ -171,7 +182,7 @@ namespace Commencement.Controllers.Helpers
 
                 formattedText.Remove(closingIndex, closingTag.Length);
                 formattedText.Insert(closingIndex, @"</" + tag + ">");
-            } 
+            }
         }
 
         public static Stack<TagMarker> CalculateStack(string[] map)
@@ -179,7 +190,7 @@ namespace Commencement.Controllers.Helpers
             var stack = new Stack<TagMarker>();
             var count = 1;
 
-            for (int i = 0; i < map.Length; i++ )
+            for (int i = 0; i < map.Length; i++)
             {
                 // found a valid opening tag, push a new marker on to the stack
                 if (map[i] == "o")
@@ -191,11 +202,11 @@ namespace Commencement.Controllers.Helpers
                 else if (map[i] == "m")
                 {
                     // go top down and add offset until we come accros a completed marker
-                    foreach(var tm in stack.Reverse())
+                    foreach (var tm in stack.Reverse())
                     {
                         // completed marker, cheese it!
                         if (tm.Completed) break;
-                        
+
                         // increase the offset count
                         tm.OffSet++;
                     }
@@ -203,7 +214,7 @@ namespace Commencement.Controllers.Helpers
                 else if (map[i] == "c")
                 {
                     // go top down to find the highest not completed object, then mark completed
-                    foreach(var tm in stack.Reverse())
+                    foreach (var tm in stack.Reverse())
                     {
                         if (!tm.Completed)
                         {
@@ -212,7 +223,7 @@ namespace Commencement.Controllers.Helpers
 
                             // once misc closing found > offset, mark completed and we can exit the loop, otherwise we just go down until we hit bottom
                             //  or find one that meets the criteria
-                            if (tm.MiscClosingFound > tm.OffSet )
+                            if (tm.MiscClosingFound > tm.OffSet)
                             {
                                 tm.Completed = true;
                                 break;
@@ -231,6 +242,7 @@ namespace Commencement.Controllers.Helpers
         /// <param name="searchText"></param>
         /// <param name="replacementTag"></param>
         /// <param name="tag"></param>
+        /// <param name="closingTag"></param>
         /// <returns></returns>
         public static string[] MapOpeningTags(string searchText, string replacementTag, string tag, string closingTag)
         {
@@ -267,19 +279,7 @@ namespace Commencement.Controllers.Helpers
 
             return currentLocation;
         }
-        #endregion
     }
-
-    public class FormattedString : IHtmlString
-    {
-        public string FormattedValue { get; set; }
-
-        public string ToHtmlString()
-        {
-            return FormattedValue;
-        }
-    }
-
 
     public class TagMarker
     {
@@ -294,10 +294,20 @@ namespace Commencement.Controllers.Helpers
 
         public int Count { get; set; }
         public int OffSet { get; set; } // # of closing tags to skip before replacing
-        
+
         // used during discovery algorithm
         public bool Completed { get; set; }         // signifies if we discovered the closing one or not
         // used during replacement
         public int MiscClosingFound { get; set; }   // # of closing tags skipped so far, when this matches offset we found the closing tag for this, so skip that
+    }
+
+    public class FormattedString : IHtmlString
+    {
+        public string FormattedValue { get; set; }
+
+        public string ToHtmlString()
+        {
+            return FormattedValue;
+        }
     }
 }

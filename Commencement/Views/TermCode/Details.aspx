@@ -1,4 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Core.Domain.TermCode>" %>
+<%@ Import Namespace="Commencement.Controllers" %>
+<%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Details
@@ -6,53 +8,44 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+<ul class="btn">
+    <li>
+        <%= Html.ActionLink<TermCodeController>(a => a.Index() , "Back to List") %>
+    </li>
+    <li>
+        <%= Html.ActionLink<TermCodeController>(a => a.Edit(Model.Id) , "Edit") %>
+    </li>
+</ul>
     <h2>Details</h2>
 
-    <fieldset>
-        <legend>Fields</legend>
-        <ul>
+        <ul class="registration_form">
             <li>
-                <%=Html.Label("Term Code:") %>
+                <strong><%=Html.Label("Term Code:") %></strong>
                 <%=Html.DisplayFor(a => a.Id) %>
             </li>
             <li>
-                <%=Html.Label("Description:")%>
+               <strong> <%=Html.Label("Description:")%></strong>
                 <%=Html.DisplayFor(a => a.Name) %>
             </li>
             <li>
-                <%=Html.Label("IsActive:")%>
+                <strong><%=Html.Label("IsActive:")%></strong>
                 <%=Html.DisplayFor(a => a.IsActive) %>
             </li>
-            <li>
-                <%=Html.Label("LandingText:")%>
-                <%=Html.DisplayFor(a => a.LandingText) %>
+            <li>                
+                <fieldset>
+                <legend><strong>LandingText</strong></legend>
+                <%= Html.HtmlEncode(Model.LandingText)%>
+                </fieldset>
             </li>
             <li>
-                <%=Html.Label("RegistrationWelcome:")%>
-                <%=Html.DisplayFor(a => a.RegistrationWelcome) %>
+                <fieldset>
+                <legend><strong>RegistrationWelcome</strong></legend>
+                <%=Html.HtmlEncode(Model.RegistrationWelcome)%>
+                </fieldset>
             </li>
         </ul>
-        
-<%--        <div class="display-label">Term Code</div>
-        <div class="display-field"><%: Model.Id %></div>
+      
 
-        <div class="display-label">Description</div>
-        <div class="display-field"><%: Model.Name %></div>
-        
-        <div class="display-label">IsActive</div>
-        <div class="display-field"><%: Model.IsActive %></div>
-        
-        <div class="display-label">LandingText</div>
-        <div class="display-field"><%: Model.LandingText %></div>
-        
-        <div class="display-label">RegistrationWelcome</div>
-        <div class="display-field"><%: Model.RegistrationWelcome %></div>--%>
-        
-    </fieldset>
-    <p>
-        <%--<%: Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) %> |--%>
-        <%: Html.ActionLink("Back to List", "Index") %>
-    </p>
 
 </asp:Content>
 
