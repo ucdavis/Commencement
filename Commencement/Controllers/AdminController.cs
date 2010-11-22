@@ -50,6 +50,7 @@ namespace Commencement.Controllers
             return View();
         }
 
+        #region List Pages
         /// <summary>
         /// Students
         /// </summary>
@@ -73,6 +74,7 @@ namespace Commencement.Controllers
             var viewModel = AdminRegistrationViewModel.Create(Repository, _majorService, _ceremonyService, _registrationService, term, User.Identity.Name, studentid, lastName, firstName, majorCode, ceremonyId, collegeCode);
             return View(viewModel);
         }
+        #endregion
 
         #region Student Details
         /// <summary>
