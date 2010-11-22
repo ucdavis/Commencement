@@ -85,13 +85,12 @@ namespace Commencement.Core.Domain
         }
         public virtual string TicketDistributionMethod
         {
-            get
-            {
-                //return MailTickets ? "Mail tickets to provided address" :
-                //    (Ceremony.PrintingDeadline > DateTime.Now ? "Pickup tickets at Arc Ticket Office" : "Pickup tickets in person as specified in web site FAQ");
-
-                return "work on me";
-            }
+            //get
+            //{
+            //    return MailTickets ? "Mail tickets to provided address" :
+            //        (ceremony.printingdeadline > datetime.now ? "pickup tickets at arc ticket office" : "pickup tickets in person as specified in web site faq");
+            //}
+            get { return "Work on me!"; }
         }
         #endregion
 

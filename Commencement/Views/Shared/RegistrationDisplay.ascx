@@ -1,19 +1,6 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Core.Domain.Registration>" %>
-<h2>
-    Student Information</h2>
-<ul class="registration_form">
-    <li class="prefilled"><strong>Name:</strong><span><%= Html.Encode(Model.Student.FullName) %></span>
-    </li>
-    <li class="prefilled"><strong>Student ID:</strong><span><%= Html.Encode(Model.Student.StudentId) %></span>
-    </li>
-    <li class="prefilled"><strong>Units Complted:</strong><span><%= Html.Encode(Model.Student.TotalUnits) %></span>
-    </li>
-    <li class="prefilled"><strong>Major:</strong>
-        <span><%: Model.Student.StrMajors %></span>
-    </li>
-</ul>
-<h2>
-    Contact Information</h2>
+
+
 <ul class="registration_form">
     <li><strong>Address Line 1:</strong><span><%= Html.Encode(Model.Address1) %></span>
     </li>
@@ -28,33 +15,9 @@
        { %>
     <li><strong>Secondary Email Address:</strong><span><%= Html.Encode(Model.Email)%></span>
     </li>
+    <li>
+        <strong>Special Needs: </strong>
+        <%: string.Join(", ", Model.SpecialNeeds.Select(a=>a.Name)) %>
+    </li>
     <% } %>
 </ul>
-<h2>Ceremony Information</h2>
-<% foreach (var a in Model.RegistrationParticipations) { %>
-    <ul class="registration_form">
-        <li><strong>Date Registered:</strong><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", a.Registration.DateRegistered) %></li>
-        <li><strong>Tickets Requested:</strong><span><%= Html.Encode(a.NumberTickets) %></span>
-        </li>
-        <li>
-            <strong>Ticket Distribution Method:</strong>
-            <span><%= Html.Encode(Model.TicketDistributionMethod) %></span>
-        </li>
-        <li class="prefilled"><strong>Ceremony Date:</strong> <span>
-            <%= Html.Encode(string.Format("{0}", a.Ceremony.DateTime.ToString("g"))) %></span> </li>
-            <li class="prefilled"><strong>Special Requests:</strong>
-                <%= Html.Encode(Model.Comments) %>
-            </li>
-    </ul>
-<% } %>
-
-
-<% if (Model.ExtraTicketPetition != null) { %>
-    <h2>Extra Ticket Petition</h2>
-    <ul class="registration_form">
-        <li><strong>Number of Extra Tickets Requested:</strong><%= Html.Encode(Model.ExtraTicketPetition.NumberTickets) %></li>
-        <li><strong>Status:</strong>
-            <%= Html.Encode(Model.ExtraTicketPetition.IsPending ? "Pending Decision" : (Model.ExtraTicketPetition.IsApproved ? "Approved" : "Denied")) %>
-        </li>
-    </ul>
-<% } %>

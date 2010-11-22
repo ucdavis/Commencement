@@ -32,13 +32,20 @@
         </div>
     <% } %>
 
+    <h2>Student Information</h2>
+    <% Html.RenderPartial("StudentInformationPartial", Model.Student); %>
+
     <% if (Model.Registration != null) { %>
+        <h2>Contact Information</h2>
         <!-- Student is registered, show that information -->
         <% Html.RenderPartial("RegistrationDisplay", Model.Registration); %>
+
+        <h2>Ceremony Information</h2>
+        <% foreach(var a in Model.Registration.RegistrationParticipations.Where(a=> Model.Ceremonies.Contains(a.Ceremony))) { %>
+            <% Html.RenderPartial("RegisteredCeremonyDisplay", a); %>
+        <% } %>
+
     <% } else { %>
-        <!-- Student is not registered -->
-        <% Html.RenderPartial("StudentInformationPartial", Model.Student); %>
-        
         <h2>Registration</h2>
         Student has not registered.
     <% } %>

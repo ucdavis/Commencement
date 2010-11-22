@@ -27,6 +27,21 @@ namespace Commencement.Core.Domain
         public virtual bool LabelPrinted { get; set; }
         public virtual DateTime DateRegistered { get; set; }
         public virtual DateTime DateUpdated { get; set; }
+
+        public virtual string TicketDistribution
+        {
+            get
+            {
+                var message = string.Empty;
+                if (DateRegistered > Ceremony.PrintingDeadline)
+                    message = "Pickup Tickets in person as specified in web site faq.";
+                else if (Registration.MailTickets)
+                    message = "Mail tickets to provided address.";
+                else message = "Pickup tickets at arc ticket off";
+
+                return message;
+            }
+        }
     }
 
     public class RegistrationParticipationMap : ClassMap<RegistrationParticipation>

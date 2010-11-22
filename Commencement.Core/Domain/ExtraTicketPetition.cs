@@ -30,6 +30,9 @@ namespace Commencement.Core.Domain
             DateDecision = null;
         }
 
+        /// <summary>
+        /// Number tickets requested
+        /// </summary>
         [Min(1)]
         public virtual int NumberTicketsRequested { get; set; }
         public virtual bool IsPending { get; set; }
@@ -40,7 +43,13 @@ namespace Commencement.Core.Domain
 
         public virtual bool LabelPrinted { get; set; }
 
+        /// <summary>
+        /// Number tickets approved
+        /// </summary>
         public virtual int? NumberTickets { get; set; }
+        /// <summary>
+        /// Number of streaming tickets approved
+        /// </summary>
         public virtual int? NumberTicketsStreaming { get; set; }
         [Required]
         [Length(100)]

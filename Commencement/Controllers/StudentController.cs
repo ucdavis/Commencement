@@ -147,13 +147,13 @@ namespace Commencement.Controllers
         private void ValidateCeremonyParticipations(Registration registration, List<CeremonyParticipation> ceremonyParticipations, ModelStateDictionary modelState)
         {
             // count distinct ceremonies that student has selected
-            var ceremonyCount = ceremonyParticipations.Where(a=>a.Participate).Select(a => a.Ceremony).Distinct();
+            var ceremonyCount = ceremonyParticipations.Where(a => a.Participate).Select(a => a.Ceremony).Distinct();
             // if # participating != distinct, then we have someone registering more than once for the same ceremony
             if (ceremonyParticipations.Where(a => a.Participate).Count() != ceremonyCount.Count())
             {
                 ModelState.AddModelError("Participate", "You cannot register for two majors within the same ceremony.");
             }
-            
+
             // count distinct colleges
             var collegeCount = ceremonyParticipations.Where(a => a.Participate).Select(a => a.Major.MajorCollege).Distinct();
             // if # participating != distinct, then we have someone registering for more than on ceremony in one college
@@ -166,7 +166,6 @@ namespace Commencement.Controllers
             {
                 registration.AddParticipation(a.Major, a.Ceremony, a.Tickets);
             }
-            
         }
 
         private List<SpecialNeed> LoadSpecialNeeds(List<string> specialNeeds)
@@ -197,7 +196,7 @@ namespace Commencement.Controllers
 
             // has this student registered yet?
             var reg = _registrationRepository.Queryable.Where(a => a.Student == student).ToList();
-            var currentReg = reg.Where(a => a.Student.TermCode == TermService.GetCurrent()).FirstOrDefault();
+            var currentReg = reg.Where(a => a.TermCode.Id == termCode.Id).FirstOrDefault();
             if (currentReg != null)
             {
                 // display previous registration
@@ -205,7 +204,7 @@ namespace Commencement.Controllers
             }
 
             // has this student registered in a previous term?
-            var pastReg = reg.Where(a => a.Student.TermCode != TermService.GetCurrent()).FirstOrDefault();
+            var pastReg = reg.Where(a => a.TermCode.Id != termCode.Id).FirstOrDefault();
             if (pastReg != null)
             {
                 // redirect to past registration message
@@ -228,6 +227,8 @@ namespace Commencement.Controllers
 
             return null;
         }
+
+
 
 
 

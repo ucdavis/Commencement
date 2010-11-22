@@ -78,8 +78,7 @@ namespace Commencement.Controllers
             var student = _studentRepository.GetNullableById(id);
             if (student == null) return this.RedirectToAction<AdminController>(a => a.Index());
 
-            var viewModel = RegistrationModel.Create(Repository, null, student);
-
+            var viewModel = RegistrationModel.Create(Repository, _ceremonyService.GetCeremonies(CurrentUser.Identity.Name), student);
             viewModel.Registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student).FirstOrDefault();
 
             return View(viewModel);

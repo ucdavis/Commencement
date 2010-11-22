@@ -67,33 +67,30 @@
         </div>
     </div>
 
-    <% Html.Grid(Model.Registrations)
-           .Transactional()
-           .Name("Registrations")
-           .CellAction(cell=>
-                           {
-                               if (cell.Column.Name == "MailTickets")
-                               {
-                                   cell.Text = cell.DataItem.MailTickets == true ? "Yes" : "No";
-                               }
-                           })
-           .Columns(col =>
-                        {
-                            col.Add(a =>
-                                        {%>
-                                        <%= Html.ActionLink<AdminController>(b=>b.StudentDetails(a.Student.Id, true), "Select") %>
-                                        <%});
-                            col.Bound(a => a.Student.StudentId);
-                            col.Bound(a => a.Student.LastName);
-                            col.Bound(a => a.Student.FirstName);
-                            col.Bound(a => a.MailTickets);
-                            col.Bound(a => a.MajorCodes).Title("Majors");
-                        })
-           .DataBinding(binding=>binding.Server().Select<AdminController>(a=>a.Registrations(Model.studentidFilter, Model.lastNameFilter, Model.firstNameFilter, Model.majorCodeFilter, Model.ceremonyFilter, Model.collegeFilter)))
-           .Pageable(p=>p.PageSize(100))
-           .Sortable(s=>s.OrderBy(a=>a.Add(b=>b.Student.LastName)))
-           .Render();
-            %>
+            <% Html.Grid(Model.Participations)
+                   .Transactional()
+                   .Name("Registrations")
+                   .CellAction(cell =>
+                                   {
+                                       if (cell.Column.Name == "Registration.MailTickets")
+                                       {
+                                           cell.Text = cell.DataItem.Registration.MailTickets == true ? "Yes" : "No";
+                                       }
+                                   })
+                    .Columns(col =>
+                                 {
+                                     col.Add(a=> {%>
+                                        <%= Html.ActionLink<AdminController>(b=>b.StudentDetails(a.Registration.Student.Id, true), "Select") %>
+                                     <% });
+                                     col.Bound(a => a.Registration.Student.StudentId);
+                                     col.Bound(a => a.Registration.Student.LastName);
+                                     col.Bound(a => a.Registration.Student.FirstName);
+                                     col.Bound(a => a.Registration.MailTickets);
+                                     col.Bound(a => a.Major.MajorName).Title("Major");
+                                 })
+                    .DataBinding(binding=>binding.Server().Select<AdminController>(a=>a.Registrations(Model.studentidFilter, Model.lastNameFilter, Model.firstNameFilter, Model.majorCodeFilter, Model.ceremonyFilter, Model.collegeFilter)))
+                    .Sortable(s=>s.OrderBy(a=>a.Add(b=>b.Registration.Student.LastName)))
+                    .Render(); %>
 
 </asp:Content>
 

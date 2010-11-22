@@ -12,7 +12,7 @@ namespace Commencement.Controllers.ViewModels
 {
     public class AdminRegistrationViewModel
     {
-        public IEnumerable<Registration> Registrations { get; set; }
+        public IEnumerable<RegistrationParticipation> Participations { get; set; }
         public IEnumerable<Ceremony> Ceremonies { get; set; }
         public IEnumerable<MajorCode> MajorCodes { get; set; }
         public IEnumerable<College> Colleges { get; set; }
@@ -44,11 +44,11 @@ namespace Commencement.Controllers.ViewModels
                                     majorCodeFilter = majorCode,
                                     ceremonyFilter = ceremonyId ?? -1,
                                     collegeFilter = collegeCode,
-                                    Registrations = registrationService.GetFilteredList(userId, studentid, lastName, firstName, majorCode, ceremonyId, collegeCode, ceremonies, termCode)
+                                    Participations = registrationService.GetFilteredParticipationList(userId, studentid, lastName, firstName, majorCode, ceremonyId, collegeCode, ceremonies, termCode)
                                 };
 
-            if (!string.IsNullOrEmpty(majorCode))
-                viewModel.Registrations = viewModel.Registrations.Where(a => a.Student.StrMajorCodes.Contains(majorCode));
+            //if (!string.IsNullOrEmpty(majorCode))
+            //    viewModel1111 = viewModel.Registrations.Where(a => a.Student.StrMajorCodes.Contains(majorCode));
 
             return viewModel;
         }
