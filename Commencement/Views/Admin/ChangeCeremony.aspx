@@ -14,7 +14,7 @@
 
     <h2>Change Ceremony</h2>
 
-    <%= Html.ValidationSummary("Please correct all errors below") %>
+<%--    <%= Html.ValidationSummary("Please correct all errors below") %>
 
     <% using (Html.BeginForm()) { %>
 
@@ -44,7 +44,7 @@
         </li>
     </ul>
     
-    <% } %>
+    <% } %>--%>
 
 </asp:Content>
 

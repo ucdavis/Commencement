@@ -31,6 +31,11 @@
             SJA has asked that we not allow this student to walk.
         </div>
     <% } %>
+    <% if (Model.Student.Blocked) { %>
+        <div style="background-color:red;">
+            Student has been blocked from registration.
+        </div>
+    <% } %>
 
     <h2>Student Information</h2>
     <% Html.RenderPartial("StudentInformationPartial", Model.Student); %>
@@ -43,6 +48,7 @@
         <h2>Ceremony Information</h2>
         <% foreach(var a in Model.Registration.RegistrationParticipations.Where(a=> Model.Ceremonies.Contains(a.Ceremony))) { %>
             <% Html.RenderPartial("RegisteredCeremonyDisplay", a); %>
+            <hr />
         <% } %>
 
     <% } else { %>

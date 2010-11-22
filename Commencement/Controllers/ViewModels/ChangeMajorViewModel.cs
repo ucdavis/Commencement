@@ -13,8 +13,9 @@ namespace Commencement.Controllers.ViewModels
         public IEnumerable<MajorCode> MajorCodes { get; set; }
         public Registration Registration { get; set; }
         public Student Student { get; set; }
+        public IEnumerable<Ceremony> Ceremonies { get; set; }
 
-        public static ChangeMajorViewModel Create(IRepository repository, IMajorService majorService, Registration registration)
+        public static ChangeMajorViewModel Create(IRepository repository, IMajorService majorService, Registration registration, IList<Ceremony> ceremonies)
         {
             Check.Require(repository != null, "Repository is required.");
 
@@ -22,7 +23,8 @@ namespace Commencement.Controllers.ViewModels
                                 {
                                     MajorCodes = majorService.GetMajors(),
                                     Student = registration.Student,
-                                    Registration = registration
+                                    Registration = registration,
+                                    Ceremonies = ceremonies
                                 };
 
             return viewModel;

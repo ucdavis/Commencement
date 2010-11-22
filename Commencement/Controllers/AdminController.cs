@@ -67,6 +67,14 @@ namespace Commencement.Controllers
 
             return View(viewModel);
         }
+        public ActionResult Registrations(string studentid, string lastName, string firstName, string majorCode, int? ceremonyId, string collegeCode)
+        {
+            var term = TermService.GetCurrent();
+            var viewModel = AdminRegistrationViewModel.Create(Repository, _majorService, _ceremonyService, _registrationService, term, User.Identity.Name, studentid, lastName, firstName, majorCode, ceremonyId, collegeCode);
+            return View(viewModel);
+        }
+
+        #region Student Details
         /// <summary>
         /// Students the details.
         /// </summary>
@@ -83,7 +91,90 @@ namespace Commencement.Controllers
 
             return View(viewModel);
         }
+        public ActionResult ToggleSJAStatus(Guid id)
+        {
+            var student = _studentRepository.GetNullableById(id);
+            if (student == null) return this.RedirectToAction(a => a.Index());
 
+            student.SjaBlock = !student.SjaBlock;
+            Repository.OfType<Student>().EnsurePersistent(student);
+
+            return this.RedirectToAction(a => a.StudentDetails(id, false));
+        }
+        public ActionResult ToggleBlock(Guid id)
+        {
+            var student = _studentRepository.GetNullableById(id);
+            if (student == null) return this.RedirectToAction(a => a.Index());
+
+            student.Blocked = !student.Blocked;
+            _studentRepository.EnsurePersistent(student);
+
+            return this.RedirectToAction(a => a.StudentDetails(id, false));
+        }
+        #endregion
+
+
+
+
+
+
+
+        /// <summary>
+        /// Change the major on a registration
+        /// </summary>
+        /// <param name="id">Registration Id</param>
+        /// <returns></returns>
+        public ActionResult ChangeMajor(int id)
+        {
+            var registration = Repository.OfType<Registration>().GetNullableById(id);
+            if (registration == null) return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null));
+
+            var viewModel = ChangeMajorViewModel.Create(Repository, _majorService, registration, _ceremonyService.GetCeremonies(CurrentUser.Identity.Name));
+            return View(viewModel);
+        }
+        [HttpPost]
+        public ActionResult ChangeMajor(int id, string majorCode)
+        {
+            var registration = Repository.OfType<Registration>().GetNullableById(id);
+            var major = _majorRepository.GetNullableById(majorCode);
+            if (registration == null || major == null)
+            {
+                Message = "Registration or major information was missing.";
+                return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null));
+            }
+
+            registration.RegistrationParticipations[0].Major = major;
+            //registration.College = major.College;
+
+            var ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == TermService.GetCurrent() && a.Majors.Contains(major)).FirstOrDefault();
+            //if (!CeremonyHasAvailability(ceremony, registration)) ModelState.AddModelError("Major Code", ValidateMajorChange(registration, major));
+            //var validationMessages = ValidateMajorChange(registration, major);
+            //if(!string.IsNullOrEmpty(validationMessages))
+            //{
+            //    ModelState.AddModelError("Major Code", validationMessages); //TODO: Review
+            //}
+            if (!CeremonyHasAvailability(ceremony, registration))
+            {
+                //registration.Ceremony = ceremony;
+                ModelState.AddModelError("Ceremony", "Ceremony does not have enough tickets to move this student.");
+            }
+            else
+            {
+                registration.RegistrationParticipations[0].Ceremony = ceremony;
+            }
+
+            registration.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                Repository.OfType<Registration>().EnsurePersistent(registration);
+
+                return this.RedirectToAction<AdminController>(a => a.StudentDetails(registration.Student.Id, true));
+            }
+
+            var viewModel = ChangeMajorViewModel.Create(Repository, _majorService, registration, _ceremonyService.GetCeremonies(CurrentUser.Identity.Name));
+            return View(viewModel);
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -186,62 +277,7 @@ namespace Commencement.Controllers
             return View(newStudent);
         }
 
-        /// <summary>
-        /// Change the major on a registration
-        /// </summary>
-        /// <param name="id">Registration Id</param>
-        /// <returns></returns>
-        public ActionResult ChangeMajor(int id)
-        {
-            var registration = Repository.OfType<Registration>().GetNullableById(id);
-            if (registration == null) return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null));
 
-            var viewModel = ChangeMajorViewModel.Create(Repository, _majorService, registration);
-            return View(viewModel);
-        }
-        [HttpPost]
-        public ActionResult ChangeMajor(int id, string majorCode)
-        {
-            var registration = Repository.OfType<Registration>().GetNullableById(id);
-            var major = _majorRepository.GetNullableById(majorCode);
-            if (registration == null || major == null)
-            {
-                Message = "Registration or major information was missing.";
-                return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null)); 
-            }
-
-            registration.RegistrationParticipations[0].Major = major;
-            //registration.College = major.College;
-
-            var ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == TermService.GetCurrent() && a.Majors.Contains(major)).FirstOrDefault();
-            //if (!CeremonyHasAvailability(ceremony, registration)) ModelState.AddModelError("Major Code", ValidateMajorChange(registration, major));
-            //var validationMessages = ValidateMajorChange(registration, major);
-            //if(!string.IsNullOrEmpty(validationMessages))
-            //{
-            //    ModelState.AddModelError("Major Code", validationMessages); //TODO: Review
-            //}
-            if (!CeremonyHasAvailability(ceremony, registration))
-            {
-                //registration.Ceremony = ceremony;
-                ModelState.AddModelError("Ceremony", "Ceremony does not have enough tickets to move this student.");
-            }
-            else
-            {
-                registration.RegistrationParticipations[0].Ceremony = ceremony;
-            }
-
-            registration.TransferValidationMessagesTo(ModelState);
-
-            if (ModelState.IsValid)
-            {
-                Repository.OfType<Registration>().EnsurePersistent(registration);
-
-                return this.RedirectToAction<AdminController>(a => a.StudentDetails(registration.Student.Id, true));
-            }
-
-            var viewModel = ChangeMajorViewModel.Create(Repository, _majorService, registration);
-            return View(viewModel);
-        }
 
         public ActionResult ChangeCeremony(int id)
         {
@@ -275,7 +311,7 @@ namespace Commencement.Controllers
                 return this.RedirectToAction<AdminController>(a => a.StudentDetails(registration.Student.Id, true));
             }
 
-            var viewModel = ChangeMajorViewModel.Create(Repository, _majorService, registration);
+            var viewModel = ChangeMajorViewModel.Create(Repository, _majorService, registration, _ceremonyService.GetCeremonies(CurrentUser.Identity.Name));
             return View(viewModel);
         }
 
@@ -353,60 +389,5 @@ namespace Commencement.Controllers
         }
         #endregion
 
-
-        public ActionResult ToggleSJAStatus(Guid id)
-        {
-            var student = _studentRepository.GetNullableById(id);
-            if (student == null) return this.RedirectToAction(a => a.Index());
-
-            var sja = !student.SjaBlock;
-
-            // check for a registration
-            var registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student).FirstOrDefault();
-            if (registration != null)
-            {
-                //registration.SjaBlock = sja;
-                registration.Student.SjaBlock = sja;
-                Repository.OfType<Registration>().EnsurePersistent(registration);   // saves student as well
-            }
-            else
-            {
-                student.SjaBlock = sja;
-                _studentRepository.EnsurePersistent(student);
-            }
-
-            return this.RedirectToAction(a => a.StudentDetails(id, false));
-        }
-
-        public ActionResult ToggleBlock(Guid id)
-        {
-            var student = _studentRepository.GetNullableById(id);
-            if (student == null) return this.RedirectToAction(a => a.Index());
-
-            var blocked = !student.Blocked;
-
-            // check for a registration
-            var registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student && a.RegistrationParticipations[0].Ceremony.TermCode == TermService.GetCurrent()).FirstOrDefault();
-            if (registration != null)
-            {
-                //registration.Cancelled = blocked;
-                registration.Student.Blocked = blocked;
-                Repository.OfType<Registration>().EnsurePersistent(registration);   // saves student as well
-            }
-            else
-            {
-                student.Blocked = blocked;
-                _studentRepository.EnsurePersistent(student);
-            }
-
-            return this.RedirectToAction(a => a.StudentDetails(id, false));
-        }
-
-        public ActionResult Registrations(string studentid, string lastName, string firstName, string majorCode, int? ceremonyId, string collegeCode)
-        {
-            var term = TermService.GetCurrent();
-            var viewModel = AdminRegistrationViewModel.Create(Repository, _majorService, _ceremonyService, _registrationService, term, User.Identity.Name, studentid, lastName, firstName, majorCode, ceremonyId, collegeCode);
-            return View(viewModel);
-        }
     }
 }

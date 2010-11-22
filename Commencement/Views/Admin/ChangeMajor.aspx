@@ -14,7 +14,11 @@
 
     <h2>Change Major</h2>
 
-    <%= Html.ValidationSummary("Please correct all errors below") %>
+    <ul class="registration_form">
+        <li><strong>Student Id:</strong><%: Model.Student.StudentId %></li>
+        <li><strong>Name:</strong><%: Model.Student.FullName %></li>
+    </ul>
+<%--    <%= Html.ValidationSummary("Please correct all errors below") %>
 
     <% using (Html.BeginForm()) { %>
 
@@ -44,7 +48,7 @@
         </li>
     </ul>
     
-    <% } %>
+    <% } %>--%>
 
 </asp:Content>
 
