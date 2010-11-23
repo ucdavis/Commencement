@@ -133,6 +133,23 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
+        [PageTrackingFilter]
+        public ActionResult DisplayRegistration(int id /* registration id */)
+        {
+            var registration = _registrationRepository.GetNullableById(id);
+
+            // not valid registration or current logged in student doesn't match owner of registration
+            if (registration == null) return this.RedirectToAction(x => x.Index());
+            if (registration.Student != _studentService.GetCurrentStudent(CurrentUser)) return this.RedirectToAction<ErrorController>(a => a.UnauthorizedAccess());
+
+            //ViewData["CanEditRegistration"] = registration.RegistrationParticipations[0].Ceremony.RegistrationDeadline > DateTime.Now;
+
+            var viewModel = StudentDisplayRegistrationViewModel.Create(Repository, registration);
+
+            return View(viewModel);
+        }
+
+        #region Helper Methods
         /// <summary>
         /// Validates that the ceremonies the student has decided upon are all valid to be registered for together
         /// </summary>
@@ -184,7 +201,7 @@ namespace Commencement.Controllers
         private RedirectToRouteResult CheckStudentForRegistration(Student student, TermCode termCode)
         {
             // unable to find record for some reason, either from download or banner lookup
-            if (student == null)
+            if (student == null || student.Blocked)
             {
                 return this.RedirectToAction<ErrorController>(a => a.NotEligible());
             }
@@ -192,6 +209,11 @@ namespace Commencement.Controllers
             if (termCode == null)
             {
                 return this.RedirectToAction<ErrorController>(a => a.NotOpen());
+            }
+
+            if (student.SjaBlock)
+            {
+                return this.RedirectToAction<ErrorController>(a => a.SJA());
             }
 
             // has this student registered yet?
@@ -227,7 +249,7 @@ namespace Commencement.Controllers
 
             return null;
         }
-
+        #endregion
 
 
 
@@ -267,18 +289,7 @@ namespace Commencement.Controllers
         //    // multiple ceremonies, let the student pick one
         //    return View(majorsAndCeremonies);
         //}
-        [PageTrackingFilter]
-        public ActionResult DisplayRegistration(int id /* registration id */)
-        {
-            var registration = _registrationRepository.GetNullableById(id);
 
-            // not valid registration or current logged in student doesn't match owner of registration
-            if (registration == null || registration.Student != _studentService.GetCurrentStudent(CurrentUser)) return this.RedirectToAction(x => x.Index());
-
-            ViewData["CanEditRegistration"] = registration.RegistrationParticipations[0].Ceremony.RegistrationDeadline > DateTime.Now;
-
-            return View(registration);
-        }
         [PageTrackingFilter]
         public ActionResult RegistrationConfirmation(int id /* registration id */)
         {
@@ -444,5 +455,4 @@ namespace Commencement.Controllers
         public List<string> SpecialNeeds { get; set; }
         public bool AgreeToDisclaimer { get; set; }
     }
-
 }

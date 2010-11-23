@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Core.Domain.Registration>" MasterPageFile="~/Views/Shared/Site.Master" %>
+<%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.StudentDisplayRegistrationViewModel>" MasterPageFile="~/Views/Shared/Site.Master" %>
 <%@ Import Namespace="Commencement.Controllers" %>
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">Display Registration</asp:Content>
 <asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent"></asp:Content>
@@ -17,21 +17,27 @@
         <li><%= Html.ActionLink<PetitionController>(a => a.ExtraTicketPetition(Model.Id), "Extra Ticket Petition") %></li>
     </ul>--%>
     
-    
-<%--    <h2>Your registration for <%= Html.Encode(Model.Ceremony.Name) %></h2>
-    
-    
-    <% Html.RenderPartial("RegistrationDisplay", Model); %>--%>
-    
+    <ul class="btn">
+        <% if (DateTime.Now > Model.LatestRegDeadline) { %>
+            <li><%= Html.ActionLink<StudentController>(a=>a.EditRegistration(Model.Registration.Id), "Edit Registation") %></li>
+        <% } %>
+        <% if (DateTime.Now > Model.EarliestExtraTicket && DateTime.Now < Model.LatestExtraTicket) { %>
+            <li><%= Html.ActionLink<PetitionController>(a=>a.ExtraTicketPetition(Model.Registration.Id), "Extra Ticket Petition") %></li>
+        <% } %>    
+    </ul>
+
+    <h2>Your commencement registration for <%= Html.Encode(Model.Registration.TermCode.Name) %></h2>
+           
     <h2>Student Information</h2>
-    <% Html.RenderPartial("StudentInformationPartial", Model.Student); %>
+    <% Html.RenderPartial("StudentInformationPartial", Model.Registration.Student); %>
         
     <h2>Contact Information</h2>
-    <% Html.RenderPartial("RegistrationDisplay", Model); %>
+    <% Html.RenderPartial("RegistrationDisplay", Model.Registration); %>
 
     <h2>Registered Ceremony</h2>
-    <% foreach(var a in Model.RegistrationParticipations.Where(a=>!a.Cancelled)) { %>
+    <% foreach(var a in Model.Registration.RegistrationParticipations.Where(a=>!a.Cancelled)) { %>
         <% Html.RenderPartial("RegisteredCeremonyDisplay", a); %>
+        <hr />
     <% } %>
     
 </asp:Content>

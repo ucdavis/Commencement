@@ -204,6 +204,7 @@
     <Compile Include="Controllers\ViewModels\SearchStudentViewModel.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
+    <Compile Include="Controllers\ViewModels\StudentDisplayRegistrationViewModel.cs" />
     <Compile Include="Controllers\ViewModels\TemplateViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminRegistrationViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminStudentViewModel.cs" />

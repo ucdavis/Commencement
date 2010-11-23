@@ -77,9 +77,9 @@ namespace Commencement.Controllers
             return this.RedirectToAction(a => a.Index(ErrorType.UnauthorizedAccess));
         }
 
-        public RedirectToRouteResult SJA()
+        public ActionResult SJA()
         {
-            return this.RedirectToAction(a => a.Index(ErrorType.SJA));
+            return View();
         }
 
         public RedirectToRouteResult PreviouslyWalked()
@@ -111,6 +111,11 @@ namespace Commencement.Controllers
         /// </summary>
         /// <returns></returns>
         public ActionResult NotOpen()
+        {
+            return View();
+        }
+
+        public ActionResult UnauthorizedAccess()
         {
             return View();
         }
