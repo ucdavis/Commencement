@@ -260,6 +260,7 @@ namespace Commencement.Controllers
             destCeremony.MinUnits = srcCeremony.MinUnits;
             destCeremony.PetitionThreshold = srcCeremony.PetitionThreshold;
             destCeremony.Colleges = srcColleges;
+            destCeremony.ConfirmationText = srcCeremony.ConfirmationText;
 
             MergeCeremonyMajors(destCeremony.Majors, srcMajors, srcColleges);
         }
