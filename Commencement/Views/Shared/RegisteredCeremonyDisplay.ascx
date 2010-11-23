@@ -20,7 +20,7 @@
                 <%: Model.ExtraTicketPetition.NumberTicketsStreaming %></li>
             <% } else { %>
                 <li><strong># Extra Tickets Requested:</strong>
-                <%: Model.ExtraTicketPetition.NumberTicketsRequested %></li>
+                <%: Model.ExtraTicketPetition.TotalTicketsRequested %></li>
             <% } %>
         <li>
             <strong>Status:</strong>

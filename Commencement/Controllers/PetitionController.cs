@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
@@ -174,6 +175,9 @@ namespace Commencement.Controllers
             return View(registrationPetition);
         }
 
+
+
+        #region Student Forms       
         [PageTrackingFilter]
         [Authorize]
         public ActionResult Register()
@@ -247,19 +251,28 @@ namespace Commencement.Controllers
                 return this.RedirectToAction<StudentController>(a => a.Index()); 
             }
 
-            // extra ticket deadline has passed or no more tickets
-            if (registration.RegistrationParticipations[0].Ceremony.ExtraTicketDeadline <= DateTime.Now || registration.RegistrationParticipations[0].Ceremony.AvailableTickets < registration.RegistrationParticipations[0].Ceremony.TicketsPerStudent)
+            var ceremonies = registration.RegistrationParticipations.Select(a => a.Ceremony).ToList();
+            var minBeginDate = ceremonies.Min(a => a.ExtraTicketBegin);
+            var maxEndDate = ceremonies.Max(a => a.ExtraTicketDeadline);
+
+            // extra ticket deadline has passed or no more tickets)))
+            if (DateTime.Now > maxEndDate)
             {
-                Message = "Deadline for extra ticket requests has passed or there are no more tickets available.";
+                Message = "Deadline for all extra ticket requests has passed or there are no more tickets available.";
                 return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
             }
 
-            // already submitted extra ticket petition
-            //if (registration.ExtraTicketPetition != null)
-            //{
-            //    Message = "You have already submitted an extra ticket petition.";
-            //    return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
-            //}
+            if (DateTime.Now < minBeginDate)
+            {
+                Message = string.Format("You cannot petition for extra tickets until at least {0}", minBeginDate.ToString("d"));
+                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
+            }
+
+            if (!registration.RegistrationParticipations.Any(a => a.ExtraTicketPetition == null))
+            {
+                Message = string.Format("You have already submitted your extra ticket request(s).");
+                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
+            }
 
             var viewModel = ExtraTicketPetitionModel.Create(Repository, registration);
 
@@ -268,7 +281,7 @@ namespace Commencement.Controllers
 
         [HttpPost]
         [StudentsOnly]
-        public ActionResult ExtraTicketPetition(int id, int numberTickets)
+        public ActionResult ExtraTicketPetition(int id, List<ExtraTicketPetitionPostModel> extraTicketPetitions)
         {
             var registration = Repository.OfType<Registration>().GetNullableById(id);
             if (registration == null                                        // requires registration
@@ -278,33 +291,39 @@ namespace Commencement.Controllers
                 return this.RedirectToAction<StudentController>(a => a.Index());
             }
 
-            // extra ticket deadline has passed or no more tickets
-            if (registration.RegistrationParticipations[0].Ceremony.ExtraTicketDeadline <= DateTime.Now || registration.RegistrationParticipations[0].Ceremony.AvailableTickets < registration.RegistrationParticipations[0].Ceremony.TicketsPerStudent)
+            var ceremonyParticipations = new List<RegistrationParticipation>();
+
+            foreach (var a in extraTicketPetitions.Where(b=>b.NumberTickets > 0 || b.NumberStreamingTickets > 0))
             {
-                Message = "Deadline for extra ticket requests has passed or there are no more tickets available.";
-                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
+                var tickets = a.Ceremony.HasStreamingTickets ? a.NumberTickets + a.NumberStreamingTickets : a.NumberTickets;
+
+                if (tickets > a.Ceremony.ExtraTicketPerStudent)
+                {
+                    ModelState.AddModelError("# Tickets", string.Format("Petition for {0} has too many tickets selected.  The max is {1} for this ceremony.", a.Ceremony.Name, a.Ceremony.ExtraTicketPerStudent));
+                }
+                else if (DateTime.Now > a.Ceremony.ExtraTicketDeadline)
+                {
+                    ModelState.AddModelError("Deadline", string.Format("Petition for {0} has pasted the deadline.", a.Ceremony.Name));
+                }
+                else if (a.RegistrationParticipation.ExtraTicketPetition != null)
+                {
+                    ModelState.AddModelError("ExtraTicketPetition", string.Format("Our records indicate that you have already submitted a petition for {0}", a.Ceremony.Name));
+                }
+                // validate the deadline before creating valid request, and no previous
+                else 
+                {
+                    var etp = new ExtraTicketPetition(a.NumberTickets, a.Ceremony.HasStreamingTickets ? a.NumberStreamingTickets : 0);
+                    a.RegistrationParticipation.ExtraTicketPetition = etp;
+                    ceremonyParticipations.Add(a.RegistrationParticipation);
+                }
             }
-
-            // already submitted extra ticket petition
-            //if (registration.ExtraTicketPetition != null)
-            //{
-            //    Message = "You have already submitted an extra ticket petition.";
-            //    return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
-            //}
-
-            var ticketPetition = new ExtraTicketPetition(numberTickets);
-
-            //registration.ExtraTicketPetition = ticketPetition;
-
-            // validate the object
-            ticketPetition.TransferValidationMessagesTo(ModelState);
-            registration.TransferValidationMessagesTo(ModelState);
 
             if (ModelState.IsValid)
             {
-                Repository.OfType<Registration>().EnsurePersistent(registration);
-
-                Message = "Ticket petition has been successfully submitted.";
+                foreach (var registrationParticipation in ceremonyParticipations)
+                {
+                    Repository.OfType<RegistrationParticipation>().EnsurePersistent(registrationParticipation);    
+                }
 
                 try
                 {
@@ -316,12 +335,16 @@ namespace Commencement.Controllers
                     Message += StaticValues.Student_Email_Problem;
                 }
 
+                Message = "Successfully submitted extra ticket petition(s).";
                 return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
             }
 
             var viewModel = ExtraTicketPetitionModel.Create(Repository, registration);
-            viewModel.ExtraTicketPetition = ticketPetition;
+            viewModel.ExtraTicketPetitionPostModels = extraTicketPetitions;
             return View(viewModel);
         }
+        #endregion
     }
+
+
 }

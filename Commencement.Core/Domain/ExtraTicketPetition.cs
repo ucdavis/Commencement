@@ -13,9 +13,10 @@ namespace Commencement.Core.Domain
             SetDefaults();
         }
 
-        public ExtraTicketPetition(int numberTickets)
+        public ExtraTicketPetition(int numberTickets, int numberTicketsStreaming = 0)
         {
-            NumberTickets = numberTickets;
+            NumberTicketsRequested = numberTickets;
+            NumberTicketsRequestedStreaming = numberTicketsStreaming;
 
             SetDefaults();
         }
@@ -33,8 +34,8 @@ namespace Commencement.Core.Domain
         /// <summary>
         /// Number tickets requested
         /// </summary>
-        [Min(1)]
         public virtual int NumberTicketsRequested { get; set; }
+        public virtual int NumberTicketsRequestedStreaming { get; set; }
         public virtual bool IsPending { get; set; }
         public virtual bool IsApproved { get; set; }
 
@@ -54,6 +55,16 @@ namespace Commencement.Core.Domain
         [Required]
         [Length(100)]
         public virtual string Reason { get; set; }
+
+        public virtual int TotalTicketsRequested
+        {
+            get { return NumberTicketsRequested + NumberTicketsRequestedStreaming; }
+        }
+
+        public virtual int TotalTickets
+        {
+            get { return (NumberTickets.HasValue ? NumberTickets.Value: 0) + (NumberTicketsStreaming.HasValue ? NumberTicketsStreaming.Value : 0); }
+        }
     }
 
     public class ExtraTicketPetitionMap : ClassMap<ExtraTicketPetition>
@@ -63,6 +74,7 @@ namespace Commencement.Core.Domain
             Id(x => x.Id);
 
             Map(x => x.NumberTicketsRequested);
+            Map(x => x.NumberTicketsRequestedStreaming);
             Map(x => x.IsPending);
             Map(x => x.IsApproved);
             Map(x => x.DateSubmitted);

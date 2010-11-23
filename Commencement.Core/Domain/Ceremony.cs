@@ -77,6 +77,10 @@ namespace Commencement.Core.Domain
         public virtual DateTime ExtraTicketDeadline { get; set; }
 
         public virtual int ExtraTicketPerStudent { get; set; }
+        public virtual int MinUnits { get; set; }
+        public virtual int PetitionThreshold { get; set; }
+        public virtual bool HasStreamingTickets { get; set; }
+
 
         [NotNull]
         public virtual TermCode TermCode { get; set; }
@@ -96,10 +100,6 @@ namespace Commencement.Core.Domain
         public virtual IList<CeremonyEditor> Editors { get; set; }
         [NotNull]
         public virtual IList<Template> Templates { get; set; }
-
-        public virtual int MinUnits { get; set; }
-        public virtual int PetitionThreshold { get; set; }
-        
         #endregion
 
 
@@ -203,6 +203,7 @@ namespace Commencement.Core.Domain
 
             Map(x => x.MinUnits);
             Map(x => x.PetitionThreshold);
+            Map(x => x.HasStreamingTickets);
 
             Map(x => x.ConfirmationText);
 

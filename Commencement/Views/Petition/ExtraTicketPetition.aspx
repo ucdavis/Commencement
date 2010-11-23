@@ -1,6 +1,7 @@
 <%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.ExtraTicketPetitionModel>"
     MasterPageFile="~/Views/Shared/Site.Master" %>
 <%@ Import Namespace="Commencement.Core.Resources" %>
+<%@ Import Namespace="Commencement.Controllers" %>
 
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">
     Extra Ticket Petition</asp:Content>
@@ -8,16 +9,15 @@
 </asp:Content>
 
 <asp:Content runat="server" ID="Content3" ContentPlaceHolderID="logoContent">
-    <% Html.RenderPartial("LogoDisplay", Model.Registration.College); %>
 </asp:Content>
 
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
     <h1>Extra Ticket Petition</h1>
-    
-    <% if (Model.DisclaimerStartDate < DateTime.Now) { %>
-        <h2><%= StaticValues.Txt_ExtraTicketRequestDisclaimer %></h2>
-    <% } %>
-    
+       
+    <ul class="btn">
+        <li><%: Html.ActionLink<StudentController>(a=>a.DisplayRegistration(Model.Registration.Id), "Back") %></li>
+    </ul>
+
     <%= Html.ValidationSummary("Please correct all errors below") %>
     <%= Html.ClientSideValidation<Commencement.Core.Domain.ExtraTicketPetition>("ExtraTicketPetition") %>
     
@@ -25,42 +25,89 @@
     
     <ul class="registration_form">
         <li class="prefilled">
-            <strong>Student Id:</strong> 
-            <span><%= Html.Encode(Model.Registration.Student.StudentId) %></span>
+            <strong>Student Id: </strong>
+            <%: Model.Registration.Student.StudentId %>
         </li>
-        <li class="prefilled"><strong>Name:</strong> <span><%= Html.Encode(Model.Registration.Student.FullName) %></span> </li>
-        <li class="prefilled"><strong>Major:</strong> <span><%= Html.Encode(Model.Registration.Major.Name) %></span> </li>
-        <li class="prefilled"><strong>Ceremony:</strong> <span><%= Html.Encode(Model.Registration.Ceremony.DateTime) %></span> </li>
-        <li class="prefilled"><strong>Delivery Method:</strong> <span><%= Html.Encode(Model.Registration.TicketDistributionMethod) %></span></li>
-        <li class="prefilled"><strong>Original # Tickets Requested:</strong>
-            <span><%= Html.Encode(Model.Registration.NumberTickets) %></span>
+        <li class="prefilled">
+            <strong>Name:</strong>
+            <%: Model.Registration.Student.FullName %>
+        </li>
+        <li class="prefilled">
+            <strong>Delivery Method:</strong>
+            <%: Model.Registration.TicketDistributionMethod %>
         </li>
     </ul>
-            
+
     <% using (Html.BeginForm()) { %>
-        <%= Html.AntiForgeryToken() %>
+    <%: Html.AntiForgeryToken() %>
+    <% for (int j = 0; j < Model.Registration.RegistrationParticipations.Count; j++) {
+           var participation = Model.Registration.RegistrationParticipations[j];
+           %>
         
         <ul class="registration_form">
-            <li><strong>Extra Tickets:</strong>
-                <select id="numberTickets" name="numberTickets">
-                    <% for (int i = 1; i <= Model.Registration.Ceremony.ExtraTicketPerStudent; i++)
-                       { %>
-                       
-                       <% var selected = i == Model.ExtraTicketPetition.NumberTickets; %>
-                    
-                        <% if (selected) {%>
-                            <option value="<%= i %>" selected="selected"><%= string.Format("{0:00}", i) %></option>
-                        <% } else {%>
-                            <option value="<%= i %>"><%= string.Format("{0:00}", i) %></option>
-                        <% } %>
+            <% if (!Model.AvailableParticipationIds.Contains(participation.Id)) { %>
+                <% if (participation.ExtraTicketPetition != null) { %>
+                    <li>
+                        This ceremony is not available for extra ticket petition becuase you have previously submitted a petition.
+                    </li>
+                <% } else if (DateTime.Now < participation.Ceremony.ExtraTicketBegin) { %>
+                    <li>  
+                        This ceremony is not available for extra ticket petition.  Please return on <%: participation.Ceremony.ExtraTicketBegin.ToString("d") %> to submit a petition.
+                    </li>
+                <% } else if (DateTime.Now > participation.Ceremony.ExtraTicketDeadline) { %>
+                    <li>
+                        This ceremony is not available for extra ticket petitions.  The deadline was on <%: participation.Ceremony.ExtraTicketDeadline %>.
+                    </li>
+                <% } %>
+            <% } %>
+            <li class="prefilled"><strong>Ceremony ID:</strong><%: participation.Ceremony.Id %></li>
+            <li class="prefilled"><strong>Major:</strong><%: participation.Major.MajorName %></li>
+            <li class="prefilled"><strong>Ceremony Time:</strong><%: participation.Ceremony.DateTime.ToString("g") %></li>
+            <li class="prefilled"><strong># Original Tickets Requested:</strong><%: participation.NumberTickets %></li>
 
+            <% if (Model.AvailableParticipationIds.Contains(participation.Id)) {
+                   
+                   var postModel = Model.ExtraTicketPetitionPostModels.Where(a => a.RegistrationParticipation == participation).FirstOrDefault();
+                   %>
+                
+                    
+
+                    <%: Html.Hidden(string.Format("extraTicketPetitions[{0}].Ceremony", j), participation.Ceremony.Id)%>
+                    <%: Html.Hidden(string.Format("extraTicketPetitions[{0}].RegistrationParticipation", j), participation.Id)%>
+
+                    <li><strong>Extra Tickets:</strong>
+                        <select id="<%: string.Format("extraTicketPetitions[{0}]_NumberTickets", j)  %>" name="<%: string.Format("extraTicketPetitions[{0}].NumberTickets", j) %>">
+                            <% for (int i = 0; i <= participation.Ceremony.ExtraTicketPerStudent; i++) { %>
+                                <% if (postModel != null && postModel.NumberTickets == i) { %>
+                                    <option value="<%: i %>" selected="selected"><%: i %></option>
+                                <% } else { %>
+                                    <option value="<%: i %>"><%: i %></option>
+                                <% } %>
+                            <% } %>
+                        </select>
+                    </li>
+
+                    <% if (participation.Ceremony.HasStreamingTickets) { %>
+                        <li><strong>Streaming Tickets:</strong>
+                            <select id="<%: string.Format("extraTicketPetitions[{0}]_NumberStreamingTickets", j) %>" name="<%: string.Format("extraTicketPetitions[{0}].NumberStreamingTickets", j) %>">
+                                <% for (int i = 0; i <= participation.Ceremony.ExtraTicketPerStudent; i++) { %>
+                                    <% if (postModel != null && postModel.NumberStreamingTickets == i) { %>
+                                        <option value="<%: i %>" selected="selected"><%: i %></option>
+                                    <% } else { %>
+                                        <option value="<%: i %>"><%: i %></option>
+                                    <% } %>
+                                <% } %>
+                            </select>
+                        </li>
+                    <% } else { %>
+                        <%: Html.Hidden(string.Format("extraTicketPetitions[{0}]_NumberStreamingTickets", j), 0) %>
                     <% } %>
-                </select>
-            </li>
-            <li><strong></strong><input type="submit" value="Submit" /></li>
+
+                    <li><strong></strong><%: Html.SubmitButton("Submit", "Submit") %></li>
+            <% } %>
         </ul>
     <% } %>
-    
+    <% } %>    
 </asp:Content>
 
 

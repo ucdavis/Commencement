@@ -53,7 +53,7 @@ namespace Commencement.Core.Domain
             References(x => x.Registration).Cascade.None().Fetch.Join();
             References(x => x.Major).Column("MajorCode").Cascade.None().Fetch.Join();
             References(x => x.Ceremony).Cascade.None().Fetch.Join();
-            References(x => x.ExtraTicketPetition);
+            References(x => x.ExtraTicketPetition).Cascade.All();
 
             Map(x => x.NumberTickets);
             Map(x => x.Cancelled);

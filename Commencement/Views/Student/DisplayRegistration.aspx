@@ -7,21 +7,12 @@
 </asp:Content>
 
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
-    
-<%--    <ul class="btn">
-        <% if ((bool)ViewData["CanEditRegistration"]) { %>
-        
-            <li><%= Html.ActionLink("Edit Your Registration", "EditRegistration", new { id = Model.Id }) %></li>
-    
-        <% } %>
-        <li><%= Html.ActionLink<PetitionController>(a => a.ExtraTicketPetition(Model.Id), "Extra Ticket Petition") %></li>
-    </ul>--%>
-    
+       
     <ul class="btn">
-        <% if (DateTime.Now > Model.LatestRegDeadline) { %>
+        <% if (Model.CanEditRegistration) { %>
             <li><%= Html.ActionLink<StudentController>(a=>a.EditRegistration(Model.Registration.Id), "Edit Registation") %></li>
         <% } %>
-        <% if (DateTime.Now > Model.EarliestExtraTicket && DateTime.Now < Model.LatestExtraTicket) { %>
+        <% if (Model.CanPetitionForExtraTickets) { %>
             <li><%= Html.ActionLink<PetitionController>(a=>a.ExtraTicketPetition(Model.Registration.Id), "Extra Ticket Petition") %></li>
         <% } %>    
     </ul>

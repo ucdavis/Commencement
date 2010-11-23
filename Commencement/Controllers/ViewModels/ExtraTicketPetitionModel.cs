@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Commencement.Core.Domain;
 using System.Collections.Generic;
 using UCDArch.Core.PersistanceSupport;
@@ -8,9 +9,10 @@ namespace Commencement.Controllers.ViewModels
 {
     public class ExtraTicketPetitionModel
     {
-        public ExtraTicketPetition ExtraTicketPetition { get; set; }
         public Registration Registration { get; set; }
         public DateTime DisclaimerStartDate { get; set; }
+        public IEnumerable<int> AvailableParticipationIds { get; set; }
+        public IEnumerable<ExtraTicketPetitionPostModel> ExtraTicketPetitionPostModels { get; set; }
 
         public static ExtraTicketPetitionModel Create(IRepository repository, Registration registration)
         {
@@ -20,10 +22,21 @@ namespace Commencement.Controllers.ViewModels
             var viewModel = new ExtraTicketPetitionModel
                                 {
                                     Registration = registration, 
-                                    ExtraTicketPetition = new ExtraTicketPetition(),
-                                    DisclaimerStartDate = DateTime.Now//registration.Ceremony.RegistrationDeadline.AddDays(7)
+                                    ExtraTicketPetitionPostModels = new List<ExtraTicketPetitionPostModel>(),
+                                    AvailableParticipationIds = registration.RegistrationParticipations.Where(
+                                                                    a =>
+                                                                    DateTime.Now >= a.Ceremony.ExtraTicketBegin && DateTime.Now <= a.Ceremony.ExtraTicketDeadline &&
+                                                                    a.ExtraTicketPetition == null).Select(a => a.Id).ToList()
                                 };
             return viewModel;
         }
+    }
+
+    public class ExtraTicketPetitionPostModel
+    {
+        public RegistrationParticipation RegistrationParticipation { get; set; }
+        public Ceremony Ceremony { get; set; }
+        public int NumberTickets { get; set; }
+        public int NumberStreamingTickets { get; set; }
     }
 }
