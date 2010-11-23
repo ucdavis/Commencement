@@ -29,6 +29,6 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
 
-    
-
+    <script src="<%= Url.Content("~/Scripts/tiny_mce/jquery.tinymce.js") %>" type="text/javascript"></script>
+    <script src="<%= Url.Content("~/Scripts/jquery.enableTinyMce.js") %>" type="text/javascript"></script>  
 </asp:Content>

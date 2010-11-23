@@ -51,6 +51,7 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Create(CeremonyEditModel ceremonyEditModel)
         {
             if (string.IsNullOrEmpty(ceremonyEditModel.Term))
@@ -118,6 +119,7 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Edit(CeremonyEditModel ceremonyEditModel)
         {
             Check.Require(ceremonyEditModel.Ceremony != null, "Ceremony cannot be null.");

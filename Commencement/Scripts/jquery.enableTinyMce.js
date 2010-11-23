@@ -8,7 +8,8 @@
             var settings = $.extend({
                 script_location: "../../Scripts/tiny_mce/tiny_mce.js",
                 overrideHeight: "400",
-                overrideWidth: "400"
+                overrideWidth: "400",
+                overrideOnchange: ""
             }, options);
 
 
@@ -42,7 +43,9 @@
                     template_external_list_url: "js/template_list.js",
                     external_link_list_url: "js/link_list.js",
                     external_image_list_url: "js/image_list.js",
-                    media_external_list_url: "js/media_list.js"
+                    media_external_list_url: "js/media_list.js",
+
+                    onchange_callback : settings.overrideOnchange,
                 });
 
             });

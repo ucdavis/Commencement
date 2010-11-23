@@ -65,6 +65,20 @@
         }
 
     </script>
+    <script type="text/javascript">
+        function myCustomOnChangeHandler(inst) {
+            //            alert("Some one modified something");
+            //            alert("The HTML is now:" + inst.getBody().innerHTML);
+            tinyMCE.triggerSave(); //Needed because of client side validation
+        }
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Ceremony_ConfirmationText").enableTinyMce({ script_location: '<%= Url.Content("~/Scripts/tiny_mce/tiny_mce.js") %>', overrideWidth: '700', overrideHeight: '250', overrideOnchange: 'myCustomOnChangeHandler' }); //, overrideShowPreview: 'preview,', overridePlugin_preview_pageurl: '<%= Url.Content("~/Static/Preview.html") %>' });
+        });
+       
+    </script>
 
     <ul class="registration_form">
         <li>
@@ -156,6 +170,11 @@
             <%: Html.TextBox("Ceremony.ExtraTicketDeadline", Model.Ceremony.ExtraTicketDeadline.ToString("d"))%>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.ExtraTicketDeadline) %>
             * Last date to accept extra ticket requests
+        </li>
+        <li>
+            <strong><%: Html.LabelFor(a => a.Ceremony.ConfirmationText, DisplayOptions.HumanizeAndColon) %></strong>
+            <%: Html.TextAreaFor(a => a.Ceremony.ConfirmationText) %>
+            <%= Html.ValidationMessageFor(a => a.Ceremony.ConfirmationText) %>
         </li>
         <li>
             <strong>Colleges:</strong>

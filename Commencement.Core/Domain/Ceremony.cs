@@ -81,6 +81,9 @@ namespace Commencement.Core.Domain
         [NotNull]
         public virtual TermCode TermCode { get; set; }
 
+        [Required]
+        public virtual string ConfirmationText { get; set; }
+
         [NotNull]
         public virtual IList<Registration> Registrations { get; set; }
         [NotNull]
@@ -200,6 +203,8 @@ namespace Commencement.Core.Domain
 
             Map(x => x.MinUnits);
             Map(x => x.PetitionThreshold);
+
+            Map(x => x.ConfirmationText);
 
             References(x => x.TermCode).Column("TermCode");
 
