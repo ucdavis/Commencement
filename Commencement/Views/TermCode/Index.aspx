@@ -7,7 +7,11 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
+    <ul class="btn">
+        <li>
+            <%= Html.ActionLink<AdminController>(a=>a.Index(), "Home") %>
+        </li>
+    </ul>
     <h2>Index</h2>
 
     <div>
@@ -16,10 +20,6 @@
                .Name("Term Codes")
                .CellAction(cell =>
                       {
-                          if (cell.Column.Name == "IsActive")
-                          {
-                              cell.Text = cell.DataItem.IsActive ? "Yes" : "No";
-                          }
                           if (cell.Column.Name == "IsActive")
                           {
                               cell.Text = cell.DataItem.IsActive ? "Yes" : "No";

@@ -194,6 +194,7 @@
     <Compile Include="Controllers\Services\StudentService.cs" />
     <Compile Include="Controllers\Services\TermService.cs" />
     <Compile Include="Controllers\Services\UserService.cs" />
+    <Compile Include="Controllers\SpecialNeedsController.cs" />
     <Compile Include="Controllers\TermCodeController.cs" />
     <Compile Include="Controllers\ViewModels\AddEditorViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminPetitionsViewModel.cs" />
@@ -560,6 +561,8 @@
     <Content Include="Views\Shared\StudentInformationPartial.ascx" />
     <Content Include="Views\Shared\LogoDisplay.ascx" />
     <Content Include="Views\Shared\RegisteredCeremonyDisplay.ascx" />
+    <Content Include="Views\SpecialNeeds\Create.aspx" />
+    <Content Include="Views\SpecialNeeds\Index.aspx" />
     <Content Include="Views\Student\ChooseCeremony.aspx" />
     <Content Include="Views\Student\DisplayRegistration.aspx" />
     <Content Include="Views\Student\Index.aspx" />
