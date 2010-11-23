@@ -13,17 +13,15 @@
     <li class="prefilled"><strong>Ceremony Date:</strong> <span>
         <%= Html.Encode(string.Format("{0}", Model.Ceremony.DateTime.ToString("g"))) %></span> </li>
     <% if (Model.ExtraTicketPetition != null) { %>
-        <li>
             <% if (!Model.ExtraTicketPetition.IsPending && Model.ExtraTicketPetition.IsApproved) { %>
-                <strong># Extra Tickets Approved:</strong>
-                <%: Model.ExtraTicketPetition.NumberTickets %>
-                <strong># Streaming Tickets Approved:</strong>
-                <%: Model.ExtraTicketPetition.NumberTicketsStreaming %>
+                <li><strong># Extra Tickets Approved:</strong>
+                <%: Model.ExtraTicketPetition.NumberTickets %></li>
+                <li><strong># Streaming Tickets Approved:</strong>
+                <%: Model.ExtraTicketPetition.NumberTicketsStreaming %></li>
             <% } else { %>
-                <strong># Extra Tickets Requested:</strong>
-                <%: Model.ExtraTicketPetition.NumberTicketsRequested %>
+                <li><strong># Extra Tickets Requested:</strong>
+                <%: Model.ExtraTicketPetition.NumberTicketsRequested %></li>
             <% } %>
-        </li>
         <li>
             <strong>Status:</strong>
             <%: Model.ExtraTicketPetition.IsPending ? "Pending Decision" : (Model.ExtraTicketPetition.IsApproved ? "Approved" : "Denied") %>

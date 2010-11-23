@@ -64,7 +64,7 @@ namespace Commencement.Controllers.Helpers
         /// <param name="helper"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static string HtmlEncode(this HtmlHelper helper, string text)
+        public static FormattedString HtmlEncode(this HtmlHelper helper, string text)
         {
             // encode the string
             string encodedText = HttpUtility.HtmlEncode(text);
@@ -131,7 +131,7 @@ namespace Commencement.Controllers.Helpers
                               string.Format(SpanEncodedStyled, XXLargeText),
                               string.Format(SpanStyled, XXLargeText));
 
-            return formattedEncodedText.ToString();
+            return new FormattedString() {FormattedValue = formattedEncodedText.ToString()};
         }
 
         public static void ReplaceTagContents(StringBuilder formattedText, string tag)
