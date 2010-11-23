@@ -89,6 +89,8 @@ namespace Commencement.Controllers
             var ceremonyParticipations = registrationModel.CeremonyParticipations;
             var specialNeeds = registrationModel.SpecialNeeds;
 
+            // check to make sure they haven't completed a registration already, cannot register more than once
+
             var term = TermService.GetCurrent();
             var student = _studentService.GetCurrentStudent(CurrentUser);
 
@@ -249,11 +251,13 @@ namespace Commencement.Controllers
 
             return null;
         }
+
+        private void NullOutBlankFields(Registration registration)
+        {
+            registration.Address2 = registration.Address2.IsNullOrEmpty(true) ? null : registration.Address2;
+            registration.Email = registration.Email.IsNullOrEmpty(true) ? null : registration.Email;
+        }
         #endregion
-
-
-
-
 
 
         // to be removed
@@ -295,7 +299,8 @@ namespace Commencement.Controllers
         {
             var registration = _registrationRepository.GetNullableById(id);
 
-            if (registration == null || registration.Student != _studentService.GetCurrentStudent(CurrentUser)) return this.RedirectToAction(x => x.Index());
+            if (registration == null)  return this.RedirectToAction(x => x.Index());
+            if (registration.Student != _studentService.GetCurrentStudent(CurrentUser)) return this.RedirectToAction<ErrorController>(a => a.UnauthorizedAccess());
 
             return View(registration);
         }
@@ -353,11 +358,7 @@ namespace Commencement.Controllers
 
  
 
-        private void NullOutBlankFields(Registration registration)
-        {
-            registration.Address2 = registration.Address2.IsNullOrEmpty(true) ? null : registration.Address2;
-            registration.Email = registration.Email.IsNullOrEmpty(true) ? null : registration.Email;
-        }
+
 
         [PageTrackingFilter]
         public ActionResult EditRegistration(int id)
