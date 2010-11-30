@@ -3,7 +3,6 @@
 <asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent"></asp:Content>
 
 <asp:Content runat="server" ID="Content3" ContentPlaceHolderID="logoContent">
-    <% Html.RenderPartial("LogoDisplay", Model.Registration.College); %>
 </asp:Content>
 
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">

@@ -30,13 +30,10 @@ namespace Commencement.Controllers.ViewModels
             
             var participations = repository.OfType<RegistrationParticipation>().Queryable.Where(a=>a.Registration == registration).ToList();
             var ceremonies = participations.Select(a => a.Ceremony).ToList();
-            var earliestExtraTicket = ceremonies.Min(a => a.ExtraTicketBegin);
-            var latestExtraTicket = ceremonies.Max(a => a.ExtraTicketDeadline);
             var hasAvailableExtraTicketPetition = participations.Any(a=>a.ExtraTicketPetition== null);
-            var latestRegDeadline = ceremonies.Max(a => a.RegistrationDeadline);
 
-            if (DateTime.Now >= earliestExtraTicket && DateTime.Now <= latestExtraTicket && hasAvailableExtraTicketPetition) viewModel.CanPetitionForExtraTickets = true;
-            if (DateTime.Now <= latestRegDeadline) viewModel.CanEditRegistration = true;
+            viewModel.CanPetitionForExtraTickets = (ceremonies.Any(a => a.CanSubmitExtraTicket()) && hasAvailableExtraTicketPetition);
+            viewModel.CanEditRegistration = ceremonies.Any(a => a.CanRegister());
 
             return viewModel;
         }

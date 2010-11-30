@@ -372,7 +372,7 @@ namespace Commencement.Controllers
                 Message = StaticValues.Student_No_Registration_Found;
                 return this.RedirectToAction(a => a.Index());
             }
-            if (registration.RegistrationParticipations[0].Ceremony.RegistrationDeadline <= DateTime.Now)
+            if (!registration.RegistrationParticipations.Any(a=>a.Ceremony.CanRegister()))
             {
                 return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.RegistrationClosed));
             }

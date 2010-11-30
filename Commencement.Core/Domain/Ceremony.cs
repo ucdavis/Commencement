@@ -182,6 +182,22 @@ namespace Commencement.Core.Domain
         {
             return Editors.Where(a => a.User.LoginId == userId).Any();
         }
+
+        public virtual bool CanRegister()
+        {
+            return (DateTime.Now >= RegistrationBegin && DateTime.Now.Date <= RegistrationDeadline);
+        }
+
+        public virtual bool CanSubmitExtraTicket()
+        {
+            return (DateTime.Now >= ExtraTicketBegin && DateTime.Now.Date <= ExtraTicketDeadline);
+        }
+
+        public virtual bool IsPastPrintingDeadline()
+        {
+            return DateTime.Now.Date > PrintingDeadline;
+        }
+
         #endregion
     }
 
