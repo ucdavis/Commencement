@@ -1,4 +1,5 @@
 <%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.RegistrationModel>" MasterPageFile="~/Views/Shared/Site.Master" %>
+<%@ Import Namespace="Commencement.Controllers" %>
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">Edit registration</asp:Content>
 <asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent"></asp:Content>
 
@@ -7,7 +8,10 @@
 
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
 
-<h1><%= Model.Ceremony.Name %></h1>
+    <ul class="btn">
+        <li><%: Html.ActionLink<StudentController>(a=>a.DisplayRegistration(Model.Registration.Id), "Back") %></li>
+    </ul>
+
     <p>
         Welcome back <%= Html.Encode(Model.Student.FirstName) %>.  
     </p>
@@ -18,9 +22,9 @@
     <% using (Html.BeginForm()) { %>
         <%= Html.AntiForgeryToken() %>
 
-    <% Html.RenderPartial("RegistrationEditForm"); %>    
+        <% Html.RenderPartial("RegistrationEditForm"); %>    
     
-    <input type="submit" value="Update Registration" />
+        <input type="submit" value="Update Registration" />
     
     <% } %>
 

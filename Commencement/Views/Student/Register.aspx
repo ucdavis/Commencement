@@ -14,7 +14,8 @@
 
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
     <p>
-        <% if (Model.Ceremonies.Min(a=>a.PrintingDeadline) > DateTime.Now) { %>
+
+        <% if (Model.Ceremonies.Any(a => a.IsPastPrintingDeadline())) { %>
             <%= Html.Encode(string.Format(StaticValues.Txt_Introduction, Model.Student.FirstName)) %>
         <% } else { %>
             <%: string.Format(StaticValues.Txt_Introduction_AfterPrintingDeadling, Model.Student.FirstName) %>
@@ -29,7 +30,7 @@
     <% using (Html.BeginForm()) { %>
         <%= Html.AntiForgeryToken() %>
 
-    <% Html.RenderPartial("RegistrationEditForm"); %>    
+        <% Html.RenderPartial("RegistrationEditForm"); %>    
     
     <h3>
         <%= string.Format(StaticValues.Txt_Disclaimer) %>
