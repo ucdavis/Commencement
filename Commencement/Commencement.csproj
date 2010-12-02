@@ -172,6 +172,7 @@
     <Compile Include="Controllers\CeremonyController.cs" />
     <Compile Include="Controllers\Filters\PageTrackingFilter.cs" />
     <Compile Include="Controllers\Filters\SessionExpirationFilter.cs" />
+    <Compile Include="Controllers\Helpers\CeremonyMajorCheck.cs" />
     <Compile Include="Controllers\Helpers\CopyHelper.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\Filters\RolesFilter.cs" />
