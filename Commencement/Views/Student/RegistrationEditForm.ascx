@@ -117,59 +117,9 @@
                         <% } %>
                     </select>
                 </li>
-<%--                <% if (a.Edit && (a.Participate || a.Cancel)) { %>
-                <li>
-                    <input type="checkbox" id="<%: string.Format("ceremonyParticipations[{0}]_Cancel", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Cancel", a.Index) %>" value="true" <%: a.Cancel ? "checked" : string.Empty %> />
-                    I would like to cancel this registration.  I understand that this will forfeit my tickets and if I change my mind I may not be able to receive the same amount of tickets.
-                </li>
-                <% }%>--%>
             </ul>
         </fieldset>
     <% } %>
-
-<%--    <% for (int j = 0; j < Model.Student.Majors.Count; j++) {
-        var major = Model.Student.Majors[j];
-        var ceremony = Model.Ceremonies.Where(b => b.Majors.Contains(major)).FirstOrDefault(); %>
-
-        <fieldset>
-            <legend>Commencement for <%: major.MajorName %></legend>
-
-            <%: Html.Hidden("ceremonyParticipations[" + j + "].Ceremony", ceremony.Id)%>
-            <%: Html.Hidden("ceremonyParticipations[" + j + "].Major", major.Id)%>
-
-            <ul class="registration_form">
-                <li>
-                    <input type="checkbox" id="<%: "ceremonyParticipations["+j+"]_Participate" %>" name="<%: "ceremonyParticipations["+j+"].Participate" %>" value="true" /> I would like to participate in this ceremony.
-                </li>
-                <li>
-                    <strong>Date/Time: </strong>
-                    <%: ceremony.DateTime %>
-                </li>
-                <li>
-                    <strong>Major: </strong>
-                    <%: major.Name %>
-                </li>
-                <li>
-                    <strong>Tickets Requested:</strong>
-                    <select id="<%: "ceremonyParticipations["+j+"]_Tickets" %>" name="<%: "ceremonyParticipations["+j+"].Tickets" %>">
-                    <% for (int i = 1; i < ceremony.TicketsPerStudent; i++) { %>
-                        <% 
-                           var tickets = Model.Registration.RegistrationParticipations.Where(a=>a.Ceremony == ceremony).FirstOrDefault();
-                           var selected = i == (tickets != null ? tickets.NumberTickets : 0); %>
-
-                        <% if (selected) {%>
-                            <option value="<%= i %>" selected="selected"><%= string.Format("{0:00}", i) %></option>
-                        <% } else {%>
-                            <option value="<%= i %>"><%= string.Format("{0:00}", i) %></option>
-                        <% } %>
-                    <% } %>
-                    </select>
-                </li>
-            </ul>
-
-        </fieldset>
-
-    <% } %>--%>
 
     <h2>Special Needs</h2>
 
