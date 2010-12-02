@@ -44,10 +44,34 @@ namespace Commencement.Controllers
         [AnyoneWithRole]
         public ActionResult Index()
         {
-            var viewModel = AdminPetitionsViewModel.Create(Repository, _ceremonyService, _petitionService, CurrentUser.Identity.Name, TermService.GetCurrent());
+            return View();
+        }
 
+        [AnyoneWithRole]
+        public ActionResult ExtraTicketPetitions(int? ceremonyId)
+        {
+            var viewModel = AdminExtraTicketPetitionViewModel.Create(Repository, _ceremonyService, _petitionService, CurrentUser, TermService.GetCurrent(), ceremonyId);
             return View(viewModel);
         }
+
+        [AnyoneWithRole]
+        public ActionResult RegistrationPetitions()
+        {
+            return View();
+        }
+        [AnyoneWithRole]
+        public ActionResult RegistrationPetition(int id)
+        {
+            var registrationPetition = Repository.OfType<RegistrationPetition>().GetNullableById(id);
+            if (registrationPetition == null)
+            {
+                Message = "Unable to find registration petition.";
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            return View(registrationPetition);
+        }
+
 
         [AnyoneWithRole]
         public ActionResult DecideExtraTicketPetition(int id, bool isApproved)
@@ -162,18 +186,7 @@ namespace Commencement.Controllers
             return Json(true);
         }
 
-        [AnyoneWithRole]
-        public ActionResult RegistrationPetition(int id)
-        {
-            var registrationPetition = Repository.OfType<RegistrationPetition>().GetNullableById(id);
-            if (registrationPetition == null)
-            {
-                Message = "Unable to find registration petition.";
-                return this.RedirectToAction(a => a.Index());
-            }
 
-            return View(registrationPetition);
-        }
 
 
 
@@ -345,6 +358,4 @@ namespace Commencement.Controllers
         }
         #endregion
     }
-
-
 }

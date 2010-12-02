@@ -198,7 +198,9 @@
     <Compile Include="Controllers\SpecialNeedsController.cs" />
     <Compile Include="Controllers\TermCodeController.cs" />
     <Compile Include="Controllers\ViewModels\AddEditorViewModel.cs" />
+    <Compile Include="Controllers\ViewModels\AdminExtraTicketPetitionViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminPetitionsViewModel.cs" />
+    <Compile Include="Controllers\ViewModels\AdminRegistrationPetitionViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeCeremonyViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeMajorViewModel.cs" />
     <Compile Include="Controllers\ViewModels\RegistrationDataViewModel.cs" />
@@ -283,6 +285,7 @@
     <Content Include="Global.asax" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\branding.jpg" />
+    <Content Include="Images\loading.gif" />
     <Content Include="Images\logo-caes.png" />
     <Content Include="Images\logo-cbs.png" />
     <Content Include="Images\logo-coe.png" />
@@ -558,6 +561,7 @@
     <Content Include="Views\Ceremony\Index.aspx" />
     <Content Include="Views\Error\Index.aspx" />
     <Content Include="Views\Petition\ExtraTicketPetition.aspx" />
+    <Content Include="Views\Petition\ExtraTicketPetitions.aspx" />
     <Content Include="Views\Petition\Register.aspx" />
     <Content Include="Views\Shared\StudentInformationPartial.ascx" />
     <Content Include="Views\Shared\LogoDisplay.ascx" />

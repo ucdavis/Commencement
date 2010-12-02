@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.AdminPetitionsViewModel>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 <%@ Import Namespace="Commencement.Controllers" %>
 
@@ -8,11 +8,19 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <%= Html.AntiForgeryToken() %>
-
     <ul class="btn">
         <li><%= Html.ActionLink<HomeController>(a=>a.Index(), "Back Home") %></li>
     </ul>
+
+    <ul>
+        <li><%: Html.ActionLink<PetitionController>(a=>a.ExtraTicketPetitions(), "Extra Ticket Petitions") %></li>
+        <li><%: Html.ActionLink<PetitionController>(a=>a.RegistrationPetitions(), "Registration Petitions") %></li>
+    </ul>
+
+
+<%--    <%= Html.AntiForgeryToken() %>
+
+
 
     <div id="Ceremony_Container" style="margin:0 auto; width:500px;">
     
@@ -101,14 +109,14 @@
                  %>
         </div>
     </div>
-    
+--%>    
     
 
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
 
-    <script type="text/javascript">
+<%--    <script type="text/javascript">
         var antiForgeryToken;
 
         $(function() {
@@ -161,6 +169,6 @@
             $container.children(".ticket_box").hide();
             $container.children(".ticket_edit_btns").hide();
         }
-    </script>
+    </script>--%>
 
 </asp:Content>

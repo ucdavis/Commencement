@@ -31,7 +31,7 @@ namespace Commencement.Controllers.ViewModels
 
             var viewModel = new AdminPetitionsViewModel()
                                 {
-                                    PendingExtraTicket = petitionService.GetPendingExtraTicket(userId, termCode, ceremonyIds),
+                                    //PendingExtraTicket = petitionService.GetPendingExtraTicket(userId, termCode, ceremonyIds),
                                     PendingRegistrationPetitions = petitionService.GetPendingRegistration(userId, termCode, ceremonyIds),
                                     Ceremonies = ceremonies
                                 };
