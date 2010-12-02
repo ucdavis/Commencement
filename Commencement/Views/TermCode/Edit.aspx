@@ -29,12 +29,10 @@
                     <li>
                         <strong><%: Html.LabelFor(a => a.Name, DisplayOptions.HumanizeAndColon) %></strong>
                         <%: Html.DisplayFor(model => model.Name) %>
-                        <%--<%: Html.ValidationMessageFor(model => model.Name) %>--%>
                     </li>            
                     <li>
                         <strong><%:Html.LabelFor(a => a.IsActive, DisplayOptions.HumanizeAndColon) %></strong>
                         <%: Html.DisplayFor(model => model.IsActive) %>
-                        <%--<%: Html.ValidationMessageFor(model => model.IsActive) %>--%>
                     </li>
                 </ul> 
             </fieldset>
