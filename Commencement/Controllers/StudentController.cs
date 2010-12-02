@@ -293,10 +293,10 @@ namespace Commencement.Controllers
             foreach (var a in ceremonyParticipations)
             {
                 var rp = registration.RegistrationParticipations.Where(b => b.Major == a.Major && b.Ceremony == a.Ceremony).FirstOrDefault();
-                if (rp == null && a.Participate) registration.AddParticipation(a.Major, a.Ceremony, a.Tickets);
+                if (rp == null && a.Participate && !a.Cancel) registration.AddParticipation(a.Major, a.Ceremony, a.Tickets);
                 else
                 {
-                    rp.Cancelled = a.Cancel;
+                    rp.Cancelled = a.Participate ? !a.Participate : a.Cancel;
                     rp.DateUpdated = DateTime.Now;
                     rp.NumberTickets = a.Tickets;
                 }

@@ -2,7 +2,13 @@
 <%@ Import Namespace="Commencement.Core.Resources" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
-    <%--<%: Html.HiddenFor(x=>x.Registration.Ceremony.Id, Model.Ceremony.Id) %>--%>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("input:radio").click(function () {
+                $(this).siblings("input:radio").attr('checked', false);
+            });
+        });
+    </script>
 
     <h2>
         Student Information</h2>
@@ -76,12 +82,23 @@
             <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Major", a.Index), a.Major.Id) %>
 
             <ul class="registration_form">
-                <li>
-                    <% if (!a.Edit || (!a.Participate && !a.Cancel)) { %>
-                    <input type="checkbox" id="<%: string.Format("ceremonyParticipations[{0}]_Participate", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Participate", a.Index) %>" value="true" <%: a.Participate ? "checked" : string.Empty %> />
-                    I would like to participate in this ceremony.
-                    <% } %>
-                </li>
+
+
+                <% if (!a.Edit) { %>
+                    <li>
+                        <input type="checkbox" id="<%: string.Format("ceremonyParticipations[{0}]_Participate", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Participate", a.Index) %>" value="true" <%: a.Participate ? "checked" : string.Empty %> />
+                        I would like to participate in this ceremony.
+                    </li>
+                <% } else { %>
+                    <li>
+                        <input type="radio" id="<%: string.Format("ceremonyParticipations[{0}]_Participate", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Participate", a.Index) %>" value="true" <%: a.Participate ? "checked" : string.Empty %> />
+                        I would like to participate in this ceremony.
+                        <br />
+                        <input type="radio" id="<%: string.Format("ceremonyParticipations[{0}]_Cancel", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Cancel", a.Index) %>" value="true" <%: a.Cancel ? "checked" : string.Empty %> />
+                        I would like to cancel this registration.  I understand that this will forfeit my tickets and if I change my mind I may not be able to receive the same amount of tickets.
+                    </li>
+                <% } %>
+
                 <li>
                     <strong>Date/Time: </strong> <%: a.Ceremony.DateTime.ToString("g") %>
                 </li>
@@ -100,12 +117,12 @@
                         <% } %>
                     </select>
                 </li>
-                <% if (a.Edit && (a.Participate || a.Cancel)) { %>
+<%--                <% if (a.Edit && (a.Participate || a.Cancel)) { %>
                 <li>
                     <input type="checkbox" id="<%: string.Format("ceremonyParticipations[{0}]_Cancel", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Cancel", a.Index) %>" value="true" <%: a.Cancel ? "checked" : string.Empty %> />
                     I would like to cancel this registration.  I understand that this will forfeit my tickets and if I change my mind I may not be able to receive the same amount of tickets.
                 </li>
-                <% }%>
+                <% }%>--%>
             </ul>
         </fieldset>
     <% } %>
