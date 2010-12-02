@@ -1,6 +1,4 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.ViewModels.RegistrationModel>" %>
-<%@ Import Namespace="Commencement.Core.Resources" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
     <script type="text/javascript">
         $(document).ready(function () {

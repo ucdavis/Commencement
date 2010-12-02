@@ -26,7 +26,7 @@
     <% Html.RenderPartial("RegistrationDisplay", Model.Registration); %>
 
     <h2>Registered Ceremony</h2>
-    <% foreach(var a in Model.Registration.RegistrationParticipations.Where(a=>!a.Cancelled)) { %>
+    <% foreach(var a in Model.Registration.RegistrationParticipations) { %>
         <% Html.RenderPartial("RegisteredCeremonyDisplay", a); %>
         <hr />
     <% } %>

@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Core.Domain.RegistrationParticipation>" %>
 
 <ul class="registration_form">
+    <li><strong>Status: </strong><%: Model.Cancelled ? "Cancelled" : "Registered" %></li>
     <li><strong>Major: </strong><%: Model.Major.MajorName %></li>
     <li><strong>Date Registered:</strong><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateRegistered) %></li>
     <li><strong>Last Update:</strong><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateUpdated) %></li>
