@@ -114,4 +114,39 @@ p.style7 {font: 18px/27px 'CicleShadow', Arial, sans-serif;}       */
 #Colleges input {display:inline-block; margin-left:210px;}
 
 
-.ui-multiselect 16px/26px 'CicleFina',Arial,sans-serif
+
+/* ------------------ */
+/* date picker */
+/* ------------------ */
+.ui-datepicker, #ui-datepicker-div
+{
+    border:1px #0D548A solid;
+    width:16em;
+    background:#f8f8f8;
+}
+#ui-datepicker-div.ui-datepicker .ui-datepicker-calendar .ui-state-default 
+{
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:1px #0D548A solid;
+    background:#F4FAFF;
+    color:#0D548A;
+}
+#ui-datepicker-div.ui-datepicker .ui-datepicker-calendar .ui-state-default:hover 
+{
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:1px #0D548A solid;
+    background:#0D548A;
+    color:#FFFFFF;
+}
+#ui-datepicker-div.ui-datepicker .ui-datepicker-header
+{
+    padding:0;
+    margin:0;
+}
+.ui-datepicker th
+{
+    padding:0;
+    margin:0;
+}
