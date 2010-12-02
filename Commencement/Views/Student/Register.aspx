@@ -36,7 +36,7 @@
         <%= string.Format(StaticValues.Txt_Disclaimer) %>
         
         <br />
-        <label for="agreeToDisclaimer">I Agree</label> <%= Html.CheckBox("agreeToDisclaimer", new { @class = "required" }) %>
+        <div class="legaldisclaimer"><%= Html.CheckBox("agreeToDisclaimer", new { @class = "required" }) %><label for="agreeToDisclaimer">I Agree</label></div>
     </h3>
 
     <input type="submit" value="Register for Commencement" />
