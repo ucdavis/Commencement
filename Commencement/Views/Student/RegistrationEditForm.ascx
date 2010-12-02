@@ -68,7 +68,49 @@
 
     <h2>Ceremony Information</h2>
 
-    <% for (int j = 0; j < Model.Student.Majors.Count; j++) {
+    <% foreach (var a in Model.Participations) { %>
+        <fieldset>
+            <legend>Commencement for <%: a.Major.MajorName %></legend>
+
+            <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Ceremony", a.Index), a.Ceremony.Id) %>
+            <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Major", a.Index), a.Major.Id) %>
+
+            <ul class="registration_form">
+                <li>
+                    <% if (!a.Edit || (!a.Participate && !a.Cancel)) { %>
+                    <input type="checkbox" id="<%: string.Format("ceremonyParticipations[{0}]_Participate", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Participate", a.Index) %>" value="true" <%: a.Participate ? "checked" : string.Empty %> />
+                    I would like to participate in this ceremony.
+                    <% } %>
+                </li>
+                <li>
+                    <strong>Date/Time: </strong> <%: a.Ceremony.DateTime.ToString("g") %>
+                </li>
+                <li>
+                    <strong>Major: </strong><%: a.Major.MajorName %>
+                </li>
+                <li>
+                    <strong>Tickets Requested:</strong>
+
+                    <select id="<%: string.Format("ceremonyParticipations[{0}]_Tickets", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Tickets", a.Index) %>" >
+                        <% for (int i = 1; i < a.Ceremony.TicketsPerStudent; i++) { %>
+                            <% if (i == a.Tickets) { %>
+                            <% } %>
+
+                            <option value="<%: i %>" <%: i == a.Tickets ? "selected=\"selected\"" : string.Empty %> ><%: string.Format("{0:00}", i) %></option>
+                        <% } %>
+                    </select>
+                </li>
+                <% if (a.Edit && (a.Participate || a.Cancel)) { %>
+                <li>
+                    <input type="checkbox" id="<%: string.Format("ceremonyParticipations[{0}]_Cancel", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Cancel", a.Index) %>" value="true" <%: a.Cancel ? "checked" : string.Empty %> />
+                    I would like to cancel this registration.  I understand that this will forfeit my tickets and if I change my mind I may not be able to receive the same amount of tickets.
+                </li>
+                <% }%>
+            </ul>
+        </fieldset>
+    <% } %>
+
+<%--    <% for (int j = 0; j < Model.Student.Majors.Count; j++) {
         var major = Model.Student.Majors[j];
         var ceremony = Model.Ceremonies.Where(b => b.Majors.Contains(major)).FirstOrDefault(); %>
 
@@ -110,7 +152,7 @@
 
         </fieldset>
 
-    <% } %>
+    <% } %>--%>
 
     <h2>Special Needs</h2>
 

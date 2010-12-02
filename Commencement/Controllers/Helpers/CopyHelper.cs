@@ -16,5 +16,16 @@ namespace Commencement.Controllers.Helpers
             
             registrationTo.MailTickets = registrationFrom.MailTickets;
         }
+
+        /// <summary>
+        /// Only use this to update, not for new ones
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dest"></param>
+        public static void CopyParticipationValues(RegistrationParticipation src, RegistrationParticipation dest)
+        {
+            dest.NumberTickets = src.NumberTickets;
+            dest.Cancelled = src.Cancelled;
+        }
     }
 }
