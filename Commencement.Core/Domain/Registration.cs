@@ -151,11 +151,10 @@ namespace Commencement.Core.Domain
             Id(x => x.Id);
 
             References(x => x.Student).Column("Student_Id").Fetch.Join();
-            References(x => x.State).Column("State");
-
             Map(x => x.Address1);
             Map(x => x.Address2);
             Map(x => x.City);
+            References(x => x.State).Column("State");
             Map(x => x.Zip);
             Map(x => x.Email);
             Map(x => x.MailTickets);

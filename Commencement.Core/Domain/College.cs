@@ -21,7 +21,7 @@ namespace Commencement.Core.Domain
             Map(x => x.Name);
             Map(x => x.Display);
             HasMany(x => x.Majors).KeyColumn("CollegeCode").Inverse();
-            HasMany(x => x.Registrations).KeyColumn("CollegeCode").Inverse();
+            //HasMany(x => x.Registrations).KeyColumn("CollegeCode").Inverse(); //Not in DB
         }
     }
 }
