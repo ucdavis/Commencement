@@ -132,6 +132,12 @@
             * Total # tickets available to everyone.            
         </li>
         <li>
+            <strong>Total Streaming Tickets:</strong>
+            <%: Html.TextBoxFor(x=>x.Ceremony.TotalStreamingTickets) %>
+            <%: Html.ValidationMessageFor(x=>x.Ceremony.TotalStreamingTickets) %>
+            * Total # tickets for streaming tickets
+        </li>
+        <li>
             <strong>Minimum Units:</strong>
             <%: Html.TextBoxFor(x=>x.Ceremony.MinUnits) %>
             <%: Html.ValidationMessageFor(x=>x.Ceremony.MinUnits) %>

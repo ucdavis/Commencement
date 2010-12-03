@@ -28,6 +28,7 @@ namespace Commencement.Core.Domain
         public virtual DateTime DateRegistered { get; set; }
         public virtual DateTime DateUpdated { get; set; }
 
+        #region Extended Fields / Methods
         public virtual string TicketDistribution
         {
             get
@@ -42,6 +43,82 @@ namespace Commencement.Core.Domain
                 return message;
             }
         }
+
+        /// <summary>
+        /// Deteremines if there are any factors that would exclude this registration from ticket count
+        /// </summary>
+        public virtual bool IsValidForTickets
+        { 
+            get { return !Cancelled && !Registration.Student.SjaBlock && !Registration.Student.Blocked; }
+        }
+
+        /// <summary>
+        /// Returns total number of tickets including extra ticket petition tickets if any
+        /// </summary>
+        public virtual int TotalTickets
+        {
+            get
+            {
+                if (IsValidForTickets)
+                {
+                    var ticketCount = NumberTickets;
+                    ticketCount += (ExtraTicketPetition != null && ExtraTicketPetition.IsApproved &&
+                                    ExtraTicketPetition.NumberTickets.HasValue
+                                        ? ExtraTicketPetition.NumberTickets.Value
+                                        : 0);
+
+                    return ticketCount;
+                }
+
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Returns total number tickets for streaming that are approved
+        /// </summary>
+        public virtual int TotalStreamingTickets
+        {
+            get 
+            {
+                return ExtraTicketPetition != null && ExtraTicketPetition.IsApproved && ExtraTicketPetition.NumberTicketsStreaming.HasValue
+                       ? ExtraTicketPetition.NumberTicketsStreaming.Value : 0;
+            }
+        }
+
+        /// <summary>
+        /// Returns total number of projected tickets, includes all extra ticket petitions that have not been approved yet
+        /// </summary>
+        public virtual int ProjectedTickets
+        {
+            get
+            {
+                if (IsValidForTickets)
+                {
+                    var ticketCount = NumberTickets;
+                    ticketCount += (ExtraTicketPetition != null && ExtraTicketPetition.NumberTickets.HasValue ? ExtraTicketPetition.NumberTickets.Value : ExtraTicketPetition.NumberTicketsRequested);
+
+                    return ticketCount;
+                }
+
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Returns total number of projected streaming tickets, includes all extra ticket petitions that have not been approved yet
+        /// </summary>
+        public virtual int ProjectedStreamingTickets
+        {
+            get
+            {
+                return ExtraTicketPetition != null && ExtraTicketPetition.NumberTicketsStreaming.HasValue
+                           ? ExtraTicketPetition.NumberTicketsStreaming.Value
+                           : ExtraTicketPetition.NumberTicketsRequestedStreaming;
+            }
+        }
+
+        #endregion
     }
 
     public class RegistrationParticipationMap : ClassMap<RegistrationParticipation>

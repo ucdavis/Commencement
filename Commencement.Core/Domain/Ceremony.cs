@@ -32,7 +32,7 @@ namespace Commencement.Core.Domain
 
         private void SetDefaults()
         {
-            Registrations = new List<Registration>();
+            RegistrationParticipations = new List<RegistrationParticipation>();
             Majors = new List<MajorCode>();
             RegistrationPetitions = new List<RegistrationPetition>();
             Editors = new List<CeremonyEditor>();
@@ -65,6 +65,8 @@ namespace Commencement.Core.Domain
         [Min(1)]
         public virtual int TotalTickets { get; set; }
 
+        public virtual int? TotalStreamingTickets { get; set; }
+
         [NotNull]
         public virtual DateTime PrintingDeadline { get; set; }
         [NotNull]
@@ -88,8 +90,11 @@ namespace Commencement.Core.Domain
         [Required]
         public virtual string ConfirmationText { get; set; }
 
+        //[NotNull]
+        //public virtual IList<Registration> Registrations { get; set; }
+
         [NotNull]
-        public virtual IList<Registration> Registrations { get; set; }
+        public virtual IList<RegistrationParticipation> RegistrationParticipations { get; set; }
         [NotNull]
         public virtual IList<MajorCode> Majors { get; set; }
         [NotNull]
@@ -123,52 +128,153 @@ namespace Commencement.Core.Domain
         }
 
         /// <summary>
-        /// # available tickets
+        /// Total number of tickets available
         /// </summary>
-        public virtual int AvailableTickets { 
-            get
-            {
-                //return TotalTickets - Registrations.Where(a=>!a.SjaBlock).Sum(a => a.TotalTickets);
-
-                return 0;
-            } 
+        public virtual int AvailableTickets {
+            get { return TotalTickets - TicketCount; }
         }
 
         /// <summary>
-        /// # of tickets requested by original registration
+        /// Total number of streaming tickets available
         /// </summary>
-        public virtual int RequestedTickets
-        {
-            //get { return Registrations.Where(a => !a.SjaBlock && !a.Cancelled).Sum(a => a.NumberTickets); }
-            get { return 0; }
-        }
-
-        /// <summary>
-        /// # of tickets requested by extra ticket petitions
-        /// </summary>
-        public virtual int ExtraRequestedtickets
+        public virtual int? AvailableStreamingTickets
         {
             get
             {
-                //return Registrations.Where(a => a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved 
-                //                            && !a.ExtraTicketPetition.IsPending && !a.SjaBlock && !a.Cancelled)
-                //                    .Sum(a => a.ExtraTicketPetition.NumberTickets.Value);
+                if (HasStreamingTickets)
+                {
+                    return TotalStreamingTickets - (TicketStreamingCount.HasValue ? TicketStreamingCount.Value : 0);
+                }
 
-                return 0;
+                return null;
             }
         }
 
         /// <summary>
-        /// Total # of requested tickets (original request and extra ticket approved)
+        /// Total number of approved tickets
         /// </summary>
-        public virtual int TotalRequestedTickets
+        public virtual int TicketCount
+        {
+            get { return RegistrationParticipations.Sum(a => a.TotalTickets); }
+        }
+
+        /// <summary>
+        /// Total number of streaming tickets, if it has tickets, else it's null
+        /// </summary>
+        public virtual int? TicketStreamingCount
         {
             get
             {
-                // a.TotalTickets filters and returns 0 for cancelled or sjablock registrations
-                return Registrations.Sum(a => a.TotalTickets);
+                if (HasStreamingTickets)
+                {
+                    return RegistrationParticipations.Sum(a => a.TotalStreamingTickets);
+                }
+
+                return null;
             }
         }
+
+
+        /// <summary>
+        /// Projected Total number of tickets available
+        /// </summary>
+        public virtual int ProjectedAvailableTickets
+        {
+            get { return TotalTickets - ProjectedTicketCount; }
+        }
+
+        /// <summary>
+        /// Projected Total number of streaming tickets available
+        /// </summary>
+        public virtual int? ProjectedAvailableStreamingTickets
+        {
+            get
+            {
+                if (HasStreamingTickets)
+                {
+                    return TotalStreamingTickets - (ProjectedTicketStreamingCount.HasValue ? ProjectedTicketStreamingCount.Value : 0);
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Projected Total number of approved tickets
+        /// </summary>
+        public virtual int ProjectedTicketCount
+        {
+            get { return RegistrationParticipations.Sum(a => a.ProjectedTickets); }
+        }
+
+        /// <summary>
+        /// Projected Total number of streaming tickets, if it has tickets, else it's null
+        /// </summary>
+        public virtual int? ProjectedTicketStreamingCount
+        {
+            get
+            {
+                if (HasStreamingTickets)
+                {
+                    return RegistrationParticipations.Sum(a => a.TotalStreamingTickets);
+                }
+
+                return null;
+            }
+        }
+
+        ///// <summary>
+        ///// # available tickets
+        ///// </summary>
+        //public virtual int AvailableTickets { 
+        //    get
+        //    {
+        //        //return TotalTickets - Registrations.Where(a=>!a.SjaBlock).Sum(a => a.TotalTickets);
+
+        //        return 0;
+        //    } 
+        //}
+
+        ///// <summary>
+        ///// # of tickets requested by original registration
+        ///// </summary>
+        //public virtual int RequestedTickets
+        //{
+        //    //get { return Registrations.Where(a => !a.SjaBlock && !a.Cancelled).Sum(a => a.NumberTickets); }
+        //    get {
+        //        RegistrationParticipations.Where(a => !a.Cancelled);
+        //        return 0;
+        //    }
+        //}
+
+        ///// <summary>
+        ///// # of tickets requested by extra ticket petitions
+        ///// </summary>
+        //public virtual int ExtraRequestedtickets
+        //{
+        //    get
+        //    {
+        //        //return Registrations.Where(a => a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved 
+        //        //                            && !a.ExtraTicketPetition.IsPending && !a.SjaBlock && !a.Cancelled)
+        //        //                    .Sum(a => a.ExtraTicketPetition.NumberTickets.Value);
+
+        //        return 0;
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Total # of requested tickets (original request and extra ticket approved)
+        ///// </summary>
+        //public virtual int TotalRequestedTickets
+        //{
+        //    get
+        //    {
+        //        // a.TotalTickets filters and returns 0 for cancelled or sjablock registrations
+        //        //return Registrations.Sum(a => a.TotalTickets);
+
+        //        return 0;
+        //    }
+        //}
 
         public virtual void AddEditor(vUser user, bool owner = false)
         {
@@ -210,6 +316,7 @@ namespace Commencement.Core.Domain
             Map(x => x.DateTime);
             Map(x => x.TicketsPerStudent);
             Map(x => x.TotalTickets);
+            Map(x => x.TotalStreamingTickets);
             Map(x => x.RegistrationBegin);
             Map(x => x.PrintingDeadline);
             Map(x => x.RegistrationDeadline);
@@ -225,7 +332,8 @@ namespace Commencement.Core.Domain
 
             References(x => x.TermCode).Column("TermCode");
 
-            HasMany(x => x.Registrations).Cascade.AllDeleteOrphan().Inverse();
+            //HasMany(x => x.Registrations).Cascade.AllDeleteOrphan().Inverse();
+            HasMany(x => x.RegistrationParticipations).Cascade.None().Inverse();
             HasMany(x => x.RegistrationPetitions).Cascade.None().Inverse();
             HasMany(x => x.Editors).Cascade.AllDeleteOrphan().Inverse().Fetch.Subselect();
             HasMany(x => x.Templates).Cascade.AllDeleteOrphan().Inverse();

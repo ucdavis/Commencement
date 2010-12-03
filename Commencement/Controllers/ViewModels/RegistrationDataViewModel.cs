@@ -24,15 +24,15 @@ namespace Commencement.Controllers.ViewModels
                                                   {
                                                       TermCode = a.TermCode,
                                                       Ceremony = a,
-                                                      Registrants = a.Registrations.Count(),
-                                                      CancelledRegistrants = a.Registrations.Count(),
+                                                      Registrants = a.RegistrationParticipations.Count(),
+                                                      CancelledRegistrants = a.RegistrationParticipations.Count(),
                                                       RegistrationPetitionsSubmitted = a.RegistrationPetitions.Count,
                                                       RegistrationPetitionsApproved =
                                                           a.RegistrationPetitions.Where(
                                                               b => b.IsApproved && !b.IsPending).Count(),
-                                                      TicketsRequested = a.RequestedTickets,
-                                                      ExtraTicketsRequested = a.ExtraRequestedtickets,
-                                                      TotalTickets = a.TotalRequestedTickets
+                                                      TicketsRequested = a.ProjectedTicketCount,
+                                                      ExtraTicketsRequested = a.ProjectedTicketCount,
+                                                      TotalTickets = a.TotalTickets
                                                   }).ToList();
 
             return viewModel;

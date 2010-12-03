@@ -8,6 +8,7 @@ namespace Commencement.Core.Domain
 {
     public class ExtraTicketPetition : DomainObject
     {
+        #region Constructors
         public ExtraTicketPetition()
         {
             SetDefaults();
@@ -30,7 +31,9 @@ namespace Commencement.Core.Domain
             DateSubmitted = DateTime.Now;
             DateDecision = null;
         }
+        #endregion
 
+        #region Mapped Fields
         /// <summary>
         /// Number tickets requested
         /// </summary>
@@ -55,7 +58,9 @@ namespace Commencement.Core.Domain
         [Required]
         [Length(100)]
         public virtual string Reason { get; set; }
+        #endregion
 
+        #region  Extended/Calculated Fields
         public virtual int TotalTicketsRequested
         {
             get { return NumberTicketsRequested + NumberTicketsRequestedStreaming; }
@@ -65,6 +70,7 @@ namespace Commencement.Core.Domain
         {
             get { return (NumberTickets.HasValue ? NumberTickets.Value: 0) + (NumberTicketsStreaming.HasValue ? NumberTicketsStreaming.Value : 0); }
         }
+        #endregion
     }
 
     public class ExtraTicketPetitionMap : ClassMap<ExtraTicketPetition>

@@ -173,22 +173,19 @@ namespace Commencement.Controllers
 
         [AnyoneWithRole]
         [HttpPost]
-        public JsonResult UpdateTicketAmount(int id, int tickets)
+        public JsonResult UpdateTicketAmount(int id, int tickets, bool streaming)
         {
-            var registration = Repository.OfType<Registration>().GetNullableById(id);
-            if (registration == null) return Json(false);
-            //if (!registration.ExtraTicketPetition.IsPending) return Json(false);    // do not change non-pending petitions
+            var petition = Repository.OfType<ExtraTicketPetition>().GetNullableById(id);
+            if (petition == null) return Json("Could not find petition.");
+            if (!petition.IsPending) return Json("Petition is not pending");
 
-            //registration.ExtraTicketPetition.NumberTickets = tickets > 0 ? tickets : 0;
+            if (streaming) petition.NumberTicketsStreaming = tickets > 0 ? tickets : 0;
+            else petition.NumberTickets = tickets > 0 ? tickets : 0;
 
-            //Repository.OfType<ExtraTicketPetition>().EnsurePersistent(registration.ExtraTicketPetition);
+            Repository.OfType<ExtraTicketPetition>().EnsurePersistent(petition);
 
-            return Json(true);
+            return Json(string.Empty);
         }
-
-
-
-
 
         #region Student Forms       
         [PageTrackingFilter]

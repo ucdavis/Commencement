@@ -13,7 +13,7 @@
     </ul>
 
     <ul>
-        <li><%: Html.ActionLink<PetitionController>(a=>a.ExtraTicketPetitions(), "Extra Ticket Petitions") %></li>
+        <li><%: Html.ActionLink<PetitionController>(a=>a.ExtraTicketPetitions(null), "Extra Ticket Petitions") %></li>
         <li><%: Html.ActionLink<PetitionController>(a=>a.RegistrationPetitions(), "Registration Petitions") %></li>
     </ul>
 
