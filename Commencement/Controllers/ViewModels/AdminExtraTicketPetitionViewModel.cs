@@ -12,7 +12,7 @@ namespace Commencement.Controllers.ViewModels
     {
         public IEnumerable<RegistrationParticipation> RegistrationParticipations { get; set; }
         public IEnumerable<Ceremony> Ceremonies { get; set; }
-        public int? CeremonyId { get; set; }
+        public Ceremony Ceremony { get; set; }
 
         public static AdminExtraTicketPetitionViewModel Create(IRepository repository, ICeremonyService ceremonyService, IPetitionService petitionService, IPrincipal currentUser, TermCode termCode, int? ceremonyId)
         {
@@ -24,7 +24,7 @@ namespace Commencement.Controllers.ViewModels
             var viewModel = new AdminExtraTicketPetitionViewModel()
                                 {
                                     Ceremonies = ceremonies,
-                                    CeremonyId = ceremonyId
+                                    Ceremony = ceremonyId.HasValue ? repository.OfType<Ceremony>().GetNullableById(ceremonyId.Value) : null
                                 };
 
             // has a ceremony been selected and does the current user have access

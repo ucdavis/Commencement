@@ -20,6 +20,7 @@ namespace Commencement.Controllers.Services
         void SendRegistrationPetitionApproved(RegistrationPetition registrationPetition);
 
         void QueueRegistrationConfirmation(Registration registration);
+        void QueueExtraTicketPetitionDecision(RegistrationParticipation participation);
     }
 
     public class EmailService : IEmailService
@@ -162,6 +163,11 @@ namespace Commencement.Controllers.Services
             throw new NotImplementedException();
         }
 
+        public void QueueExtraTicketPetitionDecision(RegistrationParticipation participation)
+        {
+            throw new NotImplementedException();
+        }
+
         private MailMessage InitializeMessage()
         {
             var message = new MailMessage();
@@ -227,6 +233,11 @@ namespace Commencement.Controllers.Services
             var emailQueue = new EmailQueue(registration.Student, template, template.Subject, body, true);
             emailQueue.Registration = registration;
             _emailQueueRepository.EnsurePersistent(emailQueue);
+        }
+
+        public void QueueExtraTicketPetitionDecision(RegistrationParticipation participation)
+        {
+            throw new NotImplementedException();
         }
 
         public void SendAddPermission(Student student, Ceremony ceremony)

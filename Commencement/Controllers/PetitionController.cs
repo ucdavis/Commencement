@@ -72,12 +72,25 @@ namespace Commencement.Controllers
             return View(registrationPetition);
         }
 
-
+        [HttpPost]
         [AnyoneWithRole]
-        public ActionResult DecideExtraTicketPetition(int id, bool isApproved)
+        public ActionResult DecideExtraTicketPetition(int id /* Registration Participation Id */, bool isApproved)
         {
-            var registration = Repository.OfType<Registration>().GetNullableById(id);
-            if (registration == null) return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.UnknownError));
+            var participation = Repository.OfType<RegistrationParticipation>().GetNullableById(id);
+
+            if (participation == null) return Json("Could not find registration.");
+            if (participation.ExtraTicketPetition == null) return Json("Could not find extra ticket petition.");
+
+            var petition = participation.ExtraTicketPetition;
+
+            petition.IsPending = false;
+            petition.IsApproved = isApproved;
+            petition.DateDecision = DateTime.Now;
+
+            Repository.OfType<ExtraTicketPetition>().EnsurePersistent(petition);
+            //_emailService.QueueExtraTicketPetitionDecision(participation);
+
+            return Json(string.Empty);
 
             //registration.ExtraTicketPetition.IsPending = false;
             //registration.ExtraTicketPetition.IsApproved = isApproved;
@@ -104,9 +117,9 @@ namespace Commencement.Controllers
             //else
             //{
             //    Message = string.Format("There was a problem saving decision for {0}", registration.Student.FullName);
-            //}
+            //}););););
 
-            return this.RedirectToAction(a => a.Index());
+         //   return this.RedirectToAction(a => a.Index());
         }
 
         [AnyoneWithRole]
@@ -173,18 +186,26 @@ namespace Commencement.Controllers
 
         [AnyoneWithRole]
         [HttpPost]
-        public JsonResult UpdateTicketAmount(int id, int tickets, bool streaming)
+        public JsonResult UpdateTicketAmount(int id /* Registration Participation Id */, int tickets, bool streaming)
         {
-            var petition = Repository.OfType<ExtraTicketPetition>().GetNullableById(id);
-            if (petition == null) return Json("Could not find petition.");
-            if (!petition.IsPending) return Json("Petition is not pending");
+            var participation = Repository.OfType<RegistrationParticipation>().GetNullableById(id);
+
+            if (participation == null) return Json(new UpdateTicketModel(null, "Count not locate registration."));
+
+            var petition = participation.ExtraTicketPetition;
+            var ceremony = participation.Ceremony;
+            
+            if (petition == null) return Json(new UpdateTicketModel(ceremony, "Could not find petition."));
+            if (ceremony == null) return Json("Could not find ceremony.");
+            if (!_ceremonyService.HasAccess(ceremony.Id, CurrentUser.Identity.Name)) return Json(new UpdateTicketModel(ceremony, "You do not have access to ceremony."));
+            if (!petition.IsPending) return Json(new UpdateTicketModel(ceremony, "Petition is not pending"));
 
             if (streaming) petition.NumberTicketsStreaming = tickets > 0 ? tickets : 0;
             else petition.NumberTickets = tickets > 0 ? tickets : 0;
 
             Repository.OfType<ExtraTicketPetition>().EnsurePersistent(petition);
 
-            return Json(string.Empty);
+            return Json(new UpdateTicketModel(ceremony, string.Empty));
         }
 
         #region Student Forms       
@@ -354,5 +375,23 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
         #endregion
+    }
+
+    public class UpdateTicketModel
+    {
+        public UpdateTicketModel(Ceremony ceremony, string message)
+        {
+            ProjectedAvailableTickets = ceremony.ProjectedAvailableTickets;
+            ProjectedAvailableStreamingTickets = ceremony.ProjectedAvailableStreamingTickets;
+            ProjectedTicketCount = ceremony.ProjectedTicketCount;
+            ProjectedStreamingCount = ceremony.ProjectedTicketStreamingCount;
+        }
+
+        public int ProjectedAvailableTickets { get; set; }
+        public int? ProjectedAvailableStreamingTickets { get; set; }
+        public int ProjectedTicketCount { get; set; }
+        public int? ProjectedStreamingCount { get; set; }
+
+        public string Message { get; set; }
     }
 }

@@ -285,6 +285,10 @@
     <Content Include="Global.asax" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\branding.jpg" />
+    <Content Include="Images\Cancel-1.png" />
+    <Content Include="Images\Cancel.png" />
+    <Content Include="Images\CheckMark-1.png" />
+    <Content Include="Images\CheckMark.png" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\logo-caes.png" />
     <Content Include="Images\logo-cbs.png" />

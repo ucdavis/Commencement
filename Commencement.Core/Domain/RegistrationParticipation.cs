@@ -62,7 +62,7 @@ namespace Commencement.Core.Domain
                 if (IsValidForTickets)
                 {
                     var ticketCount = NumberTickets;
-                    ticketCount += (ExtraTicketPetition != null && ExtraTicketPetition.IsApproved &&
+                    ticketCount += (ExtraTicketPetition != null && ExtraTicketPetition.IsApproved && !ExtraTicketPetition.IsPending &&
                                     ExtraTicketPetition.NumberTickets.HasValue
                                         ? ExtraTicketPetition.NumberTickets.Value
                                         : 0);
@@ -81,7 +81,7 @@ namespace Commencement.Core.Domain
         {
             get 
             {
-                return ExtraTicketPetition != null && ExtraTicketPetition.IsApproved && ExtraTicketPetition.NumberTicketsStreaming.HasValue
+                return ExtraTicketPetition != null && ExtraTicketPetition.IsApproved && !ExtraTicketPetition.IsPending && ExtraTicketPetition.NumberTicketsStreaming.HasValue
                        ? ExtraTicketPetition.NumberTicketsStreaming.Value : 0;
             }
         }
@@ -96,8 +96,13 @@ namespace Commencement.Core.Domain
                 if (IsValidForTickets)
                 {
                     var ticketCount = NumberTickets;
-                    ticketCount += (ExtraTicketPetition != null && ExtraTicketPetition.NumberTickets.HasValue ? ExtraTicketPetition.NumberTickets.Value : ExtraTicketPetition.NumberTicketsRequested);
 
+                    if (ExtraTicketPetition != null)
+                    {
+                        ticketCount += ExtraTicketPetition.NumberTickets.HasValue
+                                           ? ExtraTicketPetition.NumberTickets.Value
+                                           : ExtraTicketPetition.NumberTicketsRequested;
+                    }
                     return ticketCount;
                 }
 
