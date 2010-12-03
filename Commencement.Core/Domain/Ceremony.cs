@@ -317,39 +317,39 @@ namespace Commencement.Core.Domain
             Map(x => x.TicketsPerStudent);
             Map(x => x.TotalTickets);
             Map(x => x.TotalStreamingTickets);
-            Map(x => x.RegistrationBegin);
             Map(x => x.PrintingDeadline);
             Map(x => x.RegistrationDeadline);
-            Map(x => x.ExtraTicketBegin);
-            Map(x => x.ExtraTicketDeadline);
-            Map(x => x.ExtraTicketPerStudent);
-
-            Map(x => x.MinUnits);
-            Map(x => x.PetitionThreshold);
-            Map(x => x.HasStreamingTickets);
-
-            Map(x => x.ConfirmationText);
 
             References(x => x.TermCode).Column("TermCode");
 
+            Map(x => x.ExtraTicketDeadline);
+            Map(x => x.ExtraTicketPerStudent);
+            Map(x => x.MinUnits);
+            Map(x => x.PetitionThreshold);
+            Map(x => x.RegistrationBegin);
+            Map(x => x.ExtraTicketBegin);
+            Map(x => x.HasStreamingTickets);
+            Map(x => x.ConfirmationText);
+ 
+
             //HasMany(x => x.Registrations).Cascade.AllDeleteOrphan().Inverse();
-            HasMany(x => x.RegistrationParticipations).Cascade.None().Inverse();
-            HasMany(x => x.RegistrationPetitions).Cascade.None().Inverse();
-            HasMany(x => x.Editors).Cascade.AllDeleteOrphan().Inverse().Fetch.Subselect();
-            HasMany(x => x.Templates).Cascade.AllDeleteOrphan().Inverse();
+            HasMany(x => x.RegistrationParticipations).Cascade.None().Inverse(); // jcs
+            HasMany(x => x.RegistrationPetitions).Cascade.None().Inverse(); //ok jcs
+            HasMany(x => x.Editors).Cascade.AllDeleteOrphan().Inverse().Fetch.Subselect(); //ok jcs
+            HasMany(x => x.Templates).Cascade.AllDeleteOrphan().Inverse(); //ok jcs
 
             HasManyToMany(x => x.Colleges)
                 .ParentKeyColumn("CeremonyId")
                 .ChildKeyColumn("CollegeCode")
                 .Table("CeremonyColleges")
                 .Cascade.SaveUpdate()
-                .Fetch.Subselect();
+                .Fetch.Subselect(); //ok jcs
 
             HasManyToMany(x => x.Majors)
                 .ParentKeyColumn("CeremonyId")
                 .ChildKeyColumn("MajorCode")
                 .Table("CeremonyMajors")
-                .Cascade.SaveUpdate();
+                .Cascade.SaveUpdate(); //ok jcs
         }
     }
 
