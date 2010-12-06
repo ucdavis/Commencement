@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="template_body">
-                    <%= Html.HtmlEncode(t.BodyText) %>
+                    <%: Html.HtmlEncode(t.BodyText) %>
                 </div>
                 
             </fieldset>

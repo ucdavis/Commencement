@@ -38,7 +38,7 @@ namespace Commencement.Core.Domain
         public virtual Student Student { get; set; }
         public virtual DateTime Created { get; set; }
         public virtual bool Pending { get; set; }
-        public virtual DateTime SentDateTime { get; set; }
+        public virtual DateTime? SentDateTime { get; set; }
         [NotNull]
         public virtual Template Template { get; set; }
         [Length(100)]
@@ -49,6 +49,7 @@ namespace Commencement.Core.Domain
         public virtual bool Immediate { get; set; }
 
         public virtual Registration Registration { get; set; }
+        public virtual RegistrationParticipation RegistrationParticipation { get; set; }
         public virtual RegistrationPetition RegistrationPetition { get; set; }
         public virtual ExtraTicketPetition ExtraTicketPetition { get; set; }
     }
@@ -69,6 +70,7 @@ namespace Commencement.Core.Domain
             Map(x => x.Body);
             Map(x => x.Immediate);
             References(x => x.Registration);
+            References(x => x.RegistrationParticipation);
             References(x => x.RegistrationPetition);
             References(x => x.ExtraTicketPetition);
         }

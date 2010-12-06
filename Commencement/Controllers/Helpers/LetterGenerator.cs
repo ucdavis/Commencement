@@ -9,20 +9,49 @@ namespace Commencement.Controllers.Helpers
     {
         private Ceremony _ceremony;
         public Student Student { get; set; }
-        public Registration Registration { get; set; }
+        //public Registration Registration { get; set; }  // probably not needed
         public RegistrationPetition RegistrationPetition { get; set; }
         public ExtraTicketPetition ExtraTicketPetition { get; set; }
 
-        public string GenerateRegistrationConfirmation(Registration registration, Template template)
+        public RegistrationParticipation RegistrationParticipation { get; set; }
+
+        public string GenerateRegistrationConfirmation(RegistrationParticipation registrationParticipation, Template template)
+        {
+            Check.Require(registrationParticipation != null, "registrationParticipation is required.");
+            Check.Require(template != null, "template is required.");
+            Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationConfirmation, "Template mismatch.");
+
+            _ceremony = registrationParticipation.Ceremony;
+            Student = registrationParticipation.Registration.Student;
+            RegistrationParticipation = registrationParticipation;
+
+            return HandleBody(template.BodyText);
+        }
+
+        public string GenerateExtraTicketRequestPetitionConfirmation(Registration registration, Template template)
         {
             Check.Require(registration != null, "Registration is required.");
             Check.Require(template != null, "Template is required.");
-            Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationConfirmation);
-            Check.Require(registration.Student != null, "Student is required.");
+            Check.Require(template.TemplateType.Name == StaticValues.Template_TicketPetition);
 
+            //Registration = registration;
             _ceremony = registration.RegistrationParticipations[0].Ceremony;
-            Registration = registration;
             Student = registration.Student;
+            //ExtraTicketPetition = registration.ExtraTicketPetition;
+
+            return HandleBody(template.BodyText);
+        }
+
+        public string GenerateExtraTicketRequestPetitionDecision(Registration registration, Template template)
+        {
+            Check.Require(registration != null, "Registration is required.");
+            Check.Require(template != null, "Template is required.");
+            Check.Require(template.TemplateType.Name == StaticValues.Template_TicketPetition_Decision);
+
+            //Registration = registration;
+            _ceremony = registration.RegistrationParticipations[0].Ceremony;
+            Student = registration.Student;
+            //ExtraTicketPetition = registration.ExtraTicketPetition;
 
             return HandleBody(template.BodyText);
         }
@@ -61,33 +90,7 @@ namespace Commencement.Controllers.Helpers
             return HandleBody(template.BodyText);
         }
 
-        public string GenerateExtraTicketRequestPetitionConfirmation(Registration registration, Template template)
-        {
-            Check.Require(registration != null, "Registration is required.");
-            Check.Require(template != null, "Template is required.");
-            Check.Require(template.TemplateType.Name == StaticValues.Template_TicketPetition);
 
-            Registration = registration;
-            _ceremony = registration.RegistrationParticipations[0].Ceremony;
-            Student = registration.Student;
-            //ExtraTicketPetition = registration.ExtraTicketPetition;
-
-            return HandleBody(template.BodyText);
-        }
-
-        public string GenerateExtraTicketRequestPetitionDecision(Registration registration, Template template)
-        {
-            Check.Require(registration != null, "Registration is required.");
-            Check.Require(template != null, "Template is required.");
-            Check.Require(template.TemplateType.Name == StaticValues.Template_TicketPetition_Decision);
-
-            Registration = registration;
-            _ceremony = registration.RegistrationParticipations[0].Ceremony;
-            Student = registration.Student;
-            //ExtraTicketPetition = registration.ExtraTicketPetition;
-
-            return HandleBody(template.BodyText);
-        }
 
         #region Main Processing Functions
         /// <summary>
@@ -158,7 +161,8 @@ namespace Commencement.Controllers.Helpers
                     throw new ArgumentException("No valid object was provided.");
                 case "studentname":
                     if (Student != null) return Student.FullName;
-                    if (RegistrationPetition != null) return RegistrationPetition.FirstName + " " + RegistrationPetition.LastName;
+                    if (RegistrationPetition != null)
+                        return string.Format("{0} {1}", RegistrationPetition.FirstName, RegistrationPetition.LastName);
 
                     throw new ArgumentException("No valid object was provided.");
                 case "ceremonyname":
@@ -173,13 +177,11 @@ namespace Commencement.Controllers.Helpers
                     if (ceremony == null) throw new ArgumentException("No valid object was provided.");
 
                     return ceremony.Location;
-                case "numberoftickets":
-
-                    if (Registration != null) return Registration.TotalTickets.ToString();
+                case "numberoftickets": // only number tickets from original registration
+                    if (RegistrationParticipation != null) return RegistrationParticipation.NumberTickets.ToString();
 
                     throw new ArgumentException("No valid object was provided.");
                 case "petitiondecision":
-
                     if (ExtraTicketPetition != null) return ExtraTicketPetition.IsApproved ? "Approved" : "Denied";
                     if (RegistrationPetition != null) return RegistrationPetition.IsApproved ? "Approved" : "Denied";
 
@@ -190,41 +192,41 @@ namespace Commencement.Controllers.Helpers
                     throw new ArgumentException("Extra Ticket Petition was missing");
                 case "addressline1":
 
-                    if (Registration != null) return Registration.Address1;
+                    if (RegistrationParticipation != null) return RegistrationParticipation.Registration.Address1;
 
                     throw new ArgumentException("No valid object was provided.");
                 case "addressline2":
 
-                    if (Registration != null) return Registration.Address2;
+                    if (RegistrationParticipation != null) return RegistrationParticipation.Registration.Address2;
 
                     throw new ArgumentException("No valid object was provided.");
                 case "city":
 
-                    if (Registration != null) return Registration.City;
+                    if (RegistrationParticipation != null) return RegistrationParticipation.Registration.City;
 
                     throw new ArgumentException("No valid object was provided.");
                 case "state":
 
-                    if (Registration != null) return Registration.State.Id;
+                    if (RegistrationParticipation != null) return RegistrationParticipation.Registration.State.Id;
 
                     throw new ArgumentException("No valid object was provided.");
                 case "zip":
 
-                    if (Registration != null) return Registration.Zip;
+                    if (RegistrationParticipation != null) return RegistrationParticipation.Registration.Zip;
 
                     throw new ArgumentException("No valid object was provided.");
                 case "distributionmethod":
-                    Check.Require(Registration != null, "Registration is required.");
+                    Check.Require(RegistrationParticipation != null, "Registration participation is required.");
 
-                    return Registration.TicketDistributionMethod;
+                    return RegistrationParticipation.Registration.TicketDistributionMethod;
                 case "specialneeds":
-                    Check.Require(Registration != null, "Registration is required.");
-                    return string.Empty;
-                    //return Registration.Comments;
-                case "major":
-                    Check.Require(Registration != null, "Registration is required.");
+                    Check.Require(RegistrationParticipation != null, "Registration participation is required.");
 
-                    return Registration.RegistrationParticipations[0].Major.Name;
+                    return string.Join(", ", RegistrationParticipation.Registration.SpecialNeeds);
+                case "major":
+                    Check.Require(RegistrationParticipation != null, "Registration participation is required.");
+
+                    return RegistrationParticipation.Major.MajorName;
                 case "exceptionreason":
                     Check.Require(RegistrationPetition != null, "Registration petition is required.");
 

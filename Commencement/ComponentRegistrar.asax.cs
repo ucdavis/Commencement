@@ -19,13 +19,9 @@ namespace Commencement
             container.AddComponent("validator", typeof(IValidator), typeof(Validator));
             container.AddComponent("dbContext", typeof(IDbContext), typeof(DbContext));
 
-#if DEBUG
-            container.AddComponent("studentService", typeof(IStudentService), typeof(StudentService));
-            container.AddComponent("emailService", typeof (IEmailService), typeof (DevEmailService));
-#else
             container.AddComponent("studentService", typeof(IStudentService), typeof(StudentService));
             container.AddComponent("emailService", typeof (IEmailService), typeof (EmailService));
-#endif
+
             container.AddComponent("majorService", typeof (IMajorService), typeof (MajorService));
             container.AddComponent("auditInterceptor", typeof (NHibernate.IInterceptor), typeof (AuditInterceptor));
             container.AddComponent("principal", typeof (IPrincipal), typeof (WebPrincipal));
