@@ -12,7 +12,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
 {
     public partial class AdminControllerTests
     {
-
+        /*
         #region Index Tests
 
         /// <summary>
@@ -647,5 +647,6 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             #endregion Assert
         }
         #endregion Students Tests 
+        */
     }
 }

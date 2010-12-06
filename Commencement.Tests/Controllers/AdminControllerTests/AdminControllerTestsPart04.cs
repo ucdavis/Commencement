@@ -109,7 +109,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm throws exception if no students found.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
         public void TestAddStudentConfirmGetThrowsExceptionIfNoStudentsFound1()
         {
@@ -139,7 +139,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm throws exception if no students found.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
         public void TestAddStudentConfirmGetThrowsExceptionIfNoStudentsFound2()
         {
@@ -173,7 +173,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm get returns view if A student is found.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentConfirmGetReturnsViewIfAStudentIsFound1()
         {
             #region Arrange
@@ -297,7 +297,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm post throws exception if major code not found.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
         public void TestAddStudentConfirmPostThrowsExceptionIfMajorCodeNotFound()
         {
@@ -338,7 +338,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm post does not save if ceremony not found.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentConfirmPostDoesNotSaveIfCeremonyNotFound1()
         {
             #region Arrange
@@ -378,7 +378,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm post does not save if ceremony not found.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentConfirmPostDoesNotSaveIfCeremonyNotFound2()
         {
             #region Arrange
@@ -419,7 +419,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm post does not save if student already exists and has that major.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentConfirmPostDoesNotSaveIfStudentAlreadyExistsAndHasThatMajor()
         {
             #region Arrange
@@ -462,7 +462,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm post does save if student already exists and does not have that major.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentConfirmPostDoesSaveIfStudentAlreadyExistsAndDoesNotHaveThatMajor()
         {
             Assert.Inconclusive("Review");
@@ -510,7 +510,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm post does save if student already exists and does not have that major notifies users if email did not work.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentConfirmPostDoesSaveIfStudentAlreadyExistsAndDoesNotHaveThatMajorNotifiesUsersIfEmailDidNotWork()
         {
             Assert.Inconclusive("Review");
@@ -561,7 +561,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm post does not save if student has validation errors.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentConfirmPostDoesNotSaveIfStudentHasValidationErrors()
         {
             #region Arrange
@@ -604,7 +604,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm post does save if student does not exist.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentConfirmPostDoesSaveIfStudentDoesNotExist()
         {
             Assert.Inconclusive("Review");
@@ -651,7 +651,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm post does save if student does not exist for that term.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentConfirmPostDoesSaveIfStudentDoesNotExistForThatTerm()
         {
             Assert.Inconclusive("Review");

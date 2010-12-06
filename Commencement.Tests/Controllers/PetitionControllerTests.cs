@@ -64,7 +64,7 @@ namespace Commencement.Tests.Controllers
         /// <summary>
         /// Tests the index mapping.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestIndexMapping()
         {
             "~/Petition/Index".ShouldMapTo<PetitionController>(a => a.Index());
@@ -73,7 +73,7 @@ namespace Commencement.Tests.Controllers
         /// <summary>
         /// Test the DecideExtraTicketPetition mapping.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestDecideExtraTicketPetitionMapping()
         {
             "~/Petition/DecideExtraTicketPetition/5".ShouldMapTo<PetitionController>(a => a.DecideExtraTicketPetition(5, true), true);
@@ -82,7 +82,7 @@ namespace Commencement.Tests.Controllers
         /// <summary>
         /// Tests the Register mapping.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestRegisterMapping()
         {
             "~/Petition/Register".ShouldMapTo<PetitionController>(a => a.Register());
@@ -92,7 +92,7 @@ namespace Commencement.Tests.Controllers
         /// <summary>
         /// Tests the ExtraTicketPetition get mapping.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestExtraTicketPetitionGetMapping()
         {
             "~/Petition/ExtraTicketPetition/5".ShouldMapTo<PetitionController>(a => a.ExtraTicketPetition(5));
@@ -101,7 +101,7 @@ namespace Commencement.Tests.Controllers
         /// <summary>
         /// Tests the ExtraTicketPetition put mapping.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestExtraTicketPetitionPutMapping()
         {
             "~/Petition/ExtraTicketPetition/5".ShouldMapTo<PetitionController>(a => a.ExtraTicketPetition(5));

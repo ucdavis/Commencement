@@ -235,7 +235,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the controller contains expected number of public methods.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestControllerContainsExpectedNumberOfPublicMethods()
         {
             #region Arrange

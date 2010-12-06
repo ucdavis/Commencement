@@ -8,7 +8,7 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
     public partial class RegistrationRepositoryTests
     {
         #region NumberTickets Tests
-
+        /*
         #region Invalid Tests
         /// <summary>
         /// Tests the NumberTickets with A value of 0 does not save.
@@ -94,6 +94,7 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
         }
 
         #endregion Valid Tests
+        */
         #endregion NumberTickets Tests
 
         #region MailTickets Tests

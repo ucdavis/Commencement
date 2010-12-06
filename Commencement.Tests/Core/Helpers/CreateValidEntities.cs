@@ -44,13 +44,13 @@ namespace Commencement.Tests.Core.Helpers
             var rtValue = new Registration();
  
             rtValue.Student = new Student();
-            rtValue.Major = new MajorCode();
+            //rtValue.Major = new MajorCode();
             rtValue.Address1 = "Address1" + count.Extra();
             rtValue.City = "City" + count.Extra();
             rtValue.State = new State();
             rtValue.Zip = "Zip" + count.Extra();
-            rtValue.NumberTickets = 1;
-            rtValue.Ceremony = new Ceremony();
+           //rtValue.NumberTickets = 1;
+           //rtValue.Ceremony = new Ceremony();
 
             return rtValue;
         }

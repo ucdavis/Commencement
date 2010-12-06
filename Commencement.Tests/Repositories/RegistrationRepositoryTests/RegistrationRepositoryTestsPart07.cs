@@ -10,6 +10,7 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
 {
     public partial class RegistrationRepositoryTests
     {
+        /*
         #region Comments Tests
         #region Invalid Tests
 
@@ -265,5 +266,6 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
         }
         #endregion Valid Tests
         #endregion Ceremony Tests
+        */
     }
 }

@@ -115,7 +115,7 @@ namespace Commencement.Tests.Repositories
         #endregion Init and Overrides	
         
         #region Fluent Mapping Tests
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestCanCorrectlyMapAttachment()
         {
             #region Arrange
@@ -278,7 +278,7 @@ namespace Commencement.Tests.Repositories
         /// <summary>
         /// Tests the ceremony editor with valid ceremony saves.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestCeremonyEditorWithValidCeremonySaves()
         {
             #region Arrange

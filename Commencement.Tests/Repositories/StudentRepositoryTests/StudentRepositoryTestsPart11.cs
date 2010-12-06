@@ -43,7 +43,7 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
         /// <summary>
         /// Tests the constructor with parameters sets expected values.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestConstructorWithParametersSetsExpectedValues()
         {
             #region Arrange
@@ -176,7 +176,7 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
         /// <summary>
         /// Tests the delete student does not cascade to ceremony.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestDeleteStudentDoesNotCascadeToCeremony()
         {
             #region Arrange

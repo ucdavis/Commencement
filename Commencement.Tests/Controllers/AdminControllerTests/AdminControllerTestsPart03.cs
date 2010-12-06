@@ -39,7 +39,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the student details view when student is found.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestStudentDetailsViewWhenStudentIsFound()
         {
             #region Arrange
@@ -116,7 +116,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student with student id parameter returns view.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentWithStudentIdParameterReturnsView1()
         {
             #region Arrange
@@ -151,7 +151,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student with student id parameter returns view.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentWithStudentIdParameterReturnsView2()
         {
             #region Arrange

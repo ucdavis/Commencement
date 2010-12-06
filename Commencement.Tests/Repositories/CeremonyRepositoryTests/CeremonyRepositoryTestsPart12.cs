@@ -11,53 +11,53 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
     {
         #region Cascade Update And Delete Tests
 
-        /// <summary>
-        /// Tests the cascade delete removed related registrations.
-        /// </summary>
-        [TestMethod]
-        public void TestCascadeDeleteRemovedRelatedRegistrations()
-        {
-            #region Arrange
-            var startCountregistrations = Repository.OfType<Registration>().GetAll().Count;
-            var record = GetValid(9);
+        ///// <summary>
+        ///// Tests the cascade delete removed related registrations.
+        ///// </summary>
+        //[TestMethod]
+        //public void TestCascadeDeleteRemovedRelatedRegistrations()
+        //{
+        //    #region Arrange
+        //    var startCountregistrations = Repository.OfType<Registration>().GetAll().Count;
+        //    var record = GetValid(9);
 
-            MajorCodeRepository.DbContext.BeginTransaction();
-            var majorCode = CreateValidEntities.MajorCode(1);
-            majorCode.SetIdTo("1");
-            MajorCodeRepository.EnsurePersistent(majorCode, true);
-            var state = CreateValidEntities.State(1);
-            state.SetIdTo("1");
-            StateRepository.EnsurePersistent(state, true);
-            MajorCodeRepository.DbContext.CommitTransaction();
+        //    MajorCodeRepository.DbContext.BeginTransaction();
+        //    var majorCode = CreateValidEntities.MajorCode(1);
+        //    majorCode.SetIdTo("1");
+        //    MajorCodeRepository.EnsurePersistent(majorCode, true);
+        //    var state = CreateValidEntities.State(1);
+        //    state.SetIdTo("1");
+        //    StateRepository.EnsurePersistent(state, true);
+        //    MajorCodeRepository.DbContext.CommitTransaction();
 
-            record.Registrations = new List<Registration>();
-            record.Registrations.Add(CreateValidEntities.Registration(1));
-            record.Registrations.Add(CreateValidEntities.Registration(2));
-            foreach (var registration in record.Registrations)
-            {
-                registration.Major = MajorCodeRepository.GetById("1");
-                registration.State = StateRepository.GetById("1");
-                registration.Ceremony = record;
-            }
+        //    record.Registrations = new List<Registration>();
+        //    record.Registrations.Add(CreateValidEntities.Registration(1));
+        //    record.Registrations.Add(CreateValidEntities.Registration(2));
+        //    foreach (var registration in record.Registrations)
+        //    {
+        //        registration.Major = MajorCodeRepository.GetById("1");
+        //        registration.State = StateRepository.GetById("1");
+        //        registration.Ceremony = record;
+        //    }
 
-            CeremonyRepository.DbContext.BeginTransaction();
-            CeremonyRepository.EnsurePersistent(record);
-            CeremonyRepository.DbContext.CommitTransaction();
+        //    CeremonyRepository.DbContext.BeginTransaction();
+        //    CeremonyRepository.EnsurePersistent(record);
+        //    CeremonyRepository.DbContext.CommitTransaction();
 
-            var registrationsAdded = Repository.OfType<Registration>().GetAll().Count - startCountregistrations;
-            Assert.AreEqual(2, registrationsAdded);
-            #endregion Arrange
+        //    var registrationsAdded = Repository.OfType<Registration>().GetAll().Count - startCountregistrations;
+        //    Assert.AreEqual(2, registrationsAdded);
+        //    #endregion Arrange
 
-            #region Act
-            CeremonyRepository.DbContext.BeginTransaction();
-            CeremonyRepository.Remove(record);
-            CeremonyRepository.DbContext.CommitTransaction();
-            #endregion Act
+        //    #region Act
+        //    CeremonyRepository.DbContext.BeginTransaction();
+        //    CeremonyRepository.Remove(record);
+        //    CeremonyRepository.DbContext.CommitTransaction();
+        //    #endregion Act
 
-            #region Assert
-            Assert.AreEqual(Repository.OfType<Registration>().GetAll().Count, startCountregistrations);
-            #endregion Assert
-        }
+        //    #region Assert
+        //    Assert.AreEqual(Repository.OfType<Registration>().GetAll().Count, startCountregistrations);
+        //    #endregion Assert
+        //}
 
         /// <summary>
         /// Tests the cascade delete does not remove registration petitions.

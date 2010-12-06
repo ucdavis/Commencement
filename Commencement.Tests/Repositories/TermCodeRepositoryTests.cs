@@ -436,7 +436,7 @@ namespace Commencement.Tests.Repositories
         /// <summary>
         /// Tests the ceremonies with populated values saves.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestCeremoniesWithPopulatedValuesSaves()
         {
             #region Arrange
@@ -540,7 +540,7 @@ namespace Commencement.Tests.Repositories
         /// <summary>
         /// Tests the ceremonies is not cascaded when record is deleted.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestCeremoniesIsNotCascadedWhenRecordIsDeleted()
         {
             #region Arrange
@@ -573,7 +573,7 @@ namespace Commencement.Tests.Repositories
         /// <summary>
         /// Tests the ceremonies is populated on read with existing related ceremony records.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestCeremoniesIsPopulatedOnReadWithExistingRelatedCeremonyRecords()
         {
             #region Arrange
@@ -621,7 +621,7 @@ namespace Commencement.Tests.Repositories
         /// Tests all fields in the database have been tested.
         /// If this fails and no other tests, it means that a field has been added which has not been tested above.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAllFieldsInTheDatabaseHaveBeenTested()
         {
             #region Arrange

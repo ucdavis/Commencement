@@ -8,6 +8,7 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
 {
     public partial class RegistrationRepositoryTests
     {
+        /*
         #region Cascade Tests
 
         /// <summary>
@@ -286,5 +287,6 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
             #endregion Assert
         }
         #endregion Constructor Tests
+        */
     }
 }

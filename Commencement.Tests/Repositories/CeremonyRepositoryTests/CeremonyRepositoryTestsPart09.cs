@@ -8,7 +8,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
     partial class CeremonyRepositoryTests
     {
         #region AvailableTickets Tests
-
+        /*
         /// <summary>
         /// Tests the available tickets returns expected value.
         /// </summary>
@@ -493,6 +493,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             Assert.AreEqual(2, result);
             #endregion Assert
         }
+        */
         #endregion ExtraRequestedtickets Tests
     }
 }

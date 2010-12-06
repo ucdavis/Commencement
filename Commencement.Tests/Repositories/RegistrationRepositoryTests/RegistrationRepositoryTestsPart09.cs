@@ -7,7 +7,7 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
     public partial class RegistrationRepositoryTests
     {
         #region LabelPrinted Tests
-
+        /*
         /// <summary>
         /// Tests the LabelPrinted is false saves.
         /// </summary>
@@ -134,9 +134,9 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
             Assert.IsTrue(registration.IsValid());
             #endregion Assert
         }
-
+        
         #endregion SetLabelPrinted Tests
-
+        */
         #endregion LabelPrinted Tests
 
         #region TicketDistributionMethod Tests

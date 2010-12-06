@@ -139,7 +139,7 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
         /// <summary>
         /// Tests the ceremony with new value saves.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestCeremonyWithExistingValueSaves()
         {
             #region Arrange

@@ -14,71 +14,71 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
     partial class CeremonyRepositoryTests
     {
         #region Fluent Mapping Tests
-        [TestMethod]
-        public void TestCanCorrectlyMapAttachment()
-        {
-            #region Arrange
-            var id = CeremonyRepository.Queryable.Max(x => x.Id) + 1;
-            var session = NHibernateSessionManager.Instance.GetSession();
-            var compareDate1 = new DateTime(2010, 01, 01);
-            var compareDate2 = new DateTime(2010, 01, 02);
-            var compareDate3 = new DateTime(2010, 01, 03);
-            var compareDate4 = new DateTime(2010, 01, 04);
-            LoadColleges(3);
-            var colleges = Repository.OfType<College>().GetAll();
-            //LoadCeremonyEditors(2);
-            LoadUsers(3);
-            var ceremony = new Ceremony();
-            ceremony.SetIdTo(id);
-            ceremony.AddEditor(Repository.OfType<vUser>().GetById(1), true);
-            ceremony.AddEditor(Repository.OfType<vUser>().GetById(2), false);
-            LoadMajorCode(3);
-            var majors = Repository.OfType<MajorCode>().GetAll();
-            LoadRegistrationPetitions(3);
-            var registrationPetitions = Repository.OfType<RegistrationPetition>().GetAll();
-            foreach (var registrationPetition in registrationPetitions)
-            {
-                registrationPetition.Ceremony = ceremony; //This would be set when the student creates the RegistrationPetition
-            }
-            LoadState(1);
-            LoadRegistrations(3);
-            var registrations = Repository.OfType<Registration>().GetAll();
-            foreach (var registration in registrations)
-            {
-                registration.Ceremony = ceremony;
-            }
-            LoadTemplateType(1);
-            LoadTemplate(3);
-            var templates = Repository.OfType<Template>().GetAll();
-            foreach (var template in templates)
-            {
-                template.Ceremony = ceremony;
-            }
-            //LoadTermCode(1);
-            var termCode = Repository.OfType<TermCode>().Queryable.First();
-            #endregion Arrange
+        //[TestMethod]
+        //public void TestCanCorrectlyMapAttachment()
+        //{
+        //    #region Arrange
+        //    var id = CeremonyRepository.Queryable.Max(x => x.Id) + 1;
+        //    var session = NHibernateSessionManager.Instance.GetSession();
+        //    var compareDate1 = new DateTime(2010, 01, 01);
+        //    var compareDate2 = new DateTime(2010, 01, 02);
+        //    var compareDate3 = new DateTime(2010, 01, 03);
+        //    var compareDate4 = new DateTime(2010, 01, 04);
+        //    LoadColleges(3);
+        //    var colleges = Repository.OfType<College>().GetAll();
+        //    //LoadCeremonyEditors(2);
+        //    LoadUsers(3);
+        //    var ceremony = new Ceremony();
+        //    ceremony.SetIdTo(id);
+        //    ceremony.AddEditor(Repository.OfType<vUser>().GetById(1), true);
+        //    ceremony.AddEditor(Repository.OfType<vUser>().GetById(2), false);
+        //    LoadMajorCode(3);
+        //    var majors = Repository.OfType<MajorCode>().GetAll();
+        //    LoadRegistrationPetitions(3);
+        //    var registrationPetitions = Repository.OfType<RegistrationPetition>().GetAll();
+        //    foreach (var registrationPetition in registrationPetitions)
+        //    {
+        //        registrationPetition.Ceremony = ceremony; //This would be set when the student creates the RegistrationPetition
+        //    }
+        //    LoadState(1);
+        //    LoadRegistrations(3);
+        //    var registrations = Repository.OfType<Registration>().GetAll();
+        //    foreach (var registration in registrations)
+        //    {
+        //        registration.Ceremony = ceremony;
+        //    }
+        //    LoadTemplateType(1);
+        //    LoadTemplate(3);
+        //    var templates = Repository.OfType<Template>().GetAll();
+        //    foreach (var template in templates)
+        //    {
+        //        template.Ceremony = ceremony;
+        //    }
+        //    //LoadTermCode(1);
+        //    var termCode = Repository.OfType<TermCode>().Queryable.First();
+        //    #endregion Arrange
 
-            #region Act/Assert
-            new PersistenceSpecification<Ceremony>(session, new CeremonyEqualityComparer())
-                .CheckProperty(c => c.Id, id)
-                .CheckProperty(c => c.Colleges, colleges)
-                .CheckProperty(c => c.DateTime, compareDate1)
-                .CheckProperty(c => c.Editors, ceremony.Editors)
-                .CheckProperty(c => c.ExtraTicketDeadline, compareDate2)
-                .CheckProperty(c => c.ExtraTicketPerStudent, 5)
-                .CheckProperty(c => c.Location, "Location")
-                .CheckProperty(c => c.Majors, majors)
-                .CheckProperty(c => c.PrintingDeadline, compareDate3)
-                .CheckProperty(c => c.RegistrationDeadline, compareDate4)
-                .CheckProperty(c => c.RegistrationPetitions, registrationPetitions)
-                .CheckProperty(c => c.Registrations, registrations)
-                .CheckProperty(c => c.Templates, templates)
-                .CheckProperty(c => c.TermCode, termCode)
-                .CheckProperty(c => c.TicketsPerStudent, 6)
-                .CheckProperty(c => c.TotalTickets, 1000)
-                .VerifyTheMappings();
-            #endregion Act/Assert
-        }
+        //    #region Act/Assert
+        //    new PersistenceSpecification<Ceremony>(session, new CeremonyEqualityComparer())
+        //        .CheckProperty(c => c.Id, id)
+        //        .CheckProperty(c => c.Colleges, colleges)
+        //        .CheckProperty(c => c.DateTime, compareDate1)
+        //        .CheckProperty(c => c.Editors, ceremony.Editors)
+        //        .CheckProperty(c => c.ExtraTicketDeadline, compareDate2)
+        //        .CheckProperty(c => c.ExtraTicketPerStudent, 5)
+        //        .CheckProperty(c => c.Location, "Location")
+        //        .CheckProperty(c => c.Majors, majors)
+        //        .CheckProperty(c => c.PrintingDeadline, compareDate3)
+        //        .CheckProperty(c => c.RegistrationDeadline, compareDate4)
+        //        .CheckProperty(c => c.RegistrationPetitions, registrationPetitions)
+        //        .CheckProperty(c => c.Registrations, registrations)
+        //        .CheckProperty(c => c.Templates, templates)
+        //        .CheckProperty(c => c.TermCode, termCode)
+        //        .CheckProperty(c => c.TicketsPerStudent, 6)
+        //        .CheckProperty(c => c.TotalTickets, 1000)
+        //        .VerifyTheMappings();
+        //    #endregion Act/Assert
+        //}
 
         public class CeremonyEqualityComparer : IEqualityComparer
         {

@@ -12,7 +12,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
     /// Entity Name:		Ceremony
     /// LookupFieldName:	Location
     /// </summary>
-    [TestClass]
+    [TestClass, Ignore]
     public partial class CeremonyRepositoryTests : AbstractRepositoryTests<Ceremony, int, CeremonyMap>
     {
         /// <summary>

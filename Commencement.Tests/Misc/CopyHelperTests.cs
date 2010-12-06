@@ -10,7 +10,7 @@ namespace Commencement.Tests.Misc
     [TestClass]
     public class CopyHelperTests
     {
-
+        /*
         [TestMethod]
         public void TestCopyRegistrationValuesCopiesExpectedValues()
         {
@@ -66,5 +66,6 @@ namespace Commencement.Tests.Misc
             Assert.AreEqual(registrationSource.Zip, registrationDestination.Zip);
             #endregion Assert		
         }
-    }
+         */
+    }         
 }

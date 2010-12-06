@@ -11,6 +11,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
 {
     partial class CeremonyRepositoryTests
     {
+        /*
         #region Registrations Tests
 
         #region Invalid Tests
@@ -118,6 +119,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
         }
         #endregion Valid Tests
         #endregion Registrations Tests
+        */
 
         #region Majors Tests
 

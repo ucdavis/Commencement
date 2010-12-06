@@ -514,9 +514,9 @@ namespace Commencement.Tests.Core
             for (int i = 0; i < entriesToAdd; i++)
             {
                 var validEntity = CreateValidEntities.Registration(i + 1);
-                validEntity.Major = Repository.OfType<MajorCode>().Queryable.First();
+                //validEntity.Major = Repository.OfType<MajorCode>().Queryable.First();
                 validEntity.State = Repository.OfType<State>().Queryable.First();
-                validEntity.Ceremony = Repository.OfType<Ceremony>().Queryable.First();
+                //validEntity.Ceremony = Repository.OfType<Ceremony>().Queryable.First();
                 Repository.OfType<Registration>().EnsurePersistent(validEntity);
             }
         }

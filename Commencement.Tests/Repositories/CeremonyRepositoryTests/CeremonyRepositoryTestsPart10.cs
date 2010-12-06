@@ -9,6 +9,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
 {
     partial class CeremonyRepositoryTests
     {
+        /*
         #region TotalRequestedTickets Tests
 
         /// <summary>
@@ -226,7 +227,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
         }
 
         #endregion TotalRequestedTickets Tests
-
+        */
         #region Editor Tests
 
         #region Invalid Tests

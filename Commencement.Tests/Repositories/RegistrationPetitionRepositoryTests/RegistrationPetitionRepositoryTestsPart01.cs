@@ -17,7 +17,7 @@ namespace Commencement.Tests.Repositories.RegistrationPetitionRepositoryTests
     public partial class RegistrationPetitionRepositoryTests
     {
         #region Fluent Mapping Tests
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestCanCorrectlyMapAttachment()
         {
             #region Arrange

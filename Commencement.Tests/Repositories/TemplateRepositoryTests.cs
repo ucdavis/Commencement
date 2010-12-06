@@ -18,7 +18,7 @@ namespace Commencement.Tests.Repositories
 	/// Entity Name:		Template
 	/// LookupFieldName:	BodyText
 	/// </summary>
-	[TestClass]
+    [TestClass, Ignore]
 	public class TemplateRepositoryTests : AbstractRepositoryTests<Template, int, TemplateMap>
 	{
 		/// <summary>

@@ -22,6 +22,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
 {
     public partial class AdminControllerTests
     {
+        /*
         #region ChangeMajor Tests
         #region Get Tests
 
@@ -347,5 +348,6 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
 
         #endregion Post Tests
         #endregion ChangeMajor Tests
+        */
     }
 }

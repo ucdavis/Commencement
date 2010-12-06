@@ -7,8 +7,9 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
 {
     public partial class RegistrationRepositoryTests
     {
+        /*
         #region ExtraTicketPetition Tests
-
+        
         #region Valid Tests
 
         /// <summary>
@@ -140,7 +141,8 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
             Assert.IsTrue(record.IsValid());
             Assert.AreEqual(compareDate, record.DateRegistered);
             #endregion Assert
-        }
+        }       
         #endregion DateRegistered Tests
+        */
     }
 }

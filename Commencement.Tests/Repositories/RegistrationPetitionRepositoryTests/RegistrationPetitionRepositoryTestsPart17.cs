@@ -91,7 +91,7 @@ namespace Commencement.Tests.Repositories.RegistrationPetitionRepositoryTests
         /// <summary>
         /// Tests the delete registration petition does not delete ceremony.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestDeleteRegistrationPetitionDoesNotDeleteCeremony()
         {
             #region Arrange

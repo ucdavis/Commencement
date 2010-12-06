@@ -7,6 +7,7 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
     public partial class RegistrationRepositoryTests
     {
         #region TotalTickets Tests
+        /*
 
         /// <summary>
         /// Tests the total tickets when no extra ticket petition and only one ticket requested.
@@ -245,7 +246,7 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
 
             #endregion Assert
         }
-
+        */
         #endregion SjaBlock Tests
     }
 }

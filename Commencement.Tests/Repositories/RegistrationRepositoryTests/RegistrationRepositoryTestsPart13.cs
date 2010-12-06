@@ -8,6 +8,7 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
 {
     public partial class RegistrationRepositoryTests
     {
+        /*
         #region Cancelled Tests
 
         /// <summary>
@@ -152,5 +153,6 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
         }
         #endregion Valid Tests
         #endregion College Tests
+        */
     }
 }
