@@ -147,7 +147,7 @@ namespace Commencement.Controllers
             if (ModelState.IsValid)
             {
                 Repository.OfType<Ceremony>().EnsurePersistent(destCeremony);
-
+                _ceremonyService.ResetUserCeremonies();
                 return this.RedirectToAction(a => a.Index());
             }
 

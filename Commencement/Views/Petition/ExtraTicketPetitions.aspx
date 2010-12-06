@@ -7,6 +7,11 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
+    <ul class="btn">
+        <li><%= Html.ActionLink<PetitionController>(a=>a.Index(), "Back to Petitions") %></li>
+    </ul>
+
     <h2>Extra Ticket Petitions</h2>
 
     <% using (Html.BeginForm("ExtraTicketPetitions", "Petition", FormMethod.Get)) { %>
