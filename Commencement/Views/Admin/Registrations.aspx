@@ -47,9 +47,9 @@
         </ul>
         <% } %>
         </div>
-        <h3><a href="#">Totals</a></h3>
+<%--        <h3><a href="#">Totals</a></h3>
         <div>
-<%--            <% if (Model.Registrations.Count() > 0) { %>
+            <% if (Model.Registrations.Count() > 0) { %>
             <ul>
                 <% foreach(var c in Model.Registrations.Select(x=>x.Ceremony).Distinct()) { %>
                     <li>
@@ -62,10 +62,26 @@
                 <p>
                     No registrations for the current term have been found.
                 </p>
-            <% } %>--%>
+            <% } %>
             
-        </div>
+        </div>--%>
     </div>
+
+        <div id="ticketCounts">
+            <ul>
+                <%foreach(var a in Model.Ceremonies) {%>
+                    <li><strong>Ceremony: </strong><%: a.DateTime.ToString("g") %></li>
+                    <li><strong># Tickets: </strong><%: a.TicketCount %></li>
+                    <%if (a.HasStreamingTickets) { %><li><strong># Streaming Tickets: </strong><%: a.TicketStreamingCount %></li><% } %>
+                <% } %>
+
+
+<%--                <li><strong>Projected Available:</strong> <span id="projectedAvailabeTickets"><%: Model.Ceremony.AvailableTickets %></span></li>
+                <% if (Model.Ceremony.HasStreamingTickets) { %><li><strong>Projected Streaming Available:</strong> <span id="projectedAvailableStreaming"><%: Model.Ceremony.AvailableStreamingTickets.HasValue ? Model.Ceremony.AvailableStreamingTickets.Value.ToString() : "n/a" %></span></li><% } %>
+                <li><strong>Projected Ticket Count:</strong> <span id="projectedTickets"><%: Model.Ceremony.ProjectedTicketCount %></span></li>
+                <% if (Model.Ceremony.HasStreamingTickets) { %><li><strong>Projected Streaming Count:</strong> <span id="projectedStreaming"><%: Model.Ceremony.ProjectedTicketStreamingCount.HasValue ? Model.Ceremony.ProjectedTicketStreamingCount.Value.ToString() : "n/a" %></span></li><% } %>--%>
+            </ul>
+        </div>
 
             <% Html.Grid(Model.Participations)
                    .Transactional()
@@ -86,6 +102,7 @@
                                      col.Bound(a => a.Registration.Student.LastName);
                                      col.Bound(a => a.Registration.Student.FirstName);
                                      col.Bound(a => a.Registration.MailTickets);
+                                     col.Bound(a => a.NumberTickets);
                                      col.Bound(a => a.Major.MajorName).Title("Major");
                                  })
                     .DataBinding(binding=>binding.Server().Select<AdminController>(a=>a.Registrations(Model.studentidFilter, Model.lastNameFilter, Model.firstNameFilter, Model.majorCodeFilter, Model.ceremonyFilter, Model.collegeFilter)))
@@ -98,8 +115,51 @@
 
     <script type="text/javascript">
         $(function() {
-            $("#filter_container").accordion({ collapsible: true });
+            $("#filter_container").accordion({ collapsible: true, autoHeight: false, active: false  });
         });
     </script>
+
+        <style = type="text/css">
+        .tickets
+        {
+            width: 50px;
+        }
+        
+        .loading
+        {
+            display:none;
+        }
+        
+        .cancel
+        {
+            float:right;
+            display:none;
+        }
+        
+        .check
+        {
+            float:right;
+            display:none;
+        }
+        
+        #ticketCounts
+        {
+            position:relative;
+            border: 1px solid black;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        
+        #ticketCounts ul
+        {
+            list-style:none;
+        }
+        
+        #ticketCounts ul li
+        {
+            display:inline;
+            margin-left:20px;
+        }
+    </style>
 
 </asp:Content>
