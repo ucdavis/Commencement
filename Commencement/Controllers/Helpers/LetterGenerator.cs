@@ -235,6 +235,11 @@ namespace Commencement.Controllers.Helpers
                     Check.Require(RegistrationPetition != null, "Registration petition is required.");
 
                     return RegistrationPetition.CompletionTerm;
+                case "status":
+                    if (RegistrationParticipation != null) { return RegistrationParticipation.Cancelled ? "Cancelled" : "Registered"; }
+
+                    throw new ArgumentException("No valid object was provided.");
+
                 default: return "";
             }
 

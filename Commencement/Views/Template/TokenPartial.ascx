@@ -16,6 +16,7 @@
     <li><a href="javascript:;" class="add_token">{DistributionMethod}</a></li>
     <li><a href="javascript:;" class="add_token">{SpecialNeeds}</a></li>
     <li><a href="javascript:;" class="add_token">{Major}</a></li>
+    <li><a href="javascript:;" class="add_token">{Status}</a></li>
 </div>
 <!-- Registration Petition -->
 <div id="RP" class="tokens" style='<%: Model != null && Model.Code == "RP" ? "display:block;" : "display:none;" %>'>

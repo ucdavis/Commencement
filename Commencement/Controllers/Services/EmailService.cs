@@ -188,6 +188,10 @@ namespace Commencement.Controllers.Services
 
         public void QueueExtraTicketPetitionDecision(RegistrationParticipation participation)
         {
+            Check.Require(participation != null, "participation is required.");
+
+
+
             throw new NotImplementedException();
         }
 

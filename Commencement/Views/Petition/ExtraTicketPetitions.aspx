@@ -50,16 +50,15 @@
                                     <img src="<%: Url.Content("~/Images/Cancel-1.png") %>" class="cancel" />
                                     <img src="<%: Url.Content("~/Images/CheckMark-1.png") %>" class="check" />
                                 <% }).Title("# Tickets Approved");
-                                    if (Model.Ceremony.HasStreamingTickets)
-                                    {
-                                        col.Add(a =>
-                                        {%>
-                                    <%: Html.TextBox("StreamingApproved", a.ExtraTicketPetition.NumberTicketsStreaming.HasValue ? a.ExtraTicketPetition.NumberTicketsStreaming.Value : a.ExtraTicketPetition.NumberTicketsRequestedStreaming, new { @class = "tickets streaming", petitionId = a.ExtraTicketPetition.Id, ceremonyId = a.Ceremony.Id })%>
-                                    <img src="<%: Url.Content("~/Images/loading.gif") %>" class="loading" />
-                                    <img src="<%: Url.Content("~/Images/Cancel-1.png") %>" class="cancel" />
-                                    <img src="<%: Url.Content("~/Images/CheckMark-1.png") %>" class="check" />
-                                <%}).Title("# Streaming Approved");
-                                    }
+                                if (Model.Ceremony.HasStreamingTickets)
+                                {
+                                    col.Add(a => {%>
+                                        <%: Html.TextBox("StreamingApproved", a.ExtraTicketPetition.NumberTicketsStreaming.HasValue ? a.ExtraTicketPetition.NumberTicketsStreaming.Value : a.ExtraTicketPetition.NumberTicketsRequestedStreaming, new { @class = "tickets streaming", petitionId = a.ExtraTicketPetition.Id, ceremonyId = a.Ceremony.Id })%>
+                                        <img src="<%: Url.Content("~/Images/loading.gif") %>" class="loading" />
+                                        <img src="<%: Url.Content("~/Images/Cancel-1.png") %>" class="cancel" />
+                                        <img src="<%: Url.Content("~/Images/CheckMark-1.png") %>" class="check" />
+                                    <%}).Title("# Streaming Approved");
+                                }
                             })
                .Render(); %>
     <% } %>
