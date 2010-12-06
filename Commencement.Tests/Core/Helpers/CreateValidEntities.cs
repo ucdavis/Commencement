@@ -72,6 +72,7 @@ namespace Commencement.Tests.Core.Helpers
             rtValue.RegistrationDeadline = rtValue.DateTime.AddDays(-20);
             rtValue.TermCode = new TermCode();
             rtValue.TotalTickets = 1;
+            rtValue.ConfirmationText = "ConfirmationText" + count.Extra();
             return rtValue;
         }
 

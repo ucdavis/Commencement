@@ -5,9 +5,9 @@ using UCDArch.Core.PersistanceSupport;
 
 namespace Commencement.Controllers.Helpers
 {
-    public class CeremonyMajorCheck
+    public static class CeremonyMajorCheck
     {
-        public List<MajorCode> Check(Ceremony ceremony, List<MajorCode> majorCodes, IRepository<Ceremony> ceremonyRepository)
+        public static List<MajorCode> Check(Ceremony ceremony, List<MajorCode> majorCodes, IRepository<Ceremony> ceremonyRepository)
         {
             var foundMajors = new List<MajorCode>();
             foreach (var majorCode in majorCodes)
