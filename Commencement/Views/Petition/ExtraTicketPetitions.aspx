@@ -148,10 +148,13 @@
         
         #ticketCounts
         {
-            position:relative;
-            border: 1px solid black;
-            margin-top: 5px;
-            margin-bottom: 5px;
+            position:fixed;
+            border: 1px solid #A5B3C5;
+            width:935px;
+            top:165px;
+            z-index:100;
+            background-color:#FFFFFF;
+            color:#4C607A;
         }
         
         ul
@@ -163,6 +166,10 @@
         {
             display:inline;
             margin-left:20px;
+        }
+        #Participations
+        {
+            margin-top:32px;
         }
     </style>
 
