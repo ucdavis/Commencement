@@ -78,11 +78,21 @@
 
             <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Ceremony", a.Index), a.Ceremony.Id) %>
             <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Major", a.Index), a.Major.Id) %>
+            <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].NeedsPetition", a.Index), a.NeedsPetition) %>
 
             <ul class="registration_form">
 
-
-                <% if (!a.Edit) { %>
+                <% if (a.NeedsPetition) { %>
+                    <li>
+                        <input type="checkbox" id="<%: string.Format("ceremonyParticipations[{0}]_Petition", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Petition", a.Index) %>" value="true" <%: a.Petition ? "checked" : string.Empty %> />
+                        I would like to petition for this ceremony.
+                    </li>
+                    <li>
+                        <strong>Petition Reason:</strong>
+                        <%: Html.TextArea(string.Format("ceremonyParticipations[{0}]_PetitionReason", a.Index), a.PetitionReason)%>
+                    </li>
+                <% } %>
+                <% else if (!a.Edit) { %>
                     <li>
                         <input type="checkbox" id="<%: string.Format("ceremonyParticipations[{0}]_Participate", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Participate", a.Index) %>" value="true" <%: a.Participate ? "checked" : string.Empty %> />
                         I would like to participate in this ceremony.

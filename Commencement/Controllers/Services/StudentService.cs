@@ -51,10 +51,12 @@ namespace Commencement.Controllers.Services
             if (currentStudent == null)
             {
                 var searchResults = BannerLookupByLogin(currentUser.Identity.Name);
-
-                if (searchResults.Count > 0)
+                var s = searchResults.FirstOrDefault();
+                
+                if (searchResults != null)
                 {
-                    var s = searchResults[0];
+                    // do a check for std
+
                     currentStudent = new Student(s.Pidm, s.StudentId, s.FirstName, s.Mi, s.LastName, s.CurrentUnits, s.EarnedUnits, s.Email, currentUser.Identity.Name, TermService.GetCurrent());
 
                     foreach (var bannerStudent in searchResults)

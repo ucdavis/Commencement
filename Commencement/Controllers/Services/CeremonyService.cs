@@ -89,7 +89,7 @@ namespace Commencement.Controllers.Services
         }
 
         /// <summary>
-        /// Returns ceremonies that this student is eligible for
+        /// Returns ceremonies that this student is eligible for or are eligible to petition for
         /// </summary>
         /// <param name="majors"></param>
         /// <returns>List of ceremonies, if empty, student not eligible for ceremony is system.</returns>
@@ -107,7 +107,7 @@ namespace Commencement.Controllers.Services
             foreach (var a in ceremonies)
             {
                 // make sure units are enough
-                if (totalUnits >= a.MinUnits)
+                if (totalUnits >= a.PetitionThreshold)
                 {
                     // go through each of the student's major
                     foreach (var b in majors)

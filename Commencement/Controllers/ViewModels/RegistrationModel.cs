@@ -50,6 +50,7 @@ namespace Commencement.Controllers.ViewModels
                     part.Major = major;
                     part.Ceremony = ceremony;
                     part.Edit = edit;
+                    part.NeedsPetition = student.TotalUnits < ceremony.MinUnits && student.TotalUnits >= ceremony.PetitionThreshold;
 
                     if (ceremonyParticipations != null)
                     {
@@ -61,6 +62,7 @@ namespace Commencement.Controllers.ViewModels
                             part.Tickets = existingPart.Tickets;
                             part.Participate = existingPart.Participate;
                             part.Cancel = existingPart.Cancel;
+                            part.NeedsPetition = existingPart.NeedsPetition;
                         }
                     }
 
@@ -74,6 +76,7 @@ namespace Commencement.Controllers.ViewModels
                             part.Tickets = regPart.NumberTickets;
                             part.Participate = !regPart.Cancelled;
                             part.Cancel = regPart.Cancelled;
+                            part.NeedsPetition = false;                  // registered, don't need to petition
                         }
                     }
 
@@ -97,11 +100,15 @@ namespace Commencement.Controllers.ViewModels
         }
 
         public int Index { get; set; }
-        public bool Participate { get; set; }
-        public bool Cancel { get; set; }
+        public bool Participate { get; set; }   // if this should be just a regular participation
+        public bool Cancel { get; set; }        // if this should cancel a participation
+        public bool Petition { get; set; }      // if this should be a petition
         public bool Edit { get; set; }
         public int Tickets { get; set; }
         public Ceremony Ceremony { get; set; }
         public MajorCode Major { get; set; }
+        
+        public bool NeedsPetition { get; set; }
+        public string PetitionReason { get; set; }
     }
 }

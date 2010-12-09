@@ -26,6 +26,8 @@ namespace Commencement.Controllers
         private readonly IRepository<Registration> _registrationRepository;
         private readonly IErrorService _errorService;
         private readonly ICeremonyService _ceremonyService;
+        private readonly IRepository<RegistrationPetition> _registrationPetitionRepository;
+        private readonly IRepository<RegistrationParticipation> _participationRepository;
         private readonly IStudentService _studentService;
         private readonly IEmailService _emailService;
 
@@ -35,13 +37,16 @@ namespace Commencement.Controllers
             IRepository<Ceremony> ceremonyRepository, 
             IRepository<Registration> registrationRepository,
             IErrorService errorService,
-            ICeremonyService ceremonyService)
+            ICeremonyService ceremonyService, IRepository<RegistrationPetition> registrationPetitionRepository,
+            IRepository<RegistrationParticipation> participationRepository)
         {
             _studentRepository = studentRepository;
             _ceremonyRepository = ceremonyRepository;
             _registrationRepository = registrationRepository;
             _errorService = errorService;
             _ceremonyService = ceremonyService;
+            _registrationPetitionRepository = registrationPetitionRepository;
+            _participationRepository = participationRepository;
             _studentService = studentService;
             _emailService = emailService;
         }
@@ -100,8 +105,9 @@ namespace Commencement.Controllers
             registration.TermCode = term;
             registration.Student = GetCurrentStudent();
             NullOutBlankFields(registration);
-            //ValidateCeremonyParticipations(registration, ceremonyParticipations, ModelState);
+            ValidateCeremonyParticipations(registration, ceremonyParticipations, ModelState);
             AddCeremonyParticipations(registration, ceremonyParticipations, ModelState);
+            AddRegistrationPetitions(registration, ceremonyParticipations, ModelState);
             registration.SpecialNeeds = LoadSpecialNeeds(registrationModel.SpecialNeeds);
 
             registration.TransferValidationMessagesTo(ModelState);
@@ -211,6 +217,7 @@ namespace Commencement.Controllers
             CopyHelper.CopyRegistrationValues(registrationPostModel.Registration, registrationToEdit);
             NullOutBlankFields(registrationToEdit);
             UpdateCeremonyParticipations(registrationToEdit, registrationPostModel.CeremonyParticipations, ModelState);
+            AddRegistrationPetitions(registrationToEdit, registrationPostModel.CeremonyParticipations, ModelState);
 
             registrationToEdit.TransferValidationMessagesTo(ModelState);
 
@@ -365,7 +372,6 @@ namespace Commencement.Controllers
                 return this.RedirectToAction<ErrorController>(a => a.NotOpen());
             }
 
-
             return null;
         }
 
@@ -382,6 +388,34 @@ namespace Commencement.Controllers
             Check.Require(currentStudent != null, "Current user is not a student or student not found.");
             
             return currentStudent;
+        }
+
+        private void AddRegistrationPetitions(Registration registration, List<CeremonyParticipation> ceremonyParticipations, ModelStateDictionary modelState)
+        {
+            foreach (var a in ceremonyParticipations.Where(a=>a.Petition))
+            {
+                var valid = true;
+
+                valid = !_registrationPetitionRepository.Queryable.Any(b => b.Ceremony == a.Ceremony && b.StudentId == registration.Student.StudentId);
+                valid = !_participationRepository.Queryable.Any(b => b.Ceremony == a.Ceremony && b.Registration.Student == registration.Student);
+
+                if (valid)
+                {
+                    // save the petition
+                    var petition = new RegistrationPetition(){Ceremony = a.Ceremony
+                        , Email = registration.Student.Email
+                        , FirstName = registration.Student.FirstName
+                        , LastName = registration.Student.LastName
+                        , MI = registration.Student.MI
+                        , MajorCode = a.Major
+                        , Units = registration.Student.TotalUnits
+                        , TermCode = TermService.GetCurrent()
+                        , ExceptionReason = a.PetitionReason
+                    };
+                    
+                    _registrationPetitionRepository.EnsurePersistent(petition);
+                }
+            }
         }
         #endregion
 
