@@ -185,7 +185,6 @@ namespace Commencement.Controllers
         }
 
         [HttpPost]
-        //public ActionResult EditRegistration(int id, Registration registration)
         public ActionResult EditRegistration(int id /* Registration Id */, RegistrationPostModel registrationPostModel)
         {
             //var registration = _registrationRepository.GetNullableById(id);
@@ -323,6 +322,9 @@ namespace Commencement.Controllers
             // unable to find record for some reason, either from download or banner lookup
             if (student == null || student.Blocked)
             {
+                // execute a remote search
+
+
                 return this.RedirectToAction<ErrorController>(a => a.NotEligible());
             }
 
@@ -374,6 +376,15 @@ namespace Commencement.Controllers
         {
             registration.Address2 = registration.Address2.IsNullOrEmpty(true) ? null : registration.Address2;
             registration.Email = registration.Email.IsNullOrEmpty(true) ? null : registration.Email;
+        }
+
+        private Student GetCurrentStudent()
+        {
+            var currentStudent = _studentService.GetCurrentStudent(CurrentUser);
+
+            Check.Require(currentStudent != null, "Current user is not a student or student not found.");
+            
+            return currentStudent;
         }
         #endregion
 
@@ -475,14 +486,7 @@ namespace Commencement.Controllers
             return View();
         }
 
-        private Student GetCurrentStudent()
-        {
-            var currentStudent = _studentService.GetCurrentStudent(CurrentUser);
 
-            Check.Require(currentStudent != null, "Current user is not a student or student not found.");
-            
-            return currentStudent;
-        }
     }
 
     public class RegistrationPostModel
