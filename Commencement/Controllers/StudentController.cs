@@ -78,7 +78,7 @@ namespace Commencement.Controllers
             var redirect = CheckStudentForRegistration(student, term);
             if (redirect != null) return redirect;
 
-            var viewModel = RegistrationModel.Create(Repository, _ceremonyService.StudentEligibility(student.Majors.ToList()), student);
+            var viewModel = RegistrationModel.Create(Repository, _ceremonyService.StudentEligibility(student.Majors.ToList(), student.TotalUnits), student);
             return View(viewModel);
         }
 
@@ -130,7 +130,7 @@ namespace Commencement.Controllers
                 return this.RedirectToAction(x => x.RegistrationConfirmation(registration.Id));
             }
 
-            var viewModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(student.Majors.ToList()), student: student, ceremonyParticipations: ceremonyParticipations, registration: registration);
+            var viewModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(student.Majors.ToList(), student.TotalUnits), student: student, ceremonyParticipations: ceremonyParticipations, registration: registration);
             return View(viewModel);
         }
 
@@ -179,7 +179,7 @@ namespace Commencement.Controllers
             }
 
             //Get student info and create registration model
-            var viewModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(student.Majors.ToList()), student: student, registration: registration, edit: true);            
+            var viewModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(student.Majors.ToList(), student.TotalUnits), student: student, registration: registration, edit: true);            
             
             return View(viewModel);
         }
@@ -234,7 +234,7 @@ namespace Commencement.Controllers
                 return this.RedirectToAction(x => x.RegistrationConfirmation(registrationToEdit.Id));
             }
 
-            var viewModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(student.Majors.ToList()), student: student, registration: registrationToEdit, edit: true);            
+            var viewModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(student.Majors.ToList(), student.TotalUnits), student: student, registration: registrationToEdit, edit: true);            
             return View(viewModel);
         }
 
@@ -322,9 +322,6 @@ namespace Commencement.Controllers
             // unable to find record for some reason, either from download or banner lookup
             if (student == null || student.Blocked)
             {
-                // execute a remote search
-
-
                 return this.RedirectToAction<ErrorController>(a => a.NotEligible());
             }
 
@@ -356,7 +353,7 @@ namespace Commencement.Controllers
             }
 
             // see if student can register with this system
-            var eligibleCeremonies = _ceremonyService.StudentEligibility(student.Majors.ToList());
+            var eligibleCeremonies = _ceremonyService.StudentEligibility(student.Majors.ToList(), student.TotalUnits);
             if (eligibleCeremonies == null || eligibleCeremonies.Count == 0)
             {
                 return this.RedirectToAction<ErrorController>(a => a.RegisterOtherSystem());

@@ -15,7 +15,7 @@ namespace Commencement.Controllers.Services
         void ResetUserCeremonies();
         bool HasAccess(int id, string userId);
 
-        List<Ceremony> StudentEligibility(List<MajorCode> majors, TermCode termCode = null);
+        List<Ceremony> StudentEligibility(List<MajorCode> majors, decimal totalUnits, TermCode termCode = null);
     }
 
     public class CeremonyService : ICeremonyService
@@ -93,7 +93,7 @@ namespace Commencement.Controllers.Services
         /// </summary>
         /// <param name="majors"></param>
         /// <returns>List of ceremonies, if empty, student not eligible for ceremony is system.</returns>
-        public virtual List<Ceremony> StudentEligibility(List<MajorCode> majors, TermCode termCode = null)
+        public virtual List<Ceremony> StudentEligibility(List<MajorCode> majors, decimal totalUnits, TermCode termCode = null)
         {
             // get term code if we don't have one
             if (termCode == null) termCode = TermService.GetCurrent();
@@ -106,14 +106,18 @@ namespace Commencement.Controllers.Services
             // find ceremonies, student is eligible for
             foreach (var a in ceremonies)
             {
-                // go through each of the student's major
-                foreach (var b in majors)
+                // make sure units are enough
+                if (totalUnits >= a.MinUnits)
                 {
-                    // if major is in ceremony
-                    if (a.Majors.Contains(b))
+                    // go through each of the student's major
+                    foreach (var b in majors)
                     {
-                        // add to the list of valid
-                        eligibleCeremonies.Add(a);
+                        // if major is in ceremony
+                        if (a.Majors.Contains(b))
+                        {
+                            // add to the list of valid
+                            eligibleCeremonies.Add(a);
+                        }
                     }
                 }
             }

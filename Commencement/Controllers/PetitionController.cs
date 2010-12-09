@@ -130,11 +130,13 @@ namespace Commencement.Controllers
 
             registrationPetition.SetDecision(isApproved);
 
-            var student = new Student(registrationPetition.Pidm, registrationPetition.StudentId,
-                                          registrationPetition.FirstName, registrationPetition.MI,
-                                          registrationPetition.LastName, registrationPetition.Units,
-                                          registrationPetition.Email, registrationPetition.Login,
-                                          registrationPetition.TermCode);
+            //var student = new Student(registrationPetition.Pidm, registrationPetition.StudentId,
+            //                              registrationPetition.FirstName, registrationPetition.MI,
+            //                              registrationPetition.LastName, registrationPetition.Units,
+            //                              registrationPetition.Email, registrationPetition.Login,
+            //                              registrationPetition.TermCode);
+
+            var student = new Student();
 
             Check.Require(registrationPetition.MajorCode != null, "Major is required.");
 

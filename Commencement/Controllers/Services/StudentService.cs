@@ -28,7 +28,7 @@ namespace Commencement.Controllers.Services
         private readonly IRepositoryWithTypedId<Student, Guid> _studentRepository;
         private readonly IRepository<Ceremony> _ceremonyRepository;
         private readonly IRepository<Registration> _registrationRepository;
-        private readonly IRepositoryWithTypedId<MajorCode, string> _majorService;
+        private readonly IRepositoryWithTypedId<MajorCode, string> _majorRepository;
 
         private Student CurrentStudent
         {
@@ -36,12 +36,12 @@ namespace Commencement.Controllers.Services
             set { System.Web.HttpContext.Current.Session[StaticIndexes.CurrentStudentKey] = value; }
         }
 
-        public StudentService(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepository<Ceremony> ceremonyRepository, IRepository<Registration> registrationRepository, IRepositoryWithTypedId<MajorCode, string> majorService)
+        public StudentService(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepository<Ceremony> ceremonyRepository, IRepository<Registration> registrationRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository)
         {
             _studentRepository = studentRepository;
             _ceremonyRepository = ceremonyRepository;
             _registrationRepository = registrationRepository;
-            _majorService = majorService;
+            _majorRepository = majorRepository;
         }
 
         public Student GetCurrentStudent(IPrincipal currentUser)
@@ -55,13 +55,15 @@ namespace Commencement.Controllers.Services
                 if (searchResults.Count > 0)
                 {
                     var s = searchResults[0];
-                    currentStudent = new Student(s.Pidm, s.StudentId, s.FirstName, s.Mi, s.LastName, s.EarnedUnits, s.Email, currentUser.Identity.Name, TermService.GetCurrent());
-                    currentStudent.CurrentUnits = s.CurrentUnits;
+                    currentStudent = new Student(s.Pidm, s.StudentId, s.FirstName, s.Mi, s.LastName, s.CurrentUnits, s.EarnedUnits, s.Email, currentUser.Identity.Name, TermService.GetCurrent());
 
                     foreach (var bannerStudent in searchResults)
                     {
-                        currentStudent.Majors.Add(_majorService.GetById(bannerStudent.Major));
+                        currentStudent.Majors.Add(_majorRepository.GetById(bannerStudent.Major));
                     }
+
+                    // persist the student
+                    _studentRepository.EnsurePersistent(currentStudent);
                 }
             }
 
@@ -128,6 +130,27 @@ namespace Commencement.Controllers.Services
 
             return searchQuery.List<BannerStudent>();
         }
+
+        //public Student BannerLookupByLoginGetStudent(string login)
+        //{
+        //    var result = BannerLookupByLogin(login);
+        //    if (result.Count > 0)
+        //    {
+        //        var student = new Student(result[0].Pidm, result[0].StudentId, result[0].FirstName, result[0].Mi,
+        //                                  result[0].LastName, result[0].CurrentUnits,
+        //                                  result[0].Email, login,
+        //                                  TermService.GetCurrent());
+
+        //        foreach (var a in result)
+        //        {
+        //            student.Majors.Add(_majorRepository.GetById(a.Major));
+        //        }
+
+        //        return student;
+        //    }
+
+        //    return null;
+        //}
 
         public bool CheckExisting(string login, TermCode term)
         {
@@ -215,6 +238,11 @@ namespace Commencement.Controllers.Services
         }
 
         public IList<BannerStudent> BannerLookupByLogin(string login)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Student BannerLookupByLoginGetStudent(string login)
         {
             throw new NotImplementedException();
         }

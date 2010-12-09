@@ -210,9 +210,11 @@ namespace Commencement.Controllers
 
             Check.Require(searchStudent != null, "Unable to find requested record.");
 
-            var student = new Student(searchStudent.Pidm, searchStudent.Id, searchStudent.FirstName, searchStudent.MI,
-                                      searchStudent.LastName, searchStudent.HoursEarned, searchStudent.Email,
-                                      searchStudent.LoginId, TermService.GetCurrent());
+            //var student = new Student(searchStudent.Pidm, searchStudent.Id, searchStudent.FirstName, searchStudent.MI,
+            //                          searchStudent.LastName, searchStudent.HoursEarned, searchStudent.Email,
+            //                          searchStudent.LoginId, TermService.GetCurrent());
+
+            var student = new Student();
 
             student.Majors.Add(_majorRepository.GetNullableById(major));
 
@@ -240,7 +242,8 @@ namespace Commencement.Controllers
 
             if (existingStudent == null)
             {
-                newStudent = new Student(student.Pidm, student.StudentId, student.FirstName, student.MI, student.LastName, student.TotalUnits, student.Email, student.Login, student.TermCode);
+                //newStudent = new Student(student.Pidm, student.StudentId, student.FirstName, student.MI, student.LastName, student.TotalUnits, student.Email, student.Login, student.TermCode);
+                newStudent = new Student();
                 newStudent.Majors.Add(major);
             }
             else if (!existingStudent.Majors.Contains(major))

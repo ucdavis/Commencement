@@ -43,7 +43,7 @@ namespace Commencement.Controllers.ViewModels
                 var major = viewModel.Student.Majors[i];
                 var ceremony = viewModel.Ceremonies.Where(a => a.Majors.Contains(major)).FirstOrDefault();
 
-                if (ceremony != null && student.TotalUnits > ceremony.MinUnits)
+                if (ceremony != null)
                 {
                     var part = new CeremonyParticipation();
                     part.Index = i;
@@ -85,22 +85,6 @@ namespace Commencement.Controllers.ViewModels
 
             return viewModel;
         }
-
-        public void SetTickets(Registration registration)
-        {
-            foreach (var a in registration.RegistrationParticipations)
-            {
-                var part = this.Participations.Where(b => b.Ceremony == a.Ceremony && b.Major == a.Major).FirstOrDefault();
-
-                if (part != null)
-                {
-                    // registered, set the ticket numbers
-                    part.Participate = true;
-                    part.Tickets = a.NumberTickets;
-                }
-            }
-        }
-
     }
 
     public class CeremonyParticipation

@@ -49,7 +49,7 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
             #region Arrange
             var termCode = new TermCode();
             termCode.Name = "Tname";
-            var student = new Student("pidm", "studentId", "FName", "MI", "LName", 12.3m, "email", "login", termCode);
+            var student = new Student("pidm", "studentId", "FName", "MI", "LName", 12.3m, 100m, "email", "login", termCode);
             #endregion Arrange
 
             #region Act

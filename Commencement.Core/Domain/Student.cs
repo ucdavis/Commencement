@@ -11,7 +11,7 @@ namespace Commencement.Core.Domain
     public class Student : DomainObjectWithTypedId<Guid>
     {
         #region Constructors
-        public Student(string pidm, string studentId, string firstName, string mi, string lastName, decimal currentUnits, string email, string login, TermCode termCode)
+        public Student(string pidm, string studentId, string firstName, string mi, string lastName, decimal currentUnits, decimal earnedUnits, string email, string login, TermCode termCode)
         {
             Id = Guid.NewGuid();
             
@@ -21,6 +21,7 @@ namespace Commencement.Core.Domain
             MI = mi;
             LastName = lastName;
             CurrentUnits = CurrentUnits;
+            EarnedUnits = earnedUnits;
             Email = email;
             Login = login;
             TermCode = termCode;
