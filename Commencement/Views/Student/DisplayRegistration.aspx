@@ -1,5 +1,6 @@
 <%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.StudentDisplayRegistrationViewModel>" MasterPageFile="~/Views/Shared/Site.Master" %>
 <%@ Import Namespace="Commencement.Controllers" %>
+<%@ Import Namespace="Commencement.Controllers.Helpers" %>
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">Display Registration</asp:Content>
 <asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent"></asp:Content>
 
@@ -27,6 +28,7 @@
 
     <h2>Registered Ceremony</h2>
     <% foreach(var a in Model.Registration.RegistrationParticipations) { %>
+        <%: Html.HtmlEncode(a.Ceremony.ConfirmationText)%>
         <% Html.RenderPartial("RegisteredCeremonyDisplay", a); %>
         <hr />
     <% } %>

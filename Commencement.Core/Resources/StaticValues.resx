@@ -245,4 +245,10 @@ Any student who is found selling tickets or in possession of counterfeit tickets
   <data name="StudentService_BannerLookupByLogin_SQL" xml:space="preserve">
     <value>EXEC uspa_SearchStudentByLogin :login</value>
   </data>
+  <data name="Txt_GradTrack" xml:space="preserve">
+    <value>I authorize my information to be released to Grad Track</value>
+  </data>
+  <data name="Student_RegistrationPetition_Successful" xml:space="preserve">
+    <value>You have successfully submitted your registration petition.</value>
+  </data>
 </root>

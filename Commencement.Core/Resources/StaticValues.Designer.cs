@@ -142,6 +142,15 @@ namespace Commencement.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have successfully submitted your registration petition..
+        /// </summary>
+        public static string Student_RegistrationPetition_Successful {
+            get {
+                return ResourceManager.GetString("Student_RegistrationPetition_Successful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EXEC uspa_SearchStudentByLogin :login.
         /// </summary>
         public static string StudentService_BannerLookupByLogin_SQL {
@@ -249,6 +258,15 @@ namespace Commencement.Core.Resources {
         public static string Txt_GoogleAnalytics {
             get {
                 return ResourceManager.GetString("Txt_GoogleAnalytics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I authorize my information to be released to Grad Track.
+        /// </summary>
+        public static string Txt_GradTrack {
+            get {
+                return ResourceManager.GetString("Txt_GradTrack", resourceCulture);
             }
         }
         

@@ -27,7 +27,7 @@ namespace Commencement.Tests.Repositories.RegistrationPetitionRepositoryTests
             {
                 #region Arrange
                 registrationPetition = GetValid(9);
-                registrationPetition.FirstName = null;
+                //registrationPetition.FirstName = null;
                 #endregion Arrange
 
                 #region Act

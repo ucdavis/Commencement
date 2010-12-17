@@ -176,11 +176,11 @@ namespace Commencement.Controllers
                     }
                 }
 
-                Message += string.Format("Decision was saved for {0}", registrationPetition.FullName);
+                Message += string.Format("Decision was saved for {0}", registrationPetition.Student.FullName);
             }
             else
             {
-                Message = string.Format("There was a problem saving decision for {0}", registrationPetition.FullName);
+                Message = string.Format("There was a problem saving decision for {0}", registrationPetition.Student.FullName);
             }
 
             return this.RedirectToAction(a => a.Index());
@@ -216,7 +216,7 @@ namespace Commencement.Controllers
         public ActionResult Register()
         {
             // do a check to see if a student has already submitted a petition
-            if (Repository.OfType<RegistrationPetition>().Queryable.Where(a=>a.TermCode == TermService.GetCurrent() && a.Login == CurrentUser.Identity.Name).Any())
+            if (Repository.OfType<RegistrationPetition>().Queryable.Where(a=>a.Student.TermCode == TermService.GetCurrent() && a.Student.Login == CurrentUser.Identity.Name).Any())
             {
                 return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.SubmittedPetition));
             }
@@ -292,19 +292,19 @@ namespace Commencement.Controllers
             if (DateTime.Now > maxEndDate)
             {
                 Message = "Deadline for all extra ticket requests has passed or there are no more tickets available.";
-                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
+                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration());
             }
 
             if (DateTime.Now < minBeginDate)
             {
                 Message = string.Format("You cannot petition for extra tickets until at least {0}", minBeginDate.ToString("d"));
-                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
+                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration());
             }
 
             if (!registration.RegistrationParticipations.Any(a => a.ExtraTicketPetition == null))
             {
                 Message = string.Format("You have already submitted your extra ticket request(s).");
-                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
+                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration());
             }
 
             var viewModel = ExtraTicketPetitionModel.Create(Repository, registration);
@@ -369,7 +369,7 @@ namespace Commencement.Controllers
                 }
 
                 Message = "Successfully submitted extra ticket petition(s).";
-                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration(id));
+                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration());
             }
 
             var viewModel = ExtraTicketPetitionModel.Create(Repository, registration);

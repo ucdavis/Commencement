@@ -31,6 +31,10 @@
         <%= Html.AntiForgeryToken() %>
 
         <% Html.RenderPartial("RegistrationEditForm"); %>    
+
+    <h3>
+        <div class="legaldisclaimer"><%= Html.CheckBox("gradTrack") %><label for="gradTrack"><%: string.Format(StaticValues.Txt_GradTrack) %></label></div>
+    </h3>
     
     <h3>
         <%= string.Format(StaticValues.Txt_Disclaimer) %>
@@ -38,6 +42,8 @@
         <br />
         <div class="legaldisclaimer"><%= Html.CheckBox("agreeToDisclaimer", new { @class = "required" }) %><label for="agreeToDisclaimer">I Agree</label></div>
     </h3>
+
+
 
     <input type="submit" value="Register for Commencement" />
     

@@ -89,7 +89,24 @@
                     </li>
                     <li>
                         <strong>Petition Reason:</strong>
-                        <%: Html.TextArea(string.Format("ceremonyParticipations[{0}]_PetitionReason", a.Index), a.PetitionReason)%>
+                        <textarea type="text" id="<%: string.Format("ceremonyParticipations[{0}]_PetitionReason", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].PetitionReason", a.Index) %>" cols="60" rows="4" ></textarea>
+                        <i>Max Length (100)</i>
+                    </li>
+                    <li>
+                        <strong>Completion Term:</strong>
+                        <select id="<%:string.Format("ceremonyParticipations[{0}]_CompletionTerm", a.Index) %>" name="<%:string.Format("ceremonyParticipations[{0}].CompletionTerm", a.Index) %>">
+                            <% foreach (var b in Model.FutureTerms) { %>
+                                <option value="<%: b.Id %>"><%: b.Description %></option>
+                            <% } %>
+                        </select>
+                    </li>
+                    <li>
+                        <strong>Transfer College:</strong>
+                        <input type="text" id="<%: string.Format("ceremonyParticipations[{0}]_TransferCollege", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].TransferCollege", a.Index) %>" style="width:200px;" />
+                    </li>
+                    <li>
+                        <strong>Transfer Units:</strong>
+                        <input type="text" id="<%: string.Format("ceremonyParticipations[{0}]_TransferUnits", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].TransferUnits", a.Index) %>" />
                     </li>
                 <% } %>
                 <% else if (!a.Edit) { %>

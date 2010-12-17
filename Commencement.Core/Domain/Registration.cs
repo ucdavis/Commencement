@@ -41,6 +41,7 @@ namespace Commencement.Core.Domain
         public virtual bool MailTickets { get; set; }
         [NotNull]
         public virtual TermCode TermCode { get; set; }
+        public virtual bool GradTrack { get; set; }
 
         public virtual IList<RegistrationParticipation> RegistrationParticipations { get; set; }
         public virtual IList<SpecialNeed> SpecialNeeds { get; set; }
@@ -159,6 +160,7 @@ namespace Commencement.Core.Domain
             Map(x => x.Email);
             Map(x => x.MailTickets);
             References(x => x.TermCode).Column("TermCode");
+            Map(x => x.GradTrack);
 
             HasMany(a => a.RegistrationParticipations).Inverse().Cascade.AllDeleteOrphan();
             HasManyToMany(x => x.SpecialNeeds)

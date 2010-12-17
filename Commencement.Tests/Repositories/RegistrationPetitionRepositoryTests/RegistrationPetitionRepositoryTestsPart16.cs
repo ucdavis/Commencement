@@ -21,7 +21,7 @@ namespace Commencement.Tests.Repositories.RegistrationPetitionRepositoryTests
         {
             #region Arrange
             var record = CreateValidEntities.RegistrationPetition(99);
-            record.MI = null;
+            //record.MI = null;
             #endregion Arrange
 
             #region Act

@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using Commencement.Core.Domain;
 using System.Collections.Generic;
 using UCDArch.Core.PersistanceSupport;
@@ -14,6 +15,7 @@ namespace Commencement.Controllers.ViewModels
         public IEnumerable<State> States { get; set; }
         public MultiSelectList SpecialNeeds { get; set; }
         public IEnumerable<CeremonyParticipation> Participations { get; set; }
+        public IQueryable<vTermCode> FutureTerms { get; set; }
 
         public static RegistrationModel Create(IRepository repository, IList<Ceremony> ceremonies, Student student, Registration registration = null, List<CeremonyParticipation> ceremonyParticipations = null, bool edit = false)
         {
@@ -22,7 +24,8 @@ namespace Commencement.Controllers.ViewModels
                                     States = repository.OfType<State>().GetAll(),
                                     Registration = registration ?? new Registration() {Student = student},
                                     Ceremonies = ceremonies,
-                                    Student = student
+                                    Student = student,
+                                    FutureTerms = repository.OfType<vTermCode>().Queryable.Where(a=>a.EndDate > DateTime.Now)
                                 };
 
             var specialNeeds = repository.OfType<SpecialNeed>().Queryable.Where(a=>a.IsActive).ToList();
@@ -110,5 +113,8 @@ namespace Commencement.Controllers.ViewModels
         
         public bool NeedsPetition { get; set; }
         public string PetitionReason { get; set; }
+        public vTermCode CompletionTerm { get; set; }
+        public string TransferCollege { get; set; }
+        public string TransferUnits { get; set; }
     }
 }

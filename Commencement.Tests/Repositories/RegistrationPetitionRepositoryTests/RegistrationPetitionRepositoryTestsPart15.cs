@@ -26,7 +26,7 @@ namespace Commencement.Tests.Repositories.RegistrationPetitionRepositoryTests
             {
                 #region Arrange
                 registrationPetition = GetValid(9);
-                registrationPetition.TermCode = null;
+                //registrationPetition.TermCode = null;
                 #endregion Arrange
 
                 #region Act
@@ -38,7 +38,7 @@ namespace Commencement.Tests.Repositories.RegistrationPetitionRepositoryTests
             catch (Exception)
             {
                 Assert.IsNotNull(registrationPetition);
-                Assert.AreEqual(registrationPetition.TermCode, null);
+                //Assert.AreEqual(registrationPetition.TermCode, null);
                 var results = registrationPetition.ValidationResults().AsMessageList();
                 results.AssertErrorsAre("TermCode: may not be null");
                 Assert.IsTrue(registrationPetition.IsTransient());
