@@ -13,8 +13,8 @@
     </ul>
 
     <ul>
-        <li><%: Html.ActionLink<PetitionController>(a=>a.ExtraTicketPetitions(null), "Extra Ticket Petitions") %></li>
-        <li><%: Html.ActionLink<PetitionController>(a=>a.RegistrationPetitions(), "Registration Petitions") %></li>
+        <li><a href="<%: Url.Action("ExtraTicketPetition", "Petition") %>">Extra Ticket Petitions</a></li>
+        <li><a href="<%: Url.Action("RegistrationPetitions", "Petition") %>">Registration Petitions</a></li>
     </ul>
 
 
