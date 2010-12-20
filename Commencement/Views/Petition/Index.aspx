@@ -12,9 +12,9 @@
         <li><%= Html.ActionLink<HomeController>(a=>a.Index(), "Back Home") %></li>
     </ul>
 
-    <ul>
-        <li><a href="<%: Url.Action("ExtraTicketPetitions", "Petition") %>">Extra Ticket Petitions</a></li>
-        <li><a href="<%: Url.Action("RegistrationPetitions", "Petition") %>">Registration Petitions</a></li>
+    <ul class="front_menu">
+        <li class="left"><a href="<%: Url.Action("ExtraTicketPetitions", "Petition") %>"><span>Extra Ticket Petitions</span></a></li>
+        <li class="left"><a href="<%: Url.Action("RegistrationPetitions", "Petition") %>"><span>Registration Petitions</span></a></li>
     </ul>
 
 

@@ -21,12 +21,21 @@
 
     <% if (Model.Ceremony != null) { %>
         
-        <div id="ticketCounts">
+        <div id="ticketCountInline">
             <ul>
                 <li><strong>Projected Available:</strong> <span id="projectedAvailabeTickets"><%: Model.Ceremony.AvailableTickets %></span></li>
                 <% if (Model.Ceremony.HasStreamingTickets) { %><li><strong>Projected Streaming Available:</strong> <span id="projectedAvailableStreaming"><%: Model.Ceremony.AvailableStreamingTickets.HasValue ? Model.Ceremony.AvailableStreamingTickets.Value.ToString() : "n/a" %></span></li><% } %>
                 <li><strong>Projected Ticket Count:</strong> <span id="projectedTickets"><%: Model.Ceremony.ProjectedTicketCount %></span></li>
                 <% if (Model.Ceremony.HasStreamingTickets) { %><li><strong>Projected Streaming Count:</strong> <span id="projectedStreaming"><%: Model.Ceremony.ProjectedTicketStreamingCount.HasValue ? Model.Ceremony.ProjectedTicketStreamingCount.Value.ToString() : "n/a" %></span></li><% } %>
+            </ul>
+        </div>
+        <div id="ticketCountBar">
+        <br />
+            <ul>
+                <li><strong>Projected Available:</strong> <span id="Span1"><%: Model.Ceremony.AvailableTickets %></span></li>
+                <% if (Model.Ceremony.HasStreamingTickets) { %><li><strong>Projected Streaming Available:</strong> <span id="Span2"><%: Model.Ceremony.AvailableStreamingTickets.HasValue ? Model.Ceremony.AvailableStreamingTickets.Value.ToString() : "n/a" %></span></li><% } %>
+                <li><strong>Projected Ticket Count:</strong> <span id="Span3"><%: Model.Ceremony.ProjectedTicketCount %></span></li>
+                <% if (Model.Ceremony.HasStreamingTickets) { %><li><strong>Projected Streaming Count:</strong> <span id="Span4"><%: Model.Ceremony.ProjectedTicketStreamingCount.HasValue ? Model.Ceremony.ProjectedTicketStreamingCount.Value.ToString() : "n/a" %></span></li><% } %>
             </ul>
         </div>
     
@@ -146,16 +155,6 @@
             display:none;
         }
         
-        #ticketCounts
-        {
-            position:fixed;
-            border: 1px solid #A5B3C5;
-            width:935px;
-            top:165px;
-            z-index:100;
-            background-color:#FFFFFF;
-            color:#4C607A;
-        }
         
         ul
         {
