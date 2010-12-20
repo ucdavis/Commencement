@@ -129,6 +129,7 @@ namespace Commencement.Controllers
         {
             var registrationPetition = Repository.OfType<RegistrationPetition>().GetNullableById(id);
             if (registrationPetition == null) return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.UnknownError));
+            var registration = registrationPetition.Registration;
 
             // set the decision
             registrationPetition.SetDecision(isApproved);
@@ -136,15 +137,22 @@ namespace Commencement.Controllers
             // automatically register student
             if (isApproved)
             {
-                // pull any existing registration object
-                var registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == registrationPetition.Registration.Student && a.TermCode == TermService.GetCurrent()).SingleOrDefault();
+                registration.AddParticipation(registrationPetition.MajorCode, registrationPetition.Ceremony, registrationPetition.NumberTickets);
 
-                if (registration == null)
+                try
                 {
-                    registration = new Registration();
-                    registration.Student = registrationPetition.Registration.Student;
+                    _emailService.SendRegistrationPetitionApproved(registrationPetition);
+                }
+                catch (Exception ex)
+                {
+                    _errorService.ReportError(ex);
+                    Message += StaticValues.Student_Email_Problem;
                 }
             }
+
+            Repository.OfType<Registration>().EnsurePersistent(registration);
+
+            return this.RedirectToAction(a => a.RegistrationPetition(id));
 
 
             //if (ModelState.IsValid)
@@ -179,7 +187,7 @@ namespace Commencement.Controllers
             //else
             //{
             //    Message = string.Format("There was a problem saving decision for {0}", registrationPetition.Student.FullName);
-            //}
+            //});))
 
             return this.RedirectToAction(a => a.Index());
         }

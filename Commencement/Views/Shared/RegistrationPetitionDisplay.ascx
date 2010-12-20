@@ -1,11 +1,11 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Core.Domain.RegistrationPetition>" %>
 
-<ul class="registration_form">
-    <li><strong>Status: </strong><%: Model.IsPending ? "Pending" : (Model.IsApproved ? "Approved" : "Denied")%></li>
-    <li><strong>Major: </strong><%: Model.MajorCode.MajorName %></li>
-    <li><strong>Date Submitted:</strong><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateSubmitted) %></li>
-    <% if (!Model.IsPending) { %><li><strong>Last Update:</strong><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateDecision) %></li><% } %>
-    <li><strong>Tickets Requested:</strong><span><%: Model.NumberTickets %></span>
-    </li>
-    <li class="prefilled"><strong>Ceremony Date:</strong><span><%= Html.Encode(string.Format("{0}", Model.Ceremony.DateTime.ToString("g"))) %></span> </li>
-</ul>
+    <ul class="registration_form">
+        <li><strong>Date Submitted:</strong><%= Html.Encode(Model.DateSubmitted.ToString("g")) %></li>
+        <li><strong>Date Decision:</strong><%= Html.Encode(Model.DateDecision != null ? Model.DateDecision.ToString() : string.Empty) %></li>
+        <li><strong>Approved:</strong><%= Html.Encode(Model.IsPending ? "Pending" : (Model.IsApproved ? "Yes" : "No")) %></li>
+        <li><strong>Reason for Petition:</strong><%= Html.Encode(Model.ExceptionReason) %></li>
+        <li><strong>Term to Complete:</strong><%= Html.Encode(Model.TermCodeComplete.Description) %></li>
+        <li><strong>Transfer Units From*:</strong><%= Html.Encode(Model.TransferUnitsFrom) %></li>
+        <li><strong>Transfer Units*:</strong><%= Html.Encode(Model.TransferUnits) %></li>
+    </ul>

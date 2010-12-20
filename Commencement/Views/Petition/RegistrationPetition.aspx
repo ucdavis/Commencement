@@ -33,20 +33,20 @@
         <% } %>
     </ul>
 
-    <h2><%= Html.Encode(Model.Student.FullName) %></h2>
+    <h2><%= Html.Encode(Model.Registration.Student.FullName) %></h2>
       
     <h3>Student Information</h3>
     <ul class="registration_form">
-        <li><strong>Student Id:</strong><%= Html.Encode(Model.Student.StudentId) %></li>
-        <li><strong>Email:</strong><%= Html.Encode(Model.Student.Email) %></li>
-        <% if (!string.IsNullOrEmpty(Model.Email)) { %><li><strong>Secondary Email:</strong><%: Html.Encode(Model.Email) %></li><% } %>
+        <li><strong>Student Id:</strong><%= Html.Encode(Model.Registration.Student.StudentId) %></li>
+        <li><strong>Email:</strong><%= Html.Encode(Model.Registration.Student.Email) %></li>
+        <% if (!string.IsNullOrEmpty(Model.Registration.Email)) { %><li><strong>Secondary Email:</strong><%: Html.Encode(Model.Registration.Email) %></li><% } %>
         <li><strong>Major:</strong><%= Html.Encode(Model.MajorCode.MajorName) %></li>
-        <li><strong>Units:</strong><%= Html.Encode(Model.Student.TotalUnits) %></li>
+        <li><strong>Units:</strong><%= Html.Encode(Model.Registration.Student.TotalUnits)%></li>
         <li><strong>Ceremony:</strong><%: Model.Ceremony.DateTime.ToString("g") %></li>
     </ul>
     
     <h3>Petition Information</h3>
-    <ul class="registration_form">
+<%--    <ul class="registration_form">
         <li><strong>Date Submitted:</strong><%= Html.Encode(Model.DateSubmitted.ToString("g")) %></li>
         <li><strong>Date Decision:</strong><%= Html.Encode(Model.DateDecision != null ? Model.DateDecision.ToString() : string.Empty) %></li>
         <li><strong>Approved:</strong><%= Html.Encode(Model.IsPending ? "Pending" : (Model.IsApproved ? "Yes" : "No")) %></li>
@@ -54,8 +54,9 @@
         <li><strong>Term to Complete:</strong><%= Html.Encode(Model.TermCodeComplete.Description) %></li>
         <li><strong>Transfer Units From*:</strong><%= Html.Encode(Model.TransferUnitsFrom) %></li>
         <li><strong>Transfer Units*:</strong><%= Html.Encode(Model.TransferUnits) %></li>
-    </ul>
-    
+    </ul>--%>
+    <% Html.RenderPartial("RegistrationPetitionDisplay", Model); %>
+
     <h3>* Signifies transfer units the student feels are still pending.</h3>
 
 </asp:Content>

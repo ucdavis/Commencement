@@ -38,7 +38,6 @@
     <% if (Model.Registration.RegistrationPetitions.Count > 0) { %>
     <h2>Petitioned Ceremony</h2>
     <% foreach(var a in Model.Registration.RegistrationPetitions) { %>
-        <%: Html.HtmlEncode(a.Ceremony.ConfirmationText)%>
         <% Html.RenderPartial("RegistrationPetitionDisplay", a); %>
         <hr />
     <% } %>
