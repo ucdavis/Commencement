@@ -45,12 +45,25 @@
         <!-- Student is registered, show that information -->
         <% Html.RenderPartial("RegistrationDisplay", Model.Registration); %>
 
-        <h2>Ceremony Information</h2>
-        <% foreach(var a in Model.Registration.RegistrationParticipations.Where(a=> Model.Ceremonies.Contains(a.Ceremony))) { %>
-            <% Html.RenderPartial("RegisteredCeremonyDisplay", a); %>
-            <hr />
-        <% } %>
+        <%
+            var participations = Model.Registration.RegistrationParticipations.Where(a => Model.Ceremonies.Contains(a.Ceremony));
+            var petitions = Model.Registration.RegistrationPetitions.Where(a=> Model.Ceremonies.Contains(a.Ceremony));
+            %>
+        
+        <% if (participations.Count() > 0) { %>
+            <h2>Ceremony Information</h2>
+            <% foreach(var a in participations) { %>
+                <% Html.RenderPartial("RegisteredCeremonyDisplay", a); %>
+                <hr />
+            <% } %>
+        <% } %>                     
 
+        <% if (petitions.Count() > 0) { %>
+            <h2>Petition Information</h2>
+            <% foreach (var a in petitions) { %>
+                <% Html.RenderPartial("RegistrationPetitionDisplay", a); %>
+            <% } %>
+        <% } %>
     <% } else { %>
         <h2>Registration</h2>
         Student has not registered.

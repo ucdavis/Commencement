@@ -100,7 +100,7 @@ namespace Commencement.Controllers
             registration.TermCode = term;
             registration.Student = student;
             NullOutBlankFields(registration);
-            registration.SpecialNeeds = LoadSpecialNeeds(registrationModel.SpecialNeeds);
+            registration.SpecialNeeds = LoadSpecialNeeds(specialNeeds);
             registration.GradTrack = registrationModel.GradTrack;
 
             // validate they can register, also checks for duplicate registrations
@@ -109,8 +109,7 @@ namespace Commencement.Controllers
 
             ValidateCeremonyParticipations(ceremonyParticipations, ModelState);
             AddCeremonyParticipations(registration, ceremonyParticipations, ModelState);
-            
-            var petitions = AddRegistrationPetitions(registration, ceremonyParticipations, ModelState);
+            AddRegistrationPetitions(registration, ceremonyParticipations, ModelState);
 
             registration.TransferValidationMessagesTo(ModelState);
 
@@ -118,7 +117,7 @@ namespace Commencement.Controllers
 
             if (ModelState.IsValid)
             {
-                if (registration.RegistrationParticipations.Count > 0)
+                if (registration.RegistrationParticipations.Count > 0 || registration.RegistrationPetitions.Count > 0)
                 {
                     // save registration
                     _registrationRepository.EnsurePersistent(registration);
@@ -138,26 +137,6 @@ namespace Commencement.Controllers
                     Message += StaticValues.Student_Register_Successful;
                 }
 
-                if (petitions.Count > 0)
-                {
-                    foreach (var a in petitions)
-                    {
-                        _registrationPetitionRepository.EnsurePersistent(a);
-
-                        try
-                        {
-                            // queue a registration petition confirmation email
-                        }
-                        catch (Exception ex)
-                        {
-                            _errorService.ReportError(ex);
-                            Message += StaticValues.Student_Email_Problem;
-                        }
-                    }
-
-                    Message += StaticValues.Student_RegistrationPetition_Successful;
-                }
-
                 return this.RedirectToAction(a => a.DisplayRegistration());
             }
 
@@ -169,12 +148,12 @@ namespace Commencement.Controllers
         public ActionResult DisplayRegistration()
         {
             var registration = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == GetCurrentStudent());
-            var petitions = _registrationPetitionRepository.Queryable.Where(a => a.Student == GetCurrentStudent()).ToList();
+            //var petitions = _registrationPetitionRepository.Queryable.Where(a => a.Registration.Student == GetCurrentStudent()).ToList();
 
             // must have either registration or at least one petition
-            if (registration == null && petitions.Count <= 0) return this.RedirectToAction(a => a.Index());
+            if (registration == null) return this.RedirectToAction(a => a.Index());
 
-            var viewModel = StudentDisplayRegistrationViewModel.Create(Repository, registration, petitions);
+            var viewModel = StudentDisplayRegistrationViewModel.Create(Repository, registration);
 
             return View(viewModel);
         }
@@ -426,31 +405,28 @@ namespace Commencement.Controllers
             return currentStudent;
         }
 
-        private List<RegistrationPetition> AddRegistrationPetitions(Registration registration, List<CeremonyParticipation> ceremonyParticipations, ModelStateDictionary modelState)
+        private void AddRegistrationPetitions(Registration registration, List<CeremonyParticipation> ceremonyParticipations, ModelStateDictionary modelState)
         {
-            var petitions = new List<RegistrationPetition>();
+            //var petitions = new List<RegistrationPetition>();
 
             foreach (var a in ceremonyParticipations.Where(a=>a.Petition))
             {
                 // check for existing petition
-                var existingPetition = !_registrationPetitionRepository.Queryable.Any(b => b.Ceremony == a.Ceremony && b.Student == registration.Student);
+                var existingPetition = !_registrationPetitionRepository.Queryable.Any(b => b.Ceremony == a.Ceremony && b.Registration.Student == registration.Student);
                 // check for existing registration
                 var existingParticipation = !_participationRepository.Queryable.Any(b => b.Ceremony == a.Ceremony && b.Registration.Student == registration.Student);
 
                 if (existingPetition && existingParticipation)
                 {
-                    var petition = new RegistrationPetition(registration.Student, a.Major, a.Ceremony, a.PetitionReason, a.CompletionTerm, a.Tickets);
-                    petition.Email = string.IsNullOrEmpty(registration.Email) ? null : registration.Email;
+                    var petition = new RegistrationPetition(registration, a.Major, a.Ceremony, a.PetitionReason, a.CompletionTerm, a.Tickets);
                     petition.TransferUnitsFrom = string.IsNullOrEmpty(a.TransferCollege) ? null : a.TransferCollege;
                     petition.TransferUnits = string.IsNullOrEmpty(a.TransferUnits) ? null : a.TransferUnits;
-                    petition.GradTrack = registration.GradTrack;
-                    
-                    //_registrationPetitionRepository.EnsurePersistent(petition);
-                    petitions.Add(petition);
+
+                    registration.AddPetition(petition);
                 }
             }
 
-            return petitions;
+            //return petitions;
         }
         #endregion
 

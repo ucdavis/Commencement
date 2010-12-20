@@ -26,11 +26,22 @@
     <h2>Contact Information</h2>
     <% Html.RenderPartial("RegistrationDisplay", Model.Registration); %>
 
+    <% if (Model.Registration.RegistrationParticipations.Count > 0) { %>
     <h2>Registered Ceremony</h2>
     <% foreach(var a in Model.Registration.RegistrationParticipations) { %>
         <%: Html.HtmlEncode(a.Ceremony.ConfirmationText)%>
         <% Html.RenderPartial("RegisteredCeremonyDisplay", a); %>
         <hr />
+    <% } %>
+    <% } %>
+
+    <% if (Model.Registration.RegistrationPetitions.Count > 0) { %>
+    <h2>Petitioned Ceremony</h2>
+    <% foreach(var a in Model.Registration.RegistrationPetitions) { %>
+        <%: Html.HtmlEncode(a.Ceremony.ConfirmationText)%>
+        <% Html.RenderPartial("RegistrationPetitionDisplay", a); %>
+        <hr />
+    <% } %>
     <% } %>
     
 </asp:Content>

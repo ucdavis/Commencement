@@ -10,7 +10,6 @@ namespace Commencement.Controllers.ViewModels
 {
     public class AdminPetitionsViewModel
     {
-        public IEnumerable<Registration> PendingExtraTicket { get; set; }
         public IEnumerable<RegistrationPetition> PendingRegistrationPetitions { get; set; }
         public IEnumerable<Ceremony> Ceremonies { get; set; }
 

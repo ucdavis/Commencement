@@ -156,13 +156,13 @@ namespace Commencement.Controllers.Helpers
             {
                 case "studentid":
                     if (Student != null) return Student.StudentId;
-                    if (RegistrationPetition != null) return RegistrationPetition.Student.StudentId;
+                    if (RegistrationPetition != null) return RegistrationPetition.Registration.Student.StudentId;
 
                     throw new ArgumentException("No valid object was provided.");
                 case "studentname":
                     if (Student != null) return Student.FullName;
                     if (RegistrationPetition != null)
-                        return string.Format("{0} {1}", RegistrationPetition.Student.FirstName, RegistrationPetition.Student.LastName);
+                        return string.Format("{0} {1}", RegistrationPetition.Registration.Student.FirstName, RegistrationPetition.Registration.Student.LastName);
 
                     throw new ArgumentException("No valid object was provided.");
                 case "ceremonyname":

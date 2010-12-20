@@ -130,7 +130,7 @@ namespace Commencement.Controllers.Services
 
             var message = InitializeMessage();
             message.Subject = term.Name + " Commencement Registration Petition";
-            message.To.Add(registrationPetition.Email);
+            message.To.Add(registrationPetition.Registration.Email);
 
             //var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition).OrderByDescending(a => a.Id));
             var template = registrationPetition.Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition && a.IsActive).FirstOrDefault();
@@ -149,7 +149,7 @@ namespace Commencement.Controllers.Services
 
             var message = InitializeMessage();
             message.Subject = term.Name + " Commencement Registration Petition";
-            message.To.Add(registrationPetition.Email);
+            message.To.Add(registrationPetition.Registration.Email);
 
             //var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition).OrderByDescending(a => a.Id));
             var template = registrationPetition.Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition && a.IsActive).FirstOrDefault();

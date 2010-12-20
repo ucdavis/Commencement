@@ -57,7 +57,8 @@ namespace Commencement.Controllers
         [AnyoneWithRole]
         public ActionResult RegistrationPetitions()
         {
-            return View();
+            var viewModel = AdminPetitionsViewModel.Create(Repository, _ceremonyService, _petitionService, CurrentUser.Identity.Name, TermService.GetCurrent());
+            return View(viewModel);
         }
         [AnyoneWithRole]
         public ActionResult RegistrationPetition(int id)
@@ -122,66 +123,63 @@ namespace Commencement.Controllers
          //   return this.RedirectToAction(a => a.Index());
         }
 
+        [HttpPost]
         [AnyoneWithRole]
         public ActionResult DecideRegistrationPetition(int id, bool isApproved)
         {
             var registrationPetition = Repository.OfType<RegistrationPetition>().GetNullableById(id);
             if (registrationPetition == null) return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.UnknownError));
 
+            // set the decision
             registrationPetition.SetDecision(isApproved);
 
-            //var student = new Student(registrationPetition.Pidm, registrationPetition.StudentId,
-            //                              registrationPetition.FirstName, registrationPetition.MI,
-            //                              registrationPetition.LastName, registrationPetition.Units,
-            //                              registrationPetition.Email, registrationPetition.Login,
-            //                              registrationPetition.TermCode);
-
-            var student = new Student();
-
-            Check.Require(registrationPetition.MajorCode != null, "Major is required.");
-
-            student.Majors.Add(registrationPetition.MajorCode);
-
-            // check if the major has a ceremony or not, if not fill the override
-            if (!registrationPetition.Ceremony.Majors.Contains(registrationPetition.MajorCode))
-                student.Ceremony = registrationPetition.Ceremony;
-
-            registrationPetition.TransferValidationMessagesTo(ModelState);
-            student.TransferValidationMessagesTo(ModelState);
-
-            if (ModelState.IsValid)
+            // automatically register student
+            if (isApproved)
             {
-                // save the decision
-                Repository.OfType<RegistrationPetition>().EnsurePersistent(registrationPetition);
+                // pull any existing registration object
+                var registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == registrationPetition.Registration.Student && a.TermCode == TermService.GetCurrent()).SingleOrDefault();
 
-                // if approved and does not already exist for this term the save the student,
-                // otherwise the student has already been added either by auto download or admin addition
-                // do not save a duplicate
-                if (isApproved && !_studentService.CheckExisting(student.Login, TermService.GetCurrent()))
+                if (registration == null)
                 {
-                    // persist the student
-                    Repository.OfType<Student>().EnsurePersistent(student);
+                    registration = new Registration();
+                    registration.Student = registrationPetition.Registration.Student;
                 }
-
-                if (isApproved)
-                {
-                    try
-                    {
-                        _emailService.SendRegistrationPetitionApproved(registrationPetition);
-                    }
-                    catch (Exception ex)
-                    {
-                        _errorService.ReportError(ex);
-                        Message += StaticValues.Student_Email_Problem;
-                    }
-                }
-
-                Message += string.Format("Decision was saved for {0}", registrationPetition.Student.FullName);
             }
-            else
-            {
-                Message = string.Format("There was a problem saving decision for {0}", registrationPetition.Student.FullName);
-            }
+
+
+            //if (ModelState.IsValid)
+            //{
+            //    // save the decision
+            //    Repository.OfType<RegistrationPetition>().EnsurePersistent(registrationPetition);
+
+            //    // if approved and does not already exist for this term the save the student,
+            //    // otherwise the student has already been added either by auto download or admin addition
+            //    // do not save a duplicate
+            //    if (isApproved && !_studentService.CheckExisting(student.Login, TermService.GetCurrent()))
+            //    {
+            //        // persist the student
+            //        Repository.OfType<Student>().EnsurePersistent(student);
+            //    }
+
+            //    if (isApproved)
+            //    {
+            //        try
+            //        {
+            //            _emailService.SendRegistrationPetitionApproved(registrationPetition);
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            _errorService.ReportError(ex);
+            //            Message += StaticValues.Student_Email_Problem;
+            //        }
+            //    }
+
+            //    Message += string.Format("Decision was saved for {0}", registrationPetition.Student.FullName);
+            //}
+            //else
+            //{
+            //    Message = string.Format("There was a problem saving decision for {0}", registrationPetition.Student.FullName);
+            //}
 
             return this.RedirectToAction(a => a.Index());
         }
@@ -216,7 +214,7 @@ namespace Commencement.Controllers
         public ActionResult Register()
         {
             // do a check to see if a student has already submitted a petition
-            if (Repository.OfType<RegistrationPetition>().Queryable.Where(a=>a.Student.TermCode == TermService.GetCurrent() && a.Student.Login == CurrentUser.Identity.Name).Any())
+            if (Repository.OfType<RegistrationPetition>().Queryable.Where(a => a.Registration.Student.TermCode == TermService.GetCurrent() && a.Registration.Student.Login == CurrentUser.Identity.Name).Any())
             {
                 return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.SubmittedPetition));
             }

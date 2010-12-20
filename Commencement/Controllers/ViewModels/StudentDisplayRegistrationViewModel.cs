@@ -10,7 +10,7 @@ namespace Commencement.Controllers.ViewModels
     public class StudentDisplayRegistrationViewModel
     {
         public Registration Registration { get; set; }
-        public IEnumerable<RegistrationPetition> Petitions { get; set; }
+        //public IEnumerable<RegistrationPetition> Petitions { get; set; }
         //public DateTime EarliestExtraTicket { get; set; }
         //public DateTime LatestExtraTicket { get; set; }
         //public DateTime LatestRegDeadline { get; set; }
@@ -24,11 +24,12 @@ namespace Commencement.Controllers.ViewModels
             CanEditRegistration = false;
         }
 
-        public static StudentDisplayRegistrationViewModel Create(IRepository repository, Registration registration, List<RegistrationPetition> petitions)
+        public static StudentDisplayRegistrationViewModel Create(IRepository repository, Registration registration)
         {
             Check.Require(repository != null, "Repository is required.");
+            Check.Require(registration != null, "registration is required.");
 
-            var viewModel = new StudentDisplayRegistrationViewModel() {Registration = registration, Petitions = petitions};
+            var viewModel = new StudentDisplayRegistrationViewModel() {Registration = registration};
             
             var participations = repository.OfType<RegistrationParticipation>().Queryable.Where(a=>a.Registration == registration).ToList();
             var ceremonies = participations.Select(a => a.Ceremony).ToList();

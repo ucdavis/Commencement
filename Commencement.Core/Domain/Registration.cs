@@ -12,8 +12,14 @@ namespace Commencement.Core.Domain
     {
         public Registration()
         {
+            SetDefaults();
+        }
+
+        private void SetDefaults()
+        {
             RegistrationParticipations = new List<RegistrationParticipation>();
-            SpecialNeeds = new List<SpecialNeed>();
+            SpecialNeeds = new List<SpecialNeed>();            
+            RegistrationPetitions = new List<RegistrationPetition>();
         }
 
         #region Mapped Fields
@@ -44,6 +50,7 @@ namespace Commencement.Core.Domain
         public virtual bool GradTrack { get; set; }
 
         public virtual IList<RegistrationParticipation> RegistrationParticipations { get; set; }
+        public virtual IList<RegistrationPetition> RegistrationPetitions { get; set; }
         public virtual IList<SpecialNeed> SpecialNeeds { get; set; }
         #endregion
 
@@ -113,35 +120,12 @@ namespace Commencement.Core.Domain
 
             RegistrationParticipations.Add(participation);
         }
-        //public virtual int TicketsByCeremonies(List<Ceremony> ceremonies)
-        //{
-        //    // not allowed to count
-        //    if (Student.SjaBlock || Student.Blocked) return 0;
+        public virtual void AddPetition(RegistrationPetition registrationPetition)
+        {
+            registrationPetition.Registration = this;
+            RegistrationPetitions.Add(registrationPetition);
+        }
 
-        //    // initial count of tickets
-        //    var tickets = 0;
-        //    foreach (var a in RegistrationParticipations)
-        //    {
-        //        if (ceremonies.Contains(a.Ceremony))
-        //        {
-        //            tickets += a.NumberTickets;
-        //        }
-        //    }
-
-        //    return tickets;
-        //}
-        //public virtual int ExtraTicketsByCeremonies(List<Ceremony> ceremonies)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public virtual int TotalTicketsByCeremonies(List<Ceremony> ceremonies)
-        //{
-        //    var tickets = TicketsByCeremonies(ceremonies);
-
-        //    //TODO: count extra petition tickets
-
-        //    return tickets;
-        //}
         #endregion
     }
 
@@ -163,6 +147,7 @@ namespace Commencement.Core.Domain
             Map(x => x.GradTrack);
 
             HasMany(a => a.RegistrationParticipations).Inverse().Cascade.AllDeleteOrphan();
+            HasMany(a => a.RegistrationPetitions).Inverse().Cascade.AllDeleteOrphan();
             HasManyToMany(x => x.SpecialNeeds)
                 .ParentKeyColumn("RegistrationId")
                 .ChildKeyColumn("SpecialNeedId")
