@@ -302,6 +302,7 @@
     <Content Include="Scripts\jquery-1.4.1.min.js" />
     <Content Include="Scripts\jquery.anytime.js" />
     <Content Include="Scripts\jquery.enableTinyMce.js" />
+    <Content Include="Scripts\setScrollingBox.js" />
     <Content Include="Scripts\jquery.livequery.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />

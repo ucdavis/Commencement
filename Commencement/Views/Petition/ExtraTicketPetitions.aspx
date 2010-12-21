@@ -84,6 +84,8 @@
         $(document).ready(function () {
             $(".tickets").blur(function () { SaveTicketAmount($(this).attr("petitionId"), $(this).attr("ceremonyId"), $(this).val(), $(this).hasClass("streaming"), this); });
             $(".decision").click(function () { MakeDecision($(this).attr("participationId"), $(this).val() == "Approve", this); });
+
+            SetScrollingBox("ticketCountBar", "ticketCountInline");
         });
 
         function SaveTicketAmount(id, ceremonyId, amount, streaming, box) {
