@@ -199,6 +199,7 @@
     <Compile Include="Controllers\TermCodeController.cs" />
     <Compile Include="Controllers\ViewModels\AddEditorViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminExtraTicketPetitionViewModel.cs" />
+    <Compile Include="Controllers\ViewModels\AdminMajorsViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminPetitionsViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminRegistrationPetitionViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeCeremonyViewModel.cs" />
@@ -556,6 +557,7 @@
     <Content Include="Scripts\xVal.jquery.validate.js" />
     <Content Include="Views\Admin\Block.aspx" />
     <Content Include="Views\Admin\Index.aspx" />
+    <Content Include="Views\Admin\Majors.aspx" />
     <Content Include="Views\Admin\Registrations.aspx" />
     <Content Include="Views\Admin\StudentDetails.aspx" />
     <Content Include="Views\Admin\Students.aspx" />

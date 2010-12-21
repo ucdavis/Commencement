@@ -128,7 +128,13 @@ namespace Commencement.Controllers
         }
         #endregion
 
+        public ActionResult Majors()
+        {
+            var viewModel = AdminMajorsViewModel.Create(Repository, _ceremonyService,_registrationService, CurrentUser);
+            return View(viewModel);
+        }
 
+        #region Stuff to be Reviewed
         /// <summary>
         /// Change the major on a registration
         /// </summary>
@@ -327,6 +333,7 @@ namespace Commencement.Controllers
             var viewModel = ChangeMajorViewModel.Create(Repository, _majorService, registration, _ceremonyService.GetCeremonies(CurrentUser.Identity.Name));
             return View(viewModel);
         }
+        
 
         #region Validation Functions for Changing Registration
         public JsonResult ChangeMajorValidation(int regId, string major)
@@ -401,6 +408,6 @@ namespace Commencement.Controllers
             return true;
         }
         #endregion
-
+        #endregion
     }
 }

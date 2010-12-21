@@ -78,8 +78,13 @@ namespace Commencement.Core.Domain
         {
             get 
             {
-                return ExtraTicketPetition != null && ExtraTicketPetition.IsApproved && !ExtraTicketPetition.IsPending && ExtraTicketPetition.NumberTicketsStreaming.HasValue
-                       ? ExtraTicketPetition.NumberTicketsStreaming.Value : 0;
+                if (Ceremony.HasStreamingTickets)
+                {
+                    return ExtraTicketPetition != null && ExtraTicketPetition.IsApproved && !ExtraTicketPetition.IsPending && ExtraTicketPetition.NumberTicketsStreaming.HasValue
+                           ? ExtraTicketPetition.NumberTicketsStreaming.Value : 0;                    
+                }
+
+                return 0;
             }
         }
 
@@ -114,9 +119,14 @@ namespace Commencement.Core.Domain
         {
             get
             {
-                return ExtraTicketPetition != null && ExtraTicketPetition.NumberTicketsStreaming.HasValue
-                           ? ExtraTicketPetition.NumberTicketsStreaming.Value
-                           : ExtraTicketPetition.NumberTicketsRequestedStreaming;
+                if (Ceremony.HasStreamingTickets)
+                {
+                    return (ExtraTicketPetition != null && ExtraTicketPetition.NumberTicketsStreaming.HasValue)
+                                ? ExtraTicketPetition.NumberTicketsStreaming.Value
+                                : 0;
+                }
+
+                return 0;
             }
         }
 
