@@ -38,7 +38,7 @@ namespace Commencement.Controllers
             return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.UnauthorizedAccess));
         }
 
-        [AnyoneWithRole]
+        [EmulationUserOnly]
         public ActionResult Emulate(string loginId)
         {
             var origUser = HttpContext.User.Identity.Name;

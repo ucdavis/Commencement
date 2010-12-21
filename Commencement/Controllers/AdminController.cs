@@ -93,32 +93,40 @@ namespace Commencement.Controllers
 
             return View(viewModel);
         }
-        public ActionResult ToggleSJAStatus(Guid id)
+
+        public ActionResult Block(Guid id)
         {
             var student = _studentRepository.GetNullableById(id);
-            if (student == null) return this.RedirectToAction(a => a.Index());
+            if (student == null) return this.RedirectToAction<AdminController>(a => a.Index());
 
-            student.SjaBlock = !student.SjaBlock;
-            Repository.OfType<Student>().EnsurePersistent(student);
-
-            return this.RedirectToAction(a => a.StudentDetails(id, false));
+            return View(student);
         }
-        public ActionResult ToggleBlock(Guid id)
+        
+        [HttpPost]
+        public ActionResult Block(Guid id, bool block, string reason)
         {
             var student = _studentRepository.GetNullableById(id);
-            if (student == null) return this.RedirectToAction(a => a.Index());
+            if (student == null) return this.RedirectToAction<AdminController>(a => a.Index());
 
-            student.Blocked = !student.Blocked;
+            if (block)
+            {
+                if (reason == "sja") student.SjaBlock = true;
+                else student.Blocked = true;
+
+                Message = "Student has been blocked from the registration system.";
+            }
+            else
+            {
+                student.SjaBlock = false;
+                student.Blocked = false;
+
+                Message = "Student has been unblocked and is allowed into the system.";
+            }
+
             _studentRepository.EnsurePersistent(student);
-
             return this.RedirectToAction(a => a.StudentDetails(id, false));
         }
         #endregion
-
-
-
-
-
 
 
         /// <summary>

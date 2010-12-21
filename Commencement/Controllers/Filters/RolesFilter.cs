@@ -33,9 +33,19 @@ namespace Commencement.Controllers.Filters
         }
     }
 
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public class EmulationUserOnlyAttribute : AuthorizeAttribute
+    {
+        public EmulationUserOnlyAttribute()
+        {
+            Roles = RoleNames.RoleEmulationUser;
+        }
+    }
+
     public static class RoleNames
     {
         public static readonly string RoleAdmin = "Admin";
         public static readonly string RoleUser = "User";
+        public static readonly string RoleEmulationUser = "EmulationUser";
     }
 }

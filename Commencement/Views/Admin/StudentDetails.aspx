@@ -1,5 +1,6 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.RegistrationModel>" %>
 <%@ Import Namespace="Commencement.Controllers" %>
+<%@ Import Namespace="Commencement.Controllers.Filters" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	StudentDetails
@@ -15,15 +16,17 @@
             <%= Html.ActionLink<AdminController>(a=>a.Students(null, null, null, null), "Back to List") %>
         <% } %>
     </li>
-    <li><%= Html.ActionLink<AccountController>(a=>a.Emulate(Model.Student.Login), "Emulate") %></li>
-    
+
+    <% if (User.IsInRole(RoleNames.RoleEmulationUser)) { %>
+        <li><%= Html.ActionLink<AccountController>(a=>a.Emulate(Model.Student.Login), "Emulate") %></li>
+    <% } %>
+
     <% if (Model.Registration != null) { %>
         <li><div id="changeMajr_btn"><%= Html.ActionLink<AdminController>(a=>a.ChangeMajor(Model.Registration.Id), "Change Major") %></div></li>
         <li><div id="changeCeremony_btn"><%= Html.ActionLink<AdminController>(a=>a.ChangeCeremony(Model.Registration.Id), "Change Ceremony") %></div></li>
     <% } %>
     
-        <li><%= Html.ActionLink<AdminController>(a=>a.ToggleSJAStatus(Model.Student.Id), "Change SJA Status") %></li>
-        <li><%= Html.ActionLink<AdminController>(a=>a.ToggleBlock(Model.Student.Id), "Block from Reg") %></li>
+        <li><%: Html.ActionLink<AdminController>(a=>a.Block(Model.Student.Id), "Block from Registration") %></li>
     </ul>
 
     <% if (Model.Student.SjaBlock) { %>

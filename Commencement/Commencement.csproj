@@ -554,6 +554,7 @@
     <Content Include="Scripts\tiny_mce\utils\validate.js" />
     <Content Include="Scripts\ui.multiselect.js" />
     <Content Include="Scripts\xVal.jquery.validate.js" />
+    <Content Include="Views\Admin\Block.aspx" />
     <Content Include="Views\Admin\Index.aspx" />
     <Content Include="Views\Admin\Registrations.aspx" />
     <Content Include="Views\Admin\StudentDetails.aspx" />
