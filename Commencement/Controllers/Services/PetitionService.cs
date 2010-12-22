@@ -42,8 +42,12 @@ namespace Commencement.Controllers.Services
             var participations = _registrationParticipationRepository.Queryable.Where(a => a.Ceremony.Id == ceremonyId
                                                                                         && !a.Cancelled 
                                                                                         && a.ExtraTicketPetition != null 
-                                                                                        && a.ExtraTicketPetition.IsPending);
-            return participations.ToList();
+                                                                                        && a.ExtraTicketPetition.IsPending).ToList();
+
+            // filter more so that only ones who are valid for tickets are returned
+            participations = participations.Where(a => a.IsValidForTickets).ToList();
+
+            return participations;
         }
 
         public List<RegistrationPetition> GetPendingRegistration(string userId, TermCode termCode, List<int> ceremonyIds = null)

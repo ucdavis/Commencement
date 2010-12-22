@@ -21,6 +21,14 @@
 
     <% if (Model.Ceremony != null) { %>
         
+        <% using (Html.BeginForm("ApproveAllExtraTicketPetition", "Admin", FormMethod.Post))
+           { %>
+        
+            <%= Html.AntiForgeryToken() %>
+            <%: Html.SubmitButton("ApproveAll", "Approve All") %>
+
+        <% }%>
+
         <div id="ticketCountInline">
             <ul>
                 <li><strong>Projected Available:</strong> <span id="projectedAvailabeTickets"><%: Model.Ceremony.AvailableTickets %></span></li>

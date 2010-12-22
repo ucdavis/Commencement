@@ -47,32 +47,13 @@ namespace Commencement.Controllers
             return View();
         }
 
+        #region Extra Ticket Petitions
         [AnyoneWithRole]
         public ActionResult ExtraTicketPetitions(int? ceremonyId)
         {
             var viewModel = AdminExtraTicketPetitionViewModel.Create(Repository, _ceremonyService, _petitionService, CurrentUser, TermService.GetCurrent(), ceremonyId);
             return View(viewModel);
         }
-
-        [AnyoneWithRole]
-        public ActionResult RegistrationPetitions()
-        {
-            var viewModel = AdminPetitionsViewModel.Create(Repository, _ceremonyService, _petitionService, CurrentUser.Identity.Name, TermService.GetCurrent());
-            return View(viewModel);
-        }
-        [AnyoneWithRole]
-        public ActionResult RegistrationPetition(int id)
-        {
-            var registrationPetition = Repository.OfType<RegistrationPetition>().GetNullableById(id);
-            if (registrationPetition == null)
-            {
-                Message = "Unable to find registration petition.";
-                return this.RedirectToAction(a => a.Index());
-            }
-
-            return View(registrationPetition);
-        }
-
         [HttpPost]
         [AnyoneWithRole]
         public ActionResult DecideExtraTicketPetition(int id /* Registration Participation Id */, bool isApproved)
@@ -120,9 +101,86 @@ namespace Commencement.Controllers
             //    Message = string.Format("There was a problem saving decision for {0}", registration.Student.FullName);
             //}););););
 
-         //   return this.RedirectToAction(a => a.Index());
+            //   return this.RedirectToAction(a => a.Index());
         }
+        [AnyoneWithRole]
+        [HttpPost]
+        public JsonResult UpdateTicketAmount(int id /* Registration Participation Id */, int tickets, bool streaming)
+        {
+            var participation = Repository.OfType<RegistrationParticipation>().GetNullableById(id);
 
+            if (participation == null) return Json(new UpdateTicketModel(null, "Count not locate registration."));
+
+            var petition = participation.ExtraTicketPetition;
+            var ceremony = participation.Ceremony;
+
+            if (petition == null) return Json(new UpdateTicketModel(ceremony, "Could not find petition."));
+            if (ceremony == null) return Json("Could not find ceremony.");
+            if (!_ceremonyService.HasAccess(ceremony.Id, CurrentUser.Identity.Name)) return Json(new UpdateTicketModel(ceremony, "You do not have access to ceremony."));
+            if (!petition.IsPending) return Json(new UpdateTicketModel(ceremony, "Petition is not pending"));
+
+            if (streaming) petition.NumberTicketsStreaming = tickets > 0 ? tickets : 0;
+            else petition.NumberTickets = tickets > 0 ? tickets : 0;
+
+            Repository.OfType<ExtraTicketPetition>().EnsurePersistent(petition);
+
+            return Json(new UpdateTicketModel(ceremony, string.Empty));
+        }
+        [AnyoneWithRole]
+        [HttpPost]
+        public RedirectToRouteResult ApproveAllExtraTicketPetition(int id /* Ceremony Id */)
+        {
+            var ceremonies = _ceremonyService.GetCeremonies(CurrentUser.Identity.Name);
+            var ceremony = ceremonies.SingleOrDefault(a => a.Id == id);
+
+            // ceremony not found or user does not have access, redirect to the page so they can select a valid ceremony
+            if (ceremony == null) return this.RedirectToAction(a => a.ExtraTicketPetitions(null));
+
+            // load up all pending extra ticket petitions
+            var petitions = _petitionService.GetPendingExtraTicket(CurrentUser.Identity.Name, ceremony.Id);
+
+            var totalCount = 0;
+            var ticketCount = 0;
+            var streamingCount = 0;
+
+            // approve all
+            foreach (var a in petitions)
+            {
+                a.ExtraTicketPetition.MakeDecision(true);
+                Repository.OfType<ExtraTicketPetition>().EnsurePersistent(a.ExtraTicketPetition);
+
+                totalCount++;
+                ticketCount += a.ExtraTicketPetition.NumberTickets.HasValue ? a.ExtraTicketPetition.NumberTickets.Value : 0;
+                streamingCount += a.ExtraTicketPetition.NumberTicketsStreaming.HasValue ? a.ExtraTicketPetition.NumberTicketsStreaming.Value: 0;
+            }
+
+            Message = string.Format("You have successfully approved {0} with a total of {1} regular tickets", totalCount, ticketCount);
+            if (ceremony.HasStreamingTickets) Message += string.Format(" and a total of {0} streaming tickets.", streamingCount);
+            else Message += ".";
+
+            return this.RedirectToAction(a => a.ExtraTicketPetitions(id));
+        }
+        #endregion
+
+        #region Registration Petitions
+        [AnyoneWithRole]
+        public ActionResult RegistrationPetitions()
+        {
+            var viewModel = AdminPetitionsViewModel.Create(Repository, _ceremonyService, _petitionService, CurrentUser.Identity.Name, TermService.GetCurrent());
+            return View(viewModel);
+        }
+        [AnyoneWithRole]
+        public ActionResult RegistrationPetition(int id)
+        {
+            var registrationPetition = Repository.OfType<RegistrationPetition>().GetNullableById(id);
+            if (registrationPetition == null)
+            {
+                Message = "Unable to find registration petition.";
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            return View(registrationPetition);
+        }
         [HttpPost]
         [AnyoneWithRole]
         public ActionResult DecideRegistrationPetition(int id, bool isApproved)
@@ -191,87 +249,64 @@ namespace Commencement.Controllers
 
             return this.RedirectToAction(a => a.Index());
         }
+        #endregion
 
-        [AnyoneWithRole]
-        [HttpPost]
-        public JsonResult UpdateTicketAmount(int id /* Registration Participation Id */, int tickets, bool streaming)
-        {
-            var participation = Repository.OfType<RegistrationParticipation>().GetNullableById(id);
+        #region Student Forms
+        //[PageTrackingFilter]
+        //[Authorize]
+        //public ActionResult Register()
+        //{
+        //    // do a check to see if a student has already submitted a petition
+        //    if (Repository.OfType<RegistrationPetition>().Queryable.Where(a => a.Registration.Student.TermCode == TermService.GetCurrent() && a.Registration.Student.Login == CurrentUser.Identity.Name).Any())
+        //    {
+        //        return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.SubmittedPetition));
+        //    }
 
-            if (participation == null) return Json(new UpdateTicketModel(null, "Count not locate registration."));
+        //    //Get student info and create registration model
+        //    var viewModel = RegistrationPetitionModel.Create(Repository, _majorService, _studentService, CurrentUser);
 
-            var petition = participation.ExtraTicketPetition;
-            var ceremony = participation.Ceremony;
-            
-            if (petition == null) return Json(new UpdateTicketModel(ceremony, "Could not find petition."));
-            if (ceremony == null) return Json("Could not find ceremony.");
-            if (!_ceremonyService.HasAccess(ceremony.Id, CurrentUser.Identity.Name)) return Json(new UpdateTicketModel(ceremony, "You do not have access to ceremony."));
-            if (!petition.IsPending) return Json(new UpdateTicketModel(ceremony, "Petition is not pending"));
+        //    if (viewModel.SearchStudent == null)
+        //        return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.StudentNotFound));
 
-            if (streaming) petition.NumberTicketsStreaming = tickets > 0 ? tickets : 0;
-            else petition.NumberTickets = tickets > 0 ? tickets : 0;
+        //    return View(viewModel);
+        //}
 
-            Repository.OfType<ExtraTicketPetition>().EnsurePersistent(petition);
+        //[HttpPost]
+        //[Authorize]
+        //public ActionResult Register(RegistrationPetition registrationPetition)
+        //{
+        //    // validate the object
+        //    registrationPetition.TransferValidationMessagesTo(ModelState);
 
-            return Json(new UpdateTicketModel(ceremony, string.Empty));
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        Repository.OfType<RegistrationPetition>().EnsurePersistent(registrationPetition);
+        //        Message = "Your registration petition has been submitted.";
 
-        #region Student Forms       
-        [PageTrackingFilter]
-        [Authorize]
-        public ActionResult Register()
-        {
-            // do a check to see if a student has already submitted a petition
-            if (Repository.OfType<RegistrationPetition>().Queryable.Where(a => a.Registration.Student.TermCode == TermService.GetCurrent() && a.Registration.Student.Login == CurrentUser.Identity.Name).Any())
-            {
-                return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.SubmittedPetition));
-            }
+        //        try
+        //        {
+        //            _emailService.SendRegistrationPetitionConfirmation(registrationPetition);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            _errorService.ReportError(ex);
+        //            Message += StaticValues.Student_Email_Problem;
+        //        }
 
-            //Get student info and create registration model
-            var viewModel = RegistrationPetitionModel.Create(Repository, _majorService, _studentService, CurrentUser);
+        //        return this.RedirectToAction(a => a.RegisterConfirmation());
+        //    }
 
-            if (viewModel.SearchStudent == null)
-                return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.StudentNotFound));
+        //    var viewModel = RegistrationPetitionModel.Create(Repository, _majorService, _studentService, CurrentUser);
+        //    viewModel.RegistrationPetition = registrationPetition;
+        //    return View(viewModel);
+        //}
 
-            return View(viewModel);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult Register(RegistrationPetition registrationPetition)
-        {
-            // validate the object
-            registrationPetition.TransferValidationMessagesTo(ModelState);
-
-            if (ModelState.IsValid)
-            {
-                Repository.OfType<RegistrationPetition>().EnsurePersistent(registrationPetition);
-                Message = "Your registration petition has been submitted.";
-
-                try
-                {
-                    _emailService.SendRegistrationPetitionConfirmation(registrationPetition);
-                }
-                catch (Exception ex)
-                {
-                    _errorService.ReportError(ex);
-                    Message += StaticValues.Student_Email_Problem;
-                }
-
-                return this.RedirectToAction(a => a.RegisterConfirmation());
-            }
-
-            var viewModel = RegistrationPetitionModel.Create(Repository, _majorService, _studentService, CurrentUser);
-            viewModel.RegistrationPetition = registrationPetition;
-            return View(viewModel);
-        }
-
-        [PageTrackingFilter]
-        [Authorize]
-        public ActionResult RegisterConfirmation()
-        {
-            return View();
-        }
+        //[PageTrackingFilter]
+        //[Authorize]
+        //public ActionResult RegisterConfirmation()
+        //{
+        //    return View();
+        //}
 
         /// <summary>
         /// 

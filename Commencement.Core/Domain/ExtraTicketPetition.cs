@@ -70,6 +70,13 @@ namespace Commencement.Core.Domain
         {
             get { return (NumberTickets.HasValue ? NumberTickets.Value: 0) + (NumberTicketsStreaming.HasValue ? NumberTicketsStreaming.Value : 0); }
         }
+
+        public virtual void MakeDecision(bool isApproved)
+        {
+            IsPending = false;
+            IsApproved = isApproved;
+            DateDecision = DateTime.Now;
+        }
         #endregion
     }
 
