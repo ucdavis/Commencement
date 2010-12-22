@@ -21,12 +21,13 @@
         <li><%= Html.ActionLink<AccountController>(a=>a.Emulate(Model.Student.Login), "Emulate") %></li>
     <% } %>
 
-    <% if (Model.Registration != null) { %>
+<%--    <% if (Model.Registration != null) { %>
         <li><div id="changeMajr_btn"><%= Html.ActionLink<AdminController>(a=>a.ChangeMajor(Model.Registration.Id), "Change Major") %></div></li>
         <li><div id="changeCeremony_btn"><%= Html.ActionLink<AdminController>(a=>a.ChangeCeremony(Model.Registration.Id), "Change Ceremony") %></div></li>
-    <% } %>
+    <% } %>--%>
     
         <li><%: Html.ActionLink<AdminController>(a=>a.Block(Model.Student.Id), "Block from Registration") %></li>
+        <li><%: Html.ActionLink<AdminController>(a=>a.RegisterForStudent(Model.Student.Id), "Edit Registration") %></li>
     </ul>
 
     <% if (Model.Student.SjaBlock) { %>

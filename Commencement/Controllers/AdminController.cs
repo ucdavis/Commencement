@@ -26,8 +26,11 @@ namespace Commencement.Controllers
         private readonly IMajorService _majorService;
         private readonly ICeremonyService _ceremonyService;
         private readonly IRegistrationService _registrationService;
+        private readonly IRegistrationPopulator _registrationPopulator;
+        private readonly IRepository<Registration> _registrationRepository;
+        private readonly IErrorService _errorService;
 
-        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService, IEmailService emailService, IMajorService majorService, ICeremonyService ceremonyService, IRegistrationService registrationService)
+        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService, IEmailService emailService, IMajorService majorService, ICeremonyService ceremonyService, IRegistrationService registrationService, IRegistrationPopulator registrationPopulator, IRepository<Registration> registrationRepository, IErrorService errorService)
         {
             _studentRepository = studentRepository;
             _majorRepository = majorRepository;
@@ -36,6 +39,9 @@ namespace Commencement.Controllers
             _majorService = majorService;
             _ceremonyService = ceremonyService;
             _registrationService = registrationService;
+            _registrationPopulator = registrationPopulator;
+            _registrationRepository = registrationRepository;
+            _errorService = errorService;
         }
 
         /// <summary>
@@ -101,7 +107,6 @@ namespace Commencement.Controllers
 
             return View(student);
         }
-        
         [HttpPost]
         public ActionResult Block(Guid id, bool block, string reason)
         {
@@ -126,6 +131,79 @@ namespace Commencement.Controllers
             _studentRepository.EnsurePersistent(student);
             return this.RedirectToAction(a => a.StudentDetails(id, false));
         }
+
+        public ActionResult RegisterForStudent(Guid id)
+        {
+            var student = _studentRepository.GetNullableById(id);
+            if (student == null)
+            {
+                Message = "You tried to register a student that does not exist.";
+                return this.RedirectToAction(a => a.Students(null, null, null, null));
+            }
+
+            // check if the student has a registration already
+            var registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student).SingleOrDefault();
+
+            // load the current user's ceremonies, to determine what they can register the student for
+            var ceremonies = _ceremonyService.GetCeremonies(CurrentUser.Identity.Name);
+
+            var viewModel = RegistrationModel.Create(Repository, ceremonies, student, registration);
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult RegisterForStudent(Guid id, RegistrationPostModel registrationPostModel)
+        {
+            // load the student
+            var student = _studentRepository.GetNullableById(id);
+            if (student == null) return this.RedirectToAction(a => a.Students(null, null, null, null));
+
+            // check for an existing registration
+            var registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student && a.TermCode == TermService.GetCurrent()).SingleOrDefault();
+
+            if (registration == null)
+            {
+                registration = _registrationPopulator.PopulateRegistration(registrationPostModel, student, ModelState);
+            }
+            else
+            {
+                _registrationPopulator.UpdateRegistration(registration, registrationPostModel, student, ModelState);
+            }
+
+            registration.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                _registrationRepository.EnsurePersistent(registration);
+
+                try
+                {
+                    // add email for registration into queue
+                    _emailService.QueueRegistrationConfirmation(registration);
+                }
+                catch (Exception ex)
+                {
+                    _errorService.ReportError(ex);
+                    Message += StaticValues.Student_Email_Problem;
+                }
+
+                // put message up for student
+                Message += StaticValues.Student_Register_Successful;
+
+                return this.RedirectToAction(a => a.StudentDetails(id, false));
+            }
+
+            // load the current user's ceremonies, to determine what they can register the student for
+            var ceremonies = _ceremonyService.GetCeremonies(CurrentUser.Identity.Name);
+            var viewModel = RegistrationModel.Create(Repository, ceremonies, student, registration);
+            return View(viewModel);
+        }
+
+        public ActionResult ChangeRegistration(Guid id)
+        {          
+            return View();
+        }
+
         #endregion
 
         public ActionResult Majors()

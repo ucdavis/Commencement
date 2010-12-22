@@ -182,6 +182,7 @@
     <Compile Include="Controllers\Helpers\LabelExtensions.cs" />
     <Compile Include="Controllers\Helpers\LetterGenerator.cs" />
     <Compile Include="Controllers\Helpers\RegistrationPetitionHelper.cs" />
+    <Compile Include="Controllers\Helpers\RegistrationPopulator.cs" />
     <Compile Include="Controllers\Helpers\StringExtension.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PetitionController.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="Controllers\ViewModels\AdminExtraTicketPetitionViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminMajorsViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminPetitionsViewModel.cs" />
+    <Compile Include="Controllers\ViewModels\AdminRegisterForStudentViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminRegistrationPetitionViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeCeremonyViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeMajorViewModel.cs" />
@@ -558,6 +560,7 @@
     <Content Include="Views\Admin\Block.aspx" />
     <Content Include="Views\Admin\Index.aspx" />
     <Content Include="Views\Admin\Majors.aspx" />
+    <Content Include="Views\Admin\RegisterForStudent.aspx" />
     <Content Include="Views\Admin\Registrations.aspx" />
     <Content Include="Views\Admin\StudentDetails.aspx" />
     <Content Include="Views\Admin\Students.aspx" />
@@ -572,7 +575,10 @@
     <Content Include="Views\Petition\ExtraTicketPetitions.aspx" />
     <Content Include="Views\Petition\Register.aspx" />
     <Content Include="Views\Petition\RegistrationPetitions.aspx" />
+    <Content Include="Views\Shared\CeremonyEditPartial.ascx" />
+    <Content Include="Views\Shared\ContactEditPartial.ascx" />
     <Content Include="Views\Shared\RegistrationPetitionDisplay.ascx" />
+    <Content Include="Views\Shared\SpecialNeedsPartial.ascx" />
     <Content Include="Views\Shared\StudentInformationPartial.ascx" />
     <Content Include="Views\Shared\LogoDisplay.ascx" />
     <Content Include="Views\Shared\RegisteredCeremonyDisplay.ascx" />
@@ -688,7 +694,7 @@
     <Content Include="Views\Report\RegistrationData.aspx" />
     <Content Include="Views\Student\EditRegistration.aspx" />
     <Content Include="Views\Student\NoCeremony.aspx" />
-    <Content Include="Views\Student\RegistrationEditForm.ascx" />
+    <Content Include="Views\Shared\RegistrationEditForm.ascx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
