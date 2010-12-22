@@ -226,7 +226,7 @@ namespace Commencement.Controllers.Helpers
                 case "major":
                     Check.Require(RegistrationParticipation != null, "Registration participation is required.");
 
-                    return RegistrationParticipation.Major.MajorName;
+                    return RegistrationParticipation.Major.Name;
                 case "exceptionreason":
                     Check.Require(RegistrationPetition != null, "Registration petition is required.");
 

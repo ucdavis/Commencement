@@ -2,7 +2,7 @@
 
 <ul class="registration_form">
     <li><strong>Status: </strong><%: Model.Cancelled ? "Cancelled" : "Registered" %></li>
-    <li><strong>Major: </strong><%: Model.Major.MajorName %></li>
+    <li><strong>Major: </strong><%: Model.Major.Name %></li>
     <li><strong>Date Registered:</strong><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateRegistered) %></li>
     <li><strong>Last Update:</strong><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateUpdated) %></li>
     <li><strong>Tickets Requested:</strong><span><%= Html.Encode(Model.NumberTickets) %></span>

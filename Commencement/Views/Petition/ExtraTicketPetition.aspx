@@ -61,7 +61,7 @@
                 <% } %>
             <% } %>
             <li class="prefilled"><strong>Ceremony ID:</strong><%: participation.Ceremony.Id %></li>
-            <li class="prefilled"><strong>Major:</strong><%: participation.Major.MajorName %></li>
+            <li class="prefilled"><strong>Major:</strong><%: participation.Major.Name %></li>
             <li class="prefilled"><strong>Ceremony Time:</strong><%: participation.Ceremony.DateTime.ToString("g") %></li>
             <li class="prefilled"><strong># Original Tickets Requested:</strong><%: participation.NumberTickets %></li>
 

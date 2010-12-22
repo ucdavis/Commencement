@@ -26,7 +26,7 @@
         <li class="prefilled"><strong>Name:</strong><span><%= Html.Encode(Model.SearchStudent.FullName) %></span></li>
         <li class="prefilled"><strong>Email:</strong><span><%= Html.Encode(Model.SearchStudent.Email) %></span></li>
         <li class="prefilled"><strong>Units Complted:</strong><span><%= Html.Encode(Model.SearchStudent.HoursEarned)%></span> <span>224.5</span> </li>
-        <li class="prefilled"><strong>Major:</strong><span><%= Html.Encode(Model.MajorName)%></span></li>
+        <li class="prefilled"><strong>Major:</strong><span><%= Html.Encode(Model.Name)%></span></li>
     </ul>
     
     <h2>Petition Information</h2>

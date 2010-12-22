@@ -74,7 +74,7 @@
 
     <% foreach (var a in Model.Participations) { %>
         <fieldset>
-            <legend>Commencement for <%: a.Major.MajorName %></legend>
+            <legend>Commencement for <%: a.Major.Name %></legend>
 
             <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Ceremony", a.Index), a.Ceremony.Id) %>
             <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Major", a.Index), a.Major.Id) %>
@@ -128,7 +128,7 @@
                     <strong>Date/Time: </strong> <%: a.Ceremony.DateTime.ToString("g") %>
                 </li>
                 <li>
-                    <strong>Major: </strong><%: a.Major.MajorName %>
+                    <strong>Major: </strong><%: a.Major.Name %>
                 </li>
                 <li>
                     <strong>Tickets Requested:</strong>

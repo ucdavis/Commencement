@@ -15,11 +15,11 @@
             <%: a.Ceremony.DateTime.ToString("g") %>
         </div>
 
-        <% Html.Grid(a.MajorCounts.OrderBy(b=>b.Major.MajorName))
+        <% Html.Grid(a.MajorCounts.OrderBy(b=>b.Major.Name))
                .Name(a.Ceremony.Id.ToString())
                .Columns(col =>
                             {
-                                col.Bound(b => b.Major.MajorName);
+                                col.Bound(b => b.Major.Name);
                                 col.Bound(b => b.TotalTickets);
                                 col.Bound(b => b.TotalStreaming);
                                 col.Bound(b => b.ProjectedTickets);

@@ -103,7 +103,7 @@
                                      col.Bound(a => a.Registration.Student.FirstName);
                                      col.Bound(a => a.Registration.MailTickets);
                                      col.Bound(a => a.NumberTickets);
-                                     col.Bound(a => a.Major.MajorName).Title("Major");
+                                     col.Bound(a => a.Major.Name).Title("Major");
                                  })
                     .DataBinding(binding=>binding.Server().Select<AdminController>(a=>a.Registrations(Model.studentidFilter, Model.lastNameFilter, Model.firstNameFilter, Model.majorCodeFilter, Model.ceremonyFilter, Model.collegeFilter)))
                     .Sortable(s=>s.OrderBy(a=>a.Add(b=>b.Registration.Student.LastName)))

@@ -40,7 +40,7 @@
         <li><strong>Student Id:</strong><%= Html.Encode(Model.Registration.Student.StudentId) %></li>
         <li><strong>Email:</strong><%= Html.Encode(Model.Registration.Student.Email) %></li>
         <% if (!string.IsNullOrEmpty(Model.Registration.Email)) { %><li><strong>Secondary Email:</strong><%: Html.Encode(Model.Registration.Email) %></li><% } %>
-        <li><strong>Major:</strong><%= Html.Encode(Model.MajorCode.MajorName) %></li>
+        <li><strong>Major:</strong><%= Html.Encode(Model.MajorCode.Name) %></li>
         <li><strong>Units:</strong><%= Html.Encode(Model.Registration.Student.TotalUnits)%></li>
         <li><strong>Ceremony:</strong><%: Model.Ceremony.DateTime.ToString("g") %></li>
     </ul>

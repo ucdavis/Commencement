@@ -31,7 +31,7 @@
                                          <% });
                              col.Bound(a => a.Registration.Student.LastName);
                              col.Bound(a => a.Registration.Student.FirstName);
-                             col.Bound(a => a.MajorCode.MajorName);
+                             col.Bound(a => a.MajorCode.Name);
                              col.Bound(a => a.Ceremony.DateTime).Title("Ceremony");
                              col.Bound(a => a.NumberTickets);
                              col.Bound(a => a.DateSubmitted);
