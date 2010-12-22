@@ -11,7 +11,7 @@
 
     <% foreach (var a in Model.CeremonyCounts) { %>
 
-        <div style="border-bottom: 1px solid lightgray;">
+        <div style="border-bottom: 1px solid lightgray; margin-bottom: 10px; margin-top:10px;">
             <%: a.Ceremony.DateTime.ToString("g") %>
         </div>
 

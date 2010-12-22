@@ -39,7 +39,10 @@ namespace Commencement.Controllers.ViewModels
                     majorCount.ProjectedTickets = participations.Where(c => c.Major == b).Sum(c => c.ProjectedTickets);
                     majorCount.ProjectedStreamingTickets = participations.Where(c => c.Major == b).Sum(c => c.ProjectedStreamingTickets);
 
-                    ceremonyCount.MajorCounts.Add(majorCount);
+                    if (majorCount.TotalTickets > 0 || majorCount.TotalStreaming > 0 || majorCount.ProjectedTickets > 0 || majorCount.ProjectedStreamingTickets > 0)
+                    {
+                        ceremonyCount.MajorCounts.Add(majorCount);
+                    }
                 }
 
                 viewModel.CeremonyCounts.Add(ceremonyCount);
