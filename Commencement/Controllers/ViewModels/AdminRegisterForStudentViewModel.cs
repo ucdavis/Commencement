@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
+using Commencement.Controllers.Services;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -8,21 +10,23 @@ namespace Commencement.Controllers.ViewModels
 {
     public class AdminRegisterForStudentViewModel
     {
-        public Registration Registration { get; set; }
-        public Student Student { get; set; }
-        public IEnumerable<Ceremony> Ceremonies { get; set; }
-        public IEnumerable<MajorCode> Majors { get; set; }
-        public IEnumerable<MajorCode> AvailableMajors { get; set; } // Majors the user is allowed to register for the student
-        public IEnumerable<State> States { get; set; }
-        public MultiSelectList SpecialNeeds { get; set; }
-        public IEnumerable<CeremonyParticipation> Participations { get; set; }
+        public RegistrationModel RegistrationModel { get; set; }
 
-        public static AdminRegisterForStudentViewModel Create(IRepository repository)
+        public SelectList Majors { get; set; }
+        public SelectList Ceremonies { get; set; }
+
+        public static AdminRegisterForStudentViewModel Create(IRepository repository, RegistrationModel registrationModel)
         {
             Check.Require(repository != null, "Repository is required.");
+            Check.Require(registrationModel != null, "registrationModel is required.");
 
-            var viewModel = new AdminRegisterForStudentViewModel();
-
+            var viewModel = new AdminRegisterForStudentViewModel()
+            {
+                RegistrationModel = registrationModel,
+                Majors = new SelectList(repository.OfType<MajorCode>().GetAll(), "Id", "Name"),
+                Ceremonies = new SelectList(repository.OfType<Ceremony>().Queryable.Where(a=>a.TermCode == TermService.GetCurrent()).ToList(), "Id", "DateTime")
+            };
+            
             return viewModel;
         }
     }

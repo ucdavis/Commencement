@@ -189,7 +189,7 @@ namespace Commencement.Controllers
             }
 
             //Get student info and create registration model
-            var viewModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(student.Majors.ToList(), student.TotalUnits), student: student, registration: registration, edit: true);            
+            var viewModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.GetCeremonies(CurrentUser.Identity.Name), student: student, registration: registration, edit: true);            
             
             return View(viewModel);
         }

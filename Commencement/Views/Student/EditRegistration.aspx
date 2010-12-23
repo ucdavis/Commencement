@@ -9,7 +9,7 @@
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
 
     <ul class="btn">
-        <li><%: Html.ActionLink<StudentController>(a=>a.DisplayRegistration(Model.Registration.Id), "Back") %></li>
+        <li><%: Html.ActionLink<StudentController>(a=>a.DisplayRegistration(), "Back") %></li>
     </ul>
 
     <p>

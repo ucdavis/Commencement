@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
@@ -142,12 +143,14 @@ namespace Commencement.Controllers
             }
 
             // check if the student has a registration already
-            var registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student).SingleOrDefault();
+            var registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student && a.TermCode == TermService.GetCurrent()).SingleOrDefault();
 
             // load the current user's ceremonies, to determine what they can register the student for
             var ceremonies = _ceremonyService.GetCeremonies(CurrentUser.Identity.Name);
 
-            var viewModel = RegistrationModel.Create(Repository, ceremonies, student, registration);
+            //var viewModel = RegistrationModel.Create(Repository, ceremonies, student, registration);
+            var registrationModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(student.Majors.ToList(), student.TotalUnits), student: student, registration: registration, edit: true);
+            var viewModel = AdminRegisterForStudentViewModel.Create(Repository, registrationModel);
             return View(viewModel);
         }
 
@@ -163,11 +166,11 @@ namespace Commencement.Controllers
 
             if (registration == null)
             {
-                registration = _registrationPopulator.PopulateRegistration(registrationPostModel, student, ModelState);
+                registration = _registrationPopulator.PopulateRegistration(registrationPostModel, student, ModelState, true);
             }
             else
             {
-                _registrationPopulator.UpdateRegistration(registration, registrationPostModel, student, ModelState);
+                _registrationPopulator.UpdateRegistration(registration, registrationPostModel, student, ModelState, true);
             }
 
             registration.TransferValidationMessagesTo(ModelState);
@@ -194,14 +197,9 @@ namespace Commencement.Controllers
             }
 
             // load the current user's ceremonies, to determine what they can register the student for
-            var ceremonies = _ceremonyService.GetCeremonies(CurrentUser.Identity.Name);
-            var viewModel = RegistrationModel.Create(Repository, ceremonies, student, registration);
+            var registrationModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(student.Majors.ToList(), student.TotalUnits), student: student, registration: registration, edit: true);
+            var viewModel = AdminRegisterForStudentViewModel.Create(Repository, registrationModel);
             return View(viewModel);
-        }
-
-        public ActionResult ChangeRegistration(Guid id)
-        {          
-            return View();
         }
 
         #endregion
@@ -213,62 +211,6 @@ namespace Commencement.Controllers
         }
 
         #region Stuff to be Reviewed
-        /// <summary>
-        /// Change the major on a registration
-        /// </summary>
-        /// <param name="id">Registration Id</param>
-        /// <returns></returns>
-        public ActionResult ChangeMajor(int id)
-        {
-            var registration = Repository.OfType<Registration>().GetNullableById(id);
-            if (registration == null) return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null));
-
-            var viewModel = ChangeMajorViewModel.Create(Repository, _majorService, registration, _ceremonyService.GetCeremonies(CurrentUser.Identity.Name));
-            return View(viewModel);
-        }
-        [HttpPost]
-        public ActionResult ChangeMajor(int id, string majorCode)
-        {
-            var registration = Repository.OfType<Registration>().GetNullableById(id);
-            var major = _majorRepository.GetNullableById(majorCode);
-            if (registration == null || major == null)
-            {
-                Message = "Registration or major information was missing.";
-                return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null));
-            }
-
-            registration.RegistrationParticipations[0].Major = major;
-            //registration.College = major.College;
-
-            var ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == TermService.GetCurrent() && a.Majors.Contains(major)).FirstOrDefault();
-            //if (!CeremonyHasAvailability(ceremony, registration)) ModelState.AddModelError("Major Code", ValidateMajorChange(registration, major));
-            //var validationMessages = ValidateMajorChange(registration, major);
-            //if(!string.IsNullOrEmpty(validationMessages))
-            //{
-            //    ModelState.AddModelError("Major Code", validationMessages); //TODO: Review
-            //}
-            if (!CeremonyHasAvailability(ceremony, registration))
-            {
-                //registration.Ceremony = ceremony;
-                ModelState.AddModelError("Ceremony", "Ceremony does not have enough tickets to move this student.");
-            }
-            else
-            {
-                registration.RegistrationParticipations[0].Ceremony = ceremony;
-            }
-
-            registration.TransferValidationMessagesTo(ModelState);
-
-            if (ModelState.IsValid)
-            {
-                Repository.OfType<Registration>().EnsurePersistent(registration);
-
-                return this.RedirectToAction<AdminController>(a => a.StudentDetails(registration.Student.Id, true));
-            }
-
-            var viewModel = ChangeMajorViewModel.Create(Repository, _majorService, registration, _ceremonyService.GetCeremonies(CurrentUser.Identity.Name));
-            return View(viewModel);
-        }
         /// <summary>
         /// 
         /// </summary>
@@ -372,120 +314,82 @@ namespace Commencement.Controllers
             }
 
             return View(newStudent);
-        }
-
-
-
-        public ActionResult ChangeCeremony(int id)
-        {
-            var registration = Repository.OfType<Registration>().GetNullableById(id);
-            if (registration == null) return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null));
-
-            var viewModel = ChangeCeremonyViewModel.Create(Repository, registration);
-            return View(viewModel);
-        }
-        [HttpPost]
-        public ActionResult ChangeCeremony(int id, int ceremonyId)
-        {
-            var registration = Repository.OfType<Registration>().GetNullableById(id);
-            var ceremony = Repository.OfType<Ceremony>().GetNullableById(ceremonyId);
-
-            if (registration == null || ceremony == null)
-            {
-                Message = "Registration or ceremony information was missing.";
-                return this.RedirectToAction(a => a.Students(null, null, null, null));
-            }
-            registration.RegistrationParticipations[0].Ceremony = ceremony;
-
-            if (!CeremonyHasAvailability(ceremony, registration)) ModelState.AddModelError("Major Code", ValidateAvailabilityAtCeremony(ceremony, registration));
-
-            registration.TransferValidationMessagesTo(ModelState);
-
-            if (ModelState.IsValid)
-            {
-                Repository.OfType<Registration>().EnsurePersistent(registration);
-
-                return this.RedirectToAction<AdminController>(a => a.StudentDetails(registration.Student.Id, true));
-            }
-
-            var viewModel = ChangeMajorViewModel.Create(Repository, _majorService, registration, _ceremonyService.GetCeremonies(CurrentUser.Identity.Name));
-            return View(viewModel);
-        }
-        
+        }      
 
         #region Validation Functions for Changing Registration
-        public JsonResult ChangeMajorValidation(int regId, string major)
-        {
-            var majorCode = _majorRepository.GetNullableById(major);
-            var registration = Repository.OfType<Registration>().GetNullableById(regId);
+        //public JsonResult ChangeMajorValidation(int regId, string major)
+        //{
+        //    var majorCode = _majorRepository.GetNullableById(major);
+        //    var registration = Repository.OfType<Registration>().GetNullableById(regId);
 
-            var message = ValidateMajorChange(registration, majorCode);
+        //    var message = ValidateMajorChange(registration, majorCode);
 
-            if (string.IsNullOrEmpty(message)) message = "There are no problems changing this student's major.";
+        //    if (string.IsNullOrEmpty(message)) message = "There are no problems changing this student's major.";
 
-            return Json(message, JsonRequestBehavior.AllowGet);
-        }
-        private string ValidateMajorChange(Registration registration, MajorCode majorCode)
-        {
-            var term = TermService.GetCurrent();
+        //    return Json(message, JsonRequestBehavior.AllowGet);
+        //}
+        //private string ValidateMajorChange(Registration registration, MajorCode majorCode)
+        //{
+        //    var term = TermService.GetCurrent();
 
-            Check.Require(term != null, "Unable to locate current term.");
-            Check.Require(majorCode != null, "Major code is required to check validation.");
-            Check.Require(registration != null, "Registration is required.");
+        //    Check.Require(term != null, "Unable to locate current term.");
+        //    Check.Require(majorCode != null, "Major code is required to check validation.");
+        //    Check.Require(registration != null, "Registration is required.");
 
-            var ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == term && a.Majors.Contains(majorCode)).FirstOrDefault();
-            return ValidateAvailabilityAtCeremony(ceremony, registration);
-        }
-        public JsonResult ChangeCeremonyValidation(int regId, int ceremonyId)
-        {
-            var registration = Repository.OfType<Registration>().GetNullableById(regId);
-            var ceremony = Repository.OfType<Ceremony>().GetNullableById(ceremonyId);
+        //    var ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == term && a.Majors.Contains(majorCode)).FirstOrDefault();
+        //    return ValidateAvailabilityAtCeremony(ceremony, registration);
+        //}
+        //public JsonResult ChangeCeremonyValidation(int regId, int ceremonyId)
+        //{
+        //    var registration = Repository.OfType<Registration>().GetNullableById(regId);
+        //    var ceremony = Repository.OfType<Ceremony>().GetNullableById(ceremonyId);
 
-            Check.Require(registration != null, "Registration is required.");
-            Check.Require(ceremony != null, "Ceremony is required.");
+        //    Check.Require(registration != null, "Registration is required.");
+        //    Check.Require(ceremony != null, "Ceremony is required.");
 
-            var message = ValidateAvailabilityAtCeremony(ceremony, registration);
-            if (string.IsNullOrEmpty(message)) message = "This is the student's currently assigned ceremony.";
+        //    var message = ValidateAvailabilityAtCeremony(ceremony, registration);
+        //    if (string.IsNullOrEmpty(message)) message = "This is the student's currently assigned ceremony.";
 
-            return Json(message, JsonRequestBehavior.AllowGet);
-        }
-        private string ValidateAvailabilityAtCeremony(Ceremony ceremony, Registration registration)
-        {
-            StringBuilder message = new StringBuilder();
+        //    return Json(message, JsonRequestBehavior.AllowGet);
+        //}
+        //private string ValidateAvailabilityAtCeremony(Ceremony ceremony, Registration registration)
+        //{
+        //    StringBuilder message = new StringBuilder();
 
-            if (ceremony == null) message.Append("There is no matching ceremony for the current term with the major specified.");
-            else if (ceremony != registration.RegistrationParticipations[0].Ceremony)
-            {
-                if (ceremony.AvailableTickets - registration.TotalTickets >= 0)
-                {
-                    message.Append("There are enough tickets to move this students major.");
-                    message.Append("Student will be moved into a different ceremony if you proceed.");
-                }
-                else
-                {
-                    message.Append("There are not enough tickets to move this student to the ceremony.");                     
-                }
+        //    if (ceremony == null) message.Append("There is no matching ceremony for the current term with the major specified.");
+        //    else if (ceremony != registration.RegistrationParticipations[0].Ceremony)
+        //    {
+        //        if (ceremony.AvailableTickets - registration.TotalTickets >= 0)
+        //        {
+        //            message.Append("There are enough tickets to move this students major.");
+        //            message.Append("Student will be moved into a different ceremony if you proceed.");
+        //        }
+        //        else
+        //        {
+        //            message.Append("There are not enough tickets to move this student to the ceremony.");                     
+        //        }
 
                 
-            }
+        //    }
 
-            return message.ToString();
-        }
+        //    return message.ToString();
+        //}
 
-        private bool CeremonyHasAvailability(Ceremony ceremony, Registration registration)
-        {
-            Check.Require(ceremony != null, "Ceremony is required.");
-            Check.Require(registration != null, "Registration is required.");
+        //private bool CeremonyHasAvailability(Ceremony ceremony, Registration registration)
+        //{
+        //    Check.Require(ceremony != null, "Ceremony is required.");
+        //    Check.Require(registration != null, "Registration is required.");
 
-            if (ceremony != registration.RegistrationParticipations[0].Ceremony)
-            {
-                if (ceremony.AvailableTickets - registration.TotalTickets > 0) return true;
-                return false;
-            }
+        //    if (ceremony != registration.RegistrationParticipations[0].Ceremony)
+        //    {
+        //        if (ceremony.AvailableTickets - registration.TotalTickets > 0) return true;
+        //        return false;
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
         #endregion
         #endregion
     }
+
 }

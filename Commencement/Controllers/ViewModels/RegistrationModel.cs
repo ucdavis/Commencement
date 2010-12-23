@@ -46,50 +46,71 @@ namespace Commencement.Controllers.ViewModels
                 var major = viewModel.Student.Majors[i];
                 var ceremony = viewModel.Ceremonies.Where(a => a.Majors.Contains(major)).FirstOrDefault();
 
-                if (ceremony != null)
+                var part = CreateCeremonyParticipation(i, edit, student, major, ceremony, registration, ceremonyParticipations);
+                if (part != null) participations.Add(part);
+            }
+
+            if (registration != null)
+            {
+                foreach (var a in registration.RegistrationParticipations)
                 {
-                    var part = new CeremonyParticipation();
-                    part.Index = i;
-                    part.Major = major;
-                    part.Ceremony = ceremony;
-                    part.Edit = edit;
-                    part.NeedsPetition = student.TotalUnits < ceremony.MinUnits && student.TotalUnits >= ceremony.PetitionThreshold;
-
-                    if (ceremonyParticipations != null)
+                    if (!participations.Any(b => b.Major == a.Major))
                     {
-                        var existingPart =
-                            ceremonyParticipations.Where(a => a.Ceremony == ceremony && a.Major == major).FirstOrDefault
-                                ();
-                        if (existingPart != null)
-                        {
-                            part.Tickets = existingPart.Tickets;
-                            part.Participate = existingPart.Participate;
-                            part.Cancel = existingPart.Cancel;
-                            part.NeedsPetition = existingPart.NeedsPetition;
-                        }
+                        var part = CreateCeremonyParticipation(participations.Count, edit, student, a.Major, a.Ceremony, registration, null);
+                        if (part != null) participations.Add(part);
                     }
-
-                    if (registration != null)
-                    {
-                        var regPart =
-                            registration.RegistrationParticipations.Where(
-                                a => a.Ceremony == ceremony && a.Major == major).FirstOrDefault();
-                        if (regPart != null)
-                        {
-                            part.Tickets = regPart.NumberTickets;
-                            part.Participate = !regPart.Cancelled;
-                            part.Cancel = regPart.Cancelled;
-                            part.NeedsPetition = false;                  // registered, don't need to petition
-                        }
-                    }
-
-                    participations.Add(part);
                 }
             }
 
             viewModel.Participations = participations;
 
             return viewModel;
+        }
+
+        private static CeremonyParticipation CreateCeremonyParticipation(int index, bool edit, Student student, MajorCode major, Ceremony ceremony, Registration registration, List<CeremonyParticipation> ceremonyParticipations)
+        {
+            if (ceremony != null)
+            {
+                var part = new CeremonyParticipation();
+                part.Index = index;
+                part.Major = major;
+                part.Ceremony = ceremony;
+                part.Edit = edit;
+                part.NeedsPetition = student.TotalUnits < ceremony.MinUnits && student.TotalUnits >= ceremony.PetitionThreshold;
+
+                if (ceremonyParticipations != null)
+                {
+                    var existingPart =
+                        ceremonyParticipations.Where(a => a.Ceremony == ceremony && a.Major == major).FirstOrDefault
+                            ();
+                    if (existingPart != null)
+                    {
+                        part.Tickets = existingPart.Tickets;
+                        part.Participate = existingPart.Participate;
+                        part.Cancel = existingPart.Cancel;
+                        part.NeedsPetition = existingPart.NeedsPetition;
+                    }
+                }
+
+                if (registration != null)
+                {
+                    var regPart =
+                        registration.RegistrationParticipations.Where(
+                            a => a.Ceremony == ceremony && a.Major == major).FirstOrDefault();
+                    if (regPart != null)
+                    {
+                        part.ParticipationId = regPart.Id;
+                        part.Tickets = regPart.NumberTickets;
+                        part.Participate = !regPart.Cancelled;
+                        part.Cancel = regPart.Cancelled;
+                        part.NeedsPetition = false;                  // registered, don't need to petition
+                    }
+                }
+
+                return part;
+            }
+
+            return null;
         }
     }
 
@@ -101,6 +122,8 @@ namespace Commencement.Controllers.ViewModels
             Cancel = false;
             Edit = false;
         }
+
+        public int? ParticipationId { get; set; }
 
         public int Index { get; set; }
         public bool Participate { get; set; }   // if this should be just a regular participation

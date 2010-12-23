@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.RegistrationModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.AdminRegisterForStudentViewModel>" %>
 <%@ Import Namespace="Commencement.Controllers" %>
 <%@ Import Namespace="Commencement.Core.Resources" %>
 
@@ -10,7 +10,7 @@
 
     <ul class="btn">
         <li>
-            <%= Html.ActionLink<AdminController>(a=>a.StudentDetails(Model.Student.Id, null), "Back to Student") %>
+            <%= Html.ActionLink<AdminController>(a=>a.StudentDetails(Model.RegistrationModel.Student.Id, null), "Back to Student") %>
         </li>
     </ul>
 
@@ -23,21 +23,19 @@
         <%= Html.AntiForgeryToken() %>
 
         <h2>Student Information</h2>
-        <% Html.RenderPartial("StudentInformationPartial", Model.Student); %>
+        <% Html.RenderPartial("StudentInformationPartial", Model.RegistrationModel.Student); %>
     
         <h2>Contact Information</h2>    
-        <% Html.RenderPartial("ContactEditPartial"); %>        
+        <% Html.RenderPartial("ContactEditPartial", Model.RegistrationModel); %>        
 
         <h2>Ceremony Information</h2>
-        <%--<% Html.RenderPartial("CeremonyEditPartial"); %>--%>
-        <% foreach (var a in Model.Participations) { %>
-
-            <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Ceremony", a.Index), a.Ceremony.Id) %>
-            <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Major", a.Index), a.Major.Id) %>
-            <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].NeedsPetition", a.Index), a.NeedsPetition) %>
+        <% foreach (var a in Model.RegistrationModel.Participations) { %>
 
             <fieldset>
                 <legend>Commencement for <%: a.Major.Name %></legend>
+
+                <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].NeedsPetition", a.Index), a.NeedsPetition) %>
+                <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].ParticipationId", a.Index), a.ParticipationId) %>
 
                 <ul class="registration_form">
                 <% if (a.NeedsPetition) { %>
@@ -45,7 +43,7 @@
                         This student does not meet requirements for registration for this ceremony and would normally be required to petition.
                     </li>
                 <% } %>
-                <% if (!a.Edit) { %>
+                <% if (!a.ParticipationId.HasValue) { %>
                     <li>
                         <input type="checkbox" id="<%: string.Format("ceremonyParticipations[{0}]_Participate", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Participate", a.Index) %>" value="true" <%: a.Participate ? "checked" : string.Empty %> />
                         Register for this ceremony
@@ -61,19 +59,22 @@
                 <% } %>
 
                 <li>
-                    <strong>Date/Time: </strong> <%: a.Ceremony.DateTime.ToString("g") %>
+                    <strong>Date/Time: </strong> <%--<%: a.Ceremony.DateTime.ToString("g") %>--%>
+
+                    <%= this.Select(string.Format("ceremonyParticipations[{0}].Ceremony", a.Index)).Options(Model.Ceremonies).Selected(a.Ceremony.Id)%>
+
                 </li>
                 <li>
-                    <strong>Major: </strong><%: a.Major.Name %>
+                    <strong>Major: </strong><%--<%: a.Major.Name %>--%>
+
+                    <%= this.Select(string.Format("ceremonyParticipations[{0}].Major", a.Index)).Options(Model.Majors).Selected(a.Major.Id) %>
+
                 </li>
                 <li>
                     <strong>Tickets Requested:</strong>
 
                     <select id="<%: string.Format("ceremonyParticipations[{0}]_Tickets", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Tickets", a.Index) %>" >
                         <% for (int i = 1; i < a.Ceremony.TicketsPerStudent; i++) { %>
-                            <% if (i == a.Tickets) { %>
-                            <% } %>
-
                             <option value="<%: i %>" <%: i == a.Tickets ? "selected=\"selected\"" : string.Empty %> ><%: string.Format("{0:00}", i) %></option>
                         <% } %>
                     </select>
@@ -84,11 +85,11 @@
 
 
         <h2>Special Needs</h2>
-        <% Html.RenderPartial("SpecialNeedsPartial"); %>
+        <% Html.RenderPartial("SpecialNeedsPartial", Model.RegistrationModel); %>
     
         <h3>
         <div class="legaldisclaimer">
-        <%= Html.CheckBox("gradTrack", Model.Registration.GradTrack) %><label for="gradTrack">Student has authorized information to be released to Grad Track</label>
+        <%= Html.CheckBox("gradTrack", Model.RegistrationModel.Registration.GradTrack) %><label for="gradTrack">Student has authorized information to be released to Grad Track</label>
         </div>
         </h3>
 

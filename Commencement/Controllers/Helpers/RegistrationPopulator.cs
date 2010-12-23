@@ -14,8 +14,8 @@ namespace Commencement.Controllers.Helpers
 {
     public interface IRegistrationPopulator
     {
-        Registration PopulateRegistration(RegistrationPostModel registrationPostModel, Student student, ModelStateDictionary modelState);
-        void UpdateRegistration(Registration registration, RegistrationPostModel registrationPostModel, Student student, ModelStateDictionary modelState);
+        Registration PopulateRegistration(RegistrationPostModel registrationPostModel, Student student, ModelStateDictionary modelState, bool adminUpdate = false);
+        void UpdateRegistration(Registration registration, RegistrationPostModel registrationPostModel, Student student, ModelStateDictionary modelState, bool adminUpdate = false);
     }
 
     public class RegistrationPopulator : IRegistrationPopulator
@@ -33,7 +33,7 @@ namespace Commencement.Controllers.Helpers
             _registrationPetitionRepository = registrationPetitionRepository;
         }
 
-        public Registration PopulateRegistration(RegistrationPostModel registrationPostModel, Student student, ModelStateDictionary modelState)
+        public Registration PopulateRegistration(RegistrationPostModel registrationPostModel, Student student, ModelStateDictionary modelState, bool adminUpdate = false)
         {
             // setup variables to be used for this method
             var ceremonyParticipations = registrationPostModel.CeremonyParticipations;
@@ -48,18 +48,18 @@ namespace Commencement.Controllers.Helpers
             registration.GradTrack = registrationPostModel.GradTrack;
 
             ValidateCeremonyParticipations(ceremonyParticipations, modelState);
-            AddCeremonyParticipations(registration, ceremonyParticipations, modelState);
+            AddCeremonyParticipations(registration, ceremonyParticipations, modelState, adminUpdate);
             AddRegistrationPetitions(registration, ceremonyParticipations, modelState);
 
             return registration;
         }
 
-        public void UpdateRegistration(Registration registration, RegistrationPostModel registrationPostModel, Student student, ModelStateDictionary modelState)
+        public void UpdateRegistration(Registration registration, RegistrationPostModel registrationPostModel, Student student, ModelStateDictionary modelState, bool adminUpdate = false)
         {
             CopyHelper.CopyRegistrationValues(registrationPostModel.Registration, registration);
 
             NullOutBlankFields(registration);
-            UpdateCeremonyParticipations(registration, registrationPostModel.CeremonyParticipations, modelState);
+            UpdateCeremonyParticipations(registration, registrationPostModel.CeremonyParticipations, modelState, adminUpdate);
             AddRegistrationPetitions(registration, registrationPostModel.CeremonyParticipations, modelState);
         }
 
@@ -78,32 +78,46 @@ namespace Commencement.Controllers.Helpers
             return _specialNeedsRepository.Queryable.Where(a => needs.Contains(a.Id)).ToList();
         }
 
-        private void AddCeremonyParticipations(Registration registration, List<CeremonyParticipation> ceremonyParticipations, ModelStateDictionary modelState, bool bypassDate = false)
+        private void AddCeremonyParticipations(Registration registration, List<CeremonyParticipation> ceremonyParticipations, ModelStateDictionary modelState, bool adminUpdate = false)
         {
             ValidateCeremonyParticipations(ceremonyParticipations, modelState);
 
             foreach (var a in ceremonyParticipations)
             {
-                if (a.Participate && (bypassDate || a.Ceremony.RegistrationBegin < DateTime.Now && a.Ceremony.RegistrationDeadline > DateTime.Now))
+                if (a.Participate && (adminUpdate || a.Ceremony.RegistrationBegin < DateTime.Now && a.Ceremony.RegistrationDeadline > DateTime.Now))
                 {
                     registration.AddParticipation(a.Major, a.Ceremony, a.Tickets);
                 }
             }
         }
 
-        private void UpdateCeremonyParticipations(Registration registration, List<CeremonyParticipation> ceremonyParticipations, ModelStateDictionary modelState, bool bypassDate = false)
+        private void UpdateCeremonyParticipations(Registration registration, List<CeremonyParticipation> ceremonyParticipations, ModelStateDictionary modelState, bool adminUpdate = false)
         {
             ValidateCeremonyParticipations(ceremonyParticipations, modelState);
 
             foreach (var a in ceremonyParticipations)
             {
-                var rp = registration.RegistrationParticipations.Where(b => b.Major == a.Major && b.Ceremony == a.Ceremony).FirstOrDefault();
-                if (rp == null && a.Participate && !a.Cancel) registration.AddParticipation(a.Major, a.Ceremony, a.Tickets);
-                else
+                //var rp = registration.RegistrationParticipations.Where(b => b.Major == a.Major && b.Ceremony == a.Ceremony).FirstOrDefault();
+                var rp = registration.RegistrationParticipations.Where(b => b.Id == a.ParticipationId).SingleOrDefault();
+
+                // only allow updates within registration times or during an admin update
+                if (adminUpdate || a.Ceremony.RegistrationBegin < DateTime.Now && a.Ceremony.RegistrationDeadline > DateTime.Now)
                 {
-                    rp.Cancelled = a.Participate ? !a.Participate : a.Cancel;
-                    rp.DateUpdated = DateTime.Now;
-                    rp.NumberTickets = a.Tickets;
+                    // case where we are newly registering
+                    if (rp == null && a.Participate && !a.Cancel) registration.AddParticipation(a.Major, a.Ceremony, a.Tickets);
+                    // case where we are cancelling
+                    else if (rp != null)
+                    {
+                        rp.Cancelled = a.Participate ? !a.Participate : a.Cancel;
+                        rp.DateUpdated = DateTime.Now;
+                        rp.NumberTickets = a.Tickets;
+
+                        if (adminUpdate)
+                        {
+                            rp.Major = a.Major;
+                            rp.Ceremony = a.Ceremony;
+                        }
+                    }
                 }
             }
         }
@@ -119,7 +133,7 @@ namespace Commencement.Controllers.Helpers
                 // check for existing registration
                 var existingParticipation = !_participationRepository.Queryable.Any(b => b.Ceremony == a.Ceremony && b.Registration.Student == registration.Student);
 
-                if (existingPetition && existingParticipation)
+                if (existingPetition && existingParticipation && (a.Ceremony.RegistrationBegin < DateTime.Now && a.Ceremony.RegistrationDeadline > DateTime.Now))
                 {
                     var petition = new RegistrationPetition(registration, a.Major, a.Ceremony, a.PetitionReason, a.CompletionTerm, a.Tickets);
                     petition.TransferUnitsFrom = string.IsNullOrEmpty(a.TransferCollege) ? null : a.TransferCollege;
