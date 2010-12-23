@@ -11,9 +11,8 @@ namespace Commencement.Controllers.ViewModels
     public class AdminRegisterForStudentViewModel
     {
         public RegistrationModel RegistrationModel { get; set; }
-
-        public SelectList Majors { get; set; }
-        public SelectList Ceremonies { get; set; }
+        public IEnumerable<MajorCode> Majors { get; set; }
+        public IEnumerable<Ceremony> Ceremonies { get; set; }
 
         public static AdminRegisterForStudentViewModel Create(IRepository repository, RegistrationModel registrationModel)
         {
@@ -23,8 +22,8 @@ namespace Commencement.Controllers.ViewModels
             var viewModel = new AdminRegisterForStudentViewModel()
             {
                 RegistrationModel = registrationModel,
-                Majors = new SelectList(repository.OfType<MajorCode>().GetAll(), "Id", "Name"),
-                Ceremonies = new SelectList(repository.OfType<Ceremony>().Queryable.Where(a=>a.TermCode == TermService.GetCurrent()).ToList(), "Id", "DateTime")
+                Majors = repository.OfType<MajorCode>().GetAll(),
+                Ceremonies = repository.OfType<Ceremony>().Queryable.Where(a=>a.TermCode == TermService.GetCurrent()).ToList()
             };
             
             return viewModel;

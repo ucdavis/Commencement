@@ -61,13 +61,12 @@
                 <li>
                     <strong>Date/Time: </strong> <%--<%: a.Ceremony.DateTime.ToString("g") %>--%>
 
-                    <%= this.Select(string.Format("ceremonyParticipations[{0}].Ceremony", a.Index)).Options(Model.Ceremonies).Selected(a.Ceremony.Id)%>
-
+                    <%= this.Select(string.Format("ceremonyParticipations[{0}].Ceremony", a.Index)).Options(Model.Ceremonies, x=>x.Id, x=>x.DateTime).Selected(a.Ceremony.Id)%>
                 </li>
                 <li>
                     <strong>Major: </strong><%--<%: a.Major.Name %>--%>
 
-                    <%= this.Select(string.Format("ceremonyParticipations[{0}].Major", a.Index)).Options(Model.Majors).Selected(a.Major.Id) %>
+                    <%= this.Select(string.Format("ceremonyParticipations[{0}].Major", a.Index)).Options(Model.Majors, x=>x.Id, x=>x.Name).Selected(a.Major.Id) %>
 
                 </li>
                 <li>
