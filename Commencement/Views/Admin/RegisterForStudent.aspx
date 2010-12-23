@@ -1,10 +1,18 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.RegistrationModel>" %>
+<%@ Import Namespace="Commencement.Controllers" %>
+<%@ Import Namespace="Commencement.Core.Resources" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	RegisterForStudent
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
+    <ul class="btn">
+        <li>
+            <%= Html.ActionLink<AdminController>(a=>a.StudentDetails(Model.Student.Id, null), "Back to Student") %>
+        </li>
+    </ul>
 
     <h2>RegisterForStudent</h2>
 
@@ -23,10 +31,20 @@
         <h2>Ceremony Information</h2>
         <%--<% Html.RenderPartial("CeremonyEditPartial"); %>--%>
         <% foreach (var a in Model.Participations) { %>
+
+            <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Ceremony", a.Index), a.Ceremony.Id) %>
+            <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Major", a.Index), a.Major.Id) %>
+            <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].NeedsPetition", a.Index), a.NeedsPetition) %>
+
             <fieldset>
                 <legend>Commencement for <%: a.Major.Name %></legend>
 
                 <ul class="registration_form">
+                <% if (a.NeedsPetition) { %>
+                    <li style="border: 1px solid red; color: Red;">
+                        This student does not meet requirements for registration for this ceremony and would normally be required to petition.
+                    </li>
+                <% } %>
                 <% if (!a.Edit) { %>
                     <li>
                         <input type="checkbox" id="<%: string.Format("ceremonyParticipations[{0}]_Participate", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Participate", a.Index) %>" value="true" <%: a.Participate ? "checked" : string.Empty %> />
@@ -68,6 +86,12 @@
         <h2>Special Needs</h2>
         <% Html.RenderPartial("SpecialNeedsPartial"); %>
     
+        <h3>
+        <div class="legaldisclaimer">
+        <%= Html.CheckBox("gradTrack", Model.Registration.GradTrack) %><label for="gradTrack">Student has authorized information to be released to Grad Track</label>
+        </div>
+        </h3>
+
         <input type="submit" value="Update Registration" />
     
     <% } %>
