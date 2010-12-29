@@ -386,7 +386,7 @@ namespace Commencement.Controllers
                 // validate the deadline before creating valid request, and no previous
                 else 
                 {
-                    var etp = new ExtraTicketPetition(a.NumberTickets, a.Ceremony.HasStreamingTickets ? a.NumberStreamingTickets : 0);
+                    var etp = new ExtraTicketPetition(a.NumberTickets, a.Reason, a.Ceremony.HasStreamingTickets ? a.NumberStreamingTickets : 0);
                     a.RegistrationParticipation.ExtraTicketPetition = etp;
                     ceremonyParticipations.Add(a.RegistrationParticipation);
                 }

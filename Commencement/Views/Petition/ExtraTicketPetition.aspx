@@ -15,7 +15,7 @@
     <h1>Extra Ticket Petition</h1>
        
     <ul class="btn">
-        <li><%: Html.ActionLink<StudentController>(a=>a.DisplayRegistration(Model.Registration.Id), "Back") %></li>
+        <li><%: Html.ActionLink<StudentController>(a=>a.DisplayRegistration(), "Back") %></li>
     </ul>
 
     <%= Html.ValidationSummary("Please correct all errors below") %>
@@ -103,8 +103,16 @@
                         <%: Html.Hidden(string.Format("extraTicketPetitions[{0}]_NumberStreamingTickets", j), 0) %>
                     <% } %>
 
+                    <li>
+                        <strong>Reason:</strong>
+                        <%: Html.TextArea(string.Format("extraTicketPetitions[{0}].Reason", j), participation.ExtraTicketPetition != null ? participation.ExtraTicketPetition.Reason : string.Empty) %>
+                    </li>
+
                     <li><strong></strong><%: Html.SubmitButton("Submit", "Submit") %></li>
+            
             <% } %>
+
+
         </ul>
     <% } %>
     <% } %>    

@@ -14,10 +14,11 @@ namespace Commencement.Core.Domain
             SetDefaults();
         }
 
-        public ExtraTicketPetition(int numberTickets, int numberTicketsStreaming = 0)
+        public ExtraTicketPetition(int numberTickets, string reason, int numberTicketsStreaming = 0)
         {
             NumberTicketsRequested = numberTickets;
             NumberTicketsRequestedStreaming = numberTicketsStreaming;
+            Reason = reason;
 
             SetDefaults();
         }

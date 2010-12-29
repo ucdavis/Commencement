@@ -38,5 +38,6 @@ namespace Commencement.Controllers.ViewModels
         public Ceremony Ceremony { get; set; }
         public int NumberTickets { get; set; }
         public int NumberStreamingTickets { get; set; }
+        public string Reason { get; set; }
     }
 }

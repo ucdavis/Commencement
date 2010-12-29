@@ -23,6 +23,8 @@
                 <li><strong># Extra Tickets Requested:</strong>
                 <%: Model.ExtraTicketPetition.TotalTicketsRequested %></li>
             <% } %>
+
+            <li><strong>Reason:</strong><%: Model.ExtraTicketPetition.Reason %></li>
         <li>
             <strong>Status:</strong>
             <%: Model.ExtraTicketPetition.IsPending ? "Pending Decision" : (Model.ExtraTicketPetition.IsApproved ? "Approved" : "Denied") %>
