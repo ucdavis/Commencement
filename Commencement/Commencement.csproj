@@ -558,6 +558,7 @@
     <Content Include="Scripts\tiny_mce\utils\validate.js" />
     <Content Include="Scripts\ui.multiselect.js" />
     <Content Include="Scripts\xVal.jquery.validate.js" />
+    <Content Include="Views\Admin\AddStudent.aspx" />
     <Content Include="Views\Admin\Block.aspx" />
     <Content Include="Views\Admin\EditStudent.aspx" />
     <Content Include="Views\Admin\EditStudentPartial.ascx" />
@@ -686,8 +687,6 @@
     <Content Include="Images\registrations.png" />
     <Content Include="Images\report.png" />
     <Content Include="Images\students.png" />
-    <Content Include="Views\Admin\AddStudent.aspx" />
-    <Content Include="Views\Admin\AddStudentConfirm.aspx" />
     <Content Include="Views\Petition\Index.aspx" />
     <Content Include="Views\Petition\RegisterConfirmation.aspx" />
     <Content Include="Views\Petition\RegistrationPetition.aspx" />

@@ -22,6 +22,8 @@ namespace Commencement.Controllers.Services
 
         IList<BannerStudent> BannerLookupByLogin(string login);
 
+        Student BannerLookup(string studentId);
+
         bool CheckExisting(string login, TermCode term);
     }
 
@@ -127,34 +129,39 @@ namespace Commencement.Controllers.Services
         public IList<BannerStudent> BannerLookupByLogin(string login)
         {
             var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery(StaticValues.StudentService_BannerLookupByLogin_SQL);
-
             searchQuery.SetString("login", login);
-
             searchQuery.AddEntity(typeof (BannerStudent));
+
+            // var result = searchQuery.List<BannerStudent>();
+            // return ExtractStudentFromResult(result);
 
             return searchQuery.List<BannerStudent>();
         }
 
-        //public Student BannerLookupByLoginGetStudent(string login)
-        //{
-        //    var result = BannerLookupByLogin(login);
-        //    if (result.Count > 0)
-        //    {
-        //        var student = new Student(result[0].Pidm, result[0].StudentId, result[0].FirstName, result[0].Mi,
-        //                                  result[0].LastName, result[0].CurrentUnits,
-        //                                  result[0].Email, login,
-        //                                  TermService.GetCurrent());
+        public Student BannerLookup(string studentId)
+        {
+            var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery(StaticValues.StudentService_BannerLookup_SQL);
+            searchQuery.SetString("studentid", studentId);
+            searchQuery.AddEntity(typeof (BannerStudent));
+            var result = searchQuery.List<BannerStudent>();
 
-        //        foreach (var a in result)
-        //        {
-        //            student.Majors.Add(_majorRepository.GetById(a.Major));
-        //        }
+            return ExtractStudentFromResult(result);
+        }
 
-        //        return student;
-        //    }
+        public Student ExtractStudentFromResult(IList<BannerStudent> results)
+        {
+            var r1 = results.FirstOrDefault();
+            if (r1 == null) return null;
 
-        //    return null;
-        //}
+            var student = new Student(r1.Pidm, r1.StudentId, r1.FirstName, r1.Mi, r1.LastName, r1.CurrentUnits, r1.EarnedUnits, r1.Email, r1.LoginId, TermService.GetCurrent());
+            foreach (var a in results)
+            {
+                var major = _majorRepository.GetNullableById(a.Major);
+                if (major != null) student.Majors.Add(major);
+            }
+
+            return student;
+        }
 
         public bool CheckExisting(string login, TermCode term)
         {
@@ -164,9 +171,10 @@ namespace Commencement.Controllers.Services
 
     public class DevStudentService : IStudentService
     {
-        private readonly IRepository<Student> _studentRepository;
+        private readonly IRepositoryWithTypedId<Student, Guid> _studentRepository;
         private readonly IRepository<Ceremony> _ceremonyRepository;
         private readonly IRepository<Registration> _registrationRepository;
+        private readonly IRepositoryWithTypedId<MajorCode, string> _majorRepository;
 
         private Student CurrentStudent
         {
@@ -174,23 +182,37 @@ namespace Commencement.Controllers.Services
             set { System.Web.HttpContext.Current.Session[StaticIndexes.CurrentStudentKey] = value; }
         }
 
-        public DevStudentService(IRepository<Student> studentRepository, IRepository<Ceremony> ceremonyRepository, IRepository<Registration> registrationRepository)
+        public DevStudentService(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepository<Ceremony> ceremonyRepository, IRepository<Registration> registrationRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository)
         {
             _studentRepository = studentRepository;
             _ceremonyRepository = ceremonyRepository;
             _registrationRepository = registrationRepository;
+            _majorRepository = majorRepository;
         }
 
         public Student GetCurrentStudent(IPrincipal currentUser)
         {
-            //var currentStudent = _studentRepository.Queryable.FirstOrDefault(); //TODO: Testing only
-            var currentStudent = _studentRepository.Queryable.SingleOrDefault(x => x.Id == new Guid("5D044116-C389-4F78-99D7-01B1E8E998D3")); //TODO: Testing only with double major student
-
-            //var currentStudent = _studentRepository.Queryable.SingleOrDefault(x => x.Login == CurrentUser.Identity.Name);
+            var currentStudent = _studentRepository.Queryable.SingleOrDefault(x => x.Login == currentUser.Identity.Name && x.TermCode == TermService.GetCurrent());
 
             if (currentStudent == null)
             {
-                throw new NotImplementedException("Student was not found");
+                var searchResults = BannerLookupByLogin(currentUser.Identity.Name);
+                var s = searchResults.FirstOrDefault();
+
+                if (searchResults != null)
+                {
+                    // do a check for std
+
+                    currentStudent = new Student(s.Pidm, s.StudentId, s.FirstName, s.Mi, s.LastName, s.CurrentUnits, s.EarnedUnits, s.Email, currentUser.Identity.Name, TermService.GetCurrent());
+
+                    foreach (var bannerStudent in searchResults)
+                    {
+                        currentStudent.Majors.Add(_majorRepository.GetById(bannerStudent.Major));
+                    }
+
+                    // persist the student
+                    _studentRepository.EnsurePersistent(currentStudent);
+                }
             }
 
             return currentStudent;
@@ -204,7 +226,7 @@ namespace Commencement.Controllers.Services
             {
                 MajorCode code = studentMajorCode;
                 var ceremonies = from c in _ceremonyRepository.Queryable
-                                 where c.TermCode.IsActive && c.Majors.Contains(code)
+                                 where c.TermCode == TermService.GetCurrent() && c.Majors.Contains(code)
                                  select c;
 
                 var ceremoniesWithMajors = ceremonies.ToList().Select(ceremony => new CeremonyWithMajor(ceremony, code)).ToList();
@@ -223,39 +245,78 @@ namespace Commencement.Controllers.Services
 
         public IList<SearchStudent> SearchStudent(string studentId, string termCode)
         {
-            var searchQuery = NHibernateSessionManager.Instance.GetSession().GetNamedQuery("SearchStudents");
+            var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery(StaticValues.StudentService_SearchStudent_SQL);
 
             searchQuery.SetString("studentid", studentId);
             searchQuery.SetString("term", termCode);
+            searchQuery.SetTimeout(120);
+
+            searchQuery.AddEntity(typeof(SearchStudent));
 
             return searchQuery.List<SearchStudent>();
         }
 
         public IList<SearchStudent> SearchStudentByLogin(string login, string termCode)
         {
-            var searchQuery = NHibernateSessionManager.Instance.GetSession().GetNamedQuery("SearchStudents");
+            var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery(StaticValues.StudentService_SearchStudentByLogin_SQL);
 
             searchQuery.SetString("login", login);
             searchQuery.SetString("term", termCode);
+
+            searchQuery.AddEntity(typeof(SearchStudent));
 
             return searchQuery.List<SearchStudent>();
         }
 
         public IList<BannerStudent> BannerLookupByLogin(string login)
         {
-            throw new NotImplementedException();
+            var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery(StaticValues.StudentService_BannerLookupByLogin_SQL);
+            searchQuery.SetString("login", login);
+            searchQuery.AddEntity(typeof(BannerStudent));
+
+            // var result = searchQuery.List<BannerStudent>();
+            // return ExtractStudentFromResult(result);
+
+            return searchQuery.List<BannerStudent>();
         }
 
-        public Student BannerLookupByLoginGetStudent(string login)
+        public Student BannerLookup(string studentId)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(studentId)) return null;
+            return GenerateFake();
+        }
+
+        public Student ExtractStudentFromResult(IList<BannerStudent> results)
+        {
+            var r1 = results.FirstOrDefault();
+            if (r1 == null) return null;
+
+            var student = new Student(r1.Pidm, r1.StudentId, r1.FirstName, r1.Mi, r1.LastName, r1.CurrentUnits, r1.EarnedUnits, r1.Email, r1.LoginId, TermService.GetCurrent());
+            foreach (var a in results)
+            {
+                var major = _majorRepository.GetNullableById(a.Major);
+                if (major != null) student.Majors.Add(major);
+            }
+
+            return student;
         }
 
         public bool CheckExisting(string login, TermCode term)
         {
             return _studentRepository.Queryable.Where(a => a.Login == login && a.TermCode == term).Any();
         }
+
+        private Student GenerateFake()
+        {
+            var student = new Student("1234567", "123456789", "Philip", "J", "Fry", 15.0m, 140.0m, "pjfry@planex.com", "pjfry", TermService.GetCurrent());
+            student.Majors.Add(_majorRepository.GetNullableById("ABIT"));
+            if (DateTime.Now.Second % 2 == 0) student.Majors.Add(_majorRepository.GetNullableById("AMGE")); // "randomly" add a second major
+
+            return student;
+        }
     }
+
+
 
     public class CeremonyWithMajor
     {

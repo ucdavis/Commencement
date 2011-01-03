@@ -243,7 +243,7 @@ Any student who is found selling tickets or in possession of counterfeit tickets
     <value>Welcome {0}.  You are registering AFTER the registration deadline.  Please note that due to the late registration we can not guarantee your name will appear in the program or that you will receive the maximum # of tickets alloted per person.  After the deadline tickets are distributed on a first come first serve basis.</value>
   </data>
   <data name="StudentService_BannerLookupByLogin_SQL" xml:space="preserve">
-    <value>EXEC uspa_SearchStudentByLogin :login</value>
+    <value>EXEC usp_SearchStudentByLogin :login</value>
   </data>
   <data name="Txt_GradTrack" xml:space="preserve">
     <value>I authorize my information to be released to Grad Track</value>
@@ -253,5 +253,8 @@ Any student who is found selling tickets or in possession of counterfeit tickets
   </data>
   <data name="Error_StudentNotFound" xml:space="preserve">
     <value>Student record could not be found.</value>
+  </data>
+  <data name="StudentService_BannerLookup_SQL" xml:space="preserve">
+    <value>EXEC usp_SearchStudent :studentid</value>
   </data>
 </root>

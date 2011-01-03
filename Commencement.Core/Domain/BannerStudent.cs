@@ -15,6 +15,7 @@ namespace Commencement.Core.Domain
         public virtual string Major { get; set; }
         public virtual string LastTerm { get; set; }
         public virtual string Astd { get; set; }
+        public virtual string LoginId { get; set; }
     }
 
     public class BannerStudentMap : ClassMap<BannerStudent>
@@ -33,6 +34,7 @@ namespace Commencement.Core.Domain
             Map(x => x.Major);
             Map(x => x.LastTerm);
             Map(x => x.Astd);
+            Map(x => x.LoginId);
         }
     }
 }

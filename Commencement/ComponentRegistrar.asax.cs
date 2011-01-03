@@ -19,7 +19,7 @@ namespace Commencement
             container.AddComponent("validator", typeof(IValidator), typeof(Validator));
             container.AddComponent("dbContext", typeof(IDbContext), typeof(DbContext));
 
-            container.AddComponent("studentService", typeof(IStudentService), typeof(StudentService));
+            container.AddComponent("studentService", typeof(IStudentService), typeof(DevStudentService));
             container.AddComponent("emailService", typeof (IEmailService), typeof (EmailService));
 
             container.AddComponent("majorService", typeof (IMajorService), typeof (MajorService));

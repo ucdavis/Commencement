@@ -20,7 +20,7 @@ namespace Commencement.Core.Domain
             FirstName = firstName;
             MI = mi;
             LastName = lastName;
-            CurrentUnits = CurrentUnits;
+            CurrentUnits = currentUnits;
             EarnedUnits = earnedUnits;
             Email = email;
             Login = login;
@@ -36,6 +36,8 @@ namespace Commencement.Core.Domain
 
         private void SetDefaults()
         {
+            Id = Guid.NewGuid();
+
             Majors = new List<MajorCode>();
 
             DateAdded = DateTime.Now;

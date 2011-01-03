@@ -103,7 +103,9 @@ namespace Commencement.Controllers
 
             return View(viewModel);
         }
+        #endregion
 
+        #region Edit Student Functions
         public ActionResult Block(Guid id)
         {
             var student = _studentRepository.GetNullableById(id);
@@ -255,7 +257,40 @@ namespace Commencement.Controllers
             var viewModel = AdminEditStudentViewModel.Create(Repository, student);
             return View(viewModel);
         }
+        #endregion
 
+        #region Add Student Functions
+        public ActionResult AddStudent(string studentId)
+        {
+            var student = _studentService.BannerLookup(studentId);
+            var viewModel = AdminEditStudentViewModel.Create(Repository, student);
+            return View(viewModel);
+        }
+        [HttpPost]
+        public ActionResult AddStudent(string studentId, Student student)
+        {
+            // validate that the student doesn't already exist
+            var existing = _studentRepository.Queryable.Where(a => a.StudentId == studentId && a.TermCode == TermService.GetCurrent()).FirstOrDefault();
+
+            if (existing != null)
+            {
+                ModelState.AddModelError("Exists", "Student already exists in the system.");
+                Message = string.Format("{0} already exists, you can edit the student record or registration by going through the student details page.", existing.FullName);
+            }
+
+            student.TermCode = TermService.GetCurrent();
+            student.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                _studentRepository.EnsurePersistent(student);
+                Message = string.Format("{0} has been added to the registration system.", student.FullName);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            var viewModel = AdminEditStudentViewModel.Create(Repository, student);
+            return View(viewModel);
+        }
         #endregion
 
         public ActionResult Majors()
@@ -270,105 +305,105 @@ namespace Commencement.Controllers
         /// </summary>
         /// <param name="id">Student Id</param>
         /// <returns></returns>
-        public ActionResult AddStudent(string studentId)
-        {
-            var viewModel = SearchStudentViewModel.Create(Repository);
+        //public ActionResult AddStudent(string studentId)
+        //{
+        //    var viewModel = SearchStudentViewModel.Create(Repository);
 
-            if (!string.IsNullOrEmpty(studentId))
-            {
-                // lookup the student
-                viewModel.SearchStudents = _studentService.SearchStudent(studentId, TermService.GetCurrent().Id);
-                viewModel.StudentId = studentId;
+        //    if (!string.IsNullOrEmpty(studentId))
+        //    {
+        //        // lookup the student
+        //        viewModel.SearchStudents = _studentService.SearchStudent(studentId, TermService.GetCurrent().Id);
+        //        viewModel.StudentId = studentId;
 
-                if (viewModel.SearchStudents.Count <= 0)
-                {
-                    Message = "No results for the student were found.";
-                }
-            }
+        //        if (viewModel.SearchStudents.Count <= 0)
+        //        {
+        //            Message = "No results for the student were found.";
+        //        }
+        //    }
 
-            return View(viewModel);
-        }
-        public ActionResult AddStudentConfirm(string studentId, string major)
-        {
-            // either variable is invalid redirect back to the add student page
-            if (string.IsNullOrEmpty(studentId) || string.IsNullOrEmpty(major)) return this.RedirectToAction(a => a.AddStudent(studentId));
+        //    return View(viewModel);
+        //}
+        //public ActionResult AddStudentConfirm(string studentId, string major)
+        //{
+        //    // either variable is invalid redirect back to the add student page
+        //    if (string.IsNullOrEmpty(studentId) || string.IsNullOrEmpty(major)) return this.RedirectToAction(a => a.AddStudent(studentId));
 
-            var searchResults = _studentService.SearchStudent(studentId, TermService.GetCurrent().Id);
-            var searchStudent = searchResults.Where(a => a.MajorCode == major).FirstOrDefault();
+        //    var searchResults = _studentService.SearchStudent(studentId, TermService.GetCurrent().Id);
+        //    var searchStudent = searchResults.Where(a => a.MajorCode == major).FirstOrDefault();
 
-            Check.Require(searchStudent != null, "Unable to find requested record.");
+        //    Check.Require(searchStudent != null, "Unable to find requested record.");
 
-            //var student = new Student(searchStudent.Pidm, searchStudent.Id, searchStudent.FirstName, searchStudent.MI,
-            //                          searchStudent.LastName, searchStudent.HoursEarned, searchStudent.Email,
-            //                          searchStudent.LoginId, TermService.GetCurrent());
+        //    //var student = new Student(searchStudent.Pidm, searchStudent.Id, searchStudent.FirstName, searchStudent.MI,
+        //    //                          searchStudent.LastName, searchStudent.HoursEarned, searchStudent.Email,
+        //    //                          searchStudent.LoginId, TermService.GetCurrent());
 
-            var student = new Student();
+        //    var student = new Student();
 
-            student.Majors.Add(_majorRepository.GetNullableById(major));
+        //    student.Majors.Add(_majorRepository.GetNullableById(major));
 
-            return View(student);
-        }
-        [HttpPost]
-        public ActionResult AddStudentConfirm(string studentId, string majorCode, Student student)
-        {
-            Check.Require(student != null, "Student cannot be null.");
-            Check.Require(!string.IsNullOrEmpty(majorCode), "Major code is required.");
+        //    return View(student);
+        //}
+        //[HttpPost]
+        //public ActionResult AddStudentConfirm(string studentId, string majorCode, Student student)
+        //{
+        //    Check.Require(student != null, "Student cannot be null.");
+        //    Check.Require(!string.IsNullOrEmpty(majorCode), "Major code is required.");
 
-            student.TermCode = TermService.GetCurrent();
+        //    student.TermCode = TermService.GetCurrent();
 
-            MajorCode major = _majorRepository.GetNullableById(majorCode);
-            Check.Require(major != null, "Unable to find major.");
+        //    MajorCode major = _majorRepository.GetNullableById(majorCode);
+        //    Check.Require(major != null, "Unable to find major.");
 
-            var ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == TermService.GetCurrent() && a.Majors.Contains(major)).FirstOrDefault();
-            //Check.Require(ceremony != null, "Ceremony is required.");
-            if (ceremony == null) { ModelState.AddModelError("Ceremony", "No ceremony exists for this major for the current term.");}
+        //    var ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == TermService.GetCurrent() && a.Majors.Contains(major)).FirstOrDefault();
+        //    //Check.Require(ceremony != null, "Ceremony is required.");
+        //    if (ceremony == null) { ModelState.AddModelError("Ceremony", "No ceremony exists for this major for the current term.");}
 
-            Student newStudent = null;
+        //    Student newStudent = null;
 
-            // validate student does not already exist, and if they do make sure we are just adding a new major
-            var existingStudent = Repository.OfType<Student>().Queryable.Where(a=>a.StudentId == studentId && a.TermCode == TermService.GetCurrent()).FirstOrDefault();
+        //    // validate student does not already exist, and if they do make sure we are just adding a new major
+        //    var existingStudent = Repository.OfType<Student>().Queryable.Where(a=>a.StudentId == studentId && a.TermCode == TermService.GetCurrent()).FirstOrDefault();
 
-            if (existingStudent == null)
-            {
-                //newStudent = new Student(student.Pidm, student.StudentId, student.FirstName, student.MI, student.LastName, student.TotalUnits, student.Email, student.Login, student.TermCode);
-                newStudent = new Student();
-                newStudent.Majors.Add(major);
-            }
-            else if (!existingStudent.Majors.Contains(major))
-            {
-                existingStudent.Majors.Add(major);
-                newStudent = existingStudent;       // just need to save the update to the major
-            }
-            else
-            {
-                // student already exists with major, bail out
-                Message = "Student already exists.";
-                newStudent = student;
-                newStudent.Majors.Add(major);
-                return View(newStudent);
-            }
+        //    if (existingStudent == null)
+        //    {
+        //        //newStudent = new Student(student.Pidm, student.StudentId, student.FirstName, student.MI, student.LastName, student.TotalUnits, student.Email, student.Login, student.TermCode);
+        //        newStudent = new Student();
+        //        newStudent.Majors.Add(major);
+        //    }
+        //    else if (!existingStudent.Majors.Contains(major))
+        //    {
+        //        existingStudent.Majors.Add(major);
+        //        newStudent = existingStudent;       // just need to save the update to the major
+        //    }
+        //    else
+        //    {
+        //        // student already exists with major, bail out
+        //        Message = "Student already exists.";
+        //        newStudent = student;
+        //        newStudent.Majors.Add(major);
+        //        return View(newStudent);
+        //    }
 
-            // either new student or adding a major
-            newStudent.TransferValidationMessagesTo(ModelState);
+        //    // either new student or adding a major
+        //    newStudent.TransferValidationMessagesTo(ModelState);
 
-            if (ModelState.IsValid)
-            {
-                Repository.OfType<Student>().EnsurePersistent(newStudent);
+        //    if (ModelState.IsValid)
+        //    {
+        //        Repository.OfType<Student>().EnsurePersistent(newStudent);
 
-                try
-                {
-                    _emailService.SendAddPermission(student, ceremony);
-                }
-                catch (Exception)
-                {
-                    Message += string.Format(StaticValues.Student_Add_Permission_Problem, newStudent.FullName);
-                }
+        //        try
+        //        {
+        //            _emailService.SendAddPermission(student, ceremony);
+        //        }
+        //        catch (Exception)
+        //        {
+        //            Message += string.Format(StaticValues.Student_Add_Permission_Problem, newStudent.FullName);
+        //        }
 
-                return this.RedirectToAction(a => a.Students(studentId, null, null, null));
-            }
+        //        return this.RedirectToAction(a => a.Students(studentId, null, null, null));
+        //    }
 
-            return View(newStudent);
-        }      
+        //    return View(newStudent);
+        //}      
 
         #region Validation Functions for Changing Registration
         //public JsonResult ChangeMajorValidation(int regId, string major)

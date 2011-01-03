@@ -5,6 +5,8 @@
 
     <% using (Html.BeginForm()) { %>
     <%: Html.AntiForgeryToken() %>
+
+
     <ul class="registration_form">
         <li><strong>Student Id:</strong>
             <%: Model.Student.StudentId %>
