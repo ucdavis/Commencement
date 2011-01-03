@@ -17,7 +17,7 @@ namespace Commencement.Controllers.Services
         Registration GetPriorRegistration(Student student, TermCode termCode) ;
         Student BannerLookupByLogin(string login);
         Student BannerLookup(string studentId);
-        bool CheckExisting(string login, TermCode term);
+        bool CheckExisting(string login, TermCode term, string studentId = null);
     }
 
     public class StudentService : IStudentService
@@ -114,9 +114,9 @@ namespace Commencement.Controllers.Services
             return student;
         }
 
-        public bool CheckExisting(string login, TermCode term)
+        public bool CheckExisting(string login, TermCode term, string studentId = null)
         {
-            return _studentRepository.Queryable.Where(a => a.Login == login && a.TermCode == term).Any();
+            return _studentRepository.Queryable.Where(a => (a.Login == login || (!string.IsNullOrEmpty(studentId) && a.StudentId == studentId)) && a.TermCode == term).Any();
         }
     }
 
@@ -206,9 +206,9 @@ namespace Commencement.Controllers.Services
             return student;
         }
 
-        public bool CheckExisting(string login, TermCode term)
+        public bool CheckExisting(string login, TermCode term, string studentId = null)
         {
-            return _studentRepository.Queryable.Where(a => a.Login == login && a.TermCode == term).Any();
+            return _studentRepository.Queryable.Where(a => (a.Login == login || (!string.IsNullOrEmpty(studentId) && a.StudentId == studentId)) && a.TermCode == term).Any();
         }
 
         private Student GenerateFake()
