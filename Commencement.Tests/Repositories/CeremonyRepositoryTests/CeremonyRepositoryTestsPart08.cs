@@ -135,6 +135,87 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
         }
         #endregion Valid Tests
 
+        #region Cascade Tests
+        /// <summary>
+        /// Tests the cascade delete does not remove registration petitions.
+        /// </summary>
+        [TestMethod]
+        public void TestCascadeDeleteDoesNotRemoveRegistrationPetitions()
+        {
+            #region Arrange
+            Repository.OfType<RegistrationPetition>().DbContext.BeginTransaction();
+            LoadMajorCode(1);
+            LoadState(1);
+            LoadRegistrations(1);
+            LoadRegistrationPetitions(5);
+            var registrationPetition = Repository.OfType<RegistrationPetition>().GetById(2);
+            registrationPetition.Ceremony = CeremonyRepository.GetById(2);
+            Repository.OfType<RegistrationPetition>().EnsurePersistent(registrationPetition);
+            registrationPetition = Repository.OfType<RegistrationPetition>().GetById(4);
+            registrationPetition.Ceremony = CeremonyRepository.GetById(2);
+            Repository.OfType<RegistrationPetition>().EnsurePersistent(registrationPetition);
+            Repository.OfType<RegistrationPetition>().DbContext.CommitTransaction();
+
+            var ceremony = CeremonyRepository.GetById(2);
+            NHibernateSessionManager.Instance.GetSession().Evict(ceremony);
+            ceremony = CeremonyRepository.GetById(2);
+            Assert.AreEqual(2, ceremony.RegistrationPetitions.Count);
+
+            var registrationPetitionCount = Repository.OfType<RegistrationPetition>().GetAll().Count;
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.Remove(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(Repository.OfType<RegistrationPetition>().GetAll().Count, registrationPetitionCount);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestRegistrationPetitionsWithNewValuesDoesNotCascadeSave()
+        {
+            #region Arrange
+            var ceremony = GetValid(9);
+            var majorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
+            majorCodeRepository.DbContext.BeginTransaction();
+            LoadMajorCode(1);
+            majorCodeRepository.DbContext.CommitTransaction();
+            var major = majorCodeRepository.GetNullableById("1");
+            Assert.IsNotNull(major);
+            Repository.OfType<RegistrationPetition>().DbContext.BeginTransaction();
+            LoadRegistrationPetitions(2);
+            Repository.OfType<RegistrationPetition>().DbContext.CommitTransaction();
+            var count = Repository.OfType<RegistrationPetition>().Queryable.Count();
+            Assert.IsTrue(count > 0);
+            ceremony.RegistrationPetitions.Add(CreateValidEntities.RegistrationPetition(1));
+            ceremony.RegistrationPetitions.Add(CreateValidEntities.RegistrationPetition(2));
+            ceremony.RegistrationPetitions.Add(CreateValidEntities.RegistrationPetition(3));
+            foreach (var registrationPetitions in ceremony.RegistrationPetitions)
+            {
+                registrationPetitions.Ceremony = ceremony;
+                registrationPetitions.MajorCode = major;
+            }
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(3, ceremony.RegistrationPetitions.Count);
+            Assert.AreEqual(count, Repository.OfType<RegistrationPetition>().Queryable.Count());
+            Assert.IsFalse(ceremony.IsTransient());
+            Assert.IsTrue(ceremony.IsValid());
+            #endregion Assert
+        }
+        #endregion Cascade Tests
+
         #endregion RegistrationPetitions Tests
 
         #region Name Tests (Getter only)

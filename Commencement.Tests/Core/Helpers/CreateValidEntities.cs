@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Commencement.Controllers.Helpers;
 using Commencement.Controllers.Services;
 using UCDArch.Core.PersistanceSupport;
@@ -221,6 +222,20 @@ namespace Commencement.Tests.Core.Helpers
         {
             var rtValue = new College();
             rtValue.Name = "Name" + count.Extra();
+            return rtValue;
+        }
+
+        public static BannerStudent BannerStudent(int? counter)
+        {
+            var rtValue = new BannerStudent();
+            rtValue.Pidm = "Pidm" + counter.Extra();
+            return rtValue;
+        }
+
+
+        public static RegistrationParticipation RegistrationParticipation(int? count)
+        {
+            var rtValue = new RegistrationParticipation();
             return rtValue;
         }
     }

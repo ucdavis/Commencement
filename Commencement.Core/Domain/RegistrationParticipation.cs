@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentNHibernate.Mapping;
+using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 
 namespace Commencement.Core.Domain
@@ -13,7 +14,7 @@ namespace Commencement.Core.Domain
             DateRegistered = DateTime.Now;
             DateUpdated = DateTime.Now;
         }
-
+        [NotNull]
         public virtual Registration Registration { get; set; }
         public virtual MajorCode Major { get; set; }
         public virtual Ceremony Ceremony { get; set; }

@@ -511,12 +511,16 @@ namespace Commencement.Tests.Core
         /// <param name="entriesToAdd"></param>
         protected void LoadRegistrations(int entriesToAdd)
         {
+            var termCodeRepository = new RepositoryWithTypedId<TermCode, string>();
+            var studentRepository = new RepositoryWithTypedId<Student, Guid>();
             for (int i = 0; i < entriesToAdd; i++)
             {
                 var validEntity = CreateValidEntities.Registration(i + 1);
                 //validEntity.Major = Repository.OfType<MajorCode>().Queryable.First();
                 validEntity.State = Repository.OfType<State>().Queryable.First();
                 //validEntity.Ceremony = Repository.OfType<Ceremony>().Queryable.First();
+                validEntity.TermCode = termCodeRepository.Queryable.First();
+                validEntity.Student = studentRepository.Queryable.First();
                 Repository.OfType<Registration>().EnsurePersistent(validEntity);
             }
         }
@@ -612,13 +616,26 @@ namespace Commencement.Tests.Core
         protected void LoadRegistrationPetitions(int entriesToAdd)
         {
             var majorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
-            var termCodeRepository = new RepositoryWithTypedId<TermCode, string>();
+            //var termCodeRepository = new RepositoryWithTypedId<TermCode, string>();
             for (int i = 0; i < entriesToAdd; i++)
             {
                 var validEntity = CreateValidEntities.RegistrationPetition(i + 1);
                 validEntity.MajorCode = majorCodeRepository.GetById("1");
+                validEntity.Registration = Repository.OfType<Registration>().GetNullableById(1);
                 //validEntity.TermCode = termCodeRepository.GetById("1");
                 Repository.OfType<RegistrationPetition>().EnsurePersistent(validEntity);
+            }
+        }
+
+        protected void LoadRegistrationParticipations(int entriesToAdd, int ticketMultiplier = 0)
+        {
+            for (int i = 0; i < entriesToAdd; i++)
+            {
+                var validEntity = CreateValidEntities.RegistrationParticipation(i + 1);
+                validEntity.Ceremony = Repository.OfType<Ceremony>().GetNullableById(1);
+                validEntity.NumberTickets = i*ticketMultiplier;
+                validEntity.Registration = Repository.OfType<Registration>().Queryable.First();
+                Repository.OfType<RegistrationParticipation>().EnsurePersistent(validEntity);
             }
         }
 

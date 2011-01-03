@@ -1,499 +1,295 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Commencement.Core.Domain;
-using Commencement.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UCDArch.Data.NHibernate;
+using UCDArch.Testing.Extensions;
+
 
 namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
 {
     partial class CeremonyRepositoryTests
     {
-        #region AvailableTickets Tests
-        /*
+        #region Colleges Tests
+        #region Invalid Tests
+
         /// <summary>
-        /// Tests the available tickets returns expected value.
+        /// Tests the Colleges with A value of null does not save.
         /// </summary>
         [TestMethod]
-        public void TestAvailableTicketsReturnsExpectedValue()
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestCollegesWithAValueOfNullDoesNotSave()
         {
-            #region Arrange
-            var ceremony = CreateValidEntities.Ceremony(1);
-            ceremony.TotalTickets = 500;
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations[0].NumberTickets = 3;
-            ceremony.Registrations[1].NumberTickets = 5;
-            ceremony.Registrations[2].NumberTickets = 11;
-            #endregion Arrange
+            Ceremony ceremony = null;
+            try
+            {
+                #region Arrange
+                ceremony = GetValid(9);
+                ceremony.Colleges = null;
+                #endregion Arrange
 
-            #region Act
-            var result = ceremony.AvailableTickets;
-            #endregion Act
-
-            #region Assert
-            Assert.AreEqual(481, result);
-            #endregion Assert
+                #region Act
+                CeremonyRepository.DbContext.BeginTransaction();
+                CeremonyRepository.EnsurePersistent(ceremony);
+                CeremonyRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception)
+            {
+                Assert.IsNotNull(ceremony);
+                Assert.AreEqual(ceremony.Colleges, null);
+                var results = ceremony.ValidationResults().AsMessageList();
+                results.AssertErrorsAre("Colleges: may not be null");
+                Assert.IsTrue(ceremony.IsTransient());
+                Assert.IsFalse(ceremony.IsValid());
+                throw;
+            }
         }
+        #endregion Invalid Tests
 
-        #endregion AvailableTickets Tests
+        #region Valid Tests
 
-        #region RequestedTickets Tests
         /// <summary>
-        /// Tests the requested tickets returns expected value.
+        /// Tests the Colleges with empty list saves.
         /// </summary>
         [TestMethod]
-        public void TestRequestedTicketsReturnsExpectedValue1()
+        public void TestCollegesWithEmptyListSaves()
         {
             #region Arrange
-            var ceremony = CreateValidEntities.Ceremony(1);
-            ceremony.TotalTickets = 500;
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations[0].NumberTickets = 3;
-            ceremony.Registrations[1].NumberTickets = 5;
-            ceremony.Registrations[2].NumberTickets = 11;
-            ceremony.Registrations[1].ExtraTicketPetition = new ExtraTicketPetition(2);
-            ceremony.Registrations[1].ExtraTicketPetition.IsApproved = true;
-            ceremony.Registrations[1].ExtraTicketPetition.IsPending = true;
+            var ceremony = GetValid(9);
+            ceremony.Colleges = new List<College>();
             #endregion Arrange
 
             #region Act
-            var result = ceremony.RequestedTickets;
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(19, result);
-            #endregion Assert
-        }
-
-        /// <summary>
-        /// Tests the requested tickets returns expected value.
-        /// </summary>
-        [TestMethod]
-        public void TestRequestedTicketsReturnsExpectedValue2()
-        {
-            #region Arrange
-            var ceremony = CreateValidEntities.Ceremony(1);
-            ceremony.TotalTickets = 500;
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations[0].NumberTickets = 3;
-            ceremony.Registrations[1].NumberTickets = 5;
-            ceremony.Registrations[2].NumberTickets = 11;
-            ceremony.Registrations[1].ExtraTicketPetition = new ExtraTicketPetition(2);
-            ceremony.Registrations[1].ExtraTicketPetition.IsApproved = true;
-            ceremony.Registrations[1].ExtraTicketPetition.IsPending = true;
-            ceremony.Registrations[1].SjaBlock = true;
-            #endregion Arrange
-
-            #region Act
-            var result = ceremony.RequestedTickets;
-            #endregion Act
-
-            #region Assert
-            Assert.AreEqual(14, result);
+            Assert.AreEqual(0, ceremony.Colleges.Count());
+            Assert.IsFalse(ceremony.IsTransient());
+            Assert.IsTrue(ceremony.IsValid());
             #endregion Assert
         }
 
         /// <summary>
-        /// Tests the requested tickets returns expected value.
+        /// Tests the Colleges with populated list saves.
         /// </summary>
         [TestMethod]
-        public void TestRequestedTicketsReturnsExpectedValue3()
+        public void TestCollegessWithPopulatedListSaves()
         {
             #region Arrange
-            var ceremony = CreateValidEntities.Ceremony(1);
-            ceremony.TotalTickets = 500;
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations[0].NumberTickets = 3;
-            ceremony.Registrations[1].NumberTickets = 5;
-            ceremony.Registrations[2].NumberTickets = 11;
-            ceremony.Registrations[1].ExtraTicketPetition = new ExtraTicketPetition(2);
-            ceremony.Registrations[1].ExtraTicketPetition.IsApproved = true;
-            ceremony.Registrations[1].ExtraTicketPetition.IsPending = true;
-            ceremony.Registrations[1].Cancelled = true;
+            LoadColleges(5);
+            var ceremony = GetValid(9);
+            ceremony.Colleges = new List<College>();
+            ceremony.Colleges.Add(CollegeRepository.GetById("2"));
+            ceremony.Colleges.Add(CollegeRepository.GetById("4"));
             #endregion Arrange
 
             #region Act
-            var result = ceremony.RequestedTickets;
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(14, result);
+            Assert.AreEqual(2, ceremony.Colleges.Count());
+            Assert.IsFalse(ceremony.IsTransient());
+            Assert.IsTrue(ceremony.IsValid());
+            #endregion Assert
+        }
+
+        #endregion Valid Tests
+
+        #region Cascade Tests
+        [TestMethod]
+        public void TestCascadeDeleteDoesNotRemoveCollege()
+        {
+            #region Arrange
+            LoadColleges(3);
+            var colleges = Repository.OfType<College>().GetAll();
+            var totalColleges = colleges.Count;
+            var ceremony = CeremonyRepository.GetById(2);
+            foreach (var college in colleges)
+            {
+                ceremony.Colleges.Add(college);
+            }
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            NHibernateSessionManager.Instance.GetSession().Evict(ceremony);
+            ceremony = CeremonyRepository.GetById(2);
+            Assert.AreEqual(totalColleges, ceremony.Colleges.Count);
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.Remove(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(totalColleges, Repository.OfType<College>().GetAll().Count);
+            #endregion Assert
+        }
+        #endregion Cascade Tests
+        #endregion Colleges Tests
+
+        #region Templates Tests
+        #region Invalid Tests
+
+        /// <summary>
+        /// Tests the Templates with A value of null does not save.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestTemplatesWithAValueOfNullDoesNotSave()
+        {
+            Ceremony ceremony = null;
+            try
+            {
+                #region Arrange
+                ceremony = GetValid(9);
+                ceremony.Templates = null;
+                #endregion Arrange
+
+                #region Act
+                CeremonyRepository.DbContext.BeginTransaction();
+                CeremonyRepository.EnsurePersistent(ceremony);
+                CeremonyRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception)
+            {
+                Assert.IsNotNull(ceremony);
+                Assert.AreEqual(ceremony.Templates, null);
+                var results = ceremony.ValidationResults().AsMessageList();
+                results.AssertErrorsAre("Templates: may not be null");
+                Assert.IsTrue(ceremony.IsTransient());
+                Assert.IsFalse(ceremony.IsValid());
+                throw;
+            }
+        }
+        #endregion Invalid Tests
+
+        #region Valid Tests
+
+        /// <summary>
+        /// Tests the Templates with empty list saves.
+        /// </summary>
+        [TestMethod]
+        public void TestTemplatesWithEmptyListSaves()
+        {
+            #region Arrange
+            var ceremony = GetValid(9);
+            ceremony.Templates = new List<Template>();
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(0, ceremony.Templates.Count());
+            Assert.IsFalse(ceremony.IsTransient());
+            Assert.IsTrue(ceremony.IsValid());
             #endregion Assert
         }
 
         /// <summary>
-        /// Tests the requested tickets returns expected value.
+        /// Tests the Templates with populated list saves.
         /// </summary>
         [TestMethod]
-        public void TestRequestedTicketsReturnsExpectedValue4()
+        public void TestTemplatesWithPopulatedListSaves()
         {
             #region Arrange
-            var ceremony = CreateValidEntities.Ceremony(1);
-            ceremony.TotalTickets = 500;
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations[0].NumberTickets = 3;
-            ceremony.Registrations[1].NumberTickets = 5;
-            ceremony.Registrations[2].NumberTickets = 11;
-            ceremony.Registrations[1].ExtraTicketPetition = new ExtraTicketPetition(2);
-            ceremony.Registrations[1].ExtraTicketPetition.IsApproved = true;
-            ceremony.Registrations[1].ExtraTicketPetition.IsPending = true;
-            ceremony.Registrations[1].Cancelled = true;
-            ceremony.Registrations[1].SjaBlock = true;
+            LoadTemplateType(3);
+            var ceremony = GetValid(9);
+            ceremony.Templates = new List<Template>();
+            ceremony.Templates.Add(new Template("The Body", Repository.OfType<TemplateType>().GetById(1), ceremony));
+            ceremony.Templates.Add(new Template("The Body Other", Repository.OfType<TemplateType>().GetById(2), ceremony));
             #endregion Arrange
 
             #region Act
-            var result = ceremony.RequestedTickets;
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(14, result);
+            Assert.AreEqual(2, ceremony.Templates.Count());
+            Assert.IsFalse(ceremony.IsTransient());
+            Assert.IsTrue(ceremony.IsValid());
             #endregion Assert
         }
 
-        #endregion RequestedTickets Tests
+        #endregion Valid Tests
 
-        #region ExtraRequestedtickets Tests
-
-        /// <summary>
-        /// Tests the extra requested tickets returns expected value.
-        /// </summary>
+        #region Cascade Tests
         [TestMethod]
-        public void TestExtraRequestedticketsReturnsExpectedValue1()
+        public void TestCascadeDeleteRemovesRelatedTemplates()
         {
             #region Arrange
-            var ceremony = CreateValidEntities.Ceremony(1);
-            ceremony.TotalTickets = 500;
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations[0].NumberTickets = 3;
-            ceremony.Registrations[1].NumberTickets = 5;
-            ceremony.Registrations[2].NumberTickets = 11;
-            ceremony.Registrations[1].ExtraTicketPetition = new ExtraTicketPetition(2);
-            ceremony.Registrations[1].ExtraTicketPetition.IsApproved = true;
-            ceremony.Registrations[1].ExtraTicketPetition.IsPending = false;
-            ceremony.Registrations[1].ExtraTicketPetition.DateDecision = DateTime.Now;
+            LoadTemplateType(1);
+            LoadTemplate(3);
+            var ceremony = CeremonyRepository.GetById(2);
+            var templates = Repository.OfType<Template>().GetAll();
+            Repository.OfType<Template>().DbContext.BeginTransaction();
+            foreach (var template in templates)
+            {
+                template.Ceremony = ceremony;
+                Repository.OfType<Template>().EnsurePersistent(template);
+            }
+            Repository.OfType<Template>().DbContext.CommitChanges();
+            Assert.IsTrue(Repository.OfType<Template>().GetAll().Count > 0);
+            NHibernateSessionManager.Instance.GetSession().Evict(ceremony);
+            ceremony = CeremonyRepository.GetById(2);
             #endregion Arrange
 
             #region Act
-            var result = ceremony.ExtraRequestedtickets;
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.Remove(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(2, result);
+            Assert.AreEqual(0, Repository.OfType<CeremonyEditor>().GetAll().Count);
             #endregion Assert
         }
 
-        /// <summary>
-        /// Tests the extra requested tickets returns expected value.
-        /// </summary>
         [TestMethod]
-        public void TestExtraRequestedticketsReturnsExpectedValue2()
+        public void TestTemplatesCascadesSave()
         {
             #region Arrange
-            var ceremony = CreateValidEntities.Ceremony(1);
-            ceremony.TotalTickets = 500;
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations[0].NumberTickets = 3;
-            ceremony.Registrations[1].NumberTickets = 5;
-            ceremony.Registrations[2].NumberTickets = 11;
-            ceremony.Registrations[1].ExtraTicketPetition = new ExtraTicketPetition(2);
-            ceremony.Registrations[1].ExtraTicketPetition.IsApproved = false;
-            ceremony.Registrations[1].ExtraTicketPetition.IsPending = false;
-            ceremony.Registrations[1].ExtraTicketPetition.DateDecision = DateTime.Now;
+            LoadTemplateType(3);
+            var ceremony = GetValid(9);
+            ceremony.Templates = new List<Template>();
+            ceremony.Templates.Add(new Template("The Body", Repository.OfType<TemplateType>().GetById(1), ceremony));
+            ceremony.Templates.Add(new Template("The Body Other", Repository.OfType<TemplateType>().GetById(2), ceremony));
+            var count = Repository.OfType<Template>().Queryable.Count();
             #endregion Arrange
 
             #region Act
-            var result = ceremony.ExtraRequestedtickets;
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(ceremony);
+            CeremonyRepository.DbContext.CommitTransaction();
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(0, result);
+            Assert.AreEqual(2, ceremony.Templates.Count());
+            Assert.AreEqual(count + 2, Repository.OfType<Template>().Queryable.Count());
+            Assert.IsFalse(ceremony.IsTransient());
+            Assert.IsTrue(ceremony.IsValid());
             #endregion Assert
         }
 
-        /// <summary>
-        /// Tests the extra requested tickets returns expected value.
-        /// </summary>
-        [TestMethod]
-        public void TestExtraRequestedticketsReturnsExpectedValue3()
-        {
-            #region Arrange
-            var ceremony = CreateValidEntities.Ceremony(1);
-            ceremony.TotalTickets = 500;
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations[0].NumberTickets = 3;
-            ceremony.Registrations[1].NumberTickets = 5;
-            ceremony.Registrations[2].NumberTickets = 11;
-            ceremony.Registrations[1].ExtraTicketPetition = new ExtraTicketPetition(2);
-            ceremony.Registrations[1].ExtraTicketPetition.IsApproved = true;
-            ceremony.Registrations[1].ExtraTicketPetition.IsPending = true;
-            ceremony.Registrations[1].ExtraTicketPetition.DateDecision = DateTime.Now;
-            #endregion Arrange
+        #endregion Cascade Tests
 
-            #region Act
-            var result = ceremony.ExtraRequestedtickets;
-            #endregion Act
-
-            #region Assert
-            Assert.AreEqual(0, result);
-            #endregion Assert
-        }
-
-        /// <summary>
-        /// Tests the extra requested tickets returns expected value.
-        /// </summary>
-        [TestMethod]
-        public void TestExtraRequestedticketsReturnsExpectedValue4()
-        {
-            #region Arrange
-            var ceremony = CreateValidEntities.Ceremony(1);
-            ceremony.TotalTickets = 500;
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations[0].NumberTickets = 3;
-            ceremony.Registrations[1].NumberTickets = 5;
-            ceremony.Registrations[2].NumberTickets = 11;
-            ceremony.Registrations[1].ExtraTicketPetition = new ExtraTicketPetition(2);
-            ceremony.Registrations[1].ExtraTicketPetition.IsApproved = true;
-            ceremony.Registrations[1].ExtraTicketPetition.IsPending = false;
-            ceremony.Registrations[1].ExtraTicketPetition.DateDecision = DateTime.Now;
-            ceremony.Registrations[2].ExtraTicketPetition = new ExtraTicketPetition(3);
-            ceremony.Registrations[2].ExtraTicketPetition.IsApproved = true;
-            ceremony.Registrations[2].ExtraTicketPetition.IsPending = false;
-            ceremony.Registrations[2].ExtraTicketPetition.DateDecision = DateTime.Now;
-            #endregion Arrange
-
-            #region Act
-            var result = ceremony.ExtraRequestedtickets;
-            #endregion Act
-
-            #region Assert
-            Assert.AreEqual(5, result);
-            #endregion Assert
-        }
-
-        /// <summary>
-        /// Tests the extra requested tickets returns expected value.
-        /// </summary>
-        [TestMethod]
-        public void TestExtraRequestedticketsReturnsExpectedValue5()
-        {
-            #region Arrange
-            var ceremony = CreateValidEntities.Ceremony(1);
-            ceremony.TotalTickets = 500;
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations[0].NumberTickets = 3;
-            ceremony.Registrations[1].NumberTickets = 5;
-            ceremony.Registrations[2].NumberTickets = 11;
-            ceremony.Registrations[1].ExtraTicketPetition = new ExtraTicketPetition(2);
-            ceremony.Registrations[1].ExtraTicketPetition.IsApproved = true;
-            ceremony.Registrations[1].ExtraTicketPetition.IsPending = false;
-            ceremony.Registrations[1].ExtraTicketPetition.DateDecision = DateTime.Now;
-            ceremony.Registrations[2].ExtraTicketPetition = new ExtraTicketPetition(3);
-            ceremony.Registrations[2].ExtraTicketPetition.IsApproved = false;
-            ceremony.Registrations[2].ExtraTicketPetition.IsPending = false;
-            ceremony.Registrations[2].ExtraTicketPetition.DateDecision = DateTime.Now;
-            #endregion Arrange
-
-            #region Act
-            var result = ceremony.ExtraRequestedtickets;
-            #endregion Act
-
-            #region Assert
-            Assert.AreEqual(2, result);
-            #endregion Assert
-        }
-
-        /// <summary>
-        /// Tests the extra requested tickets returns expected value.
-        /// </summary>
-        [TestMethod]
-        public void TestExtraRequestedticketsReturnsExpectedValue6()
-        {
-            #region Arrange
-            var ceremony = CreateValidEntities.Ceremony(1);
-            ceremony.TotalTickets = 500;
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations[0].NumberTickets = 3;
-            ceremony.Registrations[1].NumberTickets = 5;
-            ceremony.Registrations[2].NumberTickets = 11;
-            ceremony.Registrations[1].ExtraTicketPetition = new ExtraTicketPetition(2);
-            ceremony.Registrations[1].ExtraTicketPetition.IsApproved = true;
-            ceremony.Registrations[1].ExtraTicketPetition.IsPending = false;
-            ceremony.Registrations[1].ExtraTicketPetition.DateDecision = DateTime.Now;
-            ceremony.Registrations[2].ExtraTicketPetition = new ExtraTicketPetition(3);
-            ceremony.Registrations[2].ExtraTicketPetition.IsApproved = false;
-            ceremony.Registrations[2].ExtraTicketPetition.IsPending = true;
-            ceremony.Registrations[2].ExtraTicketPetition.DateDecision = DateTime.Now;
-            #endregion Arrange
-
-            #region Act
-            var result = ceremony.ExtraRequestedtickets;
-            #endregion Act
-
-            #region Assert
-            Assert.AreEqual(2, result);
-            #endregion Assert
-        }
-
-        /// <summary>
-        /// Tests the extra requested tickets returns expected value.
-        /// </summary>
-        [TestMethod]
-        public void TestExtraRequestedticketsReturnsExpectedValue7()
-        {
-            #region Arrange
-            var ceremony = CreateValidEntities.Ceremony(1);
-            ceremony.TotalTickets = 500;
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations[0].NumberTickets = 3;
-            ceremony.Registrations[1].NumberTickets = 5;
-            ceremony.Registrations[2].NumberTickets = 11;
-            ceremony.Registrations[1].ExtraTicketPetition = new ExtraTicketPetition(2);
-            ceremony.Registrations[1].ExtraTicketPetition.IsApproved = true;
-            ceremony.Registrations[1].ExtraTicketPetition.IsPending = false;
-            ceremony.Registrations[1].ExtraTicketPetition.DateDecision = DateTime.Now;
-            ceremony.Registrations[2].ExtraTicketPetition = new ExtraTicketPetition(3);
-            ceremony.Registrations[2].ExtraTicketPetition.IsApproved = true;
-            ceremony.Registrations[2].ExtraTicketPetition.IsPending = true; //Shouldn't really happen
-            ceremony.Registrations[2].ExtraTicketPetition.DateDecision = DateTime.Now;
-            #endregion Arrange
-
-            #region Act
-            var result = ceremony.ExtraRequestedtickets;
-            #endregion Act
-
-            #region Assert
-            Assert.AreEqual(2, result);
-            #endregion Assert
-        }
-
-        /// <summary>
-        /// Tests the extra requested tickets returns expected value.
-        /// </summary>
-        [TestMethod]
-        public void TestExtraRequestedticketsReturnsExpectedValue8()
-        {
-            #region Arrange
-            var ceremony = CreateValidEntities.Ceremony(1);
-            ceremony.TotalTickets = 500;
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations[0].NumberTickets = 3;
-            ceremony.Registrations[1].NumberTickets = 5;
-            ceremony.Registrations[2].NumberTickets = 11;
-            ceremony.Registrations[1].ExtraTicketPetition = new ExtraTicketPetition(2);
-            ceremony.Registrations[1].ExtraTicketPetition.IsApproved = true;
-            ceremony.Registrations[1].ExtraTicketPetition.IsPending = false;
-            ceremony.Registrations[1].ExtraTicketPetition.DateDecision = DateTime.Now;
-            ceremony.Registrations[2].ExtraTicketPetition = new ExtraTicketPetition(3);
-            ceremony.Registrations[2].ExtraTicketPetition.IsApproved = true;
-            ceremony.Registrations[2].ExtraTicketPetition.IsPending = false;
-            ceremony.Registrations[2].SjaBlock = true;
-            ceremony.Registrations[2].ExtraTicketPetition.DateDecision = DateTime.Now;
-            #endregion Arrange
-
-            #region Act
-            var result = ceremony.ExtraRequestedtickets;
-            #endregion Act
-
-            #region Assert
-            Assert.AreEqual(2, result);
-            #endregion Assert
-        }
-
-        /// <summary>
-        /// Tests the extra requested tickets returns expected value.
-        /// </summary>
-        [TestMethod]
-        public void TestExtraRequestedticketsReturnsExpectedValue9()
-        {
-            #region Arrange
-            var ceremony = CreateValidEntities.Ceremony(1);
-            ceremony.TotalTickets = 500;
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations[0].NumberTickets = 3;
-            ceremony.Registrations[1].NumberTickets = 5;
-            ceremony.Registrations[2].NumberTickets = 11;
-            ceremony.Registrations[1].ExtraTicketPetition = new ExtraTicketPetition(2);
-            ceremony.Registrations[1].ExtraTicketPetition.IsApproved = true;
-            ceremony.Registrations[1].ExtraTicketPetition.IsPending = false;
-            ceremony.Registrations[1].ExtraTicketPetition.DateDecision = DateTime.Now;
-            ceremony.Registrations[2].ExtraTicketPetition = new ExtraTicketPetition(3);
-            ceremony.Registrations[2].ExtraTicketPetition.IsApproved = true;
-            ceremony.Registrations[2].ExtraTicketPetition.IsPending = false;
-            ceremony.Registrations[2].Cancelled = true;
-            ceremony.Registrations[2].ExtraTicketPetition.DateDecision = DateTime.Now;
-            #endregion Arrange
-
-            #region Act
-            var result = ceremony.ExtraRequestedtickets;
-            #endregion Act
-
-            #region Assert
-            Assert.AreEqual(2, result);
-            #endregion Assert
-        }
-
-        /// <summary>
-        /// Tests the extra requested tickets returns expected value.
-        /// </summary>
-        [TestMethod]
-        public void TestExtraRequestedticketsReturnsExpectedValue10()
-        {
-            #region Arrange
-            var ceremony = CreateValidEntities.Ceremony(1);
-            ceremony.TotalTickets = 500;
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations.Add(new Registration());
-            ceremony.Registrations[0].NumberTickets = 3;
-            ceremony.Registrations[1].NumberTickets = 5;
-            ceremony.Registrations[2].NumberTickets = 11;
-            ceremony.Registrations[1].ExtraTicketPetition = new ExtraTicketPetition(2);
-            ceremony.Registrations[1].ExtraTicketPetition.IsApproved = true;
-            ceremony.Registrations[1].ExtraTicketPetition.IsPending = false;
-            ceremony.Registrations[1].ExtraTicketPetition.DateDecision = DateTime.Now;
-            ceremony.Registrations[2].ExtraTicketPetition = new ExtraTicketPetition(3);
-            ceremony.Registrations[2].ExtraTicketPetition.IsApproved = false;
-            ceremony.Registrations[2].ExtraTicketPetition.IsPending = false;
-            ceremony.Registrations[2].SjaBlock = true;
-            ceremony.Registrations[2].Cancelled = true;
-            ceremony.Registrations[2].ExtraTicketPetition.DateDecision = DateTime.Now;
-            #endregion Arrange
-
-            #region Act
-            var result = ceremony.ExtraRequestedtickets;
-            #endregion Act
-
-            #region Assert
-            Assert.AreEqual(2, result);
-            #endregion Assert
-        }
-        */
-        #endregion ExtraRequestedtickets Tests
+        #endregion Colleges Tests
+       
     }
 }

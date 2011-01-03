@@ -12,7 +12,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
     /// Entity Name:		Ceremony
     /// LookupFieldName:	Location
     /// </summary>
-    [TestClass, Ignore]
+    [TestClass]
     public partial class CeremonyRepositoryTests : AbstractRepositoryTests<Ceremony, int, CeremonyMap>
     {
         /// <summary>
@@ -107,7 +107,11 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
         protected override void LoadData()
         {
             CeremonyRepository.DbContext.BeginTransaction();
+            
             LoadTermCode(5);
+            LoadState(1);
+            LoadStudent(1);
+            LoadRegistrations(1);
             LoadRecords(5);
             CeremonyRepository.DbContext.CommitTransaction();
         }

@@ -132,7 +132,7 @@ namespace Commencement.Tests.Repositories
 
         public class AuditEqualityComparer : IEqualityComparer
         {
-            public bool Equals(object x, object y)
+            bool IEqualityComparer.Equals(object x, object y)
             {
                 if (x == null || y == null)
                 {
@@ -1052,7 +1052,6 @@ namespace Commencement.Tests.Repositories
         }
 
         #endregion Reflection of Database.	
-		
-		
+	
     }
 }

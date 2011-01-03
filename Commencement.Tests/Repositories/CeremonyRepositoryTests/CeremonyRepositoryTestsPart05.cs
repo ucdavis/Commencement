@@ -6,6 +6,85 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
 {
     partial class CeremonyRepositoryTests
     {
+        #region RegistrationBegin Tests
+
+        /// <summary>
+        /// Tests the RegistrationBegin with past date will save.
+        /// </summary>
+        [TestMethod]
+        public void TestRegistrationBeginWithPastDateWillSave()
+        {
+            #region Arrange
+            var compareDate = DateTime.Now.AddDays(-10);
+            Ceremony record = GetValid(99);
+            record.RegistrationBegin = compareDate;
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(record);
+            CeremonyRepository.DbContext.CommitChanges();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(record.IsTransient());
+            Assert.IsTrue(record.IsValid());
+            Assert.AreEqual(compareDate, record.RegistrationBegin);
+            #endregion Assert		
+        }
+
+        /// <summary>
+        /// Tests the RegistrationBegin with current date date will save.
+        /// </summary>
+        [TestMethod]
+        public void TestRegistrationBeginWithCurrentDateDateWillSave()
+        {
+            #region Arrange
+            var compareDate = DateTime.Now;
+            var record = GetValid(99);
+            record.RegistrationBegin = compareDate;
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(record);
+            CeremonyRepository.DbContext.CommitChanges();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(record.IsTransient());
+            Assert.IsTrue(record.IsValid());
+            Assert.AreEqual(compareDate, record.RegistrationBegin);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the RegistrationBegin with future date date will save.
+        /// </summary>
+        [TestMethod]
+        public void TestRegistrationBeginWithFutureDateDateWillSave()
+        {
+            #region Arrange
+            var compareDate = DateTime.Now.AddDays(15);
+            var record = GetValid(99);
+            record.RegistrationBegin = compareDate;
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(record);
+            CeremonyRepository.DbContext.CommitChanges();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(record.IsTransient());
+            Assert.IsTrue(record.IsValid());
+            Assert.AreEqual(compareDate, record.RegistrationBegin);
+            #endregion Assert
+        }
+        #endregion RegistrationBegin Tests
+ 
+
         #region RegistrationDeadline Tests
 
         /// <summary>
@@ -83,6 +162,85 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             #endregion Assert
         }
         #endregion RegistrationDeadline Tests
+
+        #region ExtraTicketBegin Tests
+
+        /// <summary>
+        /// Tests the ExtraTicketBegin with past date will save.
+        /// </summary>
+        [TestMethod]
+        public void TestExtraTicketBeginWithPastDateWillSave()
+        {
+            #region Arrange
+            var compareDate = DateTime.Now.AddDays(-10);
+            Ceremony record = GetValid(99);
+            record.ExtraTicketBegin = compareDate;
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(record);
+            CeremonyRepository.DbContext.CommitChanges();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(record.IsTransient());
+            Assert.IsTrue(record.IsValid());
+            Assert.AreEqual(compareDate, record.ExtraTicketBegin);
+            #endregion Assert		
+        }
+
+        /// <summary>
+        /// Tests the ExtraTicketBegin with current date date will save.
+        /// </summary>
+        [TestMethod]
+        public void TestExtraTicketBeginWithCurrentDateDateWillSave()
+        {
+            #region Arrange
+            var compareDate = DateTime.Now;
+            var record = GetValid(99);
+            record.ExtraTicketBegin = compareDate;
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(record);
+            CeremonyRepository.DbContext.CommitChanges();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(record.IsTransient());
+            Assert.IsTrue(record.IsValid());
+            Assert.AreEqual(compareDate, record.ExtraTicketBegin);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the ExtraTicketBegin with future date date will save.
+        /// </summary>
+        [TestMethod]
+        public void TestExtraTicketBeginWithFutureDateDateWillSave()
+        {
+            #region Arrange
+            var compareDate = DateTime.Now.AddDays(15);
+            var record = GetValid(99);
+            record.ExtraTicketBegin = compareDate;
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(record);
+            CeremonyRepository.DbContext.CommitChanges();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(record.IsTransient());
+            Assert.IsTrue(record.IsValid());
+            Assert.AreEqual(compareDate, record.ExtraTicketBegin);
+            #endregion Assert
+        }
+        #endregion ExtraTicketBegin Tests
+   
 
         #region ExtraTicketDeadline Tests
 

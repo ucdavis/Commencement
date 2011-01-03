@@ -14,6 +14,24 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
     partial class CeremonyRepositoryTests
     {
         #region Fluent Mapping Tests
+
+        [TestMethod]
+        public void TestMappingTests()
+        {
+            #region Arrange
+
+            Assert.Inconclusive("Write tests");
+
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+
+            #endregion Assert		
+        }
         //[TestMethod]
         //public void TestCanCorrectlyMapAttachment()
         //{
@@ -82,7 +100,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
 
         public class CeremonyEqualityComparer : IEqualityComparer
         {
-            public bool Equals(object x, object y)
+            bool IEqualityComparer.Equals(object x, object y)
             {
                 if (x == null || y == null)
                 {
@@ -194,6 +212,10 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
 			{
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
 			}));
+            expectedFields.Add(new NameAndType("ConfirmationText", "System.String", new List<string>
+            { 
+                 "[UCDArch.Core.NHibernateValidator.Extensions.RequiredAttribute()]"
+            }));
             expectedFields.Add(new NameAndType("DateTime", "System.DateTime", new List<string>
 			{
 				"[NHibernate.Validator.Constraints.FutureAttribute()]", 
@@ -204,11 +226,13 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
 			}));
             expectedFields.Add(new NameAndType("ExtraRequestedtickets", "System.Int32", new List<string>()));
+            expectedFields.Add(new NameAndType("ExtraTicketBegin", "System.DateTime", new List<string>()));
             expectedFields.Add(new NameAndType("ExtraTicketDeadline", "System.DateTime", new List<string>
 			{
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
 			}));
             expectedFields.Add(new NameAndType("ExtraTicketPerStudent", "System.Int32", new List<string>()));
+            expectedFields.Add(new NameAndType("HasStreamingTickets", "System.Boolean", new List<string>()));
             expectedFields.Add(new NameAndType("Id", "System.Int32", new List<string>
 			{
 				"[Newtonsoft.Json.JsonPropertyAttribute()]", 
@@ -223,13 +247,19 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
 			{
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
 			}));
+            expectedFields.Add(new NameAndType("MinUnits", "System.Int32", new List<string>()));
             expectedFields.Add(new NameAndType("Name", "System.String", new List<string>()));
+            expectedFields.Add(new NameAndType("PetitionThreshold", "System.Int32", new List<string>()));
             expectedFields.Add(new NameAndType("PrintingDeadline", "System.DateTime", new List<string>
 			{
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
 			}));
+            expectedFields.Add(new NameAndType("RegistrationBegin", "System.DateTime", new List<string>()));
             expectedFields.Add(new NameAndType("RegistrationDeadline", "System.DateTime", new List<string>
 			{
+				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
+			}));
+            expectedFields.Add(new NameAndType("RegistrationParticipations", "System.Collections.Generic.IList`1[Commencement.Core.Domain.RegistrationParticipation]", new List<string>{
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
 			}));
             expectedFields.Add(new NameAndType("RegistrationPetitions", "System.Collections.Generic.IList`1[Commencement.Core.Domain.RegistrationPetition]", new List<string>{
@@ -245,9 +275,6 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
 			}));
 
-
-
-
             expectedFields.Add(new NameAndType("TermCode", "Commencement.Core.Domain.TermCode", new List<string>
 			{
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
@@ -258,6 +285,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"                
 			}));
             expectedFields.Add(new NameAndType("TotalRequestedTickets", "System.Int32", new List<string>()));
+            expectedFields.Add(new NameAndType("TotalStreamingTickets", "System.Int32", new List<string>()));
             expectedFields.Add(new NameAndType("TotalTickets", "System.Int32", new List<string>
 			{
 				"[NHibernate.Validator.Constraints.MinAttribute((Int64)1)]",

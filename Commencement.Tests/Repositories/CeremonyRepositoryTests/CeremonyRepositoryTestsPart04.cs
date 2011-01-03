@@ -96,6 +96,84 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
         #endregion Valid Tests
         #endregion TotalTickets Tests
 
+        #region TotalStreamingTickets Tests
+
+        /// <summary>
+        /// Tests the TotalStreamingTickets with null value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestTotalStreamingTicketsWithNullValueSaves()
+        {
+            #region Arrange
+            Ceremony record = GetValid(9);
+            record.TotalStreamingTickets = null;
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(record);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(record.TotalStreamingTickets);
+            Assert.IsFalse(record.IsTransient());
+            Assert.IsTrue(record.IsValid());
+            #endregion Assert		
+        }
+
+        /// <summary>
+        /// Tests the TotalStreamingTickets with max int value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestTotalStreamingTicketsWithMaxIntValueSaves()
+        {
+            #region Arrange
+            var record = GetValid(9);
+            record.TotalStreamingTickets = int.MaxValue;
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(record);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(int.MaxValue, record.TotalStreamingTickets);
+            Assert.IsFalse(record.IsTransient());
+            Assert.IsTrue(record.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the TotalStreamingTickets with min int value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestTotalStreamingTicketsWithMinIntValueSaves()
+        {
+            #region Arrange
+            var record = GetValid(9);
+            record.TotalStreamingTickets = int.MinValue;
+            #endregion Arrange
+
+            #region Act
+            CeremonyRepository.DbContext.BeginTransaction();
+            CeremonyRepository.EnsurePersistent(record);
+            CeremonyRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(int.MinValue, record.TotalStreamingTickets);
+            Assert.IsFalse(record.IsTransient());
+            Assert.IsTrue(record.IsValid());
+            #endregion Assert
+        }
+
+        #endregion TotalStreamingTickets Tests
+        
+
+
         #region PrintingDeadline Tests
 
         /// <summary>
