@@ -251,4 +251,7 @@ Any student who is found selling tickets or in possession of counterfeit tickets
   <data name="Student_RegistrationPetition_Successful" xml:space="preserve">
     <value>You have successfully submitted your registration petition.</value>
   </data>
+  <data name="Error_StudentNotFound" xml:space="preserve">
+    <value>Student record could not be found.</value>
+  </data>
 </root>

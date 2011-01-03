@@ -199,6 +199,7 @@
     <Compile Include="Controllers\SpecialNeedsController.cs" />
     <Compile Include="Controllers\TermCodeController.cs" />
     <Compile Include="Controllers\ViewModels\AddEditorViewModel.cs" />
+    <Compile Include="Controllers\ViewModels\AdminEditStudentViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminExtraTicketPetitionViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminMajorsViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminPetitionsViewModel.cs" />
@@ -558,6 +559,7 @@
     <Content Include="Scripts\ui.multiselect.js" />
     <Content Include="Scripts\xVal.jquery.validate.js" />
     <Content Include="Views\Admin\Block.aspx" />
+    <Content Include="Views\Admin\EditStudent.aspx" />
     <Content Include="Views\Admin\Index.aspx" />
     <Content Include="Views\Admin\Majors.aspx" />
     <Content Include="Views\Admin\RegisterForStudent.aspx" />

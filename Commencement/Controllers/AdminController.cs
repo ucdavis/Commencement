@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
@@ -93,7 +92,11 @@ namespace Commencement.Controllers
         public ActionResult StudentDetails(Guid id, bool? registration)
         {
             var student = _studentRepository.GetNullableById(id);
-            if (student == null) return this.RedirectToAction<AdminController>(a => a.Index());
+            if (student == null)
+            {
+                Message = StaticValues.Error_StudentNotFound;
+                return this.RedirectToAction<AdminController>(a => a.Index());
+            }
 
             var viewModel = RegistrationModel.Create(Repository, _ceremonyService.GetCeremonies(CurrentUser.Identity.Name), student);
             viewModel.Registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student).FirstOrDefault();
@@ -104,7 +107,11 @@ namespace Commencement.Controllers
         public ActionResult Block(Guid id)
         {
             var student = _studentRepository.GetNullableById(id);
-            if (student == null) return this.RedirectToAction<AdminController>(a => a.Index());
+            if (student == null)
+            {
+                Message = StaticValues.Error_StudentNotFound;
+                return this.RedirectToAction<AdminController>(a => a.Index());
+            }
 
             return View(student);
         }
@@ -112,7 +119,11 @@ namespace Commencement.Controllers
         public ActionResult Block(Guid id, bool block, string reason)
         {
             var student = _studentRepository.GetNullableById(id);
-            if (student == null) return this.RedirectToAction<AdminController>(a => a.Index());
+            if (student == null)
+            {
+                Message = StaticValues.Error_StudentNotFound;
+                return this.RedirectToAction<AdminController>(a => a.Index());
+            }
 
             if (block)
             {
@@ -138,7 +149,7 @@ namespace Commencement.Controllers
             var student = _studentRepository.GetNullableById(id);
             if (student == null)
             {
-                Message = "You tried to register a student that does not exist.";
+                Message = StaticValues.Error_StudentNotFound;
                 return this.RedirectToAction(a => a.Students(null, null, null, null));
             }
 
@@ -159,7 +170,11 @@ namespace Commencement.Controllers
         {
             // load the student
             var student = _studentRepository.GetNullableById(id);
-            if (student == null) return this.RedirectToAction(a => a.Students(null, null, null, null));
+            if (student == null)
+            {
+                Message = StaticValues.Error_StudentNotFound;
+                return this.RedirectToAction(a => a.Students(null, null, null, null));
+            }
 
             // check for an existing registration
             var registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student && a.TermCode == TermService.GetCurrent()).SingleOrDefault();
@@ -199,6 +214,45 @@ namespace Commencement.Controllers
             // load the current user's ceremonies, to determine what they can register the student for
             var registrationModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(student.Majors.ToList(), student.TotalUnits), student: student, registration: registration, edit: true);
             var viewModel = AdminRegisterForStudentViewModel.Create(Repository, registrationModel);
+            return View(viewModel);
+        }
+
+        public ActionResult EditStudent(Guid id)
+        {
+            var student = _studentRepository.GetNullableById(id);
+            if (student == null)
+            {
+                Message = StaticValues.Error_StudentNotFound;
+                return this.RedirectToAction<AdminController>(a => a.Index());
+            }
+
+            var viewModel = AdminEditStudentViewModel.Create(Repository, student);
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult EditStudent(Guid id, Student student)
+        {
+            var existingStudent = _studentRepository.GetNullableById(id);
+            if (existingStudent == null)
+            {
+                Message = StaticValues.Error_StudentNotFound;
+                return this.RedirectToAction<AdminController>(a => a.Index());
+            }
+
+            CopyHelper.CopyStudentValues(student, existingStudent);
+
+            student.TransferValidationMessagesTo(ModelState);
+
+            // save the student object
+            if (ModelState.IsValid)
+            {
+                Repository.OfType<Student>().EnsurePersistent(existingStudent);
+                Message = "Student has been updated.";
+                return this.RedirectToAction<AdminController>(a => a.StudentDetails(id, false));
+            }
+
+            var viewModel = AdminEditStudentViewModel.Create(Repository, student);
             return View(viewModel);
         }
 
@@ -391,5 +445,4 @@ namespace Commencement.Controllers
         #endregion
         #endregion
     }
-
 }

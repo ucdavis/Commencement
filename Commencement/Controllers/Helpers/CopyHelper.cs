@@ -27,5 +27,19 @@ namespace Commencement.Controllers.Helpers
             dest.NumberTickets = src.NumberTickets;
             dest.Cancelled = src.Cancelled;
         }
+
+        public static void CopyStudentValues(Student src, Student dest)
+        {
+            dest.FirstName = src.FirstName;
+            dest.MI = src.MI;
+            dest.LastName = src.LastName;
+            dest.EarnedUnits = src.EarnedUnits;
+            dest.CurrentUnits = src.CurrentUnits;
+            dest.Email = src.Email;
+            dest.Login = src.Login;
+
+            dest.Majors = src.Majors;
+        }
+
     }
 }

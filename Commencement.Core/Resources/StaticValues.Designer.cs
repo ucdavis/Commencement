@@ -61,6 +61,15 @@ namespace Commencement.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Student record could not be found..
+        /// </summary>
+        public static string Error_StudentNotFound {
+            get {
+                return ResourceManager.GetString("Error_StudentNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There was a problem sending {0} an email..
         /// </summary>
         public static string Student_Add_Permission_Problem {
