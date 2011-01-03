@@ -269,13 +269,10 @@ namespace Commencement.Controllers
         [HttpPost]
         public ActionResult AddStudent(string studentId, Student student)
         {
-            // validate that the student doesn't already exist
-            var existing = _studentRepository.Queryable.Where(a => a.StudentId == studentId && a.TermCode == TermService.GetCurrent()).FirstOrDefault();
-
-            if (existing != null)
+            if (_studentService.CheckExisting(student.Login, TermService.GetCurrent()))
             {
                 ModelState.AddModelError("Exists", "Student already exists in the system.");
-                Message = string.Format("{0} already exists, you can edit the student record or registration by going through the student details page.", existing.FullName);
+                Message = string.Format("{0} already exists, you can edit the student record or registration by going through the student details page.", student.FullName);
             }
 
             student.TermCode = TermService.GetCurrent();

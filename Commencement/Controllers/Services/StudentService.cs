@@ -15,15 +15,8 @@ namespace Commencement.Controllers.Services
         Student GetCurrentStudent(IPrincipal currentUser);
         List<CeremonyWithMajor> GetMajorsAndCeremoniesForStudent(Student student);
         Registration GetPriorRegistration(Student student, TermCode termCode) ;
-        // old method
-        IList<SearchStudent> SearchStudent(string studentId, string termCode);
-        // old method
-        IList<SearchStudent> SearchStudentByLogin(string login, string termCode);
-
-        IList<BannerStudent> BannerLookupByLogin(string login);
-
+        Student BannerLookupByLogin(string login);
         Student BannerLookup(string studentId);
-
         bool CheckExisting(string login, TermCode term);
     }
 
@@ -54,23 +47,8 @@ namespace Commencement.Controllers.Services
             
             if (currentStudent == null)
             {
-                var searchResults = BannerLookupByLogin(currentUser.Identity.Name);
-                var s = searchResults.FirstOrDefault();
-                
-                if (searchResults != null)
-                {
-                    // do a check for std
-
-                    currentStudent = new Student(s.Pidm, s.StudentId, s.FirstName, s.Mi, s.LastName, s.CurrentUnits, s.EarnedUnits, s.Email, currentUser.Identity.Name, TermService.GetCurrent());
-
-                    foreach (var bannerStudent in searchResults)
-                    {
-                        currentStudent.Majors.Add(_majorRepository.GetById(bannerStudent.Major));
-                    }
-
-                    // persist the student
-                    _studentRepository.EnsurePersistent(currentStudent);
-                }
+                var student = BannerLookupByLogin(currentUser.Identity.Name);
+                if (student != null) _studentRepository.EnsurePersistent(currentStudent);
             }
 
             return currentStudent;
@@ -101,41 +79,14 @@ namespace Commencement.Controllers.Services
             return _registrationRepository.Queryable.SingleOrDefault(x => x.Student == student && x.RegistrationParticipations[0].Ceremony.TermCode == termCode);
         }
 
-        public IList<SearchStudent> SearchStudent(string studentId, string termCode)
-        {
-            var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery(StaticValues.StudentService_SearchStudent_SQL);
-
-            searchQuery.SetString("studentid", studentId);
-            searchQuery.SetString("term", termCode);
-            searchQuery.SetTimeout(120);
-
-            searchQuery.AddEntity(typeof (SearchStudent));
-            
-            return searchQuery.List<SearchStudent>();
-        }
-
-        public IList<SearchStudent> SearchStudentByLogin(string login, string termCode)
-        {
-            var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery(StaticValues.StudentService_SearchStudentByLogin_SQL);
-
-            searchQuery.SetString("login", login);
-            searchQuery.SetString("term", termCode);
-
-            searchQuery.AddEntity(typeof (SearchStudent));
-            
-            return searchQuery.List<SearchStudent>();
-        }
-
-        public IList<BannerStudent> BannerLookupByLogin(string login)
+        public Student BannerLookupByLogin(string login)
         {
             var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery(StaticValues.StudentService_BannerLookupByLogin_SQL);
             searchQuery.SetString("login", login);
             searchQuery.AddEntity(typeof (BannerStudent));
 
-            // var result = searchQuery.List<BannerStudent>();
-            // return ExtractStudentFromResult(result);
-
-            return searchQuery.List<BannerStudent>();
+            var result = searchQuery.List<BannerStudent>();
+            return ExtractStudentFromResult(result);
         }
 
         public Student BannerLookup(string studentId)
@@ -196,23 +147,8 @@ namespace Commencement.Controllers.Services
 
             if (currentStudent == null)
             {
-                var searchResults = BannerLookupByLogin(currentUser.Identity.Name);
-                var s = searchResults.FirstOrDefault();
-
-                if (searchResults != null)
-                {
-                    // do a check for std
-
-                    currentStudent = new Student(s.Pidm, s.StudentId, s.FirstName, s.Mi, s.LastName, s.CurrentUnits, s.EarnedUnits, s.Email, currentUser.Identity.Name, TermService.GetCurrent());
-
-                    foreach (var bannerStudent in searchResults)
-                    {
-                        currentStudent.Majors.Add(_majorRepository.GetById(bannerStudent.Major));
-                    }
-
-                    // persist the student
-                    _studentRepository.EnsurePersistent(currentStudent);
-                }
+                var student = BannerLookupByLogin(currentUser.Identity.Name);
+                if (student != null) _studentRepository.EnsurePersistent(currentStudent);
             }
 
             return currentStudent;
@@ -243,41 +179,10 @@ namespace Commencement.Controllers.Services
             return _registrationRepository.Queryable.SingleOrDefault(x => x.Student == student && x.RegistrationParticipations[0].Ceremony.TermCode == termCode);
         }
 
-        public IList<SearchStudent> SearchStudent(string studentId, string termCode)
+        public Student BannerLookupByLogin(string login)
         {
-            var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery(StaticValues.StudentService_SearchStudent_SQL);
-
-            searchQuery.SetString("studentid", studentId);
-            searchQuery.SetString("term", termCode);
-            searchQuery.SetTimeout(120);
-
-            searchQuery.AddEntity(typeof(SearchStudent));
-
-            return searchQuery.List<SearchStudent>();
-        }
-
-        public IList<SearchStudent> SearchStudentByLogin(string login, string termCode)
-        {
-            var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery(StaticValues.StudentService_SearchStudentByLogin_SQL);
-
-            searchQuery.SetString("login", login);
-            searchQuery.SetString("term", termCode);
-
-            searchQuery.AddEntity(typeof(SearchStudent));
-
-            return searchQuery.List<SearchStudent>();
-        }
-
-        public IList<BannerStudent> BannerLookupByLogin(string login)
-        {
-            var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery(StaticValues.StudentService_BannerLookupByLogin_SQL);
-            searchQuery.SetString("login", login);
-            searchQuery.AddEntity(typeof(BannerStudent));
-
-            // var result = searchQuery.List<BannerStudent>();
-            // return ExtractStudentFromResult(result);
-
-            return searchQuery.List<BannerStudent>();
+            if (login == "pjfry") return GenerateFake();
+            return null;
         }
 
         public Student BannerLookup(string studentId)
