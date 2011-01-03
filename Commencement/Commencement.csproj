@@ -560,6 +560,7 @@
     <Content Include="Scripts\xVal.jquery.validate.js" />
     <Content Include="Views\Admin\Block.aspx" />
     <Content Include="Views\Admin\EditStudent.aspx" />
+    <Content Include="Views\Admin\EditStudentPartial.ascx" />
     <Content Include="Views\Admin\Index.aspx" />
     <Content Include="Views\Admin\Majors.aspx" />
     <Content Include="Views\Admin\RegisterForStudent.aspx" />

@@ -15,7 +15,9 @@ namespace Commencement.Controllers.Services
         Student GetCurrentStudent(IPrincipal currentUser);
         List<CeremonyWithMajor> GetMajorsAndCeremoniesForStudent(Student student);
         Registration GetPriorRegistration(Student student, TermCode termCode) ;
+        // old method
         IList<SearchStudent> SearchStudent(string studentId, string termCode);
+        // old method
         IList<SearchStudent> SearchStudentByLogin(string login, string termCode);
 
         IList<BannerStudent> BannerLookupByLogin(string login);
