@@ -51,7 +51,7 @@ namespace Commencement.Core.Domain
             Map(x => x.Email).Column("Goremal_Email_Address");
             Map(x => x.MajorCode).Column("Zgvlcfs_Majr_Code");
             Map(x => x.CollegeCode).Column("Zgvlcfs_Coll_Code");
-            Map(x => x.DegreeCode).Column("Zgvlcfs_Degs_Code");
+            Map(x => x.DegreeCode).Column("shrdgmr_degs_code");
             Map(x => x.LoginId).Column("loginid");
             Map(x => x.Astd).Column("shrttrm_astd_code_end_of_term");
         }
