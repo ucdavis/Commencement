@@ -145,8 +145,6 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             #region Arrange
             Repository.OfType<RegistrationPetition>().DbContext.BeginTransaction();
             LoadMajorCode(1);
-            LoadState(1);
-            LoadRegistrations(1);
             LoadRegistrationPetitions(5);
             var registrationPetition = Repository.OfType<RegistrationPetition>().GetById(2);
             registrationPetition.Ceremony = CeremonyRepository.GetById(2);

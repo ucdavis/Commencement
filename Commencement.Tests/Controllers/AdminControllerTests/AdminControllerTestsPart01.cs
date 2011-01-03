@@ -48,23 +48,23 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             "~/Admin/AddStudent/".ShouldMapTo<AdminController>(a => a.AddStudent(null), true);
         }
 
-        /// <summary>
-        /// Tests the add student confirm get mapping.
-        /// </summary>
-        [TestMethod, Ignore]
-        public void TestAddStudentConfirmGetMapping()
-        {
-            "~/Admin/AddStudentConfirm/".ShouldMapTo<AdminController>(a => a.AddStudentConfirm(null, null), true);
-        }
+        ///// <summary>
+        ///// Tests the add student confirm get mapping.
+        ///// </summary>
+        //[TestMethod, Ignore]
+        //public void TestAddStudentConfirmGetMapping()
+        //{
+        //    "~/Admin/AddStudentConfirm/".ShouldMapTo<AdminController>(a => a.AddStudentConfirm(null, null), true);
+        //}
 
-        /// <summary>
-        /// Tests the add student confirm post mapping.
-        /// </summary>
-        [TestMethod, Ignore]
-        public void TestAddStudentConfirmPostMapping()
-        {
-            "~/Admin/AddStudentConfirm/".ShouldMapTo<AdminController>(a => a.AddStudentConfirm(null, null, null), true);
-        }
+        ///// <summary>
+        ///// Tests the add student confirm post mapping.
+        ///// </summary>
+        //[TestMethod, Ignore]
+        //public void TestAddStudentConfirmPostMapping()
+        //{
+        //    "~/Admin/AddStudentConfirm/".ShouldMapTo<AdminController>(a => a.AddStudentConfirm(null, null, null), true);
+        //}
 
         ///// <summary>
         ///// Tests the change major get mapping.
