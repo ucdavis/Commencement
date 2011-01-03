@@ -14,7 +14,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// Tests the index mapping.
         /// #1
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestIndexMapping()
         {
             "~/Admin/Index".ShouldMapTo<AdminController>(a => a.Index());
@@ -24,7 +24,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// Tests the students mapping.
         /// #2
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestStudentsMapping()
         {
             "~/Admin/Students/".ShouldMapTo<AdminController>(a => a.Students("1", null, null, null), true);
@@ -33,7 +33,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the student details mapping.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestStudentDetailsMapping()
         {
             "~/Admin/StudentDetails/".ShouldMapTo<AdminController>(a => a.StudentDetails(Guid.Empty, true), true);
@@ -42,7 +42,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student mapping.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentMapping()
         {
             "~/Admin/AddStudent/".ShouldMapTo<AdminController>(a => a.AddStudent(null), true);
@@ -51,7 +51,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm get mapping.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentConfirmGetMapping()
         {
             "~/Admin/AddStudentConfirm/".ShouldMapTo<AdminController>(a => a.AddStudentConfirm(null, null), true);
@@ -60,29 +60,29 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm post mapping.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentConfirmPostMapping()
         {
             "~/Admin/AddStudentConfirm/".ShouldMapTo<AdminController>(a => a.AddStudentConfirm(null, null, null), true);
         }
 
-        /// <summary>
-        /// Tests the change major get mapping.
-        /// </summary>
-        [TestMethod]
-        public void TestChangeMajorGetMapping()
-        {
-            "~/Admin/ChangeMajor/5".ShouldMapTo<AdminController>(a => a.ChangeMajor(5));
-        }
+        ///// <summary>
+        ///// Tests the change major get mapping.
+        ///// </summary>
+        //[TestMethod]
+        //public void TestChangeMajorGetMapping()
+        //{
+        //    "~/Admin/ChangeMajor/5".ShouldMapTo<AdminController>(a => a.ChangeMajor(5));
+        //}
 
-        /// <summary>
-        /// Tests the change major post mapping.
-        /// </summary>
-        [TestMethod]
-        public void TestChangeMajorPostMapping()
-        {
-            "~/Admin/ChangeMajor/5".ShouldMapTo<AdminController>(a => a.ChangeMajor(5, "123"), true);
-        }
+        ///// <summary>
+        ///// Tests the change major post mapping.
+        ///// </summary>
+        //[TestMethod]
+        //public void TestChangeMajorPostMapping()
+        //{
+        //    "~/Admin/ChangeMajor/5".ShouldMapTo<AdminController>(a => a.ChangeMajor(5, "123"), true);
+        //}
         #endregion Mapping Tests
     }
 }

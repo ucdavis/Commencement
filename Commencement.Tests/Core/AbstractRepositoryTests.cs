@@ -617,7 +617,7 @@ namespace Commencement.Tests.Core
             {
                 var validEntity = CreateValidEntities.RegistrationPetition(i + 1);
                 validEntity.MajorCode = majorCodeRepository.GetById("1");
-                validEntity.TermCode = termCodeRepository.GetById("1");
+                //validEntity.TermCode = termCodeRepository.GetById("1");
                 Repository.OfType<RegistrationPetition>().EnsurePersistent(validEntity);
             }
         }

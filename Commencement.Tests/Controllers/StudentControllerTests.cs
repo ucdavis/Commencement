@@ -106,22 +106,22 @@ namespace Commencement.Tests.Controllers
         //}
 
         /// <summary>
-        /// Tests the display registration mapping.
-        /// </summary>
-        [TestMethod, Ignore]
-        public void TestDisplayRegistrationMapping()
-        {
-            "~/Student/DisplayRegistration/5".ShouldMapTo<StudentController>(a => a.DisplayRegistration(5));
-        }
+        ///// Tests the display registration mapping.
+        ///// </summary>
+        //[TestMethod, Ignore]
+        //public void TestDisplayRegistrationMapping()
+        //{
+        //    "~/Student/DisplayRegistration/5".ShouldMapTo<StudentController>(a => a.DisplayRegistration(5));
+        //}
 
-        /// <summary>
-        /// Tests the registration confirmation mapping.
-        /// </summary>
-        [TestMethod, Ignore]
-        public void TestRegistrationConfirmationMapping()
-        {
-            "~/Student/RegistrationConfirmation/5".ShouldMapTo<StudentController>(a => a.RegistrationConfirmation(5));
-        }
+        ///// <summary>
+        ///// Tests the registration confirmation mapping.
+        ///// </summary>
+        //[TestMethod, Ignore]
+        //public void TestRegistrationConfirmationMapping()
+        //{
+        //    "~/Student/RegistrationConfirmation/5".ShouldMapTo<StudentController>(a => a.RegistrationConfirmation(5));
+        //}
 
         //[TestMethod]
         //public void TestRegisterGetMapping()
@@ -184,26 +184,26 @@ namespace Commencement.Tests.Controllers
         //}
 
 
-        /// <summary>
-        /// Tests the index redirects to display registration when prior registration is not null.
-        /// </summary>
-        [TestMethod, Ignore]
-        public void TestIndexRedirectsToDisplayRegistrationWhenPriorRegistrationIsNotNull()
-        {
-            #region Arrange
-            LoadTermCodes("2010");
-            var registration = CreateValidEntities.Registration(1);
-            var student = CreateValidEntities.Student(1);
-            _studentService.Expect(a => a.GetPriorRegistration(Arg<Student>.Is.Anything, Arg<TermCode>.Is.Anything)).Return(registration).Repeat.Any();
-            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
-            #endregion Arrange
+        ///// <summary>
+        ///// Tests the index redirects to display registration when prior registration is not null.
+        ///// </summary>
+        //[TestMethod, Ignore]
+        //public void TestIndexRedirectsToDisplayRegistrationWhenPriorRegistrationIsNotNull()
+        //{
+        //    #region Arrange
+        //    LoadTermCodes("2010");
+        //    var registration = CreateValidEntities.Registration(1);
+        //    var student = CreateValidEntities.Student(1);
+        //    _studentService.Expect(a => a.GetPriorRegistration(Arg<Student>.Is.Anything, Arg<TermCode>.Is.Anything)).Return(registration).Repeat.Any();
+        //    _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
+        //    #endregion Arrange
 
-            #region Act/Assert
-            Controller.Index()
-                .AssertActionRedirect()
-                .ToAction<StudentController>(a => a.DisplayRegistration(registration.Id));
-            #endregion Act/Assert
-        }
+        //    #region Act/Assert
+        //    Controller.Index()
+        //        .AssertActionRedirect()
+        //        .ToAction<StudentController>(a => a.DisplayRegistration(registration.Id));
+        //    #endregion Act/Assert
+        //}
 
         #endregion Index Tests
         /*

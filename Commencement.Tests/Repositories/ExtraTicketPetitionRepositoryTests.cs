@@ -631,7 +631,7 @@ namespace Commencement.Tests.Repositories
         public void TestConstructorWithParametersSetsExpectedValues()
         {
             #region Arrange
-            var record = new ExtraTicketPetition(5);
+            var record = new ExtraTicketPetition(5, "ReasonHere");
             #endregion Arrange
 
             #region Act

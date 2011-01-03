@@ -132,7 +132,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
                     Assert.AreEqual(xVal.Count, yVal.Count);
                     for (int i = 0; i < xVal.Count; i++)
                     {
-                        Assert.AreEqual(xVal[i].FirstName, yVal[i].FirstName);
+                        Assert.AreEqual(xVal[i].ExceptionReason, yVal[i].ExceptionReason);
                     }
                     return true;
                 }

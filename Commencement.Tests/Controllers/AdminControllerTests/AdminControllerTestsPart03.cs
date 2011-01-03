@@ -18,7 +18,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the student details redirects to index if the student is not found.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestStudentDetailsRedirectsToIndexIfTheStudentIsNotFound()
         {
             #region Arrange
@@ -73,7 +73,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student with null parameter returns view.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentWithNullParameterReturnsView()
         {
             #region Arrange
@@ -94,7 +94,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student with empty string parameter returns view.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentWithEmptyStringParameterReturnsView()
         {
             #region Arrange

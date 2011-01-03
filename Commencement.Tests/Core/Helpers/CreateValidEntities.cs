@@ -95,7 +95,7 @@ namespace Commencement.Tests.Core.Helpers
 
         public static ExtraTicketPetition ExtraTicketPetition(int count)
         {
-            var rtValue = new ExtraTicketPetition(count);
+            var rtValue = new ExtraTicketPetition();
             rtValue.NumberTicketsRequested = 1;
             rtValue.Reason = "Reason" + count;
             //rtValue.SetIdTo(count);
@@ -148,16 +148,10 @@ namespace Commencement.Tests.Core.Helpers
                 localCount = (int)count;
             }
             var rtValue = new RegistrationPetition();
-            rtValue.Pidm = (10000000 + localCount).ToString();
-            rtValue.StudentId = (100000000 + localCount).ToString();
-            rtValue.FirstName = "FirstName" + count.Extra();
-            rtValue.LastName = "LastName" + count.Extra();
-            rtValue.Email = "Email" + count.Extra();
-            rtValue.Login = "Login" + count.Extra();
+
             rtValue.MajorCode = new MajorCode();
             rtValue.ExceptionReason = "ExceptionReason" + count.Extra();
-            rtValue.CompletionTerm = "201003";
-            rtValue.TermCode = new TermCode();
+
 
             return rtValue;
         }

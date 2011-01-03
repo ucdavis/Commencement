@@ -21,7 +21,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm get redirects when student id is null.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentConfirmGetRedirectsWhenStudentIdIsNull()
         {
             #region Arrange
@@ -43,7 +43,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm get redirects when student id is empty.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentConfirmGetRedirectsWhenStudentIdIsEmpty()
         {
             #region Arrange
@@ -65,7 +65,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm get redirects when major id is null.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentConfirmGetRedirectsWhenMajorIdIsNull()
         {
             #region Arrange
@@ -87,7 +87,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm get redirects when major id is empty.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestAddStudentConfirmGetRedirectsWhenMajorIdIsEmpty()
         {
             #region Arrange
@@ -220,7 +220,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the add student confirm post throws exception if student is null.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
         public void TestAddStudentConfirmPostThrowsExceptionIfStudentIsNull()
         {
@@ -257,7 +257,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             }
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
         public void TestAddStudentConfirmPostThrowsExceptionIfMajorCodeNull()
         {

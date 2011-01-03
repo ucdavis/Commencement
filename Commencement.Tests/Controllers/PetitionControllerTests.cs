@@ -79,14 +79,14 @@ namespace Commencement.Tests.Controllers
             "~/Petition/DecideExtraTicketPetition/5".ShouldMapTo<PetitionController>(a => a.DecideExtraTicketPetition(5, true), true);
         }
 
-        /// <summary>
-        /// Tests the Register mapping.
-        /// </summary>
-        [TestMethod, Ignore]
-        public void TestRegisterMapping()
-        {
-            "~/Petition/Register".ShouldMapTo<PetitionController>(a => a.Register());
-        }
+        ///// <summary>
+        ///// Tests the Register mapping.
+        ///// </summary>
+        //[TestMethod, Ignore]
+        //public void TestRegisterMapping()
+        //{
+        //    "~/Petition/Register".ShouldMapTo<PetitionController>(a => a.Register());
+        //}
 
 
         /// <summary>
