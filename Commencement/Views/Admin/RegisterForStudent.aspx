@@ -54,7 +54,7 @@
                         Register for this ceremony
                         <br />
                         <input type="radio" id="<%: string.Format("ceremonyParticipations[{0}]_Cancel", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Cancel", a.Index) %>" value="true" <%: a.Cancel ? "checked" : string.Empty %> />
-                        Cacel this registration
+                        Cancel this registration
                     </li>
                 <% } %>
 

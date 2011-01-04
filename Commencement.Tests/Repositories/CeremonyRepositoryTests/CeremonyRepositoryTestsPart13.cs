@@ -24,14 +24,16 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             #endregion Act
 
             #region Assert
-            //Assert.IsNotNull(ceremony.Registrations);
+            Assert.IsNotNull(ceremony.RegistrationParticipations);
             Assert.IsNotNull(ceremony.Majors);
             Assert.IsNotNull(ceremony.RegistrationPetitions);
             Assert.IsNotNull(ceremony.Editors);
             Assert.IsNotNull(ceremony.Colleges);
             Assert.IsNotNull(ceremony.Templates);
             Assert.AreEqual(DateTime.Now.Date, ceremony.DateTime.Date);
+            Assert.AreEqual(DateTime.Now.Date, ceremony.RegistrationBegin.Date);
             Assert.AreEqual(DateTime.Now.Date, ceremony.RegistrationDeadline.Date);
+            Assert.AreEqual(DateTime.Now.Date, ceremony.ExtraTicketBegin.Date);
             Assert.AreEqual(DateTime.Now.Date, ceremony.ExtraTicketDeadline.Date);
             Assert.AreEqual(DateTime.Now.Date, ceremony.PrintingDeadline.Date);
             #endregion Assert
@@ -53,7 +55,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
 
             #region Assert
             Assert.AreEqual("Location", ceremony.Location);
-            //Assert.IsNotNull(ceremony.Registrations);
+            Assert.IsNotNull(ceremony.RegistrationParticipations);
             Assert.IsNotNull(ceremony.Majors);
             Assert.IsNotNull(ceremony.RegistrationPetitions);
             Assert.IsNotNull(ceremony.Editors);
@@ -62,7 +64,9 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             Assert.AreEqual(DateTime.Now.AddDays(10).Date, ceremony.DateTime.Date);
             Assert.AreEqual(10, ceremony.TicketsPerStudent);
             Assert.AreEqual(100, ceremony.TotalTickets);
+            Assert.AreEqual(DateTime.Now.Date, ceremony.RegistrationBegin.Date);
             Assert.AreEqual(DateTime.Now.AddDays(20).Date, ceremony.RegistrationDeadline.Date);
+            Assert.AreEqual(DateTime.Now.Date, ceremony.ExtraTicketBegin.Date);
             Assert.AreEqual(DateTime.Now.Date, ceremony.ExtraTicketDeadline.Date);
             Assert.AreEqual(DateTime.Now.AddDays(15).Date, ceremony.PrintingDeadline.Date);
             Assert.AreEqual("Name4", ceremony.TermCode.Name);
