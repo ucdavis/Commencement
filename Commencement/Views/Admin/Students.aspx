@@ -74,7 +74,7 @@
 
     <script type="text/javascript">
         $(function() {
-            $("#filter_container").accordion({collapsible:true});
+            $("#filter_container").accordion({collapsible:true, autoHeight: false, active: false });
         });
     </script>
 </asp:Content>

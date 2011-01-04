@@ -56,6 +56,11 @@ namespace Commencement.Controllers
             return View();
         }
 
+        public ActionResult AdminLanding()
+        {
+            return View();
+        }
+
         #region List Pages
         /// <summary>
         /// Students

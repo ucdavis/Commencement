@@ -559,6 +559,7 @@
     <Content Include="Scripts\ui.multiselect.js" />
     <Content Include="Scripts\xVal.jquery.validate.js" />
     <Content Include="Views\Admin\AddStudent.aspx" />
+    <Content Include="Views\Admin\AdminLanding.aspx" />
     <Content Include="Views\Admin\Block.aspx" />
     <Content Include="Views\Admin\EditStudent.aspx" />
     <Content Include="Views\Admin\EditStudentPartial.ascx" />
