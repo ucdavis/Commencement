@@ -4,7 +4,10 @@ namespace Commencement.Core.Domain
 {
     public class BannerStudent
     {
-        public virtual string Pidm { get; set; }
+        /// <summary>
+        /// Pidm
+        /// </summary>
+        public virtual string Pidm { get; set; }  
         public virtual string StudentId { get; set; }
         public virtual string FirstName { get; set; }
         public virtual string Mi { get; set; }
@@ -22,7 +25,7 @@ namespace Commencement.Core.Domain
     {
         public BannerStudentMap()
         {
-            Id(x => x.Pidm);
+            Id(x => x.Pidm).Column("Pidm");
 
             Map(x => x.StudentId);
             Map(x => x.FirstName);
