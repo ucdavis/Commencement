@@ -23,7 +23,7 @@
         <br />
         <div style="text-align:center;">
         <div id="continue_btn">
-            <%= Html.ActionLink<PetitionController>(a=>a.Register(), "Continue") %>
+            <%--<%= Html.ActionLink<PetitionController>(a=>a.Register(), "Continue") %>--%>
         </div>
         </div>
         

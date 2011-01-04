@@ -22,6 +22,8 @@ namespace Commencement.Controllers.Filters
 
         public void OnAuthorization(AuthorizationContext filterContext)
         {
+            if (filterContext.ActionDescriptor.GetCustomAttributes(typeof(IgnoreStudentsOnly), false).Count() > 0) return;
+
             var registrationRepository = SmartServiceLocator<IRepository<Registration>>.GetService();
             var studentRepository = SmartServiceLocator<IRepositoryWithTypedId<Student, Guid>>.GetService();
 
@@ -41,22 +43,24 @@ namespace Commencement.Controllers.Filters
                 CurrentStudent = student;   // set the session variable
             }
             
-            // user is not a student
+            // user is not a student, or atleast not one that we have on record
             if (student == null)
             {
                 // redirect to the error message that they are not a CAES Student
                 filterContext.Result = new RedirectResult(urlHelper.Action("Index", "Error", new { ErrorType = ErrorController.ErrorType.UnauthorizedAccess }));
-
+                return;
             }
 
             if (student.SjaBlock)
             {
                 filterContext.Result = new RedirectResult(urlHelper.Action("Index", "Error", new { ErrorType = ErrorController.ErrorType.SJA }));
+                return;
             }
 
             if (student.Blocked)
             {
                 filterContext.Result = new RedirectResult(urlHelper.Action("Index", "Error", new { ErrorType = ErrorController.ErrorType.NotEligible }));
+                return;
             }
             
             var emulation = (bool?)filterContext.HttpContext.Session[StaticIndexes.EmulationKey] ?? false;
@@ -83,63 +87,7 @@ namespace Commencement.Controllers.Filters
         }
     }
 
-    //public class StudentAccess
-    //{
-
-    //    /// <summary>
-    //    /// Determines whether the specified student repository is student.
-    //    /// </summary>
-    //    /// <param name="studentRepository">The student repository.</param>
-    //    /// <param name="loginId">The login id.</param>
-    //    /// <returns>
-    //    /// 	<c>true</c> if the specified student repository is student; otherwise, <c>false</c>.
-    //    /// </returns>
-    //    public static bool IsStudent(IRepositoryWithTypedId<Student, Guid> studentRepository, string loginId)
-    //    {
-    //        var term = TermService.GetCurrent();
-    //        var student = studentRepository.Queryable.Where(s => s.Login == loginId && s.TermCode == term).FirstOrDefault();
-
-
-    //        if (student != null)
-    //        {
-    //            return true;
-    //        }
-    //        else
-    //        {
-    //            return false;
-    //        }
-    //    }
-
-    //    public static bool IsStudentSjaBlocked(IRepositoryWithTypedId<Student, Guid> studentRepository, string loginId)
-    //    {
-    //        var term = TermService.GetCurrent();
-    //        var student = studentRepository.Queryable.Where(s => s.Login == loginId && s.TermCode == term).FirstOrDefault();
-    //        if (student != null)
-    //        {
-    //            return student.SjaBlock;
-    //        }
-
-    //        return false;
-    //    }
-
-    //    public static bool IsStudentBlocked(IRepositoryWithTypedId<Student, Guid> studentRepository, string loginId)
-    //    {
-    //        var term = TermService.GetCurrent();
-    //        var student = studentRepository.Queryable.Where(s => s.Login == loginId && s.TermCode == term).FirstOrDefault();
-    //        if (student != null)
-    //        {
-    //            return student.Blocked;
-    //        }
-
-    //        return false;
-    //    }
-
-
-    //    // check if a student has previously registered
-    //    public static bool HasPreviouslyRegistered(IRepository repository, string loginId)
-    //    {
-    //        var term = TermService.GetCurrent();
-    //        return repository.OfType<Registration>().Queryable.Where(a => a.Student.Login == loginId && a.Student.TermCode != term).Any();
-    //    }
-    //}
+    public class IgnoreStudentsOnly : ActionFilterAttribute
+    {
+    }
 }

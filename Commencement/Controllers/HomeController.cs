@@ -27,9 +27,11 @@ namespace Commencement.Controllers
             if (User.IsInRole(RoleNames.RoleAdmin) || User.IsInRole(RoleNames.RoleUser)) return this.RedirectToAction<AdminController>(a => a.Index());
             // student
             //if (StudentAccess.IsStudent(_studentRepository, User.Identity.Name)) return this.RedirectToAction<StudentController>(a => a.Index());
-            if (_studentRepository.Queryable.Where(a => a.Login == User.Identity.Name && a.TermCode == TermService.GetCurrent()).Any()) return this.RedirectToAction<StudentController>(a => a.Index());
+            //if (_studentRepository.Queryable.Where(a => a.Login == User.Identity.Name && a.TermCode == TermService.GetCurrent()).Any()) return this.RedirectToAction<StudentController>(a => a.Index());
             // not authorized, potentially student who needs to petition
-            return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.UnauthorizedAccess));
+            //return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.UnauthorizedAccess));
+
+            return View(TermService.GetCurrent());
         }
 
         public ActionResult About()

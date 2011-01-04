@@ -150,27 +150,6 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
-        // getting removed
-        //[PageTrackingFilter]
-        ////public ActionResult RegistrationConfirmation(int id /* registration id */)
-        //public ActionResult RegistrationConfirmation(Guid id /* Student's Id */)
-        //{
-        //    var registration = _registrationRepository.GetNullableById();
-            
-
-        //    var petitions = new List<RegistrationPetition>();
-        //    foreach (var a in petitionIds)
-        //    {
-        //        var p = _registrationPetitionRepository.GetNullableById(a);
-        //        if (p != null) petitions.Add(p);
-        //    }
-
-        //    if (registration == null && petitions.Count <= 0) return this.RedirectToAction(x => x.Index());
-        //    if (registration.Student != _studentService.GetCurrentStudent(CurrentUser)) return this.RedirectToAction<ErrorController>(a => a.UnauthorizedAccess());
-
-        //    return View(new RegistrationConfirmationViewModel{Registration = registration, RegistrationPetitions = petitions});
-        //}
-
         [PageTrackingFilter]
         public ActionResult EditRegistration(int id)
         {
@@ -241,8 +220,6 @@ namespace Commencement.Controllers
         }
 
         #region Helper Methods
-
-
         /// <summary>
         /// Does initial checks so that students are always redirected correctly for first time registration
         /// </summary>
@@ -301,12 +278,6 @@ namespace Commencement.Controllers
             return null;
         }
 
-
-
-
-
-
-
         private Student GetCurrentStudent()
         {
             var currentStudent = _studentService.GetCurrentStudent(CurrentUser);
@@ -315,8 +286,6 @@ namespace Commencement.Controllers
             
             return currentStudent;
         }
-
-
         #endregion
 
         [PageTrackingFilter]
