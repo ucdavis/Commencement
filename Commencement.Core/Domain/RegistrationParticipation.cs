@@ -60,11 +60,11 @@ namespace Commencement.Core.Domain
                 if (IsValidForTickets)
                 {
                     var ticketCount = NumberTickets;
-                    ticketCount += (ExtraTicketPetition != null && ExtraTicketPetition.IsApproved && !ExtraTicketPetition.IsPending &&
-                                    ExtraTicketPetition.NumberTickets.HasValue
-                                        ? ExtraTicketPetition.NumberTickets.Value
-                                        : 0);
-
+                    //ticketCount += (ExtraTicketPetition != null && ExtraTicketPetition.IsApproved && !ExtraTicketPetition.IsPending &&
+                    //                ExtraTicketPetition.NumberTickets.HasValue
+                    //                    ? ExtraTicketPetition.NumberTickets.Value
+                    //                    : 0);
+                    ticketCount += (ExtraTicketPetition != null ? ExtraTicketPetition.ApprovedTickets : 0);
                     return ticketCount;
                 }
 
@@ -79,10 +79,12 @@ namespace Commencement.Core.Domain
         {
             get 
             {
-                if (Ceremony.HasStreamingTickets)
-                {
-                    return ExtraTicketPetition != null && ExtraTicketPetition.IsApproved && !ExtraTicketPetition.IsPending && ExtraTicketPetition.NumberTicketsStreaming.HasValue
-                           ? ExtraTicketPetition.NumberTicketsStreaming.Value : 0;                    
+                if (Ceremony.HasStreamingTickets && IsValidForTickets)
+                {                    
+                    //return ExtraTicketPetition != null && ExtraTicketPetition.IsApproved && !ExtraTicketPetition.IsPending && ExtraTicketPetition.NumberTicketsStreaming.HasValue
+                    //       ? ExtraTicketPetition.NumberTicketsStreaming.Value : 0;   
+
+                    return ExtraTicketPetition != null ? ExtraTicketPetition.ApprovedStreamingTickets : 0;
                 }
 
                 return 0;
@@ -102,9 +104,10 @@ namespace Commencement.Core.Domain
 
                     if (ExtraTicketPetition != null)
                     {
-                        ticketCount += ExtraTicketPetition.NumberTickets.HasValue
-                                           ? ExtraTicketPetition.NumberTickets.Value
-                                           : ExtraTicketPetition.NumberTicketsRequested;
+                        //ticketCount += ExtraTicketPetition.NumberTickets.HasValue
+                        //                   ? ExtraTicketPetition.NumberTickets.Value
+                        //                   : ExtraTicketPetition.NumberTicketsRequested;
+                        ticketCount += ExtraTicketPetition.ProjectedTickets;
                     }
                     return ticketCount;
                 }
@@ -120,11 +123,12 @@ namespace Commencement.Core.Domain
         {
             get
             {
-                if (Ceremony.HasStreamingTickets)
+                if (Ceremony.HasStreamingTickets && IsValidForTickets)
                 {
-                    return (ExtraTicketPetition != null && ExtraTicketPetition.NumberTicketsStreaming.HasValue)
-                                ? ExtraTicketPetition.NumberTicketsStreaming.Value
-                                : 0;
+                    //return (ExtraTicketPetition != null && ExtraTicketPetition.NumberTicketsStreaming.HasValue)
+                    //            ? ExtraTicketPetition.NumberTicketsStreaming.Value
+                    //            : 0;
+                    return ExtraTicketPetition != null ? ExtraTicketPetition.ProjectedStreamingTickets : 0;
                 }
 
                 return 0;
