@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Commencement.Core.Domain;
 using Commencement.Tests.Core;
-using Commencement.Tests.Core.Extensions;
 using Commencement.Tests.Core.Helpers;
 using FluentNHibernate.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -44,13 +43,14 @@ namespace Commencement.Tests.Repositories
         protected override CeremonyEditor GetValid(int? counter)
         {
             var rtValue = CreateValidEntities.CeremonyEditor(counter);
-            rtValue.Ceremony = Repository.OfType<Ceremony>().GetById(1);
+            rtValue.Ceremony = Repository.OfType<Ceremony>().Queryable.First();
+            rtValue.User = Repository.OfType<vUser>().Queryable.First();
             //var notNullCounter = 0;
             //if (counter != null)
             //{
             //    notNullCounter = (int)counter;
             //}
-            rtValue.User = null;
+
             if (counter != null && counter == 3)
             {
                 rtValue.Owner = true;
@@ -107,6 +107,11 @@ namespace Commencement.Tests.Repositories
         /// </summary>
         protected override void LoadData()
         {
+            Repository.OfType<Ceremony>().DbContext.BeginTransaction();
+            LoadTermCode(1);
+            LoadCeremony(3);
+            LoadUsers(3);
+            Repository.OfType<Ceremony>().DbContext.CommitTransaction();
             CeremonyEditorRepository.DbContext.BeginTransaction();
             LoadRecords(5);
             CeremonyEditorRepository.DbContext.CommitTransaction();
@@ -115,8 +120,8 @@ namespace Commencement.Tests.Repositories
         #endregion Init and Overrides	
         
         #region Fluent Mapping Tests
-        [TestMethod, Ignore]
-        public void TestCanCorrectlyMapAttachment()
+        [TestMethod]
+        public void TestCanCorrectlyMapCeremonyEditor()
         {
             #region Arrange
             var id = CeremonyEditorRepository.Queryable.Max(x => x.Id) + 1;
@@ -278,7 +283,7 @@ namespace Commencement.Tests.Repositories
         /// <summary>
         /// Tests the ceremony editor with valid ceremony saves.
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestCeremonyEditorWithValidCeremonySaves()
         {
             #region Arrange
@@ -289,7 +294,7 @@ namespace Commencement.Tests.Repositories
             Repository.OfType<Ceremony>().EnsurePersistent(ceremony);
             Repository.OfType<Ceremony>().DbContext.CommitTransaction();
             var ceremonyEditor = CreateValidEntities.CeremonyEditor(9);
-            ceremonyEditor.User = null;
+            ceremonyEditor.User = Repository.OfType<vUser>().Queryable.First();
             ceremonyEditor.Ceremony = ceremony;
             #endregion Arrange
 
@@ -305,12 +310,54 @@ namespace Commencement.Tests.Repositories
             #endregion Assert
         }
         #endregion Valid Tests
+
+        #region Cascade Tests
+
+        [TestMethod]
+        public void TestCeremonyEditorDoesNotCascadeDeleteCeremony()
+        {
+            #region Arrange
+            var termCodeRepository = new RepositoryWithTypedId<TermCode, string>();
+            Repository.OfType<Ceremony>().DbContext.BeginTransaction();
+            var ceremony = CreateValidEntities.Ceremony(9);
+            ceremony.TermCode = termCodeRepository.GetById("1");
+            Repository.OfType<Ceremony>().EnsurePersistent(ceremony);
+            Repository.OfType<Ceremony>().DbContext.CommitTransaction();
+            var ceremonyEditor = CreateValidEntities.CeremonyEditor(9);
+            ceremonyEditor.Ceremony = ceremony;
+            ceremonyEditor.User = Repository.OfType<vUser>().Queryable.First();
+
+            CeremonyEditorRepository.DbContext.BeginTransaction();
+            CeremonyEditorRepository.EnsurePersistent(ceremonyEditor);
+            CeremonyEditorRepository.DbContext.CommitTransaction();
+
+            var count = Repository.OfType<Ceremony>().Queryable.Count();
+            Assert.IsTrue(count > 0);
+
+            var saveId = ceremonyEditor.Id;
+            NHibernateSessionManager.Instance.GetSession().Evict(ceremonyEditor);
+            ceremonyEditor = CeremonyEditorRepository.GetNullableById(saveId);
+            Assert.IsNotNull(ceremonyEditor);
+            #endregion Arrange
+
+            #region Act
+            CeremonyEditorRepository.DbContext.BeginTransaction();
+            CeremonyEditorRepository.Remove(ceremonyEditor);
+            CeremonyEditorRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(count, Repository.OfType<Ceremony>().Queryable.Count());
+            Assert.IsNull(CeremonyEditorRepository.GetNullableById(saveId));
+            #endregion Assert		
+        }
+        #endregion Cascade Tests
         #endregion Ceremony Tests
 
         #region User Tests
         #region Invalid Tests
                 /// <summary>
-        /// Tests the ceremony editor with new ceremony does not save.
+        /// Tests the ceremony editor with new user does not save.
         /// </summary>
         [TestMethod]
         [ExpectedException(typeof(NHibernate.TransientObjectException))]
@@ -338,30 +385,38 @@ namespace Commencement.Tests.Repositories
             }
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestCeremonyEditorWithNullUserDoesNotSave()
+        {
+            CeremonyEditor ceremonyEditor = null;
+            try
+            {
+                #region Arrange
+                ceremonyEditor = GetValid(9);
+                ceremonyEditor.User = null;
+                #endregion Arrange
+
+                #region Act
+                CeremonyEditorRepository.DbContext.BeginTransaction();
+                CeremonyEditorRepository.EnsurePersistent(ceremonyEditor);
+                CeremonyEditorRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception)
+            {
+                Assert.IsNotNull(ceremonyEditor);
+                var results = ceremonyEditor.ValidationResults().AsMessageList();
+                results.AssertErrorsAre("User: may not be null");
+                Assert.IsTrue(ceremonyEditor.IsTransient());
+                Assert.IsFalse(ceremonyEditor.IsValid());
+                throw;
+            }
+        }
+
         #endregion Invalid Tests
 
         #region Valid Tests
-
-        [TestMethod]
-        public void TestUserWithNullValueSaves()
-        {
-            #region Arrange
-            var ceremonyEditor = GetValid(9);
-            ceremonyEditor.User = null;
-            #endregion Arrange
-
-            #region Act
-            CeremonyEditorRepository.DbContext.BeginTransaction();
-            CeremonyEditorRepository.EnsurePersistent(ceremonyEditor);
-            CeremonyEditorRepository.DbContext.CommitTransaction();
-            #endregion Act
-
-            #region Assert
-            Assert.IsNull(ceremonyEditor.User);
-            Assert.IsFalse(ceremonyEditor.IsTransient());
-            Assert.IsTrue(ceremonyEditor.IsValid());
-            #endregion Assert
-        }
 
         [TestMethod]
         public void TestWithExistingUserSaves()
@@ -385,9 +440,66 @@ namespace Commencement.Tests.Repositories
             #endregion Assert
         }
         #endregion Valid Tests
+
+        #region Cascade Tests
+        [TestMethod]
+        public void TestCeremonyEditorDoesNotCascadeDeleteUser()
+        {
+            #region Arrange
+
+            var ceremonyEditor = CeremonyEditorRepository.Queryable.First();
+
+            var count = Repository.OfType<vUser>().Queryable.Count();
+            Assert.IsTrue(count > 0);
+
+            var saveId = ceremonyEditor.Id;
+            NHibernateSessionManager.Instance.GetSession().Evict(ceremonyEditor);
+            ceremonyEditor = CeremonyEditorRepository.GetNullableById(saveId);
+            Assert.IsNotNull(ceremonyEditor);
+            #endregion Arrange
+
+            #region Act
+            CeremonyEditorRepository.DbContext.BeginTransaction();
+            CeremonyEditorRepository.Remove(ceremonyEditor);
+            CeremonyEditorRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(count, Repository.OfType<vUser>().Queryable.Count());
+            Assert.IsNull(CeremonyEditorRepository.GetNullableById(saveId));
+            #endregion Assert
+        }
+        #endregion Cascade Tests
         #endregion User Tests
-        
-        
+
+        #region Constructor Tests
+
+        [TestMethod]
+        public void TestConstructorHasExpectedValues1()
+        {
+            #region Arrange
+            var ceremonyEditor = new CeremonyEditor(Repository.OfType<vUser>().GetNullableById(2), true);
+            #endregion Arrange
+
+            #region Assert
+            Assert.AreEqual("LoginId2", ceremonyEditor.User.LoginId);
+            Assert.IsTrue(ceremonyEditor.Owner);
+            #endregion Assert		
+        }
+
+        [TestMethod]
+        public void TestConstructorHasExpectedValues2()
+        {
+            #region Arrange
+            var ceremonyEditor = new CeremonyEditor(null, false);
+            #endregion Arrange
+
+            #region Assert
+            Assert.IsNull(ceremonyEditor.User);
+            Assert.IsFalse(ceremonyEditor.Owner);
+            #endregion Assert
+        }
+        #endregion Constructor Tests
         
         #region Reflection of Database.
 
@@ -410,7 +522,10 @@ namespace Commencement.Tests.Repositories
                 "[System.Xml.Serialization.XmlIgnoreAttribute()]"
             }));
             expectedFields.Add(new NameAndType("Owner", "System.Boolean", new List<string>()));
-            expectedFields.Add(new NameAndType("User", "Commencement.Core.Domain.vUser", new List<string>()));
+            expectedFields.Add(new NameAndType("User", "Commencement.Core.Domain.vUser", new List<string>
+            { 
+                 "[NHibernate.Validator.Constraints.NotNullAttribute()]"
+            }));
             #endregion Arrange
 
             AttributeAndFieldValidation.ValidateFieldsAndAttributes(expectedFields, typeof(CeremonyEditor));
