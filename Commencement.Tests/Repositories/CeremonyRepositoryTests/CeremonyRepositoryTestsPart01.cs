@@ -51,6 +51,13 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             }
             //LoadTermCode(1);
             var termCode = Repository.OfType<TermCode>().Queryable.First();
+            LoadRegistrationParticipations(3,3);
+            var registrationParticipations = Repository.OfType<RegistrationParticipation>().GetAll();
+            foreach (var registrationParticipation in registrationParticipations)
+            {
+                registrationParticipation.Ceremony = ceremony;
+            }
+
             #endregion Arrange
 
             #region Act/Assert
@@ -70,7 +77,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
                 .CheckProperty(c => c.TermCode, termCode)
                 .CheckProperty(c => c.TicketsPerStudent, 6)
                 .CheckProperty(c => c.TotalTickets, 1000)
-                //.CheckProperty(c => c.RegistrationParticipations, ???) //todo
+                .CheckProperty(c => c.RegistrationParticipations, registrationParticipations) 
                 .VerifyTheMappings();
             #endregion Act/Assert
         }
@@ -203,6 +210,17 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
                     }
                     return true;
                 }
+                if (x is IList<RegistrationParticipation> && y is IList<RegistrationParticipation>)
+                {
+                    var xVal = (IList<RegistrationParticipation>)x;
+                    var yVal = (IList<RegistrationParticipation>)y;
+                    Assert.AreEqual(xVal.Count, yVal.Count);
+                    for (int i = 0; i < xVal.Count; i++)
+                    {
+                        Assert.AreEqual(xVal[i].NumberTickets, yVal[i].NumberTickets);
+                    }
+                    return true;
+                }
                 if (x is IList<Registration> && y is IList<Registration>)
                 {
                     var xVal = (IList<Registration>)x;
@@ -256,6 +274,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
         {
             #region Arrange
             var expectedFields = new List<NameAndType>();
+            expectedFields.Add(new NameAndType("AvailableStreamingTickets", "System.Nullable`1[System.Int32]", new List<string>()));
             expectedFields.Add(new NameAndType("AvailableTickets", "System.Int32", new List<string>()));
             expectedFields.Add(new NameAndType("Colleges", "System.Collections.Generic.IList`1[Commencement.Core.Domain.College]", new List<string>
 			{
@@ -274,8 +293,10 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
 			{
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
 			}));
-            expectedFields.Add(new NameAndType("ExtraRequestedtickets", "System.Int32", new List<string>()));
-            expectedFields.Add(new NameAndType("ExtraTicketBegin", "System.DateTime", new List<string>()));
+            expectedFields.Add(new NameAndType("ExtraTicketBegin", "System.DateTime", new List<string>
+            {
+                "[NHibernate.Validator.Constraints.NotNullAttribute()]"
+            }));
             expectedFields.Add(new NameAndType("ExtraTicketDeadline", "System.DateTime", new List<string>
 			{
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
@@ -303,7 +324,14 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
 			{
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
 			}));
-            expectedFields.Add(new NameAndType("RegistrationBegin", "System.DateTime", new List<string>()));
+            expectedFields.Add(new NameAndType("ProjectedAvailableStreamingTickets", "System.Nullable`1[System.Int32]", new List<string>()));
+            expectedFields.Add(new NameAndType("ProjectedAvailableTickets", "System.Int32", new List<string>()));
+            expectedFields.Add(new NameAndType("ProjectedTicketCount", "System.Int32", new List<string>()));
+            expectedFields.Add(new NameAndType("ProjectedTicketStreamingCount", "System.Nullable`1[System.Int32]", new List<string>()));
+            expectedFields.Add(new NameAndType("RegistrationBegin", "System.DateTime", new List<string>
+            {
+                "[NHibernate.Validator.Constraints.NotNullAttribute()]"
+            }));
             expectedFields.Add(new NameAndType("RegistrationDeadline", "System.DateTime", new List<string>
 			{
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
@@ -313,12 +341,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
 			}));
             expectedFields.Add(new NameAndType("RegistrationPetitions", "System.Collections.Generic.IList`1[Commencement.Core.Domain.RegistrationPetition]", new List<string>{
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
-			}));
-            expectedFields.Add(new NameAndType("Registrations", "System.Collections.Generic.IList`1[Commencement.Core.Domain.Registration]", new List<string>
-			{
-				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
-			}));
-            expectedFields.Add(new NameAndType("RequestedTickets", "System.Int32", new List<string>()));
+			}));            
             expectedFields.Add(new NameAndType("Templates", "System.Collections.Generic.IList`1[Commencement.Core.Domain.Template]", new List<string>
 			{
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
@@ -328,13 +351,14 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
 			{
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"
 			}));
+            expectedFields.Add(new NameAndType("TicketCount", "System.Int32", new List<string>()));
             expectedFields.Add(new NameAndType("TicketsPerStudent", "System.Int32", new List<string>
 			{
 				"[NHibernate.Validator.Constraints.MinAttribute((Int64)1)]",
 				"[NHibernate.Validator.Constraints.NotNullAttribute()]"                
 			}));
-            expectedFields.Add(new NameAndType("TotalRequestedTickets", "System.Int32", new List<string>()));
-            expectedFields.Add(new NameAndType("TotalStreamingTickets", "System.Int32", new List<string>()));
+            expectedFields.Add(new NameAndType("TicketStreamingCount", "System.Nullable`1[System.Int32]", new List<string>()));
+            expectedFields.Add(new NameAndType("TotalStreamingTickets", "System.Nullable`1[System.Int32]", new List<string>()));            
             expectedFields.Add(new NameAndType("TotalTickets", "System.Int32", new List<string>
 			{
 				"[NHibernate.Validator.Constraints.MinAttribute((Int64)1)]",
