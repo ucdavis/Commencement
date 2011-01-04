@@ -79,11 +79,16 @@ namespace Commencement.Core.Domain
             DateDecision = DateTime.Now;
         }
 
+        public virtual bool IsApprovedCompletely
+        {
+            get { return IsApproved && !IsPending; }
+        }
+
         public virtual int ApprovedTickets
         {
             get
             {
-                if (IsApproved && !IsPending && NumberTickets.HasValue)
+                if (IsApprovedCompletely && NumberTickets.HasValue)
                 {
                     return NumberTickets.Value;
                 }
@@ -94,7 +99,7 @@ namespace Commencement.Core.Domain
         {
             get
             {
-                if (IsApproved && !IsPending && NumberTicketsStreaming.HasValue)
+                if (IsApprovedCompletely && NumberTicketsStreaming.HasValue)
                 {
                     return NumberTicketsStreaming.Value;
                 }
@@ -107,14 +112,14 @@ namespace Commencement.Core.Domain
             get
             {
                 //If it is approved and not pending return the number approved
-                if (IsApproved && !IsPending)
+                if (IsApprovedCompletely)
                 {
                     return NumberTickets.HasValue ? NumberTickets.Value : 0;
                 }
                 //If it is still pending return the number that may be approved if it isn't null, or the number requested
                 if (IsPending)
                 {
-                    if (NumberTickets.HasValue) //Alan, do you want this to check if it is zero?
+                    if (NumberTickets.HasValue) 
                     {
                         return NumberTickets.Value;
                     }
@@ -132,14 +137,14 @@ namespace Commencement.Core.Domain
             get
             {
                 //If it is approved and not pending return the number approved
-                if (IsApproved && !IsPending)
+                if (IsApprovedCompletely)
                 {
                     return NumberTicketsStreaming.HasValue ? NumberTicketsStreaming.Value : 0;
                 }
                 //If it is still pending return the number that may be approved if it isn't null, or the number requested
                 if (IsPending)
                 {
-                    if (NumberTicketsStreaming.HasValue) //Alan, do you want this to check if it is zero?
+                    if (NumberTicketsStreaming.HasValue) 
                     {
                         return NumberTicketsStreaming.Value;
                     }

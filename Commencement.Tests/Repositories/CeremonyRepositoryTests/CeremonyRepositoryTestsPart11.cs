@@ -387,13 +387,13 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             LoadRegistrationParticipations(3, 3);
             var regPart1 = Repository.OfType<RegistrationParticipation>().GetNullableById(1);
             var extraTicket = CreateValidEntities.ExtraTicketPetition(1);
-            extraTicket.NumberTickets = 3;
+            extraTicket.NumberTicketsRequested = 3;
             extraTicket.IsApproved = false;
             extraTicket.IsPending = true;
             regPart1.ExtraTicketPetition = extraTicket;
             var regPart2 = Repository.OfType<RegistrationParticipation>().GetNullableById(2);
             var extraTicket2 = CreateValidEntities.ExtraTicketPetition(2);
-            extraTicket2.NumberTicketsStreaming = 4;
+            extraTicket2.NumberTickets = 4;
             extraTicket2.IsApproved = false;
             extraTicket2.IsPending = false;
             regPart2.ExtraTicketPetition = extraTicket2;
@@ -402,6 +402,8 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             Repository.OfType<RegistrationParticipation>().EnsurePersistent(regPart2);
             Repository.OfType<RegistrationParticipation>().DbContext.CommitTransaction();
             var ceremony = CeremonyRepository.GetNullableById(1);
+            NHibernateSessionManager.Instance.GetSession().Evict(ceremony);
+            ceremony = CeremonyRepository.GetNullableById(1);
             ceremony.TotalTickets = 100;
             ceremony.HasStreamingTickets = true;
             ceremony.TotalStreamingTickets = 100;
