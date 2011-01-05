@@ -119,6 +119,7 @@
     <Compile Include="Domain\State.cs" />
     <Compile Include="Domain\Student.cs" />
     <Compile Include="Domain\Template.cs" />
+    <Compile Include="Domain\TemplateToken.cs" />
     <Compile Include="Domain\TemplateType.cs" />
     <Compile Include="Domain\TermCode.cs" />
     <Compile Include="Domain\vTermCode.cs" />
