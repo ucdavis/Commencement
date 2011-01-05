@@ -7,6 +7,11 @@ namespace Commencement.Core.Domain
     {
         public virtual TemplateType TemplateType { get; set; }
         public virtual string Name { get; set; }
+
+        // grabs the name and removes the spaces
+        public virtual string Token { 
+            get { return "{" + Name.Replace(" ", string.Empty) + "}"; }
+        }
     }
 
     public class TemplateTokenMap : ClassMap<TemplateToken>

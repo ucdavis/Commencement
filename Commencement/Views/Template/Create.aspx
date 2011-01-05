@@ -38,15 +38,26 @@
             <p>
                 <strong>BodyText:</strong>
                 <%= Html.TextArea("BodyText", Model.Template != null ? Model.Template.BodyText : string.Empty) %>
-                <%= Html.ValidationMessageFor(a=>a.Template.BodyText) %> </p>
+                <%= Html.ValidationMessageFor(a=>a.Template.BodyText) %> 
+            </p>
                 
-                <div id="right_menu">
+<%--                <div id="right_menu">
                       <ul class="registration_form">
                        <% Html.RenderPartial("TokenPartial", Model.Template != null ? Model.Template.TemplateType : new TemplateType()); %>
                       </ul>
-               </div>     
+               </div>     --%>
  
-           
+           <div id="right_menu">
+                <ul class="registration_form">
+                    <% foreach (var a in Model.TemplateTypes) { %>
+                        <div id="<%: a.Code %>" class="tokens" style='<%: Model.Template != null && Model.Template.TemplateType.Code == a.Code ? "display:block;" : "display:none;" %>'>
+                            <% foreach (var b in a.TemplateTokens) { %>
+                                <li><a href="javascript:;" class="add_token" data-token="<%: b.Token %>"><%: b.Name %></a></li>
+                            <% } %>
+                        </div>
+                    <% } %>
+                </ul>
+           </div>
             
 
             
@@ -71,7 +82,7 @@
         $(document).ready(function() {
             $("#BodyText").enableTinyMce({ script_location: '<%= Url.Content("~/Scripts/tiny_mce/tiny_mce.js") %>', overrideWidth: "700" });
             $(".add_token").click(function(event) {
-                tinyMCE.execInstanceCommand("BodyText", "mceInsertContent", false, $(this).html());
+                tinyMCE.execInstanceCommand("BodyText", "mceInsertContent", false, $(this).data("token"));
             });
 
             <% foreach(var a in Model.TemplateTypes) { %>
