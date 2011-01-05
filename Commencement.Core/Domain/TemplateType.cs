@@ -1,4 +1,5 @@
-﻿using FluentNHibernate.Mapping;
+﻿using System.Collections.Generic;
+using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 using UCDArch.Core.NHibernateValidator.Extensions;
@@ -7,6 +8,11 @@ namespace Commencement.Core.Domain
 {
     public class TemplateType : DomainObject
     {
+        public TemplateType()
+        {
+            TemplateTokens = new List<TemplateToken>();
+        }
+
         [Required]
         [Length(50)]
         public virtual string Name { get; set; }
@@ -14,6 +20,8 @@ namespace Commencement.Core.Domain
         public virtual string Description { get; set; }
 
         public virtual string Code { get; set; }
+
+        public virtual IList<TemplateToken> TemplateTokens { get; set; }
     }
 
     public class TemplateTypeMap : ClassMap<TemplateType>
@@ -25,6 +33,8 @@ namespace Commencement.Core.Domain
             Map(x => x.Name);
             Map(x => x.Description);
             Map(x => x.Code);
+
+            HasMany(x => x.TemplateTokens).Cascade.None().Inverse();
         }
     }
 }

@@ -25,8 +25,6 @@ namespace Commencement.Core.Domain
         private void SetDefaults()
         {
             IsActive = true;
-
-            TemplateTokens = new List<TemplateToken>();
         }
 
         [Required]
@@ -41,9 +39,7 @@ namespace Commencement.Core.Domain
         public virtual bool IsActive { get; set; }
 
         [Length(100)]
-        public virtual string Subject { get; set; }
-
-        public virtual IList<TemplateToken> TemplateTokens { get; set; }
+        public virtual string Subject { get; set; }       
     }
 
     public class TemplateMap : ClassMap<Template>
@@ -58,8 +54,6 @@ namespace Commencement.Core.Domain
 
             References(x => x.TemplateType);
             References(x => x.Ceremony);
-
-            HasMany(x => x.TemplateTokens).Cascade.None().Inverse();
         }
     }
 }

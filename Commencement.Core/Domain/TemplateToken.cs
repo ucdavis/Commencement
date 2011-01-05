@@ -5,7 +5,7 @@ namespace Commencement.Core.Domain
 {
     public class TemplateToken : DomainObject
     {
-        public virtual Template Template { get; set; }
+        public virtual TemplateType TemplateType { get; set; }
         public virtual string Name { get; set; }
     }
 
@@ -16,7 +16,7 @@ namespace Commencement.Core.Domain
             Id(x => x.Id);
 
             Map(x => x.Name);
-            References(x => x.Template);
+            References(x => x.TemplateType);
         }
     }
 }
