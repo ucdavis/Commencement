@@ -65,7 +65,7 @@ namespace Commencement.Controllers
             var student = GetCurrentStudent();
 
             // we were just unable to find record
-            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NoRecord());
+            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
 
             // student was not null, student either in our system or in banner, proceed
             return this.RedirectToAction(a => a.RegistrationRouting());
@@ -172,7 +172,7 @@ namespace Commencement.Controllers
             }
             if (!registration.RegistrationParticipations.Any(a=>a.Ceremony.CanRegister()))
             {
-                return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.RegistrationClosed));
+                return this.RedirectToAction<ErrorController>(a => a.NotOpen());
             }
 
             //Get student info and create registration model
@@ -194,7 +194,7 @@ namespace Commencement.Controllers
             }
             if (!registrationToEdit.RegistrationParticipations.Any(a => a.Ceremony.CanRegister()))
             {
-                return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.RegistrationClosed));
+                return this.RedirectToAction<ErrorController>(a => a.NotOpen());
             }
 
             _registrationPopulator.UpdateRegistration(registrationToEdit, registrationPostModel, student, ModelState);

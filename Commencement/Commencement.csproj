@@ -576,6 +576,13 @@
     <Content Include="Views\Ceremony\EditPermissions.aspx" />
     <Content Include="Views\Ceremony\Index.aspx" />
     <Content Include="Views\Error\Index.aspx" />
+    <Content Include="Views\Error\NotEligible.aspx" />
+    <Content Include="Views\Error\NotFound.aspx" />
+    <Content Include="Views\Error\NotOpen.aspx" />
+    <Content Include="Views\Error\PreviouslyWalked.aspx" />
+    <Content Include="Views\Error\RegisterOtherSystem.aspx" />
+    <Content Include="Views\Error\SJA.aspx" />
+    <Content Include="Views\Error\UnauthorizedAccess.aspx" />
     <Content Include="Views\Petition\ExtraTicketPetition.aspx" />
     <Content Include="Views\Petition\ExtraTicketPetitions.aspx" />
     <Content Include="Views\Petition\Register.aspx" />

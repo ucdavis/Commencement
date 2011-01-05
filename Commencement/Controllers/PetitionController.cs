@@ -186,7 +186,7 @@ namespace Commencement.Controllers
         public ActionResult DecideRegistrationPetition(int id, bool isApproved)
         {
             var registrationPetition = Repository.OfType<RegistrationPetition>().GetNullableById(id);
-            if (registrationPetition == null) return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.UnknownError));
+            if (registrationPetition == null) return this.RedirectToAction<ErrorController>(a => a.Index());
             var registration = registrationPetition.Registration;
 
             // set the decision

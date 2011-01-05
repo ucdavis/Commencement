@@ -33,7 +33,7 @@ namespace Commencement.Controllers.Filters
             // check if the student has walked previously, there is no exception
             if (registrationRepository.Queryable.Where(a => a.Student.Login == filterContext.HttpContext.User.Identity.Name && a.Student.TermCode != TermService.GetCurrent()).Any())
             {
-                filterContext.Result = new RedirectResult(urlHelper.Action("Index", "Error", new { ErrorType = ErrorController.ErrorType.PreviouslyWalked }));
+                filterContext.Result = new RedirectResult(urlHelper.Action("PreviouslyWalked", "Error"));
             }
 
             // get the student object
@@ -48,19 +48,19 @@ namespace Commencement.Controllers.Filters
             if (student == null)
             {
                 // redirect to the error message that they are not a CAES Student
-                filterContext.Result = new RedirectResult(urlHelper.Action("Index", "Error", new { ErrorType = ErrorController.ErrorType.UnauthorizedAccess }));
+                filterContext.Result = new RedirectResult(urlHelper.Action("UnauthorizedAccess", "Error"));
                 return;
             }
 
             if (student.SjaBlock)
             {
-                filterContext.Result = new RedirectResult(urlHelper.Action("Index", "Error", new { ErrorType = ErrorController.ErrorType.SJA }));
+                filterContext.Result = new RedirectResult(urlHelper.Action("SJA", "Error"));
                 return;
             }
 
             if (student.Blocked)
             {
-                filterContext.Result = new RedirectResult(urlHelper.Action("Index", "Error", new { ErrorType = ErrorController.ErrorType.NotEligible }));
+                filterContext.Result = new RedirectResult(urlHelper.Action("NotEligible", "Error"));
                 return;
             }
             
