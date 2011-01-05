@@ -238,5 +238,16 @@ namespace Commencement.Tests.Core.Helpers
             var rtValue = new RegistrationParticipation();
             return rtValue;
         }
+
+        public static EmailQueue EmailQueue(int? counter)
+        {
+            var rtValue = new EmailQueue();
+            rtValue.Student = new Student();
+            rtValue.Template = new Template();
+            rtValue.Subject = "Subject" + counter.Extra();
+            rtValue.Body = "Body" + counter.Extra();
+
+            return rtValue;
+        }
     }
 }
