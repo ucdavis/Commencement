@@ -48,10 +48,16 @@ namespace Commencement.Controllers.Services
             if (currentStudent == null)
             {
                 var student = BannerLookupByLogin(currentUser.Identity.Name);
-                if (student != null) _studentRepository.EnsurePersistent(currentStudent);
+                if (student != null)
+                {
+                    student.AddedBy = currentUser.Identity.Name;
+                    _studentRepository.EnsurePersistent(student);
+                }
+                
+                currentStudent = student;   
             }
 
-            return currentStudent;
+            return currentStudent; // if it returns null, the search didn't yield any results
         }
 
         public List<CeremonyWithMajor> GetMajorsAndCeremoniesForStudent(Student student)

@@ -281,6 +281,7 @@ namespace Commencement.Controllers
             }
 
             student.TermCode = TermService.GetCurrent();
+            student.AddedBy = CurrentUser.Identity.Name;
             student.TransferValidationMessagesTo(ModelState);
 
             if (ModelState.IsValid)

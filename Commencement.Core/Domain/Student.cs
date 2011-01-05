@@ -76,6 +76,8 @@ namespace Commencement.Core.Domain
         public virtual bool SjaBlock { get; set; }
         public virtual bool Blocked { get; set; }
 
+        public virtual string AddedBy { get; set; }
+
         public virtual IList<MajorCode> Majors { get; set; }
         #endregion
 
@@ -127,6 +129,7 @@ namespace Commencement.Core.Domain
             Map(x => x.DateUpdated);
             Map(x => x.SjaBlock);
             Map(x => x.Blocked);
+            Map(x => x.AddedBy);
 
             References(x => x.TermCode).Column("TermCode");
             References(x => x.Ceremony);

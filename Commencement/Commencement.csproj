@@ -591,7 +591,6 @@
     <Content Include="Views\SpecialNeeds\Index.aspx" />
     <Content Include="Views\Student\ChooseCeremony.aspx" />
     <Content Include="Views\Student\DisplayRegistration.aspx" />
-    <Content Include="Views\Student\Index.aspx" />
     <Content Include="Views\Student\Register.aspx" />
     <Content Include="Views\Student\RegistrationConfirmation.aspx" />
     <Content Include="Views\Shared\RegistrationDisplay.ascx" />

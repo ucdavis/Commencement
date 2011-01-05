@@ -21,11 +21,12 @@ AS
 			select spriden_pidm as pidm, spriden_id as studentId
 				, spriden_first_name as firstName, spriden_mi as mi, spriden_last_name as lastName
 				, email.goremal_email_address as email
-				, earnedunits.units earnedunits
-				, currentunits.units currentunits
+				, earnedunits.units as earnedunits
+				, currentunits.units as currentunits
 				, zgvlcfs_majr_code as major
 				, zgvlcfs_term_code_eff as lastTerm
 				, shrttrm_astd_code_end_of_term as astd
+				, lower(wormoth_login_id) as loginid
 			from wormoth 
 				inner join zgvlcfs on wormoth_pidm = zgvlcfs_pidm
 				inner join spriden on wormoth_pidm = spriden_pidm

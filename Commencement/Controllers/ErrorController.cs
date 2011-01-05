@@ -72,9 +72,9 @@ namespace Commencement.Controllers
             return View(ErrorViewModel.Create(title, description, errorType));
         }
 
-        public RedirectToRouteResult NotCAESStudent()
+        public ActionResult NoRecord()
         {
-            return this.RedirectToAction(a => a.Index(ErrorType.UnauthorizedAccess));
+            return View();
         }
 
         public ActionResult SJA()
@@ -82,9 +82,9 @@ namespace Commencement.Controllers
             return View();
         }
 
-        public RedirectToRouteResult PreviouslyWalked()
+        public ActionResult PreviouslyWalked()
         {
-            return this.RedirectToAction(a => a.Index(ErrorType.PreviouslyWalked));
+            return View();
         }
 
         /// <summary>

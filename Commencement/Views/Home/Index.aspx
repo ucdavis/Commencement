@@ -17,7 +17,7 @@
         <li>Deadline to file to graduate with the registrar: <%: Model.FileToGraduateDeadline.ToString("d") %></li>
     </ul>
 
-    <%: Html.ActionLink<StudentController>(a => a.RegistrationRouting(), "Register")%>
+    <%: Html.ActionLink<StudentController>(a => a.Index(), "Register")%>
 
 
 </asp:Content>

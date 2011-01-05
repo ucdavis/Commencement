@@ -54,13 +54,21 @@ namespace Commencement.Controllers
         }
 
         /// <summary>
-        /// Loads a landing page
+        /// automatically redirect to the routing
         /// </summary>
         /// <returns></returns>
         [PageTrackingFilter]
-        public ActionResult Index()
+        [IgnoreStudentsOnly]
+        public RedirectToRouteResult Index()
         {
-            return View(TermService.GetCurrent());
+            // validate student is in our DB, otherwise we need to do a lookup
+            var student = GetCurrentStudent();
+
+            // we were just unable to find record
+            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NoRecord());
+
+            // student was not null, student either in our system or in banner, proceed
+            return this.RedirectToAction(a => a.RegistrationRouting());
         }
 
         [PageTrackingFilter]
@@ -281,8 +289,6 @@ namespace Commencement.Controllers
         private Student GetCurrentStudent()
         {
             var currentStudent = _studentService.GetCurrentStudent(CurrentUser);
-
-            Check.Require(currentStudent != null, "Current user is not a student or student not found.");
             
             return currentStudent;
         }

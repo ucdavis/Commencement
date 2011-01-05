@@ -22,6 +22,7 @@ namespace Commencement.Controllers.Filters
 
         public void OnAuthorization(AuthorizationContext filterContext)
         {
+            var test = filterContext.ActionDescriptor.GetCustomAttributes(typeof (IgnoreStudentsOnly), false);
             if (filterContext.ActionDescriptor.GetCustomAttributes(typeof(IgnoreStudentsOnly), false).Count() > 0) return;
 
             var registrationRepository = SmartServiceLocator<IRepository<Registration>>.GetService();
