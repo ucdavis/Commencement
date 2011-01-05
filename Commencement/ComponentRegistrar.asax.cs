@@ -22,6 +22,7 @@ namespace Commencement
             //container.AddComponent("studentService", typeof(IStudentService), typeof(DevStudentService));
             container.AddComponent("studentService", typeof(IStudentService), typeof(StudentService));
             container.AddComponent("emailService", typeof (IEmailService), typeof (EmailService));
+            container.AddComponent("letterGenerator", typeof(ILetterGenerator), typeof(LetterGenerator));
 
             container.AddComponent("majorService", typeof (IMajorService), typeof (MajorService));
             container.AddComponent("auditInterceptor", typeof (NHibernate.IInterceptor), typeof (AuditInterceptor));

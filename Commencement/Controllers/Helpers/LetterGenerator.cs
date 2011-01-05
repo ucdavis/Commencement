@@ -1,11 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using UCDArch.Core.Utils;
 
 namespace Commencement.Controllers.Helpers
 {
-    public class LetterGenerator
+    public interface ILetterGenerator
+    {
+        string GenerateRegistrationConfirmation(RegistrationParticipation registrationParticipation, Template template);
+        string GenerateExtraTicketRequestPetitionConfirmation(Registration registration, Template template);
+        string GenerateExtraTicketRequestPetitionDecision(Registration registration, Template template);
+        string GenerateAddPermission(Student student, Template template, Ceremony ceremony);
+        string GenerateRegistrationPetitionConfirmation(RegistrationPetition registrationPetition, Template template);
+        string GenerateRegistrationPetitionApproved(RegistrationPetition registrationPetition, Template template);
+        bool ValidateTemplate(Template template, List<string> invalidTokens);
+    }
+
+    public class LetterGenerator : ILetterGenerator
     {
         private Ceremony _ceremony;
         public Student Student { get; set; }
@@ -90,7 +103,10 @@ namespace Commencement.Controllers.Helpers
             return HandleBody(template.BodyText);
         }
 
-
+        public bool ValidateTemplate(Template template, List<string> invalidTokens)
+        {
+            return ValidateBody(template.BodyText, template.TemplateType, invalidTokens);
+        }
 
         #region Main Processing Functions
         /// <summary>
@@ -107,7 +123,7 @@ namespace Commencement.Controllers.Helpers
             // Find the beginning of a replacement string
             int begindex = body.IndexOf("{");
             int endindex;
-            while (begindex > 0)
+            while (begindex >= 0)
             {
                 // Copy the text that comes before the replacement string to temp
                 tempbody = tempbody + body.Substring(0, begindex);
@@ -244,6 +260,54 @@ namespace Commencement.Controllers.Helpers
             }
 
             throw new ArgumentException("Parameter does not exist(" + parameter + ")");
+        }
+
+        /// <summary>
+        /// Iterates through the body text and validates all tokens against list of tokens
+        /// </summary>
+        /// <param name="body"></param>
+        /// <param name="templateType"></param>
+        /// <param name="InvalidTokens"></param>
+        /// <returns></returns>
+        private bool ValidateBody(string body, TemplateType templateType, List<string> InvalidTokens)
+        {
+            // Begin actual processing function
+            string tempbody = "";
+            string parameter;
+
+            // Find the beginning of a replacement string
+            int begindex = body.IndexOf("{");
+            int endindex;
+            while (begindex >= 0)
+            {
+                // Copy the text that comes before the replacement string to temp
+                tempbody = tempbody + body.Substring(0, begindex);
+                // Removes the first part from the string before the {
+                body = body.Substring(begindex);
+
+                // Find the end of a replacement string
+                endindex = body.IndexOf("}");
+
+                // Pulls the text between {}
+                parameter = body.Substring(0, endindex + 1);
+                // removes the parameter substring
+                body = body.Substring(endindex + 1);
+
+                var exists = templateType.TemplateTokens.Any(a => a.Token == parameter);
+                // validate the parameter value)
+                if (!templateType.TemplateTokens.Any(a => a.Token == parameter))
+                {
+                    InvalidTokens.Add(parameter);
+                }
+
+                //tempbody = tempbody + replaceParameter(parameter);
+                tempbody = tempbody + "token";
+
+                // Find the beginning of a replacement string
+                begindex = body.IndexOf("{");
+            }
+
+            return InvalidTokens.Count <= 0;
         }
         #endregion
     }

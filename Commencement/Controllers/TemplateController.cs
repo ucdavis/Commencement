@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
+using Commencement.Controllers.Helpers;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using MvcContrib;
@@ -12,6 +14,13 @@ namespace Commencement.Controllers
     [AdminOnly]
     public class TemplateController : ApplicationController
     {
+        private readonly ILetterGenerator _letterGenerator;
+
+        public TemplateController(ILetterGenerator letterGenerator)
+        {
+            _letterGenerator = letterGenerator;
+        }
+
         //
         // GET: /Template/
         public ActionResult Index(int id)
@@ -45,6 +54,10 @@ namespace Commencement.Controllers
 
             newTemplate.TransferValidationMessagesTo(ModelState);
 
+            // validate the tokens
+            var tokenValidation = ValidateBody(newTemplate);
+            if (!string.IsNullOrEmpty(tokenValidation)) ModelState.AddModelError("Tokens", tokenValidation);
+
             // get any existing ones
             var oldTemplates = template.Ceremony.Templates.Where(a => a.TemplateType == template.TemplateType && a.IsActive);
 
@@ -62,6 +75,23 @@ namespace Commencement.Controllers
 
             var viewModel = TemplateCreateViewModel.Create(Repository, newTemplate, newTemplate.Ceremony);
             return View(viewModel);
+        }
+
+        private string ValidateBody(Template template)
+        {
+            var invalid = new List<string>();
+            var message = string.Empty;
+
+            if (_letterGenerator.ValidateTemplate(template, invalid))
+            {
+                message = string.Empty;
+            }
+            else
+            {
+                message = string.Format("Template has {0} invalid token(s). The following are invalid: {1}", invalid.Count, string.Join(", ", invalid));
+            }
+
+            return message;
         }
     }
 }
