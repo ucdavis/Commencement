@@ -13,7 +13,7 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
     /// Entity Name:		Registration
     /// LookupFieldName:	Address1
     /// </summary>
-    [TestClass, Ignore]
+    [TestClass]
     public partial class RegistrationRepositoryTests : AbstractRepositoryTests<Registration, int, RegistrationMap>
     {
         /// <summary>
@@ -25,6 +25,7 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
 		public IRepositoryWithTypedId<Student, Guid> StudentRepository { get; set; }
 		public IRepositoryWithTypedId<MajorCode, string> MajorCodeRepository { get; set; }
         public IRepositoryWithTypedId<College, string> CollegeRepository { get; set; }
+        public IRepositoryWithTypedId<TermCode, string> TermCodeRepository { get; set; }
 		
 		#region Init and Overrides
 
@@ -38,6 +39,7 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
 			StudentRepository = new RepositoryWithTypedId<Student, Guid>();
 			MajorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
 		    CollegeRepository = new RepositoryWithTypedId<College, string>();
+            TermCodeRepository = new RepositoryWithTypedId<TermCode, string>();
 		}
 
 		/// <summary>
@@ -50,8 +52,7 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
 			var rtValue = CreateValidEntities.Registration(counter);
 			rtValue.State = StateRepository.GetById("1");
 			rtValue.Student = StudentRepository.Queryable.Where(a => a.Pidm == "Pidm1").Single();
-			//rtValue.Major = MajorCodeRepository.GetById("1");
-			//rtValue.Ceremony = Repository.OfType<Ceremony>().GetById(1);
+		    rtValue.TermCode = TermCodeRepository.Queryable.First();
 			return rtValue;
 		}
 
@@ -105,6 +106,7 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
 		protected override void LoadData()
 		{
 			RegistrationRepository.DbContext.BeginTransaction();
+		    LoadTermCode(3);
 			LoadCeremony(3);
 			LoadMajorCode(3);
 			LoadState(3);

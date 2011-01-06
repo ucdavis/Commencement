@@ -1,6 +1,7 @@
 ﻿using System;
 using Commencement.Core.Domain;
 using Commencement.Tests.Core.Extensions;
+using Commencement.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UCDArch.Testing.Extensions;
 
@@ -228,6 +229,33 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
                 throw;
             }
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(NHibernate.TransientObjectException))]
+        public void TestStateWithANewValueDoesNotSave()
+        {
+            Registration registration = null;
+            try
+            {
+                #region Arrange
+                registration = GetValid(9);
+                registration.State = CreateValidEntities.State(9);
+                #endregion Arrange
+
+                #region Act
+                RegistrationRepository.DbContext.BeginTransaction();
+                RegistrationRepository.EnsurePersistent(registration);
+                RegistrationRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(registration);
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("object references an unsaved transient instance - save the transient instance before flushing. Type: Commencement.Core.Domain.State, Entity: Name9", ex.Message);
+                throw;
+            }
+        }
         #endregion Invalid Tests
 
         #region Valid Tests
@@ -255,7 +283,55 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
             Assert.IsTrue(registration.IsValid());
             #endregion Assert
         }
+
+
+        [TestMethod]
+        public void TestRegistrationWithExistingStateSaves()
+        {
+            #region Arrange
+            var registration = GetValid(9);
+            registration.State = StateRepository.GetById("2");
+
+            #endregion Arrange
+
+            #region Act
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreSame(registration.State, StateRepository.GetById("2"));
+            Assert.IsFalse(registration.IsTransient());
+            Assert.IsTrue(registration.IsValid());
+            #endregion Assert		
+        }
         #endregion Valid Tests
+
+        #region cascade Tests
+
+        [TestMethod]
+        public void TestDeleteRegistrationDoesNotCascadeToState()
+        {
+            #region Arrange
+            var registration = RegistrationRepository.GetById(1);
+            var stateId = registration.State.Id;
+            #endregion Arrange
+
+            #region Act
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.Remove(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(StateRepository.GetNullableById(stateId));
+            Assert.IsNull(RegistrationRepository.GetNullableById(1));
+            #endregion Assert		
+        }
+        
+
+        #endregion cascade Tests
         #endregion State Tests
     }
 }

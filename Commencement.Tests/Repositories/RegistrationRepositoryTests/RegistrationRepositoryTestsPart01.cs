@@ -13,59 +13,11 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
     public partial class RegistrationRepositoryTests
     {
         #region Fluent Mapping Tests
-        //[TestMethod]
-        //public void TestCanCorrectlyMapAttachment()
-        //{
-        //    #region Arrange
-        //    var session = NHibernateSessionManager.Instance.GetSession();
-        //    var id = RegistrationRepository.Queryable.Max(x => x.Id) + 1;
-        //    var dateToCompare1 = new DateTime(2010, 01, 01);
-        //    LoadCeremony(3);
-        //    var ceremony = Repository.OfType<Ceremony>().GetById(2);
-        //    Assert.IsNotNull(ceremony);
-
-        //    LoadColleges(3);
-        //    var college = CollegeRepository.GetById("2");
-        //    Assert.IsNotNull(college);
-
-        //    var extraTicketPetition = CreateValidEntities.ExtraTicketPetition(9);
-
-        //    //LoadMajorCode(1);
-        //    var major = MajorCodeRepository.GetById("1");
-            
-        //    //LoadState(1);
-        //    var state = StateRepository.GetById("1");
-
-        //    //LoadStudent(1);
-        //    var student = StudentRepository.Queryable.First();
-
-        //    #endregion Arrange
-
-        //    #region Act/Assert
-        //    new PersistenceSpecification<Registration>(session, new RegistrationEqualityComparer())
-        //        .CheckProperty(c => c.Id, id)
-        //        .CheckProperty(c => c.Address1, "Address1")
-        //        .CheckProperty(c => c.Address2, "Address2")
-        //        .CheckProperty(c => c.Address3, "Address3")
-        //        .CheckProperty(c => c.Cancelled, false)
-        //        .CheckProperty(c => c.Ceremony, ceremony)
-        //        .CheckProperty(c => c.City, "City")
-        //        .CheckProperty(c => c.College, college)
-        //        .CheckProperty(c => c.Comments, "Comments")
-        //        .CheckProperty(c => c.DateRegistered, dateToCompare1)
-        //        .CheckProperty(c => c.Email, "test@testy.com")
-        //        .CheckProperty(c => c.ExtraTicketPetition, extraTicketPetition)
-        //        .CheckProperty(c => c.LabelPrinted, false)
-        //        .CheckProperty(c => c.MailTickets, true)
-        //        .CheckProperty(c => c.Major, major)
-        //        .CheckProperty(c => c.NumberTickets, 12)
-        //        .CheckProperty(c => c.SjaBlock, true)
-        //        .CheckProperty(c => c.State, state)
-        //        .CheckProperty(c => c.Student, student)
-        //        .CheckProperty(c => c.Zip, "95616")
-        //        .VerifyTheMappings();
-        //    #endregion Act/Assert
-        //}
+        [TestMethod]
+        public void TestCanCorrectlyMapRegistration()
+        {
+            Assert.Inconclusive("Todo Mapping tests");
+        }
 
         public class RegistrationEqualityComparer : IEqualityComparer
         {

@@ -103,7 +103,7 @@ namespace Commencement.Tests.Repositories
 
         #region Fluent Mapping Tests
         [TestMethod]
-        public void TestCanCorrectlyMapAttachment()
+        public void TestCanCorrectlyMapPageTracking()
         {
             #region Arrange
             var session = NHibernateSessionManager.Instance.GetSession();
