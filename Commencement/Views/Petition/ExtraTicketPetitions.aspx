@@ -31,19 +31,18 @@
 
         <div id="ticketCountInline">
             <ul>
-                <li><strong>Projected Available:</strong> <span id="projectedAvailabeTickets"><%: Model.Ceremony.AvailableTickets %></span></li>
-                <% if (Model.Ceremony.HasStreamingTickets) { %><li><strong>Projected Streaming Available:</strong> <span id="projectedAvailableStreaming"><%: Model.Ceremony.AvailableStreamingTickets.HasValue ? Model.Ceremony.AvailableStreamingTickets.Value.ToString() : "n/a" %></span></li><% } %>
-                <li><strong>Projected Ticket Count:</strong> <span id="projectedTickets"><%: Model.Ceremony.ProjectedTicketCount %></span></li>
-                <% if (Model.Ceremony.HasStreamingTickets) { %><li><strong>Projected Streaming Count:</strong> <span id="projectedStreaming"><%: Model.Ceremony.ProjectedTicketStreamingCount.HasValue ? Model.Ceremony.ProjectedTicketStreamingCount.Value.ToString() : "n/a" %></span></li><% } %>
+                <li><strong>Projected Available:</strong> <span class="projectedAvailabeTickets"><%: Model.Ceremony.ProjectedAvailableTickets %></span></li>
+                <% if (Model.Ceremony.HasStreamingTickets) { %><li><strong>Projected Streaming Available:</strong> <span class="projectedAvailableStreaming"><%: Model.Ceremony.ProjectedAvailableStreamingTickets.HasValue ? Model.Ceremony.ProjectedAvailableStreamingTickets.Value.ToString() : "n/a" %></span></li><% } %>
+                <li><strong>Projected Ticket Count:</strong> <span class="projectedTickets"><%: Model.Ceremony.ProjectedTicketCount %></span></li>
+                <% if (Model.Ceremony.HasStreamingTickets) { %><li><strong>Projected Streaming Count:</strong> <span class="projectedStreaming"><%: Model.Ceremony.ProjectedTicketStreamingCount.HasValue ? Model.Ceremony.ProjectedTicketStreamingCount.Value.ToString() : "n/a" %></span></li><% } %>
             </ul>
         </div>
         <div id="ticketCountBar">
-        <br />
             <ul>
-                <li><strong>Projected Available:</strong> <span id="Span1"><%: Model.Ceremony.AvailableTickets %></span></li>
-                <% if (Model.Ceremony.HasStreamingTickets) { %><li><strong>Projected Streaming Available:</strong> <span id="Span2"><%: Model.Ceremony.AvailableStreamingTickets.HasValue ? Model.Ceremony.AvailableStreamingTickets.Value.ToString() : "n/a" %></span></li><% } %>
-                <li><strong>Projected Ticket Count:</strong> <span id="Span3"><%: Model.Ceremony.ProjectedTicketCount %></span></li>
-                <% if (Model.Ceremony.HasStreamingTickets) { %><li><strong>Projected Streaming Count:</strong> <span id="Span4"><%: Model.Ceremony.ProjectedTicketStreamingCount.HasValue ? Model.Ceremony.ProjectedTicketStreamingCount.Value.ToString() : "n/a" %></span></li><% } %>
+                <li><strong>Projected Available:</strong> <span class="projectedAvailabeTickets"><%: Model.Ceremony.ProjectedAvailableTickets %></span></li>
+                <% if (Model.Ceremony.HasStreamingTickets) { %><li><strong>Projected Streaming Available:</strong> <span class="projectedAvailableStreaming"><%: Model.Ceremony.ProjectedAvailableStreamingTickets.HasValue ? Model.Ceremony.ProjectedAvailableStreamingTickets.Value.ToString() : "n/a" %></span></li><% } %>
+                <li><strong>Projected Ticket Count:</strong> <span class="projectedTickets"><%: Model.Ceremony.ProjectedTicketCount %></span></li>
+                <% if (Model.Ceremony.HasStreamingTickets) { %><li><strong>Projected Streaming Count:</strong> <span class="projectedStreaming"><%: Model.Ceremony.ProjectedTicketStreamingCount.HasValue ? Model.Ceremony.ProjectedTicketStreamingCount.Value.ToString() : "n/a" %></span></li><% } %>
             </ul>
         </div>
     
@@ -62,7 +61,7 @@
                                 col.Bound(a => a.ExtraTicketPetition.NumberTicketsRequested).Title("# Tickets Requested");
                                 if (Model.Ceremony.HasStreamingTickets){col.Bound(a => a.ExtraTicketPetition.NumberTicketsRequestedStreaming).Title("# Requested Streaming");}
                                 col.Add(a => { %>
-                                    <%: Html.TextBox("TicketsApproved", a.ExtraTicketPetition.NumberTickets.HasValue ? a.ExtraTicketPetition.NumberTickets : a.ExtraTicketPetition.NumberTicketsRequested, new {@class="tickets", petitionId=a.ExtraTicketPetition.Id, ceremonyId=a.Ceremony.Id}) %>
+                                    <%: Html.TextBox("TicketsApproved", a.ExtraTicketPetition.NumberTickets.HasValue ? a.ExtraTicketPetition.NumberTickets : a.ExtraTicketPetition.NumberTicketsRequested, new {@class="tickets", participationId=a.Id, ceremonyId=a.Ceremony.Id}) %>
                                     <img src="<%: Url.Content("~/Images/loading.gif") %>" class="loading" />
                                     <img src="<%: Url.Content("~/Images/Cancel-1.png") %>" class="cancel" />
                                     <img src="<%: Url.Content("~/Images/CheckMark-1.png") %>" class="check" />
@@ -70,7 +69,7 @@
                                 if (Model.Ceremony.HasStreamingTickets)
                                 {
                                     col.Add(a => {%>
-                                        <%: Html.TextBox("StreamingApproved", a.ExtraTicketPetition.NumberTicketsStreaming.HasValue ? a.ExtraTicketPetition.NumberTicketsStreaming.Value : a.ExtraTicketPetition.NumberTicketsRequestedStreaming, new { @class = "tickets streaming", petitionId = a.ExtraTicketPetition.Id, ceremonyId = a.Ceremony.Id })%>
+                                        <%: Html.TextBox("StreamingApproved", a.ExtraTicketPetition.NumberTicketsStreaming.HasValue ? a.ExtraTicketPetition.NumberTicketsStreaming.Value : a.ExtraTicketPetition.NumberTicketsRequestedStreaming, new { @class = "tickets streaming", participationId = a.Id, ceremonyId = a.Ceremony.Id })%>
                                         <img src="<%: Url.Content("~/Images/loading.gif") %>" class="loading" />
                                         <img src="<%: Url.Content("~/Images/Cancel-1.png") %>" class="cancel" />
                                         <img src="<%: Url.Content("~/Images/CheckMark-1.png") %>" class="check" />
@@ -90,10 +89,10 @@
 
 
         $(document).ready(function () {
-            $(".tickets").blur(function () { SaveTicketAmount($(this).attr("petitionId"), $(this).attr("ceremonyId"), $(this).val(), $(this).hasClass("streaming"), this); });
+            $(".tickets").blur(function () { SaveTicketAmount($(this).attr("participationId"), $(this).attr("ceremonyId"), $(this).val(), $(this).hasClass("streaming"), this); });
             $(".decision").click(function () { MakeDecision($(this).attr("participationId"), $(this).val() == "Approve", this); });
 
-            SetScrollingBox("ticketCountBar", "ticketCountInline");
+            //SetScrollingBox("ticketCountBar", "ticketCountInline");
         });
 
         function SaveTicketAmount(id, ceremonyId, amount, streaming, box) {
@@ -118,17 +117,17 @@
         }
 
         function UpdateCounts(data) {
-            $("#projectedAvailabeTickets").html(data.ProjectedAvailableTickets);
+            $(".projectedAvailabeTickets").html(data.ProjectedAvailableTickets);
             if (data.ProjectedAvailableStreamingTickets == null) {
-                $("#projectedAvailableStreaming").html("n/a");
+                $(".projectedAvailableStreaming").html("n/a");
             } else {
-                $("#projectedAvailableStreaming").html(data.ProjectedAvailableStreamingTickets);
+                $(".projectedAvailableStreaming").html(data.ProjectedAvailableStreamingTickets);
             }
-            $("#projectedTickets").html(data.ProjectedTicketCount);
+            $(".projectedTickets").html(data.ProjectedTicketCount);
             if (data.ProjectedStreamingCount == null) {
-                $("#projectedStreaming").html("n/a");
+                $(".projectedStreaming").html("n/a");
             } else {
-                $("#projectedStreaming").html(data.ProjectedStreamingCount);
+                $(".projectedStreaming").html(data.ProjectedStreamingCount);
             }
         }
 

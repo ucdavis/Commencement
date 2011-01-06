@@ -216,7 +216,7 @@ namespace Commencement.Core.Domain
             {
                 if (HasStreamingTickets)
                 {
-                    return RegistrationParticipations.Sum(a => a.TotalStreamingTickets);
+                    return RegistrationParticipations.Sum(a => a.ProjectedStreamingTickets);
                 }
 
                 return null;
