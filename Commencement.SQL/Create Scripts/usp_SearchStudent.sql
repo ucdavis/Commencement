@@ -21,7 +21,7 @@ AS
 				 , email.goremal_email_address as email
 				 , earnedunits.units as earnedUnits
 				 , currentunits.units as currentUnits
-				 , zgvlcfs_majr_code as major, zgvlcfs_term_code_eff as lastTerm
+				 , zgvlcfs_majr_code as major, max(zgvlcfs_term_code_eff) as lastTerm
 				 , shrttrm_astd_code_end_of_term as astd
 				 , lower(wormoth_login_id) as LoginId
 			from spriden
@@ -55,6 +55,7 @@ AS
 				) astd on astd.pidm = spriden_pidm
 			where spriden_id = '''''+@studentid+'''''
 			  and spriden_change_ind is null
+			group by spriden_pidm, spriden_id, spriden_first_name, spriden_mi, spriden_last_name, email.goremal_email_address, earnedunits.units, currentunits.units, zgvlcfs_majr_code, shrttrm_astd_code_end_of_term, wormoth_login_id
 		'')'
 
 exec(@tsql)
