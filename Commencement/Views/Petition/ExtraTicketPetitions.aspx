@@ -139,6 +139,25 @@
                 }
             });
         }
+
+        function SetScrollingBox(bar, inline) {
+            $(window).scroll(function () {
+                var scrollPosition = $(document).scrollTop();
+                var obj = $("#" + inline);
+                var box = obj[0];
+
+                if (scrollPosition > box.offsetHeight + box.offsetTop) {
+                    $("#" + bar).fadeIn(500);
+                }
+                else {
+                    $("#" + bar).fadeOut(500);
+                }
+
+                console.log(scrollPosition);
+                console.log(box.offsetHeight);
+                console.log(box.offsetTop);
+            });
+        }
     </script>
 
     <style = type="text/css">
