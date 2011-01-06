@@ -274,7 +274,7 @@ namespace Commencement.Controllers
             var eligibleCeremonies = _ceremonyService.StudentEligibility(student.Majors.ToList(), student.TotalUnits);
             if (eligibleCeremonies == null || eligibleCeremonies.Count == 0)
             {
-                return this.RedirectToAction<ErrorController>(a => a.RegisterOtherSystem());
+                return this.RedirectToAction<ErrorController>(a => a.NotEligible());
             }
 
             // see if registration is open for at least one ceremony

@@ -18,7 +18,9 @@
     </li>
 
         <li><%: Html.ActionLink<AdminController>(a=>a.EditStudent(Model.Student.Id), "Edit Student") %></li>
-        <li><%: Html.ActionLink<AdminController>(a=>a.RegisterForStudent(Model.Student.Id), "Edit Registration") %></li>
+        <% if (Model.Registration != null) { %>
+            <li><%: Html.ActionLink<AdminController>(a=>a.RegisterForStudent(Model.Student.Id), "Edit Registration") %></li>
+        <% } %>
         <li><%: Html.ActionLink<AdminController>(a=>a.Block(Model.Student.Id), "Block from Registration") %></li>
         <% if (User.IsInRole(RoleNames.RoleEmulationUser)) { %>
         <li><%= Html.ActionLink<AccountController>(a=>a.Emulate(Model.Student.Login), "Emulate") %></li>

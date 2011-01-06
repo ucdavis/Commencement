@@ -36,12 +36,12 @@ namespace Commencement.Controllers.ViewModels
             // get the list of students with optional filters
             var students = repository.OfType<Student>().Queryable.Where(a =>
                 a.TermCode == termCode
-                && (a.StudentId.Contains(string.IsNullOrEmpty(studentid) ? string.Empty : studentid))
-                && (a.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName))
-                && (a.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName))
-                );
+                && (a.StudentId.Contains(string.IsNullOrEmpty(studentid) ? string.Empty : studentid.Trim()))
+                && (a.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName.Trim()))
+                && (a.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName.Trim()))
+                ).ToList();
 
-            if (!string.IsNullOrEmpty(majorCode)) students = students.Where(a => a.StrMajorCodes.Contains(majorCode));
+            if (!string.IsNullOrEmpty(majorCode)) students = students.Where(a => a.StrMajorCodes.Contains(majorCode)).ToList();
 
             // get all active registrations
             var reg = repository.OfType<RegistrationParticipation>().Queryable.Where(

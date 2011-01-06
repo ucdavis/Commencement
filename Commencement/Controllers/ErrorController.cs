@@ -39,15 +39,6 @@ namespace Commencement.Controllers
         }
 
         /// <summary>
-        /// Message for students who need to register with other systems
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult RegisterOtherSystem()
-        {
-            return View();
-        }
-
-        /// <summary>
         /// Error message page for when no ceremonies are available for registration
         /// </summary>
         /// <returns></returns>
