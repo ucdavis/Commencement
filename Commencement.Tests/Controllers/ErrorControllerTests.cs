@@ -43,11 +43,11 @@ namespace Commencement.Tests.Controllers
          /// <summary>
          /// Tests the index mapping.
          /// </summary>
-         [TestMethod]
-         public void TestIndexMapping()
-         {
-             "~/Error/Index".ShouldMapTo<ErrorController>(a => a.Index(null));
-         }
+         //[TestMethod]
+         //public void TestIndexMapping()
+         //{
+         //    "~/Error/Index".ShouldMapTo<ErrorController>(a => a.Index(null));
+         //}
 
         #endregion Mapping
 

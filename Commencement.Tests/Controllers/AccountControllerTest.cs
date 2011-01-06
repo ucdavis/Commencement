@@ -90,12 +90,12 @@ namespace Commencement.Tests.Controllers
             #region Act/Assert
             var result = Controller.NotCAESStudent()
                 .AssertActionRedirect()
-                .ToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.UnauthorizedAccess));
+                .ToAction<ErrorController>(a => a.Index());
             #endregion Act/Assert
 
             #region Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(ErrorController.ErrorType.UnauthorizedAccess, result.RouteValues["errorType"]);
+            
             #endregion Assert	
         }
 
