@@ -610,22 +610,30 @@ namespace Commencement.Tests.Core
         /// <summary>
         /// Loads the registration petitions.
         /// Needs MajorCode
-        /// Needs TermCode
         /// </summary>
         /// <param name="entriesToAdd">The entries to add.</param>
         protected void LoadRegistrationPetitions(int entriesToAdd)
         {
             var majorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
-            //var termCodeRepository = new RepositoryWithTypedId<TermCode, string>();
             for (int i = 0; i < entriesToAdd; i++)
             {
                 var validEntity = CreateValidEntities.RegistrationPetition(i + 1);
                 validEntity.MajorCode = majorCodeRepository.GetById("1");
                 validEntity.Registration = Repository.OfType<Registration>().GetNullableById(1);
-                //validEntity.TermCode = termCodeRepository.GetById("1");
                 Repository.OfType<RegistrationPetition>().EnsurePersistent(validEntity);
             }
         }
+
+        protected void LoadExtraTicketPetitions(int entriesToAdd)
+        {
+            for (int i = 0; i < entriesToAdd; i++)
+            {
+                var validEntity = CreateValidEntities.ExtraTicketPetition(i + 1);
+                Repository.OfType<ExtraTicketPetition>().EnsurePersistent(validEntity);
+            }
+        }
+        
+
 
         protected void LoadRegistrationParticipations(int entriesToAdd, int ticketMultiplier = 0)
         {

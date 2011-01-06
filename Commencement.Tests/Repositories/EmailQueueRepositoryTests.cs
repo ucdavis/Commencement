@@ -1116,7 +1116,33 @@ namespace Commencement.Tests.Repositories
 
         #region RegistrationParticipation Tests
         #region Invalid Tests
+        [TestMethod]
+        [ExpectedException(typeof(NHibernate.TransientObjectException))]
+        public void TestRegistrationParticipationWithANewValueDoesNotSave()
+        {
+            EmailQueue emailQueue = null;
+            try
+            {
+                #region Arrange
+                emailQueue = GetValid(9);
+                emailQueue.RegistrationParticipation = CreateValidEntities.RegistrationParticipation(4);
+                
+                #endregion Arrange
 
+                #region Act
+                EmailQueueRepository.DbContext.BeginTransaction();
+                EmailQueueRepository.EnsurePersistent(emailQueue);
+                EmailQueueRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(emailQueue);
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("object references an unsaved transient instance - save the transient instance before flushing. Type: Commencement.Core.Domain.RegistrationParticipation, Entity: Commencement.Core.Domain.RegistrationParticipation", ex.Message);
+                throw;
+            }
+        }
         #endregion Invalid Tests
         #region Valid Tests
 
@@ -1170,9 +1196,414 @@ namespace Commencement.Tests.Repositories
         }
         #endregion Valid Tests
         #region Cascade Tests
+        [TestMethod]
+        public void TestDeleteEmailQueueDoesNotCascadeToRegistrationParticipation()
+        {
+            #region Arrange
+            Repository.OfType<RegistrationParticipation>().DbContext.BeginTransaction();
+            LoadCeremony(1);
+            LoadState(1);
+            LoadRegistrations(1);
+            LoadRegistrationParticipations(3);
+            Repository.OfType<RegistrationParticipation>().DbContext.CommitTransaction();
+            var emailQueue = GetValid(9);
+            var registrationParticipation = Repository.OfType<RegistrationParticipation>().GetNullableById(2);
+            Assert.IsNotNull(registrationParticipation);
+            emailQueue.RegistrationParticipation = registrationParticipation;
 
+            EmailQueueRepository.DbContext.BeginTransaction();
+            EmailQueueRepository.EnsurePersistent(emailQueue);
+            EmailQueueRepository.DbContext.CommitTransaction();
+
+            var saveId = emailQueue.Id;
+            #endregion Arrange
+
+            #region Act
+            EmailQueueRepository.DbContext.BeginTransaction();
+            EmailQueueRepository.Remove(emailQueue);
+            EmailQueueRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            NHibernateSessionManager.Instance.GetSession().Evict(registrationParticipation);
+            Assert.IsNull(EmailQueueRepository.GetNullableById(saveId));
+            Assert.IsNotNull(Repository.OfType<RegistrationParticipation>().GetNullableById(2));
+            #endregion Assert
+        }
         #endregion Cascade Tests
         #endregion RegistrationParticipation Tests
+
+        #region RegistrationPetition Tests
+        #region Invalid Tests
+        [TestMethod]
+        [ExpectedException(typeof(NHibernate.TransientObjectException))]
+        public void TestRegistrationPetitionWithANewValueDoesNotSave()
+        {
+            EmailQueue emailQueue = null;
+            try
+            {
+                #region Arrange
+                Repository.OfType<RegistrationPetition>().DbContext.BeginTransaction();
+                LoadMajorCode(1);
+                LoadState(1);
+                LoadRegistrations(1);
+                Repository.OfType<RegistrationPetition>().DbContext.CommitTransaction();
+                emailQueue = GetValid(9);
+                emailQueue.RegistrationPetition = CreateValidEntities.RegistrationPetition(4);
+                emailQueue.RegistrationPetition.MajorCode = Repository.OfType<MajorCode>().Queryable.First();
+                emailQueue.RegistrationPetition.Registration = Repository.OfType<Registration>().Queryable.First();
+                #endregion Arrange
+
+                #region Act
+                EmailQueueRepository.DbContext.BeginTransaction();
+                EmailQueueRepository.EnsurePersistent(emailQueue);
+                EmailQueueRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(emailQueue);
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("object references an unsaved transient instance - save the transient instance before flushing. Type: Commencement.Core.Domain.RegistrationPetition, Entity: Commencement.Core.Domain.RegistrationPetition", ex.Message);
+                throw;
+            }
+        }
+        #endregion Invalid Tests
+        #region Valid Tests
+        [TestMethod]
+        public void TestEmailQueueWithANullRegistrationPetitionSaves()
+        {
+            #region Arrange
+            var emailQueue = GetValid(9);
+            emailQueue.RegistrationPetition = null;
+            #endregion Arrange
+
+            #region Act
+            EmailQueueRepository.DbContext.BeginTransaction();
+            EmailQueueRepository.EnsurePersistent(emailQueue);
+            EmailQueueRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(emailQueue.RegistrationPetition);
+            Assert.IsFalse(emailQueue.IsTransient());
+            Assert.IsTrue(emailQueue.IsValid());
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestEmailQueueWithAnExistingRegistrationPetitionSaves()
+        {
+            #region Arrange
+            Repository.OfType<RegistrationPetition>().DbContext.BeginTransaction();
+            LoadMajorCode(1);
+            LoadState(1);
+            LoadRegistrations(1);
+            LoadRegistrationPetitions(3);
+            Repository.OfType<RegistrationPetition>().DbContext.CommitTransaction();
+            var emailQueue = GetValid(9);
+            emailQueue.RegistrationPetition = Repository.OfType<RegistrationPetition>().GetNullableById(2);
+            #endregion Arrange
+
+            #region Act
+            EmailQueueRepository.DbContext.BeginTransaction();
+            EmailQueueRepository.EnsurePersistent(emailQueue);
+            EmailQueueRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("ExceptionReason2", Repository.OfType<RegistrationPetition>().GetNullableById(2).ExceptionReason);            
+            Assert.IsFalse(emailQueue.IsTransient());
+            Assert.IsTrue(emailQueue.IsValid());
+            #endregion Assert
+        }
+        #endregion Valid Tests
+        #region Cascade Tests
+        [TestMethod]
+        public void TestDeleteEmailQueueDoesNotCascadeToRegistrationPetition()
+        {
+            #region Arrange
+            Repository.OfType<RegistrationPetition>().DbContext.BeginTransaction();
+            LoadMajorCode(1);
+            LoadState(1);
+            LoadRegistrations(1);
+            LoadRegistrationPetitions(3);
+            Repository.OfType<RegistrationPetition>().DbContext.CommitTransaction();
+            var emailQueue = GetValid(9);
+            var registrationPetition = Repository.OfType<RegistrationPetition>().GetNullableById(2);
+            Assert.IsNotNull(registrationPetition);
+            emailQueue.RegistrationPetition = registrationPetition;
+
+            EmailQueueRepository.DbContext.BeginTransaction();
+            EmailQueueRepository.EnsurePersistent(emailQueue);
+            EmailQueueRepository.DbContext.CommitTransaction();
+
+            var saveId = emailQueue.Id;
+            #endregion Arrange
+
+            #region Act
+            EmailQueueRepository.DbContext.BeginTransaction();
+            EmailQueueRepository.Remove(emailQueue);
+            EmailQueueRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            NHibernateSessionManager.Instance.GetSession().Evict(registrationPetition);
+            Assert.IsNull(EmailQueueRepository.GetNullableById(saveId));
+            Assert.IsNotNull(Repository.OfType<RegistrationPetition>().GetNullableById(2));
+            #endregion Assert
+        }
+        #endregion Cascade Tests
+        #endregion RegistrationPetition Tests
+
+        #region ExtraTicketPetition Tests
+        #region Invalid Tests
+        [TestMethod]
+        [ExpectedException(typeof(NHibernate.TransientObjectException))]
+        public void TestExtraTicketPetitionWithANewValueDoesNotSave()
+        {
+            EmailQueue emailQueue = null;
+            try
+            {
+                #region Arrange
+                emailQueue = GetValid(9);
+                emailQueue.ExtraTicketPetition = CreateValidEntities.ExtraTicketPetition(4);
+                #endregion Arrange
+
+                #region Act
+                EmailQueueRepository.DbContext.BeginTransaction();
+                EmailQueueRepository.EnsurePersistent(emailQueue);
+                EmailQueueRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(emailQueue);
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("object references an unsaved transient instance - save the transient instance before flushing. Type: Commencement.Core.Domain.ExtraTicketPetition, Entity: Commencement.Core.Domain.ExtraTicketPetition", ex.Message);
+                throw;
+            }
+        }
+        #endregion Invalid Tests
+        #region Valid Tests
+        [TestMethod]
+        public void TestEmailQueueWithANullExtraTicketPetitionSaves()
+        {
+            #region Arrange
+            var emailQueue = GetValid(9);
+            emailQueue.ExtraTicketPetition = null;
+            #endregion Arrange
+
+            #region Act
+            EmailQueueRepository.DbContext.BeginTransaction();
+            EmailQueueRepository.EnsurePersistent(emailQueue);
+            EmailQueueRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(emailQueue.ExtraTicketPetition);
+            Assert.IsFalse(emailQueue.IsTransient());
+            Assert.IsTrue(emailQueue.IsValid());
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestEmailQueueWithAnExistingExtraTicketPetitionSaves()
+        {
+            #region Arrange
+            Repository.OfType<ExtraTicketPetition>().DbContext.BeginTransaction();
+            LoadExtraTicketPetitions(3);
+            Repository.OfType<ExtraTicketPetition>().DbContext.CommitTransaction();
+            var emailQueue = GetValid(9);
+            emailQueue.ExtraTicketPetition = Repository.OfType<ExtraTicketPetition>().GetNullableById(2);
+            #endregion Arrange
+
+            #region Act
+            EmailQueueRepository.DbContext.BeginTransaction();
+            EmailQueueRepository.EnsurePersistent(emailQueue);
+            EmailQueueRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Reason2", emailQueue.ExtraTicketPetition.Reason);
+            Assert.IsFalse(emailQueue.IsTransient());
+            Assert.IsTrue(emailQueue.IsValid());
+            #endregion Assert
+        }
+
+        #endregion Valid Tests
+
+        #region Cascade Tests
+        [TestMethod]
+        public void TestDeleteEmailQueueDoesNotCascadeToExtraTicketPetition()
+        {
+            #region Arrange
+            Repository.OfType<ExtraTicketPetition>().DbContext.BeginTransaction();
+            LoadExtraTicketPetitions(3);
+            Repository.OfType<ExtraTicketPetition>().DbContext.CommitTransaction();
+            var emailQueue = GetValid(9);
+            var extraTicketPetition = Repository.OfType<ExtraTicketPetition>().GetNullableById(2);
+            Assert.IsNotNull(extraTicketPetition);
+            emailQueue.ExtraTicketPetition = extraTicketPetition;
+
+            EmailQueueRepository.DbContext.BeginTransaction();
+            EmailQueueRepository.EnsurePersistent(emailQueue);
+            EmailQueueRepository.DbContext.CommitTransaction();
+
+            var saveId = emailQueue.Id;
+            #endregion Arrange
+
+            #region Act
+            EmailQueueRepository.DbContext.BeginTransaction();
+            EmailQueueRepository.Remove(emailQueue);
+            EmailQueueRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            NHibernateSessionManager.Instance.GetSession().Evict(extraTicketPetition);
+            Assert.IsNull(EmailQueueRepository.GetNullableById(saveId));
+            Assert.IsNotNull(Repository.OfType<ExtraTicketPetition>().GetNullableById(2));
+            #endregion Assert
+        }
+        #endregion Cascade Tests
+        #endregion ExtraTicketPetition Tests
+
+        #region Constructor Tests
+
+        [TestMethod]
+        public void TestConstructorWithNoParametersSetsExpectedValues()
+        {
+            #region Arrange
+            var record = new EmailQueue();
+            #endregion Arrange
+
+            #region Assert
+            Assert.AreEqual(DateTime.Now.Date, record.Created.Date);
+            Assert.IsTrue(record.Pending);
+            Assert.IsFalse(record.Immediate);
+            #endregion Assert		
+        }
+
+        [TestMethod]
+        public void TestConstructorWithParametersSetsExpectedValues1()
+        {
+            #region Arrange
+            var record = new EmailQueue(CreateValidEntities.Student(7), CreateValidEntities.Template(8), "Sub", "Bod");
+            #endregion Arrange
+
+            #region Assert
+            Assert.AreEqual(DateTime.Now.Date, record.Created.Date);
+            Assert.IsTrue(record.Pending);
+            Assert.IsFalse(record.Immediate); // Default parameter
+
+            Assert.AreEqual("Pidm7", record.Student.Pidm);
+            Assert.AreEqual("Subject8", record.Template.Subject);
+            Assert.AreEqual("Sub", record.Subject);
+            Assert.AreEqual("Bod", record.Body);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestConstructorWithParametersSetsExpectedValues2()
+        {
+            #region Arrange
+            var record = new EmailQueue(CreateValidEntities.Student(7), CreateValidEntities.Template(8), "Sub", "Bod", true);
+            #endregion Arrange
+
+            #region Assert
+            Assert.AreEqual(DateTime.Now.Date, record.Created.Date);
+            Assert.IsTrue(record.Pending);
+            Assert.IsTrue(record.Immediate); // Default parameter
+
+            Assert.AreEqual("Pidm7", record.Student.Pidm);
+            Assert.AreEqual("Subject8", record.Template.Subject);
+            Assert.AreEqual("Sub", record.Subject);
+            Assert.AreEqual("Bod", record.Body);
+            #endregion Assert
+        }
+        #endregion Constructor Tests
+
+        #region Fluent Mapping Tests
+        [TestMethod]
+        public void TestCanCorrectlyMapEmailQueue1()
+        {
+            #region Arrange
+            var id = EmailQueueRepository.Queryable.Max(x => x.Id) + 1;
+            var session = NHibernateSessionManager.Instance.GetSession();
+            var compareDate1 = DateTime.Now.Date.AddDays(1);
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<EmailQueue>(session)
+                .CheckProperty(c => c.Id, id)
+                .CheckProperty(c => c.Created, compareDate1)
+                .CheckProperty(c => c.Pending, true)
+                .CheckProperty(c => c.SentDateTime, null)
+                .CheckProperty(c => c.Subject, "Subject")
+                .CheckProperty(c => c.Body, "Body")
+                .CheckProperty(c => c.Immediate, true)
+                //.CheckReference(c => c.Ceremony, ceremony)
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+        [TestMethod]
+        public void TestCanCorrectlyMapEmailQueue2()
+        {
+            #region Arrange
+            var id = EmailQueueRepository.Queryable.Max(x => x.Id) + 1;
+            var session = NHibernateSessionManager.Instance.GetSession();
+            var compareDate1 = DateTime.Now.Date.AddDays(1);
+            var compareDate2 = DateTime.Now.Date.AddDays(2);
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<EmailQueue>(session)
+                .CheckProperty(c => c.Id, id)
+                .CheckProperty(c => c.Created, compareDate1)
+                .CheckProperty(c => c.Pending, false)
+                .CheckProperty(c => c.SentDateTime, compareDate2)
+                .CheckProperty(c => c.Subject, "Subject")
+                .CheckProperty(c => c.Body, "Body")
+                .CheckProperty(c => c.Immediate, false)
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+
+        [TestMethod]
+        public void TestCanCorrectlyMapEmailQueue3()
+        {
+            #region Arrange
+            var id = EmailQueueRepository.Queryable.Max(x => x.Id) + 1;
+            var session = NHibernateSessionManager.Instance.GetSession();
+            Repository.OfType<Registration>().DbContext.BeginTransaction();
+            LoadState(1);
+            LoadRegistrations(3);
+            LoadRegistrationParticipations(1);
+            LoadRegistrationPetitions(1);
+            LoadExtraTicketPetitions(1);
+            Repository.OfType<Registration>().DbContext.CommitTransaction();
+            var registration = Repository.OfType<Registration>().Queryable.First();
+            var student = Repository.OfType<Student>().Queryable.First();
+            var template = Repository.OfType<Template>().Queryable.First();
+            var registrationParticipation = Repository.OfType<RegistrationParticipation>().Queryable.First();
+            var registrationPetition = Repository.OfType<RegistrationPetition>().Queryable.First();
+            var extraTicketPetition = Repository.OfType<ExtraTicketPetition>().Queryable.First();
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<EmailQueue>(session)
+                .CheckProperty(c => c.Id, id)
+                .CheckReference(c => c.Registration, registration)
+                .CheckReference(c => c.Student, student)
+                .CheckReference(c => c.Template, template)
+                .CheckReference(c => c.RegistrationParticipation, registrationParticipation)
+                .CheckReference(c => c.RegistrationPetition, registrationPetition)
+                .CheckReference(c => c.ExtraTicketPetition, extraTicketPetition)
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+
+        #endregion Fluent Mapping Tests
 
         #region Reflection of Database.
 
@@ -1190,6 +1621,7 @@ namespace Commencement.Tests.Repositories
                  "[UCDArch.Core.NHibernateValidator.Extensions.RequiredAttribute()]"
             }));
             expectedFields.Add(new NameAndType("Created", "System.DateTime", new List<string>()));
+            expectedFields.Add(new NameAndType("ExtraTicketPetition", "Commencement.Core.Domain.ExtraTicketPetition", new List<string>()));
             expectedFields.Add(new NameAndType("Id", "System.Int32", new List<string>
             {
                 "[Newtonsoft.Json.JsonPropertyAttribute()]", 
@@ -1198,10 +1630,12 @@ namespace Commencement.Tests.Repositories
             expectedFields.Add(new NameAndType("Immediate", "System.Boolean", new List<string>()));
             expectedFields.Add(new NameAndType("Pending", "System.Boolean", new List<string>()));
             expectedFields.Add(new NameAndType("Registration", "Commencement.Core.Domain.Registration", new List<string>()));
-            expectedFields.Add(new NameAndType("SentDateTime", "System.DateTime", new List<string>()));
+            expectedFields.Add(new NameAndType("RegistrationParticipation", "Commencement.Core.Domain.RegistrationParticipation", new List<string>()));
+            expectedFields.Add(new NameAndType("RegistrationPetition", "Commencement.Core.Domain.RegistrationPetition", new List<string>()));
+            expectedFields.Add(new NameAndType("SentDateTime", "System.Nullable`1[System.DateTime]", new List<string>()));
             expectedFields.Add(new NameAndType("Student", "Commencement.Core.Domain.Student", new List<string>
             {
-                "[Newtonsoft.Json.notNullAttribute()]"
+                "[NHibernate.Validator.Constraints.NotNullAttribute()]"
             }));
             expectedFields.Add(new NameAndType("Subject", "System.String", new List<string>
             {
@@ -1210,7 +1644,7 @@ namespace Commencement.Tests.Repositories
             }));
             expectedFields.Add(new NameAndType("Template", "Commencement.Core.Domain.Template", new List<string>
             {
-                "[Newtonsoft.Json.notNullAttribute()]"
+                "[NHibernate.Validator.Constraints.NotNullAttribute()]"
             }));
             #endregion Arrange
 
@@ -1219,7 +1653,6 @@ namespace Commencement.Tests.Repositories
         }
 
         #endregion Reflection of Database.	
-		
-		
+				
     }
 }
