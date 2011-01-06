@@ -111,59 +111,7 @@ namespace Commencement.Tests.Repositories
         }
 
         #endregion Init and Overrides	
-        
-        #region Fluent Mapping Tests
-        [TestMethod]
-        public void TestCanCorrectlyMapAttachment()
-        {
-            #region Arrange
-            var session = NHibernateSessionManager.Instance.GetSession();
-            LoadColleges(3);
-            var college = CollegeRepository.GetById("2");
-            Assert.IsNotNull(college);
-            #endregion Arrange
-
-            #region Act/Assert
-            new PersistenceSpecification<MajorCode>(session, new MajorCodeEqualityComparer())
-                .CheckProperty(c => c.Id, "APRF")
-                .CheckProperty(c => c.College, college)
-                .CheckProperty(c => c.DisciplineCode, "ENVSC")
-                .CheckProperty(c => c.Name, "Pre Forestry (C.W.0.) Program")                
-                .VerifyTheMappings();
-            #endregion Act/Assert
-        }
-
-        public class MajorCodeEqualityComparer : IEqualityComparer
-        {
-            /// <summary>
-            /// Determines whether the specified objects are equal.
-            /// </summary>
-            /// <returns>
-            /// true if the specified objects are equal; otherwise, false.
-            /// </returns>
-            /// <param name="x">The first object to compare.</param><param name="y">The second object to compare.</param><exception cref="T:System.ArgumentException"><paramref name="x"/> and <paramref name="y"/> are of different types and neither one can handle comparisons with the other.</exception>
-            bool IEqualityComparer.Equals(object x, object y)
-            {
-                if (x is College && y is College)
-                {
-                    if (((College)x).Name == ((College)y).Name)
-                    {
-                        return true;
-                    }
-                    return false;
-                }
-
-                return x.Equals(y);
-            }
-
-            public int GetHashCode(object obj)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        #endregion Fluent Mapping Tests
-
+             
         #region Name Tests
 
 
@@ -492,24 +440,328 @@ namespace Commencement.Tests.Repositories
         #endregion Valid Tests
         #endregion College Tests
 
+        #region ConsolidationMajor Tests
+        #region Invalid Tests
+        /// <summary>
+        /// Tests the ConsolidationMajor with A value of new Value does not save.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(NHibernate.TransientObjectException))]
+        public void TestConsolidationMajorWithAValueOfNewValueDoesNotSave()
+        {
+            MajorCode majorCode = null;
+            try
+            {
+                #region Arrange
+                majorCode = GetValid(9);
+                majorCode.ConsolidationMajor = CreateValidEntities.MajorCode(15);
+                #endregion Arrange
+
+                #region Act
+                MajorCodeRepository.DbContext.BeginTransaction();
+                MajorCodeRepository.EnsurePersistent(majorCode);
+                MajorCodeRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(majorCode);
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("object references an unsaved transient instance - save the transient instance before flushing. Type: Commencement.Core.Domain.MajorCode, Entity: Commencement.Core.Domain.MajorCode", ex.Message);
+                throw;
+            }	
+        }
+        #endregion Invalid Tests
+        #region Valid Tests
+
+        [TestMethod]
+        public void TestMajorCodeWithNullConsolidationMajorSaves()
+        {
+            #region Arrange
+            var majorCode = GetValid(9);
+            majorCode.ConsolidationMajor = null;
+            #endregion Arrange
+
+            #region Act
+            MajorCodeRepository.DbContext.BeginTransaction();
+            MajorCodeRepository.EnsurePersistent(majorCode);
+            MajorCodeRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(majorCode.ConsolidationMajor);
+            Assert.IsFalse(majorCode.IsTransient());
+            Assert.IsTrue(majorCode.IsValid());
+            #endregion Assert		
+        }
+
+        [TestMethod]
+        public void TestMajorCodeWithExistingConsolidationMajorSaves()
+        {
+            #region Arrange
+            var majorCode = GetValid(9);
+            majorCode.ConsolidationMajor = MajorCodeRepository.GetNullableById("2");
+            Assert.IsNotNull(majorCode.ConsolidationMajor);
+            #endregion Arrange
+
+            #region Act
+            MajorCodeRepository.DbContext.BeginTransaction();
+            MajorCodeRepository.EnsurePersistent(majorCode);
+            MajorCodeRepository.DbContext.CommitTransaction();
+            var saveId = majorCode.Id;
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(majorCode.ConsolidationMajor);
+            Assert.IsFalse(majorCode.IsTransient());
+            Assert.IsTrue(majorCode.IsValid());
+            NHibernateSessionManager.Instance.GetSession().Evict(majorCode);
+            majorCode = MajorCodeRepository.GetNullableById(saveId);
+            Assert.IsNotNull(majorCode.ConsolidationMajor);
+            #endregion Assert
+        }
+        #endregion Valid Tests
+
+        #region Cascade Tests
+
+        [TestMethod]
+        public void TestDeleteMajorCodeDoesNotCascadeToOtherMajorCode()
+        {
+            #region Arrange
+            var majorCode = GetValid(9);
+            majorCode.ConsolidationMajor = MajorCodeRepository.GetNullableById("2");
+            Assert.IsNotNull(majorCode.ConsolidationMajor);
+
+            MajorCodeRepository.DbContext.BeginTransaction();
+            MajorCodeRepository.EnsurePersistent(majorCode);
+            MajorCodeRepository.DbContext.CommitTransaction();
+            var saveId = majorCode.Id;
+            #endregion Arrange
+
+            #region Act
+            NHibernateSessionManager.Instance.GetSession().Evict(majorCode);
+            majorCode = MajorCodeRepository.GetNullableById(saveId);
+            Assert.IsNotNull(majorCode);
+            MajorCodeRepository.DbContext.BeginTransaction();
+            MajorCodeRepository.Remove(majorCode);
+            MajorCodeRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(MajorCodeRepository.GetNullableById(saveId));
+            Assert.IsNotNull(MajorCodeRepository.GetNullableById("2"));
+            #endregion Assert		
+        }
+        #endregion Cascade Tests
+        #endregion ConsolidationMajor Tests
+
+        #region Major Tests
+
+        [TestMethod]
+        public void TestMajorReturnsThisMajorCodeWhenConsolidationMajorIsNull()
+        {
+            #region Arrange
+            var record = MajorCodeRepository.GetNullableById("3");
+            Assert.IsNotNull(record);
+            record.ConsolidationMajor = null;          
+            #endregion Arrange
+
+            #region Assert
+            Assert.AreEqual("3", record.Major.Id);
+            Assert.AreEqual("Name3", record.Major.Name);
+            #endregion Assert		
+        }
+
+        [TestMethod]
+        public void TestMajorReturnsOtherMajorCodeWhenConsolidationMajorIsNotNull()
+        {
+            #region Arrange
+            var record = MajorCodeRepository.GetNullableById("3");
+            Assert.IsNotNull(record);
+            record.ConsolidationMajor = MajorCodeRepository.GetNullableById("2");
+            Assert.IsNotNull(record.ConsolidationMajor);
+            #endregion Arrange
+
+            #region Assert
+            Assert.AreEqual("2", record.Major.Id);
+            Assert.AreEqual("Name2", record.Major.Name);
+            #endregion Assert	
+        }
+        #endregion Major Tests
+
+        #region MajorName Tests
+
+        [TestMethod]
+        public void TestMajorNameReturnsExpectedValue1()
+        {
+            #region Arrange
+            var record = MajorCodeRepository.GetNullableById("3");
+            Assert.IsNotNull(record);
+            record.ConsolidationMajor = null;
+            #endregion Arrange
+
+            #region Assert
+            Assert.AreEqual("3", record.Major.Id);
+            Assert.AreEqual("Name3", record.MajorName);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestMajorNameReturnsExpectedValue2()
+        {
+            #region Arrange
+            var record = MajorCodeRepository.GetNullableById("3");
+            Assert.IsNotNull(record);
+            record.ConsolidationMajor = MajorCodeRepository.GetNullableById("2");
+            Assert.IsNotNull(record.ConsolidationMajor);
+            #endregion Arrange
+
+            #region Assert
+            Assert.AreEqual("2", record.Major.Id);
+            Assert.AreEqual("Name2", record.MajorName);
+            #endregion Assert
+        }
+        #endregion MajorName Tests
+
+        #region MajorCollege Tests
+        [TestMethod]
+        public void TestMajorCollegeReturnsExpectedValue1()
+        {
+            #region Arrange
+            var record = MajorCodeRepository.GetNullableById("3");
+            Assert.IsNotNull(record);
+            record.ConsolidationMajor = null;
+            record.College = CreateValidEntities.College(16);
+            #endregion Arrange
+
+            #region Assert
+            Assert.AreEqual("3", record.Major.Id);
+            Assert.AreEqual("Name16", record.MajorCollege.Name);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestMajorCollegeReturnsExpectedValue2()
+        {
+            #region Arrange
+            Repository.OfType<College>().DbContext.BeginTransaction();
+            LoadColleges(3);
+            var toUpdate = MajorCodeRepository.GetNullableById("2");
+            toUpdate.College = Repository.OfType<College>().Queryable.First();
+            Repository.OfType<MajorCode>().EnsurePersistent(toUpdate);
+            Repository.OfType<College>().DbContext.CommitTransaction();
+            NHibernateSessionManager.Instance.GetSession().Evict(toUpdate);
+
+
+            var record = MajorCodeRepository.GetNullableById("3");
+            Assert.IsNotNull(record);
+            record.ConsolidationMajor = MajorCodeRepository.GetNullableById("2");
+            Assert.IsNotNull(record.ConsolidationMajor);
+            record.College = CreateValidEntities.College(16);
+            #endregion Arrange
+
+            #region Assert
+            Assert.AreEqual("2", record.Major.Id);
+            Assert.AreEqual("Name1", record.MajorCollege.Name);
+            #endregion Assert
+        }
+        #endregion MajorCollege Tests
+
+        #region Fluent Mapping Tests
+        [TestMethod]
+        public void TestCanCorrectlyMapMajorCode1()
+        {
+            #region Arrange
+            var session = NHibernateSessionManager.Instance.GetSession();
+            LoadColleges(3);
+            var college = CollegeRepository.GetById("2");
+            Assert.IsNotNull(college);
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<MajorCode>(session, new MajorCodeEqualityComparer())
+                .CheckProperty(c => c.Id, "APRF")
+                .CheckProperty(c => c.College, college)
+                .CheckProperty(c => c.DisciplineCode, "ENVSC")
+                .CheckProperty(c => c.Name, "Pre Forestry (C.W.0.) Program")
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+        [TestMethod]
+        public void TestCanCorrectlyMapMajorCode2()
+        {
+            #region Arrange
+            var session = NHibernateSessionManager.Instance.GetSession();
+            LoadColleges(3);
+            var college = CollegeRepository.GetById("2");
+            Assert.IsNotNull(college);
+            var majorCode = MajorCodeRepository.Queryable.First();
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<MajorCode>(session)
+                .CheckProperty(c => c.Id, "APRF")
+                .CheckReference(c => c.College, college)
+                .CheckProperty(c => c.DisciplineCode, "ENVSC")
+                .CheckProperty(c => c.Name, "Pre Forestry (C.W.0.) Program")
+                .CheckReference(c=> c.ConsolidationMajor, majorCode )
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+
+        public class MajorCodeEqualityComparer : IEqualityComparer
+        {
+            /// <summary>
+            /// Determines whether the specified objects are equal.
+            /// </summary>
+            /// <returns>
+            /// true if the specified objects are equal; otherwise, false.
+            /// </returns>
+            /// <param name="x">The first object to compare.</param><param name="y">The second object to compare.</param><exception cref="T:System.ArgumentException"><paramref name="x"/> and <paramref name="y"/> are of different types and neither one can handle comparisons with the other.</exception>
+            bool IEqualityComparer.Equals(object x, object y)
+            {
+                if (x is College && y is College)
+                {
+                    if (((College)x).Name == ((College)y).Name)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+
+                return x.Equals(y);
+            }
+
+            public int GetHashCode(object obj)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion Fluent Mapping Tests
+
         #region Reflection of Database.
 
         /// <summary>
         /// Tests all fields in the database have been tested.
         /// If this fails and no other tests, it means that a field has been added which has not been tested above.
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestAllFieldsInTheDatabaseHaveBeenTested()
         {
             #region Arrange
             var expectedFields = new List<NameAndType>();
             expectedFields.Add(new NameAndType("College", "Commencement.Core.Domain.College", new List<string>()));
+            expectedFields.Add(new NameAndType("ConsolidationMajor", "Commencement.Core.Domain.MajorCode", new List<string>()));
             expectedFields.Add(new NameAndType("DisciplineCode", "System.String", new List<string>()));
             expectedFields.Add(new NameAndType("Id", "System.String", new List<string>
             {
                 "[Newtonsoft.Json.JsonPropertyAttribute()]", 
                 "[System.Xml.Serialization.XmlIgnoreAttribute()]"
             }));
+            expectedFields.Add(new NameAndType("Major", "Commencement.Core.Domain.MajorCode", new List<string>()));
+            expectedFields.Add(new NameAndType("MajorCollege", "Commencement.Core.Domain.College", new List<string>()));
+            expectedFields.Add(new NameAndType("MajorName", "System.String", new List<string>()));
             expectedFields.Add(new NameAndType("Name", "System.String", new List<string>()));
             #endregion Arrange
 
