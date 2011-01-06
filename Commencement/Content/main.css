@@ -178,6 +178,7 @@ p.style7 {font: 18px/27px 'CicleShadow', Arial, sans-serif;}       */
     z-index:100;
     background-color:#FFFFFF;
     color:#4C607A;
+    display:none;
 }
 #ticketCountBar br
 {

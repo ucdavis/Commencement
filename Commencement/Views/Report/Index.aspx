@@ -13,7 +13,7 @@
     <li><%= Html.ActionLink<AdminController>(a=>a.Index(), "Home")  %></li></ul>
 
     <h2>Reporting</h2>
-    <ul class="">
+    <ul class="reporting">
         <li><strong>Term:</strong>
             <%= this.Select("termCode").Options(Model.TermCodes, x=>x.Id, x=>x.Description).Selected(Model.TermCode.Id) %>
         </li>
@@ -96,11 +96,9 @@
     </ul>
 
     <h2>Label Printing</h2>
-    <ul class="">
+    <ul class="reporting">
         <li>
-            <strong><%= Html.ActionLink<ReportController>(a => a.GenerateAveryLabels(TermService.GetCurrent().Id, true, false), "Print Pending Mailing Labels")%></strong>
-            <br />
-            This will print all pending labels for mailing that need to be printed and will update records so that they will not be printed in this list again.
+            <strong><%= Html.ActionLink<ReportController>(a => a.GenerateAveryLabels(TermService.GetCurrent().Id, true, false), "Print Pending Mailing Labels")%></strong> - This will print all pending labels for mailing that need to be printed and will update records so that they will not be printed in this list again.
         </li>
         <li>
             <strong><%= Html.ActionLink<ReportController>(a => a.GenerateAveryLabels(TermService.GetCurrent().Id, false, false), "Print Pending Pickup Labels")%></strong>
