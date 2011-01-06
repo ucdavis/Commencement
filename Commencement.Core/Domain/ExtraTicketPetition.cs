@@ -38,7 +38,9 @@ namespace Commencement.Core.Domain
         /// <summary>
         /// Number tickets requested
         /// </summary>
+        [Min(0, Message = "Can not enter negative numbers")]
         public virtual int NumberTicketsRequested { get; set; }
+        [Min(0, Message = "Can not enter negative numbers")]
         public virtual int NumberTicketsRequestedStreaming { get; set; }
         public virtual bool IsPending { get; set; }
         public virtual bool IsApproved { get; set; }
@@ -51,10 +53,12 @@ namespace Commencement.Core.Domain
         /// <summary>
         /// Number tickets approved
         /// </summary>
+        [Min(0, Message = "Can not enter negative numbers")]
         public virtual int? NumberTickets { get; set; }
         /// <summary>
         /// Number of streaming tickets approved
         /// </summary>
+        [Min(0, Message = "Can not enter negative numbers")]
         public virtual int? NumberTicketsStreaming { get; set; }
         [Required]
         [Length(100)]
