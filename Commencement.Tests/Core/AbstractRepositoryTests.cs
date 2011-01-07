@@ -526,9 +526,7 @@ namespace Commencement.Tests.Core
             for (int i = 0; i < entriesToAdd; i++)
             {
                 var validEntity = CreateValidEntities.Registration(i + 1);
-                //validEntity.Major = Repository.OfType<MajorCode>().Queryable.First();
                 validEntity.State = Repository.OfType<State>().Queryable.First();
-                //validEntity.Ceremony = Repository.OfType<Ceremony>().Queryable.First();
                 validEntity.TermCode = termCodeRepository.Queryable.First();
                 validEntity.Student = studentRepository.Queryable.First();
                 Repository.OfType<Registration>().EnsurePersistent(validEntity);
@@ -650,7 +648,8 @@ namespace Commencement.Tests.Core
             for (int i = 0; i < entriesToAdd; i++)
             {
                 var validEntity = CreateValidEntities.RegistrationParticipation(i + 1);
-                validEntity.Ceremony = Repository.OfType<Ceremony>().GetNullableById(1);
+                validEntity.Ceremony = Repository.OfType<Ceremony>().Queryable.First();
+                validEntity.Major = Repository.OfType<MajorCode>().Queryable.First();
                 validEntity.NumberTickets = i*ticketMultiplier;
                 validEntity.Registration = Repository.OfType<Registration>().Queryable.First();
                 Repository.OfType<RegistrationParticipation>().EnsurePersistent(validEntity);

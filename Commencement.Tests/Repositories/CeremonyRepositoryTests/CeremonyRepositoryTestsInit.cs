@@ -107,7 +107,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
         protected override void LoadData()
         {
             CeremonyRepository.DbContext.BeginTransaction();
-            
+            LoadMajorCode(1); 
             LoadTermCode(5);
             LoadState(1);
             LoadStudent(1);

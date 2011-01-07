@@ -1176,6 +1176,7 @@ namespace Commencement.Tests.Repositories
             LoadRegistrations(1);
             //LoadTermCode(1);
             LoadCeremony(1);
+            LoadMajorCode(1);
             LoadRegistrationParticipations(3);
             Repository.OfType<RegistrationParticipation>().DbContext.CommitTransaction();
             var emailQueue = GetValid(9);
@@ -1204,6 +1205,7 @@ namespace Commencement.Tests.Repositories
             LoadCeremony(1);
             LoadState(1);
             LoadRegistrations(1);
+            LoadMajorCode(1);
             LoadRegistrationParticipations(3);
             Repository.OfType<RegistrationParticipation>().DbContext.CommitTransaction();
             var emailQueue = GetValid(9);
@@ -1578,6 +1580,7 @@ namespace Commencement.Tests.Repositories
             Repository.OfType<Registration>().DbContext.BeginTransaction();
             LoadState(1);
             LoadRegistrations(3);
+            LoadMajorCode(1);
             LoadRegistrationParticipations(1);
             LoadRegistrationPetitions(1);
             LoadExtraTicketPetitions(1);

@@ -16,7 +16,9 @@ namespace Commencement.Core.Domain
         }
         [NotNull]
         public virtual Registration Registration { get; set; }
+        [NotNull]
         public virtual MajorCode Major { get; set; }
+        [NotNull]
         public virtual Ceremony Ceremony { get; set; }
         public virtual ExtraTicketPetition ExtraTicketPetition { get; set; }
 
