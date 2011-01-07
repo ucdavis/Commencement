@@ -244,9 +244,15 @@ namespace Commencement.Controllers.Helpers
             {
                 Check.Require(_registrationPetition != null, "_registrationPetition is required.");
 
+                switch(parameter.ToLower())
+                {
+                    default:
+                        break;
+                }
+
             }
 
-            throw new ArgumentException("Invalid template was passed.");
+            throw new ArgumentException("Invalid parameter was passed.");
 
             //    case "numberoftickets": // only number tickets from original registration
             //        if (RegistrationParticipation != null) return RegistrationParticipation.NumberTickets.ToString();
