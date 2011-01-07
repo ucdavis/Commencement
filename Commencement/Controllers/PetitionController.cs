@@ -383,8 +383,12 @@ namespace Commencement.Controllers
                 {
                     ModelState.AddModelError("ExtraTicketPetition", string.Format("Our records indicate that you have already submitted a petition for {0}", a.Ceremony.Name));
                 }
+                else if (string.IsNullOrEmpty(a.Reason))
+                {
+                    ModelState.AddModelError("Reason", string.Format("Reason cannot be blank for petition {0}", a.Ceremony.Name));
+                }
                 // validate the deadline before creating valid request, and no previous
-                else 
+                else
                 {
                     var etp = new ExtraTicketPetition(a.NumberTickets, a.Reason, a.Ceremony.HasStreamingTickets ? a.NumberStreamingTickets : 0);
                     a.RegistrationParticipation.ExtraTicketPetition = etp;
@@ -396,17 +400,17 @@ namespace Commencement.Controllers
             {
                 foreach (var registrationParticipation in ceremonyParticipations)
                 {
-                    Repository.OfType<RegistrationParticipation>().EnsurePersistent(registrationParticipation);    
-                }
+                    Repository.OfType<RegistrationParticipation>().EnsurePersistent(registrationParticipation);
 
-                try
-                {
-                    _emailService.SendExtraTicketPetitionConfirmation(registration);
-                }
-                catch (Exception ex)
-                {
-                    _errorService.ReportError(ex);
-                    Message += StaticValues.Student_Email_Problem;
+                    try
+                    {
+                        _emailService.QueueExtraTicketPetitionConfirmation(registrationParticipation);
+                    }
+                    catch (Exception ex)
+                    {
+                        _errorService.ReportError(ex);
+                        Message += StaticValues.Student_Email_Problem;
+                    }
                 }
 
                 Message = "Successfully submitted extra ticket petition(s).";

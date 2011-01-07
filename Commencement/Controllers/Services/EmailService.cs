@@ -20,6 +20,7 @@ namespace Commencement.Controllers.Services
         void SendRegistrationPetitionApproved(RegistrationPetition registrationPetition);
 
         void QueueRegistrationConfirmation(Registration registration);
+        void QueueExtraTicketPetitionConfirmation(RegistrationParticipation participation);
         void QueueExtraTicketPetitionDecision(RegistrationParticipation participation);
     }
 
@@ -27,17 +28,21 @@ namespace Commencement.Controllers.Services
     {
         private readonly IRepository<Template> _templateRepository;
         private readonly IRepository<EmailQueue> _emailQueueRepository;
+        private readonly ILetterGenerator _letterGenerator;
         SmtpClient client = new SmtpClient();
         LetterGenerator letterGenerator = new LetterGenerator();
 
-        public EmailService(IRepository<Template> templateRepository, IRepository<EmailQueue> emailQueueRepository)
+        public EmailService(IRepository<Template> templateRepository, IRepository<EmailQueue> emailQueueRepository, ILetterGenerator letterGenerator)
         {
             _templateRepository = templateRepository;
             _emailQueueRepository = emailQueueRepository;
+            _letterGenerator = letterGenerator;
         }
 
         public void SendRegistrationConfirmation(Registration registration)
         {
+            throw new NotImplementedException();
+
             Check.Require(registration != null, "Registration is required.");
 
             var message = InitializeMessage();
@@ -62,6 +67,8 @@ namespace Commencement.Controllers.Services
 
         public void SendAddPermission(Student student, Ceremony ceremony)
         {
+            throw new NotImplementedException();
+
             var term = TermService.GetCurrent();
 
             Check.Require(student != null, "Student is required.");
@@ -82,6 +89,8 @@ namespace Commencement.Controllers.Services
 
         public void SendExtraTicketPetitionDecision(Registration registration)
         {
+            throw new NotImplementedException();
+
             var term = TermService.GetCurrent();
 
             Check.Require(registration != null, "Registration is required.");
@@ -96,13 +105,15 @@ namespace Commencement.Controllers.Services
             var template = registration.RegistrationParticipations[0].Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision && a.IsActive).FirstOrDefault();
             Check.Require(template != null, "No template is available.");
 
-            message.Body = letterGenerator.GenerateExtraTicketRequestPetitionDecision(registration, template);
+            //message.Body = letterGenerator.GenerateExtraTicketRequestPetitionDecision(registration, template);
 
             Send(message);
         }
 
         public void SendExtraTicketPetitionConfirmation(Registration registration)
         {
+            throw new NotImplementedException();
+
             var term = TermService.GetCurrent();
 
             Check.Require(registration != null, "Registration is required.");
@@ -117,13 +128,15 @@ namespace Commencement.Controllers.Services
             var template = registration.RegistrationParticipations[0].Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition && a.IsActive).FirstOrDefault();
             Check.Require(template != null, "No template is available.");
 
-            message.Body = letterGenerator.GenerateExtraTicketRequestPetitionDecision(registration, template);
+            //message.Body = letterGenerator.GenerateExtraTicketRequestPetitionDecision(registration, template);
 
             Send(message);
         }
 
         public void SendRegistrationPetitionConfirmation(RegistrationPetition registrationPetition)
         {
+            throw new NotImplementedException();
+
             var term = TermService.GetCurrent();
 
             Check.Require(registrationPetition != null, "Registration Petition is required.");
@@ -143,6 +156,8 @@ namespace Commencement.Controllers.Services
 
         public void SendRegistrationPetitionApproved(RegistrationPetition registrationPetition)
         {
+            throw new NotImplementedException();
+
             var term = TermService.GetCurrent();
 
             Check.Require(registrationPetition != null, "Registration Petition is required.");
@@ -176,14 +191,31 @@ namespace Commencement.Controllers.Services
                 Check.Require(template != null, "No template is available.");
 
                 var subject = template.Subject;
-                var body = letterGenerator.GenerateRegistrationConfirmation(a, template);
+                var body = _letterGenerator.GenerateRegistrationConfirmation(a, template);
 
-                var emailQueue = new EmailQueue(a.Registration.Student, template, subject, body, true);
+                var emailQueue = new EmailQueue(a.Registration.Student, template, subject, body, false);
                 emailQueue.Registration = registration;
                 emailQueue.RegistrationParticipation = a;
 
                 _emailQueueRepository.EnsurePersistent(emailQueue);
             }
+        }
+
+        public void QueueExtraTicketPetitionConfirmation(RegistrationParticipation participation)
+        {
+            Check.Require(participation != null, "participation is required.");
+            
+            var template = participation.Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition && a.IsActive).FirstOrDefault();
+            Check.Require(template != null, "template is required.");
+
+            var subject = template.Subject;
+            var body = _letterGenerator.GenerateExtraTicketRequestPetitionConfirmation(participation, template);
+
+            var emailQueue = new EmailQueue(participation.Registration.Student, template, subject, body, false);
+            emailQueue.Registration = participation.Registration;
+            emailQueue.RegistrationParticipation = participation;
+
+            _emailQueueRepository.EnsurePersistent(emailQueue);
         }
 
         public void QueueExtraTicketPetitionDecision(RegistrationParticipation participation)

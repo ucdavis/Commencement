@@ -275,6 +275,7 @@
     <Content Include="Content\Common\sprite.png" />
     <Content Include="Content\Common\validation-error-message.png" />
     <Content Include="Content\font.css" />
+    <Content Include="Content\jquery.bt.css" />
     <Content Include="Content\main.css" />
     <Content Include="Content\telerik.common.css" />
     <Content Include="Content\telerik.vista.css" />
@@ -301,10 +302,12 @@
     <Content Include="Images\logo-ls.png" />
     <Content Include="Images\logo-ucdavis.png" />
     <Content Include="Images\logo.jpg" />
+    <Content Include="Images\speechbubble.jpg" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
     <Content Include="Scripts\jquery.anytime.js" />
+    <Content Include="Scripts\jquery.bt.min.js" />
     <Content Include="Scripts\jquery.enableTinyMce.js" />
     <Content Include="Scripts\setScrollingBox.js" />
     <Content Include="Scripts\jquery.livequery.js" />

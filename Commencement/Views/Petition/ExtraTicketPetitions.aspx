@@ -21,7 +21,7 @@
 
     <% if (Model.Ceremony != null) { %>
         
-        <% using (Html.BeginForm("ApproveAllExtraTicketPetition", "Admin", FormMethod.Post))
+        <% using (Html.BeginForm("ApproveAllExtraTicketPetition", "Petition", FormMethod.Post))
            { %>
         
             <%= Html.AntiForgeryToken() %>
@@ -52,20 +52,24 @@
                .Columns(col =>
                             {
                                 col.Add(a => { %>
-                                    <input type="button" value="Approve" class="decision" participationId='<%: a.Id %>' />
-                                    <input type="button" value="Deny" class="decision" participationId='<%: a.Id %>'  />
-                                <% }).HtmlAttributes(new {Style = "width:115px;"});
+                                    <img src='<%: Url.Content("~/Images/CheckMark-1.png") %>' class="decision" data-approve="true" data-participationId='<%: a.Id %>' />
+                                    <img src='<%: Url.Content("~/Images/Cancel-1.png") %>' class="decision" data-approve="false" data-participationId='<%: a.Id %>' />
+                                <% }).HtmlAttributes(new {Style = "width:50px;"});
                                 col.Bound(a => a.Registration.Student.LastName);
                                 col.Bound(a => a.Registration.Student.FirstName);
                                 col.Bound(a => a.NumberTickets).Title("# Tickets");
-                                col.Bound(a => a.ExtraTicketPetition.NumberTicketsRequested).Title("# Tickets Requested");
-                                if (Model.Ceremony.HasStreamingTickets){col.Bound(a => a.ExtraTicketPetition.NumberTicketsRequestedStreaming).Title("# Requested Streaming");}
+                                col.Add(a=>{ %>
+                                    <img src='<%: Url.Content("~/Images/speechbubble.jpg") %>' class="reason" />
+                                    <div class="reasonText" style="display:none;"><%: !string.IsNullOrEmpty(a.ExtraTicketPetition.Reason) ? a.ExtraTicketPetition.Reason : "n/a" %></div>
+                                <%}).Title("Reason");
+                                col.Bound(a => a.ExtraTicketPetition.NumberTicketsRequested).Title("# Requested");
+                                if (Model.Ceremony.HasStreamingTickets){col.Bound(a => a.ExtraTicketPetition.NumberTicketsRequestedStreaming).Title("# Streaming");}
                                 col.Add(a => { %>
                                     <%: Html.TextBox("TicketsApproved", a.ExtraTicketPetition.NumberTickets.HasValue ? a.ExtraTicketPetition.NumberTickets : a.ExtraTicketPetition.NumberTicketsRequested, new {@class="tickets", participationId=a.Id, ceremonyId=a.Ceremony.Id}) %>
                                     <img src="<%: Url.Content("~/Images/loading.gif") %>" class="loading" />
                                     <img src="<%: Url.Content("~/Images/Cancel-1.png") %>" class="cancel" />
                                     <img src="<%: Url.Content("~/Images/CheckMark-1.png") %>" class="check" />
-                                <% }).Title("# Tickets Approved");
+                                <% }).Title("# Approved");
                                 if (Model.Ceremony.HasStreamingTickets)
                                 {
                                     col.Add(a => {%>
@@ -85,14 +89,20 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
 
-    <script type="text/javascript">
+    <script type="text/javascript" src='<%: Url.Content("~/Scripts/jquery.bt.min.js") %>'></script>
+    <link href="<%= Url.Content("~/Content/jquery.bt.css") %>" rel="Stylesheet" type="text/css" media="screen" />
 
+    <script type="text/javascript">
 
         $(document).ready(function () {
             $(".tickets").blur(function () { SaveTicketAmount($(this).attr("participationId"), $(this).attr("ceremonyId"), $(this).val(), $(this).hasClass("streaming"), this); });
-            $(".decision").click(function () { MakeDecision($(this).attr("participationId"), $(this).val() == "Approve", this); });
+            //$(".decision").click(function () { MakeDecision($(this).attr("participationId"), $(this).val() == "Approve", this); });
+
+            $(".decision").click(function () { MakeDecision($(this).data("participationId"), $(this).data("approve"), $(this)); });
 
             SetScrollingBox($("#ticketCountBar"), $("#ticketCountInline"));
+
+            $(".reason").each(function (index, item) { $(item).bt($(item).siblings("div.reasonText").html()); });
         });
 
         function SaveTicketAmount(id, ceremonyId, amount, streaming, box) {
@@ -131,11 +141,12 @@
             }
         }
 
-        function MakeDecision(id, approved, button) {
+        function MakeDecision(id, approved, $button) {
             var url = '<%: Url.Action("DecideExtraTicketPetition", "Petition") %>';
+
             $.post(url, { id: id, isApproved: approved, __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val() }, function (data) {
                 if (data == "") {
-                    $(button).parents("tr").fadeOut(1500, function () { $(this).remove(); });
+                    $button.parents("tr").fadeOut(1500, function () { $(this).remove(); });
                 }
             });
         }
@@ -156,6 +167,12 @@
     </script>
 
     <style = type="text/css">
+        
+        .decision
+        {
+            cursor: pointer;
+        }
+        
         .tickets
         {
             width: 50px;

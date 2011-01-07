@@ -10,9 +10,9 @@ namespace Commencement.Controllers.Helpers
     public interface ILetterGenerator
     {
         string GenerateRegistrationConfirmation(RegistrationParticipation registrationParticipation, Template template);
-        string GenerateExtraTicketRequestPetitionConfirmation(Registration registration, Template template);
-        string GenerateExtraTicketRequestPetitionDecision(Registration registration, Template template);
-        string GenerateAddPermission(Student student, Template template, Ceremony ceremony);
+        string GenerateExtraTicketRequestPetitionConfirmation(RegistrationParticipation registrationParticipation, Template template);
+        string GenerateExtraTicketRequestPetitionDecision(RegistrationParticipation registrationParticipation, Template template);
+        //string GenerateAddPermission(Student student, Template template, Ceremony ceremony);
         string GenerateRegistrationPetitionConfirmation(RegistrationPetition registrationPetition, Template template);
         string GenerateRegistrationPetitionApproved(RegistrationPetition registrationPetition, Template template);
         bool ValidateTemplate(Template template, List<string> invalidTokens);
@@ -21,84 +21,105 @@ namespace Commencement.Controllers.Helpers
     public class LetterGenerator : ILetterGenerator
     {
         private Ceremony _ceremony;
-        public Student Student { get; set; }
-        //public Registration Registration { get; set; }  // probably not needed
-        public RegistrationPetition RegistrationPetition { get; set; }
-        public ExtraTicketPetition ExtraTicketPetition { get; set; }
-
-        public RegistrationParticipation RegistrationParticipation { get; set; }
+        private Student _student;
+        private RegistrationPetition _registrationPetition;
+        private RegistrationParticipation _registrationParticipation;
+        private ExtraTicketPetition _extraTicketPetition;
+        private Registration _registration;
+        private Template _template;
 
         public string GenerateRegistrationConfirmation(RegistrationParticipation registrationParticipation, Template template)
         {
             Check.Require(registrationParticipation != null, "registrationParticipation is required.");
+            Check.Require(registrationParticipation.Registration.Student != null, "registrationParticipation.Registration.Student is required.");
             Check.Require(template != null, "template is required.");
             Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationConfirmation, "Template mismatch.");
+            Check.Require(registrationParticipation.Registration != null, "registrationParticipation.Registration is required.");
 
             _ceremony = registrationParticipation.Ceremony;
-            Student = registrationParticipation.Registration.Student;
-            RegistrationParticipation = registrationParticipation;
+            _student = registrationParticipation.Registration.Student;
+            _registrationParticipation = registrationParticipation;
+            _registration = registrationParticipation.Registration;
+            _template = template;
 
             return HandleBody(template.BodyText);
         }
 
-        public string GenerateExtraTicketRequestPetitionConfirmation(Registration registration, Template template)
+        public string GenerateExtraTicketRequestPetitionConfirmation(RegistrationParticipation registrationParticipation, Template template)
         {
-            Check.Require(registration != null, "Registration is required.");
-            Check.Require(template != null, "Template is required.");
-            Check.Require(template.TemplateType.Name == StaticValues.Template_TicketPetition);
+            Check.Require(registrationParticipation != null, "registrationParticipation is required.");
+            Check.Require(registrationParticipation.Registration.Student != null, "registrationParticipation.Registration.Student is required.");
+            Check.Require(template != null, "template is required.");
+            Check.Require(template.TemplateType.Name == StaticValues.Template_TicketPetition, "Template mismatch.");
+            Check.Require(registrationParticipation.Registration != null, "registrationParticipation.Registration is required.");
+            Check.Require(registrationParticipation.ExtraTicketPetition != null, "registrationParticipation.ExtraTicketPetition is required.");
 
-            //Registration = registration;
-            _ceremony = registration.RegistrationParticipations[0].Ceremony;
-            Student = registration.Student;
-            //ExtraTicketPetition = registration.ExtraTicketPetition;
-
+            _ceremony = registrationParticipation.Ceremony;
+            _student = registrationParticipation.Registration.Student;
+            _registrationParticipation = registrationParticipation;
+            _registration = registrationParticipation.Registration;
+            _template = template;
+            _extraTicketPetition = registrationParticipation.ExtraTicketPetition;
+            
             return HandleBody(template.BodyText);
         }
 
-        public string GenerateExtraTicketRequestPetitionDecision(Registration registration, Template template)
+        public string GenerateExtraTicketRequestPetitionDecision(RegistrationParticipation registrationParticipation, Template template)
         {
-            Check.Require(registration != null, "Registration is required.");
-            Check.Require(template != null, "Template is required.");
-            Check.Require(template.TemplateType.Name == StaticValues.Template_TicketPetition_Decision);
+            Check.Require(registrationParticipation != null, "registrationParticipation is required.");
+            Check.Require(registrationParticipation.Registration.Student != null, "registrationParticipation.Registration.Student is required.");
+            Check.Require(template != null, "template is required.");
+            Check.Require(template.TemplateType.Name == StaticValues.Template_TicketPetition_Decision, "Template mismatch.");
+            Check.Require(registrationParticipation.Registration != null, "registrationParticipation.Registration is required.");
+            Check.Require(registrationParticipation.ExtraTicketPetition != null, "registrationParticipation.ExtraTicketPetition is required.");
 
-            //Registration = registration;
-            _ceremony = registration.RegistrationParticipations[0].Ceremony;
-            Student = registration.Student;
-            //ExtraTicketPetition = registration.ExtraTicketPetition;
+            _ceremony = registrationParticipation.Ceremony;
+            _student = registrationParticipation.Registration.Student;
+            _registrationParticipation = registrationParticipation;
+            _registration = registrationParticipation.Registration;
+            _template = template;
+            _extraTicketPetition = registrationParticipation.ExtraTicketPetition;
 
             return HandleBody(template.BodyText);
         }
 
+        // getting nrid of this email
         public string GenerateAddPermission(Student student, Template template, Ceremony ceremony)
         {
+            throw new NotImplementedException();
+
             Check.Require(student != null, "Student is required.");
             Check.Require(template != null, "Template is required");
             Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved);
 
             _ceremony = ceremony;
-            Student = student;
+            _student = student;
 
             return HandleBody(template.BodyText);
         }
 
         public string GenerateRegistrationPetitionConfirmation(RegistrationPetition registrationPetition, Template template)
         {
+            throw new NotImplementedException();
+
             Check.Require(registrationPetition != null, "Registration Petition is required.");
             Check.Require(template != null, "Template is required");
             Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationPetition);
 
-            RegistrationPetition = registrationPetition;
+            _registrationPetition = registrationPetition;
 
             return HandleBody(template.BodyText);
         }
 
         public string GenerateRegistrationPetitionApproved(RegistrationPetition registrationPetition, Template template)
         {
+            throw new NotImplementedException();
+
             Check.Require(registrationPetition != null, "Registration Petition is required.");
             Check.Require(template != null, "Template is required");
             Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved);
 
-            RegistrationPetition = registrationPetition;
+            //RegistrationPetition = registrationPetition;
 
             return HandleBody(template.BodyText);
         }
@@ -116,6 +137,10 @@ namespace Commencement.Controllers.Helpers
         /// <returns>Completed text ready for exporting</returns>
         private string HandleBody(string body)
         {
+            Check.Require(_ceremony != null, "_ceremony is required.");
+            Check.Require(_student != null, "_student is required.");
+            Check.Require(_template != null, "_template is required.");
+
             // Begin actual processing function
             string tempbody = "";
             string parameter;
@@ -158,106 +183,104 @@ namespace Commencement.Controllers.Helpers
         /// <returns>Value that should replace the parameter</returns>
         private string replaceParameter(string parameter)
         {
-            Ceremony ceremony = _ceremony;
-
-            //if (Registration != null) ceremony = Registration.Ceremony;
-            //else if (RegistrationPetition != null) ceremony = RegistrationPetition.Ceremony;
-            //else if (ExtraTicketPetition != null) ceremony = ExtraTicketPetition.Registration.Ceremony;
-
             // Trim the {}
             int length = parameter.Length;
             parameter = parameter.Substring(1, length - 2);
 
-            switch (parameter.ToLower())
+            Check.Require(_ceremony != null, "_ceremony is required.");
+            Check.Require(_student != null, "_student is required.");
+            Check.Require(_registration != null, "_registration is required.");
+
+            // handle shared fields (ceremony, student and registration fields)
+            switch(parameter.ToLower())
             {
-                case "studentid":
-                    if (Student != null) return Student.StudentId;
-                    if (RegistrationPetition != null) return RegistrationPetition.Registration.Student.StudentId;
-
-                    throw new ArgumentException("No valid object was provided.");
-                case "studentname":
-                    if (Student != null) return Student.FullName;
-                    if (RegistrationPetition != null)
-                        return string.Format("{0} {1}", RegistrationPetition.Registration.Student.FirstName, RegistrationPetition.Registration.Student.LastName);
-
-                    throw new ArgumentException("No valid object was provided.");
-                case "ceremonyname":
-                    if (ceremony == null) throw new ArgumentException("No valid object was provided.");
-
-                    return ceremony.Name;
-                case "ceremonytime":
-                    if (ceremony == null) throw new ArgumentException("No valid object was provided.");
-
-                    return ceremony.DateTime.ToString("f");
-                case "ceremonylocation":
-                    if (ceremony == null) throw new ArgumentException("No valid object was provided.");
-
-                    return ceremony.Location;
-                case "numberoftickets": // only number tickets from original registration
-                    if (RegistrationParticipation != null) return RegistrationParticipation.NumberTickets.ToString();
-
-                    throw new ArgumentException("No valid object was provided.");
-                case "petitiondecision":
-                    if (ExtraTicketPetition != null) return ExtraTicketPetition.IsApproved ? "Approved" : "Denied";
-                    if (RegistrationPetition != null) return RegistrationPetition.IsApproved ? "Approved" : "Denied";
-
-                    throw new ArgumentException("No valid object was provided.");
-                case "numberofextratickets":
-                    if (ExtraTicketPetition != null) return ExtraTicketPetition.NumberTickets.ToString();
-
-                    throw new ArgumentException("Extra Ticket Petition was missing");
-                case "addressline1":
-
-                    if (RegistrationParticipation != null) return RegistrationParticipation.Registration.Address1;
-
-                    throw new ArgumentException("No valid object was provided.");
-                case "addressline2":
-
-                    if (RegistrationParticipation != null) return RegistrationParticipation.Registration.Address2;
-
-                    throw new ArgumentException("No valid object was provided.");
-                case "city":
-
-                    if (RegistrationParticipation != null) return RegistrationParticipation.Registration.City;
-
-                    throw new ArgumentException("No valid object was provided.");
-                case "state":
-
-                    if (RegistrationParticipation != null) return RegistrationParticipation.Registration.State.Id;
-
-                    throw new ArgumentException("No valid object was provided.");
-                case "zip":
-
-                    if (RegistrationParticipation != null) return RegistrationParticipation.Registration.Zip;
-
-                    throw new ArgumentException("No valid object was provided.");
-                case "distributionmethod":
-                    Check.Require(RegistrationParticipation != null, "Registration participation is required.");
-
-                    return RegistrationParticipation.Registration.TicketDistributionMethod;
-                case "specialneeds":
-                    Check.Require(RegistrationParticipation != null, "Registration participation is required.");
-
-                    return string.Join(", ", RegistrationParticipation.Registration.SpecialNeeds);
-                case "major":
-                    Check.Require(RegistrationParticipation != null, "Registration participation is required.");
-
-                    return RegistrationParticipation.Major.Name;
-                case "exceptionreason":
-                    Check.Require(RegistrationPetition != null, "Registration petition is required.");
-
-                    return RegistrationPetition.ExceptionReason;
-                case "completionterm":
-                    Check.Require(RegistrationPetition != null, "Registration petition is required.");
-
-                    return RegistrationPetition.TermCodeComplete.Description;
-                case "status":
-                    if (RegistrationParticipation != null) { return RegistrationParticipation.Cancelled ? "Cancelled" : "Registered"; }
-
-                    throw new ArgumentException("No valid object was provided.");
-
-                default: return "";
+                case "studentid":           return _student.StudentId;
+                case "studentname":         return _student.FullName;
+                case "ceremonyname":        return _ceremony.Name;
+                case "ceremonytime":        return _ceremony.DateTime.ToString("f");
+                case "ceremonylocation":    return _ceremony.Location;
+                case "addressline1":        return _registration.Address1;
+                case "addressline2":        return _registration.Address2;
+                case "city":                return _registration.City;
+                case "state":               return _registration.State.Id;
+                case "zip":                 return _registration.Zip;
+                case "distributionmethod":  return _registration.TicketDistributionMethod;
+                case "specialneeds":        return string.Join(", ", _registration.SpecialNeeds);
             }
+
+            // the bottom will handle fields that use either participation or petition values
+            var templateName = _template.TemplateType.Name;
+            if (templateName == StaticValues.Template_RegistrationConfirmation)
+            {
+                Check.Require(_registrationParticipation != null, "_registrationParticipation is required.");
+
+                switch (parameter.ToLower())
+                {
+                    case "numberoftickets":     return _registrationParticipation.NumberTickets.ToString();
+                    case "major":               return _registrationParticipation.Major.Name;
+                    case "status":              return _registrationParticipation.Cancelled ? "Cancelled" : "Registered";
+                }
+            }
+            else if (templateName == StaticValues.Template_TicketPetition || templateName == StaticValues.Template_TicketPetition_Decision)
+            {
+                Check.Require(_registrationParticipation != null, "_registrationParticipation is required.");
+                Check.Require(_extraTicketPetition != null, "_registrationParticipation.ExtraTicketPetition is required.");
+
+                switch (parameter.ToLower())
+                {
+                    case "numberoftickets":         return _registrationParticipation.NumberTickets.ToString();
+                    case "numberofextratickets":    return _extraTicketPetition.IsPending ? 
+                                                            _extraTicketPetition.NumberTicketsRequested.ToString() 
+                                                            : _extraTicketPetition.NumberTickets.Value.ToString();
+                    case "numberstreamingtickets":  return _extraTicketPetition.IsPending ? 
+                                                            _extraTicketPetition.NumberTicketsRequestedStreaming.ToString() 
+                                                            : (_extraTicketPetition.NumberTicketsStreaming.HasValue ? _extraTicketPetition.NumberTicketsStreaming.Value.ToString() : "n/a");
+                    case "status":                  return _extraTicketPetition.IsPending ? "Pending"
+                                                            : (_extraTicketPetition.IsApproved ? "Approved" : "Denied");
+                    case "major":                   return _registrationParticipation.Major.Name;
+                }
+            }
+            else if (templateName == StaticValues.Template_RegistrationPetition || templateName == StaticValues.Template_RegistrationPetition_Approved)
+            {
+                Check.Require(_registrationPetition != null, "_registrationPetition is required.");
+
+            }
+
+            throw new ArgumentException("Invalid template was passed.");
+
+            //    case "numberoftickets": // only number tickets from original registration
+            //        if (RegistrationParticipation != null) return RegistrationParticipation.NumberTickets.ToString();
+
+            //        throw new ArgumentException("No valid object was provided.");
+            //    case "petitiondecision":
+            //        if (ExtraTicketPetition != null) return ExtraTicketPetition.IsApproved ? "Approved" : "Denied";
+            //        if (RegistrationPetition != null) return RegistrationPetition.IsApproved ? "Approved" : "Denied";
+
+            //        throw new ArgumentException("No valid object was provided.");
+            //    case "numberofextratickets":
+            //        if (ExtraTicketPetition != null) return ExtraTicketPetition.NumberTickets.ToString();
+
+            //        throw new ArgumentException("Extra Ticket Petition was missing");
+
+            //    case "major":
+            //        Check.Require(RegistrationParticipation != null, "Registration participation is required.");
+
+            //        return RegistrationParticipation.Major.Name;
+            //    case "exceptionreason":
+            //        Check.Require(RegistrationPetition != null, "Registration petition is required.");
+
+            //        return RegistrationPetition.ExceptionReason;
+            //    case "completionterm":
+            //        Check.Require(RegistrationPetition != null, "Registration petition is required.");
+
+            //        return RegistrationPetition.TermCodeComplete.Description;
+            //    case "status":
+            //        if (RegistrationParticipation != null) { return RegistrationParticipation.Cancelled ? "Cancelled" : "Registered"; }
+
+            //        throw new ArgumentException("No valid object was provided.");
+
+            //    default: return "";
+            //}
 
             throw new ArgumentException("Parameter does not exist(" + parameter + ")");
         }
