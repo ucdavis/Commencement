@@ -249,5 +249,13 @@ namespace Commencement.Tests.Core.Helpers
 
             return rtValue;
         }
+
+        public static SpecialNeed SpecialNeed(int? count)
+        {
+            var rtValue = new SpecialNeed();
+            rtValue.Name = "Name" + count.Extra();
+            rtValue.IsActive = true;
+            return rtValue;
+        }
     }
 }

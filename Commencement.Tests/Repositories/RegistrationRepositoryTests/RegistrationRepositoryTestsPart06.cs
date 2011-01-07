@@ -2,6 +2,7 @@
 using Commencement.Core.Domain;
 using Commencement.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UCDArch.Data.NHibernate;
 using UCDArch.Testing.Extensions;
 
 namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
@@ -137,27 +138,133 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
         #region Valid Tests
 
         [TestMethod]
-        public void TestDescription()
+        public void TestRegistrationWithExistingTermCodeSaves()
+        {
+            #region Arrange 
+            var registration = GetValid(9);
+            registration.TermCode = TermCodeRepository.GetById("2");
+            Assert.IsNotNull(registration.TermCode);
+            #endregion Arrange
+
+            #region Act
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(registration.TermCode);
+            Assert.IsFalse(registration.IsTransient());
+            Assert.IsTrue(registration.IsValid());
+
+            #endregion Assert	
+        }
+        #endregion Valid Tests
+
+        #region Cascade Tests
+
+        [TestMethod]
+        public void TestDeleteRegistrationDoesNotCascadeToTermCode()
+        {
+            #region Arrange
+            var termCode = TermCodeRepository.GetById("2");
+            var registration = GetValid(9);
+            registration.TermCode = termCode;
+
+
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+            var saveId = registration.Id;
+
+            NHibernateSessionManager.Instance.GetSession().Evict(termCode);
+            NHibernateSessionManager.Instance.GetSession().Evict(registration);
+            registration = RegistrationRepository.GetNullableById(saveId);
+            Assert.IsNotNull(registration.TermCode);
+
+            #endregion Arrange
+
+            #region Act
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.Remove(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            NHibernateSessionManager.Instance.GetSession().Evict(termCode);
+            Assert.IsNotNull(TermCodeRepository.GetById("2"));
+            Assert.IsNull(RegistrationRepository.GetNullableById(saveId));
+            #endregion Assert		
+        }
+        #endregion Cascade Tests
+        #endregion TermCode Tests
+
+        #region GradTrack Tests
+
+        /// <summary>
+        /// Tests the GradTrack is false saves.
+        /// </summary>
+        [TestMethod]
+        public void TestGradTrackIsFalseSaves()
         {
             #region Arrange
 
-            Assert.Inconclusive("Continue tests here");
+            Registration registration = GetValid(9);
+            registration.GradTrack = false;
 
             #endregion Arrange
 
             #region Act
 
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+
             #endregion Act
 
             #region Assert
 
-            #endregion Assert		
-        }
-        #endregion Valid Tests
+            Assert.IsFalse(registration.GradTrack);
+            Assert.IsFalse(registration.IsTransient());
+            Assert.IsTrue(registration.IsValid());
 
-        #region Cascade Tests
-        
-        #endregion Cascade Tests
-        #endregion TermCode Tests
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the GradTrack is true saves.
+        /// </summary>
+        [TestMethod]
+        public void TestGradTrackIsTrueSaves()
+        {
+            #region Arrange
+
+            var registration = GetValid(9);
+            registration.GradTrack = true;
+
+            #endregion Arrange
+
+            #region Act
+
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+
+            #endregion Act
+
+            #region Assert
+
+            Assert.IsTrue(registration.GradTrack);
+            Assert.IsFalse(registration.IsTransient());
+            Assert.IsTrue(registration.IsValid());
+
+            #endregion Assert
+        }
+
+        #endregion GradTrack Tests
+
+
     }
+
+
 }

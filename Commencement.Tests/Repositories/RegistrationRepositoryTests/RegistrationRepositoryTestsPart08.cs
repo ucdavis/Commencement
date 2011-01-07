@@ -1,27 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Commencement.Core.Domain;
 using Commencement.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UCDArch.Data.NHibernate;
 
 namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
 {
     public partial class RegistrationRepositoryTests
     {
-        /*
-        #region ExtraTicketPetition Tests
-        
+        #region SpecialNeeds Tests
+        #region Invalid Tests
+
+        #endregion Invalid Tests
         #region Valid Tests
-
-        /// <summary>
-        /// Tests the extra ticket petition with null value saves.
-        /// </summary>
         [TestMethod]
-        public void TestExtraTicketPetitionWithNullValueSaves()
+        public void TestSpecialNeedsWithNullValueSaves()
         {
             #region Arrange
             var registration = GetValid(9);
-            registration.ExtraTicketPetition = null;
-
+            registration.SpecialNeeds = null;
             #endregion Arrange
 
             #region Act
@@ -31,22 +30,18 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
             #endregion Act
 
             #region Assert
-            Assert.IsNull(registration.ExtraTicketPetition);
+            Assert.IsNull(registration.SpecialNeeds);
             Assert.IsFalse(registration.IsTransient());
             Assert.IsTrue(registration.IsValid());
             #endregion Assert
         }
 
-        /// <summary>
-        /// Tests the extra ticket petition with new value saves.
-        /// </summary>
         [TestMethod]
-        public void TestExtraTicketPetitionWithNewValueSaves()
+        public void TestSpecialNeedsWithEmptyListSaves()
         {
             #region Arrange
             var registration = GetValid(9);
-            registration.ExtraTicketPetition = CreateValidEntities.ExtraTicketPetition(1);
-
+            registration.SpecialNeeds = new List<SpecialNeed>();
             #endregion Arrange
 
             #region Act
@@ -56,93 +51,77 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
             #endregion Act
 
             #region Assert
-            Assert.IsNotNull(registration.ExtraTicketPetition);
+            Assert.IsNotNull(registration.SpecialNeeds);
+            Assert.AreEqual(0, registration.SpecialNeeds.Count);
             Assert.IsFalse(registration.IsTransient());
             Assert.IsTrue(registration.IsValid());
             #endregion Assert
         }
 
+        [TestMethod]
+        public void TestSpecialNeedsWithExistingValuesSaves()
+        {
+            #region Arrange
+            Repository.OfType<SpecialNeed>().DbContext.BeginTransaction();
+            LoadSpecialNeeds(3);
+            var registration = GetValid(9);
+            registration.SpecialNeeds = new List<SpecialNeed>();
+            registration.SpecialNeeds.Add(Repository.OfType<SpecialNeed>().GetNullableById(1));
+            registration.SpecialNeeds.Add(Repository.OfType<SpecialNeed>().GetNullableById(3));
+            #endregion Arrange
+
+            #region Act
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(registration.IsTransient());
+            Assert.IsTrue(registration.IsValid());
+            var saveId = registration.Id;
+            NHibernateSessionManager.Instance.GetSession().Evict(registration);
+            registration = RegistrationRepository.GetNullableById(saveId);
+            Assert.IsNotNull(registration.SpecialNeeds);
+            Assert.AreEqual(2, registration.SpecialNeeds.Count);
+            Assert.AreEqual("Name1", registration.SpecialNeeds[0].Name);
+            Assert.AreEqual("Name3", registration.SpecialNeeds[1].Name);
+            #endregion Assert
+        }
         #endregion Valid Tests
+        #region Cascade Tests
 
-        #endregion ExtraTicketPetition Tests
-
-        #region DateRegistered Tests
-
-        /// <summary>
-        /// Tests the DateRegistered with past date will save.
-        /// </summary>
         [TestMethod]
-        public void TestDateRegisteredWithPastDateWillSave()
+        public void TestDeleteRegistrationDoesNotCascadeToSpecialNeeds()
         {
             #region Arrange
-            var compareDate = DateTime.Now.AddDays(-10);
-            Registration record = GetValid(99);
-            record.DateRegistered = compareDate;
+            Repository.OfType<SpecialNeed>().DbContext.BeginTransaction();
+            LoadSpecialNeeds(3);
+            var registration = GetValid(9);
+            registration.SpecialNeeds = new List<SpecialNeed>();
+            registration.SpecialNeeds.Add(Repository.OfType<SpecialNeed>().GetNullableById(1));
+            registration.SpecialNeeds.Add(Repository.OfType<SpecialNeed>().GetNullableById(3));
+
+            RegistrationRepository.DbContext.BeginTransaction();
+            RegistrationRepository.EnsurePersistent(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
+            var count = Repository.OfType<SpecialNeed>().Queryable.Count();
+            Assert.IsTrue(count > 0);
+            var saveId = registration.Id;
             #endregion Arrange
 
             #region Act
             RegistrationRepository.DbContext.BeginTransaction();
-            RegistrationRepository.EnsurePersistent(record);
-            RegistrationRepository.DbContext.CommitChanges();
+            RegistrationRepository.Remove(registration);
+            RegistrationRepository.DbContext.CommitTransaction();
             #endregion Act
 
             #region Assert
-            Assert.IsFalse(record.IsTransient());
-            Assert.IsTrue(record.IsValid());
-            Assert.AreEqual(compareDate, record.DateRegistered);
-            #endregion Assert
+            Assert.IsNull(RegistrationRepository.GetNullableById(saveId));
+            Assert.AreEqual(count, Repository.OfType<SpecialNeed>().Queryable.Count());
+            #endregion Assert		
         }
-
-        /// <summary>
-        /// Tests the DateRegistered with current date date will save.
-        /// </summary>
-        [TestMethod]
-        public void TestDateRegisteredWithCurrentDateDateWillSave()
-        {
-            #region Arrange
-            var compareDate = DateTime.Now;
-            var record = GetValid(99);
-            record.DateRegistered = compareDate;
-            #endregion Arrange
-
-            #region Act
-            RegistrationRepository.DbContext.BeginTransaction();
-            RegistrationRepository.EnsurePersistent(record);
-            RegistrationRepository.DbContext.CommitChanges();
-            #endregion Act
-
-            #region Assert
-            Assert.IsFalse(record.IsTransient());
-            Assert.IsTrue(record.IsValid());
-            Assert.AreEqual(compareDate, record.DateRegistered);
-            #endregion Assert
-        }
-
-        /// <summary>
-        /// Tests the DateRegistered with future date date will save.
-        /// </summary>
-        [TestMethod]
-        public void TestDateRegisteredWithFutureDateDateWillSave()
-        {
-            #region Arrange
-            var compareDate = DateTime.Now.AddDays(15);
-            var record = GetValid(99);
-            record.DateRegistered = compareDate;
-            #endregion Arrange
-
-            #region Act
-            RegistrationRepository.DbContext.BeginTransaction();
-            RegistrationRepository.EnsurePersistent(record);
-            RegistrationRepository.DbContext.CommitChanges();
-            #endregion Act
-
-            #region Assert
-            Assert.IsFalse(record.IsTransient());
-            Assert.IsTrue(record.IsValid());
-            Assert.AreEqual(compareDate, record.DateRegistered);
-            #endregion Assert
-        }       
-        #endregion DateRegistered Tests
-        */
+        #endregion Cascade Tests
+        #endregion SpecialNeeds Tests
     }
 }

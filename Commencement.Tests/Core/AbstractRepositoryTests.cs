@@ -502,6 +502,16 @@ namespace Commencement.Tests.Core
                 Repository.OfType<Template>().EnsurePersistent(validEntity);
             }
         }
+
+        protected void LoadSpecialNeeds(int entriesToAdd)
+        {
+            for (int i = 0; i < entriesToAdd; i++)
+            {
+                var validEntity = CreateValidEntities.SpecialNeed(i + 1);
+
+                Repository.OfType<SpecialNeed>().EnsurePersistent(validEntity);
+            }
+        }
         /// <summary>
         /// Needs: 
         ///     MajorCode
