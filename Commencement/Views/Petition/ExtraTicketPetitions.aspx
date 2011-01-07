@@ -92,7 +92,7 @@
             $(".tickets").blur(function () { SaveTicketAmount($(this).attr("participationId"), $(this).attr("ceremonyId"), $(this).val(), $(this).hasClass("streaming"), this); });
             $(".decision").click(function () { MakeDecision($(this).attr("participationId"), $(this).val() == "Approve", this); });
 
-            //SetScrollingBox("ticketCountBar", "ticketCountInline");
+            SetScrollingBox($("#ticketCountBar"), $("#ticketCountInline"));
         });
 
         function SaveTicketAmount(id, ceremonyId, amount, streaming, box) {
@@ -140,22 +140,17 @@
             });
         }
 
-        function SetScrollingBox(bar, inline) {
+        function SetScrollingBox($bar, $inline) {
             $(window).scroll(function () {
                 var scrollPosition = $(document).scrollTop();
-                var obj = $("#" + inline);
-                var box = obj[0];
+                var inlinePosition = $inline[0].offsetHeight + $inline[0].offsetTop;
 
-                if (scrollPosition > box.offsetHeight + box.offsetTop) {
-                    $("#" + bar).fadeIn(500);
+                if (scrollPosition > inlinePosition) {
+                    $bar.fadeIn(500);
                 }
                 else {
-                    $("#" + bar).fadeOut(500);
+                    $bar.fadeOut(500);
                 }
-
-                console.log(scrollPosition);
-                console.log(box.offsetHeight);
-                console.log(box.offsetTop);
             });
         }
     </script>
