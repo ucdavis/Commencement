@@ -517,6 +517,7 @@ namespace Commencement.Tests.Core
         ///     MajorCode
         ///     State
         ///     Ceremony
+        ///     Student
         /// </summary>
         /// <param name="entriesToAdd"></param>
         protected void LoadRegistrations(int entriesToAdd)
@@ -612,6 +613,17 @@ namespace Commencement.Tests.Core
             {
                 var validEntity = CreateValidEntities.vUser(i + 1);
                 Repository.OfType<vUser>().EnsurePersistent(validEntity);
+            }
+        }
+
+        protected void LoadvTermCode(int entriesToAdd)
+        {
+            var vTermCodeRepository = new RepositoryWithTypedId<vTermCode, string>();
+            for (int i = 0; i < entriesToAdd; i++)
+            {
+                var validEntity = CreateValidEntities.vTermCode(i + 1);
+                validEntity.SetIdTo((i + 1).ToString());
+                vTermCodeRepository.EnsurePersistent(validEntity);
             }
         }
 

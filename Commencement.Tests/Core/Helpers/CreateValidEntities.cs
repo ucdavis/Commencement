@@ -149,7 +149,7 @@ namespace Commencement.Tests.Core.Helpers
                 localCount = (int)count;
             }
             var rtValue = new RegistrationPetition();
-
+            rtValue.Registration = new Registration();
             rtValue.MajorCode = new MajorCode();
             rtValue.ExceptionReason = "ExceptionReason" + count.Extra();
 
