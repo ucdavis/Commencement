@@ -82,7 +82,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
         public void TestRegistrationPetitionsWithPopulatedListSaves()
         {
             #region Arrange
-            LoadMajorCode(1);
+            //LoadMajorCode(1);
             LoadRegistrationPetitions(5);
             var ceremony = GetValid(9);
             ceremony.RegistrationPetitions = new List<RegistrationPetition>();
@@ -112,7 +112,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
         {
             #region Arrange
             Repository.OfType<RegistrationPetition>().DbContext.BeginTransaction();
-            LoadMajorCode(1);
+            //LoadMajorCode(1);
             LoadRegistrationPetitions(5);
             var registrationPetition = Repository.OfType<RegistrationPetition>().GetById(2);
             registrationPetition.Ceremony = CeremonyRepository.GetById(2);
@@ -144,7 +144,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
         {
             #region Arrange
             Repository.OfType<RegistrationPetition>().DbContext.BeginTransaction();
-            LoadMajorCode(1);
+            //LoadMajorCode(1);
             LoadRegistrationPetitions(5);
             var registrationPetition = Repository.OfType<RegistrationPetition>().GetById(2);
             registrationPetition.Ceremony = CeremonyRepository.GetById(2);
@@ -180,7 +180,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             var ceremony = GetValid(9);
             var majorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
             majorCodeRepository.DbContext.BeginTransaction();
-            LoadMajorCode(1);
+            //LoadMajorCode(1);
             majorCodeRepository.DbContext.CommitTransaction();
             var major = majorCodeRepository.GetNullableById("1");
             Assert.IsNotNull(major);

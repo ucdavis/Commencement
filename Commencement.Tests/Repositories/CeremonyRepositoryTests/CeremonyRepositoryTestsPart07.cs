@@ -392,18 +392,18 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             var record = GetValid(9);
 
             MajorCodeRepository.DbContext.BeginTransaction();
-            var majorCode = CreateValidEntities.MajorCode(1);
-            majorCode.SetIdTo("1");
+            var majorCode = CreateValidEntities.MajorCode(7);
+            majorCode.SetIdTo("7");
             MajorCodeRepository.EnsurePersistent(majorCode, true);
-            majorCode = CreateValidEntities.MajorCode(1);
+            majorCode = CreateValidEntities.MajorCode(8);
 
-            majorCode.SetIdTo("2");
+            majorCode.SetIdTo("8");
             MajorCodeRepository.EnsurePersistent(majorCode, true);
             MajorCodeRepository.DbContext.CommitTransaction();
 
             record.Majors = new List<MajorCode>();
-            record.Majors.Add(MajorCodeRepository.GetById("1"));
-            record.Majors.Add(MajorCodeRepository.GetById("2"));
+            record.Majors.Add(MajorCodeRepository.GetById("7"));
+            record.Majors.Add(MajorCodeRepository.GetById("8"));
 
             #endregion Arrange
 
@@ -426,7 +426,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
         public void TestCascadeDeleteDoesNotRemoveMajorCodes()
         {
             #region Arrange
-            LoadMajorCode(3);
+            //LoadMajorCode(3);
             var majors = Repository.OfType<MajorCode>().GetAll();
             var totalMajors = majors.Count;
             Assert.AreEqual(3, totalMajors);

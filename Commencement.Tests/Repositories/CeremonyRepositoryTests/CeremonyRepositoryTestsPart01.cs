@@ -33,7 +33,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             ceremony.SetIdTo(id);
             ceremony.AddEditor(Repository.OfType<vUser>().GetById(1), true);
             ceremony.AddEditor(Repository.OfType<vUser>().GetById(2), false);
-            LoadMajorCode(3);
+            //LoadMajorCode(3);
             var majors = Repository.OfType<MajorCode>().GetAll();
             LoadRegistrationPetitions(3);
             var registrationPetitions = Repository.OfType<RegistrationPetition>().GetAll();
