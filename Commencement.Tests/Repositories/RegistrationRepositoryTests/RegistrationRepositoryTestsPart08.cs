@@ -64,6 +64,7 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
             #region Arrange
             Repository.OfType<SpecialNeed>().DbContext.BeginTransaction();
             LoadSpecialNeeds(3);
+            Repository.OfType<SpecialNeed>().DbContext.CommitTransaction();
             var registration = GetValid(9);
             registration.SpecialNeeds = new List<SpecialNeed>();
             registration.SpecialNeeds.Add(Repository.OfType<SpecialNeed>().GetNullableById(1));
