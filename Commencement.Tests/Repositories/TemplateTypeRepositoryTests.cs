@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Commencement.Core.Domain;
@@ -9,6 +10,7 @@ using FluentNHibernate.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Data.NHibernate;
+using UCDArch.Testing;
 using UCDArch.Testing.Extensions;
 
 namespace Commencement.Tests.Repositories
@@ -104,7 +106,7 @@ namespace Commencement.Tests.Repositories
         
         #region Fluent Mapping Tests
         [TestMethod]
-        public void TestCanCorrectlyMapAttachment()
+        public void TestCanCorrectlyMapTemplateType1()
         {
             #region Arrange
             var id = TemplateTypeRepository.Queryable.Max(x => x.Id) + 1;
@@ -114,11 +116,66 @@ namespace Commencement.Tests.Repositories
             #region Act/Assert
             new PersistenceSpecification<TemplateType>(session)
                 .CheckProperty(c => c.Id, id)
-                .CheckProperty(c => c.Code, "Code")
+                .CheckProperty(c => c.Code, "Co")
                 .CheckProperty(c => c.Description, "Description")
                 .CheckProperty(c => c.Name, "Name")
                 .VerifyTheMappings();
             #endregion Act/Assert
+        }
+
+        [TestMethod]
+        public void TestCanCorrectlyMapTemplateType2()
+        {
+            #region Arrange
+            var id = TemplateTypeRepository.Queryable.Max(x => x.Id) + 1;
+            var session = NHibernateSessionManager.Instance.GetSession();
+            var templateType = CreateValidEntities.TemplateType(9);
+            templateType.SetIdTo(id);
+
+            Repository.OfType<TemplateToken>().DbContext.BeginTransaction();
+            for (int i = 0; i < 3; i++)
+            {
+                var templateToken = CreateValidEntities.TemplateToken(i + 1);
+                templateToken.TemplateType = templateType;
+                Repository.OfType<TemplateToken>().EnsurePersistent(templateToken);
+                templateType.TemplateTokens.Add(templateToken);
+            }
+            Repository.OfType<TemplateToken>().DbContext.CommitTransaction();
+            var templateTokens = templateType.TemplateTokens;
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<TemplateType>(session, new TemplateTypeEqualityComparer())
+                .CheckProperty(c => c.Id, id)
+                .CheckProperty(c => c.TemplateTokens, templateTokens)
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+
+        public class TemplateTypeEqualityComparer : IEqualityComparer
+        {
+            bool IEqualityComparer.Equals(object x, object y)
+            {
+                if (x is IList<TemplateToken> && y is IList<TemplateToken>)
+                {
+                    var xVal = (IList<TemplateToken>)x;
+                    var yVal = (IList<TemplateToken>)y;
+                    Assert.AreEqual(xVal.Count, yVal.Count);
+                    for (int i = 0; i < xVal.Count; i++)
+                    {
+                        Assert.AreEqual(xVal[i].Name, yVal[i].Name);
+                        Assert.AreEqual(xVal[i].Id, yVal[i].Id);
+                    }
+                    return true;
+                }
+
+                return x.Equals(y);
+            }
+
+            public int GetHashCode(object obj)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         #endregion Fluent Mapping Tests
@@ -431,7 +488,42 @@ namespace Commencement.Tests.Repositories
         #endregion Valid Tests
         #endregion Description Tests
 
-        #region Code Tests  
+        #region Code Tests
+        #region Invalid Tests
+
+        /// <summary>
+        /// Tests the Code with too long value does not save.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestCodeWithTooLongValueDoesNotSave()
+        {
+            TemplateType templateType = null;
+            try
+            {
+                #region Arrange
+                templateType = GetValid(9);
+                templateType.Code = "x".RepeatTimes((2 + 1));
+                #endregion Arrange
+
+                #region Act
+                TemplateTypeRepository.DbContext.BeginTransaction();
+                TemplateTypeRepository.EnsurePersistent(templateType);
+                TemplateTypeRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception)
+            {
+                Assert.IsNotNull(templateType);
+                Assert.AreEqual(2 + 1, templateType.Code.Length);
+                var results = templateType.ValidationResults().AsMessageList();
+                results.AssertErrorsAre("Code: length must be between 0 and 2");
+                Assert.IsTrue(templateType.IsTransient());
+                Assert.IsFalse(templateType.IsValid());
+                throw;
+            }
+        }
+        #endregion Invalid Tests
 
         #region Valid Tests
 
@@ -535,7 +627,7 @@ namespace Commencement.Tests.Repositories
         {
             #region Arrange
             var templateType = GetValid(9);
-            templateType.Code = "x".RepeatTimes(999);
+            templateType.Code = "x".RepeatTimes(2);
             #endregion Arrange
 
             #region Act
@@ -545,14 +637,135 @@ namespace Commencement.Tests.Repositories
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(999, templateType.Code.Length);
+            Assert.AreEqual(2, templateType.Code.Length);
             Assert.IsFalse(templateType.IsTransient());
             Assert.IsTrue(templateType.IsValid());
             #endregion Assert
         }
 
         #endregion Valid Tests
-        #endregion Code Tests       
+        #endregion Code Tests
+
+        #region TemplateTokens Tests
+        #region Invalid Tests
+        /// <summary>
+        /// Tests the TemplateTokens with A value of null does not save.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void TestTemplateTokensWithAValueOfNullDoesNotSave()
+        {
+            TemplateType templateType = null;
+            try
+            {
+                #region Arrange
+                templateType = GetValid(9);
+                templateType.TemplateTokens = null;
+                #endregion Arrange
+
+                #region Act
+                TemplateTypeRepository.DbContext.BeginTransaction();
+                TemplateTypeRepository.EnsurePersistent(templateType);
+                TemplateTypeRepository.DbContext.CommitTransaction();
+                #endregion Act
+            }
+            catch (Exception)
+            {
+                Assert.IsNotNull(templateType);
+                Assert.AreEqual(templateType.TemplateTokens, null);
+                var results = templateType.ValidationResults().AsMessageList();
+                results.AssertErrorsAre("TemplateTokens: may not be null");
+                Assert.IsTrue(templateType.IsTransient());
+                Assert.IsFalse(templateType.IsValid());
+                throw;
+            }	
+        }
+
+        #endregion Invalid Tests
+        #region Valid Tests
+
+        [TestMethod]
+        public void TestTemplateTypeWithExistingTemplateTokensSaves()
+        {
+            #region Arrange
+            var count = Repository.OfType<TemplateToken>().Queryable.Count();
+            var templateType = GetValid(9);
+            TemplateTypeRepository.DbContext.BeginTransaction();
+            TemplateTypeRepository.EnsurePersistent(templateType);
+            TemplateTypeRepository.DbContext.CommitTransaction();
+
+            Repository.OfType<TemplateToken>().DbContext.BeginTransaction();
+            for (int i = 0; i < 3; i++)
+            {
+                var templateToken = CreateValidEntities.TemplateToken(i + 1);
+                templateToken.TemplateType = templateType;
+                Repository.OfType<TemplateToken>().EnsurePersistent(templateToken);
+            }
+            Repository.OfType<TemplateToken>().DbContext.CommitTransaction();
+            var saveId = templateType.Id;
+            NHibernateSessionManager.Instance.GetSession().Evict(templateType);
+            #endregion Arrange
+
+            #region Act
+            templateType = TemplateTypeRepository.GetNullableById(saveId);
+            Assert.IsNotNull(templateType);
+            Assert.AreEqual(3, templateType.TemplateTokens.Count());
+            templateType.Name = "Updated";
+            TemplateTypeRepository.DbContext.BeginTransaction();
+            TemplateTypeRepository.EnsurePersistent(templateType);
+            TemplateTypeRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(templateType.IsTransient());
+            Assert.IsTrue(templateType.IsValid());
+            Assert.AreEqual(3, templateType.TemplateTokens.Count());
+            Assert.AreEqual("Updated", templateType.Name);
+            Assert.AreEqual(count + 3, Repository.OfType<TemplateToken>().Queryable.Count());
+            #endregion Assert		
+        }
+        #endregion Valid Tests
+
+        #region Cascade Tests
+
+        [TestMethod]
+        public void TestDeleteTemplateTypeDoesNotCascadeToTemplateToken()
+        {
+            //Maybe it should?
+            #region Arrange
+            var count = Repository.OfType<TemplateToken>().Queryable.Count();
+            var templateType = GetValid(9);
+            TemplateTypeRepository.DbContext.BeginTransaction();
+            TemplateTypeRepository.EnsurePersistent(templateType);
+            TemplateTypeRepository.DbContext.CommitTransaction();
+
+            Repository.OfType<TemplateToken>().DbContext.BeginTransaction();
+            for (int i = 0; i < 3; i++)
+            {
+                var templateToken = CreateValidEntities.TemplateToken(i + 1);
+                templateToken.TemplateType = templateType;
+                Repository.OfType<TemplateToken>().EnsurePersistent(templateToken);
+            }
+            Repository.OfType<TemplateToken>().DbContext.CommitTransaction();
+            var saveId = templateType.Id;
+            NHibernateSessionManager.Instance.GetSession().Evict(templateType);
+
+            #endregion Arrange
+
+            #region Act
+            templateType = TemplateTypeRepository.GetNullableById(saveId);
+            TemplateTypeRepository.DbContext.BeginTransaction();
+            TemplateTypeRepository.Remove(templateType);
+            TemplateTypeRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(TemplateTypeRepository.GetNullableById(saveId));
+            Assert.AreEqual(count + 3, Repository.OfType<TemplateToken>().Queryable.Count());
+            #endregion Assert		
+        }
+        #endregion Cascade Tests
+        #endregion TemplateTokens Tests
         
         #region Reflection of Database.
 
@@ -565,7 +778,10 @@ namespace Commencement.Tests.Repositories
         {
             #region Arrange
             var expectedFields = new List<NameAndType>();
-            expectedFields.Add(new NameAndType("Code", "System.String", new List<string>()));
+            expectedFields.Add(new NameAndType("Code", "System.String", new List<string>
+            {
+                 "[NHibernate.Validator.Constraints.LengthAttribute((Int32)2)]"
+            }));
             expectedFields.Add(new NameAndType("Description", "System.String", new List<string>()));
             expectedFields.Add(new NameAndType("Id", "System.Int32", new List<string>
             {
@@ -576,6 +792,10 @@ namespace Commencement.Tests.Repositories
             {
                  "[NHibernate.Validator.Constraints.LengthAttribute((Int32)50)]", 
                  "[UCDArch.Core.NHibernateValidator.Extensions.RequiredAttribute()]"
+            }));
+            expectedFields.Add(new NameAndType("TemplateTokens", "System.Collections.Generic.IList`1[Commencement.Core.Domain.TemplateToken]", new List<string>
+            {
+                 "[NHibernate.Validator.Constraints.NotNullAttribute()]"
             }));
             #endregion Arrange
 

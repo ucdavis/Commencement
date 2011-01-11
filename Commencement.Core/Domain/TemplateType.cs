@@ -18,9 +18,9 @@ namespace Commencement.Core.Domain
         public virtual string Name { get; set; }
 
         public virtual string Description { get; set; }
-
+        [Length(2)]
         public virtual string Code { get; set; }
-
+        [NotNull]
         public virtual IList<TemplateToken> TemplateTokens { get; set; }
     }
 
