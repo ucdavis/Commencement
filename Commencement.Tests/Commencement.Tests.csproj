@@ -229,6 +229,7 @@
     <Compile Include="Repositories\StudentRepositoryTests\StudentRepositoryTestsPart10.cs" />
     <Compile Include="Repositories\StudentRepositoryTests\StudentRepositoryTestsPart11.cs" />
     <Compile Include="Repositories\TemplateRepositoryTests.cs" />
+    <Compile Include="Repositories\TemplateTokenRepositoryTests.cs" />
     <Compile Include="Repositories\TemplateTypeRepositoryTests.cs" />
     <Compile Include="Repositories\TermCodeRepositoryTests.cs" />
     <Compile Include="Repositories\vTermCodeRepositoryTests.cs" />

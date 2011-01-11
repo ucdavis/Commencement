@@ -257,5 +257,14 @@ namespace Commencement.Tests.Core.Helpers
             rtValue.IsActive = true;
             return rtValue;
         }
+
+        public static TemplateToken TemplateToken(int? counter)
+        {
+            var rtValue = new TemplateToken();
+            rtValue.Name = "Name" + counter.Extra();
+            rtValue.TemplateType = new TemplateType();
+
+            return rtValue;
+        }
     }
 }
