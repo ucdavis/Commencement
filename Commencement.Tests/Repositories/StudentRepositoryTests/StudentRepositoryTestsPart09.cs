@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Commencement.Core.Domain;
+using Commencement.Tests.Core.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UCDArch.Data.NHibernate;
 
@@ -74,6 +75,131 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
         }
 
         #endregion SjaBlock Tests
+
+        #region AddedBy Tests
+
+
+        #region Valid Tests
+
+        /// <summary>
+        /// Tests the AddedBy with null value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestAddedByWithNullValueSaves()
+        {
+            #region Arrange
+            var student = GetValid(9);
+            student.AddedBy = null;
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(student.IsTransient());
+            Assert.IsTrue(student.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the AddedBy with empty string saves.
+        /// </summary>
+        [TestMethod]
+        public void TestAddedByWithEmptyStringSaves()
+        {
+            #region Arrange
+            var student = GetValid(9);
+            student.AddedBy = string.Empty;
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(student.IsTransient());
+            Assert.IsTrue(student.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the AddedBy with one space saves.
+        /// </summary>
+        [TestMethod]
+        public void TestAddedByWithOneSpaceSaves()
+        {
+            #region Arrange
+            var student = GetValid(9);
+            student.AddedBy = " ";
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(student.IsTransient());
+            Assert.IsTrue(student.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the AddedBy with one character saves.
+        /// </summary>
+        [TestMethod]
+        public void TestAddedByWithOneCharacterSaves()
+        {
+            #region Arrange
+            var student = GetValid(9);
+            student.AddedBy = "x";
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(student.IsTransient());
+            Assert.IsTrue(student.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the AddedBy with long value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestAddedByWithLongValueSaves()
+        {
+            #region Arrange
+            var student = GetValid(9);
+            student.AddedBy = "x".RepeatTimes(1000);
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1000, student.AddedBy.Length);
+            Assert.IsFalse(student.IsTransient());
+            Assert.IsTrue(student.IsValid());
+            #endregion Assert
+        }
+
+        #endregion Valid Tests
+        #endregion AddedBy Tests
+
 
         #region Majors Tests
 
@@ -156,7 +282,45 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
             #endregion Assert
         }
 
+        #region Cascade Tests
+
+
+        /// <summary>
+        /// Tests the delete student does not cascade to major codes.
+        /// Can't use GetAll because of majorCodes "Where" clause.
+        /// </summary>
+        [TestMethod]
+        public void TestDeleteStudentDoesNotCascadeToMajorCodes()
+        {
+            #region Arrange
+            var majorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
+            LoadMajorCode(3);
+            var student = GetValid(9);
+            student.Majors = new List<MajorCode>();
+            student.Majors.Add(majorCodeRepository.GetById("1"));
+            student.Majors.Add(majorCodeRepository.GetById("3"));
+
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.Remove(student);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Name1", majorCodeRepository.GetById("1").Name);
+            Assert.AreEqual("Name2", majorCodeRepository.GetById("2").Name);
+            Assert.AreEqual("Name3", majorCodeRepository.GetById("3").Name);
+            #endregion Assert
+        }
+        #endregion Cascade Tests
+
         #endregion Majors Tests
+
         #region FullName Tests
 
         /// <summary>

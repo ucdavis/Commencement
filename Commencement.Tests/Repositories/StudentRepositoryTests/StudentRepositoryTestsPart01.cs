@@ -18,8 +18,8 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
     {
 
         #region Fluent Mapping Tests
-        [TestMethod, Ignore]
-        public void TestCanCorrectlyMapAttachment()
+        [TestMethod]
+        public void TestCanCorrectlyMapStudent1()
         {
             #region Arrange
             var id = Guid.NewGuid();
@@ -42,21 +42,40 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
             #region Act/Assert
             new PersistenceSpecification<Student>(session, new StudentEqualityComparer())
                 .CheckProperty(c => c.Id, id)
-                .CheckProperty(c => c.Blocked, false)
-                .CheckProperty(c => c.Ceremony, ceremony)
+                .CheckProperty(c => c.Pidm, "PIDM")
+                .CheckProperty(c => c.StudentId, "123456789")
+                .CheckProperty(c => c.FirstName, "FirstName")
+                .CheckProperty(c => c.MI, "I")
+                .CheckProperty(c => c.LastName, "LastName")
+                .CheckProperty(c => c.EarnedUnits, 201m)
+                .CheckProperty(c => c.CurrentUnits, 200m)
+                .CheckProperty(c => c.Email, "test@testy.com")
+                .CheckProperty(c => c.Login, "Login")
                 .CheckProperty(c => c.DateAdded, dateToCheck1)
                 .CheckProperty(c => c.DateUpdated, dateToCheck2)
-                .CheckProperty(c => c.Email, "test@testy.com")
-                .CheckProperty(c => c.FirstName, "FirstName")
-                .CheckProperty(c => c.LastName, "LastName")
-                .CheckProperty(c => c.Login, "Login")
-                .CheckProperty(c => c.Majors, majors)
-                .CheckProperty(c => c.MI, "I")
-                .CheckProperty(c => c.Pidm, "PIDM")
                 .CheckProperty(c => c.SjaBlock, false)
-                .CheckProperty(c => c.StudentId, "123456789")
+                .CheckProperty(c => c.Blocked, false)
+                .CheckProperty(c => c.AddedBy, "Me")
                 .CheckProperty(c => c.TermCode, termCode)
-                .CheckProperty(c =>c.CurrentUnits, 200m)
+                .CheckProperty(c => c.Ceremony, ceremony)                
+                .CheckProperty(c => c.Majors, majors)
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+
+        [TestMethod]
+        public void TestCanCorrectlyMapStudent2()
+        {
+            #region Arrange
+            var id = Guid.NewGuid();
+            var session = NHibernateSessionManager.Instance.GetSession();
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<Student>(session)
+                .CheckProperty(c => c.Id, id)
+                .CheckProperty(c => c.SjaBlock, true)
+                .CheckProperty(c => c.Blocked, true)
                 .VerifyTheMappings();
             #endregion Act/Assert
         }
@@ -129,15 +148,18 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
         /// Tests all fields in the database have been tested.
         /// If this fails and no other tests, it means that a field has been added which has not been tested above.
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestAllFieldsInTheDatabaseHaveBeenTested()
         {
             #region Arrange
             var expectedFields = new List<NameAndType>();
+            expectedFields.Add(new NameAndType("AddedBy", "System.String", new List<string>()));
             expectedFields.Add(new NameAndType("Blocked", "System.Boolean", new List<string>()));
             expectedFields.Add(new NameAndType("Ceremony", "Commencement.Core.Domain.Ceremony", new List<string>()));
+            expectedFields.Add(new NameAndType("CurrentUnits", "System.Decimal", new List<string>()));
             expectedFields.Add(new NameAndType("DateAdded", "System.DateTime", new List<string>()));
             expectedFields.Add(new NameAndType("DateUpdated", "System.DateTime", new List<string>()));
+            expectedFields.Add(new NameAndType("EarnedUnits", "System.Decimal", new List<string>()));
             expectedFields.Add(new NameAndType("Email", "System.String", new List<string>
             {
                  "[NHibernate.Validator.Constraints.LengthAttribute((Int32)100)]"
@@ -179,7 +201,7 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
                  "[UCDArch.Core.NHibernateValidator.Extensions.RequiredAttribute()]"
             }));
             expectedFields.Add(new NameAndType("TermCode", "Commencement.Core.Domain.TermCode", new List<string>()));
-            expectedFields.Add(new NameAndType("Units", "System.Decimal", new List<string>()));
+            expectedFields.Add(new NameAndType("TotalUnits", "System.Decimal", new List<string>()));
             #endregion Arrange
 
             AttributeAndFieldValidation.ValidateFieldsAndAttributes(expectedFields, typeof(Student));

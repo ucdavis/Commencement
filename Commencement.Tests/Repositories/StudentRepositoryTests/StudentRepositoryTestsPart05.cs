@@ -170,13 +170,89 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
         #endregion Valid Tests
         #endregion LastName Tests
 
-        #region Units Tests
+        #region EarnedUnits Tests
 
         /// <summary>
-        /// Tests the Units with max decimal value saves.
+        /// Tests the EarnedUnits with max decimal value saves.
         /// </summary>
         [TestMethod]
-        public void TestUnitsWithMaxDecimalValueSaves()
+        public void TestEarnedUnitsWithMaxDecimalValueSaves()
+        {
+            #region Arrange
+            var record = GetValid(9);
+            record.EarnedUnits = decimal.MaxValue;
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(record);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(decimal.MaxValue, record.EarnedUnits);
+            Assert.IsFalse(record.IsTransient());
+            Assert.IsTrue(record.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the EarnedUnits with min decimal value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestEarnedUnitsWithMinDecimalValueSaves()
+        {
+            #region Arrange
+            var record = GetValid(9);
+            record.EarnedUnits = decimal.MinValue;
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(record);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(decimal.MinValue, record.EarnedUnits);
+            Assert.IsFalse(record.IsTransient());
+            Assert.IsTrue(record.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the EarnedUnits with value of zero saves.
+        /// </summary>
+        [TestMethod]
+        public void TestEarnedUnitsWithValueOfZeroSaves()
+        {
+            #region Arrange
+            var record = GetValid(9);
+            record.EarnedUnits = 0m;
+            #endregion Arrange
+
+            #region Act
+            StudentRepository.DbContext.BeginTransaction();
+            StudentRepository.EnsurePersistent(record);
+            StudentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(0m, record.EarnedUnits);
+            Assert.IsFalse(record.IsTransient());
+            Assert.IsTrue(record.IsValid());
+            #endregion Assert
+        }
+
+        #endregion EarnedUnits Tests
+
+        #region CurrentUnits Tests
+
+        /// <summary>
+        /// Tests the CurrentUnits with max decimal value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestCurrentUnitsWithMaxDecimalValueSaves()
         {
             #region Arrange
             var record = GetValid(9);
@@ -197,10 +273,10 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
         }
 
         /// <summary>
-        /// Tests the Units with min decimal value saves.
+        /// Tests the CurrentUnits with min decimal value saves.
         /// </summary>
         [TestMethod]
-        public void TestUnitsWithMinDecimalValueSaves()
+        public void TestCurrentUnitsWithMinDecimalValueSaves()
         {
             #region Arrange
             var record = GetValid(9);
@@ -221,10 +297,10 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
         }
 
         /// <summary>
-        /// Tests the units with value of zero saves.
+        /// Tests the CurrentUnits with value of zero saves.
         /// </summary>
         [TestMethod]
-        public void TestUnitsWithValueOfZeroSaves()
+        public void TestCurrentUnitsWithValueOfZeroSaves()
         {
             #region Arrange
             var record = GetValid(9);
@@ -244,6 +320,6 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
             #endregion Assert
         }
 
-        #endregion Units Tests
+        #endregion CurrentUnits Tests
     }
 }

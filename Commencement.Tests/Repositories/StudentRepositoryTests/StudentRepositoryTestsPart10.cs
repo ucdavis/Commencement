@@ -82,6 +82,34 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
             #endregion Assert
         }
 
+
+        [TestMethod]
+        public void TestStrMajorsReturnsExpectedResults4()
+        {
+            #region Arrange
+            var student = new Student();
+            var majorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
+            LoadMajorCode(5);
+            var major = majorCodeRepository.GetById("2");
+            major.ConsolidationMajor = majorCodeRepository.GetById("5");
+            majorCodeRepository.EnsurePersistent(major);
+
+            NHibernateSessionManager.Instance.GetSession().Evict(major);
+
+            student.Majors = new List<MajorCode>();
+            student.Majors.Add(majorCodeRepository.GetById("1"));
+            student.Majors.Add(majorCodeRepository.GetById("3"));
+            student.Majors.Add(majorCodeRepository.GetById("2"));
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Name1,Name3,Name5", student.StrMajors);
+            #endregion Assert
+        }
         #endregion StrMajors Tests
 
         #region StrMajorCodes Tests
@@ -152,6 +180,34 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
 
             #region Assert
             Assert.AreEqual(string.Empty, student.StrMajorCodes);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestStrMajorCodesReturnsExpectedResults4()
+        {
+            #region Arrange
+            var student = new Student();
+            var majorCodeRepository = new RepositoryWithTypedId<MajorCode, string>();
+            LoadMajorCode(5);
+            var major = majorCodeRepository.GetById("2");
+            major.ConsolidationMajor = majorCodeRepository.GetById("5");
+            majorCodeRepository.EnsurePersistent(major);
+
+            NHibernateSessionManager.Instance.GetSession().Evict(major);
+
+            student.Majors = new List<MajorCode>();
+            student.Majors.Add(majorCodeRepository.GetById("1"));
+            student.Majors.Add(majorCodeRepository.GetById("3"));
+            student.Majors.Add(majorCodeRepository.GetById("2"));
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("1,3,5", student.StrMajorCodes, "Alan, I think you need to look at the consolidation for this.");
             #endregion Assert
         }
 
