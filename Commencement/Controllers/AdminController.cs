@@ -51,11 +51,12 @@ namespace Commencement.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            var ceremonies = Repository.OfType<Ceremony>().GetAll();
+            //var ceremonies = Repository.OfType<Ceremony>().GetAll(); //Was not being used.
 
             return View();
         }
 
+        [AdminOnly]
         public ActionResult AdminLanding()
         {
             return View();

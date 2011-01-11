@@ -14,75 +14,94 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// Tests the index mapping.
         /// #1
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestIndexMapping()
         {
             "~/Admin/Index".ShouldMapTo<AdminController>(a => a.Index());
+        }
+
+        [TestMethod]
+        public void TestAdminLandingMapping()
+        {
+            "~/Admin/AdminLanding".ShouldMapTo<AdminController>(a => a.AdminLanding());
         }
 
         /// <summary>
         /// Tests the students mapping.
         /// #2
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestStudentsMapping()
         {
             "~/Admin/Students/".ShouldMapTo<AdminController>(a => a.Students("1", null, null, null), true);
         }
 
+        [TestMethod]
+        public void TestRegistrationsMapping()
+        {
+            "~/Admin/Registrations/".ShouldMapTo<AdminController>(a => a.Registrations("studentId", "LastName", "FirstName", "MajorCode", null, "CollegeCode"), true);
+        }
+
         /// <summary>
         /// Tests the student details mapping.
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestStudentDetailsMapping()
         {
             "~/Admin/StudentDetails/".ShouldMapTo<AdminController>(a => a.StudentDetails(Guid.Empty, true), true);
         }
 
+        [TestMethod]
+        public void TestBlockMapping()
+        {
+            "~/Admin/Block/".ShouldMapTo<AdminController>(a => a.Block(Guid.Empty), true);
+        }
+        [TestMethod]
+        public void TestBlockWithReasonMapping()
+        {
+            "~/Admin/Block/".ShouldMapTo<AdminController>(a => a.Block(Guid.Empty, true, "because"), true);
+        }
+
+        [TestMethod]
+        public void TestRegisterForStudentMapping()
+        {
+            "~/Admin/RegisterForStudent/".ShouldMapTo<AdminController>(a => a.RegisterForStudent(Guid.Empty), true);
+        }
+
+        [TestMethod]
+        public void TestRegisterForStudent2Mapping()
+        {
+            "~/Admin/RegisterForStudent/".ShouldMapTo<AdminController>(a => a.RegisterForStudent(Guid.Empty, null), true);
+        }
+
+        [TestMethod]
+        public void TestEditStudentMapping()
+        {
+            "~/Admin/EditStudent/".ShouldMapTo<AdminController>(a => a.EditStudent(Guid.Empty), true);
+        }
+
+        [TestMethod]
+        public void TestEditStudent2Mapping()
+        {
+            "~/Admin/EditStudent/".ShouldMapTo<AdminController>(a => a.EditStudent(Guid.Empty, null), true);
+        }
+
         /// <summary>
         /// Tests the add student mapping.
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestAddStudentMapping()
         {
             "~/Admin/AddStudent/".ShouldMapTo<AdminController>(a => a.AddStudent(null), true);
         }
 
-        ///// <summary>
-        ///// Tests the add student confirm get mapping.
-        ///// </summary>
-        //[TestMethod, Ignore]
-        //public void TestAddStudentConfirmGetMapping()
-        //{
-        //    "~/Admin/AddStudentConfirm/".ShouldMapTo<AdminController>(a => a.AddStudentConfirm(null, null), true);
-        //}
+        [TestMethod]
+        public void TestMajorsMapping()
+        {
+            "~/Admin/Majors/".ShouldMapTo<AdminController>(a => a.Majors());
+        }
 
-        ///// <summary>
-        ///// Tests the add student confirm post mapping.
-        ///// </summary>
-        //[TestMethod, Ignore]
-        //public void TestAddStudentConfirmPostMapping()
-        //{
-        //    "~/Admin/AddStudentConfirm/".ShouldMapTo<AdminController>(a => a.AddStudentConfirm(null, null, null), true);
-        //}
 
-        ///// <summary>
-        ///// Tests the change major get mapping.
-        ///// </summary>
-        //[TestMethod]
-        //public void TestChangeMajorGetMapping()
-        //{
-        //    "~/Admin/ChangeMajor/5".ShouldMapTo<AdminController>(a => a.ChangeMajor(5));
-        //}
-
-        ///// <summary>
-        ///// Tests the change major post mapping.
-        ///// </summary>
-        //[TestMethod]
-        //public void TestChangeMajorPostMapping()
-        //{
-        //    "~/Admin/ChangeMajor/5".ShouldMapTo<AdminController>(a => a.ChangeMajor(5, "123"), true);
-        //}
         #endregion Mapping Tests
     }
 }

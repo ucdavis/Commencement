@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Commencement.Controllers.Filters;
+﻿using Commencement.Controllers.Filters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Commencement.Tests.Misc

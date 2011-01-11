@@ -176,6 +176,7 @@
     <Compile Include="Core\Helpers\SpecificGuid.cs" />
     <Compile Include="Misc\CeremonyMajorCheckTests.cs" />
     <Compile Include="Misc\CopyHelperTests.cs" />
+    <Compile Include="Misc\RolesFiltersTests.cs" />
     <Compile Include="Misc\StringExtensionTests.cs" />
     <Compile Include="Repositories\AuditRepositoryTests.cs" />
     <Compile Include="Repositories\CeremonyEditorRepositoryTests.cs" />

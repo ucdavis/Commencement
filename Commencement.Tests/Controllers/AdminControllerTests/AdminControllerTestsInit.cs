@@ -39,6 +39,8 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         protected IRepository<Ceremony> CeremonyRepository;
         protected ICeremonyService CeremonyService;
         protected IRegistrationService RegistrationService;
+        protected IRegistrationPopulator RegistrationPopulator;
+        protected IErrorService ErrorService;
 
         public IRepository<TermCode> TermCodeRepository;
         #region Init
@@ -48,7 +50,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             StudentRepository2 = FakeRepository<Student>();
             Controller.Repository.Expect(a => a.OfType<Student>()).Return(StudentRepository2).Repeat.Any();
 
-            RegistrationRepository = FakeRepository<Registration>();
+            //RegistrationRepository = FakeRepository<Registration>();
             Controller.Repository.Expect(a => a.OfType<Registration>()).Return(RegistrationRepository).Repeat.Any();
 
             StateRepository = FakeRepository<State>();
@@ -65,8 +67,21 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         private readonly IMajorService _majorService;
         private readonly ICeremonyService _ceremonyService;
         private readonly IRegistrationService _registrationService;
+        private readonly IRegistrationPopulator _registrationPopulator;
+        private readonly IRepository<Registration> _registrationRepository;
+        private readonly IErrorService _errorService;
 
-        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService, IEmailService emailService, IMajorService majorService, ICeremonyService ceremonyService, IRegistrationService registrationService)
+        public AdminController(
+            IRepositoryWithTypedId<Student, Guid> studentRepository, 
+            IRepositoryWithTypedId<MajorCode, string> majorRepository, 
+            IStudentService studentService, 
+            IEmailService emailService, 
+            IMajorService majorService, 
+            ICeremonyService ceremonyService, 
+            IRegistrationService registrationService, 
+            IRegistrationPopulator registrationPopulator, 
+            IRepository<Registration> registrationRepository, 
+            IErrorService errorService)
         {
             _studentRepository = studentRepository;
             _majorRepository = majorRepository;
@@ -75,7 +90,10 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             _majorService = majorService;
             _ceremonyService = ceremonyService;
             _registrationService = registrationService;
-        }          
+            _registrationPopulator = registrationPopulator;
+            _registrationRepository = registrationRepository;
+            _errorService = errorService;
+        }        
          */
 
         protected override void SetupController()
@@ -87,8 +105,21 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             MajorService = MockRepository.GenerateStub<IMajorService>();
             CeremonyService = MockRepository.GenerateStub<ICeremonyService>();
             RegistrationService = MockRepository.GenerateStub<IRegistrationService>();
+            RegistrationPopulator = MockRepository.GenerateStub<IRegistrationPopulator>();
+            RegistrationRepository = FakeRepository<Registration>();
+            ErrorService = MockRepository.GenerateStub<IErrorService>();
 
-            Controller = new TestControllerBuilder().CreateController<AdminController>(StudentRepository, MajorRepository, StudentService, EmailService, MajorService, CeremonyService, RegistrationService);
+            Controller = new TestControllerBuilder().CreateController<AdminController>(
+                StudentRepository, 
+                MajorRepository, 
+                StudentService, 
+                EmailService, 
+                MajorService, 
+                CeremonyService, 
+                RegistrationService,
+                RegistrationPopulator,
+                RegistrationRepository,
+                ErrorService);
         }
         /// <summary>
         /// Registers the routes.
@@ -115,7 +146,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the controller inherits from super controller.
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestControllerInheritsFromApplicationControllerThenSuperController()
         {
             #region Arrange
@@ -135,7 +166,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the controller inherits from super controller.
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestControllerInheritsFromApplicationController()
         {
             #region Arrange
@@ -155,7 +186,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the controller has only three attributes.
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestControllerHasOnlyThreeAttributes()
         {
             #region Arrange
@@ -174,7 +205,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the controller has transaction attribute.
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestControllerHasTransactionAttribute()
         {
             #region Arrange
@@ -193,7 +224,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the controller has anti forgery token attribute.
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestControllerHasAntiForgeryTokenAttribute()
         {
             #region Arrange
@@ -212,7 +243,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the controller has Anyone With Role Attribute.
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestControllerHasAnyoneWithRoleAttribute()
         {
             #region Arrange
@@ -235,7 +266,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the controller contains expected number of public methods.
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestControllerContainsExpectedNumberOfPublicMethods()
         {
             #region Arrange
@@ -256,7 +287,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// Tests the controller method index contains expected attributes.
         /// #1
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestControllerMethodIndexContainsExpectedAttributes()
         {
             #region Arrange
@@ -275,11 +306,30 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             #endregion Assert
         }
 
+        [TestMethod]
+        public void TestControllerMethodAdminLandingContainsExpectedAttributes()
+        {
+            #region Arrange
+            var controllerClass = ControllerClass;
+            var controllerMethod = controllerClass.GetMethod("AdminLanding");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<AdminOnlyAttribute>();
+            var allAttributes = controllerMethod.GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "AdminOnlyAttribute not found");
+            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
         /// <summary>
         /// Tests the controller method students contains expected attributes.
         /// #2
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestControllerMethodStudentsContainsExpectedAttributes()
         {
             #region Arrange
@@ -300,7 +350,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// Tests the controller method student details contains expected attributes.
         /// #3
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestControllerMethodStudentDetailsContainsExpectedAttributes()
         {
             #region Arrange
@@ -321,37 +371,17 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// Tests the controller method add student contains expected attributes.
         /// #4
         /// </summary>
-        [TestMethod, Ignore]
-        public void TestControllerMethodAddStudentContainsExpectedAttributes()
+        [TestMethod]
+        public void TestControllerMethodAddStudentGetContainsExpectedAttributes()
         {
+
             #region Arrange
             var controllerClass = ControllerClass;
-            var controllerMethod = controllerClass.GetMethod("AddStudent");
+            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "AddStudent");
             #endregion Arrange
 
             #region Act
-            var allAttributes = controllerMethod.GetCustomAttributes(true);
-            #endregion Act
-
-            #region Assert
-            Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
-            #endregion Assert
-        }
-
-        /// <summary>
-        /// Tests the controller method add student confirm get contains expected attributes.
-        /// #5
-        /// </summary>
-        [TestMethod, Ignore]
-        public void TestControllerMethodAddStudentConfirmGetContainsExpectedAttributes()
-        {
-            #region Arrange
-            var controllerClass = ControllerClass;
-            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "AddStudentConfirm");
-            #endregion Arrange
-
-            #region Act
-            //var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<AcceptPostAttribute>();
+            //var expectedAttribute = controllerMethod.ElementAt(0).GetCustomAttributes(true).OfType<HttpPostAttribute>();
             var allAttributes = controllerMethod.ElementAt(0).GetCustomAttributes(true);
             #endregion Act
 
@@ -361,16 +391,13 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             #endregion Assert
         }
 
-        /// <summary>
-        /// Tests the controller method add student confirm post contains expected attributes.
-        /// #6
-        /// </summary>
-        [TestMethod, Ignore]
-        public void TestControllerMethodAddStudentConfirmPostContainsExpectedAttributes()
+        [TestMethod]
+        public void TestControllerMethodAddStudentPostContainsExpectedAttributes()
         {
+
             #region Arrange
             var controllerClass = ControllerClass;
-            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "AddStudentConfirm");
+            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "AddStudent");
             #endregion Arrange
 
             #region Act
@@ -379,37 +406,12 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(1, expectedAttribute.Count(), "AcceptPostAttribute not found");
+            Assert.AreEqual(1, expectedAttribute.Count(), "HttpPostAttribute not found");
             Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
             #endregion Assert
         }
 
-        /// <summary>
-        /// Tests the controller method change major get contains expected attributes.
-        /// </summary>
-        [TestMethod, Ignore]
-        public void TestControllerMethodChangeMajorGetContainsExpectedAttributes()
-        {
-            #region Arrange
-            var controllerClass = ControllerClass;
-            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "ChangeMajor");
-            int getElement = 0;
-            if (controllerMethod.ElementAt(0).GetParameters().Count() != 1)
-            {
-                getElement = 1;
-            }
-            #endregion Arrange
 
-            #region Act
-            var allAttributes = controllerMethod.ElementAt(getElement).GetCustomAttributes(true);
-            
-
-            #endregion Act
-
-            #region Assert
-            Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
-            #endregion Assert
-        }
 
         #endregion Controller Method Tests
 
