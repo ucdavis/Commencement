@@ -38,7 +38,7 @@ namespace Commencement.Core.Domain
 
         public virtual DateTime CapAndGownDeadline { get; set; }
         public virtual DateTime FileToGraduateDeadline { get; set; }
-
+        [NotNull]
         public virtual IList<Ceremony> Ceremonies { get; set; }
     }
 
