@@ -233,6 +233,7 @@
     <Compile Include="Repositories\TemplateTypeRepositoryTests.cs" />
     <Compile Include="Repositories\TermCodeRepositoryTests.cs" />
     <Compile Include="Repositories\vTermCodeRepositoryTests.cs" />
+    <Compile Include="Repositories\vUserRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />

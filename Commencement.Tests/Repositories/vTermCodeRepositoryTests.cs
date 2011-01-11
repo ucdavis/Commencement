@@ -5,11 +5,11 @@ using Commencement.Core.Domain;
 using Commencement.Tests.Core;
 using Commencement.Tests.Core.Extensions;
 using Commencement.Tests.Core.Helpers;
+using FluentNHibernate.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Data.NHibernate;
 using UCDArch.Testing;
-using UCDArch.Testing.Extensions;
 
 namespace Commencement.Tests.Repositories
 {
@@ -18,7 +18,9 @@ namespace Commencement.Tests.Repositories
     /// LookupFieldName:	Description
     /// </summary>
     [TestClass]
+// ReSharper disable InconsistentNaming
     public class vTermCodeRepositoryTests : AbstractRepositoryTests<vTermCode, string , vTermCodeMap>
+
     {
         /// <summary>
         /// Gets or sets the vTermCode repository.
@@ -35,7 +37,7 @@ namespace Commencement.Tests.Repositories
         {
             vTermCodeRepository = new RepositoryWithTypedId<vTermCode, string>();
         }
-
+// ReSharper restore InconsistentNaming
         /// <summary>
         /// Gets the valid entity of type T
         /// </summary>
@@ -484,7 +486,6 @@ namespace Commencement.Tests.Repositories
             #endregion Assert
         }
         #endregion EndDate Tests
-       
         
         #region Reflection of Database.
 
