@@ -54,7 +54,9 @@ namespace Commencement.Tests.Controllers
         /// Tests the not CAES student mapping.
         /// </summary>
         [TestMethod]
+// ReSharper disable InconsistentNaming
         public void TestNotCAESStudentMapping()
+// ReSharper restore InconsistentNaming
         {
             "~/Account/NotCAESStudent".ShouldMapTo<AccountController>(a => a.NotCAESStudent());
         }
@@ -78,10 +80,19 @@ namespace Commencement.Tests.Controllers
         }
         #endregion Mapping Tests
 
+
+        [TestMethod]
+        public void TestEmulateStillNeeded()
+        {
+            Assert.Inconclusive("Alan, was emulate student supposed to be removed?");
+        }
+
         #region NotCAESStudent Tests
 
         [TestMethod]
-        public void TestNotCAESStudentRedirectsToErrorIndex()
+// ReSharper disable InconsistentNaming
+        public void TestNotCAESStudentRedirectsToErrorUnauthorizedAccess()
+// ReSharper restore InconsistentNaming
         {
             #region Arrange
 
@@ -90,7 +101,7 @@ namespace Commencement.Tests.Controllers
             #region Act/Assert
             var result = Controller.NotCAESStudent()
                 .AssertActionRedirect()
-                .ToAction<ErrorController>(a => a.Index());
+                .ToAction<ErrorController>(a => a.UnauthorizedAccess());
             #endregion Act/Assert
 
             #region Assert
@@ -293,7 +304,9 @@ namespace Commencement.Tests.Controllers
         /// #3
         /// </summary>
         [TestMethod]
+// ReSharper disable InconsistentNaming
         public void TestControllerMethodNotCAESStudentContainsExpectedAttributes()
+// ReSharper restore InconsistentNaming
         {
             #region Arrange
             var controllerClass = _controllerClass;
@@ -323,12 +336,12 @@ namespace Commencement.Tests.Controllers
 
             #region Act
             var allAttributes = controllerMethod.GetCustomAttributes(true);
-            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<AnyoneWithRoleAttribute>();
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<EmulationUserOnlyAttribute>();
             #endregion Act
 
             #region Assert
             Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-            Assert.AreEqual(1, expectedAttribute.Count(), "AnyoneWithRoleAttribute not found.");
+            Assert.AreEqual(1, expectedAttribute.Count(), "EmulationUserOnlyAttribute not found.");
             #endregion Assert
         }
 
