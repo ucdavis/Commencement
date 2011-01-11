@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Commencement.Core.Domain;
@@ -18,7 +17,7 @@ namespace Commencement.Tests.Repositories
 	/// Entity Name:		Template
 	/// LookupFieldName:	BodyText
 	/// </summary>
-    [TestClass, Ignore]
+    [TestClass]
 	public class TemplateRepositoryTests : AbstractRepositoryTests<Template, int, TemplateMap>
 	{
 		/// <summary>
@@ -111,7 +110,7 @@ namespace Commencement.Tests.Repositories
 
         #region Fluent Mapping Tests
         [TestMethod]
-        public void TestCanCorrectlyMapAttachment()
+        public void TestCanCorrectlyMapTemplate1()
         {
             #region Arrange
             var id = TemplateRepository.Queryable.Max(x => x.Id) + 1;
@@ -127,43 +126,37 @@ namespace Commencement.Tests.Repositories
                 .CheckProperty(c => c.Id, id)
                 .CheckProperty(c => c.BodyText, "Body Text")
                 .CheckReference(c => c.TemplateType, templateType)
-                .CheckProperty(c => c.Ceremony, ceremony)
+                .CheckReference(c => c.Ceremony, ceremony)
                 .CheckProperty(c => c.Subject, "Subject")
                 .CheckProperty(c => c.IsActive, true)
                 .VerifyTheMappings();
             #endregion Act/Assert
         }
 
-        public class TemplateEqualityComparer : IEqualityComparer
+        [TestMethod]
+        public void TestCanCorrectlyMapTemplate2()
         {
-            bool IEqualityComparer.Equals(object x, object y)
-            {
+            #region Arrange
+            var id = TemplateRepository.Queryable.Max(x => x.Id) + 1;
+            var session = NHibernateSessionManager.Instance.GetSession();
+            LoadTemplateType(2);
+            var templateType = Repository.OfType<TemplateType>().GetNullableById(1);
+            Assert.IsNotNull(templateType);
+            var ceremony = Repository.OfType<Ceremony>().GetById(1);
+            #endregion Arrange
 
-                if (x is Ceremony && y is Ceremony)
-                {
-                    if (((Ceremony)x).Id == ((Ceremony)y).Id && ((Ceremony)x).Location == ((Ceremony)y).Location)
-                    {
-                        return true;
-                    }
-                    return false;
-                }
-
-                if (x is TemplateType && y is TemplateType)
-                {
-                    if (((TemplateType)x).Id == ((TemplateType)y).Id && ((TemplateType)x).Name == ((TemplateType)y).Name)
-                    {
-                        return true;
-                    }
-                    return false;
-                }
-                return x.Equals(y);
-            }
-
-            public int GetHashCode(object obj)
-            {
-                throw new NotImplementedException();
-            }
+            #region Act/Assert
+            new PersistenceSpecification<Template>(session)
+                .CheckProperty(c => c.Id, id)
+                .CheckProperty(c => c.BodyText, "Body Text")
+                .CheckReference(c => c.TemplateType, templateType)
+                .CheckReference(c => c.Ceremony, ceremony)
+                .CheckProperty(c => c.Subject, "Subject")
+                .CheckProperty(c => c.IsActive, false)
+                .VerifyTheMappings();
+            #endregion Act/Assert
         }
+
         #endregion Fluent Mapping Tests
 		
 		#region BodyText Tests
@@ -421,6 +414,38 @@ namespace Commencement.Tests.Repositories
             #endregion Assert
         }
         #endregion Valid Tests
+
+	    #region Cascade Tests
+        [TestMethod]
+        public void TestDeleteTemplateDoesNotCascadeToCeremony()
+        {
+            #region Arrange
+            var record = new Template("Test", Repository.OfType<TemplateType>().GetById(2), Repository.OfType<Ceremony>().GetById(2));
+            TemplateRepository.DbContext.BeginTransaction();
+            TemplateRepository.EnsurePersistent(record);
+            TemplateRepository.DbContext.CommitTransaction();
+            var saveCeremonyId = record.Ceremony.Id;
+            var saveId = record.Id;
+            Console.WriteLine(@"Exiting Arrange...");
+            #endregion Arrange
+
+            #region Act
+            var ceremony = Repository.OfType<Ceremony>().GetById(saveCeremonyId);
+            TemplateRepository.DbContext.BeginTransaction();
+            TemplateRepository.Remove(record);
+            TemplateRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Console.WriteLine(@"Evicting...");
+            NHibernateSessionManager.Instance.GetSession().Evict(ceremony);
+            ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.Id == saveCeremonyId).Single();
+            Assert.IsNotNull(ceremony);
+            Assert.IsNull(TemplateRepository.GetNullableById(saveId));
+            #endregion Assert
+        }
+
+	    #endregion Cascade Tests
         #endregion Ceremony Tests
 
 	    #region IsActive Tests
@@ -768,6 +793,37 @@ namespace Commencement.Tests.Repositories
 
 		#endregion Valid Tests
 
+	    #region Cascade Tests
+        /// <summary>
+        /// Tests the type of the delete template does not cascade to template.
+        /// </summary>
+        [TestMethod]
+        public void TestDeleteTemplateDoesNotCascadeToTemplateType()
+        {
+            #region Arrange
+            var record = new Template("Test", Repository.OfType<TemplateType>().GetById(2), Repository.OfType<Ceremony>().GetById(2));
+            TemplateRepository.DbContext.BeginTransaction();
+            TemplateRepository.EnsurePersistent(record);
+            TemplateRepository.DbContext.CommitTransaction();
+            var saveTemplateTypeId = record.TemplateType.Id;
+            Console.WriteLine(@"Exiting Arrange...");
+            #endregion Arrange
+
+            #region Act
+            var templateType = Repository.OfType<TemplateType>().GetById(saveTemplateTypeId);
+            TemplateRepository.DbContext.BeginTransaction();
+            TemplateRepository.Remove(record);
+            TemplateRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Console.WriteLine(@"Evicting...");
+            NHibernateSessionManager.Instance.GetSession().Evict(templateType);
+            templateType = Repository.OfType<TemplateType>().Queryable.Where(a => a.Id == saveTemplateTypeId).Single();
+            Assert.IsNotNull(templateType);
+            #endregion Assert
+        }
+	    #endregion Cascade Tests
 		#endregion TemplateType Tests
 
 		#region Constructor Tests
@@ -789,6 +845,7 @@ namespace Commencement.Tests.Repositories
 			#region Assert
 			Assert.IsNull(record.BodyText);
 			Assert.IsNull(record.TemplateType);
+            Assert.IsTrue(record.IsActive);
 			#endregion Assert		
 		}
 
@@ -812,71 +869,10 @@ namespace Commencement.Tests.Repositories
             Assert.AreEqual("Name9", record.TemplateType.Name);
             Assert.IsNotNull(record.Ceremony);
             Assert.AreEqual("Location9", record.Ceremony.Location);
+            Assert.IsTrue(record.IsActive);
             #endregion Assert
 		}
 		#endregion Constructor 
-
-		#region CascadeTests
-
-		/// <summary>
-		/// Tests the type of the delete template does not cascade to template.
-		/// </summary>
-		[TestMethod]
-		public void TestDeleteTemplateDoesNotCascadeToTemplateType()
-		{
-            #region Arrange
-            var record = new Template("Test", Repository.OfType<TemplateType>().GetById(2), Repository.OfType<Ceremony>().GetById(2));
-            TemplateRepository.DbContext.BeginTransaction();
-            TemplateRepository.EnsurePersistent(record);
-            TemplateRepository.DbContext.CommitTransaction();
-            var saveTemplateTypeId = record.TemplateType.Id;
-            Console.WriteLine("Exiting Arrange...");
-            #endregion Arrange
-
-            #region Act
-            var templateType = Repository.OfType<TemplateType>().GetById(saveTemplateTypeId);
-            TemplateRepository.DbContext.BeginTransaction();
-            TemplateRepository.Remove(record);
-            TemplateRepository.DbContext.CommitTransaction();
-            #endregion Act
-
-            #region Assert
-            Console.WriteLine("Evicting...");
-            NHibernateSessionManager.Instance.GetSession().Evict(templateType);
-            templateType = Repository.OfType<TemplateType>().Queryable.Where(a => a.Id == saveTemplateTypeId).Single();
-            Assert.IsNotNull(templateType);
-            #endregion Assert		
-		}
-
-        [TestMethod]
-        public void TestDeleteTemplateDoesNotCascadeToCeremony()
-        {
-            #region Arrange
-            var record = new Template("Test", Repository.OfType<TemplateType>().GetById(2), Repository.OfType<Ceremony>().GetById(2));
-            TemplateRepository.DbContext.BeginTransaction();
-            TemplateRepository.EnsurePersistent(record);
-            TemplateRepository.DbContext.CommitTransaction();
-            var saveCeremonyId = record.Ceremony.Id;
-            Console.WriteLine("Exiting Arrange...");
-            #endregion Arrange
-
-            #region Act
-            var ceremony = Repository.OfType<Ceremony>().GetById(saveCeremonyId);
-            TemplateRepository.DbContext.BeginTransaction();
-            TemplateRepository.Remove(record);
-            TemplateRepository.DbContext.CommitTransaction();
-            #endregion Act
-
-            #region Assert
-            Console.WriteLine("Evicting...");
-            NHibernateSessionManager.Instance.GetSession().Evict(ceremony);
-            ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.Id == saveCeremonyId).Single();
-            Assert.IsNotNull(ceremony);
-            #endregion Assert
-        }
-		#endregion CascadeTests
-
-
 
 		#region Reflection of Database.
 
@@ -919,7 +915,6 @@ namespace Commencement.Tests.Repositories
 		}
 
 		#endregion Reflection of Database.	
-		
 		
 	}
 }
