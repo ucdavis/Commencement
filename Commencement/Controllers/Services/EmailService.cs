@@ -22,6 +22,7 @@ namespace Commencement.Controllers.Services
         void QueueRegistrationConfirmation(Registration registration);
         void QueueExtraTicketPetition(RegistrationParticipation participation);
         //void QueueExtraTicketPetitionDecision(RegistrationParticipation participation);
+        void QueueRegistrationPetition(Registration registration);
     }
 
     public class EmailService : IEmailService
@@ -183,13 +184,13 @@ namespace Commencement.Controllers.Services
         {
             Check.Require(registration != null, "Registration is required.");
 
+            var template = registration.RegistrationParticipations.First().Ceremony.Templates.Where(b => b.TemplateType.Name == StaticValues.Template_RegistrationConfirmation
+                                            && b.IsActive).FirstOrDefault();
+
+            Check.Require(template != null, "No template is available.");
+
             foreach (var a in registration.RegistrationParticipations)
             {
-                var template = a.Ceremony.Templates.Where(b => b.TemplateType.Name == StaticValues.Template_RegistrationConfirmation 
-                                                            && b.IsActive).FirstOrDefault();
-
-                Check.Require(template != null, "No template is available.");
-
                 var subject = template.Subject;
                 var body = _letterGenerator.GenerateRegistrationConfirmation(a, template);
 
@@ -234,6 +235,30 @@ namespace Commencement.Controllers.Services
 
         //    _emailQueueRepository.EnsurePersistent(emailQueue);
         //}
+
+        public void QueueRegistrationPetition(Registration registration)
+        {
+            Check.Require(registration != null, "registration is required.");
+
+            var template = registration.RegistrationParticipations.First().Ceremony.Templates.Where(b => b.TemplateType.Name == StaticValues.Template_RegistrationPetition
+                                && b.IsActive).FirstOrDefault();
+
+            Check.Require(template != null, "No template is available.");
+
+            foreach (var a in registration.RegistrationPetitions)
+            {
+                var subject = template.Subject;
+                var body = _letterGenerator.GenerateRegistrationPetitionConfirmation(a, template);
+
+                var emailQueue = new EmailQueue(a.Registration.Student, template, subject, body, false);
+                emailQueue.Registration = registration;
+                emailQueue.RegistrationPetition = a;
+
+                _emailQueueRepository.EnsurePersistent(emailQueue);
+            }
+
+            throw new NotImplementedException();
+        }
 
         private MailMessage InitializeMessage()
         {

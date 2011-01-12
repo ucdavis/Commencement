@@ -82,13 +82,17 @@ namespace Commencement.Controllers.Helpers
 
         public string GenerateRegistrationPetitionConfirmation(RegistrationPetition registrationPetition, Template template)
         {
-            throw new NotImplementedException();
+            Check.Require(registrationPetition != null, "registrationPetition is required.");
+            Check.Require(registrationPetition.Registration != null, "registrationPetition.Registration is required.");
+            Check.Require(template != null, "template is required.");
+            Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationPetition, "Template mismatch.");
+            Check.Require(registrationPetition.Registration.Student != null, "registrationPetition.Registration.Student is required.");
 
-            Check.Require(registrationPetition != null, "Registration Petition is required.");
-            Check.Require(template != null, "Template is required");
-            Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationPetition);
-
+            _ceremony = registrationPetition.Ceremony;
+            _student = registrationPetition.Registration.Student;
             _registrationPetition = registrationPetition;
+            _registration = registrationPetition.Registration;
+            _template = template;
 
             return HandleBody(template.BodyText);
         }
@@ -228,49 +232,15 @@ namespace Commencement.Controllers.Helpers
 
                 switch(parameter.ToLower())
                 {
-                    default:
-                        break;
+                    case "exceptionreason":         return _registrationPetition.ExceptionReason;
+                    case "completionterm":          return _registrationPetition.TermCodeComplete.Description;
+                    case "status":                  return _registrationPetition.IsPending ? "Pending"
+                                                         : (_registrationPetition.IsApproved ? "Approved" : "Denied");
                 }
 
             }
 
             throw new ArgumentException("Invalid parameter was passed.");
-
-            //    case "numberoftickets": // only number tickets from original registration
-            //        if (RegistrationParticipation != null) return RegistrationParticipation.NumberTickets.ToString();
-
-            //        throw new ArgumentException("No valid object was provided.");
-            //    case "petitiondecision":
-            //        if (ExtraTicketPetition != null) return ExtraTicketPetition.IsApproved ? "Approved" : "Denied";
-            //        if (RegistrationPetition != null) return RegistrationPetition.IsApproved ? "Approved" : "Denied";
-
-            //        throw new ArgumentException("No valid object was provided.");
-            //    case "numberofextratickets":
-            //        if (ExtraTicketPetition != null) return ExtraTicketPetition.NumberTickets.ToString();
-
-            //        throw new ArgumentException("Extra Ticket Petition was missing");
-
-            //    case "major":
-            //        Check.Require(RegistrationParticipation != null, "Registration participation is required.");
-
-            //        return RegistrationParticipation.Major.Name;
-            //    case "exceptionreason":
-            //        Check.Require(RegistrationPetition != null, "Registration petition is required.");
-
-            //        return RegistrationPetition.ExceptionReason;
-            //    case "completionterm":
-            //        Check.Require(RegistrationPetition != null, "Registration petition is required.");
-
-            //        return RegistrationPetition.TermCodeComplete.Description;
-            //    case "status":
-            //        if (RegistrationParticipation != null) { return RegistrationParticipation.Cancelled ? "Cancelled" : "Registered"; }
-
-            //        throw new ArgumentException("No valid object was provided.");
-
-            //    default: return "";
-            //}
-
-            throw new ArgumentException("Parameter does not exist(" + parameter + ")");
         }
 
         /// <summary>

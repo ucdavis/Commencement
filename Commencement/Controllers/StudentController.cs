@@ -122,15 +122,31 @@ namespace Commencement.Controllers
                     // save registration
                     _registrationRepository.EnsurePersistent(registration);
 
-                    try
+                    if (registration.RegistrationParticipations.Count > 0)
                     {
-                        // add email for registration into queue
-                        _emailService.QueueRegistrationConfirmation(registration);
+                        try
+                        {
+                            // add email for registration into queue
+                            _emailService.QueueRegistrationConfirmation(registration);
+                        }
+                        catch (Exception ex)
+                        {
+                            _errorService.ReportError(ex);
+                            Message += StaticValues.Student_Email_Problem;
+                        }
                     }
-                    catch (Exception ex)
+
+                    if (registration.RegistrationPetitions.Count > 0)
                     {
-                        _errorService.ReportError(ex);
-                        Message += StaticValues.Student_Email_Problem;
+                        try
+                        {
+                            _emailService.QueueRegistrationPetition(registration);
+                        }
+                        catch (Exception ex)
+                        {
+                            _errorService.ReportError(ex);
+                            Message += StaticValues.Student_Email_Problem;
+                        }
                     }
 
                     // put message up for student
