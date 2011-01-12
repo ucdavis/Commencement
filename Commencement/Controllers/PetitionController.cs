@@ -64,44 +64,23 @@ namespace Commencement.Controllers
             if (participation.ExtraTicketPetition == null) return Json("Could not find extra ticket petition.");
 
             var petition = participation.ExtraTicketPetition;
-
-            petition.IsPending = false;
-            petition.IsApproved = isApproved;
-            petition.DateDecision = DateTime.Now;
+            petition.MakeDecision(isApproved);
 
             Repository.OfType<ExtraTicketPetition>().EnsurePersistent(petition);
-            //_emailService.QueueExtraTicketPetitionDecision(participation);
+
+            if (petition.IsApproved)
+            {
+                try
+                {
+                    _emailService.QueueExtraTicketPetitionDecision(participation);
+                }
+                catch (Exception ex)
+                {
+                    _errorService.ReportError(ex);
+                }
+            }
 
             return Json(string.Empty);
-
-            //registration.ExtraTicketPetition.IsPending = false;
-            //registration.ExtraTicketPetition.IsApproved = isApproved;
-            //registration.ExtraTicketPetition.DateDecision = DateTime.Now;
-
-            //registration.ExtraTicketPetition.TransferValidationMessagesTo(ModelState);
-
-            //if (ModelState.IsValid)
-            //{
-            //    Repository.OfType<ExtraTicketPetition>().EnsurePersistent(registration.ExtraTicketPetition);
-
-            //    Message = string.Format("Decision for {0} has been saved.", registration.Student.FullName);
-
-            //    try
-            //    {
-            //        _emailService.SendExtraTicketPetitionDecision(registration);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        _errorService.ReportError(ex);
-            //        Message += StaticValues.Student_Email_Problem;
-            //    }
-            //}
-            //else
-            //{
-            //    Message = string.Format("There was a problem saving decision for {0}", registration.Student.FullName);
-            //}););););
-
-            //   return this.RedirectToAction(a => a.Index());
         }
         [AnyoneWithRole]
         [HttpPost]

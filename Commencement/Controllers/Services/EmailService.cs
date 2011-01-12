@@ -222,9 +222,17 @@ namespace Commencement.Controllers.Services
         {
             Check.Require(participation != null, "participation is required.");
 
+            var template = participation.Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision && a.IsActive).FirstOrDefault();
+            Check.Require(template != null, "template is required.");
 
+            var subject = template.Subject;
+            var body = _letterGenerator.GenerateExtraTicketRequestPetitionDecision(participation, template);
 
-            throw new NotImplementedException();
+            var emailQueue = new EmailQueue(participation.Registration.Student, template, subject, body, false);
+            emailQueue.Registration = participation.Registration;
+            emailQueue.RegistrationParticipation = participation;
+
+            _emailQueueRepository.EnsurePersistent(emailQueue);
         }
 
         private MailMessage InitializeMessage()

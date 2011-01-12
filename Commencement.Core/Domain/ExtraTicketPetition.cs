@@ -81,6 +81,9 @@ namespace Commencement.Core.Domain
             IsPending = false;
             IsApproved = isApproved;
             DateDecision = DateTime.Now;
+
+            if (!NumberTickets.HasValue) NumberTickets = NumberTicketsRequested;
+            if (!NumberTicketsStreaming.HasValue) NumberTicketsStreaming = NumberTicketsRequestedStreaming;
         }
 
         public virtual bool IsApprovedCompletely
