@@ -12,16 +12,8 @@ namespace Commencement.Controllers.Services
 {
     public interface IEmailService
     {
-        void SendRegistrationConfirmation(Registration registration);
-        void SendAddPermission(Student student, Ceremony ceremony);
-        void SendExtraTicketPetitionDecision(Registration registration);
-        void SendExtraTicketPetitionConfirmation(Registration registration);
-        void SendRegistrationPetitionConfirmation(RegistrationPetition registrationPetition);
-        void SendRegistrationPetitionApproved(RegistrationPetition registrationPetition);
-
         void QueueRegistrationConfirmation(Registration registration);
         void QueueExtraTicketPetition(RegistrationParticipation participation);
-        //void QueueExtraTicketPetitionDecision(RegistrationParticipation participation);
         void QueueRegistrationPetition(Registration registration);
     }
 
@@ -38,142 +30,6 @@ namespace Commencement.Controllers.Services
             _templateRepository = templateRepository;
             _emailQueueRepository = emailQueueRepository;
             _letterGenerator = letterGenerator;
-        }
-
-        public void SendRegistrationConfirmation(Registration registration)
-        {
-            throw new NotImplementedException();
-
-            Check.Require(registration != null, "Registration is required.");
-
-            var message = InitializeMessage();
-            message.Subject = registration.RegistrationParticipations[0].Ceremony.Name + " Registration";
-
-            // add who to mail the message to
-            message.To.Add(registration.Student.Email);
-            if (registration.Email != null) message.To.Add(registration.Email);
-
-            // get the latest registration confirmation template
-            var template = registration.RegistrationParticipations[0].Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationConfirmation && a.IsActive).FirstOrDefault();
-            Check.Require(template != null, "No template is available.");
-
-            //var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationConfirmation).OrderByDescending(a => a.Id));
-            //Check.Require(template != null, "No template is available.");
-
-            // process the template text
-            //message.Body = letterGenerator.GenerateRegistrationConfirmation(registration, template);
-
-            Send(message);
-        }
-
-        public void SendAddPermission(Student student, Ceremony ceremony)
-        {
-            throw new NotImplementedException();
-
-            var term = TermService.GetCurrent();
-
-            Check.Require(student != null, "Student is required.");
-            Check.Require(term != null, "Unable to get current term.");
-
-            var message = InitializeMessage();
-            message.Subject = term.Name + " Commencement Registration";
-            message.To.Add(student.Email);
-
-            //var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved).OrderByDescending(a => a.Id));
-            var template = ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved && a.IsActive).FirstOrDefault();
-            Check.Require(template != null, "No template is available");
-
-            message.Body = letterGenerator.GenerateAddPermission(student, template, ceremony);
-
-            Send(message);
-        }
-
-        public void SendExtraTicketPetitionDecision(Registration registration)
-        {
-            throw new NotImplementedException();
-
-            var term = TermService.GetCurrent();
-
-            Check.Require(registration != null, "Registration is required.");
-            Check.Require(term != null, "Unable to get current term.");
-
-            var message = InitializeMessage();
-            message.Subject = term.Name + " Commencement Extra Ticket Petition";
-            message.To.Add(registration.Student.Email);
-            if (registration.Email != null) message.To.Add(registration.Email);
-
-            //var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision).OrderByDescending(a => a.Id));
-            //var template = registration.RegistrationParticipations[0].Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision && a.IsActive).FirstOrDefault();
-            //Check.Require(template != null, "No template is available.");
-
-            //message.Body = letterGenerator.GenerateExtraTicketRequestPetitionDecision(registration, template);
-
-            Send(message);
-        }
-
-        public void SendExtraTicketPetitionConfirmation(Registration registration)
-        {
-            throw new NotImplementedException();
-
-            var term = TermService.GetCurrent();
-
-            Check.Require(registration != null, "Registration is required.");
-            Check.Require(term != null, "Unable to get current term.");
-
-            var message = InitializeMessage();
-            message.Subject = term.Name + " Commencement Extra Ticket Petition";
-            message.To.Add(registration.Student.Email);
-            if (registration.Email != null) message.To.Add(registration.Email);
-
-            //var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition).OrderByDescending(a => a.Id));
-            var template = registration.RegistrationParticipations[0].Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition && a.IsActive).FirstOrDefault();
-            Check.Require(template != null, "No template is available.");
-
-            //message.Body = letterGenerator.GenerateExtraTicketRequestPetitionDecision(registration, template);
-
-            Send(message);
-        }
-
-        public void SendRegistrationPetitionConfirmation(RegistrationPetition registrationPetition)
-        {
-            throw new NotImplementedException();
-
-            var term = TermService.GetCurrent();
-
-            Check.Require(registrationPetition != null, "Registration Petition is required.");
-
-            var message = InitializeMessage();
-            message.Subject = term.Name + " Commencement Registration Petition";
-            message.To.Add(registrationPetition.Registration.Email);
-
-            //var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition).OrderByDescending(a => a.Id));
-            var template = registrationPetition.Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition && a.IsActive).FirstOrDefault();
-            Check.Require(template != null, "No template is available.");
-
-            message.Body = letterGenerator.GenerateRegistrationPetitionConfirmation(registrationPetition, template);
-
-            Send(message);
-        }
-
-        public void SendRegistrationPetitionApproved(RegistrationPetition registrationPetition)
-        {
-            throw new NotImplementedException();
-
-            var term = TermService.GetCurrent();
-
-            Check.Require(registrationPetition != null, "Registration Petition is required.");
-
-            var message = InitializeMessage();
-            message.Subject = term.Name + " Commencement Registration Petition";
-            message.To.Add(registrationPetition.Registration.Email);
-
-            //var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition).OrderByDescending(a => a.Id));
-            var template = registrationPetition.Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition && a.IsActive).FirstOrDefault();
-            Check.Require(template != null, "No template is available.");
-
-            message.Body = letterGenerator.GenerateRegistrationPetitionConfirmation(registrationPetition, template);
-
-            Send(message);
         }
 
         /// <summary>
@@ -219,23 +75,6 @@ namespace Commencement.Controllers.Services
             _emailQueueRepository.EnsurePersistent(emailQueue);
         }
 
-        //public void QueueExtraTicketPetitionDecision(RegistrationParticipation participation)
-        //{
-        //    Check.Require(participation != null, "participation is required.");
-
-        //    var template = participation.Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision && a.IsActive).FirstOrDefault();
-        //    Check.Require(template != null, "template is required.");
-
-        //    var subject = template.Subject;
-        //    var body = _letterGenerator.GenerateExtraTicketRequestPetitionDecision(participation, template);
-
-        //    var emailQueue = new EmailQueue(participation.Registration.Student, template, subject, body, false);
-        //    emailQueue.Registration = participation.Registration;
-        //    emailQueue.RegistrationParticipation = participation;
-
-        //    _emailQueueRepository.EnsurePersistent(emailQueue);
-        //}
-
         public void QueueRegistrationPetition(Registration registration)
         {
             Check.Require(registration != null, "registration is required.");
@@ -258,24 +97,6 @@ namespace Commencement.Controllers.Services
             }
 
             throw new NotImplementedException();
-        }
-
-        private MailMessage InitializeMessage()
-        {
-            var message = new MailMessage();
-            message.IsBodyHtml = true;
-            message.Bcc.Add("automatedemail@caes.ucdavis.edu");
-
-            return message;
-        }
-
-        private void Send(MailMessage message)
-        {
-            // add the disclaimer
-            message.Body = "** This email was generated by an automated system.<br/>Please do not respond to this email address.<br/><br/>" + message.Body;
-
-            // send
-            client.Send(message);
         }
     }
 
