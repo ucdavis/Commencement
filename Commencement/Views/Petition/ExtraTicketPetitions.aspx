@@ -25,6 +25,7 @@
            { %>
         
             <%= Html.AntiForgeryToken() %>
+            <%: Html.Hidden("id", Model.Ceremony.Id) %>
             <%: Html.SubmitButton("ApproveAll", "Approve All") %>
 
         <% }%>

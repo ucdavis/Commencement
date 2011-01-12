@@ -116,16 +116,17 @@ namespace Commencement.Controllers
             if (ceremony == null) return this.RedirectToAction(a => a.ExtraTicketPetitions(null));
 
             // load up all pending extra ticket petitions
-            var petitions = _petitionService.GetPendingExtraTicket(CurrentUser.Identity.Name, ceremony.Id);
+            var participations = _petitionService.GetPendingExtraTicket(CurrentUser.Identity.Name, ceremony.Id);
 
             var totalCount = 0;
             var ticketCount = 0;
             var streamingCount = 0;
 
             // approve all
-            foreach (var a in petitions)
+            foreach (var a in participations)
             {
-                a.ExtraTicketPetition.MakeDecision(true);
+                a.ExtraTicketPetition.MakeDecision(true);           // make the decision information
+                _emailService.QueueExtraTicketPetitionDecision(a);  // queue the email for the decision
                 Repository.OfType<ExtraTicketPetition>().EnsurePersistent(a.ExtraTicketPetition);
 
                 totalCount++;
