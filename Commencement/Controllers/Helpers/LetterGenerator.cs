@@ -11,7 +11,7 @@ namespace Commencement.Controllers.Helpers
     {
         string GenerateRegistrationConfirmation(RegistrationParticipation registrationParticipation, Template template);
         string GenerateExtraTicketRequestPetitionConfirmation(RegistrationParticipation registrationParticipation, Template template);
-        string GenerateExtraTicketRequestPetitionDecision(RegistrationParticipation registrationParticipation, Template template);
+        //string GenerateExtraTicketRequestPetitionDecision(RegistrationParticipation registrationParticipation, Template template);
         //string GenerateAddPermission(Student student, Template template, Ceremony ceremony);
         string GenerateRegistrationPetitionConfirmation(RegistrationPetition registrationPetition, Template template);
         string GenerateRegistrationPetitionApproved(RegistrationPetition registrationPetition, Template template);
@@ -64,24 +64,6 @@ namespace Commencement.Controllers.Helpers
             return HandleBody(template.BodyText);
         }
 
-        public string GenerateExtraTicketRequestPetitionDecision(RegistrationParticipation registrationParticipation, Template template)
-        {
-            Check.Require(registrationParticipation != null, "registrationParticipation is required.");
-            Check.Require(registrationParticipation.Registration.Student != null, "registrationParticipation.Registration.Student is required.");
-            Check.Require(template != null, "template is required.");
-            Check.Require(template.TemplateType.Name == StaticValues.Template_TicketPetition_Decision, "Template mismatch.");
-            Check.Require(registrationParticipation.Registration != null, "registrationParticipation.Registration is required.");
-            Check.Require(registrationParticipation.ExtraTicketPetition != null, "registrationParticipation.ExtraTicketPetition is required.");
-
-            _ceremony = registrationParticipation.Ceremony;
-            _student = registrationParticipation.Registration.Student;
-            _registrationParticipation = registrationParticipation;
-            _registration = registrationParticipation.Registration;
-            _template = template;
-            _extraTicketPetition = registrationParticipation.ExtraTicketPetition;
-
-            return HandleBody(template.BodyText);
-        }
 
         // getting nrid of this email
         public string GenerateAddPermission(Student student, Template template, Ceremony ceremony)
@@ -221,7 +203,7 @@ namespace Commencement.Controllers.Helpers
                     case "status":              return _registrationParticipation.Cancelled ? "Cancelled" : "Registered";
                 }
             }
-            else if (templateName == StaticValues.Template_TicketPetition || templateName == StaticValues.Template_TicketPetition_Decision)
+            else if (templateName == StaticValues.Template_TicketPetition)
             {
                 Check.Require(_registrationParticipation != null, "_registrationParticipation is required.");
                 Check.Require(_extraTicketPetition != null, "_registrationParticipation.ExtraTicketPetition is required.");

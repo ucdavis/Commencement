@@ -72,7 +72,8 @@ namespace Commencement.Controllers
             {
                 try
                 {
-                    _emailService.QueueExtraTicketPetitionDecision(participation);
+                    //_emailService.QueueExtraTicketPetitionDecision(participation);
+                    _emailService.QueueExtraTicketPetition(participation);
                 }
                 catch (Exception ex)
                 {
@@ -126,7 +127,7 @@ namespace Commencement.Controllers
             foreach (var a in participations)
             {
                 a.ExtraTicketPetition.MakeDecision(true);           // make the decision information
-                _emailService.QueueExtraTicketPetitionDecision(a);  // queue the email for the decision
+                _emailService.QueueExtraTicketPetition(a);  // queue the email for the decision
                 Repository.OfType<ExtraTicketPetition>().EnsurePersistent(a.ExtraTicketPetition);
 
                 totalCount++;
@@ -384,7 +385,7 @@ namespace Commencement.Controllers
 
                     try
                     {
-                        _emailService.QueueExtraTicketPetitionConfirmation(registrationParticipation);
+                        _emailService.QueueExtraTicketPetition(registrationParticipation);
                     }
                     catch (Exception ex)
                     {

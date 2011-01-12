@@ -20,8 +20,8 @@ namespace Commencement.Controllers.Services
         void SendRegistrationPetitionApproved(RegistrationPetition registrationPetition);
 
         void QueueRegistrationConfirmation(Registration registration);
-        void QueueExtraTicketPetitionConfirmation(RegistrationParticipation participation);
-        void QueueExtraTicketPetitionDecision(RegistrationParticipation participation);
+        void QueueExtraTicketPetition(RegistrationParticipation participation);
+        //void QueueExtraTicketPetitionDecision(RegistrationParticipation participation);
     }
 
     public class EmailService : IEmailService
@@ -102,8 +102,8 @@ namespace Commencement.Controllers.Services
             if (registration.Email != null) message.To.Add(registration.Email);
 
             //var template = Queryable.FirstOrDefault<Template>(repository.OfType<Template>().Queryable.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision).OrderByDescending(a => a.Id));
-            var template = registration.RegistrationParticipations[0].Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision && a.IsActive).FirstOrDefault();
-            Check.Require(template != null, "No template is available.");
+            //var template = registration.RegistrationParticipations[0].Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision && a.IsActive).FirstOrDefault();
+            //Check.Require(template != null, "No template is available.");
 
             //message.Body = letterGenerator.GenerateExtraTicketRequestPetitionDecision(registration, template);
 
@@ -201,7 +201,7 @@ namespace Commencement.Controllers.Services
             }
         }
 
-        public void QueueExtraTicketPetitionConfirmation(RegistrationParticipation participation)
+        public void QueueExtraTicketPetition(RegistrationParticipation participation)
         {
             Check.Require(participation != null, "participation is required.");
             
@@ -218,22 +218,22 @@ namespace Commencement.Controllers.Services
             _emailQueueRepository.EnsurePersistent(emailQueue);
         }
 
-        public void QueueExtraTicketPetitionDecision(RegistrationParticipation participation)
-        {
-            Check.Require(participation != null, "participation is required.");
+        //public void QueueExtraTicketPetitionDecision(RegistrationParticipation participation)
+        //{
+        //    Check.Require(participation != null, "participation is required.");
 
-            var template = participation.Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision && a.IsActive).FirstOrDefault();
-            Check.Require(template != null, "template is required.");
+        //    var template = participation.Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision && a.IsActive).FirstOrDefault();
+        //    Check.Require(template != null, "template is required.");
 
-            var subject = template.Subject;
-            var body = _letterGenerator.GenerateExtraTicketRequestPetitionDecision(participation, template);
+        //    var subject = template.Subject;
+        //    var body = _letterGenerator.GenerateExtraTicketRequestPetitionDecision(participation, template);
 
-            var emailQueue = new EmailQueue(participation.Registration.Student, template, subject, body, false);
-            emailQueue.Registration = participation.Registration;
-            emailQueue.RegistrationParticipation = participation;
+        //    var emailQueue = new EmailQueue(participation.Registration.Student, template, subject, body, false);
+        //    emailQueue.Registration = participation.Registration;
+        //    emailQueue.RegistrationParticipation = participation;
 
-            _emailQueueRepository.EnsurePersistent(emailQueue);
-        }
+        //    _emailQueueRepository.EnsurePersistent(emailQueue);
+        //}
 
         private MailMessage InitializeMessage()
         {
