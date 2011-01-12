@@ -188,7 +188,7 @@ namespace Commencement.Controllers
 
                 try
                 {
-                    _emailService.SendRegistrationPetitionApproved(registrationPetition);
+                    _emailService.QueueRegistartionPetitionDecision(registrationPetition);
                 }
                 catch (Exception ex)
                 {
@@ -200,43 +200,6 @@ namespace Commencement.Controllers
             Repository.OfType<Registration>().EnsurePersistent(registration);
 
             return this.RedirectToAction(a => a.RegistrationPetition(id));
-
-
-            //if (ModelState.IsValid)
-            //{
-            //    // save the decision
-            //    Repository.OfType<RegistrationPetition>().EnsurePersistent(registrationPetition);
-
-            //    // if approved and does not already exist for this term the save the student,
-            //    // otherwise the student has already been added either by auto download or admin addition
-            //    // do not save a duplicate
-            //    if (isApproved && !_studentService.CheckExisting(student.Login, TermService.GetCurrent()))
-            //    {
-            //        // persist the student
-            //        Repository.OfType<Student>().EnsurePersistent(student);
-            //    }
-
-            //    if (isApproved)
-            //    {
-            //        try
-            //        {
-            //            _emailService.SendRegistrationPetitionApproved(registrationPetition);
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            _errorService.ReportError(ex);
-            //            Message += StaticValues.Student_Email_Problem;
-            //        }
-            //    }
-
-            //    Message += string.Format("Decision was saved for {0}", registrationPetition.Student.FullName);
-            //}
-            //else
-            //{
-            //    Message = string.Format("There was a problem saving decision for {0}", registrationPetition.Student.FullName);
-            //});))
-
-            return this.RedirectToAction(a => a.Index());
         }
         #endregion
 

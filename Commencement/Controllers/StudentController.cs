@@ -227,7 +227,7 @@ namespace Commencement.Controllers
 
                 try
                 {
-                    _emailService.SendRegistrationConfirmation(registrationToEdit);
+                    _emailService.QueueRegistrationConfirmation(registrationToEdit);
                 }
                 catch (Exception ex)
                 {
