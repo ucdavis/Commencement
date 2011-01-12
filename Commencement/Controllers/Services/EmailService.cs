@@ -80,7 +80,7 @@ namespace Commencement.Controllers.Services
         {
             Check.Require(registration != null, "registration is required.");
 
-            var template = registration.RegistrationParticipations.First().Ceremony.Templates.Where(b => b.TemplateType.Name == StaticValues.Template_RegistrationPetition
+            var template = registration.RegistrationPetitions.First().Ceremony.Templates.Where(b => b.TemplateType.Name == StaticValues.Template_RegistrationPetition
                                 && b.IsActive).FirstOrDefault();
 
             Check.Require(template != null, "No template is available.");
@@ -96,8 +96,6 @@ namespace Commencement.Controllers.Services
 
                 _emailQueueRepository.EnsurePersistent(emailQueue);
             }
-
-            throw new NotImplementedException();
         }
 
         public void QueueRegistartionPetitionDecision(RegistrationPetition registration)

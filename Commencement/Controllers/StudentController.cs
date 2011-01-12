@@ -114,6 +114,7 @@ namespace Commencement.Controllers
             registration.TransferValidationMessagesTo(ModelState);
 
             if (!registrationModel.AgreeToDisclaimer) ModelState.AddModelError("agreeToDisclaimer", StaticValues.Student_agree_to_disclaimer);
+            if (registration.RegistrationPetitions.Any(a=>string.IsNullOrEmpty(a.ExceptionReason))) ModelState.AddModelError("Exception Reason", "Exception reason is required.");
 
             if (ModelState.IsValid)
             {
