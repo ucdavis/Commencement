@@ -19,7 +19,10 @@ namespace Commencement.Controllers.Services
                 if (term == null)
                 {
                     term = repository.Queryable.Where(a => a.IsActive).OrderByDescending(a => a.Id).FirstOrDefault();
-                    System.Web.HttpContext.Current.Cache[StaticIndexes.CurrentTermKey] = term;
+                    if(term != null)
+                    {
+                        System.Web.HttpContext.Current.Cache[StaticIndexes.CurrentTermKey] = term;
+                    }
                 }
 
                 return term;
