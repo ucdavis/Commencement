@@ -86,9 +86,9 @@ body .content {font: 19px/28px 'CicleFina', Arial, sans-serif;}
 
 
 
-.front_menu {margin:0 auto; width:810px;}
-.front_menu li a{background-color:#efefef;display:inline-block;height:150px;width:200px;margin-bottom:100px;-moz-border-radius: 10px; -webkit-border-radius: 10px; text-align:center; text-decoration:none;}
-.front_menu .left {margin-right:100px;}
+.front_menu {margin:0 auto; width:910px;}
+.front_menu li a{background-color:#efefef;display:inline-block;height:150px;width:200px;margin-bottom:30px;-moz-border-radius: 10px; -webkit-border-radius: 10px; text-align:center; text-decoration:none;}
+.front_menu .left {margin-right:30px;}
 .front_menu li {list-style-type:none; margin:0; padding:0; display:inline;}
 .front_menu li a:hover{background-color:#ddd;}
 .front_menu a img {margin-top:30px;}
