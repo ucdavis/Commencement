@@ -312,5 +312,130 @@ namespace Commencement.Tests.Core.Helpers
             majorRepository.Expect(a => a.Queryable).Return(majorCodes.AsQueryable()).Repeat.Any();
             majorRepository.Expect(a => a.GetAll()).Return(majorCodes).Repeat.Any();
         }
+
+        public static void FakeRegistrationParticipation(int count, IRepository<RegistrationParticipation> repository)
+        {
+            var registrationParticipations = new List<RegistrationParticipation>();
+            FakeRegistrationParticipation(count, repository, registrationParticipations);
+        }
+
+
+        public static void FakeRegistrationParticipation(int count, IRepository<RegistrationParticipation> repository, List<RegistrationParticipation> specificregistrationParticipations)
+        {
+            var registrationParticipations = new List<RegistrationParticipation>();
+            var specificspecificregistrationParticipationsCount = 0;
+            if (specificregistrationParticipations != null)
+            {
+                specificspecificregistrationParticipationsCount = specificregistrationParticipations.Count;
+                for (int i = 0; i < specificspecificregistrationParticipationsCount; i++)
+                {
+                    registrationParticipations.Add(specificregistrationParticipations[i]);
+                }
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                registrationParticipations.Add(CreateValidEntities.RegistrationParticipation(i + specificspecificregistrationParticipationsCount + 1));
+            }
+
+            var totalCount = registrationParticipations.Count;
+            for (int i = 0; i < totalCount; i++)
+            {
+                registrationParticipations[i].SetIdTo(i + 1);
+                int i1 = i;
+                repository
+                    .Expect(a => a.GetNullableById(i1 + 1))
+                    .Return(registrationParticipations[i])
+                    .Repeat
+                    .Any();
+            }
+            repository.Expect(a => a.GetNullableById(totalCount + 1)).Return(null).Repeat.Any();
+            repository.Expect(a => a.Queryable).Return(registrationParticipations.AsQueryable()).Repeat.Any();
+            repository.Expect(a => a.GetAll()).Return(registrationParticipations).Repeat.Any();
+        }
+
+        public static void FakevTermCode(int count, IRepository<vTermCode> termCodeRepository)
+        {
+            var termCodes = new List<vTermCode>();
+            FakevTermCode(count, termCodeRepository, termCodes);
+        }
+
+
+        public static void FakevTermCode(int count, IRepository<vTermCode> termCodeRepository, List<vTermCode> specificTermCodes)
+        {
+            var termCodes = new List<vTermCode>();
+            var specificTermCodesCount = 0;
+            if (specificTermCodes != null)
+            {
+                specificTermCodesCount = specificTermCodes.Count;
+                for (int i = 0; i < specificTermCodesCount; i++)
+                {
+                    termCodes.Add(specificTermCodes[i]);
+                }
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                termCodes.Add(CreateValidEntities.vTermCode(i + specificTermCodesCount + 1));
+                termCodes[i + specificTermCodesCount].EndDate = DateTime.Now.AddDays((-2 + i)).Date;
+            }
+
+            var totalCount = termCodes.Count;
+            for (int i = 0; i < totalCount; i++)
+            {
+                termCodes[i].SetIdTo((i + 1).ToString());
+                //int i1 = i;
+                //repository.OfType<State>()
+                //    .Expect(a => a.GetNullableById(i1 + 1))
+                //    .Return(TermCode[i])
+                //    .Repeat
+                //    .Any();
+            }
+            //State is not an Int Id, if I need to fake this, I'll need to pass a different repository
+            //repository.OfType<TermCode>().Expect(a => a.GetNullableById(totalCount + 1)).Return(null).Repeat.Any();
+            termCodeRepository.Expect(a => a.Queryable).Return(termCodes.AsQueryable()).Repeat.Any();
+            termCodeRepository.Expect(a => a.GetAll()).Return(termCodes).Repeat.Any();
+        }
+
+        public static void FakeSpecialNeeds(int count, IRepository<SpecialNeed> repository)
+        {
+            var specialNeeds = new List<SpecialNeed>();
+            FakeSpecialNeeds(count, repository, specialNeeds);
+        }
+
+
+        public static void FakeSpecialNeeds(int count, IRepository<SpecialNeed> repository, List<SpecialNeed> specificSpecialNeeds)
+        {
+            var specialNeeds = new List<SpecialNeed>();
+            var specificSpecialNeedsCount = 0;
+            if (specificSpecialNeeds != null)
+            {
+                specificSpecialNeedsCount = specificSpecialNeeds.Count;
+                for (int i = 0; i < specificSpecialNeedsCount; i++)
+                {
+                    specialNeeds.Add(specificSpecialNeeds[i]);
+                }
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                specialNeeds.Add(CreateValidEntities.SpecialNeed(i + specificSpecialNeedsCount + 1));
+            }
+
+            var totalCount = specialNeeds.Count;
+            for (int i = 0; i < totalCount; i++)
+            {
+                specialNeeds[i].SetIdTo(i + 1);
+                int i1 = i;
+                repository
+                    .Expect(a => a.GetNullableById(i1 + 1))
+                    .Return(specialNeeds[i])
+                    .Repeat
+                    .Any();
+            }
+            repository.Expect(a => a.GetNullableById(totalCount + 1)).Return(null).Repeat.Any();
+            repository.Expect(a => a.Queryable).Return(specialNeeds.AsQueryable()).Repeat.Any();
+            repository.Expect(a => a.GetAll()).Return(specialNeeds).Repeat.Any();
+        }
     }
 }

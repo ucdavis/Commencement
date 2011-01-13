@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Commencement.Controllers;
+using Commencement.Controllers.Filters;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Tests.Core.Helpers;
@@ -18,7 +19,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the student details redirects to index if the student is not found.
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestStudentDetailsRedirectsToIndexIfTheStudentIsNotFound()
         {
             #region Arrange
@@ -39,10 +40,23 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         /// <summary>
         /// Tests the student details view when student is found.
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestStudentDetailsViewWhenStudentIsFound()
         {
             #region Arrange
+
+            LoadTermCodes("201003");
+            Controller.ControllerContext.HttpContext = new MockHttpContext(1, new[] { RoleNames.RoleUser });
+
+            var ceremonies = new List<Ceremony>();
+            for (int i = 0; i < 3; i++)
+            {
+                ceremonies.Add(CreateValidEntities.Ceremony(i + 1));
+            }
+
+            CeremonyService.Expect(a => a.GetCeremonies("UserName")).Return(
+                ceremonies).Repeat.Any();
+
             var students = new List<Student>();
             students.Add(CreateValidEntities.Student(1));
             ControllerRecordFakes.FakeStudent(3, StudentRepository, students, null);
@@ -51,6 +65,9 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             registrations[0].Student = students[0];
             ControllerRecordFakes.FakeRegistration(3, RegistrationRepository, registrations);
             ControllerRecordFakes.FakeState(3, Controller.Repository);
+            ControllerRecordFakes.FakevTermCode(4, vTermCodeRepository);
+            ControllerRecordFakes.FakeSpecialNeeds(3, specialNeedRepository);
+
             #endregion Arrange
 
             #region Act
@@ -68,118 +85,188 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
 
         #endregion StudentDetails Tests
 
-        #region AddStudent Tests
+        #region Block Tests
 
-        ///// <summary>
-        ///// Tests the add student with null parameter returns view.
-        ///// </summary>
-        //[TestMethod, Ignore]
-        //public void TestAddStudentWithNullParameterReturnsView()
-        //{
-        //    #region Arrange
-        //    string studentId = null;
-        //    #endregion Arrange
+        #region Get Tests
 
-        //    #region Act
-        //    var result = Controller.AddStudent(studentId)
-        //        .AssertViewRendered()
-        //        .WithViewData<SearchStudentViewModel>();
-        //    #endregion Act
+        [TestMethod]
+        public void TestBlockGetRedirectsToIndexIfStudentNotFound()
+        {
+            #region Arrange
+            ControllerRecordFakes.FakeStudent(3, StudentRepository, null);
+            #endregion Arrange
 
-        //    #region Assert
-        //    Assert.IsNotNull(result);
-        //    StudentService.AssertWasNotCalled(a => a.SearchStudent(Arg<string>.Is.Anything, Arg<string>.Is.Anything));
-        //    #endregion Assert
-        //}
-        ///// <summary>
-        ///// Tests the add student with empty string parameter returns view.
-        ///// </summary>
-        //[TestMethod, Ignore]
-        //public void TestAddStudentWithEmptyStringParameterReturnsView()
-        //{
-        //    #region Arrange
-        //    string studentId = string.Empty;
-        //    #endregion Arrange
+            #region Act
+            Controller.Block(SpecificGuid.GetGuid(4))
+                .AssertActionRedirect()
+                .ToAction<AdminController>(a => a.Index());
+            #endregion Act
 
-        //    #region Act
-        //    var result = Controller.AddStudent(studentId)
-        //        .AssertViewRendered()
-        //        .WithViewData<SearchStudentViewModel>();
-        //    #endregion Act
+            #region Assert
+            Assert.AreEqual("Student record could not be found.", Controller.Message);
+            #endregion Assert		
+        }
 
-        //    #region Assert
-        //    Assert.IsNotNull(result);
-        //    StudentService.AssertWasNotCalled(a => a.SearchStudent(Arg<string>.Is.Anything, Arg<string>.Is.Anything));
-        //    #endregion Assert
-        //}
+        [TestMethod]
+        public void TestBlockGetReturnsViewIfStudentFound()
+        {
+            #region Arrange
+            ControllerRecordFakes.FakeStudent(3, StudentRepository, null);
+            #endregion Arrange
 
-        ///// <summary>
-        ///// Tests the add student with student id parameter returns view.
-        ///// </summary>
-        //[TestMethod, Ignore]
-        //public void TestAddStudentWithStudentIdParameterReturnsView1()
-        //{
-        //    #region Arrange
-        //    const string studentId = "123456789";
-        //    var termCodes = new List<TermCode>();
-        //    termCodes.Add(CreateValidEntities.TermCode(1));
-        //    termCodes[0].IsActive = true;
-        //    termCodes[0].SetIdTo("201003");
-        //    ControllerRecordFakes.FakeTermCode(0, TermCodeRepository, termCodes);
-        //    var searchStudents = new List<SearchStudent>();
-        //    searchStudents.Add(CreateValidEntities.SearchStudent(1));
-        //    searchStudents.Add(CreateValidEntities.SearchStudent(2));
-        //    searchStudents.Add(CreateValidEntities.SearchStudent(3));
-        //    StudentService.Expect(a => a.SearchStudent(studentId, termCodes[0].Id)).Return(searchStudents).Repeat.Any();
-        //    #endregion Arrange
+            #region Act
+            var result = Controller.Block(SpecificGuid.GetGuid(3))
+                .AssertViewRendered()
+                .WithViewData<Student>();
+            #endregion Act
 
-        //    #region Act
-        //    var result = Controller.AddStudent(studentId)
-        //        .AssertViewRendered()
-        //        .WithViewData<SearchStudentViewModel>();
-        //    #endregion Act
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Pidm3", result.Pidm);
+            Assert.IsNull(Controller.Message);
+            #endregion Assert
+        }
+        
 
-        //    #region Assert
-        //    Assert.IsNotNull(result);
-        //    Assert.AreEqual(3, result.SearchStudents.Count);
-        //    Assert.IsNull(Controller.Message);
-        //    Assert.AreEqual(studentId, result.StudentId);
-        //    StudentService.AssertWasCalled(a => a.SearchStudent(studentId, termCodes[0].Id));
-        //    #endregion Assert
-        //}
 
-        ///// <summary>
-        ///// Tests the add student with student id parameter returns view.
-        ///// </summary>
-        //[TestMethod, Ignore]
-        //public void TestAddStudentWithStudentIdParameterReturnsView2()
-        //{
-        //    #region Arrange
-        //    const string studentId = "123456789";
-        //    var termCodes = new List<TermCode>();
-        //    termCodes.Add(CreateValidEntities.TermCode(1));
-        //    termCodes[0].IsActive = true;
-        //    termCodes[0].SetIdTo("201003");
-        //    ControllerRecordFakes.FakeTermCode(0, TermCodeRepository, termCodes);
-        //    var searchStudents = new List<SearchStudent>();
-        //    StudentService.Expect(a => a.SearchStudent(studentId, termCodes[0].Id)).Return(searchStudents).Repeat.Any();
-        //    #endregion Arrange
+        #endregion Get Tests
 
-        //    #region Act
-        //    var result = Controller.AddStudent(studentId)
-        //        .AssertViewRendered()
-        //        .WithViewData<SearchStudentViewModel>();
-        //    #endregion Act
+        #region Post Tests
+        [TestMethod]
+        public void TestBlockPostRedirectsToIndexIfStudentNotFound()
+        {
+            #region Arrange
+            ControllerRecordFakes.FakeStudent(3, StudentRepository, null);
+            #endregion Arrange
 
-        //    #region Assert
-        //    Assert.IsNotNull(result);
-        //    Assert.AreEqual(0, result.SearchStudents.Count);
-        //    Assert.AreEqual("No results for the student were found.", Controller.Message);
-        //    Assert.AreEqual(studentId, result.StudentId);
-        //    StudentService.AssertWasCalled(a => a.SearchStudent(studentId, termCodes[0].Id));
-        //    #endregion Assert
-        //}
+            #region Act
+            Controller.Block(SpecificGuid.GetGuid(4), true, "Cause")
+                .AssertActionRedirect()
+                .ToAction<AdminController>(a => a.Index());
+            #endregion Act
 
-        #endregion AddStudent Tests
+            #region Assert
+            Assert.AreEqual("Student record could not be found.", Controller.Message);
+            #endregion Assert
+        }
+
+
+        [TestMethod]
+        public void TestBlockPostRedirectsToStudentDetailsIfStudentFound1()
+        {
+            #region Arrange
+            ControllerRecordFakes.FakeStudent(3, StudentRepository, null);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Block(SpecificGuid.GetGuid(3), true, "Cause")
+                .AssertActionRedirect()
+                .ToAction<AdminController>(a => a.StudentDetails(SpecificGuid.GetGuid(3), false));
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(SpecificGuid.GetGuid(3), result.RouteValues["id"]);
+            Assert.AreEqual(false, result.RouteValues["Registration"]);
+            StudentRepository.AssertWasCalled(a => a.EnsurePersistent(Arg<Student>.Is.Anything));
+            var args = (Student)StudentRepository.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<Student>.Is.Anything))[0][0];
+            Assert.IsNotNull(args);
+            Assert.AreEqual("Pidm3", args.Pidm);
+            Assert.AreEqual(true, args.Blocked);
+            Assert.AreEqual(false, args.SjaBlock);
+            Assert.AreEqual("Student has been blocked from the registration system.", Controller.Message);
+            #endregion Assert		
+        }
+
+        [TestMethod]
+        public void TestBlockPostRedirectsToStudentDetailsIfStudentFound2()
+        {
+            #region Arrange
+            ControllerRecordFakes.FakeStudent(3, StudentRepository, null);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Block(SpecificGuid.GetGuid(3), true, "SJA")
+                .AssertActionRedirect()
+                .ToAction<AdminController>(a => a.StudentDetails(SpecificGuid.GetGuid(3), false));
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(SpecificGuid.GetGuid(3), result.RouteValues["id"]);
+            Assert.AreEqual(false, result.RouteValues["Registration"]);
+            StudentRepository.AssertWasCalled(a => a.EnsurePersistent(Arg<Student>.Is.Anything));
+            var args = (Student)StudentRepository.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<Student>.Is.Anything))[0][0];
+            Assert.IsNotNull(args);
+            Assert.AreEqual("Pidm3", args.Pidm);
+            Assert.AreEqual(true, args.Blocked);
+            Assert.AreEqual(false, args.SjaBlock);
+            Assert.AreEqual("Student has been blocked from the registration system.", Controller.Message);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestBlockPostRedirectsToStudentDetailsIfStudentFound3()
+        {
+            #region Arrange
+            ControllerRecordFakes.FakeStudent(3, StudentRepository, null);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Block(SpecificGuid.GetGuid(3), true, "sja")
+                .AssertActionRedirect()
+                .ToAction<AdminController>(a => a.StudentDetails(SpecificGuid.GetGuid(3), false));
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(SpecificGuid.GetGuid(3), result.RouteValues["id"]);
+            Assert.AreEqual(false, result.RouteValues["Registration"]);
+            StudentRepository.AssertWasCalled(a => a.EnsurePersistent(Arg<Student>.Is.Anything));
+            var args = (Student)StudentRepository.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<Student>.Is.Anything))[0][0];
+            Assert.IsNotNull(args);
+            Assert.AreEqual("Pidm3", args.Pidm);
+            Assert.AreEqual(false, args.Blocked);
+            Assert.AreEqual(true, args.SjaBlock);
+            Assert.AreEqual("Student has been blocked from the registration system.", Controller.Message);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestBlockPostRedirectsToStudentDetailsIfStudentFound4()
+        {
+            #region Arrange
+            var students = new List<Student>();
+            students.Add(CreateValidEntities.Student(1));
+            students[0].SjaBlock = true;
+            students[0].Blocked = true;
+            ControllerRecordFakes.FakeStudent(0, StudentRepository, students, null);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Block(SpecificGuid.GetGuid(1), false, "sja")
+                .AssertActionRedirect()
+                .ToAction<AdminController>(a => a.StudentDetails(SpecificGuid.GetGuid(7), false));
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(SpecificGuid.GetGuid(1), result.RouteValues["id"]);
+            Assert.AreEqual(false, result.RouteValues["Registration"]);
+            StudentRepository.AssertWasCalled(a => a.EnsurePersistent(Arg<Student>.Is.Anything));
+            var args = (Student)StudentRepository.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<Student>.Is.Anything))[0][0];
+            Assert.IsNotNull(args);
+            Assert.AreEqual("Pidm1", args.Pidm);
+            Assert.AreEqual(false, args.Blocked);
+            Assert.AreEqual(false, args.SjaBlock);
+            Assert.AreEqual("Student has been unblocked and is allowed into the system.", Controller.Message);
+            #endregion Assert
+        }
+
+        #endregion Post Tests
+
+
+        #endregion Block Tests
+
     }
 }

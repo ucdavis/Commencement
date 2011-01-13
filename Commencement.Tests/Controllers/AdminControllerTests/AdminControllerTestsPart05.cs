@@ -22,6 +22,120 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
 {
     public partial class AdminControllerTests
     {
+
+        #region AddStudent Tests
+
+        ///// <summary>
+        ///// Tests the add student with null parameter returns view.
+        ///// </summary>
+        //[TestMethod, Ignore]
+        //public void TestAddStudentWithNullParameterReturnsView()
+        //{
+        //    #region Arrange
+        //    string studentId = null;
+        //    #endregion Arrange
+
+        //    #region Act
+        //    var result = Controller.AddStudent(studentId)
+        //        .AssertViewRendered()
+        //        .WithViewData<SearchStudentViewModel>();
+        //    #endregion Act
+
+        //    #region Assert
+        //    Assert.IsNotNull(result);
+        //    StudentService.AssertWasNotCalled(a => a.SearchStudent(Arg<string>.Is.Anything, Arg<string>.Is.Anything));
+        //    #endregion Assert
+        //}
+        ///// <summary>
+        ///// Tests the add student with empty string parameter returns view.
+        ///// </summary>
+        //[TestMethod, Ignore]
+        //public void TestAddStudentWithEmptyStringParameterReturnsView()
+        //{
+        //    #region Arrange
+        //    string studentId = string.Empty;
+        //    #endregion Arrange
+
+        //    #region Act
+        //    var result = Controller.AddStudent(studentId)
+        //        .AssertViewRendered()
+        //        .WithViewData<SearchStudentViewModel>();
+        //    #endregion Act
+
+        //    #region Assert
+        //    Assert.IsNotNull(result);
+        //    StudentService.AssertWasNotCalled(a => a.SearchStudent(Arg<string>.Is.Anything, Arg<string>.Is.Anything));
+        //    #endregion Assert
+        //}
+
+        ///// <summary>
+        ///// Tests the add student with student id parameter returns view.
+        ///// </summary>
+        //[TestMethod, Ignore]
+        //public void TestAddStudentWithStudentIdParameterReturnsView1()
+        //{
+        //    #region Arrange
+        //    const string studentId = "123456789";
+        //    var termCodes = new List<TermCode>();
+        //    termCodes.Add(CreateValidEntities.TermCode(1));
+        //    termCodes[0].IsActive = true;
+        //    termCodes[0].SetIdTo("201003");
+        //    ControllerRecordFakes.FakeTermCode(0, TermCodeRepository, termCodes);
+        //    var searchStudents = new List<SearchStudent>();
+        //    searchStudents.Add(CreateValidEntities.SearchStudent(1));
+        //    searchStudents.Add(CreateValidEntities.SearchStudent(2));
+        //    searchStudents.Add(CreateValidEntities.SearchStudent(3));
+        //    StudentService.Expect(a => a.SearchStudent(studentId, termCodes[0].Id)).Return(searchStudents).Repeat.Any();
+        //    #endregion Arrange
+
+        //    #region Act
+        //    var result = Controller.AddStudent(studentId)
+        //        .AssertViewRendered()
+        //        .WithViewData<SearchStudentViewModel>();
+        //    #endregion Act
+
+        //    #region Assert
+        //    Assert.IsNotNull(result);
+        //    Assert.AreEqual(3, result.SearchStudents.Count);
+        //    Assert.IsNull(Controller.Message);
+        //    Assert.AreEqual(studentId, result.StudentId);
+        //    StudentService.AssertWasCalled(a => a.SearchStudent(studentId, termCodes[0].Id));
+        //    #endregion Assert
+        //}
+
+        ///// <summary>
+        ///// Tests the add student with student id parameter returns view.
+        ///// </summary>
+        //[TestMethod, Ignore]
+        //public void TestAddStudentWithStudentIdParameterReturnsView2()
+        //{
+        //    #region Arrange
+        //    const string studentId = "123456789";
+        //    var termCodes = new List<TermCode>();
+        //    termCodes.Add(CreateValidEntities.TermCode(1));
+        //    termCodes[0].IsActive = true;
+        //    termCodes[0].SetIdTo("201003");
+        //    ControllerRecordFakes.FakeTermCode(0, TermCodeRepository, termCodes);
+        //    var searchStudents = new List<SearchStudent>();
+        //    StudentService.Expect(a => a.SearchStudent(studentId, termCodes[0].Id)).Return(searchStudents).Repeat.Any();
+        //    #endregion Arrange
+
+        //    #region Act
+        //    var result = Controller.AddStudent(studentId)
+        //        .AssertViewRendered()
+        //        .WithViewData<SearchStudentViewModel>();
+        //    #endregion Act
+
+        //    #region Assert
+        //    Assert.IsNotNull(result);
+        //    Assert.AreEqual(0, result.SearchStudents.Count);
+        //    Assert.AreEqual("No results for the student were found.", Controller.Message);
+        //    Assert.AreEqual(studentId, result.StudentId);
+        //    StudentService.AssertWasCalled(a => a.SearchStudent(studentId, termCodes[0].Id));
+        //    #endregion Assert
+        //}
+
+        #endregion AddStudent Tests
         /*
         #region ChangeMajor Tests
         #region Get Tests
