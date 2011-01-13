@@ -12,8 +12,5 @@ GO
 INSERT INTO [dbo].[TemplateTypes]([id], [Name], [Description], Code)
   VALUES(4, 'Registration Petition - Approved', 'E-Mail sent to student once they have been granted access to register in the system.', 'RA')
 GO
-INSERT INTO [dbo].[TemplateTypes]([id], [Name], [Description], Code)
-  VALUES(5, 'Ticket Petition - Decision', 'E-Mail sent to student after a decision has been made on their extra ticket petition.', 'TD')
-GO
 SET IDENTITY_INSERT [dbo].[TemplateTypes] OFF
 GO
