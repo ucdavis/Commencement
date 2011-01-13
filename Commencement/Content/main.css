@@ -47,6 +47,18 @@ p.style6 {font: 18px/27px 'CicleSemiItalic', Arial, sans-serif;}
 p.style7 {font: 18px/27px 'CicleShadow', Arial, sans-serif;}       */
 /* ---------------- */
 
+/* ---------------- */
+/*    content       */
+/* ---------------- */
+
+.content p {margin:.7em 0;}
+.content li {margin-left:2em;}
+.content em.small {font: 18px/28px 'CicleSemiItalic', Arial, sans-serif;}
+body .content {font: 19px/28px 'CicleFina', Arial, sans-serif;}
+.content b, .content strong {font: bold 21px/28px 'CicleGordita', Arial, sans-serif;}
+
+
+
 
 /* ---------------- */
 /*  form formatting */

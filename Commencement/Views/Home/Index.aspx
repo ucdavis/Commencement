@@ -8,6 +8,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <div class="content">
     <h2>Commencement Participation</h2>
 
     <p>
@@ -16,10 +17,10 @@
     </p>
 
     <p>
-        <i> 
+        <em class="small"> 
             We will accept late registration until June 3rd but due to printing deadlines we cannot guarantee your name will
             appear in the program or that you will receive the maximum number of tickets alloted per person.
-        </i>
+        </em>
     </p>
 
     <p>
@@ -49,7 +50,7 @@
         <strong>mid-May</strong>: Letters of instruction and Commencement admission tickets available for pick-up
     </p>
     <p>
-        <p>Saturday, June 11, 2011</p>: Commencement Ceremony: 9:00 AM and 2:00 PM, UC Davis ARC Pavilion
+        <strong>Saturday, June 11, 2011: Commencement Ceremony: 9:00 AM and 2:00 PM, UC Davis ARC Pavilion</strong>
     </p>
     <p>
         <a href="http://www.gradimages.com/register.cfm">GradTrak</a> will be photographing all graduates at the upcoming graduation ceremony. Receive a $5 discount on photo orders over $25 by registering prior to the ceremony.
@@ -64,7 +65,7 @@
 
     <%: Html.ActionLink<StudentController>(a => a.Index(), "Register")%>
 
-
+</div>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
