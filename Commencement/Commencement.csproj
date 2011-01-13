@@ -170,6 +170,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\CeremonyController.cs" />
+    <Compile Include="Controllers\EmailQueueController.cs" />
     <Compile Include="Controllers\Filters\PageTrackingFilter.cs" />
     <Compile Include="Controllers\Filters\SessionExpirationFilter.cs" />
     <Compile Include="Controllers\Helpers\CeremonyMajorCheck.cs" />
@@ -302,6 +303,7 @@
     <Content Include="Images\logo-ls.png" />
     <Content Include="Images\logo-ucdavis.png" />
     <Content Include="Images\logo.jpg" />
+    <Content Include="Images\mail_queue.png" />
     <Content Include="Images\speechbubble.jpg" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.1.js" />
@@ -578,6 +580,7 @@
     <Content Include="Views\Ceremony\Edit.aspx" />
     <Content Include="Views\Ceremony\EditPermissions.aspx" />
     <Content Include="Views\Ceremony\Index.aspx" />
+    <Content Include="Views\EmailQueue\Index.aspx" />
     <Content Include="Views\Error\Index.aspx" />
     <Content Include="Views\Error\NotEligible.aspx" />
     <Content Include="Views\Error\NotFound.aspx" />

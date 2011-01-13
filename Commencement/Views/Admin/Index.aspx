@@ -29,6 +29,9 @@
             <a href="<%= Url.Action("AdminLanding", "Admin") %>"><img src="<%= Url.Content("~/Images/report.png") %>" /><br />Administration</a>
         </li>
         <% } %>
+        <li class="<%: User.IsInRole(RoleNames.RoleAdmin) ? "left" : string.Empty %>">
+            <a href="<%= Url.Action("Index", "EmailQueue") %>"><img src='<%= Url.Content("~/Images/mail_queue.png") %>' /><br />Email Queue</a>
+        </li>
     </ul>
 </asp:Content>
 
