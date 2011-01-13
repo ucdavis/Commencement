@@ -304,6 +304,7 @@
     <Content Include="Images\logo-ucdavis.png" />
     <Content Include="Images\logo.jpg" />
     <Content Include="Images\mail_queue.png" />
+    <Content Include="Images\preferences.png" />
     <Content Include="Images\speechbubble.jpg" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.1.js" />

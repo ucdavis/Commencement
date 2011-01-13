@@ -9,29 +9,31 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
     <ul class="front_menu">
-        <li class="left">
-            <a href="<%= Url.Action("Index", "Ceremony") %>"><img src="<%= Url.Content("~/Images/ceremony.png") %>" /><br />Ceremony List</a>
-        </li>
+
         <li class="left">
             <a href="<%= Url.Action("Students", "Admin") %>"><img src="<%= Url.Content("~/Images/students.png") %>" /><br />Students</a>
         </li>
         <li class="left">
             <a href="<%= Url.Action("Registrations", "Admin") %>"><img src="<%= Url.Content("~/Images/registrations.png") %>" /><br />Registrations</a>
         </li>
-        <li >
+        <li class="left">
             <a href="<%= Url.Action("Index", "Petition") %>"><img src="<%= Url.Content("~/Images/pending_petition.png") %>" /><br />Pending Petitions</a>
+        </li>
+        <li class="">
+            <a href="<%= Url.Action("Index", "EmailQueue") %>"><img src='<%= Url.Content("~/Images/mail_queue.png") %>' /><br />Email Queue</a>
         </li>
         <li class="left">
             <a href="<%= Url.Action("Index", "Report") %>"><img src="<%= Url.Content("~/Images/report.png") %>" /><br />Reporting</a>
         </li>
+        <li class="left">
+            <a href="<%= Url.Action("Index", "Ceremony") %>"><img src="<%= Url.Content("~/Images/ceremony.png") %>" /><br />Ceremony List</a>
+        </li>
         <% if (User.IsInRole(RoleNames.RoleAdmin)) { %>
         <li class="left">
-            <a href="<%= Url.Action("AdminLanding", "Admin") %>"><img src="<%= Url.Content("~/Images/report.png") %>" /><br />Administration</a>
+            <a href="<%= Url.Action("AdminLanding", "Admin") %>"><img src="<%= Url.Content("~/Images/preferences.png") %>" /><br />Administration</a>
         </li>
         <% } %>
-        <li class="<%: User.IsInRole(RoleNames.RoleAdmin) ? "left" : string.Empty %>">
-            <a href="<%= Url.Action("Index", "EmailQueue") %>"><img src='<%= Url.Content("~/Images/mail_queue.png") %>' /><br />Email Queue</a>
-        </li>
+
     </ul>
 </asp:Content>
 
