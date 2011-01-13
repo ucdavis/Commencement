@@ -349,6 +349,7 @@ namespace Commencement.Core.Domain
                 .ParentKeyColumn("CeremonyId")
                 .ChildKeyColumn("MajorCode")
                 .Table("CeremonyMajors")
+                .Fetch.Subselect()
                 .Cascade.SaveUpdate(); //ok jcs
         }
     }

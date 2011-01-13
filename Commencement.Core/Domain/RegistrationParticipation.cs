@@ -149,7 +149,7 @@ namespace Commencement.Core.Domain
             References(x => x.Registration).Cascade.None().Fetch.Join();
             References(x => x.Major).Column("MajorCode").Cascade.None().Fetch.Join();
             References(x => x.Ceremony).Cascade.None().Fetch.Join();
-            References(x => x.ExtraTicketPetition).Cascade.All();
+            References(x => x.ExtraTicketPetition).Cascade.All().Fetch.Join();
 
             Map(x => x.NumberTickets);
             Map(x => x.Cancelled);
