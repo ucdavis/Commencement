@@ -80,13 +80,6 @@ namespace Commencement.Tests.Controllers
         }
         #endregion Mapping Tests
 
-
-        [TestMethod]
-        public void TestEmulateStillNeeded()
-        {
-            Assert.Inconclusive("Alan, was emulate student supposed to be removed?");
-        }
-
         #region NotCAESStudent Tests
 
         [TestMethod]

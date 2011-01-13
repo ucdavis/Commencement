@@ -989,8 +989,7 @@ namespace Commencement.Tests.Repositories
             #endregion Act
 
             #region Assert
-            Assert.AreEqual("Pickup tickets at arc ticket off", result);
-            Assert.Inconclusive("Should off be office?");
+            Assert.AreEqual("Pickup tickets at arc ticket office.", result);
             #endregion Assert
         }
 

@@ -1460,23 +1460,7 @@ namespace Commencement.Tests.Repositories
         }
 
 
-        [TestMethod]
-        public void TestNumberTicketsNoyBeingUsed()
-        {
-            #region Arrange
 
-            Assert.Inconclusive("It looks like RegistrationPetition.NumberTickets is not being totaled anywhere.");
-
-            #endregion Arrange
-
-            #region Act
-
-            #endregion Act
-
-            #region Assert
-
-            #endregion Assert		
-        }
 
         #endregion NumberTickets Tests
 

@@ -107,7 +107,7 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
             #endregion Act
 
             #region Assert
-            Assert.AreEqual("Name1,Name3,Name5", student.StrMajors);
+            Assert.AreEqual("Name1,Name3,Name2", student.StrMajors);
             #endregion Assert
         }
         #endregion StrMajors Tests
@@ -207,7 +207,7 @@ namespace Commencement.Tests.Repositories.StudentRepositoryTests
             #endregion Act
 
             #region Assert
-            Assert.AreEqual("1,3,5", student.StrMajorCodes, "Alan, I think you need to look at the consolidation for this.");
+            Assert.AreEqual("1,3,2", student.StrMajorCodes);
             #endregion Assert
         }
 

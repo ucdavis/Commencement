@@ -38,7 +38,7 @@ namespace Commencement.Core.Domain
                     message = "Pickup Tickets in person as specified in web site faq.";
                 else if (Registration.MailTickets)
                     message = "Mail tickets to provided address.";
-                else message = "Pickup tickets at arc ticket off";
+                else message = "Pickup tickets at arc ticket office.";
 
                 return message;
             }
