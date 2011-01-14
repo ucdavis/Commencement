@@ -208,6 +208,7 @@
     <Compile Include="Controllers\ViewModels\AdminRegistrationPetitionViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeCeremonyViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeMajorViewModel.cs" />
+    <Compile Include="Controllers\ViewModels\MoveMajorViewModel.cs" />
     <Compile Include="Controllers\ViewModels\RegistrationDataViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ReportViewModel.cs" />
     <Compile Include="Controllers\ViewModels\SearchStudentViewModel.cs" />
@@ -571,6 +572,7 @@
     <Content Include="Views\Admin\EditStudentPartial.ascx" />
     <Content Include="Views\Admin\Index.aspx" />
     <Content Include="Views\Admin\Majors.aspx" />
+    <Content Include="Views\Admin\MoveMajor.aspx" />
     <Content Include="Views\Admin\RegisterForStudent.aspx" />
     <Content Include="Views\Admin\Registrations.aspx" />
     <Content Include="Views\Admin\StudentDetails.aspx" />

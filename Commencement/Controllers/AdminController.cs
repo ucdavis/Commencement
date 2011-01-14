@@ -11,7 +11,6 @@ using Commencement.Core.Resources;
 using MvcContrib.Attributes;
 using UCDArch.Core.PersistanceSupport;
 using MvcContrib;
-using UCDArch.Core.Utils;
 using UCDArch.Web.Helpers;
 
 namespace Commencement.Controllers
@@ -308,191 +307,43 @@ namespace Commencement.Controllers
         }
         #endregion
 
+        #region Move Major
+        public ActionResult MoveMajor()
+        {
+            var viewModel = MoveMajorViewModel.Create(Repository, CurrentUser, _ceremonyService);
+            return View(viewModel);
+        }
+
+        public JsonResult ValidateMoveMajor(string majorCode, int ceremonyId)
+        {
+            var major = _majorRepository.GetNullableById(majorCode);
+            var origCeremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.Majors.Contains(major) && a.TermCode == TermService.GetCurrent()).FirstOrDefault();
+            var ceremony = Repository.OfType<Ceremony>().GetNullableById(ceremonyId);
+
+            var message = string.Empty;
+
+            if (major == null || ceremony == null || origCeremony == null)
+            {
+                message = "There was an error, validating this move.";
+                return Json(message, JsonRequestBehavior.AllowGet);
+            }
+
+            // figure out how many students/tickets are getting moved
+            var participations = Repository.OfType<RegistrationParticipation>().Queryable
+                                 .Where(a => a.Ceremony == origCeremony && a.Major == major).ToList();
+
+            message = string.Format("You have requested to move {0} to {1} ceremony.  This will move {2} students with {3} tickets leaving {4} available."
+                                    , major.Name, ceremony.DateTime.ToString("g"), participations.Count(), participations.Sum(a=>a.TotalTickets)
+                                    , ceremony.AvailableTickets - participations.Sum(a=>a.TotalTickets));
+
+            return Json(message, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
         public ActionResult Majors()
         {
             var viewModel = AdminMajorsViewModel.Create(Repository, _ceremonyService,_registrationService, CurrentUser);
             return View(viewModel);
         }
-
-        #region Stuff to be Reviewed
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id">Student Id</param>
-        /// <returns></returns>
-        //public ActionResult AddStudent(string studentId)
-        //{
-        //    var viewModel = SearchStudentViewModel.Create(Repository);
-
-        //    if (!string.IsNullOrEmpty(studentId))
-        //    {
-        //        // lookup the student
-        //        viewModel.SearchStudents = _studentService.SearchStudent(studentId, TermService.GetCurrent().Id);
-        //        viewModel.StudentId = studentId;
-
-        //        if (viewModel.SearchStudents.Count <= 0)
-        //        {
-        //            Message = "No results for the student were found.";
-        //        }
-        //    }
-
-        //    return View(viewModel);
-        //}
-        //public ActionResult AddStudentConfirm(string studentId, string major)
-        //{
-        //    // either variable is invalid redirect back to the add student page
-        //    if (string.IsNullOrEmpty(studentId) || string.IsNullOrEmpty(major)) return this.RedirectToAction(a => a.AddStudent(studentId));
-
-        //    var searchResults = _studentService.SearchStudent(studentId, TermService.GetCurrent().Id);
-        //    var searchStudent = searchResults.Where(a => a.MajorCode == major).FirstOrDefault();
-
-        //    Check.Require(searchStudent != null, "Unable to find requested record.");
-
-        //    //var student = new Student(searchStudent.Pidm, searchStudent.Id, searchStudent.FirstName, searchStudent.MI,
-        //    //                          searchStudent.LastName, searchStudent.HoursEarned, searchStudent.Email,
-        //    //                          searchStudent.LoginId, TermService.GetCurrent());
-
-        //    var student = new Student();
-
-        //    student.Majors.Add(_majorRepository.GetNullableById(major));
-
-        //    return View(student);
-        //}
-        //[HttpPost]
-        //public ActionResult AddStudentConfirm(string studentId, string majorCode, Student student)
-        //{
-        //    Check.Require(student != null, "Student cannot be null.");
-        //    Check.Require(!string.IsNullOrEmpty(majorCode), "Major code is required.");
-
-        //    student.TermCode = TermService.GetCurrent();
-
-        //    MajorCode major = _majorRepository.GetNullableById(majorCode);
-        //    Check.Require(major != null, "Unable to find major.");
-
-        //    var ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == TermService.GetCurrent() && a.Majors.Contains(major)).FirstOrDefault();
-        //    //Check.Require(ceremony != null, "Ceremony is required.");
-        //    if (ceremony == null) { ModelState.AddModelError("Ceremony", "No ceremony exists for this major for the current term.");}
-
-        //    Student newStudent = null;
-
-        //    // validate student does not already exist, and if they do make sure we are just adding a new major
-        //    var existingStudent = Repository.OfType<Student>().Queryable.Where(a=>a.StudentId == studentId && a.TermCode == TermService.GetCurrent()).FirstOrDefault();
-
-        //    if (existingStudent == null)
-        //    {
-        //        //newStudent = new Student(student.Pidm, student.StudentId, student.FirstName, student.MI, student.LastName, student.TotalUnits, student.Email, student.Login, student.TermCode);
-        //        newStudent = new Student();
-        //        newStudent.Majors.Add(major);
-        //    }
-        //    else if (!existingStudent.Majors.Contains(major))
-        //    {
-        //        existingStudent.Majors.Add(major);
-        //        newStudent = existingStudent;       // just need to save the update to the major
-        //    }
-        //    else
-        //    {
-        //        // student already exists with major, bail out
-        //        Message = "Student already exists.";
-        //        newStudent = student;
-        //        newStudent.Majors.Add(major);
-        //        return View(newStudent);
-        //    }
-
-        //    // either new student or adding a major
-        //    newStudent.TransferValidationMessagesTo(ModelState);
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        Repository.OfType<Student>().EnsurePersistent(newStudent);
-
-        //        try
-        //        {
-        //            _emailService.SendAddPermission(student, ceremony);
-        //        }
-        //        catch (Exception)
-        //        {
-        //            Message += string.Format(StaticValues.Student_Add_Permission_Problem, newStudent.FullName);
-        //        }
-
-        //        return this.RedirectToAction(a => a.Students(studentId, null, null, null));
-        //    }
-
-        //    return View(newStudent);
-        //}      
-
-        #region Validation Functions for Changing Registration
-        //public JsonResult ChangeMajorValidation(int regId, string major)
-        //{
-        //    var majorCode = _majorRepository.GetNullableById(major);
-        //    var registration = Repository.OfType<Registration>().GetNullableById(regId);
-
-        //    var message = ValidateMajorChange(registration, majorCode);
-
-        //    if (string.IsNullOrEmpty(message)) message = "There are no problems changing this student's major.";
-
-        //    return Json(message, JsonRequestBehavior.AllowGet);
-        //}
-        //private string ValidateMajorChange(Registration registration, MajorCode majorCode)
-        //{
-        //    var term = TermService.GetCurrent();
-
-        //    Check.Require(term != null, "Unable to locate current term.");
-        //    Check.Require(majorCode != null, "Major code is required to check validation.");
-        //    Check.Require(registration != null, "Registration is required.");
-
-        //    var ceremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == term && a.Majors.Contains(majorCode)).FirstOrDefault();
-        //    return ValidateAvailabilityAtCeremony(ceremony, registration);
-        //}
-        //public JsonResult ChangeCeremonyValidation(int regId, int ceremonyId)
-        //{
-        //    var registration = Repository.OfType<Registration>().GetNullableById(regId);
-        //    var ceremony = Repository.OfType<Ceremony>().GetNullableById(ceremonyId);
-
-        //    Check.Require(registration != null, "Registration is required.");
-        //    Check.Require(ceremony != null, "Ceremony is required.");
-
-        //    var message = ValidateAvailabilityAtCeremony(ceremony, registration);
-        //    if (string.IsNullOrEmpty(message)) message = "This is the student's currently assigned ceremony.";
-
-        //    return Json(message, JsonRequestBehavior.AllowGet);
-        //}
-        //private string ValidateAvailabilityAtCeremony(Ceremony ceremony, Registration registration)
-        //{
-        //    StringBuilder message = new StringBuilder();
-
-        //    if (ceremony == null) message.Append("There is no matching ceremony for the current term with the major specified.");
-        //    else if (ceremony != registration.RegistrationParticipations[0].Ceremony)
-        //    {
-        //        if (ceremony.AvailableTickets - registration.TotalTickets >= 0)
-        //        {
-        //            message.Append("There are enough tickets to move this students major.");
-        //            message.Append("Student will be moved into a different ceremony if you proceed.");
-        //        }
-        //        else
-        //        {
-        //            message.Append("There are not enough tickets to move this student to the ceremony.");                     
-        //        }
-
-                
-        //    }
-
-        //    return message.ToString();
-        //}
-
-        //private bool CeremonyHasAvailability(Ceremony ceremony, Registration registration)
-        //{
-        //    Check.Require(ceremony != null, "Ceremony is required.");
-        //    Check.Require(registration != null, "Registration is required.");
-
-        //    if (ceremony != registration.RegistrationParticipations[0].Ceremony)
-        //    {
-        //        if (ceremony.AvailableTickets - registration.TotalTickets > 0) return true;
-        //        return false;
-        //    }
-
-        //    return true;
-        //}
-        #endregion
-        #endregion
     }
 }
