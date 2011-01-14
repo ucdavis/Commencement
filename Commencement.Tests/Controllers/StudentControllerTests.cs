@@ -7,18 +7,14 @@ using Commencement.Controllers;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
 using Commencement.Controllers.Services;
-using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
-using Commencement.Tests.Core.Extensions;
 using Commencement.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MvcContrib.Attributes;
 using MvcContrib.TestHelper;
 using Rhino.Mocks;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Testing;
 using UCDArch.Web.Attributes;
-using System.Web.Mvc;
 
 namespace Commencement.Tests.Controllers
 {
@@ -33,6 +29,10 @@ namespace Commencement.Tests.Controllers
         private IEmailService _emailService;
         private readonly IRepository<State> _stateRepository;
         private IErrorService _errorService;
+        private ICeremonyService _ceremonyService;
+        private IRepository<RegistrationPetition> _registrationPetitionRepository;
+        private IRepository<RegistrationParticipation> _participationRepository;
+        private IRegistrationPopulator _registrationPopulator;
 
         public IRepository<TermCode> TermCodeRepository;
 
@@ -47,21 +47,54 @@ namespace Commencement.Tests.Controllers
         protected override void SetupController()
         {
 
-            _studentService = MockRepository.GenerateStub<IStudentService>();
-            _emailService = MockRepository.GenerateStub<IEmailService>();
+            /*
+        public StudentController(IStudentService studentService, 
+            IEmailService emailService,
+            IRepositoryWithTypedId<Student, Guid> studentRepository, 
+            IRepository<Ceremony> ceremonyRepository, 
+            IRepository<Registration> registrationRepository,
+            IErrorService errorService,
+            ICeremonyService ceremonyService, 
+             IRepository<RegistrationPetition> registrationPetitionRepository,
+            IRepository<RegistrationParticipation> participationRepository, 
+             IRegistrationPopulator registrationPopulator)
+        {
+            _studentRepository = studentRepository;
+            _ceremonyRepository = ceremonyRepository;
+            _registrationRepository = registrationRepository;
+            _errorService = errorService;
+            _ceremonyService = ceremonyService;
+            _registrationPetitionRepository = registrationPetitionRepository;
+            _participationRepository = participationRepository;
+            _registrationPopulator = registrationPopulator;
+            _studentService = studentService;
+            _emailService = emailService;
+        }
+             */
+            _studentRepository = MockRepository.GenerateStub<IRepositoryWithTypedId<Student, Guid>>();
             _ceremonyRepository = MockRepository.GenerateStub<IRepository<Ceremony>>();
             _registrationRepository = MockRepository.GenerateStub<IRepository<Registration>>();
-            _studentRepository = MockRepository.GenerateStub<IRepositoryWithTypedId<Student, Guid>>();
             _errorService = MockRepository.GenerateStub<IErrorService>();
-
+            _ceremonyService = MockRepository.GenerateStub<ICeremonyService>();
+            _registrationPetitionRepository = FakeRepository<RegistrationPetition>();
+            _participationRepository = FakeRepository<RegistrationParticipation>();
+            _registrationPopulator = MockRepository.GenerateStub<IRegistrationPopulator>();
+            _studentService = MockRepository.GenerateStub<IStudentService>();
+            _emailService = MockRepository.GenerateStub<IEmailService>();
+            
 
             Controller = new TestControllerBuilder().CreateController<StudentController>
                 (_studentService,
-                _emailService, 
+                _emailService,
                 _studentRepository,
                 _ceremonyRepository,
                 _registrationRepository,
-                _errorService);
+                _errorService,
+                _ceremonyService,
+                _registrationPetitionRepository,
+                _participationRepository,
+                _registrationPopulator
+                );
         }
 
 
@@ -90,122 +123,478 @@ namespace Commencement.Tests.Controllers
         /// <summary>
         /// Tests the index mapping.
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestIndexMapping()
         {
             "~/Student/Index".ShouldMapTo<StudentController>(a => a.Index());
         }
 
-        /// <summary>
-        /// Tests the choose ceremony mapping.
-        /// </summary>
+        [TestMethod]
+        public void TestRegistrationRoutingMapping()
+        {
+            "~/Student/RegistrationRouting".ShouldMapTo<StudentController>(a => a.RegistrationRouting());
+        }
+
+
         //[TestMethod]
-        //public void TestChooseCeremonyMapping()
+        //public void TestEditRegistrationGetMapping()
         //{
-        //    "~/Student/ChooseCeremony".ShouldMapTo<StudentController>(a => a.ChooseCeremony());
+        //    "~/Student/EditRegistration/5".ShouldMapTo<StudentController>(a => a.EditRegistration(5));
         //}
-
-        /// <summary>
-        ///// Tests the display registration mapping.
-        ///// </summary>
-        //[TestMethod, Ignore]
-        //public void TestDisplayRegistrationMapping()
+        //[TestMethod]
+        //public void TestEditRegistrationPutMapping()
         //{
-        //    "~/Student/DisplayRegistration/5".ShouldMapTo<StudentController>(a => a.DisplayRegistration(5));
-        //}
-
-        ///// <summary>
-        ///// Tests the registration confirmation mapping.
-        ///// </summary>
-        //[TestMethod, Ignore]
-        //public void TestRegistrationConfirmationMapping()
-        //{
-        //    "~/Student/RegistrationConfirmation/5".ShouldMapTo<StudentController>(a => a.RegistrationConfirmation(5));
+        //    Assert.Inconclusive("Review");
+        //    //"~/Student/EditRegistration/5".ShouldMapTo<StudentController>(a => a.EditRegistration(5, new Registration(), true), true);
         //}
 
         //[TestMethod]
-        //public void TestRegisterGetMapping()
+        //public void TestNoCeremonyMapping()
         //{
-        //    //"~/Student/Register/?id=5&major=AABB1".ShouldMapTo<StudentController>(a => a.Register(5, "AABB1"));
-        //    "~/Student/Register/5".ShouldMapTo<StudentController>(a => a.Register(5, "AABB1"),true);
+        //    "~/Student/NoCeremony".ShouldMapTo<StudentController>(a => a.NoCeremony());
         //}
-
-        //[TestMethod]
-        //public void TestRegisterPutMapping()
-        //{
-        //    //"~/Student/Register/?id=5&major=AABB1".ShouldMapTo<StudentController>(a => a.Register(5, "AABB1"));
-        //    "~/Student/Register/5".ShouldMapTo<StudentController>(a => a.Register(5, new Registration(), true), true);
-        //}
-
-        [TestMethod, Ignore]
-        public void TestEditRegistrationGetMapping()
-        {
-            "~/Student/EditRegistration/5".ShouldMapTo<StudentController>(a => a.EditRegistration(5));
-        }
-        [TestMethod, Ignore]
-        public void TestEditRegistrationPutMapping()
-        {
-            Assert.Inconclusive("Review");
-            //"~/Student/EditRegistration/5".ShouldMapTo<StudentController>(a => a.EditRegistration(5, new Registration(), true), true);
-        }
-
-        [TestMethod, Ignore]
-        public void TestNoCeremonyMapping()
-        {
-            "~/Student/NoCeremony".ShouldMapTo<StudentController>(a => a.NoCeremony());
-        }
 
         
-        #endregion Mapping
+        #endregion Mapping 
 
         #region Index Tests
 
-        ///// <summary>
-        ///// Tests the index redirects to choose ceremony when prior registration is null.
-        ///// </summary>
-        //[TestMethod]
-        //public void TestIndexRedirectsToChooseCeremonyWhenPriorRegistrationIsNull()
-        //{
-        //    #region Arrange
-        //    LoadTermCodes("2010");
-        //    //ControllerRecordFakes.FakeStudent(3, _studentRepository)
-        //    var student = CreateValidEntities.Student(1);
-        //    _studentService.Expect(a => a.GetPriorRegistration(Arg<Student>.Is.Anything, Arg<TermCode>.Is.Anything)).Return(null).Repeat.Any();
-        //    _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
-        //    #endregion Arrange
+        [TestMethod]
+        public void TestIndexRedirectsToErrorIfCurrentStudentNotFound()
+        {
+            #region Arrange
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(null).Repeat.Any();
+            #endregion Arrange
 
-        //    #region Act/Assert
-        //    Controller.Index().AssertActionRedirect().ToAction<StudentController>(a => a.ChooseCeremony());
-        //    #endregion Act/Assert
+            #region Act
+            Controller.Index()
+                .AssertActionRedirect()
+                .ToAction<ErrorController>(a => a.NotFound());
+            #endregion Act
 
-        //    #region Assert
-        //    _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
-        //    #endregion Assert
-        //}
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            #endregion Assert
+            
+        }
 
+        [TestMethod]
+        public void TestIndexRedirectsToRoutingIfCurrentStudentFound()
+        {
+            #region Arrange
+            ControllerRecordFakes.FakeStudent(3, _studentRepository, null);
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(_studentRepository.Queryable.First()).Repeat.Any();
+            #endregion Arrange
 
-        ///// <summary>
-        ///// Tests the index redirects to display registration when prior registration is not null.
-        ///// </summary>
-        //[TestMethod, Ignore]
-        //public void TestIndexRedirectsToDisplayRegistrationWhenPriorRegistrationIsNotNull()
-        //{
-        //    #region Arrange
-        //    LoadTermCodes("2010");
-        //    var registration = CreateValidEntities.Registration(1);
-        //    var student = CreateValidEntities.Student(1);
-        //    _studentService.Expect(a => a.GetPriorRegistration(Arg<Student>.Is.Anything, Arg<TermCode>.Is.Anything)).Return(registration).Repeat.Any();
-        //    _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(student).Repeat.Any();
-        //    #endregion Arrange
+            #region Act
+            Controller.Index()
+                .AssertActionRedirect()
+                .ToAction<StudentController>(a => a.RegistrationRouting());
+            #endregion Act
 
-        //    #region Act/Assert
-        //    Controller.Index()
-        //        .AssertActionRedirect()
-        //        .ToAction<StudentController>(a => a.DisplayRegistration(registration.Id));
-        //    #endregion Act/Assert
-        //}
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            #endregion Assert
+        }
 
         #endregion Index Tests
+
+        #region RegistrationRouting Tests
+
+        [TestMethod]
+        public void TestRegistrationRoutingRedirectsAsExpected1()
+        {
+            #region Arrange
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            var students = new List<Student>();
+            var student = CreateValidEntities.Student(1);
+            student.Blocked = true;
+            students.Add(student);
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, null);
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(_studentRepository.Queryable.First()).Repeat.Any();
+
+            #endregion Arrange
+
+            #region Act
+            Controller.RegistrationRouting()
+                .AssertActionRedirect()
+                .ToAction<ErrorController>(a => a.NotEligible());
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            #endregion Assert		
+        }
+
+        [TestMethod]
+        public void TestRegistrationRoutingRedirectsAsExpected2()
+        {
+            #region Arrange
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            //var students = new List<Student>();
+            //var student = CreateValidEntities.Student(1);
+            //student.Blocked = true;
+            //students.Add(student);
+            //ControllerRecordFakes.FakeStudent(0, _studentRepository, students, null);
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(null).Repeat.Any();
+
+            #endregion Arrange
+
+            #region Act
+            Controller.RegistrationRouting()
+                .AssertActionRedirect()
+                .ToAction<ErrorController>(a => a.NotEligible());
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestRegistrationRoutingRedirectsAsExpected3()
+        {
+            #region Arrange
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            var students = new List<Student>();
+            var student = CreateValidEntities.Student(1);
+            student.Blocked = true;
+            students.Add(student);
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, null);
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(_studentRepository.Queryable.First()).Repeat.Any();
+
+            #endregion Arrange
+
+            #region Act
+            Controller.RegistrationRouting()
+                .AssertActionRedirect()
+                .ToAction<ErrorController>(a => a.NotEligible());
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestRegistrationRoutingRedirectsAsExpected4()
+        {
+            #region Arrange
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository, true);
+            var students = new List<Student>();
+            var student = CreateValidEntities.Student(1);
+            students.Add(student);
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, null);
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(_studentRepository.Queryable.First()).Repeat.Any();
+
+            #endregion Arrange
+
+            #region Act
+            Controller.RegistrationRouting()
+                .AssertActionRedirect()
+                .ToAction<ErrorController>(a => a.NotOpen());
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            #endregion Assert
+        }
+
+
+        [TestMethod]
+        public void TestRegistrationRoutingRedirectsAsExpected5()
+        {
+            #region Arrange
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            var students = new List<Student>();
+            var student = CreateValidEntities.Student(1);
+            student.SjaBlock = true;
+            students.Add(student);
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, null);
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(_studentRepository.Queryable.First()).Repeat.Any();
+
+            #endregion Arrange
+
+            #region Act
+            Controller.RegistrationRouting()
+                .AssertActionRedirect()
+                .ToAction<ErrorController>(a => a.SJA());
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestRegistrationRoutingRedirectsAsExpected6()
+        {
+            #region Arrange
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            var students = new List<Student>();
+            var student = CreateValidEntities.Student(1);
+            students.Add(student);
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, null);
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(_studentRepository.Queryable.First()).Repeat.Any();
+
+            var registrations = new List<Registration>();
+            var registration = CreateValidEntities.Registration(1);
+            registration.Student = student;
+            registration.TermCode = TermCodeRepository.Queryable.First();
+            registrations.Add(registration);
+            ControllerRecordFakes.FakeRegistration(0, _registrationRepository, registrations);
+            #endregion Arrange
+
+            #region Act
+            Controller.RegistrationRouting()
+                .AssertActionRedirect()
+                .ToAction<StudentController>(a => a.DisplayRegistration());
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestRegistrationRoutingRedirectsAsExpected7()
+        {
+            #region Arrange
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            var students = new List<Student>();
+            var student = CreateValidEntities.Student(1);
+            students.Add(student);
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, null);
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(_studentRepository.Queryable.First()).Repeat.Any();
+
+            var registrations = new List<Registration>();
+            var registration = CreateValidEntities.Registration(1);
+            registration.Student = student;
+            registration.TermCode = CreateValidEntities.TermCode(99);
+            registrations.Add(registration);
+            ControllerRecordFakes.FakeRegistration(0, _registrationRepository, registrations);
+            #endregion Arrange
+
+            #region Act
+            Controller.RegistrationRouting()
+                .AssertActionRedirect()
+                .ToAction<ErrorController>(a => a.PreviouslyWalked());
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestRegistrationRoutingRedirectsAsExpected8()
+        {
+            #region Arrange
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            var students = new List<Student>();
+            var student = CreateValidEntities.Student(1);
+            student.Majors.Add(CreateValidEntities.MajorCode(2));
+            student.Majors.Add(CreateValidEntities.MajorCode(3));
+            student.EarnedUnits = 11m;
+            student.CurrentUnits = 12m;
+            students.Add(student);
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, null);
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(_studentRepository.Queryable.First()).Repeat.Any();
+
+            var registrations = new List<Registration>();
+            var registration = CreateValidEntities.Registration(1);
+            registration.Student = CreateValidEntities.Student(99);
+            registration.TermCode = TermCodeRepository.Queryable.First();
+            registrations.Add(registration);
+            ControllerRecordFakes.FakeRegistration(0, _registrationRepository, registrations);
+
+            _ceremonyService.Expect(
+                a =>
+                a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything,Arg<TermCode>.Is.Anything)).Return(null).Repeat.Any();
+
+            #endregion Arrange
+
+            #region Act
+            Controller.RegistrationRouting()
+                .AssertActionRedirect()
+                .ToAction<ErrorController>(a => a.NotEligible());
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            var args = _ceremonyService.GetArgumentsForCallsMadeOn(a => a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything,Arg<TermCode>.Is.Anything))[0];
+            Assert.AreEqual(3, args.Count());
+            var majorCodes = args[0] as List<MajorCode>;
+            Assert.IsNotNull(majorCodes);
+            Assert.AreEqual(2, majorCodes.Count());
+            Assert.AreEqual("Name2", majorCodes[0].Name);
+            Assert.AreEqual("Name3", majorCodes[1].Name);
+            Assert.AreEqual(23m, args[1]);
+            Assert.IsNull(args[2]);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestRegistrationRoutingRedirectsAsExpected9()
+        {
+            #region Arrange
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            var students = new List<Student>();
+            var student = CreateValidEntities.Student(1);
+            student.Majors.Add(CreateValidEntities.MajorCode(2));
+            student.Majors.Add(CreateValidEntities.MajorCode(3));
+            student.EarnedUnits = 11m;
+            student.CurrentUnits = 12m;
+            students.Add(student);
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, null);
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(_studentRepository.Queryable.First()).Repeat.Any();
+
+            var registrations = new List<Registration>();
+            var registration = CreateValidEntities.Registration(1);
+            registration.Student = CreateValidEntities.Student(99);
+            registration.TermCode = TermCodeRepository.Queryable.First();
+            registrations.Add(registration);
+            ControllerRecordFakes.FakeRegistration(0, _registrationRepository, registrations);
+
+            _ceremonyService.Expect(
+                a =>
+                a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything)).Return(new List<Ceremony>()).Repeat.Any();
+
+            #endregion Arrange
+
+            #region Act
+            Controller.RegistrationRouting()
+                .AssertActionRedirect()
+                .ToAction<ErrorController>(a => a.NotEligible());
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            var args = _ceremonyService.GetArgumentsForCallsMadeOn(a => a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything))[0];
+            Assert.AreEqual(3, args.Count());
+            var majorCodes = args[0] as List<MajorCode>;
+            Assert.IsNotNull(majorCodes);
+            Assert.AreEqual(2, majorCodes.Count());
+            Assert.AreEqual("Name2", majorCodes[0].Name);
+            Assert.AreEqual("Name3", majorCodes[1].Name);
+            Assert.AreEqual(23m, args[1]);
+            Assert.IsNull(args[2]);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestRegistrationRoutingRedirectsAsExpected10()
+        {
+            #region Arrange
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            var students = new List<Student>();
+            var student = CreateValidEntities.Student(1);
+            student.Majors.Add(CreateValidEntities.MajorCode(2));
+            student.Majors.Add(CreateValidEntities.MajorCode(3));
+            student.EarnedUnits = 11m;
+            student.CurrentUnits = 12m;
+            students.Add(student);
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, null);
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(_studentRepository.Queryable.First()).Repeat.Any();
+
+            var registrations = new List<Registration>();
+            var registration = CreateValidEntities.Registration(1);
+            registration.Student = CreateValidEntities.Student(99);
+            registration.TermCode = TermCodeRepository.Queryable.First();
+            registrations.Add(registration);
+            ControllerRecordFakes.FakeRegistration(0, _registrationRepository, registrations);
+
+            var ceremonies = new List<Ceremony>();
+            for (int i = 0; i < 3; i++)
+            {
+                ceremonies.Add(CreateValidEntities.Ceremony(i+1));
+                ceremonies[i].RegistrationBegin = DateTime.Now.AddDays(7);
+            }
+
+            _ceremonyService.Expect(
+                a =>
+                a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything)).Return(ceremonies).Repeat.Any();
+
+            #endregion Arrange
+
+            #region Act
+            Controller.RegistrationRouting()
+                .AssertActionRedirect()
+                .ToAction<ErrorController>(a => a.NotOpen());
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            var args = _ceremonyService.GetArgumentsForCallsMadeOn(a => a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything))[0];
+            Assert.AreEqual(3, args.Count());
+            var majorCodes = args[0] as List<MajorCode>;
+            Assert.IsNotNull(majorCodes);
+            Assert.AreEqual(2, majorCodes.Count());
+            Assert.AreEqual("Name2", majorCodes[0].Name);
+            Assert.AreEqual("Name3", majorCodes[1].Name);
+            Assert.AreEqual(23m, args[1]);
+            Assert.IsNull(args[2]);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestRegistrationRoutingRedirectsAsExpected11()
+        {
+            #region Arrange
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            var students = new List<Student>();
+            var student = CreateValidEntities.Student(1);
+            student.Majors.Add(CreateValidEntities.MajorCode(2));
+            student.Majors.Add(CreateValidEntities.MajorCode(3));
+            student.EarnedUnits = 11m;
+            student.CurrentUnits = 12m;
+            students.Add(student);
+            ControllerRecordFakes.FakeStudent(0, _studentRepository, students, null);
+            _studentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(_studentRepository.Queryable.First()).Repeat.Any();
+
+            var registrations = new List<Registration>();
+            var registration = CreateValidEntities.Registration(1);
+            registration.Student = CreateValidEntities.Student(99);
+            registration.TermCode = TermCodeRepository.Queryable.First();
+            registrations.Add(registration);
+            ControllerRecordFakes.FakeRegistration(0, _registrationRepository, registrations);
+
+            var ceremonies = new List<Ceremony>();
+            for (int i = 0; i < 3; i++)
+            {
+                ceremonies.Add(CreateValidEntities.Ceremony(i + 1));
+                ceremonies[i].RegistrationBegin = DateTime.Now.AddDays(7);
+            }
+            ceremonies[1].RegistrationBegin = DateTime.Now.AddDays(-5);
+
+            _ceremonyService.Expect(
+                a =>
+                a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything)).Return(ceremonies).Repeat.Any();
+
+            #endregion Arrange
+
+            #region Act
+            Controller.RegistrationRouting()
+                .AssertActionRedirect()
+                .ToAction<StudentController>(a => a.Register());
+            #endregion Act
+
+            #region Assert
+            _studentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
+            var args = _ceremonyService.GetArgumentsForCallsMadeOn(a => a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything))[0];
+            Assert.AreEqual(3, args.Count());
+            var majorCodes = args[0] as List<MajorCode>;
+            Assert.IsNotNull(majorCodes);
+            Assert.AreEqual(2, majorCodes.Count());
+            Assert.AreEqual("Name2", majorCodes[0].Name);
+            Assert.AreEqual("Name3", majorCodes[1].Name);
+            Assert.AreEqual(23m, args[1]);
+            Assert.IsNull(args[2]);
+            #endregion Assert
+        }
+        #endregion RegistrationRouting Tests
+
+
         /*
         #region GetCurrentStudent Tests
 
@@ -1590,6 +1979,9 @@ namespace Commencement.Tests.Controllers
         #endregion NoCeremony Tests
 
 
+ 
+        */
+
         #region Reflection
         #region Controller Class Tests
         /// <summary>
@@ -1603,6 +1995,9 @@ namespace Commencement.Tests.Controllers
             #endregion Arrange
 
             #region Act
+            Assert.IsNotNull(controllerClass);
+            Assert.IsNotNull(controllerClass.BaseType);
+            Assert.IsNotNull(controllerClass.BaseType.BaseType);
             var result = controllerClass.BaseType.BaseType.Name;
             #endregion Act
 
@@ -1621,6 +2016,8 @@ namespace Commencement.Tests.Controllers
             #endregion Arrange
 
             #region Act
+            Assert.IsNotNull(controllerClass);
+            Assert.IsNotNull(controllerClass.BaseType);
             var result = controllerClass.BaseType.Name;
             #endregion Act
 
@@ -1630,10 +2027,10 @@ namespace Commencement.Tests.Controllers
         }
 
         /// <summary>
-        /// Tests the controller has only three attributes.
+        /// Tests the controller has four attributes.
         /// </summary>
         [TestMethod]
-        public void TestControllerHasOnlyThreeAttributes()
+        public void TestControllerHasFourAttributes()
         {
             #region Arrange
             var controllerClass = _controllerClass;
@@ -1644,7 +2041,7 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(3, result.Count());
+            Assert.AreEqual(4, result.Count());
             #endregion Assert
         }
 
@@ -1705,6 +2102,22 @@ namespace Commencement.Tests.Controllers
             #endregion Assert
         }
 
+        [TestMethod]
+        public void TestControllerHasSessionExpirationFilterAttribute()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            #endregion Arrange
+
+            #region Act
+            var result = controllerClass.GetCustomAttributes(true).OfType<SessionExpirationFilterAttribute>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(result.Count() > 0, "SessionExpirationFilterAttribute not found.");
+            #endregion Assert
+        }
+
         #endregion Controller Class Tests
 
         #region Controller Method Tests
@@ -1724,7 +2137,8 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(9, result.Count(), "It looks like a method was added or removed from the controller.");
+            Assert.AreNotEqual(1, result.Count(), "It looks like a method was added or removed from the controller.");
+            Assert.Inconclusive("Still writing tests");
             #endregion Assert
         }
 
@@ -1734,7 +2148,7 @@ namespace Commencement.Tests.Controllers
         /// #1
         /// </summary>
         [TestMethod]
-        public void TestControllerMethodIndexContainsExpectedAttributes()
+        public void TestControllerMethodIndexContainsExpectedAttributes1()
         {
             #region Arrange
             var controllerClass = _controllerClass;
@@ -1748,20 +2162,42 @@ namespace Commencement.Tests.Controllers
 
             #region Assert
             Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
-            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+            Assert.AreEqual(2, allAttributes.Count(), "More than expected custom attributes found.");
             #endregion Assert
         }
 
         /// <summary>
-        /// Tests the controller method choose ceremony contains expected attributes.
+        /// Tests the controller method index contains expected attributes.
+        /// #1
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodIndexContainsExpectedAttributes2()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            var controllerMethod = controllerClass.GetMethod("Index");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<IgnoreStudentsOnly>();
+            var allAttributes = controllerMethod.GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "IgnoreStudentsOnly not found");
+            Assert.AreEqual(2, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
         /// #2
         /// </summary>
         [TestMethod]
-        public void TestControllerMethodChooseCeremonyContainsExpectedAttributes()
+        public void TestControllerMethodRegistrationRoutingContainsExpectedAttributes1()
         {
             #region Arrange
             var controllerClass = _controllerClass;
-            var controllerMethod = controllerClass.GetMethod("ChooseCeremony");
+            var controllerMethod = controllerClass.GetMethod("RegistrationRouting");
             #endregion Arrange
 
             #region Act
@@ -1775,182 +2211,193 @@ namespace Commencement.Tests.Controllers
             #endregion Assert
         }
 
-        /// <summary>
-        /// Tests the controller method display registration contains expected attributes.
-        /// #3
-        /// </summary>
-        [TestMethod]
-        public void TestControllerMethodDisplayRegistrationContainsExpectedAttributes()
-        {
-            #region Arrange
-            var controllerClass = _controllerClass;
-            var controllerMethod = controllerClass.GetMethod("DisplayRegistration");
-            #endregion Arrange
+        ///// <summary>
+        ///// Tests the controller method choose ceremony contains expected attributes.
+        ///// #2
+        ///// </summary>
+        //[TestMethod]
+        //public void TestControllerMethodChooseCeremonyContainsExpectedAttributes()
+        //{
+        //    #region Arrange
+        //    var controllerClass = _controllerClass;
+        //    var controllerMethod = controllerClass.GetMethod("ChooseCeremony");
+        //    #endregion Arrange
 
-            #region Act
-            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
-            var allAttributes = controllerMethod.GetCustomAttributes(true);
-            #endregion Act
+        //    #region Act
+        //    var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
+        //    var allAttributes = controllerMethod.GetCustomAttributes(true);
+        //    #endregion Act
 
-            #region Assert
-            Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
-            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-            #endregion Assert
-        }
+        //    #region Assert
+        //    Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
+        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+        //    #endregion Assert
+        //}
 
-        /// <summary>
-        /// Tests the controller method registration confirmation contains expected attributes.
-        /// #4
-        /// </summary>
-        [TestMethod]
-        public void TestControllerMethodRegistrationConfirmationContainsExpectedAttributes()
-        {
-            #region Arrange
-            var controllerClass = _controllerClass;
-            var controllerMethod = controllerClass.GetMethod("RegistrationConfirmation");
-            #endregion Arrange
+        ///// <summary>
+        ///// Tests the controller method display registration contains expected attributes.
+        ///// #3
+        ///// </summary>
+        //[TestMethod]
+        //public void TestControllerMethodDisplayRegistrationContainsExpectedAttributes()
+        //{
+        //    #region Arrange
+        //    var controllerClass = _controllerClass;
+        //    var controllerMethod = controllerClass.GetMethod("DisplayRegistration");
+        //    #endregion Arrange
 
-            #region Act
-            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
-            var allAttributes = controllerMethod.GetCustomAttributes(true);
-            #endregion Act
+        //    #region Act
+        //    var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
+        //    var allAttributes = controllerMethod.GetCustomAttributes(true);
+        //    #endregion Act
 
-            #region Assert
-            Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
-            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-            #endregion Assert
-        }
+        //    #region Assert
+        //    Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
+        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+        //    #endregion Assert
+        //}
 
-        /// <summary>
-        /// Tests the controller method register get contains expected attributes.
-        /// #5
-        /// </summary>
-        [TestMethod]
-        public void TestControllerMethodRegisterGetContainsExpectedAttributes()
-        {
-            #region Arrange
-            var controllerClass = _controllerClass;
-            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "Register");
-            #endregion Arrange
+        ///// <summary>
+        ///// Tests the controller method registration confirmation contains expected attributes.
+        ///// #4
+        ///// </summary>
+        //[TestMethod]
+        //public void TestControllerMethodRegistrationConfirmationContainsExpectedAttributes()
+        //{
+        //    #region Arrange
+        //    var controllerClass = _controllerClass;
+        //    var controllerMethod = controllerClass.GetMethod("RegistrationConfirmation");
+        //    #endregion Arrange
 
-            #region Act
-            var expectedAttribute = controllerMethod.ElementAt(0).GetCustomAttributes(true).OfType<PageTrackingFilter>();
-            var allAttributes = controllerMethod.ElementAt(0).GetCustomAttributes(true);
-            #endregion Act
+        //    #region Act
+        //    var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
+        //    var allAttributes = controllerMethod.GetCustomAttributes(true);
+        //    #endregion Act
 
-            #region Assert
-            Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
-            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-            #endregion Assert
-        }
+        //    #region Assert
+        //    Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
+        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+        //    #endregion Assert
+        //}
 
-        /// <summary>
-        /// Tests the controller method register post contains expected attributes.
-        /// #6
-        /// </summary>
-        [TestMethod]
-        public void TestControllerMethodRegisterPostContainsExpectedAttributes()
-        {
-            #region Arrange
-            var controllerClass = _controllerClass;
-            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "Register");
-            #endregion Arrange
+        ///// <summary>
+        ///// Tests the controller method register get contains expected attributes.
+        ///// #5
+        ///// </summary>
+        //[TestMethod]
+        //public void TestControllerMethodRegisterGetContainsExpectedAttributes()
+        //{
+        //    #region Arrange
+        //    var controllerClass = _controllerClass;
+        //    var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "Register");
+        //    #endregion Arrange
 
-            #region Act
-            var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<HttpPostAttribute>();
-            var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
-            #endregion Act
+        //    #region Act
+        //    var expectedAttribute = controllerMethod.ElementAt(0).GetCustomAttributes(true).OfType<PageTrackingFilter>();
+        //    var allAttributes = controllerMethod.ElementAt(0).GetCustomAttributes(true);
+        //    #endregion Act
 
-            #region Assert
-            Assert.AreEqual(1, expectedAttribute.Count(), "AcceptPostAttribute not found");
-            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-            #endregion Assert
-        }
+        //    #region Assert
+        //    Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
+        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+        //    #endregion Assert
+        //}
 
-        /// <summary>
-        /// Tests the controller method edit registration get contains expected attributes.
-        /// #7
-        /// </summary>
-        [TestMethod]
-        public void TestControllerMethodEditRegistrationGetContainsExpectedAttributes()
-        {
-            #region Arrange
-            var controllerClass = _controllerClass;
-            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "EditRegistration");
-            #endregion Arrange
+        ///// <summary>
+        ///// Tests the controller method register post contains expected attributes.
+        ///// #6
+        ///// </summary>
+        //[TestMethod]
+        //public void TestControllerMethodRegisterPostContainsExpectedAttributes()
+        //{
+        //    #region Arrange
+        //    var controllerClass = _controllerClass;
+        //    var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "Register");
+        //    #endregion Arrange
 
-            #region Act
-            var expectedAttribute = controllerMethod.ElementAt(0).GetCustomAttributes(true).OfType<PageTrackingFilter>();
-            var allAttributes = controllerMethod.ElementAt(0).GetCustomAttributes(true);
-            #endregion Act
+        //    #region Act
+        //    var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<HttpPostAttribute>();
+        //    var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
+        //    #endregion Act
 
-            #region Assert
-            Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
-            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-            #endregion Assert
-        }
+        //    #region Assert
+        //    Assert.AreEqual(1, expectedAttribute.Count(), "AcceptPostAttribute not found");
+        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+        //    #endregion Assert
+        //}
 
-        /// <summary>
-        /// Tests the controller method edit registration post contains expected attributes.
-        /// #8
-        /// </summary>
-        [TestMethod]
-        public void TestControllerMethodEditRegistrationPostContainsExpectedAttributes()
-        {
-            #region Arrange
-            var controllerClass = _controllerClass;
-            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "EditRegistration");
-            #endregion Arrange
+        ///// <summary>
+        ///// Tests the controller method edit registration get contains expected attributes.
+        ///// #7
+        ///// </summary>
+        //[TestMethod]
+        //public void TestControllerMethodEditRegistrationGetContainsExpectedAttributes()
+        //{
+        //    #region Arrange
+        //    var controllerClass = _controllerClass;
+        //    var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "EditRegistration");
+        //    #endregion Arrange
 
-            #region Act
-            var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<HttpPostAttribute>();
-            var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
-            #endregion Act
+        //    #region Act
+        //    var expectedAttribute = controllerMethod.ElementAt(0).GetCustomAttributes(true).OfType<PageTrackingFilter>();
+        //    var allAttributes = controllerMethod.ElementAt(0).GetCustomAttributes(true);
+        //    #endregion Act
 
-            #region Assert
-            Assert.AreEqual(1, expectedAttribute.Count(), "AcceptPostAttribute not found");
-            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-            #endregion Assert
-        }
+        //    #region Assert
+        //    Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
+        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+        //    #endregion Assert
+        //}
 
-        /// <summary>
-        /// Tests the controller method no ceremony contains expected attributes.
-        /// #9 Note: this one is not being used.
-        /// </summary>
-        [TestMethod]
-        public void TestControllerMethodNoCeremonyContainsExpectedAttributes()
-        {
-            #region Arrange
-            var controllerClass = _controllerClass;
-            var controllerMethod = controllerClass.GetMethod("NoCeremony");
-            #endregion Arrange
+        ///// <summary>
+        ///// Tests the controller method edit registration post contains expected attributes.
+        ///// #8
+        ///// </summary>
+        //[TestMethod]
+        //public void TestControllerMethodEditRegistrationPostContainsExpectedAttributes()
+        //{
+        //    #region Arrange
+        //    var controllerClass = _controllerClass;
+        //    var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "EditRegistration");
+        //    #endregion Arrange
 
-            #region Act
-            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
-            var allAttributes = controllerMethod.GetCustomAttributes(true);
-            #endregion Act
+        //    #region Act
+        //    var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<HttpPostAttribute>();
+        //    var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
+        //    #endregion Act
 
-            #region Assert
-            Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
-            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-            #endregion Assert
-        }
+        //    #region Assert
+        //    Assert.AreEqual(1, expectedAttribute.Count(), "AcceptPostAttribute not found");
+        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+        //    #endregion Assert
+        //}
+
+        ///// <summary>
+        ///// Tests the controller method no ceremony contains expected attributes.
+        ///// #9 Note: this one is not being used.
+        ///// </summary>
+        //[TestMethod]
+        //public void TestControllerMethodNoCeremonyContainsExpectedAttributes()
+        //{
+        //    #region Arrange
+        //    var controllerClass = _controllerClass;
+        //    var controllerMethod = controllerClass.GetMethod("NoCeremony");
+        //    #endregion Arrange
+
+        //    #region Act
+        //    var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
+        //    var allAttributes = controllerMethod.GetCustomAttributes(true);
+        //    #endregion Act
+
+        //    #region Assert
+        //    Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
+        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+        //    #endregion Assert
+        //}
 
         #endregion Controller Method Tests
 
         #endregion Reflection
-        */
-        #region Utilities
 
-        protected void LoadTermCodes(string termCode)
-        {
-            var termCodes = new List<TermCode>();
-            termCodes.Add(CreateValidEntities.TermCode(1));
-            termCodes[0].IsActive = true;
-            ControllerRecordFakes.FakeTermCode(0, TermCodeRepository, termCodes);
-            termCodes[0].SetIdTo(termCode);
-        }
-
-        #endregion Utilities
     }
 }

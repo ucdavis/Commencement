@@ -172,6 +172,7 @@
     <Compile Include="Core\Helpers\AttributeAndFieldValidation.cs" />
     <Compile Include="Core\Helpers\ControllerRecordFakes.cs" />
     <Compile Include="Core\Helpers\CreateValidEntities.cs" />
+    <Compile Include="Core\Helpers\FakeTermCodeService.cs" />
     <Compile Include="Core\Helpers\NameAndType.cs" />
     <Compile Include="Core\Helpers\SpecificGuid.cs" />
     <Compile Include="Misc\CeremonyMajorCheckTests.cs" />

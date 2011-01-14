@@ -45,7 +45,8 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         {
             #region Arrange
 
-            LoadTermCodes("201003");
+            //LoadTermCodes("201003");
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
             Controller.ControllerContext.HttpContext = new MockHttpContext(1, new[] { RoleNames.RoleUser });
 
             var ceremonies = new List<Ceremony>();

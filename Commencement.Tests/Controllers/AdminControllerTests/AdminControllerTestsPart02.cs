@@ -48,7 +48,8 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         public void TestStudentsReturnsViewModelWithExpectedData1()
         {
             #region Arrange
-            LoadTermCodes("201003");
+            //LoadTermCodes("201003");
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
             ControllerRecordFakes.FakeStudent(3, StudentRepository, null, StudentRepository2);
 
             var ceremony = CreateValidEntities.Ceremony(9);
@@ -85,7 +86,8 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         public void TestStudentsReturnsViewModelWithExpectedData2()
         {
             #region Arrange
-            LoadTermCodes("201003");
+            //LoadTermCodes("201003");
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
             var students = new List<Student>();
             for (int i = 0; i < 5; i++)
             {
@@ -136,7 +138,8 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         public void TestRegistrationsReturnsViewWithExpectedResult1()
         {
             #region Arrange
-            LoadTermCodes("201003");
+            //LoadTermCodes("201003");
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
             Controller.ControllerContext.HttpContext = new MockHttpContext(1, new[] { RoleNames.RoleUser });
 
             var ceremonies = new List<Ceremony>();
@@ -169,7 +172,8 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         public void TestRegistrationsReturnsViewWithExpectedResult2()
         {
             #region Arrange
-            LoadTermCodes("201003");
+            //LoadTermCodes("201003");
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
             Controller.ControllerContext.HttpContext = new MockHttpContext(1, new[] { RoleNames.RoleUser });
             var colleges = new List<College>();
             colleges.Add(CreateValidEntities.College(1));

@@ -55,6 +55,7 @@ namespace Commencement.Controllers
 
         /// <summary>
         /// automatically redirect to the routing
+        /// #1
         /// </summary>
         /// <returns></returns>
         [PageTrackingFilter]
@@ -71,6 +72,10 @@ namespace Commencement.Controllers
             return this.RedirectToAction(a => a.RegistrationRouting());
         }
 
+        /// <summary>
+        /// #2
+        /// </summary>
+        /// <returns></returns>
         [PageTrackingFilter]
         public RedirectToRouteResult RegistrationRouting()
         {
