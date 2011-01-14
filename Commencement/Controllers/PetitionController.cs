@@ -188,7 +188,7 @@ namespace Commencement.Controllers
 
                 try
                 {
-                    _emailService.QueueRegistartionPetitionDecision(registrationPetition);
+                    _emailService.QueueRegistrationPetitionDecision(registrationPetition);
                 }
                 catch (Exception ex)
                 {

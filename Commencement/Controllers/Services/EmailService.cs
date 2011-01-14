@@ -15,7 +15,7 @@ namespace Commencement.Controllers.Services
         void QueueRegistrationConfirmation(Registration registration);
         void QueueExtraTicketPetition(RegistrationParticipation participation);
         void QueueRegistrationPetition(Registration registration);
-        void QueueRegistartionPetitionDecision(RegistrationPetition registration);
+        void QueueRegistrationPetitionDecision(RegistrationPetition registration);
     }
 
     public class EmailService : IEmailService
@@ -98,7 +98,7 @@ namespace Commencement.Controllers.Services
             }
         }
 
-        public void QueueRegistartionPetitionDecision(RegistrationPetition registration)
+        public void QueueRegistrationPetitionDecision(RegistrationPetition registration)
         {
             throw new NotImplementedException();
         }
