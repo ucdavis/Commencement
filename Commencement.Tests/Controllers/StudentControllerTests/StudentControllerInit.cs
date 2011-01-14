@@ -53,6 +53,9 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
 
             SpecialNeedRepository = FakeRepository<SpecialNeed>();
             Controller.Repository.Expect(a => a.OfType<SpecialNeed>()).Return(SpecialNeedRepository).Repeat.Any();
+
+            //ParticipationRepository = FakeRepository<RegistrationParticipation>();
+            Controller.Repository.Expect(a => a.OfType<RegistrationParticipation>()).Return(ParticipationRepository).Repeat.Any();
         }
 
         protected override void SetupController()

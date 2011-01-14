@@ -283,6 +283,25 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
             #endregion Assert
         }
 
+        [TestMethod]
+        public void TestControllerMethodDisplayRegistrationContainsExpectedAttributes()
+        {
+            #region Arrange
+            var controllerClass = ControllerClass;
+            var controllerMethod = controllerClass.GetMethod("DisplayRegistration");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
+            var allAttributes = controllerMethod.GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
+            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
 
         ///// <summary>
         ///// Tests the controller method choose ceremony contains expected attributes.

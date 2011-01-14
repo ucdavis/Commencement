@@ -168,6 +168,7 @@
     <Compile Include="Controllers\StudentControllerTests\StudentControllerTests1.cs" />
     <Compile Include="Controllers\StudentControllerTests\StudentControllerTests2.cs" />
     <Compile Include="Controllers\StudentControllerTests\StudentControllerTests3.cs" />
+    <Compile Include="Controllers\StudentControllerTests\StudentControllerTests4.cs" />
     <Compile Include="Controllers\StudentControllerTests\StudentControllerTestsMapping.cs" />
     <Compile Include="Controllers\StudentControllerTests\StudentControllerTestsReflection.cs" />
     <Compile Include="Core\AbstractRepositoryTests.cs" />

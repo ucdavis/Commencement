@@ -38,6 +38,12 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
             "~/Student/Register".ShouldMapTo<StudentController>(a => a.Register(new RegistrationPostModel()), true);
         }
 
+        [TestMethod]
+        public void TestDisplayRegistrationMapping()
+        {
+            "~/Student/DisplayRegistration".ShouldMapTo<StudentController>(a => a.DisplayRegistration());
+        }
+
         //[TestMethod]
         //public void TestEditRegistrationGetMapping()
         //{

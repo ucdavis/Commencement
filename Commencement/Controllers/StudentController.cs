@@ -178,7 +178,13 @@ namespace Commencement.Controllers
         [PageTrackingFilter]
         public ActionResult DisplayRegistration()
         {
-            var registration = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == GetCurrentStudent());
+            var student = GetCurrentStudent();
+            if (student == null)
+            {
+                Message = StaticValues.Error_StudentNotFound;
+                return this.RedirectToAction(a => a.Index());
+            }
+            var registration = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == student);
             //var petitions = _registrationPetitionRepository.Queryable.Where(a => a.Registration.Student == GetCurrentStudent()).ToList();
 
             // must have either registration or at least one petition
