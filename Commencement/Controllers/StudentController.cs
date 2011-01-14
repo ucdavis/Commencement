@@ -89,6 +89,10 @@ namespace Commencement.Controllers
             return this.RedirectToAction(a => a.Register());
         }
 
+        /// <summary>
+        /// #3
+        /// </summary>
+        /// <returns></returns>
         [PageTrackingFilter]
         public ActionResult Register()
         {
