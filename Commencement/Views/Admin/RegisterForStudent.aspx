@@ -108,5 +108,3 @@
     </script>
 </asp:Content>
 
-<asp:Content ID="Content4" ContentPlaceHolderID="logoContent" runat="server">
-</asp:Content>

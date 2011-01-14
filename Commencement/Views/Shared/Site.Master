@@ -43,7 +43,7 @@
     <span class="logos">
         <span class="ucdavis"><a href="<%: Url.Action("Index", "Home") %>"><img src="<%= Url.Content("~/Images/logo-ucdavis.png") %>" alt="UC Davis" /></a></span>
         <asp:ContentPlaceHolder ID="logoContent" runat="server">
-        <span class="caes"><a href="http://caes.ucdavis.edu"><img src="<%= Url.Content("~/Images/logo-caes.png") %>" alt="College of Agricultural &amp; Environmental Sciences" /></a></span>
+        <span class="caes"><a href=""<%: Url.Action("Index", "Home") %>"><img src="<%= Url.Content("~/Images/logo-caes.png") %>" alt="College of Agricultural &amp; Environmental Sciences" /></a></span>
         </asp:ContentPlaceHolder>
              <span id="logindisplay">
                 <% Html.RenderPartial("LogOnUserControl"); %>
