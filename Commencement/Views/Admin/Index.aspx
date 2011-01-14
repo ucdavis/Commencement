@@ -8,6 +8,16 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
+    <h4 style="margin-left: 15px;">
+        Search Student
+    </h4>
+    <div id="searchStudent" style="margin-left: 15px; margin-bottom: 20px;">
+        <% using (Html.BeginForm("SearchStudent", "Admin", FormMethod.Get)) { %>
+            <%: Html.TextBox("studentId", string.Empty, new { maxlength = 9 })%>
+            <%: Html.SubmitButton("Search", "Search") %>
+        <% } %>
+    </div>
+
     <ul class="front_menu">
 
         <li class="left">

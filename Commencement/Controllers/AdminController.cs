@@ -89,6 +89,17 @@ namespace Commencement.Controllers
         #endregion
 
         #region Student Details
+        public RedirectToRouteResult SearchStudent(string studentId /* Student Id */)
+        {
+            var student = _studentRepository.Queryable.Where(a => a.StudentId == studentId).FirstOrDefault();
+            if (student == null)
+            {
+                Message = string.Format("Unable to find student with id {0}", studentId);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            return this.RedirectToAction(a => a.StudentDetails(student.Id, false));
+        }
         /// <summary>
         /// Students the details.
         /// </summary>
