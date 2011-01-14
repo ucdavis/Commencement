@@ -106,6 +106,11 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// #4
+        /// </summary>
+        /// <param name="registrationModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Register(RegistrationPostModel registrationModel)
         {
@@ -144,6 +149,7 @@ namespace Commencement.Controllers
                             _errorService.ReportError(ex);
                             Message += StaticValues.Student_Email_Problem;
                         }
+                        Message += StaticValues.Student_Register_Successful;
                     }
 
                     if (registration.RegistrationPetitions.Count > 0)
@@ -157,10 +163,9 @@ namespace Commencement.Controllers
                             _errorService.ReportError(ex);
                             Message += StaticValues.Student_Email_Problem;
                         }
+                        Message += StaticValues.Student_RegistrationPetition_Successful;
                     }
-
-                    // put message up for student
-                    Message += StaticValues.Student_Register_Successful;
+                    
                 }
 
                 return this.RedirectToAction(a => a.DisplayRegistration());

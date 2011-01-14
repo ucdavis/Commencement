@@ -1,6 +1,9 @@
 ﻿using Commencement.Controllers;
+using Commencement.Controllers.Helpers;
+using Commencement.Tests.Core.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;
+
 
 namespace Commencement.Tests.Controllers.StudentControllerTests
 {
@@ -27,6 +30,12 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
         public void TestRegisterGetMapping()
         {
             "~/Student/Register".ShouldMapTo<StudentController>(a => a.Register());
+        }
+
+        [TestMethod]
+        public void TestRegisterPostMapping()
+        {
+            "~/Student/Register".ShouldMapTo<StudentController>(a => a.Register(new RegistrationPostModel()), true);
         }
 
         //[TestMethod]
