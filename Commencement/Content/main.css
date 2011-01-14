@@ -57,6 +57,7 @@ p.style7 {font: 18px/27px 'CicleShadow', Arial, sans-serif;}       */
 .content em.small {font: 12px/22px Verdana, Arial, sans-serif;}
 body .content {font: 12px/22px Verdana, Arial, sans-serif;}
 .content b, .content strong {font: bold 12px/22px Verdana, Arial, sans-serif;}
+.content a:hover {color:#0054a6;}
 
 
 
