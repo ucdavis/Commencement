@@ -44,23 +44,17 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
             "~/Student/DisplayRegistration".ShouldMapTo<StudentController>(a => a.DisplayRegistration());
         }
 
-        //[TestMethod]
-        //public void TestEditRegistrationGetMapping()
-        //{
-        //    "~/Student/EditRegistration/5".ShouldMapTo<StudentController>(a => a.EditRegistration(5));
-        //}
-        //[TestMethod]
-        //public void TestEditRegistrationPutMapping()
-        //{
-        //    Assert.Inconclusive("Review");
-        //    //"~/Student/EditRegistration/5".ShouldMapTo<StudentController>(a => a.EditRegistration(5, new Registration(), true), true);
-        //}
+        [TestMethod]
+        public void TestEditRegistrationGetMapping()
+        {
+            "~/Student/EditRegistration/5".ShouldMapTo<StudentController>(a => a.EditRegistration(5));
+        }
 
-        //[TestMethod]
-        //public void TestNoCeremonyMapping()
-        //{
-        //    "~/Student/NoCeremony".ShouldMapTo<StudentController>(a => a.NoCeremony());
-        //}
+        [TestMethod]
+        public void TestEditRegistrationPostMapping()
+        {
+            "~/Student/EditRegistration/5".ShouldMapTo<StudentController>(a => a.EditRegistration(5, new RegistrationPostModel()), true);
+        }
 
 
         #endregion Mapping 

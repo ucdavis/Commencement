@@ -175,6 +175,10 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// #5
+        /// </summary>
+        /// <returns></returns>
         [PageTrackingFilter]
         public ActionResult DisplayRegistration()
         {
@@ -195,6 +199,11 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// #6
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [PageTrackingFilter]
         public ActionResult EditRegistration(int id)
         {
@@ -218,6 +227,12 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// #7
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="registrationPostModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult EditRegistration(int id /* Registration Id */, RegistrationPostModel registrationPostModel)
         {
@@ -331,11 +346,11 @@ namespace Commencement.Controllers
         }
         #endregion
 
-        [PageTrackingFilter]
-        public ActionResult NoCeremony()
-        {
-            return View();
-        }
+        //[PageTrackingFilter]
+        //public ActionResult NoCeremony()
+        //{
+        //    return View();
+        //}
     }
 
 

@@ -179,6 +179,7 @@
     <Compile Include="Core\Helpers\ControllerRecordFakes.cs" />
     <Compile Include="Core\Helpers\CreateValidEntities.cs" />
     <Compile Include="Core\Helpers\FakeTermCodeService.cs" />
+    <Compile Include="Core\Helpers\MockCurrentUser.cs" />
     <Compile Include="Core\Helpers\NameAndType.cs" />
     <Compile Include="Core\Helpers\SpecificGuid.cs" />
     <Compile Include="Misc\CeremonyMajorCheckTests.cs" />
@@ -278,6 +279,10 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="InterfaceTests\" />
+    <Folder Include="ViewModelTests\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
