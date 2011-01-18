@@ -57,6 +57,30 @@ namespace Commencement.Controllers.Services
 
                 _emailQueueRepository.EnsurePersistent(emailQueue);
             }
+
+            //Suggested replacement (Task : 237)
+            //foreach (var a in registration.RegistrationParticipations)
+            //{
+            //    var template = a.Ceremony.Templates.Where(b => b.TemplateType.Name == StaticValues.Template_RegistrationConfirmation
+            //                 && b.IsActive).FirstOrDefault();
+            //    Check.Require(template != null, "No template is available.");
+            //}
+          
+
+            //foreach (var a in registration.RegistrationParticipations)
+            //{
+            //    var template = a.Ceremony.Templates.Where(b => b.TemplateType.Name == StaticValues.Template_RegistrationConfirmation
+            //                 && b.IsActive).FirstOrDefault();
+            //    var subject = template.Subject;
+            //    var body = _letterGenerator.GenerateRegistrationConfirmation(a, template);
+
+            //    var emailQueue = new EmailQueue(a.Registration.Student, template, subject, body, false);
+            //    emailQueue.Registration = registration;
+            //    emailQueue.RegistrationParticipation = a;
+
+            //    _emailQueueRepository.EnsurePersistent(emailQueue);
+            //}
+
         }
 
         public void QueueExtraTicketPetition(RegistrationParticipation participation)

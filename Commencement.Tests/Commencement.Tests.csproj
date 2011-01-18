@@ -182,6 +182,7 @@
     <Compile Include="Core\Helpers\MockCurrentUser.cs" />
     <Compile Include="Core\Helpers\NameAndType.cs" />
     <Compile Include="Core\Helpers\SpecificGuid.cs" />
+    <Compile Include="InterfaceTests\EmailServiceTests.cs" />
     <Compile Include="Misc\CeremonyMajorCheckTests.cs" />
     <Compile Include="Misc\CopyHelperTests.cs" />
     <Compile Include="Misc\RolesFiltersTests.cs" />
@@ -281,7 +282,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="InterfaceTests\" />
     <Folder Include="ViewModelTests\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
