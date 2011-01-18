@@ -279,5 +279,22 @@ namespace Commencement.Tests.InterfaceTests
 
             #endregion Assert		
         }
+
+
+        [TestMethod]
+        public void TestQueueRegistrationPetitionDecision()
+        {
+            #region Arrange
+            var registrationPetition = CreateValidEntities.RegistrationPetition(8);   
+            #endregion Arrange
+
+            #region Act
+            EmailService.QueueRegistrationPetitionDecision(registrationPetition);
+            #endregion Act
+
+            #region Assert
+
+            #endregion Assert		
+        }
     }
 }
