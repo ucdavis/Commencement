@@ -70,7 +70,7 @@ namespace Commencement.Controllers.Services
             //foreach (var a in registration.RegistrationParticipations)
             //{
             //    var template = a.Ceremony.Templates.Where(b => b.TemplateType.Name == StaticValues.Template_RegistrationConfirmation
-            //                 && b.IsActive).FirstOrDefault();
+            //                 && b.IsActive).First();
             //    var subject = template.Subject;
             //    var body = _letterGenerator.GenerateRegistrationConfirmation(a, template);
 
@@ -120,6 +120,32 @@ namespace Commencement.Controllers.Services
 
                 _emailQueueRepository.EnsurePersistent(emailQueue);
             }
+
+            //Suggested fix for problem related to task 237
+            //foreach (var a in registration.RegistrationPetitions)
+            //{
+            //    var template =
+            //        a.Ceremony.Templates.Where(b => b.TemplateType.Name == StaticValues.Template_RegistrationPetition
+            //                 && b.IsActive).FirstOrDefault();
+            //    Check.Require(template != null, "No template is available.");
+            //}
+
+            
+
+            //foreach (var a in registration.RegistrationPetitions)
+            //{
+            //    var template =
+            //        a.Ceremony.Templates.Where(b => b.TemplateType.Name == StaticValues.Template_RegistrationPetition
+            //                 && b.IsActive).First();
+            //    var subject = template.Subject;
+            //    var body = _letterGenerator.GenerateRegistrationPetitionConfirmation(a, template);
+
+            //    var emailQueue = new EmailQueue(a.Registration.Student, template, subject, body, false);
+            //    emailQueue.Registration = registration;
+            //    emailQueue.RegistrationPetition = a;
+
+            //    _emailQueueRepository.EnsurePersistent(emailQueue);
+            //}
         }
 
         public void QueueRegistrationPetitionDecision(RegistrationPetition registration)
