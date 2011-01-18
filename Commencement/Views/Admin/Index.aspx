@@ -29,8 +29,11 @@
         <li class="left">
             <a href="<%= Url.Action("Index", "Petition") %>"><img src="<%= Url.Content("~/Images/pending_petition.png") %>" /><br />Pending Petitions</a>
         </li>
-        <li class="">
+        <li>
             <a href="<%= Url.Action("Index", "EmailQueue") %>"><img src='<%= Url.Content("~/Images/mail_queue.png") %>' /><br />Email Queue</a>
+        </li>
+        <li class="left">
+            <a href="<%= Url.Action("MoveMajor", "Admin") %>"><img src='<%= Url.Content("~/Images/move.png") %>' /><br />Move Major</a>
         </li>
         <li class="left">
             <a href="<%= Url.Action("Index", "Report") %>"><img src="<%= Url.Content("~/Images/report.png") %>" /><br />Reporting</a>
@@ -39,7 +42,7 @@
             <a href="<%= Url.Action("Index", "Ceremony") %>"><img src="<%= Url.Content("~/Images/ceremony.png") %>" /><br />Ceremony List</a>
         </li>
         <% if (User.IsInRole(RoleNames.RoleAdmin)) { %>
-        <li class="left">
+        <li>
             <a href="<%= Url.Action("AdminLanding", "Admin") %>"><img src="<%= Url.Content("~/Images/preferences.png") %>" /><br />Administration</a>
         </li>
         <% } %>

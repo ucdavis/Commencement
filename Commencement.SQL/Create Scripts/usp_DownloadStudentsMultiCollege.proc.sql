@@ -28,7 +28,7 @@ CREATE TABLE #Students
     major varchar(4)
 )
 
-declare @term varchar(6), @minUnits int, @coll char(2)
+declare @term varchar(6), @sisterm varchar(6), @minUnits int, @coll char(2)
 declare @tsql varchar(max)
 
 if (not exists (select * from termcodes where isactive = 1) )
@@ -37,6 +37,12 @@ begin
 end
 
 set @term = (select MAX(id) from termcodes where isactive = 1)
+select @sisterm = term from openquery(sis, '
+											select min(stvterm_code) term
+											from stvterm
+											where stvterm_end_date > sysdate
+											  and stvterm_trmt_code = ''Q''
+										')
 set @minUnits = (select min(PetitionThreshold) from Ceremonies where termcode = @term)    
 
 if (GETDATE() + 8 < (select MIN(RegistrationBegin) from Ceremonies) or
@@ -79,7 +85,7 @@ set @tsql = '
 			inner join wormoth on wormoth_pidm = zgvlcfs_pidm
 			left outer join shrttrm on shrttrm_pidm = zgvlcfs_pidm
 		where spriden_change_ind is null
-			and zgvlcfs_term_code_eff = '''''+@term+'''''
+			and zgvlcfs_term_code_eff = '''''+@sisterm+'''''
 			and (EarnedUnits.shrlgpa_hours_earned + nvl(CurrentUnits.units,0)) > ' + CAST(@minUnits as varchar(6)) + '
 			and shrttrm_term_code in ( select max(shrttrm_term_code) from shrttrm ishrttrm where shrttrm.shrttrm_pidm = ishrttrm.shrttrm_pidm )
 			and wormoth_acct_type = ''''Z''''

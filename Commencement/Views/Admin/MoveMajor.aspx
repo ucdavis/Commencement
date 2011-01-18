@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.MoveMajorViewModel>" %>
+<%@ Import Namespace="Commencement.Controllers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Commencement | Admin - Move Major
@@ -6,13 +7,18 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <ul class="btn">
+        <li><%: Html.ActionLink<AdminController>(a=>a.Index(), "Back to Home") %></li>
+    </ul>
+
     <h2>Move Major</h2>
 
+    <% using (Html.BeginForm()) { %>
     <%: Html.AntiForgeryToken() %>
 
     <ul class="registration_form">
         <li><strong>Major:</strong>
-            <%= this.Select("Major").Options(Model.MajorCodes, x=>x.Id,x=>x.Name).FirstOption("--Select a Major--") %>
+            <%= this.Select("MajorCode").Options(Model.MajorCodes, x=>x.Id,x=>x.Name).FirstOption("--Select a Major--") %>
         </li>
         <li><strong>Ceremony:</strong>
             <%= this.Select("Ceremony").Options(Model.Ceremonies, x=>x.Id, x=>x.DateTime.ToString("g")).FirstOption("--Select a Ceremony--") %>
@@ -20,7 +26,11 @@
         <li><strong>Validation:</strong>
             <span id="validationMessage"></span>
         </li>
+        <li><strong>&nbsp;</strong>
+            <%: Html.SubmitButton("Save", "Save") %>
+        </li>
     </ul>
+    <% } %>
 
 </asp:Content>
 
@@ -32,7 +42,7 @@
     <script type="text/javascript">
         $(function () {
             $("select").change(function () {
-                var major = $("#Major").val();
+                var major = $("#MajorCode").val();
                 var ceremony = $("#Ceremony").val();
 
                 if (major == "" || ceremony == "") alert("not ready");
@@ -44,7 +54,4 @@
             });
         });
     </script>
-</asp:Content>
-
-<asp:Content ID="Content4" ContentPlaceHolderID="logoContent" runat="server">
 </asp:Content>

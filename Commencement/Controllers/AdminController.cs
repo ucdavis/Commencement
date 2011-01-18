@@ -314,6 +314,40 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        public ActionResult MoveMajor(MajorCode majorCode, Ceremony ceremony)
+        {
+            var origCeremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.Majors.Contains(majorCode) && a.TermCode == TermService.GetCurrent()).FirstOrDefault();
+            var message = string.Empty;
+            if (!ValidateMajorMove(majorCode, ceremony, origCeremony, message))
+            {
+                // not valid
+                ModelState.AddModelError("Validation", message);
+            }
+            
+            // move is valid, let's go
+            var participations = Repository.OfType<RegistrationParticipation>().Queryable
+                                 .Where(a => a.Ceremony == origCeremony && a.Major == majorCode).ToList();
+
+            // move each student
+            foreach (var a in participations)
+            {
+                a.Ceremony = ceremony;
+                Repository.OfType<RegistrationParticipation>().EnsurePersistent(a);
+            }
+
+            // move the major in ceremony list
+            origCeremony.Majors.Remove(majorCode);
+            ceremony.Majors.Add(majorCode);
+
+            Repository.OfType<Ceremony>().EnsurePersistent(origCeremony);
+            Repository.OfType<Ceremony>().EnsurePersistent(ceremony);
+
+            // redirect back to....
+            Message = string.Format("{0} has been successfully moved to {1}.", majorCode.Name, ceremony.DateTime.ToString("g"));
+            return this.RedirectToAction(a => a.Index());
+        }
+
         public JsonResult ValidateMoveMajor(string majorCode, int ceremonyId)
         {
             var major = _majorRepository.GetNullableById(majorCode);
@@ -321,22 +355,30 @@ namespace Commencement.Controllers
             var ceremony = Repository.OfType<Ceremony>().GetNullableById(ceremonyId);
 
             var message = string.Empty;
+            ValidateMajorMove(major, ceremony, origCeremony, message);
 
-            if (major == null || ceremony == null || origCeremony == null)
+            return Json(message, JsonRequestBehavior.AllowGet);
+        }
+
+        private bool ValidateMajorMove(MajorCode majorCode, Ceremony destCeremony, Ceremony origCeremony, string message = null)
+        {
+            if (majorCode == null || origCeremony == null || destCeremony == null)
             {
                 message = "There was an error, validating this move.";
-                return Json(message, JsonRequestBehavior.AllowGet);
+                //return Json(message, JsonRequestBehavior.AllowGet);
+                return false;
             }
 
             // figure out how many students/tickets are getting moved
             var participations = Repository.OfType<RegistrationParticipation>().Queryable
-                                 .Where(a => a.Ceremony == origCeremony && a.Major == major).ToList();
+                                 .Where(a => a.Ceremony == origCeremony && a.Major == majorCode).ToList();
 
             message = string.Format("You have requested to move {0} to {1} ceremony.  This will move {2} students with {3} tickets leaving {4} available."
-                                    , major.Name, ceremony.DateTime.ToString("g"), participations.Count(), participations.Sum(a=>a.TotalTickets)
-                                    , ceremony.AvailableTickets - participations.Sum(a=>a.TotalTickets));
+                                    , majorCode.Name, destCeremony.DateTime.ToString("g"), participations.Count(), participations.Sum(a => a.TotalTickets)
+                                    , destCeremony.AvailableTickets - participations.Sum(a => a.TotalTickets));
 
-            return Json(message, JsonRequestBehavior.AllowGet);
+            //return Json(message, JsonRequestBehavior.AllowGet);            
+            return true;
         }
         #endregion
 
