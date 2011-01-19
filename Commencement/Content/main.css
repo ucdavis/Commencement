@@ -58,6 +58,13 @@ p.style7 {font: 18px/27px 'CicleShadow', Arial, sans-serif;}       */
 body .content {font: 12px/22px Verdana, Arial, sans-serif;}
 .content b, .content strong {font: bold 12px/22px Verdana, Arial, sans-serif;}
 .content a:hover {color:#0054a6;}
+.content .left_col {display:inline-block; width:710px;}
+.content .right_col {float:right; width:200px; margin-left:20px}
+.content .right_col li {list-style-type:none; margin:0; padding:0; margin-bottom:1em;}
+.content .right_col li em { font-style:italic; display:block;}
+.content .right_col h3 {font:15px/25px Verdana,Arial,sans-serif; margin-top:1.2em; text-align:left; font-weight:bold;}
+.content .right_col ul {margin:0.7em 0;}
+.content #col_ft {clear:both; border-top:1px solid #0d004c; margin:1em auto; padding:0 3em; font-style:italic; font-size:95%;}
 
 
 

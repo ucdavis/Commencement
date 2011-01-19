@@ -9,6 +9,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="content">
+
+    <div class="left_col">
     <h2>Commencement Participation</h2>
 
     <p>
@@ -64,6 +66,23 @@
 
 
     <%: Html.ActionLink<StudentController>(a => a.Index(), "Register")%>
+</div>
+
+<div class="right_col">
+<h3>Dates</h3>
+<ul>
+<li><strong>Tuesaday, February 1, 2011</strong> <em>Registration opens</em></li>
+<li><strong>Monday, April 11th</strong> <em>Registration ends</em></li>
+<li><strong>Friday, April 15, 2011</strong> <em>Applications deadline for student Commencement speaker </em></li>
+<li><strong>mid-May</strong> <em>Letters of instruction and Commencement admission tickets available for pick-up </em></li>
+<li><strong>Saturday, June 11, 2011</strong> <em>Commencement Ceremony: 9:00 AM and 2:00 PM, UC Davis ARC Pavilion</em></li>
+</ul>
+</div>
+
+<div id="col_ft">
+<p>**Upon completion of the registration process, you will receive a registration confirmation e-mail. If you do not receive this e-mail within 24 hours, please re-register. For questions or additional information, please contact the CA&ES commencement coordinator. </p>
+<p>We will accept late registration until June 3rd but due to printing deadlines we cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets alloted per person. </p>
+</div>
 
 </div>
 </asp:Content>
