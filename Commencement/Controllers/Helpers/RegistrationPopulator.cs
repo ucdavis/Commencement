@@ -47,7 +47,7 @@ namespace Commencement.Controllers.Helpers
             registration.SpecialNeeds = LoadSpecialNeeds(specialNeeds);
             registration.GradTrack = registrationPostModel.GradTrack;
 
-            ValidateCeremonyParticipations(ceremonyParticipations, modelState);
+            //ValidateCeremonyParticipations(ceremonyParticipations, modelState);
             AddCeremonyParticipations(registration, ceremonyParticipations, modelState, adminUpdate);
             AddRegistrationPetitions(registration, ceremonyParticipations, modelState);
 
@@ -162,7 +162,6 @@ namespace Commencement.Controllers.Helpers
             // count distinct ceremonies that student has selected
             var ceremonyCount = ceremonyParticipations.Where(a => a.Participate || a.Cancel).Select(a => a.Ceremony).Distinct();
             var petitionCount = ceremonyParticipations.Where(a => a.Petition).Select(a => a.Ceremony).Distinct();
-
             if (ceremonyCount.Count() == 0 && petitionCount.Count() == 0)
             {
                 modelState.AddModelError("Participate", "You have to select one or more ceremonies to participate.");
