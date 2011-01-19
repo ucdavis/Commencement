@@ -437,5 +437,45 @@ namespace Commencement.Tests.Core.Helpers
             repository.Expect(a => a.Queryable).Return(specialNeeds.AsQueryable()).Repeat.Any();
             repository.Expect(a => a.GetAll()).Return(specialNeeds).Repeat.Any();
         }
+
+        public static void FakeCollege(int count, IRepositoryWithTypedId<College, string> repository)
+        {
+            var colleges = new List<College>();
+            FakeCollege(count, repository, colleges);
+        }
+
+        public static void FakeCollege(int count, IRepositoryWithTypedId<College, string> repository, List<College> specificColleges)
+        {
+            var colleges = new List<College>();
+            var specificTransactionsCount = 0;
+            if (specificColleges != null)
+            {
+                specificTransactionsCount = specificColleges.Count;
+                for (int i = 0; i < specificTransactionsCount; i++)
+                {
+                    colleges.Add(specificColleges[i]);
+                }
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                colleges.Add(CreateValidEntities.College(i + specificTransactionsCount + 1));
+            }
+
+            var totalCount = colleges.Count;
+            for (int i = 0; i < totalCount; i++)
+            {
+                colleges[i].SetIdTo((i + 1).ToString());
+                int i1 = i;
+                repository
+                    .Expect(a => a.GetNullableById((i1 + 1).ToString()))
+                    .Return(colleges[i])
+                    .Repeat
+                    .Any();
+            }
+            repository.Expect(a => a.GetNullableById((totalCount + 1).ToString())).Return(null).Repeat.Any();
+            repository.Expect(a => a.Queryable).Return(colleges.AsQueryable()).Repeat.Any();
+            repository.Expect(a => a.GetAll()).Return(colleges).Repeat.Any();
+        }
     }
 }
