@@ -186,6 +186,7 @@
     <Compile Include="Controllers\Helpers\RegistrationPopulator.cs" />
     <Compile Include="Controllers\Helpers\StringExtension.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MajorCodeController.cs" />
     <Compile Include="Controllers\PetitionController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\Services\CeremonyService.cs" />

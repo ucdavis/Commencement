@@ -319,7 +319,7 @@ namespace Commencement.Controllers
         {
             var origCeremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.Majors.Contains(majorCode) && a.TermCode == TermService.GetCurrent()).FirstOrDefault();
             var message = string.Empty;
-            if (!ValidateMajorMove(majorCode, ceremony, origCeremony, message))
+            if (!ValidateMajorMove(majorCode, ceremony, origCeremony, out message))
             {
                 // not valid
                 ModelState.AddModelError("Validation", message);
@@ -355,12 +355,12 @@ namespace Commencement.Controllers
             var ceremony = Repository.OfType<Ceremony>().GetNullableById(ceremonyId);
 
             var message = string.Empty;
-            ValidateMajorMove(major, ceremony, origCeremony, message);
+            ValidateMajorMove(major, ceremony, origCeremony, out message);
 
             return Json(message, JsonRequestBehavior.AllowGet);
         }
 
-        private bool ValidateMajorMove(MajorCode majorCode, Ceremony destCeremony, Ceremony origCeremony, string message = null)
+        private bool ValidateMajorMove(MajorCode majorCode, Ceremony destCeremony, Ceremony origCeremony, out string message)
         {
             if (majorCode == null || origCeremony == null || destCeremony == null)
             {
