@@ -56,6 +56,8 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
 
             //ParticipationRepository = FakeRepository<RegistrationParticipation>();
             Controller.Repository.Expect(a => a.OfType<RegistrationParticipation>()).Return(ParticipationRepository).Repeat.Any();
+
+            Controller.Repository.Expect(a => a.OfType<Ceremony>()).Return(CeremonyRepository).Repeat.Any();
         }
 
         protected override void SetupController()

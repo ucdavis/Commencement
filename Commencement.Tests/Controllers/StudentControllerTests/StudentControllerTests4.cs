@@ -409,7 +409,7 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
             #endregion Arrange
 
             #region Act            
-            var result = Controller.EditRegistration(1, new RegistrationPostModel(){SpecialNeeds = new List<string>(){"test1", "test2"}})
+            var result = Controller.EditRegistration(1, new RegistrationPostModel{SpecialNeeds = new List<string>{"test1", "test2"}})
                 .AssertViewRendered()
                 .WithViewData<RegistrationModel>();
             #endregion Act
@@ -486,8 +486,8 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
 
             #region Act
             var result = Controller.EditRegistration(1,
-                new RegistrationPostModel()
-                    {SpecialNeeds = new List<string>() {"test1", "test2"}})
+                new RegistrationPostModel
+                    {SpecialNeeds = new List<string> {"test1", "test2"}})
                 .AssertActionRedirect()
                 .ToAction<StudentController>(a => a.DisplayRegistration());
             #endregion Act
@@ -562,7 +562,7 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
 
             #region Act
             var result = Controller.EditRegistration(1,
-                new RegistrationPostModel() { SpecialNeeds = new List<string>() { "test1", "test2" } })
+                new RegistrationPostModel { SpecialNeeds = new List<string> { "test1", "test2" } })
                 .AssertActionRedirect()
                 .ToAction<StudentController>(a => a.DisplayRegistration());
             #endregion Act
@@ -597,6 +597,6 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
             #endregion Assert
         }
 
-        #endregion EditRegistration Post Tests
+        #endregion EditRegistration Post Tests        
     }
 }

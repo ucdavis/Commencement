@@ -164,6 +164,7 @@
     <Compile Include="Controllers\CeremonyControllerTests.cs" />
     <Compile Include="Controllers\ErrorControllerTests.cs" />
     <Compile Include="Controllers\PetitionControllerTests.cs" />
+    <Compile Include="Controllers\StudentControllerTests\StudentControllerWithServiceTests.cs" />
     <Compile Include="Controllers\StudentControllerTests\StudentControllerInit.cs" />
     <Compile Include="Controllers\StudentControllerTests\StudentControllerTests1.cs" />
     <Compile Include="Controllers\StudentControllerTests\StudentControllerTests2.cs" />
