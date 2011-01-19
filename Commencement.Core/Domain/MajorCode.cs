@@ -5,11 +5,22 @@ namespace Commencement.Core.Domain
 {
     public class MajorCode : DomainObjectWithTypedId<string>
     {
+        public MajorCode() { }
+
+        public MajorCode(string id, string name)
+        {
+            Id = id;
+            Name = name;
+            IsActive = true;
+        }
+
         public virtual string Name { get; set; }
         public virtual string DisciplineCode { get; set; }
         
         public virtual College College { get; set; }
         public virtual MajorCode ConsolidationMajor { get; set; }
+
+        public virtual bool IsActive { get; set; }
 
         /// <summary>
         /// returns the real major for those with consolidation codes
@@ -44,6 +55,8 @@ namespace Commencement.Core.Domain
             References(x => x.ConsolidationMajor).Column("ConsolidationCode").Cascade.None().Fetch.Join();
 
             References(x => x.College).Column("CollegeCode");
+
+            Map(x => x.IsActive);
         }
     }
 

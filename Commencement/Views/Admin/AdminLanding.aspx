@@ -16,6 +16,7 @@
     <ul class="front_menu">
         <li class="left"><a href="<%: Url.Action("Index", "TermCode") %>"><span>Term Codes</span></a></li>
         <li class="left"><a href="<%: Url.Action("Index", "SpecialNeeds") %>"><span>Special Needs</span></a></li>
+        <li class="left"><a href="<%: Url.Action("Index", "MajorCode") %>"><span>Major Codes</span></a></li>
     </ul>
 
 </asp:Content>

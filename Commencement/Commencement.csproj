@@ -201,6 +201,7 @@
     <Compile Include="Controllers\SpecialNeedsController.cs" />
     <Compile Include="Controllers\TermCodeController.cs" />
     <Compile Include="Controllers\ViewModels\AddEditorViewModel.cs" />
+    <Compile Include="Controllers\ViewModels\AddMajorCodeViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminEditStudentViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminExtraTicketPetitionViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminMajorsViewModel.cs" />
@@ -209,6 +210,7 @@
     <Compile Include="Controllers\ViewModels\AdminRegistrationPetitionViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeCeremonyViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeMajorViewModel.cs" />
+    <Compile Include="Controllers\ViewModels\MajorCodeViewModel.cs" />
     <Compile Include="Controllers\ViewModels\MoveMajorViewModel.cs" />
     <Compile Include="Controllers\ViewModels\RegistrationDataViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ReportViewModel.cs" />
@@ -593,6 +595,8 @@
     <Content Include="Views\Error\PreviouslyWalked.aspx" />
     <Content Include="Views\Error\SJA.aspx" />
     <Content Include="Views\Error\UnauthorizedAccess.aspx" />
+    <Content Include="Views\MajorCode\Add.aspx" />
+    <Content Include="Views\MajorCode\Index.aspx" />
     <Content Include="Views\Petition\ExtraTicketPetition.aspx" />
     <Content Include="Views\Petition\ExtraTicketPetitions.aspx" />
     <Content Include="Views\Petition\Register.aspx" />
