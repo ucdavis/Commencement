@@ -129,11 +129,11 @@ namespace Commencement.Controllers.Helpers
             foreach (var a in ceremonyParticipations.Where(a => a.Petition))
             {
                 // check for existing petition
-                var existingPetition = !_registrationPetitionRepository.Queryable.Any(b => b.Ceremony == a.Ceremony && b.Registration.Student == registration.Student);
+                var noExistingPetition = !_registrationPetitionRepository.Queryable.Any(b => b.Ceremony == a.Ceremony && b.Registration.Student == registration.Student);
                 // check for existing registration
-                var existingParticipation = !_participationRepository.Queryable.Any(b => b.Ceremony == a.Ceremony && b.Registration.Student == registration.Student);
+                var noExistingParticipation = !_participationRepository.Queryable.Any(b => b.Ceremony == a.Ceremony && b.Registration.Student == registration.Student);
 
-                if (existingPetition && existingParticipation && (a.Ceremony.RegistrationBegin < DateTime.Now && a.Ceremony.RegistrationDeadline > DateTime.Now))
+                if (noExistingPetition && noExistingParticipation && (a.Ceremony.RegistrationBegin < DateTime.Now && a.Ceremony.RegistrationDeadline > DateTime.Now))
                 {
                     var petition = new RegistrationPetition(registration, a.Major, a.Ceremony, a.PetitionReason, a.CompletionTerm, a.Tickets);
                     petition.TransferUnitsFrom = string.IsNullOrEmpty(a.TransferCollege) ? null : a.TransferCollege;

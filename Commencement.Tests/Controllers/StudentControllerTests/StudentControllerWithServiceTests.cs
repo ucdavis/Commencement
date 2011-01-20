@@ -485,8 +485,71 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
         [TestMethod]
         public void TestPopulateRegistration7()
         {
+            //This one has existing petitions for student and ceremony
             #region Arrange
-            Assert.Inconclusive("Test Petition variations (Private method to check if already exists)");
+            var collegeRepository = MockRepository.GenerateStub<IRepositoryWithTypedId<College, string>>();
+
+             
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            ControllerRecordFakes.FakeCeremony(2, CeremonyRepository);
+            ControllerRecordFakes.FakeCollege(2, collegeRepository);
+            RegistrationPopulator = new RegistrationPopulator(SpecialNeedRepository, RegistrationPetitionRepository, ParticipationRepository, RegistrationRepository);
+            var student = CreateValidEntities.Student(1);
+            var registrationPostModel = new RegistrationPostModel();
+            var participations = new List<CeremonyParticipation>();
+            for (int i = 0; i < 2; i++)
+            {
+                participations.Add(new CeremonyParticipation());
+                //participations[i].ParticipationId = i + 1;
+                participations[i].Participate = false;
+                participations[i].Petition = true;
+                participations[i].Ceremony = CeremonyRepository.GetNullableById(i + 1);
+                participations[i].Ceremony.RegistrationBegin = DateTime.Now.AddDays(-10);
+                participations[i].Ceremony.RegistrationDeadline = DateTime.Now.AddDays(10);
+                participations[i].Major = CreateValidEntities.MajorCode(i + 1);
+                participations[i].Major.College = collegeRepository.GetNullableById((i + 1).ToString());
+            }
+            registrationPostModel.CeremonyParticipations = participations;
+            var registration = CreateValidEntities.Registration(7);
+            registration.Address2 = string.Empty;
+            registration.Email = string.Empty;
+            registrationPostModel.Registration = registration;
+            registrationPostModel.GradTrack = true;
+
+            var registrationPetitions = new List<RegistrationPetition>();
+            registrationPetitions.Add(CreateValidEntities.RegistrationPetition(1));
+            registrationPetitions.Add(CreateValidEntities.RegistrationPetition(2));
+            registrationPetitions[0].Ceremony = CeremonyRepository.GetNullableById(1);
+            registrationPetitions[0].Registration = CreateValidEntities.Registration(1);
+            registrationPetitions[0].Registration.Student = student;
+            registrationPetitions[1].Ceremony = CeremonyRepository.GetNullableById(2);
+            registrationPetitions[1].Registration = CreateValidEntities.Registration(2);
+            registrationPetitions[1].Registration.Student = student;
+            RegistrationPetitionRepository.Expect(a => a.Queryable)
+                .Return(registrationPetitions.AsQueryable()).Repeat.Any();
+            ParticipationRepository.Expect(a => a.Queryable)
+                .Return(new List<RegistrationParticipation>().AsQueryable()).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            var result = RegistrationPopulator.PopulateRegistration(registrationPostModel, student,
+                                                                    Controller.ModelState);
+
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.IsTrue(Controller.ModelState.IsValid);
+            Assert.AreEqual(0, result.RegistrationParticipations.Count);
+            Assert.AreEqual(0, result.RegistrationPetitions.Count);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestPopulateRegistration8()
+        {
+            //This one has existing participations for student and ceremony
+            #region Arrange
             var collegeRepository = MockRepository.GenerateStub<IRepositoryWithTypedId<College, string>>();
 
 
@@ -515,6 +578,29 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
             registration.Email = string.Empty;
             registrationPostModel.Registration = registration;
             registrationPostModel.GradTrack = true;
+
+            var registrationPetitions = new List<RegistrationPetition>();
+            //registrationPetitions.Add(CreateValidEntities.RegistrationPetition(1));
+            //registrationPetitions.Add(CreateValidEntities.RegistrationPetition(2));
+            //registrationPetitions[0].Ceremony = CeremonyRepository.GetNullableById(1);
+            //registrationPetitions[0].Registration = CreateValidEntities.Registration(1);
+            //registrationPetitions[0].Registration.Student = student;
+            //registrationPetitions[1].Ceremony = CeremonyRepository.GetNullableById(2);
+            //registrationPetitions[1].Registration = CreateValidEntities.Registration(2);
+            //registrationPetitions[1].Registration.Student = student;
+            RegistrationPetitionRepository.Expect(a => a.Queryable)
+                .Return(registrationPetitions.AsQueryable()).Repeat.Any();
+            var registrationParticipations = new List<RegistrationParticipation>();
+            registrationParticipations.Add(CreateValidEntities.RegistrationParticipation(1));
+            registrationParticipations.Add(CreateValidEntities.RegistrationParticipation(2));
+            registrationParticipations[0].Ceremony = CeremonyRepository.GetNullableById(1);
+            registrationParticipations[0].Registration = CreateValidEntities.Registration(1);
+            registrationParticipations[0].Registration.Student = student;
+            registrationParticipations[1].Ceremony = CeremonyRepository.GetNullableById(2);
+            registrationParticipations[1].Registration = CreateValidEntities.Registration(2);
+            registrationParticipations[1].Registration.Student = student;
+            ParticipationRepository.Expect(a => a.Queryable)
+                .Return(registrationParticipations.AsQueryable()).Repeat.Any();
             #endregion Arrange
 
             #region Act
@@ -526,8 +612,373 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
             #region Assert
             Assert.IsNotNull(result);
             Assert.IsTrue(Controller.ModelState.IsValid);
-            Assert.AreEqual(2, result.RegistrationParticipations.Count);
+            Assert.AreEqual(0, result.RegistrationParticipations.Count);
             Assert.AreEqual(0, result.RegistrationPetitions.Count);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestPopulateRegistration9()
+        {
+            //This one has 1 existing participations for student and ceremony and 1 existing petition
+            #region Arrange
+            var collegeRepository = MockRepository.GenerateStub<IRepositoryWithTypedId<College, string>>();
+
+
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            ControllerRecordFakes.FakeCeremony(2, CeremonyRepository);
+            ControllerRecordFakes.FakeCollege(2, collegeRepository);
+            RegistrationPopulator = new RegistrationPopulator(SpecialNeedRepository, RegistrationPetitionRepository, ParticipationRepository, RegistrationRepository);
+            var student = CreateValidEntities.Student(1);
+            var student2 = CreateValidEntities.Student(2);
+            var registrationPostModel = new RegistrationPostModel();
+            var participations = new List<CeremonyParticipation>();
+            for (int i = 0; i < 2; i++)
+            {
+                participations.Add(new CeremonyParticipation());
+                //participations[i].ParticipationId = i + 1;
+                participations[i].Participate = false;
+                participations[i].Petition = true;
+                participations[i].Ceremony = CeremonyRepository.GetNullableById(i + 1);
+                participations[i].Ceremony.RegistrationBegin = DateTime.Now.AddDays(-10);
+                participations[i].Ceremony.RegistrationDeadline = DateTime.Now.AddDays(10);
+                participations[i].Major = CreateValidEntities.MajorCode(i + 1);
+                participations[i].Major.College = collegeRepository.GetNullableById((i + 1).ToString());
+            }
+            registrationPostModel.CeremonyParticipations = participations;
+            var registration = CreateValidEntities.Registration(7);
+            registration.Address2 = string.Empty;
+            registration.Email = string.Empty;
+            registrationPostModel.Registration = registration;
+            registrationPostModel.GradTrack = true;
+
+            var registrationPetitions = new List<RegistrationPetition>();
+            registrationPetitions.Add(CreateValidEntities.RegistrationPetition(1));
+            registrationPetitions.Add(CreateValidEntities.RegistrationPetition(2));
+            registrationPetitions[0].Ceremony = CeremonyRepository.GetNullableById(1);
+            registrationPetitions[0].Registration = CreateValidEntities.Registration(1);
+            registrationPetitions[0].Registration.Student = student2;
+            registrationPetitions[1].Ceremony = CeremonyRepository.GetNullableById(2);
+            registrationPetitions[1].Registration = CreateValidEntities.Registration(2);
+            registrationPetitions[1].Registration.Student = student;
+            RegistrationPetitionRepository.Expect(a => a.Queryable)
+                .Return(registrationPetitions.AsQueryable()).Repeat.Any();
+            var registrationParticipations = new List<RegistrationParticipation>();
+            registrationParticipations.Add(CreateValidEntities.RegistrationParticipation(1));
+            registrationParticipations.Add(CreateValidEntities.RegistrationParticipation(2));
+            registrationParticipations[0].Ceremony = CeremonyRepository.GetNullableById(1);
+            registrationParticipations[0].Registration = CreateValidEntities.Registration(1);
+            registrationParticipations[0].Registration.Student = student;
+            registrationParticipations[1].Ceremony = CeremonyRepository.GetNullableById(2);
+            registrationParticipations[1].Registration = CreateValidEntities.Registration(2);
+            registrationParticipations[1].Registration.Student = student2;
+            ParticipationRepository.Expect(a => a.Queryable)
+                .Return(registrationParticipations.AsQueryable()).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            var result = RegistrationPopulator.PopulateRegistration(registrationPostModel, student,
+                                                                    Controller.ModelState);
+
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.IsTrue(Controller.ModelState.IsValid);
+            Assert.AreEqual(0, result.RegistrationParticipations.Count);
+            Assert.AreEqual(0, result.RegistrationPetitions.Count);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestPopulateRegistration10()
+        {
+            //This one has only existing participations and petitions for one ceremony, not both
+            #region Arrange
+            var collegeRepository = MockRepository.GenerateStub<IRepositoryWithTypedId<College, string>>();
+
+
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            ControllerRecordFakes.FakeCeremony(2, CeremonyRepository);
+            ControllerRecordFakes.FakeCollege(2, collegeRepository);
+            RegistrationPopulator = new RegistrationPopulator(SpecialNeedRepository, RegistrationPetitionRepository, ParticipationRepository, RegistrationRepository);
+            var student = CreateValidEntities.Student(1);
+            var student2 = CreateValidEntities.Student(2);
+            var registrationPostModel = new RegistrationPostModel();
+            var participations = new List<CeremonyParticipation>();
+            for (int i = 0; i < 2; i++)
+            {
+                participations.Add(new CeremonyParticipation());
+                //participations[i].ParticipationId = i + 1;
+                participations[i].Participate = false;
+                participations[i].Petition = true;
+                participations[i].Ceremony = CeremonyRepository.GetNullableById(i + 1);
+                participations[i].Ceremony.RegistrationBegin = DateTime.Now.AddDays(-10);
+                participations[i].Ceremony.RegistrationDeadline = DateTime.Now.AddDays(10);
+                participations[i].Major = CreateValidEntities.MajorCode(i + 1);
+                participations[i].Major.College = collegeRepository.GetNullableById((i + 1).ToString());
+            }
+            registrationPostModel.CeremonyParticipations = participations;
+            var registration = CreateValidEntities.Registration(7);
+            registration.Address2 = string.Empty;
+            registration.Email = string.Empty;
+            registrationPostModel.Registration = registration;
+            registrationPostModel.GradTrack = true;
+
+            var registrationPetitions = new List<RegistrationPetition>();
+            registrationPetitions.Add(CreateValidEntities.RegistrationPetition(1));
+            registrationPetitions.Add(CreateValidEntities.RegistrationPetition(2));
+            registrationPetitions[0].Ceremony = CeremonyRepository.GetNullableById(1);
+            registrationPetitions[0].Registration = CreateValidEntities.Registration(1);
+            registrationPetitions[0].Registration.Student = student;
+            registrationPetitions[1].Ceremony = CeremonyRepository.GetNullableById(2);
+            registrationPetitions[1].Registration = CreateValidEntities.Registration(2);
+            registrationPetitions[1].Registration.Student = student2;
+            RegistrationPetitionRepository.Expect(a => a.Queryable)
+                .Return(registrationPetitions.AsQueryable()).Repeat.Any();
+            var registrationParticipations = new List<RegistrationParticipation>();
+            registrationParticipations.Add(CreateValidEntities.RegistrationParticipation(1));
+            registrationParticipations.Add(CreateValidEntities.RegistrationParticipation(2));
+            registrationParticipations[0].Ceremony = CeremonyRepository.GetNullableById(1);
+            registrationParticipations[0].Registration = CreateValidEntities.Registration(1);
+            registrationParticipations[0].Registration.Student = student;
+            registrationParticipations[1].Ceremony = CeremonyRepository.GetNullableById(2);
+            registrationParticipations[1].Registration = CreateValidEntities.Registration(2);
+            registrationParticipations[1].Registration.Student = student2;
+            ParticipationRepository.Expect(a => a.Queryable)
+                .Return(registrationParticipations.AsQueryable()).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            var result = RegistrationPopulator.PopulateRegistration(registrationPostModel, student,
+                                                                    Controller.ModelState);
+
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.IsTrue(Controller.ModelState.IsValid);
+            Assert.AreEqual(0, result.RegistrationParticipations.Count);
+            Assert.AreEqual(1, result.RegistrationPetitions.Count);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestPopulateRegistration11()
+        {
+            //This one has no matching petitions and participations, but ceremony is closed
+            #region Arrange
+            var collegeRepository = MockRepository.GenerateStub<IRepositoryWithTypedId<College, string>>();
+
+
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            ControllerRecordFakes.FakeCeremony(2, CeremonyRepository);
+            ControllerRecordFakes.FakeCollege(2, collegeRepository);
+            RegistrationPopulator = new RegistrationPopulator(SpecialNeedRepository, RegistrationPetitionRepository, ParticipationRepository, RegistrationRepository);
+            var student = CreateValidEntities.Student(1);
+            var student2 = CreateValidEntities.Student(2);
+            var registrationPostModel = new RegistrationPostModel();
+            var participations = new List<CeremonyParticipation>();
+            for (int i = 0; i < 2; i++)
+            {
+                participations.Add(new CeremonyParticipation());
+                //participations[i].ParticipationId = i + 1;
+                participations[i].Participate = false;
+                participations[i].Petition = true;
+                participations[i].Ceremony = CeremonyRepository.GetNullableById(i + 1);
+                participations[i].Ceremony.RegistrationBegin = DateTime.Now.AddDays(-10);
+                participations[i].Ceremony.RegistrationDeadline = DateTime.Now.AddDays(-5); //Closed
+                participations[i].Major = CreateValidEntities.MajorCode(i + 1);
+                participations[i].Major.College = collegeRepository.GetNullableById((i + 1).ToString());
+            }
+            registrationPostModel.CeremonyParticipations = participations;
+            var registration = CreateValidEntities.Registration(7);
+            registration.Address2 = string.Empty;
+            registration.Email = string.Empty;
+            registrationPostModel.Registration = registration;
+            registrationPostModel.GradTrack = true;
+
+            var registrationPetitions = new List<RegistrationPetition>();
+            registrationPetitions.Add(CreateValidEntities.RegistrationPetition(1));
+            registrationPetitions.Add(CreateValidEntities.RegistrationPetition(2));
+            registrationPetitions[0].Ceremony = CeremonyRepository.GetNullableById(1);
+            registrationPetitions[0].Registration = CreateValidEntities.Registration(1);
+            registrationPetitions[0].Registration.Student = student2;
+            registrationPetitions[1].Ceremony = CeremonyRepository.GetNullableById(2);
+            registrationPetitions[1].Registration = CreateValidEntities.Registration(2);
+            registrationPetitions[1].Registration.Student = student2;
+            RegistrationPetitionRepository.Expect(a => a.Queryable)
+                .Return(registrationPetitions.AsQueryable()).Repeat.Any();
+            var registrationParticipations = new List<RegistrationParticipation>();
+            registrationParticipations.Add(CreateValidEntities.RegistrationParticipation(1));
+            registrationParticipations.Add(CreateValidEntities.RegistrationParticipation(2));
+            registrationParticipations[0].Ceremony = CeremonyRepository.GetNullableById(1);
+            registrationParticipations[0].Registration = CreateValidEntities.Registration(1);
+            registrationParticipations[0].Registration.Student = student2;
+            registrationParticipations[1].Ceremony = CeremonyRepository.GetNullableById(2);
+            registrationParticipations[1].Registration = CreateValidEntities.Registration(2);
+            registrationParticipations[1].Registration.Student = student2;
+            ParticipationRepository.Expect(a => a.Queryable)
+                .Return(registrationParticipations.AsQueryable()).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            var result = RegistrationPopulator.PopulateRegistration(registrationPostModel, student,
+                                                                    Controller.ModelState);
+
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.IsTrue(Controller.ModelState.IsValid);
+            Assert.AreEqual(0, result.RegistrationParticipations.Count);
+            Assert.AreEqual(0, result.RegistrationPetitions.Count);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestPopulateRegistration12()
+        {
+            //This one has no matching petitions and participations, but ceremony is not open yet
+            #region Arrange
+            var collegeRepository = MockRepository.GenerateStub<IRepositoryWithTypedId<College, string>>();
+
+
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            ControllerRecordFakes.FakeCeremony(2, CeremonyRepository);
+            ControllerRecordFakes.FakeCollege(2, collegeRepository);
+            RegistrationPopulator = new RegistrationPopulator(SpecialNeedRepository, RegistrationPetitionRepository, ParticipationRepository, RegistrationRepository);
+            var student = CreateValidEntities.Student(1);
+            var student2 = CreateValidEntities.Student(2);
+            var registrationPostModel = new RegistrationPostModel();
+            var participations = new List<CeremonyParticipation>();
+            for (int i = 0; i < 2; i++)
+            {
+                participations.Add(new CeremonyParticipation());
+                //participations[i].ParticipationId = i + 1;
+                participations[i].Participate = false;
+                participations[i].Petition = true;
+                participations[i].Ceremony = CeremonyRepository.GetNullableById(i + 1);
+                participations[i].Ceremony.RegistrationBegin = DateTime.Now.AddDays(1); //Not open
+                participations[i].Ceremony.RegistrationDeadline = DateTime.Now.AddDays(15); 
+                participations[i].Major = CreateValidEntities.MajorCode(i + 1);
+                participations[i].Major.College = collegeRepository.GetNullableById((i + 1).ToString());
+            }
+            registrationPostModel.CeremonyParticipations = participations;
+            var registration = CreateValidEntities.Registration(7);
+            registration.Address2 = string.Empty;
+            registration.Email = string.Empty;
+            registrationPostModel.Registration = registration;
+            registrationPostModel.GradTrack = true;
+
+            var registrationPetitions = new List<RegistrationPetition>();
+            registrationPetitions.Add(CreateValidEntities.RegistrationPetition(1));
+            registrationPetitions.Add(CreateValidEntities.RegistrationPetition(2));
+            registrationPetitions[0].Ceremony = CeremonyRepository.GetNullableById(1);
+            registrationPetitions[0].Registration = CreateValidEntities.Registration(1);
+            registrationPetitions[0].Registration.Student = student2;
+            registrationPetitions[1].Ceremony = CeremonyRepository.GetNullableById(2);
+            registrationPetitions[1].Registration = CreateValidEntities.Registration(2);
+            registrationPetitions[1].Registration.Student = student2;
+            RegistrationPetitionRepository.Expect(a => a.Queryable)
+                .Return(registrationPetitions.AsQueryable()).Repeat.Any();
+            var registrationParticipations = new List<RegistrationParticipation>();
+            registrationParticipations.Add(CreateValidEntities.RegistrationParticipation(1));
+            registrationParticipations.Add(CreateValidEntities.RegistrationParticipation(2));
+            registrationParticipations[0].Ceremony = CeremonyRepository.GetNullableById(1);
+            registrationParticipations[0].Registration = CreateValidEntities.Registration(1);
+            registrationParticipations[0].Registration.Student = student2;
+            registrationParticipations[1].Ceremony = CeremonyRepository.GetNullableById(2);
+            registrationParticipations[1].Registration = CreateValidEntities.Registration(2);
+            registrationParticipations[1].Registration.Student = student2;
+            ParticipationRepository.Expect(a => a.Queryable)
+                .Return(registrationParticipations.AsQueryable()).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            var result = RegistrationPopulator.PopulateRegistration(registrationPostModel, student,
+                                                                    Controller.ModelState);
+
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.IsTrue(Controller.ModelState.IsValid);
+            Assert.AreEqual(0, result.RegistrationParticipations.Count);
+            Assert.AreEqual(0, result.RegistrationPetitions.Count);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestPopulateRegistration13()
+        {
+            //This one has no matching petitions and participations, and ceremony(s) are open
+            #region Arrange
+            var collegeRepository = MockRepository.GenerateStub<IRepositoryWithTypedId<College, string>>();
+
+
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            ControllerRecordFakes.FakeCeremony(2, CeremonyRepository);
+            ControllerRecordFakes.FakeCollege(2, collegeRepository);
+            RegistrationPopulator = new RegistrationPopulator(SpecialNeedRepository, RegistrationPetitionRepository, ParticipationRepository, RegistrationRepository);
+            var student = CreateValidEntities.Student(1);
+            var student2 = CreateValidEntities.Student(2);
+            var registrationPostModel = new RegistrationPostModel();
+            var participations = new List<CeremonyParticipation>();
+            for (int i = 0; i < 2; i++)
+            {
+                participations.Add(new CeremonyParticipation());
+                //participations[i].ParticipationId = i + 1;
+                participations[i].Participate = false;
+                participations[i].Petition = true;
+                participations[i].Ceremony = CeremonyRepository.GetNullableById(i + 1);
+                participations[i].Ceremony.RegistrationBegin = DateTime.Now.AddDays(-1); 
+                participations[i].Ceremony.RegistrationDeadline = DateTime.Now.AddDays(15);
+                participations[i].Major = CreateValidEntities.MajorCode(i + 1);
+                participations[i].Major.College = collegeRepository.GetNullableById((i + 1).ToString());
+            }
+            registrationPostModel.CeremonyParticipations = participations;
+            var registration = CreateValidEntities.Registration(7);
+            registration.Address2 = string.Empty;
+            registration.Email = string.Empty;
+            registrationPostModel.Registration = registration;
+            registrationPostModel.GradTrack = true;
+
+            var registrationPetitions = new List<RegistrationPetition>();
+            registrationPetitions.Add(CreateValidEntities.RegistrationPetition(1));
+            registrationPetitions.Add(CreateValidEntities.RegistrationPetition(2));
+            registrationPetitions[0].Ceremony = CeremonyRepository.GetNullableById(1);
+            registrationPetitions[0].Registration = CreateValidEntities.Registration(1);
+            registrationPetitions[0].Registration.Student = student2;
+            registrationPetitions[1].Ceremony = CeremonyRepository.GetNullableById(2);
+            registrationPetitions[1].Registration = CreateValidEntities.Registration(2);
+            registrationPetitions[1].Registration.Student = student2;
+            RegistrationPetitionRepository.Expect(a => a.Queryable)
+                .Return(registrationPetitions.AsQueryable()).Repeat.Any();
+            var registrationParticipations = new List<RegistrationParticipation>();
+            registrationParticipations.Add(CreateValidEntities.RegistrationParticipation(1));
+            registrationParticipations.Add(CreateValidEntities.RegistrationParticipation(2));
+            registrationParticipations[0].Ceremony = CeremonyRepository.GetNullableById(1);
+            registrationParticipations[0].Registration = CreateValidEntities.Registration(1);
+            registrationParticipations[0].Registration.Student = student2;
+            registrationParticipations[1].Ceremony = CeremonyRepository.GetNullableById(2);
+            registrationParticipations[1].Registration = CreateValidEntities.Registration(2);
+            registrationParticipations[1].Registration.Student = student2;
+            ParticipationRepository.Expect(a => a.Queryable)
+                .Return(registrationParticipations.AsQueryable()).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            var result = RegistrationPopulator.PopulateRegistration(registrationPostModel, student,
+                                                                    Controller.ModelState);
+
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.IsTrue(Controller.ModelState.IsValid);
+            Assert.AreEqual(0, result.RegistrationParticipations.Count);
+            Assert.AreEqual(2, result.RegistrationPetitions.Count);
             #endregion Assert
         }
         #endregion PopulateRegistration Tests
