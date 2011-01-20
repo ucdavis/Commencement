@@ -204,62 +204,6 @@ namespace Commencement.Controllers
         #endregion
 
         #region Student Forms
-        //[PageTrackingFilter]
-        //[Authorize]
-        //public ActionResult Register()
-        //{
-        //    // do a check to see if a student has already submitted a petition
-        //    if (Repository.OfType<RegistrationPetition>().Queryable.Where(a => a.Registration.Student.TermCode == TermService.GetCurrent() && a.Registration.Student.Login == CurrentUser.Identity.Name).Any())
-        //    {
-        //        return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.SubmittedPetition));
-        //    }
-
-        //    //Get student info and create registration model
-        //    var viewModel = RegistrationPetitionModel.Create(Repository, _majorService, _studentService, CurrentUser);
-
-        //    if (viewModel.SearchStudent == null)
-        //        return this.RedirectToAction<ErrorController>(a => a.Index(ErrorController.ErrorType.StudentNotFound));
-
-        //    return View(viewModel);
-        //}
-
-        //[HttpPost]
-        //[Authorize]
-        //public ActionResult Register(RegistrationPetition registrationPetition)
-        //{
-        //    // validate the object
-        //    registrationPetition.TransferValidationMessagesTo(ModelState);
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        Repository.OfType<RegistrationPetition>().EnsurePersistent(registrationPetition);
-        //        Message = "Your registration petition has been submitted.";
-
-        //        try
-        //        {
-        //            _emailService.SendRegistrationPetitionConfirmation(registrationPetition);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            _errorService.ReportError(ex);
-        //            Message += StaticValues.Student_Email_Problem;
-        //        }
-
-        //        return this.RedirectToAction(a => a.RegisterConfirmation());
-        //    }
-
-        //    var viewModel = RegistrationPetitionModel.Create(Repository, _majorService, _studentService, CurrentUser);
-        //    viewModel.RegistrationPetition = registrationPetition;
-        //    return View(viewModel);
-        //}
-
-        //[PageTrackingFilter]
-        //[Authorize]
-        //public ActionResult RegisterConfirmation()
-        //{
-        //    return View();
-        //}
-
         /// <summary>
         /// 
         /// </summary>
