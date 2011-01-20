@@ -15,6 +15,7 @@ namespace Commencement.Controllers.Helpers
             registrationTo.Email = registrationFrom.Email;
             
             registrationTo.MailTickets = registrationFrom.MailTickets;
+            registrationTo.GradTrack = registrationFrom.GradTrack; //It is on the screen
         }
 
         /// <summary>
