@@ -23,8 +23,6 @@ namespace Commencement.Controllers.Services
         private readonly IRepository<Template> _templateRepository;
         private readonly IRepository<EmailQueue> _emailQueueRepository;
         private readonly ILetterGenerator _letterGenerator;
-        SmtpClient client = new SmtpClient();
-        LetterGenerator letterGenerator = new LetterGenerator();
 
         public EmailService(IRepository<Template> templateRepository, IRepository<EmailQueue> emailQueueRepository, ILetterGenerator letterGenerator)
         {
