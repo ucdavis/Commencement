@@ -555,6 +555,71 @@ namespace Commencement.Tests.Repositories
         #endregion Cascade Tests
         #endregion ConsolidationMajor Tests
 
+        #region IsActive Tests
+
+        /// <summary>
+        /// Tests the IsActive is false saves.
+        /// </summary>
+        [TestMethod]
+        public void TestIsActiveIsFalseSaves()
+        {
+            #region Arrange
+
+            MajorCode majorCode = GetValid(9);
+            majorCode.IsActive = false;
+
+            #endregion Arrange
+
+            #region Act
+
+            MajorCodeRepository.DbContext.BeginTransaction();
+            MajorCodeRepository.EnsurePersistent(majorCode);
+            MajorCodeRepository.DbContext.CommitTransaction();
+
+            #endregion Act
+
+            #region Assert
+
+            Assert.IsFalse(majorCode.IsActive);
+            Assert.IsFalse(majorCode.IsTransient());
+            Assert.IsTrue(majorCode.IsValid());
+
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the IsActive is true saves.
+        /// </summary>
+        [TestMethod]
+        public void TestIsActiveIsTrueSaves()
+        {
+            #region Arrange
+
+            var majorCode = GetValid(9);
+            majorCode.IsActive = true;
+
+            #endregion Arrange
+
+            #region Act
+
+            MajorCodeRepository.DbContext.BeginTransaction();
+            MajorCodeRepository.EnsurePersistent(majorCode);
+            MajorCodeRepository.DbContext.CommitTransaction();
+
+            #endregion Act
+
+            #region Assert
+
+            Assert.IsTrue(majorCode.IsActive);
+            Assert.IsFalse(majorCode.IsTransient());
+            Assert.IsTrue(majorCode.IsValid());
+
+            #endregion Assert
+        }
+
+        #endregion IsActive Tests
+
+
         #region Major Tests
 
         [TestMethod]
@@ -684,6 +749,27 @@ namespace Commencement.Tests.Repositories
                 .CheckProperty(c => c.College, college)
                 .CheckProperty(c => c.DisciplineCode, "ENVSC")
                 .CheckProperty(c => c.Name, "Pre Forestry (C.W.0.) Program")
+                .CheckProperty(c => c.IsActive, true)
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+        [TestMethod]
+        public void TestCanCorrectlyMapMajorCode1A()
+        {
+            #region Arrange
+            var session = NHibernateSessionManager.Instance.GetSession();
+            LoadColleges(3);
+            var college = CollegeRepository.GetById("2");
+            Assert.IsNotNull(college);
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<MajorCode>(session, new MajorCodeEqualityComparer())
+                .CheckProperty(c => c.Id, "APRF")
+                .CheckProperty(c => c.College, college)
+                .CheckProperty(c => c.DisciplineCode, "ENVSC")
+                .CheckProperty(c => c.Name, "Pre Forestry (C.W.0.) Program")
+                .CheckProperty(c => c.IsActive, false)
                 .VerifyTheMappings();
             #endregion Act/Assert
         }
@@ -759,6 +845,7 @@ namespace Commencement.Tests.Repositories
                 "[Newtonsoft.Json.JsonPropertyAttribute()]", 
                 "[System.Xml.Serialization.XmlIgnoreAttribute()]"
             }));
+            expectedFields.Add(new NameAndType("IsActive", "System.Boolean", new List<string>()));
             expectedFields.Add(new NameAndType("Major", "Commencement.Core.Domain.MajorCode", new List<string>()));
             expectedFields.Add(new NameAndType("MajorCollege", "Commencement.Core.Domain.College", new List<string>()));
             expectedFields.Add(new NameAndType("MajorName", "System.String", new List<string>()));
