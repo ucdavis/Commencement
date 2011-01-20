@@ -114,7 +114,7 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
             Assert.AreEqual("City2", registration1.City);
             Assert.AreEqual("2@email.com", registration1.Email);
             Assert.AreEqual("2", registration1.Zip);
-            Assert.IsFalse(registration1.GradTrack);
+            Assert.IsTrue(registration1.GradTrack);
             Assert.IsTrue(registration1.MailTickets);
             Assert.AreEqual(registration2.State.Name, registration1.State.Name);
             Assert.AreNotEqual(registration2.TermCode.Name, registration1.TermCode.Name);
