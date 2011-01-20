@@ -122,39 +122,15 @@ namespace Commencement.Controllers.Services
         {
             Check.Require(registration != null, "registration is required.");
 
-            var template = registration.RegistrationPetitions.First().Ceremony.Templates.Where(b => b.TemplateType.Name == StaticValues.Template_RegistrationPetition
-                                && b.IsActive).FirstOrDefault();
+            #region Old Code to remove
 
-            Check.Require(template != null, "No template is available.");
+            //var template = registration.RegistrationPetitions.First().Ceremony.Templates.Where(b => b.TemplateType.Name == StaticValues.Template_RegistrationPetition
+            //                    && b.IsActive).FirstOrDefault();
 
-            foreach (var a in registration.RegistrationPetitions)
-            {
-                var subject = template.Subject;
-                var body = _letterGenerator.GenerateRegistrationPetitionConfirmation(a, template);
-
-                var emailQueue = new EmailQueue(a.Registration.Student, template, subject, body, false);
-                emailQueue.Registration = registration;
-                emailQueue.RegistrationPetition = a;
-
-                _emailQueueRepository.EnsurePersistent(emailQueue);
-            }
-
-            //Suggested fix for problem related to task 237
-            //foreach (var a in registration.RegistrationPetitions)
-            //{
-            //    var template =
-            //        a.Ceremony.Templates.Where(b => b.TemplateType.Name == StaticValues.Template_RegistrationPetition
-            //                 && b.IsActive).FirstOrDefault();
-            //    Check.Require(template != null, "No template is available.");
-            //}
-
-            
+            //Check.Require(template != null, "No template is available.");
 
             //foreach (var a in registration.RegistrationPetitions)
             //{
-            //    var template =
-            //        a.Ceremony.Templates.Where(b => b.TemplateType.Name == StaticValues.Template_RegistrationPetition
-            //                 && b.IsActive).First();
             //    var subject = template.Subject;
             //    var body = _letterGenerator.GenerateRegistrationPetitionConfirmation(a, template);
 
@@ -164,6 +140,26 @@ namespace Commencement.Controllers.Services
 
             //    _emailQueueRepository.EnsurePersistent(emailQueue);
             //}
+            #endregion Old Code to remove
+
+            // fix for problem similar to task 237
+            foreach (var a in registration.RegistrationPetitions)
+            {
+                var template =
+                    a.Ceremony.Templates.Where(b => b.TemplateType.Name == StaticValues.Template_RegistrationPetition
+                             && b.IsActive).FirstOrDefault();
+                if(template != null)
+                {
+                    var subject = template.Subject;
+                    var body = _letterGenerator.GenerateRegistrationPetitionConfirmation(a, template);
+
+                    var emailQueue = new EmailQueue(a.Registration.Student, template, subject, body, false);
+                    emailQueue.Registration = registration;
+                    emailQueue.RegistrationPetition = a;
+
+                    _emailQueueRepository.EnsurePersistent(emailQueue);
+                }
+            }
         }
 
         public void QueueRegistrationPetitionDecision(RegistrationPetition registration)
