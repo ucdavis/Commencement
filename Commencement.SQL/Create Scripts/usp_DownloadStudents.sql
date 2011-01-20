@@ -5,90 +5,105 @@
 
 GO
 
-CREATE Procedure usp_DownloadStudents
-
+CREATE PROCEDURE [dbo].[usp_DownloadStudents]
 AS
+    
+IF object_id('tempdb..#Students') IS NOT NULL
+BEGIN
+    DROP TABLE #Students
+END
 
-declare @temp table(
-	pidm varchar(8),
-	studentid varchar(9),
-	firstname varchar(50), mi varchar(50), lastname varchar(50),
-	units decimal(6,3),
-	email varchar(50), major varchar(4),
-	coll char(2), degsCode varchar(4),
-	astd char(2),
-	termcode varchar(6),
-	[login] varchar(50)
+CREATE TABLE #Students
+(
+    pidm varchar(8),
+    studentid varchar(9),
+    firstName varchar(50),
+    MI varchar(50),
+    LastName varchar(50),
+    EarnedUnits decimal(6,3),
+    CurrentUnits decimal(6,3),
+    Email varchar(100),
+    LoginId varchar(50),
+    std varchar(2),
+    major varchar(4)
 )
 
-insert into @temp (pidm, studentid, firstname, mi, lastname, units, email, major, coll, degscode, astd, termcode, [login])
-select spriden_pidm, spriden_id, spriden_first_name, spriden_mi, spriden_last_name, shrlgpa_hours_earned, goremal_email_address, zgvlcfs_majr_code
-	, zgvlcfs_coll_code, shrdgmr_degs_code
-	, shrttrm_astd_code_end_of_term
-	, termcode
-	, wormoth_login_id
-from openquery (sis, '
-	select spriden_pidm, spriden_id, spriden_first_name, spriden_mi, spriden_last_name, shrlgpa_hours_earned, email.goremal_email_address, curriculum.zgvlcfs_majr_code
-		, curriculum.zgvlcfs_coll_code
-		, shrdgmr_degs_code
-		, shrttrm_astd_code_end_of_term
-		, (select min(stvterm_code) from stvterm where stvterm_end_date > sysdate and stvterm_trmt_code = ''Q'') termcode
-		, lower(wormoth_login_id) wormoth_login_id
-	from spriden
-		inner join shrlgpa on spriden_pidm = shrlgpa_pidm
-		left outer join (
-			select goremal_pidm, goremal_email_address
-			from goremal
-			where goremal_emal_code = ''UCD''
-				and goremal_status_ind = ''A''
-		) email on email.goremal_pidm = spriden_pidm
-		inner join (
-			select zgvlcfs_pidm, zgvlcfs_majr_code, zgvlcfs_coll_code
-			from zgvlcfs
-			where zgvlcfs_term_code_eff = (select min(stvterm_code) from stvterm where stvterm_end_date > sysdate and stvterm_trmt_code = ''Q'')
-				and zgvlcfs_majr_code not in (''ABMB'', ''ABIS'', ''ACBI'', ''AEEB'', ''AGEN'', ''AMIC'', ''ANPB'', ''APLB'', ''AEVE'', ''BEEB'')
-				and zgvlcfs_levl_code in (''UG'', ''U2'')
-				and zgvlcfs_coll_code = ''AE''
-		) curriculum on curriculum.zgvlcfs_pidm = spriden_pidm
-		left outer join shrdgmr on shrdgmr_pidm = spriden_pidm 
-		left outer join shrttrm on shrttrm_pidm = spriden_pidm
-		left outer join wormoth on wormoth_pidm = spriden_pidm
-	where spriden_change_ind is null
-		and shrlgpa_gpa_type_ind = ''O''
-		and shrlgpa_levl_code in (''UG'', ''U2'')
-		and shrlgpa_hours_earned in ( select max(shrlgpa_hours_earned) from shrlgpa ishrlgpa where shrlgpa.shrlgpa_pidm = ishrlgpa.shrlgpa_pidm )
-		and shrlgpa_hours_earned >= 140		
-		and shrdgmr_degs_code <> ''DA''
-		and shrdgmr_seq_no in (select min(ishrdgmr.shrdgmr_seq_no) from shrdgmr ishrdgmr where shrdgmr.shrdgmr_pidm = ishrdgmr.shrdgmr_pidm and ishrdgmr.shrdgmr_coll_code_1 = ''AE'')
-		and wormoth_acct_type = ''Z''
-		and wormoth_acct_status = ''A''
-		and shrttrm_term_code = (select max(stvterm_code) from stvterm where stvterm_end_date < sysdate and stvterm_trmt_code = ''Q'')	
-')
+declare @term varchar(6), @sisterm varchar(6), @minUnits int, @coll char(2)
+declare @tsql varchar(max)
+
+if (not exists (select * from termcodes where isactive = 1) )
+begin
+    return 1
+end
+
+set @term = (select MAX(id) from termcodes where isactive = 1)
+select @sisterm = term from openquery(sis, '
+											select min(stvterm_code) term
+											from stvterm
+											where stvterm_end_date > sysdate
+											  and stvterm_trmt_code = ''Q''
+										')
+set @minUnits = (select min(PetitionThreshold) from Ceremonies where termcode = @term)    
+
+if (GETDATE() + 8 < (select MIN(RegistrationBegin) from Ceremonies) or
+	getdate() > (select MAX(registrationdeadline) from ceremonies) )
+	begin
+		return 2
+	end
+	
+set @tsql = '
+	insert into #students (pidm, studentid, firstname, mi, lastname, earnedunits, currentunits, email, loginid, std, major)
+	select spriden_pidm, spriden_id, spriden_first_name, spriden_mi, spriden_last_name
+		, earnedunits, currentunits, goremal_email_address, loginid, shrttrm_astd_code_end_of_term
+		, zgvlcfs_majr_code
+	from openquery(sis, ''
+		select spriden_pidm, spriden_id, spriden_first_name, spriden_mi, spriden_last_name
+			, EarnedUnits.shrlgpa_hours_earned as EarnedUnits
+			, 0 CurrentUnits
+			, email.goremal_email_address
+			, lower(wormoth_login_id) loginId
+			, shrttrm_astd_code_end_of_term
+			, zgvlcfs_majr_code
+		from zgvlcfs
+			inner join spriden on spriden_pidm = zgvlcfs_pidm
+			inner join shrlgpa earnedUnits on earnedUnits.shrlgpa_pidm = zgvlcfs_pidm
+			left outer join (
+				select goremal_pidm, goremal_email_address
+				from goremal
+				where goremal_emal_code = ''''UCD''''
+					and goremal_status_ind = ''''A''''
+			) email on email.goremal_pidm = zgvlcfs_pidm
+			inner join wormoth on wormoth_pidm = zgvlcfs_pidm
+			inner join shrttrm on shrttrm_pidm = zgvlcfs_pidm
+		where spriden_change_ind is null
+			and zgvlcfs_term_code_eff = '''''+@sisterm+'''''
+			and EarnedUnits.shrlgpa_hours_earned > ' + CAST(@minUnits as varchar(6)) + '
+			and shrttrm_term_code in ( select max(shrttrm_term_code) from shrttrm ishrttrm where shrttrm.shrttrm_pidm = ishrttrm.shrttrm_pidm )
+			and wormoth_acct_type = ''''Z''''
+			and wormoth_acct_status = ''''A''''
+			and earnedUnits.shrlgpa_gpa_type_ind = ''''O''''
+			and earnedUnits.shrlgpa_levL_code = ''''UG''''
+	'')
+'
+
+exec (@tsql)
 
 merge into students t
-using (select distinct pidm, studentid, firstname, mi, lastname, units, email, degscode, termcode, [login] from @temp where astd <> 'DS') s
+using (	select distinct pidm, studentid, firstname, mi
+                    , lastname, earnedunits, currentUnits, email, loginid, @term as termcode
+        from #students where std <> 'DS') s
 on t.pidm = s.pidm and t.termcode = s.termcode
-when matched then
-	update set t.studentid = s.studentid, t.firstname = s.firstname, t.mi = s.mi, t.lastname = s.lastname, t.units = s.units, t.email = s.email, t.degreecode = s.degscode, t.dateupdated = getdate(), t.[login] = s.[login]
 when not matched then
-	insert (pidm, studentid, firstname, mi, lastname, units, email, degreecode, termcode, [login])
-	values(s.pidm, s.studentid, s.firstname, s.mi, s.lastname, s.units, s.email, s.degscode, s.termcode, s.[login]);
+    insert (pidm, studentid, firstname, mi, lastname, earnedunits, CurrentUnits, email, termcode, [login])
+    values(s.pidm, s.studentid, s.firstname, s.mi, s.lastname, s.earnedunits, s.currentunits, s.email, s.termcode, s.[loginId]);
+    
+delete from StudentMajors
+where Student_Id in ( select id from Students where TermCode = @term )
 
-merge into studentmajors t
-using (
-	select distinct students.id, major from @temp tmp
-		inner join students on tmp.pidm = students.pidm and tmp.termcode = students.termcode
-	where major like 'A%'
-) s
-on t.student_id = s.id and t.majorcode = s.major
-when not matched then 
-	insert (student_id, majorcode) values(s.id, s.major);
-	
-GO
+insert into StudentMajors 
+select distinct students.id, major from #students
+        inner join students on #students.pidm = students.pidm and students.termcode = @term
+    
+DROP TABLE #Students
 
-
-GRANT EXEC ON usp_DownloadStudents TO PUBLIC
-
-GO
-
-
+RETURN 0

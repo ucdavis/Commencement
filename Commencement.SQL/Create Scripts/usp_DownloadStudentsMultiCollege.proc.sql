@@ -59,7 +59,7 @@ set @tsql = '
 	from openquery(sis, ''
 		select spriden_pidm, spriden_id, spriden_first_name, spriden_mi, spriden_last_name
 			, EarnedUnits.shrlgpa_hours_earned as EarnedUnits
-			, CurrentUnits.units as CurrentUnits
+			, 0 as CurrentUnits
 			, email.goremal_email_address
 			, lower(wormoth_login_id) loginId
 			, shrttrm_astd_code_end_of_term
@@ -67,15 +67,6 @@ set @tsql = '
 		from zgvlcfs
 			inner join spriden on spriden_pidm = zgvlcfs_pidm
 			inner join shrlgpa earnedUnits on earnedUnits.shrlgpa_pidm = zgvlcfs_pidm
-			left outer join (
-				select sfrstcr_pidm as pidm, sum(sfrstcr_credit_hr) units
-				from sfrstcr
-					left join shrtckn on sfrstcr_pidm = shrtckn_pidm 
-									 and sfrstcr_term_code = shrtckn_term_code
-									 and sfrstcr_crn = shrtckn_crn
-				where shrtckn_pidm is null
-				group by sfrstcr_pidm    
-			) CurrentUnits on CurrentUnits.pidm = zgvlcfs_pidm
 			left outer join (
 				select goremal_pidm, goremal_email_address
 				from goremal
@@ -86,7 +77,7 @@ set @tsql = '
 			left outer join shrttrm on shrttrm_pidm = zgvlcfs_pidm
 		where spriden_change_ind is null
 			and zgvlcfs_term_code_eff = '''''+@sisterm+'''''
-			and (EarnedUnits.shrlgpa_hours_earned + nvl(CurrentUnits.units,0)) > ' + CAST(@minUnits as varchar(6)) + '
+			and EarnedUnits.shrlgpa_hours_earned > ' + CAST(@minUnits as varchar(6)) + '
 			and shrttrm_term_code in ( select max(shrttrm_term_code) from shrttrm ishrttrm where shrttrm.shrttrm_pidm = ishrttrm.shrttrm_pidm )
 			and wormoth_acct_type = ''''Z''''
 			and wormoth_acct_status = ''''A''''

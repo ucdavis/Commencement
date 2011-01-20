@@ -26,6 +26,9 @@ namespace Commencement.Core.Domain
         {
             IsActive = true;
             Ceremonies = new List<Ceremony>();
+
+            CapAndGownDeadline = DateTime.Now;
+            FileToGraduateDeadline = DateTime.Now;
         }
 
         [Required]

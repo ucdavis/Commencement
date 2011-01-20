@@ -54,8 +54,9 @@
     </p>
 
 
-
-    <span class="reg_btn"><%: Html.ActionLink<StudentController>(a => a.Index(), "Register")%></span>
+    <% if (Model.Ceremonies.Min(a => a.RegistrationBegin) <= DateTime.Now && Model.Ceremonies.Max(a=>a.RegistrationDeadline >= DateTime.Now) ) { %>
+        <span class="reg_btn"><%: Html.ActionLink<StudentController>(a => a.Index(), "Register")%></span>
+    <% } %>
 </div>
 
 <div class="right_col">
