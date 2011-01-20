@@ -47,9 +47,9 @@ namespace Commencement.Controllers
             var major = _majorRepository.GetNullableById(majorCode);
             var consolidation = _majorRepository.GetNullableById(consolidationCode);
 
-            if (major == null || consolidation == null)
+            if (major == null)
             {
-                return Json("Major or consolidation major not found.");
+                return Json("Major not found.");
             }
 
             major.ConsolidationMajor = consolidation;

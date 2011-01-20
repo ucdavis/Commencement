@@ -167,7 +167,7 @@
         }
     </script>
 
-    <style = type="text/css">
+    <style type="text/css">
         
         .decision
         {
