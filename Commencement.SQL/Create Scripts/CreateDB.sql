@@ -196,6 +196,7 @@ CREATE TABLE [dbo].[Majors](
 	[DisciplineCode] [varchar](5) NULL,
 	[CollegeCode] [char](2) NULL,
 	[ConsolidationCode] [varchar](4) NULL,
+	[IsActive] bit not null
  CONSTRAINT [PK_Majors] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
