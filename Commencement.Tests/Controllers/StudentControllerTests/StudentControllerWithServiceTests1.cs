@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Principal;
-using System.Web.Mvc;
-using Commencement.Controllers;
-using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
 using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
@@ -12,7 +8,6 @@ using Commencement.Core.Domain;
 using Commencement.Tests.Core.Extensions;
 using Commencement.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MvcContrib.TestHelper;
 using Rhino.Mocks;
 using UCDArch.Core.PersistanceSupport;
 
@@ -373,6 +368,105 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
             #region Act
             var result = RegistrationPopulator.PopulateRegistration(registrationPostModel, student,
                                                                     Controller.ModelState);
+
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.IsTrue(Controller.ModelState.IsValid);
+            Assert.AreEqual(2, result.RegistrationParticipations.Count);
+            Assert.AreEqual(0, result.RegistrationPetitions.Count);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestPopulateRegistration4A()
+        {
+            #region Arrange
+
+            var collegeRepository = MockRepository.GenerateStub<IRepositoryWithTypedId<College, string>>();
+
+
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            ControllerRecordFakes.FakeCeremony(2, CeremonyRepository);
+            ControllerRecordFakes.FakeCollege(2, collegeRepository);
+            RegistrationPopulator = new RegistrationPopulator(SpecialNeedRepository, RegistrationPetitionRepository, ParticipationRepository, RegistrationRepository);
+            var student = CreateValidEntities.Student(1);
+            var registrationPostModel = new RegistrationPostModel();
+            var participations = new List<CeremonyParticipation>();
+            for (int i = 0; i < 2; i++)
+            {
+                participations.Add(new CeremonyParticipation());
+                participations[i].ParticipationId = i + 1;
+                participations[i].Participate = true;
+                participations[i].Petition = false;
+                participations[i].Ceremony = CeremonyRepository.GetNullableById(i + 1);
+                participations[i].Ceremony.RegistrationBegin = DateTime.Now.AddDays(-10);
+                participations[i].Ceremony.RegistrationDeadline = DateTime.Now.AddDays(-1);
+                participations[i].Major = CreateValidEntities.MajorCode(i + 1);
+                participations[i].Major.College = collegeRepository.GetNullableById((i + 1).ToString());
+            }
+            registrationPostModel.CeremonyParticipations = participations;
+            var registration = CreateValidEntities.Registration(7);
+            registration.Address2 = string.Empty;
+            registration.Email = string.Empty;
+            registrationPostModel.Registration = registration;
+            registrationPostModel.GradTrack = true;
+            #endregion Arrange
+
+            #region Act
+            var result = RegistrationPopulator.PopulateRegistration(registrationPostModel, student,
+                                                                    Controller.ModelState);
+
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.IsTrue(Controller.ModelState.IsValid);
+            Assert.AreEqual(0, result.RegistrationParticipations.Count);
+            Assert.AreEqual(0, result.RegistrationPetitions.Count);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestPopulateRegistration4B()
+        {
+            //Override with admin update flag
+            #region Arrange
+
+            var collegeRepository = MockRepository.GenerateStub<IRepositoryWithTypedId<College, string>>();
+
+
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            ControllerRecordFakes.FakeCeremony(2, CeremonyRepository);
+            ControllerRecordFakes.FakeCollege(2, collegeRepository);
+            RegistrationPopulator = new RegistrationPopulator(SpecialNeedRepository, RegistrationPetitionRepository, ParticipationRepository, RegistrationRepository);
+            var student = CreateValidEntities.Student(1);
+            var registrationPostModel = new RegistrationPostModel();
+            var participations = new List<CeremonyParticipation>();
+            for (int i = 0; i < 2; i++)
+            {
+                participations.Add(new CeremonyParticipation());
+                participations[i].ParticipationId = i + 1;
+                participations[i].Participate = true;
+                participations[i].Petition = false;
+                participations[i].Ceremony = CeremonyRepository.GetNullableById(i + 1);
+                participations[i].Ceremony.RegistrationBegin = DateTime.Now.AddDays(-10);
+                participations[i].Ceremony.RegistrationDeadline = DateTime.Now.AddDays(-1);
+                participations[i].Major = CreateValidEntities.MajorCode(i + 1);
+                participations[i].Major.College = collegeRepository.GetNullableById((i + 1).ToString());
+            }
+            registrationPostModel.CeremonyParticipations = participations;
+            var registration = CreateValidEntities.Registration(7);
+            registration.Address2 = string.Empty;
+            registration.Email = string.Empty;
+            registrationPostModel.Registration = registration;
+            registrationPostModel.GradTrack = true;
+            #endregion Arrange
+
+            #region Act
+            var result = RegistrationPopulator.PopulateRegistration(registrationPostModel, student,
+                                                                    Controller.ModelState, true);
 
             #endregion Act
 
