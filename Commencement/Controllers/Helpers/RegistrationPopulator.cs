@@ -59,6 +59,7 @@ namespace Commencement.Controllers.Helpers
             CopyHelper.CopyRegistrationValues(registrationPostModel.Registration, registration);
 
             NullOutBlankFields(registration);
+            registration.SpecialNeeds = LoadSpecialNeeds(registrationPostModel.SpecialNeeds);
             UpdateCeremonyParticipations(registration, registrationPostModel.CeremonyParticipations, modelState, adminUpdate);
             AddRegistrationPetitions(registration, registrationPostModel.CeremonyParticipations, modelState);
         }
