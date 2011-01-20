@@ -15,7 +15,7 @@
 
     <p>
     Registration for the <%: Model.Name %> College of Agricultural & Environmental Science's (CA&ES) 
-    Commencement Ceremony will begin Tuesday February 1, 2011 and <strong>ends on Monday, April 11th.</strong>
+    Commencement Ceremony will begin Tuesday February 1, 2011 and <strong>ends on Monday, April 11th</strong><sup>1</sup>.
     </p>
 
     <p>
@@ -40,7 +40,7 @@
     </ul>
 
     <p>
-        **Upon completion of the registration process, you will receive a registration confirmation e-mail. If you do not receive this e-mail within 24 hours, please re-register. For questions or additional information, please contact the CA&ES commencement coordinator.
+        <sup>2</sup>Upon completion of the registration process, you will receive a registration confirmation e-mail. If you do not receive this e-mail within 24 hours, please re-register. For questions or additional information, please contact the CA&ES commencement coordinator.
     </p>
     <p>
         Remember to order your cap and gowns: Commencement Caps and Gowns can be rented at the UC Davis Bookstore (<a href="http://bookstore.ucdavis.edu/graduation/">Here</a>). In addition, the UC Davis Bookstore sells graduation related merchandise such as class rings, announcements, frames, and plaques.
@@ -80,8 +80,8 @@
 </div>
 
 <div id="col_ft">
-<p>**Upon completion of the registration process, you will receive a registration confirmation e-mail. If you do not receive this e-mail within 24 hours, please re-register. For questions or additional information, please contact the CA&ES commencement coordinator. </p>
-<p>We will accept late registration until June 3rd but due to printing deadlines we cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets alloted per person. </p>
+<p><sup>1</sup>We will accept late registration until June 3rd but due to printing deadlines we cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets alloted per person. </p>
+<p><sup>2</sup>Upon completion of the registration process, you will receive a registration confirmation e-mail. If you do not receive this e-mail within 24 hours, please re-register. For questions or additional information, please contact the CA&ES commencement coordinator. </p>
 </div>
 
 </div>
