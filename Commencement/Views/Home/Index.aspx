@@ -65,7 +65,7 @@
 
 
 
-    <%: Html.ActionLink<StudentController>(a => a.Index(), "Register")%>
+    <span class="reg_btn"><%: Html.ActionLink<StudentController>(a => a.Index(), "Register")%></span>
 </div>
 
 <div class="right_col">

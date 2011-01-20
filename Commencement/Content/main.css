@@ -65,7 +65,10 @@ body .content {font: 12px/22px Verdana, Arial, sans-serif;}
 .content .right_col h3 {font:15px/25px Verdana,Arial,sans-serif; margin-top:1.2em; text-align:left; font-weight:bold;}
 .content .right_col ul {margin:0.7em 0;}
 .content #col_ft {clear:both; border-top:1px solid #0d004c; margin:1em auto; padding:0 0.5em; font-style:italic; font-size:80%;}
-
+.reg_btn { background-color:#0D548A; letter-spacing:1px; text-align:center; padding:0.2em; -moz-border-radius: 5px; border-radius: 5px; margin-left:330px; display:inline-block;}
+.reg_btn a {padding:1.5em 1em; color:#FFF; text-decoration:none;}
+.reg_btn a:hover {text-decoration:underline; color:#FFF;}
+.reg_btn:hover {background-color:#10619f;}
 
 
 
