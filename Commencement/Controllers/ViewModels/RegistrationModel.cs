@@ -96,7 +96,8 @@ namespace Commencement.Controllers.ViewModels
                 {
                     var regPart =
                         registration.RegistrationParticipations.Where(
-                            a => a.Ceremony == ceremony && a.Major == major).FirstOrDefault();
+                            a => a.Ceremony.Id == ceremony.Id && a.Major.Id == major.Id).FirstOrDefault();
+
                     if (regPart != null)
                     {
                         part.ParticipationId = regPart.Id;
