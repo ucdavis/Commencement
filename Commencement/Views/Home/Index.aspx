@@ -35,15 +35,7 @@
     <p>
         Remember to order your cap and gowns: Commencement Caps and Gowns can be rented at the UC Davis Bookstore (<a href="http://bookstore.ucdavis.edu/graduation/">Here</a>). In addition, the UC Davis Bookstore sells graduation related merchandise such as class rings, announcements, frames, and plaques.
     </p>
-    <p>
-        <strong>April 15, 2011</strong>: Applications deadline for student Commencement speaker
-    </p>
-    <p>
-        <strong>mid-May</strong>: Letters of instruction and Commencement admission tickets available for pick-up
-    </p>
-    <p>
-        <strong>Saturday, June 11, 2011: Commencement Ceremony: 9:00 AM and 2:00 PM, UC Davis ARC Pavilion</strong>
-    </p>
+
     <p>
         <a href="http://www.gradimages.com/register.cfm">GradTrak</a> will be photographing all graduates at the upcoming graduation ceremony. Receive a $5 discount on photo orders over $25 by registering prior to the ceremony.
     </p>
