@@ -49,8 +49,11 @@
                         <br />
                         <input type="radio" id="<%: string.Format("ceremonyParticipations[{0}]_Cancel", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Cancel", a.Index) %>" value="true" <%: a.Cancel ? "checked" : string.Empty %> />
                         I would like to cancel this registration.  I understand that this will forfeit my tickets and if I change my mind I may not be able to receive the same amount of tickets.
+
+                        <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].ParticipationId", a.Index), a.ParticipationId) %>
                     </li>
-                <% } %>
+                <%
+} %>
 
                 <li>
                     <strong>Date/Time: </strong> <%: a.Ceremony.DateTime.ToString("g") %>
