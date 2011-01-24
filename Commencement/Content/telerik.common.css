@@ -398,9 +398,19 @@
 	line-height: 18px; /* due to sorting icons*/
 	height: 18px;
 	display: block;
+}
+
+/*
+.t-grid .t-header .t-link
+{
+	line-height: 18px;
+	height: 18px;
+	display: block;
 	margin: -.3em -.6em;
 	padding: .3em 2.4em .3em .6em;
 }
+*/
+
 
 .t-grid .t-state-hover
 {

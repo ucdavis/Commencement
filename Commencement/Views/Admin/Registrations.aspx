@@ -157,8 +157,8 @@
         
         #ticketCounts ul li
         {
-            display:inline;
-            margin-left:20px;
+            display:inline-block;
+            margin:0 5px;
         }
     </style>
 

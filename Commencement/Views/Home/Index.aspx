@@ -71,4 +71,8 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
+<style type="text/css">
+    #footer {display:none; height:0; margin-top:0;}
+    .main {padding-bottom:0;}
+</style>
 </asp:Content>
