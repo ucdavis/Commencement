@@ -38,7 +38,8 @@
     <%} %>
 
 </head>
-
+<body>
+<div class="wrapper">
 <div id="branding">
     <span class="logos">
         <span class="ucdavis"><a href="<%: Url.Action("Index", "Home") %>"><img src="<%= Url.Content("~/Images/logo-ucdavis.png") %>" alt="UC Davis" /></a></span>
@@ -55,7 +56,7 @@
 
 
 
-<body>
+
 
 
     <div class="main">
@@ -65,5 +66,17 @@
     
         <asp:ContentPlaceHolder ID="MainContent" runat="server" />
     </div>    
+
+</div>
+
+<div id="footer">
+<div id="footer_text">
+<p>Home | <br />
+<span id="ByLine">Developed By The College Of Agricultural And Environmental Science Dean's Office</span><br />
+Copyright The Regents of the University of California, Davis campus, 2005-10. All Rights Reserved.</p>
+<p id="VersionNumber"></p>
+</div>
+</div>
+
 </body>
 </html>
