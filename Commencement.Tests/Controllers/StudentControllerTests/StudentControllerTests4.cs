@@ -230,6 +230,7 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
             ceremony.RegistrationDeadline = DateTime.Now.AddDays(10);
             var participation = CreateValidEntities.RegistrationParticipation(1);
             participation.Ceremony = ceremony;
+            participation.Major = CreateValidEntities.MajorCode(1);
             registration.RegistrationParticipations.Add(participation);
             var registrations = new List<Registration>();
             registrations.Add(registration);
@@ -385,6 +386,7 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
             ceremony.RegistrationDeadline = DateTime.Now.AddDays(10);
             var participation = CreateValidEntities.RegistrationParticipation(1);
             participation.Ceremony = ceremony;
+            participation.Major = CreateValidEntities.MajorCode(1);
             registration.RegistrationParticipations.Add(participation);
             var registrations = new List<Registration>();
             registrations.Add(registration);
