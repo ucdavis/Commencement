@@ -209,7 +209,7 @@
         }
         #Participations
         {
-            margin-top:32px;
+            
         }
     </style>
 

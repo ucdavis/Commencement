@@ -237,3 +237,11 @@ html, body {height:100%;}
 .ui-accordion-content li { list-style-type:none;}
 .ui-accordion-content li strong {width:100px; display:inline-block;}
 .ui-accordion-content li #Submit {margin:10px 0 0 3px;}
+
+
+/* ----------------- */
+/* ticketCountInline */
+/* ----------------- */
+#ticketCountInline ul li, #ticketCountBar ul li{display:inline-block; margin:5px; font:12px/18px Verdana,Arial,sans-serif;}
+#ticketCountInline ul li strong, #ticketCountBar ul li strong {font:12px/18px Verdana,Arial,sans-serif; font-weight:bold;}
+#ticketCountInline {margin-top:20px;}
