@@ -57,6 +57,7 @@ namespace Commencement.Controllers.Helpers
         public void UpdateRegistration(Registration registration, RegistrationPostModel registrationPostModel, Student student, ModelStateDictionary modelState, bool adminUpdate = false)
         {
             CopyHelper.CopyRegistrationValues(registrationPostModel.Registration, registration);
+            registration.GradTrack = registrationPostModel.GradTrack;
 
             NullOutBlankFields(registration);
             registration.SpecialNeeds = LoadSpecialNeeds(registrationPostModel.SpecialNeeds);
