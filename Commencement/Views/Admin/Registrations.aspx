@@ -47,24 +47,6 @@
         </ul>
         <% } %>
         </div>
-<%--        <h3><a href="#">Totals</a></h3>
-        <div>
-            <% if (Model.Registrations.Count() > 0) { %>
-            <ul>
-                <% foreach(var c in Model.Registrations.Select(x=>x.Ceremony).Distinct()) { %>
-                    <li>
-                        <strong><%= Html.Encode(c.DateTime) %>:</strong>
-                        <%= Html.Encode(c.Registrations.Sum(x=>x.TotalTickets)) %>
-                    </li>
-                <% } %>
-            </ul>
-            <% } else { %>
-                <p>
-                    No registrations for the current term have been found.
-                </p>
-            <% } %>
-            
-        </div>--%>
     </div>
 
         <div id="ticketCounts">
@@ -75,11 +57,6 @@
                     <%if (a.HasStreamingTickets) { %><li><strong># Streaming Tickets: </strong><%: a.TicketStreamingCount %></li><% } %>
                 <% } %>
 
-
-<%--                <li><strong>Projected Available:</strong> <span id="projectedAvailabeTickets"><%: Model.Ceremony.AvailableTickets %></span></li>
-                <% if (Model.Ceremony.HasStreamingTickets) { %><li><strong>Projected Streaming Available:</strong> <span id="projectedAvailableStreaming"><%: Model.Ceremony.AvailableStreamingTickets.HasValue ? Model.Ceremony.AvailableStreamingTickets.Value.ToString() : "n/a" %></span></li><% } %>
-                <li><strong>Projected Ticket Count:</strong> <span id="projectedTickets"><%: Model.Ceremony.ProjectedTicketCount %></span></li>
-                <% if (Model.Ceremony.HasStreamingTickets) { %><li><strong>Projected Streaming Count:</strong> <span id="projectedStreaming"><%: Model.Ceremony.ProjectedTicketStreamingCount.HasValue ? Model.Ceremony.ProjectedTicketStreamingCount.Value.ToString() : "n/a" %></span></li><% } %>--%>
             </ul>
         </div>
 
@@ -92,6 +69,10 @@
                                        {
                                            cell.Text = cell.DataItem.Registration.MailTickets == true ? "Yes" : "No";
                                        }
+                                       if (cell.Column.Name == "Registration.DateRegistered")
+                                       {
+                                           cell.Text = cell.DataItem.DateRegistered.ToString("g");
+                                       }
                                    })
                     .Columns(col =>
                                  {
@@ -103,10 +84,11 @@
                                      col.Bound(a => a.Registration.Student.FirstName);
                                      col.Bound(a => a.Registration.MailTickets);
                                      col.Bound(a => a.NumberTickets);
-                                     col.Bound(a => a.Major.Name).Title("Major");
+                                     col.Bound(a => a.Major.Id).Title("Major");
+                                     col.Bound(a => a.DateRegistered);
                                  })
                     .DataBinding(binding=>binding.Server().Select<AdminController>(a=>a.Registrations(Model.studentidFilter, Model.lastNameFilter, Model.firstNameFilter, Model.majorCodeFilter, Model.ceremonyFilter, Model.collegeFilter)))
-                    .Sortable(s=>s.OrderBy(a=>a.Add(b=>b.Registration.Student.LastName)))
+                    .Sortable(s=>s.OrderBy(a=>a.Add(b=>b.DateRegistered).Descending()))
                     .Render(); %>
 
 </asp:Content>
