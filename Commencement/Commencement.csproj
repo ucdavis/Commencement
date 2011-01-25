@@ -72,7 +72,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\Elmah.dll</HintPath>
     </Reference>
-    <Reference Include="FluentNHibernate, Version=1.1.0.685, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL" />
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\Bin\FluentNHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="HibernatingRhinos.Profiler.Appender, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0774796e73ebf640, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\HibernatingRhinos.Profiler.Appender.dll</HintPath>
@@ -105,12 +107,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\MvcContrib.FluentHtml.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate, Version=2.1.2.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL" />
+    <Reference Include="NHibernate">
+      <HintPath>..\Bin\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate.ByteCode.Spring, Version=2.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\NHibernate.ByteCode.Spring.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate.Validator, Version=1.2.0.4000, Culture=neutral, PublicKeyToken=70154e18752585bd, processorArchitecture=MSIL" />
+    <Reference Include="NHibernate.Validator">
+      <HintPath>..\Bin\NHibernate.Validator.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />

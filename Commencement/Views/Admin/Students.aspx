@@ -54,8 +54,9 @@
                         {
                             col.Add(a =>
                                         { %>
-                                        <%--<%= Html.ActionLink<AdminController>(b=>b.StudentDetails(a.Student.Id, false), "Select") %>--%>
-                                        <a href="<%: Url.Action("StudentDetails", "Admin", new {}) %>"
+                                        <a href="<%: Url.Action("StudentDetails", "Admin", new {id=a.Student.Id}) %>"> 
+                                            <img src="<%: Url.Content("~/Images/to-do-list_checked1_small.gif") %>" />
+                                        </a>
                                         <% });
                             col.Bound(x => x.Student.StudentId).Title("Student Id");
                             col.Bound(x => x.Student.LastName).Title("Last Name");
