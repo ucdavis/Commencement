@@ -791,6 +791,7 @@ CREATE TABLE [dbo].[EmailQueue](
 	[RegistrationParticipationId] [int] NULL,
 	[RegistrationPetitionId] [int] NULL,
 	[ExtraTicketPetitionId] [int] NULL,
+	[ErrorCode] [int] NULL,
  CONSTRAINT [PK_EmailQueue] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
