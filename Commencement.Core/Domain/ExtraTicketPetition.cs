@@ -163,6 +163,10 @@ namespace Commencement.Core.Domain
                 return 0;
             }
         }
+
+        public virtual string Status { 
+            get { return IsPending ? "Pending" : (IsApproved ? "Approved" : "Denied"); }
+        }
         #endregion
     }
 

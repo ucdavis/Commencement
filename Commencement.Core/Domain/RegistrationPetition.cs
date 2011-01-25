@@ -63,6 +63,11 @@ namespace Commencement.Core.Domain
             IsApproved = isApproved;
             DateDecision = DateTime.Now;
         }
+
+        public virtual string Status
+        {
+            get { return IsPending ? "Pending" : (IsApproved ? "Approved" : "Denied"); }
+        }
         #endregion
     }
 
