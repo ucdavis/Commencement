@@ -251,5 +251,5 @@ html, body {height:100%;}
 /* ------------------- */
 /* more */
 /* ------------------- */
-div.t-grid {margin-top:20px;}
-#filter_container {margin-bottom: -20px; margin-top: 20px;}
+div.t-grid {}
+#filter_container {margin-top: 20px;}
