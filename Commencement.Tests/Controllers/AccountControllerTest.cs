@@ -2,6 +2,7 @@
 using System.Linq;
 using Commencement.Controllers;
 using Commencement.Controllers.Filters;
+using Commencement.Core.Domain;
 using Commencement.Tests.Core.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;
@@ -320,7 +321,7 @@ namespace Commencement.Tests.Controllers
         /// #4
         /// </summary>
         [TestMethod]
-        public void TestControllerMethodEmulateContainsExpectedAttributes()
+        public void TestControllerMethodEmulateContainsExpectedAttributes1()
         {
             #region Arrange
             var controllerClass = _controllerClass;
@@ -333,8 +334,31 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+            Assert.AreEqual(2, allAttributes.Count(), "More than expected custom attributes found.");
             Assert.AreEqual(1, expectedAttribute.Count(), "EmulationUserOnlyAttribute not found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the controller method emulate contains expected attributes.
+        /// #4
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodEmulateContainsExpectedAttributes2()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            var controllerMethod = controllerClass.GetMethod("Emulate");
+            #endregion Arrange
+
+            #region Act
+            var allAttributes = controllerMethod.GetCustomAttributes(true);
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(2, allAttributes.Count(), "More than expected custom attributes found.");
+            Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found.");
             #endregion Assert
         }
 
@@ -352,10 +376,12 @@ namespace Commencement.Tests.Controllers
 
             #region Act
             var allAttributes = controllerMethod.GetCustomAttributes(true);
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
+            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+            Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found.");
             #endregion Assert
         }
         #endregion Controller Method Tests
