@@ -38,6 +38,7 @@ namespace Commencement.Controllers
             return this.RedirectToAction<ErrorController>(a => a.UnauthorizedAccess());
         }
 
+        [PageTrackingFilter]
         [EmulationUserOnly]
         public ActionResult Emulate(string loginId)
         {
@@ -49,6 +50,7 @@ namespace Commencement.Controllers
             return this.RedirectToAction<HomeController>(a => a.Index());
         }
 
+        [PageTrackingFilter]
         public ActionResult EndEmulate()
         {
             FormsAuthentication.SignOut();
