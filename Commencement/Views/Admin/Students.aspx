@@ -54,7 +54,8 @@
                         {
                             col.Add(a =>
                                         { %>
-                                        <%= Html.ActionLink<AdminController>(b=>b.StudentDetails(a.Student.Id, false), "Select") %>
+                                        <%--<%= Html.ActionLink<AdminController>(b=>b.StudentDetails(a.Student.Id, false), "Select") %>--%>
+                                        <a href="<%: Url.Action("StudentDetails", "Admin", new {}) %>"
                                         <% });
                             col.Bound(x => x.Student.StudentId).Title("Student Id");
                             col.Bound(x => x.Student.LastName).Title("Last Name");
