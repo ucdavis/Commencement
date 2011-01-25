@@ -178,7 +178,10 @@ namespace Commencement.Controllers
             registrationPetition.SetDecision(isApproved);
 
             // validate to make sure that they don't already have registrations
-            if (Repository.OfType<RegistrationParticipation>().Queryable.Where(a => a.Ceremony == registrationPetition.Ceremony || a.Major == registrationPetition.MajorCode).Any() || isApproved)
+            if (Repository.OfType<RegistrationParticipation>().Queryable.Where(a => (a.Ceremony == registrationPetition.Ceremony 
+                                                                                 || a.Major == registrationPetition.MajorCode)
+                                                                                 && a.Registration == registrationPetition.Registration
+                                                                                 && isApproved).Any())
             {
                 ModelState.AddModelError("Registration Exists", "A registration exists for the same major or ceremony.");
             }
