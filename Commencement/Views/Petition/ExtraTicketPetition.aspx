@@ -49,7 +49,7 @@
             <% if (!Model.AvailableParticipationIds.Contains(participation.Id)) { %>
                 <% if (participation.ExtraTicketPetition != null) { %>
                     <li>
-                        This ceremony is not available for extra ticket petition becuase you have previously submitted a petition.
+                        This ceremony is not available for extra ticket petition because you have previously submitted a petition.
                     </li>
                 <% } else if (DateTime.Now < participation.Ceremony.ExtraTicketBegin) { %>
                     <li>  
