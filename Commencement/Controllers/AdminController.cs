@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Text;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
@@ -8,7 +7,6 @@ using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
-using MvcContrib.Attributes;
 using UCDArch.Core.PersistanceSupport;
 using MvcContrib;
 using UCDArch.Web.Helpers;

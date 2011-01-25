@@ -4,7 +4,7 @@
 <%@ Import Namespace="Telerik.Web.Mvc.UI" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Commencement Ceremonies
+	Commencement | Ceremonies
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">

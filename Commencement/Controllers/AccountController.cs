@@ -1,8 +1,6 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Security;
 using Commencement.Controllers.Filters;
-using Commencement.Core.Resources;
 using UCDArch.Web.Attributes;
 using UCDArch.Web.Authentication;
 using MvcContrib;

@@ -1,5 +1,4 @@
-﻿using System.Web.Mvc;
-using Commencement.Core.Resources;
+﻿using Commencement.Core.Resources;
 using UCDArch.Web.Controller;
 
 namespace Commencement.Controllers

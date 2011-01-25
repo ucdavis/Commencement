@@ -29,10 +29,5 @@ namespace Commencement.Controllers
             // display a landing page
             return View(TermService.GetCurrent());
         }
-
-        public ActionResult About()
-        {
-            return View();
-        }
     }
 }

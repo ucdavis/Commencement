@@ -608,10 +608,8 @@
     <Content Include="Views\Shared\RegisteredCeremonyDisplay.ascx" />
     <Content Include="Views\SpecialNeeds\Create.aspx" />
     <Content Include="Views\SpecialNeeds\Index.aspx" />
-    <Content Include="Views\Student\ChooseCeremony.aspx" />
     <Content Include="Views\Student\DisplayRegistration.aspx" />
     <Content Include="Views\Student\Register.aspx" />
-    <Content Include="Views\Student\RegistrationConfirmation.aspx" />
     <Content Include="Views\Shared\RegistrationDisplay.ascx" />
     <Content Include="Views\Template\Create.aspx" />
     <Content Include="Views\Template\Index.aspx" />
@@ -626,7 +624,6 @@
     <Content Include="Scripts\MicrosoftMvcAjax.js" />
     <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
     <Content Include="Views\Account\LogOn.aspx" />
-    <Content Include="Views\Home\About.aspx" />
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\LogOnUserControl.ascx" />
@@ -707,12 +704,9 @@
     <Content Include="Images\report.png" />
     <Content Include="Images\students.png" />
     <Content Include="Views\Petition\Index.aspx" />
-    <Content Include="Views\Petition\RegisterConfirmation.aspx" />
-    <Content Include="Views\Petition\RegistrationPetition.aspx" />
     <Content Include="Views\Report\Index.aspx" />
     <Content Include="Views\Report\RegistrationData.aspx" />
     <Content Include="Views\Student\EditRegistration.aspx" />
-    <Content Include="Views\Student\NoCeremony.aspx" />
     <Content Include="Views\Shared\RegistrationEditForm.ascx" />
   </ItemGroup>
   <ItemGroup>

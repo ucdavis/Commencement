@@ -6,7 +6,6 @@ using Commencement.Controllers.Helpers;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using MvcContrib;
-using MvcContrib.Attributes;
 using UCDArch.Web.Helpers;
 
 namespace Commencement.Controllers

@@ -345,12 +345,6 @@ namespace Commencement.Controllers
             return currentStudent;
         }
         #endregion
-
-        //[PageTrackingFilter]
-        //public ActionResult NoCeremony()
-        //{
-        //    return View();
-        //}
     }
 
 
