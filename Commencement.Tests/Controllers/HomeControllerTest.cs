@@ -49,14 +49,14 @@ namespace Commencement.Tests.Controllers
             "~/Home/Index".ShouldMapTo<HomeController>(a => a.Index());
         }
 
-        /// <summary>
-        /// Tests the about mapping.
-        /// </summary>
-        [TestMethod]
-        public void TestAboutMapping()
-        {
-            "~/Home/About".ShouldMapTo<HomeController>(a => a.About());
-        }
+        ///// <summary>
+        ///// Tests the about mapping.
+        ///// </summary>
+        //[TestMethod]
+        //public void TestAboutMapping()
+        //{
+        //    "~/Home/About".ShouldMapTo<HomeController>(a => a.About());
+        //}
 
         #endregion Mapping Tests
 
