@@ -177,32 +177,39 @@ namespace Commencement.Controllers
             // set the decision
             registrationPetition.SetDecision(isApproved);
 
+            var isValid = true;
+
             // validate to make sure that they don't already have registrations
             if (Repository.OfType<RegistrationParticipation>().Queryable.Where(a => (a.Ceremony == registrationPetition.Ceremony 
                                                                                  || a.Major == registrationPetition.MajorCode)
                                                                                  && a.Registration == registrationPetition.Registration
                                                                                  && isApproved).Any())
             {
-                ModelState.AddModelError("Registration Exists", "A registration exists for the same major or ceremony.");
+                isValid = false;
+                Message = "Student has already been registered for this major/ceremony.";
             }
 
-            // automatically register student
-            if (isApproved)
+            if (isValid)
             {
-                registration.AddParticipation(registrationPetition.MajorCode, registrationPetition.Ceremony, registrationPetition.NumberTickets);
+                // automatically register student
+                if (isApproved)
+                {
+                    registration.AddParticipation(registrationPetition.MajorCode, registrationPetition.Ceremony,
+                                                  registrationPetition.NumberTickets);
 
-                try
-                {
-                    _emailService.QueueRegistrationPetitionDecision(registrationPetition);
+                    try
+                    {
+                        _emailService.QueueRegistrationPetitionDecision(registrationPetition);
+                    }
+                    catch (Exception ex)
+                    {
+                        _errorService.ReportError(ex);
+                        Message += StaticValues.Student_Email_Problem;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    _errorService.ReportError(ex);
-                    Message += StaticValues.Student_Email_Problem;
-                }
+
+                Repository.OfType<Registration>().EnsurePersistent(registration);
             }
-
-            Repository.OfType<Registration>().EnsurePersistent(registration);
 
             return this.RedirectToAction(a => a.RegistrationPetition(id));
         }

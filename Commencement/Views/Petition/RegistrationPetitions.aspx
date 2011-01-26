@@ -27,7 +27,10 @@
             .Columns(col =>
                          {
                              col.Add(a =>{ %>
-                                        <%= Html.ActionLink<PetitionController>(b=>b.RegistrationPetition(a.Id), "Select") %>
+                                        <%--<%= Html.ActionLink<PetitionController>(b=>b.RegistrationPetition(a.Id), "Select") %>--%>
+                                        <a href="<%: Url.Action("RegistrationPetition", "Petition", new {id = a.Id}) %>">
+                                            <img src="<%: Url.Content("~/Images/to-do-list_checked1_small.gif") %>" />
+                                        </a>
                                          <% });
                              col.Bound(a => a.Registration.Student.LastName);
                              col.Bound(a => a.Registration.Student.FirstName);
