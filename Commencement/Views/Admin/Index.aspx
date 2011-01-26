@@ -1,5 +1,6 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
 <%@ Import Namespace="Commencement.Controllers.Filters" %>
+<%@ Import Namespace="Commencement.Controllers.Services" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Commencement | Admin Home
@@ -15,6 +16,10 @@
             <%: Html.TextBox("studentId", string.Empty, new { maxlength = 9 })%>
             <%: Html.SubmitButton("Search", "Search") %>
         <% } %>
+    </div>
+
+    <div id="term-container" style="float:right;">
+        <strong>Term:</strong> <%: TermService.GetCurrent().Name %>
     </div>
 
     <ul class="front_menu">
