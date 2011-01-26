@@ -41,9 +41,10 @@
 
     <% using (Html.BeginForm()) { %>
     <%: Html.AntiForgeryToken() %>
-    <% for (int j = 0; j < Model.Registration.RegistrationParticipations.Count; j++) {
-           var participation = Model.Registration.RegistrationParticipations[j];
-           %>
+    <%  var counter = 0;
+        for (int j = 0; j < Model.Registration.RegistrationParticipations.Count; j++) {
+        var participation = Model.Registration.RegistrationParticipations[j];
+        %>
         
         <ul class="registration_form">
             <% if (!Model.AvailableParticipationIds.Contains(participation.Id)) { %>
@@ -73,11 +74,11 @@
                 
                     
 
-                    <%: Html.Hidden(string.Format("extraTicketPetitions[{0}].Ceremony", j), participation.Ceremony.Id)%>
-                    <%: Html.Hidden(string.Format("extraTicketPetitions[{0}].RegistrationParticipation", j), participation.Id)%>
+                    <%: Html.Hidden(string.Format("extraTicketPetitions[{0}].Ceremony", counter), participation.Ceremony.Id)%>
+                    <%: Html.Hidden(string.Format("extraTicketPetitions[{0}].RegistrationParticipation", counter), participation.Id)%>
 
                     <li><strong>Extra Tickets:</strong>
-                        <select id="<%: string.Format("extraTicketPetitions[{0}]_NumberTickets", j)  %>" name="<%: string.Format("extraTicketPetitions[{0}].NumberTickets", j) %>">
+                        <select id="<%: string.Format("extraTicketPetitions[{0}]_NumberTickets", counter)  %>" name="<%: string.Format("extraTicketPetitions[{0}].NumberTickets", counter) %>">
                             <% for (int i = 0; i <= participation.Ceremony.ExtraTicketPerStudent; i++) { %>
                                 <% if (postModel != null && postModel.NumberTickets == i) { %>
                                     <option value="<%: i %>" selected="selected"><%: i %></option>
@@ -90,7 +91,7 @@
 
                     <% if (participation.Ceremony.HasStreamingTickets) { %>
                         <li><strong>Streaming Tickets:</strong>
-                            <select id="<%: string.Format("extraTicketPetitions[{0}]_NumberStreamingTickets", j) %>" name="<%: string.Format("extraTicketPetitions[{0}].NumberStreamingTickets", j) %>">
+                            <select id="<%: string.Format("extraTicketPetitions[{0}]_NumberStreamingTickets", counter) %>" name="<%: string.Format("extraTicketPetitions[{0}].NumberStreamingTickets", counter) %>">
                                 <% for (int i = 0; i <= participation.Ceremony.ExtraTicketPerStudent; i++) { %>
                                     <% if (postModel != null && postModel.NumberStreamingTickets == i) { %>
                                         <option value="<%: i %>" selected="selected"><%: i %></option>
@@ -101,19 +102,17 @@
                             </select>
                         </li>
                     <% } else { %>
-                        <%: Html.Hidden(string.Format("extraTicketPetitions[{0}]_NumberStreamingTickets", j), 0) %>
+                        <%: Html.Hidden(string.Format("extraTicketPetitions[{0}]_NumberStreamingTickets", counter), 0) %>
                     <% } %>
 
                     <li>
                         <strong>Reason:</strong>
-                        <%: Html.TextArea(string.Format("extraTicketPetitions[{0}].Reason", j), participation.ExtraTicketPetition != null ? participation.ExtraTicketPetition.Reason : string.Empty) %>
+                        <%: Html.TextArea(string.Format("extraTicketPetitions[{0}].Reason", counter), participation.ExtraTicketPetition != null ? participation.ExtraTicketPetition.Reason : string.Empty) %>
                     </li>
 
                     <li><strong></strong><%: Html.SubmitButton("Submit", "Submit") %></li>
-            
-            <% } %>
-
-
+            <%  counter++;
+                } %>
         </ul>
     <% } %>
     <% } %>    
