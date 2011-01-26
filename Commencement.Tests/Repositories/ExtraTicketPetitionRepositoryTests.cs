@@ -1663,6 +1663,79 @@ namespace Commencement.Tests.Repositories
         }
 
         #endregion ProjectedStreamingTickets Tests
+
+        #region Status Tests
+
+        [TestMethod]
+        public void TestStatusReturnsExpectedResult1()
+        {
+            #region Arrange
+            var record = CreateValidEntities.ExtraTicketPetition(9);
+            record.IsPending = true;
+            record.IsApproved = false;
+            #endregion Arrange
+
+            #region Act
+            var result = record.Status;
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Pending", result);
+            #endregion Assert		
+        }
+
+        [TestMethod]
+        public void TestStatusReturnsExpectedResult2()
+        {
+            #region Arrange
+            var record = CreateValidEntities.ExtraTicketPetition(9);
+            record.IsPending = true;
+            record.IsApproved = true;
+            #endregion Arrange
+
+            #region Act
+            var result = record.Status;
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Pending", result);
+            #endregion Assert
+        }
+        [TestMethod]
+        public void TestStatusReturnsExpectedResult3()
+        {
+            #region Arrange
+            var record = CreateValidEntities.ExtraTicketPetition(9);
+            record.IsPending = false;
+            record.IsApproved = false;
+            #endregion Arrange
+
+            #region Act
+            var result = record.Status;
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Denied", result);
+            #endregion Assert
+        }
+        [TestMethod]
+        public void TestStatusReturnsExpectedResult4()
+        {
+            #region Arrange
+            var record = CreateValidEntities.ExtraTicketPetition(9);
+            record.IsPending = false;
+            record.IsApproved = true;
+            #endregion Arrange
+
+            #region Act
+            var result = record.Status;
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Approved", result);
+            #endregion Assert
+        }
+        #endregion Status Tests
         #endregion  Extended/Calculated Fields
         
         #region Constructor Tests
@@ -1842,6 +1915,7 @@ namespace Commencement.Tests.Repositories
                  "[NHibernate.Validator.Constraints.LengthAttribute((Int32)100)]", 
                  "[UCDArch.Core.NHibernateValidator.Extensions.RequiredAttribute()]"
             }));
+            expectedFields.Add(new NameAndType("Status", "System.String", new List<string>()));
             expectedFields.Add(new NameAndType("TotalTickets", "System.Int32", new List<string>()));
             expectedFields.Add(new NameAndType("TotalTicketsRequested", "System.Int32", new List<string>()));
             #endregion Arrange

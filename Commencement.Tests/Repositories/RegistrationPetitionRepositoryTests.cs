@@ -1464,6 +1464,79 @@ namespace Commencement.Tests.Repositories
 
         #endregion NumberTickets Tests
 
+        #region Status Tests
+
+        [TestMethod]
+        public void TestStatusReturnsExpectedResult1()
+        {
+            #region Arrange
+            var record = CreateValidEntities.RegistrationPetition(9);
+            record.IsPending = true;
+            record.IsApproved = false;
+            #endregion Arrange
+
+            #region Act
+            var result = record.Status;
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Pending", result);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestStatusReturnsExpectedResult2()
+        {
+            #region Arrange
+            var record = CreateValidEntities.RegistrationPetition(9);
+            record.IsPending = true;
+            record.IsApproved = true;
+            #endregion Arrange
+
+            #region Act
+            var result = record.Status;
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Pending", result);
+            #endregion Assert
+        }
+        [TestMethod]
+        public void TestStatusReturnsExpectedResult3()
+        {
+            #region Arrange
+            var record = CreateValidEntities.RegistrationPetition(9);
+            record.IsPending = false;
+            record.IsApproved = false;
+            #endregion Arrange
+
+            #region Act
+            var result = record.Status;
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Denied", result);
+            #endregion Assert
+        }
+        [TestMethod]
+        public void TestStatusReturnsExpectedResult4()
+        {
+            #region Arrange
+            var record = CreateValidEntities.RegistrationPetition(9);
+            record.IsPending = false;
+            record.IsApproved = true;
+            #endregion Arrange
+
+            #region Act
+            var result = record.Status;
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Approved", result);
+            #endregion Assert
+        }
+        #endregion Status Tests
+
         #region Constructor Tests
 
         [TestMethod]
@@ -1611,6 +1684,7 @@ namespace Commencement.Tests.Repositories
             {
                 "[NHibernate.Validator.Constraints.NotNullAttribute()]"
             }));
+            expectedFields.Add(new NameAndType("Status", "System.String", new List<string>()));
             expectedFields.Add(new NameAndType("TermCodeComplete", "Commencement.Core.Domain.vTermCode", new List<string>()));
             expectedFields.Add(new NameAndType("TransferUnits", "System.String", new List<string>
             {
