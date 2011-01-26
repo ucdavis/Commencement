@@ -58,6 +58,11 @@
         {
             background:none;
             border: 0;
+            cursor:pointer;
+        }
+        .remove_button:hover
+        {
+            color:#0D548A;
         }
     </style>
 
