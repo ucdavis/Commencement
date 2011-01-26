@@ -81,4 +81,7 @@
             $("#filter_container").accordion({collapsible:true, autoHeight: false, active: false });
         });
     </script>
+    <style type="text/css">
+        tr:hover, tr.t-alt:hover {background-color:#BAC6CF;}
+    </style>
 </asp:Content>
