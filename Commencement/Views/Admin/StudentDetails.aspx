@@ -54,6 +54,11 @@
         <% if (participations.Count() > 0) { %>
             <h2>Ceremony Information</h2>
             <% foreach(var a in participations) { %>
+               
+                <div id="confirmation-container">
+                <%: a.Ceremony.ConfirmationText %>
+                </div>
+
                 <% Html.RenderPartial("RegisteredCeremonyDisplay", a); %>
                 <hr />
             <% } %>
