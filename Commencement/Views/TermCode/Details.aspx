@@ -34,13 +34,13 @@
             <li>                
                 <fieldset>
                 <legend><strong>LandingText</strong></legend>
-                <%= Html.HtmlEncode(Model.LandingText)%>
+                <%: Html.HtmlEncode(Model.LandingText)%>
                 </fieldset>
             </li>
             <li>
                 <fieldset>
                 <legend><strong>RegistrationWelcome</strong></legend>
-                <%=Html.HtmlEncode(Model.RegistrationWelcome)%>
+                <%: Html.HtmlEncode(Model.RegistrationWelcome)%>
                 </fieldset>
             </li>
         </ul>
