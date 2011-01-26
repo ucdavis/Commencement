@@ -24,8 +24,8 @@
                     plugins: "safari,style,save,searchreplace,print,contextmenu,paste",
 
                     // Theme options
-                    theme_advanced_buttons1: "print,|,bold,italic,underline,|,formatselect,fontsizeselect",
-                    theme_advanced_buttons2: "search,replace,pastetext,|,undo,redo,|,bullist,numlist,|,myButton",
+                    theme_advanced_buttons1: "print,|,bold,italic,underline,|,formatselect,fontsizeselect,search,replace,pastetext,|,undo,redo,|,bullist,numlist,|,myButton",
+                    theme_advanced_buttons2: "",
                     theme_advanced_buttons3: "",
                     theme_advanced_toolbar_location: "top",
                     theme_advanced_toolbar_align: "left",
