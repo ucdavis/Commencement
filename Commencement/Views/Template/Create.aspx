@@ -42,6 +42,7 @@
             </li>
             <li>
                 <input type="submit" value="Create" />
+                <input type="button" value="Send Test Email" id="send-test" />
             </li>
             </ul>
                  
@@ -56,11 +57,6 @@
                     <% } %>
                 </ul>
            </div>
-            
-
-           
-        
-
     <% } %>
 
 </asp:Content>
@@ -90,6 +86,15 @@
                 // show the one we want
                 var selected = $("#TemplateType option:selected").text();
                 $("#" + templatecodes[selected]).show();
+            });
+
+            $("#send-test").click(function(){
+                var url = '<%: Url.Action("SendTestEmail", "Template") %>';
+                var subject = $("#Subject").val();
+                var txt = tinyMCE.get("BodyText").getContent();
+                
+                $.getJSON(url, {subject:subject,message: txt}, function(result){if (result) alert("Message has been mailed to you.");});
+                
             });
         });
 

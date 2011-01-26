@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
@@ -74,6 +76,18 @@ namespace Commencement.Controllers
 
             var viewModel = TemplateCreateViewModel.Create(Repository, newTemplate, newTemplate.Ceremony);
             return View(viewModel);
+        }
+
+        [ValidateInput(false)]
+        public JsonResult SendTestEmail(string subject, string message)
+        {
+            var user = Repository.OfType<vUser>().Queryable.Where(a => a.LoginId == CurrentUser.Identity.Name).FirstOrDefault();
+            var mail = new MailMessage("automatedemail@caes.ucdavis.edu", user.Email, subject, message);
+            mail.IsBodyHtml = true;
+            var client = new SmtpClient();
+            client.Send(mail);
+
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
         private string ValidateBody(Template template)
