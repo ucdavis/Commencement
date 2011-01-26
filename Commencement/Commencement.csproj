@@ -285,6 +285,7 @@
     <Content Include="Content\Common\sprite.png" />
     <Content Include="Content\Common\validation-error-message.png" />
     <Content Include="Content\font.css" />
+    <Content Include="Images\to-do-list_checked1_small.gif" />
     <Content Include="Content\jquery.bt.css" />
     <Content Include="Content\main.css" />
     <Content Include="Content\telerik.common.css" />
@@ -625,7 +626,9 @@
     <Content Include="Views\TermCode\Details.aspx" />
     <Content Include="Views\TermCode\Edit.aspx" />
     <Content Include="Views\TermCode\Index.aspx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\MicrosoftAjax.js" />
     <Content Include="Scripts\MicrosoftAjax.debug.js" />
@@ -736,7 +739,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>5498</DevelopmentServerPort>
+          <DevelopmentServerPort>52178</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

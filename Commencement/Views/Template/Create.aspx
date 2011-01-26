@@ -22,7 +22,7 @@
         <%= Html.AntiForgeryToken() %>
         <%: Html.Hidden("Ceremony", Model.Ceremony.Id) %>
 
-            <ul class="registration_form">
+            <ul class="registration_form" id="left_bar">
             <li>
                 <strong>Template Type:</strong>
                 
@@ -33,16 +33,19 @@
             </li>
             <li>
                 <strong>Subject: </strong>
-                <%: Html.TextBox("Subject", Model.Template != null ? Model.Template.Subject : string.Empty) %>
+                <%: Html.TextBox("Subject", Model.Template != null ? Model.Template.Subject : string.Empty, new { @style="width:20em;"})%>
             </li>
             <li>
                 <strong>BodyText:</strong>
                 <%= Html.TextArea("BodyText", Model.Template != null ? Model.Template.BodyText : string.Empty) %>
                 <%= Html.ValidationMessageFor(a=>a.Template.BodyText) %> 
             </li>
+            <li>
+                <input type="submit" value="Create" />
+            </li>
             </ul>
                  
-           <div id="right_menu">
+           <div id="right_bar">
                 <ul class="registration_form">
                     <% foreach (var a in Model.TemplateTypes) { %>
                         <div id="<%: a.Code %>" class="tokens" style='<%: Model.Template != null && Model.Template.TemplateType.Code == a.Code ? "display:block;" : "display:none;" %>'>
@@ -55,11 +58,7 @@
            </div>
             
 
-            
-            <p>
-                <strong></strong>
-                <input type="submit" value="Create" />
-            </p>
+           
         
 
     <% } %>
