@@ -45,7 +45,7 @@ namespace Commencement.Controllers.Services
         /// <returns></returns>
         public IEnumerable<MajorCode> GetByCollege(List<College> colleges)
         {
-            return _majorRepository.Queryable.Where(a => colleges.Contains(a.College)).ToList();
+            return _majorRepository.Queryable.Where(a => colleges.Contains(a.College) && a.IsActive).ToList();
         }
 
         /// <summary>
