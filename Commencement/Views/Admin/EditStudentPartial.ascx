@@ -50,7 +50,8 @@
                         {
                             col.Add(a =>
                                         {%>
-                                            <%: Html.Button("RemoveMajor", "-", HtmlButtonType.Button, null, new {@class="RemoveMajor"}) %>
+                                            <%--<%: Html.Button("RemoveMajor", "-", HtmlButtonType.Button, null, new {@class="RemoveMajor"}) %>--%>
+                                            <img src="<%: Url.Content("~/Images/Cancel-1.png") %>" class="RemoveMajor" />
                                             <%: Html.Hidden("Student.Majors", a.Id) %>
                                         <%});
                             col.Bound(a => a.Major.Id).Title("Major Code");
