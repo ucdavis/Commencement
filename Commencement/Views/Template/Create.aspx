@@ -22,30 +22,26 @@
         <%= Html.AntiForgeryToken() %>
         <%: Html.Hidden("Ceremony", Model.Ceremony.Id) %>
 
-            <p>
+            <ul class="registration_form">
+            <li>
                 <strong>Template Type:</strong>
                 
                 <%= this.Select("TemplateType")
                         .Options(Model.TemplateTypes, x=>x.Id, x=>x.Name)
                         .FirstOption("--Select a Template Type--")
                         .Selected(Model.Template != null ? Model.Template.TemplateType.Id.ToString() : string.Empty) %>
-            </p>
-            <p>
+            </li>
+            <li>
                 <strong>Subject: </strong>
                 <%: Html.TextBox("Subject", Model.Template != null ? Model.Template.Subject : string.Empty) %>
-            </p>
-            <p>
+            </li>
+            <li>
                 <strong>BodyText:</strong>
                 <%= Html.TextArea("BodyText", Model.Template != null ? Model.Template.BodyText : string.Empty) %>
                 <%= Html.ValidationMessageFor(a=>a.Template.BodyText) %> 
-            </p>
-                
-<%--                <div id="right_menu">
-                      <ul class="registration_form">
-                       <% Html.RenderPartial("TokenPartial", Model.Template != null ? Model.Template.TemplateType : new TemplateType()); %>
-                      </ul>
-               </div>     --%>
- 
+            </li>
+            </ul>
+                 
            <div id="right_menu">
                 <ul class="registration_form">
                     <% foreach (var a in Model.TemplateTypes) { %>
