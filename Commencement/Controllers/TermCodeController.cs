@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
+using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using MvcContrib;
@@ -55,6 +56,10 @@ namespace Commencement.Controllers
             }
             termCode.IsActive = true;
             Repository.OfType<TermCode>().EnsurePersistent(termCode);
+
+            // invalidate the cache
+            TermService.UpdateCurrent(termCode);
+
             return this.RedirectToAction(a => a.Index());
         }
 

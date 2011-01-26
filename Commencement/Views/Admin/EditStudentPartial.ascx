@@ -50,7 +50,6 @@
                         {
                             col.Add(a =>
                                         {%>
-                                            <%--<%: Html.Button("RemoveMajor", "-", HtmlButtonType.Button, null, new {@class="RemoveMajor"}) %>--%>
                                             <img src="<%: Url.Content("~/Images/Cancel-1.png") %>" class="RemoveMajor" />
                                             <%: Html.Hidden("Student.Majors", a.Id) %>
                                         <%});
@@ -63,10 +62,6 @@
     <%: Html.SubmitButton("Submit", "Save") %>
 
     <% } %>
-
-
-
-
 
     <script type="text/javascript">
         $(document).ready(function () {

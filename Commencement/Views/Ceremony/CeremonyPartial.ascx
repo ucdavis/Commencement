@@ -75,7 +75,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#Ceremony_ConfirmationText").enableTinyMce({ script_location: '<%= Url.Content("~/Scripts/tiny_mce/tiny_mce.js") %>', overrideWidth: '700', overrideHeight: '250', overrideOnchange: 'myCustomOnChangeHandler' }); //, overrideShowPreview: 'preview,', overridePlugin_preview_pageurl: '<%= Url.Content("~/Static/Preview.html") %>' });
+            $("#Ceremony_ConfirmationText").enableTinyMce({ script_location: '<%= Url.Content("~/Scripts/tiny_mce/tiny_mce.js") %>', overrideWidth: '900', overrideHeight: '250', overrideOnchange: 'myCustomOnChangeHandler' }); //, overrideShowPreview: 'preview,', overridePlugin_preview_pageurl: '<%= Url.Content("~/Static/Preview.html") %>' });
         });
        
     </script>
@@ -179,7 +179,7 @@
         </li>
         <li>
             <strong><%: Html.LabelFor(a => a.Ceremony.ConfirmationText, DisplayOptions.HumanizeAndColon) %></strong>
-            <%: Html.TextAreaFor(a => a.Ceremony.ConfirmationText) %>
+            <%: Html.TextAreaFor(a => a.Ceremony.ConfirmationText, new {@style="width:900px;"}) %>
             <%= Html.ValidationMessageFor(a => a.Ceremony.ConfirmationText) %>
         </li>
         <li>
@@ -190,9 +190,9 @@
 
         <li>
             <% if (Model.Majors != null) { %>
-            <%= Html.ListBox("CeremonyMajors", Model.Majors, new {style="width:700px"}) %>
+            <%= Html.ListBox("CeremonyMajors", Model.Majors, new {style="width:900px"}) %>
             <% } else { %>
-            <select id="CeremonyMajors" style="width: 700px;" name="CeremonyMajors" multiple="multiple"></select>
+            <select id="CeremonyMajors" style="width: 200px;" name="CeremonyMajors" multiple="multiple"></select>
             <% } %>
         </li>
         
