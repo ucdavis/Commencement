@@ -7,6 +7,8 @@
     <script src="<%= Url.Content("~/Scripts/jquery.anytime.js") %>" type="text/javascript"></script>
     <script src="<%= Url.Content("~/Scripts/ui.multiselect.js") %>" type="text/javascript"></script>
     <script src="<%= Url.Content("~/Scripts/jquery.livequery.js") %>" type="text/javascript"></script>
+    <script type="text/javascript" src='<%: Url.Content("~/Scripts/jquery.bt.min.js") %>'></script>
+    <link href="<%= Url.Content("~/Content/jquery.bt.css") %>" rel="Stylesheet" type="text/css" media="screen" />
 
     <script type="text/javascript">
         $(function () {
@@ -76,6 +78,12 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#Ceremony_ConfirmationText").enableTinyMce({ script_location: '<%= Url.Content("~/Scripts/tiny_mce/tiny_mce.js") %>', overrideWidth: '900', overrideHeight: '250', overrideOnchange: 'myCustomOnChangeHandler' }); //, overrideShowPreview: 'preview,', overridePlugin_preview_pageurl: '<%= Url.Content("~/Static/Preview.html") %>' });
+            $.each($(".showBtRight"), function (index, item) {
+                $(item).bt({ trigger: ['focus', 'blur'], positions: ['right'] });
+            });
+            $.each($(".showBtTop"), function (index, item) {
+                $(item).bt({ trigger: ['focus', 'blur'], positions: ['top'] });
+            });
         });
        
     </script>
@@ -127,27 +135,23 @@
         </li>
         <li>
             <strong>Total Tickets:</strong>
-            <%= Html.TextBoxFor(x=>x.Ceremony.TotalTickets) %>
-            <%= Html.ValidationMessageFor(x=>x.Ceremony.TotalTickets) %>
-            * Total # tickets available to everyone.            
+            <%= Html.TextBoxFor(x => x.Ceremony.TotalTickets, new { @class = "showBtRight", @title = "Total number of tickets available to everyone." })%>
+            <%= Html.ValidationMessageFor(x=>x.Ceremony.TotalTickets) %>            
         </li>
         <li>
             <strong>Total Streaming Tickets:</strong>
-            <%: Html.TextBoxFor(x=>x.Ceremony.TotalStreamingTickets) %>
+            <%: Html.TextBoxFor(x => x.Ceremony.TotalStreamingTickets, new { @class = "showBtRight", @title = "Total number of tickets for streaming tickets" })%>
             <%: Html.ValidationMessageFor(x=>x.Ceremony.TotalStreamingTickets) %>
-            * Total # tickets for streaming tickets
         </li>
         <li>
             <strong>Minimum Units:</strong>
-            <%: Html.TextBoxFor(x=>x.Ceremony.MinUnits) %>
+            <%: Html.TextBoxFor(x => x.Ceremony.MinUnits, new { @class = "showBtRight", @title = "Minimum number of units required to register." })%>
             <%: Html.ValidationMessageFor(x=>x.Ceremony.MinUnits) %>
-            * Minimum # of units required to register.
         </li>
         <li>
             <strong>Petition Threshold:</strong>
-            <%: Html.TextBoxFor(x=>x.Ceremony.PetitionThreshold) %>
+            <%: Html.TextBoxFor(x => x.Ceremony.PetitionThreshold, new { @class = "showBtRight", @title = "Minimum number of units to be allowed to submit registration petition" })%>
             <%: Html.ValidationMessageFor(x=>x.Ceremony.PetitionThreshold) %>
-            * Minimum # of units to be allowed to submit registration petition
         </li>
         <li>
             <strong>Registration Begin:</strong>
@@ -156,15 +160,13 @@
         </li>
         <li>
             <strong>Registration Closure:</strong>
-            <%: Html.TextBox("Ceremony.RegistrationDeadline", Model.Ceremony.RegistrationDeadline.ToString("d"))%>
+            <%: Html.TextBox("Ceremony.RegistrationDeadline", Model.Ceremony.RegistrationDeadline.ToString("d"), new { @class = "showBtTop", @title = "Registration will be blocked after this date." })%>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.RegistrationDeadline) %>
-            * Registration will be blocked after this date.
         </li>
         <li>
             <strong>Program Printing Deadline:</strong>
-            <%: Html.TextBox("Ceremony.PrintingDeadline", Model.Ceremony.PrintingDeadline.ToString("d")) %>
+            <%: Html.TextBox("Ceremony.PrintingDeadline", Model.Ceremony.PrintingDeadline.ToString("d"), new { @class = "showBtTop", @title = "Registration will continue to be open past this date." })%>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.PrintingDeadline) %>
-            * Registration will continue to be open past this date.
         </li>
         <li>
             <strong>Extra Ticket Request Begin:</strong>
@@ -173,9 +175,8 @@
         </li>
         <li>
             <strong>Extra Ticket Request Deadline:</strong>
-            <%: Html.TextBox("Ceremony.ExtraTicketDeadline", Model.Ceremony.ExtraTicketDeadline.ToString("d"))%>
+            <%: Html.TextBox("Ceremony.ExtraTicketDeadline", Model.Ceremony.ExtraTicketDeadline.ToString("d"), new { @class = "showBtTop", @title = "Last date to accept extra ticket requests" })%>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.ExtraTicketDeadline) %>
-            * Last date to accept extra ticket requests
         </li>
         <li>
             <strong><%: Html.LabelFor(a => a.Ceremony.ConfirmationText, DisplayOptions.HumanizeAndColon) %></strong>
