@@ -163,7 +163,8 @@
     <Compile Include="Controllers\AdminControllerTests\AdminControllerTestsPart05.cs" />
     <Compile Include="Controllers\CeremonyControllerTests.cs" />
     <Compile Include="Controllers\ErrorControllerTests.cs" />
-    <Compile Include="Controllers\PetitionControllerTests.cs" />
+    <Compile Include="Controllers\PetitionControllerTests\PetitionControllerInit.cs" />
+    <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTestsMapping.cs" />
     <Compile Include="Controllers\StudentControllerTests\StudentControllerWithServiceTests1.cs" />
     <Compile Include="Controllers\StudentControllerTests\StudentControllerInit.cs" />
     <Compile Include="Controllers\StudentControllerTests\StudentControllerTests1.cs" />

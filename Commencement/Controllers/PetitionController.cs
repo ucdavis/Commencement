@@ -16,19 +16,15 @@ namespace Commencement.Controllers
     
     public class PetitionController : ApplicationController
     {
-        private readonly IStudentService _studentService;
         private readonly IEmailService _emailService;
-        private readonly IRepositoryWithTypedId<MajorCode, string> _majorService;
         private readonly ICeremonyService _ceremonyService;
         private readonly IPetitionService _petitionService;
         private readonly IErrorService _errorService;
 
 
-        public PetitionController(IStudentService studentService, IEmailService emailService, IRepositoryWithTypedId<MajorCode, string> majorService, ICeremonyService ceremonyService, IPetitionService petitionService, IErrorService errorService)
+        public PetitionController(IEmailService emailService, ICeremonyService ceremonyService, IPetitionService petitionService, IErrorService errorService)
         {
-            _studentService = studentService;
             _emailService = emailService;
-            _majorService = majorService;
             _ceremonyService = ceremonyService;
             _petitionService = petitionService;
             _errorService = errorService;

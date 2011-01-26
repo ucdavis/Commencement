@@ -436,11 +436,19 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             #region Arrange
             var controllerClass = ControllerClass;
             var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "Block");
+            Assert.AreEqual(2, controllerMethod.Count());
+            var count0 = controllerMethod.ElementAt(0).GetCustomAttributes(true).Count();
+            var count1 = controllerMethod.ElementAt(1).GetCustomAttributes(true).Count();
+            var sequence = 0;
+            if (count0 == 1 && count1 == 0)
+            {
+                sequence = 1;
+            }
             #endregion Arrange
 
             #region Act
             //var expectedAttribute = controllerMethod.ElementAt(0).GetCustomAttributes(true).OfType<HttpPostAttribute>();
-            var allAttributes = controllerMethod.ElementAt(0).GetCustomAttributes(true);
+            var allAttributes = controllerMethod.ElementAt(sequence).GetCustomAttributes(true);
             #endregion Act
 
             #region Assert
@@ -456,11 +464,19 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
             #region Arrange
             var controllerClass = ControllerClass;
             var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "Block");
+            Assert.AreEqual(2, controllerMethod.Count());
+            var count0 = controllerMethod.ElementAt(0).GetCustomAttributes(true).Count();
+            var count1 = controllerMethod.ElementAt(1).GetCustomAttributes(true).Count();
+            var sequence = 1;
+            if (count0 == 1 && count1 == 0)
+            {
+                sequence = 0;
+            }
             #endregion Arrange
 
             #region Act
-            var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<HttpPostAttribute>();
-            var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
+            var expectedAttribute = controllerMethod.ElementAt(sequence).GetCustomAttributes(true).OfType<HttpPostAttribute>();
+            var allAttributes = controllerMethod.ElementAt(sequence).GetCustomAttributes(true);
             #endregion Act
 
             #region Assert
