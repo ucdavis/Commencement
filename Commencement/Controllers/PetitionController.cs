@@ -32,7 +32,10 @@ namespace Commencement.Controllers
 
         //
         // GET: /Petition/
-
+        /// <summary>
+        /// #1
+        /// </summary>
+        /// <returns></returns>
         [AnyoneWithRole]
         public ActionResult Index()
         {
@@ -40,6 +43,11 @@ namespace Commencement.Controllers
         }
 
         #region Extra Ticket Petitions
+        /// <summary>
+        /// #2
+        /// </summary>
+        /// <param name="ceremonyId"></param>
+        /// <returns></returns>
         [AnyoneWithRole]
         public ActionResult ExtraTicketPetitions(int? ceremonyId)
         {

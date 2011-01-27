@@ -1,9 +1,12 @@
 ﻿using System;
+using Castle.Windsor;
 using Commencement.Controllers;
 using Commencement.Controllers.Services;
+using Commencement.Core.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;
 using Rhino.Mocks;
+using UCDArch.Core.PersistanceSupport;
 using UCDArch.Testing;
 
 namespace Commencement.Tests.Controllers.PetitionControllerTests
@@ -16,6 +19,9 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
         protected ICeremonyService CeremonyService;
         protected IPetitionService PetitionService;
         protected IErrorService ErrorService;
+
+        public IRepository<TermCode> TermCodeRepository;
+        public IRepository<Ceremony> CeremonyRepository;
 
         #region Init
         /*
@@ -33,6 +39,13 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             _errorService = errorService;
         }
          */
+
+        public PetitionControllerTests()
+        {
+            CeremonyRepository = FakeRepository<Ceremony>();
+            Controller.Repository.Expect(a => a.OfType<Ceremony>()).Return(CeremonyRepository).Repeat.Any();
+        }
+
         protected override void SetupController()
         {
             EmailService = MockRepository.GenerateStub<IEmailService>();
@@ -48,6 +61,17 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
         protected override void RegisterRoutes()
         {
             new RouteConfigurator().RegisterRoutes();
+        }
+
+        /// <summary>
+        /// Need to do this because the call to the static class TermService.
+        /// </summary>
+        /// <param name="container"></param>
+        protected override void RegisterAdditionalServices(IWindsorContainer container)
+        {
+            TermCodeRepository = MockRepository.GenerateStub<IRepository<TermCode>>();
+            container.Kernel.AddComponentInstance<IRepository<TermCode>>(TermCodeRepository);
+            base.RegisterAdditionalServices(container);
         }
         
         #endregion Init
