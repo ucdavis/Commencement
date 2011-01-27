@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 using Commencement.Controllers;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
@@ -14,6 +15,7 @@ using MvcContrib.TestHelper;
 using Rhino.Mocks;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Testing;
+using UCDArch.Web.ActionResults;
 
 namespace Commencement.Tests.Controllers.PetitionControllerTests
 {
@@ -185,5 +187,127 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
 
         #endregion ExtraTicketPetitions Tests
 
+        #region DecideExtraTicketPetition Tests
+
+
+        [TestMethod]
+        public void TestDecideExtraTicketPetitionReturnsJsonWithExpectedValueWhenParticipationNotFound()
+        {
+            #region Arrange
+            ControllerRecordFakes.FakeRegistrationParticipation(3, RegistrationParticipationRepository);            
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.DecideExtraTicketPetition(4, true)
+                .AssertResultIs<JsonResult>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Could not find registration.", result.Data);
+            ExtraTicketPetitionRepository.AssertWasNotCalled(a => a.EnsurePersistent(Arg<ExtraTicketPetition>.Is.Anything));
+            #endregion Assert		
+        }
+
+        [TestMethod]
+        public void TestDecideExtraTicketPetitionReturnsJsonWithExpectedValueWhenParticipationExtraTicketPetitionNotFound()
+        {
+            #region Arrange
+            ControllerRecordFakes.FakeRegistrationParticipation(3, RegistrationParticipationRepository);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.DecideExtraTicketPetition(1, true)
+                .AssertResultIs<JsonResult>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Could not find extra ticket petition.", result.Data);
+            ExtraTicketPetitionRepository.AssertWasNotCalled(a => a.EnsurePersistent(Arg<ExtraTicketPetition>.Is.Anything));
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Not approved, but everything found.
+        /// </summary>
+        [TestMethod]
+        public void TestDecideExtraTicketPetitionReturnsJson1()
+        {
+            
+            #region Arrange
+            var registrationPaticipations = new List<RegistrationParticipation>();
+            registrationPaticipations.Add(CreateValidEntities.RegistrationParticipation(1));
+            registrationPaticipations[0].ExtraTicketPetition = CreateValidEntities.ExtraTicketPetition(1);
+
+            ControllerRecordFakes.FakeRegistrationParticipation(0, RegistrationParticipationRepository, registrationPaticipations);
+            ExtraTicketPetitionRepository
+                .Expect(a => a.EnsurePersistent(Arg<ExtraTicketPetition>.Is.Anything))
+                .Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.DecideExtraTicketPetition(1, false)
+                .AssertResultIs<JsonResult>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(string.Empty, result.Data);
+            ExtraTicketPetitionRepository.AssertWasCalled(a => a.EnsurePersistent(Arg<ExtraTicketPetition>.Is.Anything));
+            var args = (ExtraTicketPetition)ExtraTicketPetitionRepository.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<ExtraTicketPetition>.Is.Anything))[0][0];
+            Assert.IsNotNull(args);
+            Assert.IsNotNull(args.DateDecision);
+            Assert.AreEqual(DateTime.Now.Date, args.DateDecision.Value.Date);
+            Assert.IsFalse(args.IsApproved);
+            Assert.IsFalse(args.IsPending);
+            Assert.AreEqual("Denied",args.Status);
+            EmailService.AssertWasNotCalled(a => a.QueueExtraTicketPetition(Arg<RegistrationParticipation>.Is.Anything));
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Approved and everything found
+        /// </summary>
+        [TestMethod]
+        public void TestDecideExtraTicketPetitionReturnsJson2()
+        {
+
+            #region Arrange
+            var registrationPaticipations = new List<RegistrationParticipation>();
+            registrationPaticipations.Add(CreateValidEntities.RegistrationParticipation(1));
+            registrationPaticipations[0].ExtraTicketPetition = CreateValidEntities.ExtraTicketPetition(1);
+
+            ControllerRecordFakes.FakeRegistrationParticipation(0, RegistrationParticipationRepository, registrationPaticipations);
+            ExtraTicketPetitionRepository
+                .Expect(a => a.EnsurePersistent(Arg<ExtraTicketPetition>.Is.Anything))
+                .Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.DecideExtraTicketPetition(1, true)
+                .AssertResultIs<JsonResult>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(string.Empty, result.Data);
+            ExtraTicketPetitionRepository.AssertWasCalled(a => a.EnsurePersistent(Arg<ExtraTicketPetition>.Is.Anything));
+            var args = (ExtraTicketPetition)ExtraTicketPetitionRepository.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<ExtraTicketPetition>.Is.Anything))[0][0];
+            Assert.IsNotNull(args);
+            Assert.IsNotNull(args.DateDecision);
+            Assert.AreEqual(DateTime.Now.Date, args.DateDecision.Value.Date);
+            Assert.IsTrue(args.IsApproved);
+            Assert.IsFalse(args.IsPending);
+            Assert.AreEqual("Approved", args.Status);
+            EmailService.AssertWasCalled(a => a.QueueExtraTicketPetition(Arg<RegistrationParticipation>.Is.Anything));
+            var args2 = (RegistrationParticipation)EmailService
+                .GetArgumentsForCallsMadeOn(a => a.QueueExtraTicketPetition(Arg<RegistrationParticipation>.Is.Anything))[0][0];
+            Assert.IsNotNull(args2);
+            Assert.AreEqual("Reason1", args2.ExtraTicketPetition.Reason);
+            #endregion Assert
+        }
+
+        #endregion DecideExtraTicketPetition Tests
     }
 }

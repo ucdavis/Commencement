@@ -54,6 +54,13 @@ namespace Commencement.Controllers
             var viewModel = AdminExtraTicketPetitionViewModel.Create(Repository, _ceremonyService, _petitionService, CurrentUser, TermService.GetCurrent(), ceremonyId);
             return View(viewModel);
         }
+
+        /// <summary>
+        /// #3
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isApproved"></param>
+        /// <returns></returns>
         [HttpPost]
         [AnyoneWithRole]
         public ActionResult DecideExtraTicketPetition(int id /* Registration Participation Id */, bool isApproved)

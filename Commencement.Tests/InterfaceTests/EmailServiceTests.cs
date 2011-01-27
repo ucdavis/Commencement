@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Commencement.Controllers.Helpers;
 using Commencement.Controllers.Services;
 using Commencement.Core.Domain;
@@ -266,17 +264,39 @@ namespace Commencement.Tests.InterfaceTests
         public void TestQueueExtraTicketPetition()
         {
             #region Arrange
-            Assert.Inconclusive("When I do the petition controller, revist this test");
-            
+            var registrationParticipation = CreateValidEntities.RegistrationParticipation(3);
+            registrationParticipation.NumberTickets = 99;
+            registrationParticipation.Ceremony = CreateValidEntities.Ceremony(1);
+            registrationParticipation.Ceremony.Templates.Add(CreateValidEntities.Template(7));
+            registrationParticipation.Ceremony.Templates[0].TemplateType = CreateValidEntities.TemplateType(1);
+            registrationParticipation.Ceremony.Templates[0].TemplateType.Name = StaticValues.Template_TicketPetition;
+            registrationParticipation.Ceremony.Templates[0].IsActive = true;
+            registrationParticipation.Registration = CreateValidEntities.Registration(9);
+            registrationParticipation.Registration.Student = CreateValidEntities.Student(8);
 
+            LetterGenerator
+                .Expect(a => a.GenerateExtraTicketRequestPetitionConfirmation
+                    (registrationParticipation,registrationParticipation.Ceremony.Templates[0]))
+                    .Return("SomeBody").Repeat.Any();
+
+            EmailQueueRepository.Expect(a => a.EnsurePersistent(Arg<EmailQueue>.Is.Anything)).Repeat.Any();
             #endregion Arrange
 
             #region Act
-
+            EmailService.QueueExtraTicketPetition(registrationParticipation);
             #endregion Act
 
             #region Assert
 
+            EmailQueueRepository.AssertWasCalled(a => a.EnsurePersistent(Arg<EmailQueue>.Is.Anything));
+            var args = (EmailQueue) EmailQueueRepository.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<EmailQueue>.Is.Anything))[0][0]; 
+            Assert.IsNotNull(args);
+            Assert.AreEqual("Pidm8", args.Student.Pidm);
+            Assert.AreEqual("Subject7", args.Template.Subject);
+            Assert.AreEqual("SomeBody", args.Body);
+            Assert.IsFalse(args.Immediate);
+            Assert.AreEqual("Address19", args.Registration.Address1);
+            Assert.AreEqual(99, args.RegistrationParticipation.NumberTickets);
             #endregion Assert		
         }
 

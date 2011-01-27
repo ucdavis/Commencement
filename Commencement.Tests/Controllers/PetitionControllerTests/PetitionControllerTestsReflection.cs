@@ -181,6 +181,50 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             #endregion Assert
         }
 
+        /// <summary>
+        /// #3
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodDecideExtraTicketPetitionContainsExpectedAttributes1()
+        {
+            #region Arrange
+            var controllerClass = ControllerClass;
+            var controllerMethod = controllerClass.GetMethod("DecideExtraTicketPetition");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<AnyoneWithRoleAttribute>();
+            var allAttributes = controllerMethod.GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "AnyoneWithRoleAttribute not found");
+            Assert.AreEqual(2, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// #3
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodDecideExtraTicketPetitionContainsExpectedAttributes2()
+        {
+            #region Arrange
+            var controllerClass = ControllerClass;
+            var controllerMethod = controllerClass.GetMethod("DecideExtraTicketPetition");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<HttpPostAttribute>();
+            var allAttributes = controllerMethod.GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "HttpPostAttribute not found");
+            Assert.AreEqual(2, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
         ///// <summary>
         ///// Tests the controller method index contains expected attributes.
         ///// #1
