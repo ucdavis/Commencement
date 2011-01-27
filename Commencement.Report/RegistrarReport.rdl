@@ -356,21 +356,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Major">
+                    <Textbox Name="MajorCode">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Major.Value</Value>
+                              <Value>=Fields!MajorCode.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Major</rd:DefaultName>
+                      <rd:DefaultName>MajorCode</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -702,8 +702,8 @@
           <DataField>MI</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Major">
-          <DataField>Major</DataField>
+        <Field Name="MajorCode">
+          <DataField>MajorCode</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
