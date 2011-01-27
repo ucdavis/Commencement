@@ -63,7 +63,7 @@ namespace Commencement.Controllers
         /// <returns></returns>
         [HttpPost]
         [AnyoneWithRole]
-        public ActionResult DecideExtraTicketPetition(int id /* Registration Participation Id */, bool isApproved)
+        public JsonResult DecideExtraTicketPetition(int id /* Registration Participation Id */, bool isApproved)
         {
             var participation = Repository.OfType<RegistrationParticipation>().GetNullableById(id);
 
@@ -95,13 +95,13 @@ namespace Commencement.Controllers
         {
             var participation = Repository.OfType<RegistrationParticipation>().GetNullableById(id);
 
-            if (participation == null) return Json(new UpdateTicketModel(null, "Count not locate registration."));
+            if (participation == null) return Json(new UpdateTicketModel(null, "Could not locate registration."));
 
             var petition = participation.ExtraTicketPetition;
             var ceremony = participation.Ceremony;
 
             if (petition == null) return Json(new UpdateTicketModel(ceremony, "Could not find petition."));
-            if (ceremony == null) return Json("Could not find ceremony.");
+            if (ceremony == null) return Json(new UpdateTicketModel(ceremony,"Could not find ceremony."));
             if (!_ceremonyService.HasAccess(ceremony.Id, CurrentUser.Identity.Name)) return Json(new UpdateTicketModel(ceremony, "You do not have access to ceremony."));
             if (!petition.IsPending) return Json(new UpdateTicketModel(ceremony, "Petition is not pending"));
 
@@ -354,6 +354,7 @@ namespace Commencement.Controllers
                 ProjectedTicketCount = ceremony.ProjectedTicketCount;
                 ProjectedStreamingCount = ceremony.ProjectedTicketStreamingCount;
             }
+            Message = message;
         }
 
         public int ProjectedAvailableTickets { get; set; }

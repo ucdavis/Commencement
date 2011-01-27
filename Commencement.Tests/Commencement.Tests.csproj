@@ -164,6 +164,8 @@
     <Compile Include="Controllers\CeremonyControllerTests.cs" />
     <Compile Include="Controllers\ErrorControllerTests.cs" />
     <Compile Include="Controllers\PetitionControllerTests\PetitionControllerInit.cs" />
+    <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTests2.cs" />
+    <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTests3.cs" />
     <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTestsMapping.cs" />
     <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTests1.cs" />
     <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTestsReflection.cs" />

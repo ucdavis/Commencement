@@ -116,8 +116,9 @@
                 // something with the messages
                 $(box).siblings(".loading").fadeOut(2000);
 
-                if (data.Message != null) {
+                if (data.Message != null && data.Message != "") {
                     $(box).siblings(".cancel").show();
+                    alert(data.Message);
                 }
                 else {
                     $(box).siblings(".check").show().delay(5000).fadeOut(2000);

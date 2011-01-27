@@ -131,7 +131,7 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
 
             #region Assert
             Assert.Inconclusive("Still Working on these tests");
-            Assert.AreEqual(2, result.Count(), "It looks like a method was added or removed from the controller.");
+            Assert.AreEqual(4, result.Count(), "It looks like a method was added or removed from the controller.");
             #endregion Assert
         }
 
@@ -212,6 +212,50 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             #region Arrange
             var controllerClass = ControllerClass;
             var controllerMethod = controllerClass.GetMethod("DecideExtraTicketPetition");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<HttpPostAttribute>();
+            var allAttributes = controllerMethod.GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "HttpPostAttribute not found");
+            Assert.AreEqual(2, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// #4
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodUpdateTicketAmountContainsExpectedAttributes1()
+        {
+            #region Arrange
+            var controllerClass = ControllerClass;
+            var controllerMethod = controllerClass.GetMethod("UpdateTicketAmount");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<AnyoneWithRoleAttribute>();
+            var allAttributes = controllerMethod.GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "AnyoneWithRoleAttribute not found");
+            Assert.AreEqual(2, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// #4
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodUpdateTicketAmountContainsExpectedAttributes2()
+        {
+            #region Arrange
+            var controllerClass = ControllerClass;
+            var controllerMethod = controllerClass.GetMethod("UpdateTicketAmount");
             #endregion Arrange
 
             #region Act
