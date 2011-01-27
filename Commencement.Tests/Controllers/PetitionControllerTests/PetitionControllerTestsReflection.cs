@@ -131,7 +131,7 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
 
             #region Assert
             Assert.Inconclusive("Still Working on these tests");
-            Assert.AreEqual(5, result.Count(), "It looks like a method was added or removed from the controller.");
+            Assert.AreEqual(6, result.Count(), "It looks like a method was added or removed from the controller.");
             #endregion Assert
         }
 
@@ -311,6 +311,28 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             #region Assert
             Assert.AreEqual(1, expectedAttribute.Count(), "HttpPostAttribute not found");
             Assert.AreEqual(2, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// #6
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodRegistrationPetitionsContainsExpectedAttributes()
+        {
+            #region Arrange
+            var controllerClass = ControllerClass;
+            var controllerMethod = controllerClass.GetMethod("RegistrationPetitions");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<AnyoneWithRoleAttribute>();
+            var allAttributes = controllerMethod.GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "AnyoneWithRoleAttribute not found");
+            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
             #endregion Assert
         }
 

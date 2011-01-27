@@ -178,6 +178,10 @@ namespace Commencement.Controllers
         #endregion
 
         #region Registration Petitions
+        /// <summary>
+        /// #6
+        /// </summary>
+        /// <returns></returns>
         [AnyoneWithRole]
         public ActionResult RegistrationPetitions()
         {

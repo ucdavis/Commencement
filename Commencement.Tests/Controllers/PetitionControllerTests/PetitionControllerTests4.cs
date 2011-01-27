@@ -28,17 +28,32 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
         public void TestRegistrationPetitions()
         {
             #region Arrange
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            Controller.ControllerContext.HttpContext = new MockHttpContext(1, new[] { RoleNames.RoleUser });
+            ControllerRecordFakes.FakeCeremony(3, CeremonyRepository);
+            CeremonyService.Expect(a => a.GetCeremonies("UserName", TermCodeRepository.Queryable.First()))
+                .Return(CeremonyRepository.GetAll().ToList()).Repeat.Any();
 
-            Assert.Inconclusive("Write these tests");
-
+            var registrationPetitions = new List<RegistrationPetition>();
+            for (int i = 0; i < 4; i++)
+            {
+                registrationPetitions.Add(CreateValidEntities.RegistrationPetition(i+1));
+            }
+            PetitionService.Expect(
+                a => a.GetPendingRegistration("UserName", TermCodeRepository.Queryable.First(), new List<int> {1, 2, 3}))
+                .Return(registrationPetitions).Repeat.Any();
             #endregion Arrange
 
             #region Act
-
+            var result = Controller.RegistrationPetitions()
+                .AssertViewRendered()
+                .WithViewData<AdminPetitionsViewModel>();
             #endregion Act
 
             #region Assert
-
+            Assert.IsNotNull(result);
+            Assert.AreEqual(3, result.Ceremonies.Count());
+            Assert.AreEqual(4, result.PendingRegistrationPetitions.Count());
             #endregion Assert		
         }
 
