@@ -43,7 +43,7 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
             #endregion Act
 
             #region Assert
-            Assert.AreEqual("Pickup tickets at Arc Ticket Office", registration.TicketDistributionMethod);
+            Assert.AreEqual("Pickup tickets.  Refer to college FAQ", registration.TicketDistributionMethod);
             #endregion Assert
         }
 
