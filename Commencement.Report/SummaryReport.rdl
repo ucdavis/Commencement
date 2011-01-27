@@ -1175,7 +1175,7 @@
           <QueryParameter Name="@term">
             <Value>=Parameters!term.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@userId">
+          <QueryParameter Name="@userid">
             <Value>=Parameters!userId.Value</Value>
           </QueryParameter>
         </QueryParameters>
@@ -1184,8 +1184,8 @@
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
-        <Field Name="ceremonyid">
-          <DataField>ceremonyid</DataField>
+        <Field Name="id">
+          <DataField>id</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="DateTime">
@@ -1210,6 +1210,14 @@
         </Field>
         <Field Name="ApprovedExtraTickets">
           <DataField>ApprovedExtraTickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="PendingStreamingExtraTickets">
+          <DataField>PendingStreamingExtraTickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ApprovedStreamingExtraTickets">
+          <DataField>ApprovedStreamingExtraTickets</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>

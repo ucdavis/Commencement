@@ -726,7 +726,7 @@
           <QueryParameter Name="@term">
             <Value>=Parameters!term.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@userId">
+          <QueryParameter Name="@userid">
             <Value>=Parameters!userId.Value</Value>
           </QueryParameter>
         </QueryParameters>
@@ -759,8 +759,8 @@
           <DataField>ExtraTickets</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="CeremonyId">
-          <DataField>CeremonyId</DataField>
+        <Field Name="ExtraStreamingTickets">
+          <DataField>ExtraStreamingTickets</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>

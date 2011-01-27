@@ -41,6 +41,7 @@
       <Options>
         <OutputPath>bin\Debug</OutputPath>
         <TargetServerVersion>SSRS2008</TargetServerVersion>
+        <TargetServerURL>http://devreports.caes.ucdavis.edu/reportserver</TargetServerURL>
         <TargetFolder>Commencement.Report</TargetFolder>
         <TargetDataSourceFolder>Data Sources</TargetDataSourceFolder>
       </Options>

@@ -2,8 +2,8 @@
 <RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="Commencement">
   <ConnectionProperties>
     <Extension>SQL</Extension>
-    <ConnectString>Data Source=donbot;Initial Catalog=Commencement</ConnectString>
+    <ConnectString>Data Source=vogel;Initial Catalog=Commencement</ConnectString>
     <IntegratedSecurity>true</IntegratedSecurity>
   </ConnectionProperties>
-  <DataSourceID>0e1c12eb-f868-40a3-9ef2-6df3869ccf50</DataSourceID>
+  <DataSourceID>074a9c56-65d1-4fcf-9243-80d020953ee0</DataSourceID>
 </RptDataSource>
