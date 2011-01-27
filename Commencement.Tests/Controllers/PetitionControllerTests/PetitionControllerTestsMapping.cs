@@ -1,14 +1,7 @@
-﻿using System;
-using Commencement.Controllers;
-using Commencement.Controllers.Helpers;
-using Commencement.Controllers.Services;
-using Commencement.Core.Domain;
+﻿using Commencement.Controllers;
 using Commencement.Tests.Core.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;
-using Rhino.Mocks;
-using UCDArch.Core.PersistanceSupport;
-using UCDArch.Testing;
 
 namespace Commencement.Tests.Controllers.PetitionControllerTests
 {
@@ -53,6 +46,14 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             "~/Petition/UpdateTicketAmount".ShouldMapTo<PetitionController>(a => a.UpdateTicketAmount(1, 1, false), true);
         }
 
+        /// <summary>
+        /// #5
+        /// </summary>
+        [TestMethod]
+        public void TestApproveAllExtraTicketPetitionMapping()
+        {
+            "~/Petition/ApproveAllExtraTicketPetition/1".ShouldMapTo<PetitionController>(a => a.ApproveAllExtraTicketPetition(1));
+        }
         
 
         ///// <summary>

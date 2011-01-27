@@ -89,6 +89,14 @@ namespace Commencement.Controllers
 
             return Json(string.Empty);
         }
+
+        /// <summary>
+        /// #4
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="tickets"></param>
+        /// <param name="streaming"></param>
+        /// <returns></returns>
         [AnyoneWithRole]
         [HttpPost]
         public JsonResult UpdateTicketAmount(int id /* Registration Participation Id */, int tickets, bool streaming)
@@ -112,6 +120,12 @@ namespace Commencement.Controllers
 
             return Json(new UpdateTicketModel(ceremony, string.Empty));
         }
+
+        /// <summary>
+        /// #5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [AnyoneWithRole]
         [HttpPost]
         public RedirectToRouteResult ApproveAllExtraTicketPetition(int id /* Ceremony Id */)
@@ -121,7 +135,11 @@ namespace Commencement.Controllers
 
             // ceremony not found or user does not have access, redirect to the page so they can select a valid ceremony
             if (ceremony == null) return this.RedirectToAction(a => a.ExtraTicketPetitions(null));
-
+            if (!_ceremonyService.HasAccess(ceremony.Id, CurrentUser.Identity.Name))
+            {
+                Message = "You do not have rights to that ceremony";
+                return this.RedirectToAction(a => a.ExtraTicketPetitions(null));
+            }
             // load up all pending extra ticket petitions
             var participations = _petitionService.GetPendingExtraTicket(CurrentUser.Identity.Name, ceremony.Id);
 

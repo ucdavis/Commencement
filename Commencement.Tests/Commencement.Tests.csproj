@@ -166,9 +166,11 @@
     <Compile Include="Controllers\PetitionControllerTests\PetitionControllerInit.cs" />
     <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTests2.cs" />
     <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTests3.cs" />
+    <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTests4.cs" />
     <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTestsMapping.cs" />
     <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTests1.cs" />
     <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTestsReflection.cs" />
+    <Compile Include="Controllers\PetitionControllerTests\PetitionControllerWithServiceTests.cs" />
     <Compile Include="Controllers\StudentControllerTests\StudentControllerWithServiceTests1.cs" />
     <Compile Include="Controllers\StudentControllerTests\StudentControllerInit.cs" />
     <Compile Include="Controllers\StudentControllerTests\StudentControllerTests1.cs" />

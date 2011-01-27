@@ -131,7 +131,7 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
 
             #region Assert
             Assert.Inconclusive("Still Working on these tests");
-            Assert.AreEqual(4, result.Count(), "It looks like a method was added or removed from the controller.");
+            Assert.AreEqual(5, result.Count(), "It looks like a method was added or removed from the controller.");
             #endregion Assert
         }
 
@@ -269,162 +269,50 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             #endregion Assert
         }
 
-        ///// <summary>
-        ///// Tests the controller method index contains expected attributes.
-        ///// #1
-        ///// </summary>
-        //[TestMethod]
-        //public void TestControllerMethodIndexContainsExpectedAttributes2()
-        //{
-        //    #region Arrange
-        //    var controllerClass = ControllerClass;
-        //    var controllerMethod = controllerClass.GetMethod("Index");
-        //    #endregion Arrange
 
-        //    #region Act
-        //    var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<IgnoreStudentsOnly>();
-        //    var allAttributes = controllerMethod.GetCustomAttributes(true);
-        //    #endregion Act
+        /// <summary>
+        /// #5
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodApproveAllExtraTicketPetitionContainsExpectedAttributes1()
+        {
+            #region Arrange
+            var controllerClass = ControllerClass;
+            var controllerMethod = controllerClass.GetMethod("ApproveAllExtraTicketPetition");
+            #endregion Arrange
 
-        //    #region Assert
-        //    Assert.AreEqual(1, expectedAttribute.Count(), "IgnoreStudentsOnly not found");
-        //    Assert.AreEqual(2, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
+            #region Act
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<AnyoneWithRoleAttribute>();
+            var allAttributes = controllerMethod.GetCustomAttributes(true);
+            #endregion Act
 
-        ///// <summary>
-        ///// #2
-        ///// </summary>
-        //[TestMethod]
-        //public void TestControllerMethodRegistrationRoutingContainsExpectedAttributes1()
-        //{
-        //    #region Arrange
-        //    var controllerClass = ControllerClass;
-        //    var controllerMethod = controllerClass.GetMethod("RegistrationRouting");
-        //    #endregion Arrange
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "AnyoneWithRoleAttribute not found");
+            Assert.AreEqual(2, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
 
-        //    #region Act
-        //    var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
-        //    var allAttributes = controllerMethod.GetCustomAttributes(true);
-        //    #endregion Act
+        /// <summary>
+        /// #5
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodApproveAllExtraTicketPetitionContainsExpectedAttributes2()
+        {
+            #region Arrange
+            var controllerClass = ControllerClass;
+            var controllerMethod = controllerClass.GetMethod("ApproveAllExtraTicketPetition");
+            #endregion Arrange
 
-        //    #region Assert
-        //    Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
-        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
+            #region Act
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<HttpPostAttribute>();
+            var allAttributes = controllerMethod.GetCustomAttributes(true);
+            #endregion Act
 
-        ///// <summary>
-        ///// Tests the controller method register get contains expected attributes.
-        ///// #3
-        ///// </summary>
-        //[TestMethod]
-        //public void TestControllerMethodRegisterGetContainsExpectedAttributes()
-        //{
-        //    #region Arrange
-        //    var controllerClass = ControllerClass;
-        //    var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "Register");
-        //    #endregion Arrange
-
-        //    #region Act
-        //    var expectedAttribute = controllerMethod.ElementAt(0).GetCustomAttributes(true).OfType<PageTrackingFilter>();
-        //    var allAttributes = controllerMethod.ElementAt(0).GetCustomAttributes(true);
-        //    #endregion Act
-
-        //    #region Assert
-        //    Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
-        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
-
-        ///// <summary>
-        ///// Tests the controller method register post contains expected attributes.
-        ///// #4
-        ///// </summary>
-        //[TestMethod]
-        //public void TestControllerMethodRegisterPostContainsExpectedAttributes()
-        //{
-        //    #region Arrange
-        //    var controllerClass = ControllerClass;
-        //    var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "Register");
-        //    #endregion Arrange
-
-        //    #region Act
-        //    var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<HttpPostAttribute>();
-        //    var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
-        //    #endregion Act
-
-        //    #region Assert
-        //    Assert.AreEqual(1, expectedAttribute.Count(), "HttpPostAttribute not found");
-        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
-
-        ///// <summary>
-        ///// #5
-        ///// </summary>
-        //[TestMethod]
-        //public void TestControllerMethodDisplayRegistrationContainsExpectedAttributes()
-        //{
-        //    #region Arrange
-        //    var controllerClass = ControllerClass;
-        //    var controllerMethod = controllerClass.GetMethod("DisplayRegistration");
-        //    #endregion Arrange
-
-        //    #region Act
-        //    var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<PageTrackingFilter>();
-        //    var allAttributes = controllerMethod.GetCustomAttributes(true);
-        //    #endregion Act
-
-        //    #region Assert
-        //    Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
-        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
-
-        ///// <summary>
-        ///// #6
-        ///// </summary>
-        //[TestMethod]
-        //public void TestControllerMethodEditRegistrationGetContainsExpectedAttributes()
-        //{
-        //    #region Arrange
-        //    var controllerClass = ControllerClass;
-        //    var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "EditRegistration");
-        //    #endregion Arrange
-
-        //    #region Act
-        //    var expectedAttribute = controllerMethod.ElementAt(0).GetCustomAttributes(true).OfType<PageTrackingFilter>();
-        //    var allAttributes = controllerMethod.ElementAt(0).GetCustomAttributes(true);
-        //    #endregion Act
-
-        //    #region Assert
-        //    Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
-        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
-
-        ///// <summary>
-        ///// #7
-        ///// </summary>
-        //[TestMethod]
-        //public void TestControllerMethodEditRegistrationPostContainsExpectedAttributes()
-        //{
-        //    #region Arrange
-        //    var controllerClass = ControllerClass;
-        //    var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "EditRegistration");
-        //    #endregion Arrange
-
-        //    #region Act
-        //    var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<HttpPostAttribute>();
-        //    var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
-        //    #endregion Act
-
-        //    #region Assert
-        //    Assert.AreEqual(1, expectedAttribute.Count(), "PageTrackingFilter not found");
-        //    Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "HttpPostAttribute not found");
+            Assert.AreEqual(2, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
 
         #endregion Controller Method Tests
 
