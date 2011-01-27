@@ -35,6 +35,7 @@ namespace Commencement.Controllers.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="termCode"></param>
+        /// <param name="ceremonyId"></param>
         /// <returns>Return registration so user has access to name and what not</returns>
         public List<RegistrationParticipation> GetPendingExtraTicket(string userId, int ceremonyId, TermCode termCode = null)
         {
