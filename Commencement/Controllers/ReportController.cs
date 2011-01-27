@@ -21,13 +21,15 @@ namespace Commencement.Controllers
         private readonly IRepositoryWithTypedId<TermCode, string> _termRepository;
         private readonly IUserService _userService;
         private readonly ICeremonyService _ceremonyService;
+        private readonly IRepository<RegistrationParticipation> _registrationParticipationRepository;
         private readonly string _serverLocation = ConfigurationManager.AppSettings["ReportServer"];
 
-        public ReportController(IRepositoryWithTypedId<TermCode, string> termRepository, IUserService userService, ICeremonyService ceremonyService)
+        public ReportController(IRepositoryWithTypedId<TermCode, string> termRepository, IUserService userService, ICeremonyService ceremonyService, IRepository<RegistrationParticipation> registrationParticipationRepository)
         {
             _termRepository = termRepository;
             _userService = userService;
             _ceremonyService = ceremonyService;
+            _registrationParticipationRepository = registrationParticipationRepository;
         }
 
         //
@@ -123,12 +125,28 @@ namespace Commencement.Controllers
         {
             var term = _termRepository.GetNullableById(termCode);
 
-            var query = from a in Repository.OfType<Registration>().Queryable
-                        where _ceremonyService.GetCeremonies(CurrentUser.Identity.Name, term).Contains(a.RegistrationParticipations[0].Ceremony)
-                            //&& !a.SjaBlock && !a.Cancelled
-                            && a.MailTickets == printMailing
-                        orderby a.Student.LastName 
+            var query = from a in _registrationParticipationRepository.Queryable
+                        where _ceremonyService.GetCeremonies(CurrentUser.Identity.Name, term).Contains(a.Ceremony)
+                              && !a.Registration.Student.SjaBlock && a.Registration.MailTickets == printMailing
+                        orderby a.Registration.Student.LastName
                         select a;
+
+            if (!printAll)
+            {
+                query = (IOrderedQueryable<RegistrationParticipation>)
+                    query.Where(
+                        a =>
+                        !a.LabelPrinted ||
+                        (a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApprovedCompletely &&
+                         !a.ExtraTicketPetition.LabelPrinted));
+            }
+
+            //var query = from a in Repository.OfType<Registration>().Queryable
+            //            where _ceremonyService.GetCeremonies(CurrentUser.Identity.Name, term).Contains(a.RegistrationParticipations[0].Ceremony)
+            //                //&& !a.SjaBlock && !a.Cancelled
+            //                && a.MailTickets == printMailing
+            //            orderby a.Student.LastName 
+            //            select a;
 
             // filter to only pending labels
             //if (!printAll)
@@ -145,9 +163,9 @@ namespace Commencement.Controllers
 
             foreach(var r in registrations)
             {
-                //r.LabelPrinted = true;
-                //if (r.ExtraTicketPetition != null) r.ExtraTicketPetition.LabelPrinted = true;
-                Repository.OfType<Registration>().EnsurePersistent(r);
+                r.LabelPrinted = true;
+                if (r.ExtraTicketPetition != null) r.ExtraTicketPetition.LabelPrinted = true;
+                Repository.OfType<RegistrationParticipation>().EnsurePersistent(r);
             }
 
             ASCIIEncoding encoding = new ASCIIEncoding();
@@ -156,7 +174,7 @@ namespace Commencement.Controllers
             return File(bytes, "application/word", "labels.doc");
         }
 
-        private string GenerateLabelDoc(List<Registration> registrations, bool printAll)
+        private string GenerateLabelDoc(List<RegistrationParticipation> registrations, bool printAll)
         {
             var labels = new StringBuilder();
             var rows = GenerateRows(registrations, printAll);
@@ -173,12 +191,12 @@ namespace Commencement.Controllers
         }
 
         // create a list of the data broken down into rows
-        private List<LabelRow> GenerateRows(List<Registration> registrations, bool printAll)
+        private List<LabelRow> GenerateRows(List<RegistrationParticipation> registrations, bool printAll)
         {
             var rows = new List<LabelRow>();
             var row = new LabelRow();
 
-            foreach (var reg in registrations)
+            foreach (var rp in registrations)
             {
                 // if no space is avaible add it to the list
                 if (!row.HasSpace())
@@ -188,25 +206,36 @@ namespace Commencement.Controllers
                 }
 
                 // calculate the number of tickets
-                var tickets = 0;// !reg.LabelPrinted || printAll ? reg.RegistrationParticipations[0].NumberTickets : 0;
-                //tickets += reg.ExtraTicketPetition != null && !reg.ExtraTicketPetition.IsPending && reg.ExtraTicketPetition.IsApproved && (!reg.ExtraTicketPetition.LabelPrinted || printAll) ? reg.ExtraTicketPetition.NumberTickets.Value : 0;
+                var tickets = !rp.LabelPrinted || printAll ? rp.NumberTickets : 0;  // figure out if we need to print original ticket count
+                // calculate any extra tickets
+                tickets += rp.ExtraTicketPetition != null && !rp.ExtraTicketPetition.IsPending && rp.ExtraTicketPetition.IsApproved 
+                    && (!rp.ExtraTicketPetition.LabelPrinted || printAll) ? rp.ExtraTicketPetition.NumberTickets.Value : 0;
+
+                // calculate streaming
+                var streaming = rp.ExtraTicketPetition != null && rp.ExtraTicketPetition.IsApprovedCompletely
+                                    ? rp.ExtraTicketPetition.NumberTicketsStreaming
+                                    : 0;
+
+                var ticketString = string.Format("{0}-{1}", tickets, streaming);
 
                 if (tickets > 0)
                 {
                     string cell = string.Empty;
 
-                    if (reg.MailTickets)
+                    if (rp.Registration.MailTickets)
                     {
-                        var address2 = string.IsNullOrEmpty(reg.Address2) ? string.Empty : string.Format(Labels.Avergy5160_Mail_Address2, reg.Address2);
-                        cell = string.Format(Labels.Avery5160_MailCell, reg.Student.FullName, reg.Address1,
-                                                 address2, reg.City + ", " + reg.State.Id + " " + reg.Zip, reg.RegistrationParticipations[0].Ceremony.DateTime.ToString("t") + "-" + tickets);
+                        var address2 = string.IsNullOrEmpty(rp.Registration.Address2) ? string.Empty : string.Format(Labels.Avergy5160_Mail_Address2, rp.Registration.Address2);
+                        cell = string.Format(Labels.Avery5160_MailCell, rp.Registration.Student.FullName, rp.Registration.Address1,
+                                                 address2, rp.Registration.City + ", " + rp.Registration.State.Id + " " + rp.Registration.Zip
+                                                 , rp.Registration.RegistrationParticipations[0].Ceremony.DateTime.ToString("t") + "-" + ticketString);
 
 
                     }
                     else
                     {
-                        cell = string.Format(Labels.Avery5160_PickupCell, reg.Student.FullName,
-                                             reg.Student.StudentId, reg.RegistrationParticipations[0].Major.Name, reg.RegistrationParticipations[0].Ceremony.DateTime.ToString("t") + "-" + tickets);
+                        cell = string.Format(Labels.Avery5160_PickupCell, rp.Registration.Student.FullName,
+                                             rp.Registration.Student.StudentId, rp.Registration.RegistrationParticipations[0].Major.Name
+                                             , rp.Ceremony.DateTime.ToString("t") + "-" + ticketString);
                     }
 
                     row.AddCell(cell);
