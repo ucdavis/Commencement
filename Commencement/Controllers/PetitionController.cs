@@ -69,6 +69,7 @@ namespace Commencement.Controllers
 
             if (participation == null) return Json("Could not find registration.");
             if (participation.ExtraTicketPetition == null) return Json("Could not find extra ticket petition.");
+            if (!_ceremonyService.HasAccess(participation.Ceremony.Id, CurrentUser.Identity.Name)) return Json("You do not have access to that ceremony.");
 
             var petition = participation.ExtraTicketPetition;
             petition.MakeDecision(isApproved);

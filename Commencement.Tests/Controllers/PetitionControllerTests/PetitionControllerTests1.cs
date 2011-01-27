@@ -9,6 +9,7 @@ using Commencement.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;
 using Rhino.Mocks;
+using UCDArch.Testing;
 
 namespace Commencement.Tests.Controllers.PetitionControllerTests
 {
@@ -229,14 +230,20 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
         {
             
             #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(1, new[] { RoleNames.RoleUser });
+
             var registrationPaticipations = new List<RegistrationParticipation>();
             registrationPaticipations.Add(CreateValidEntities.RegistrationParticipation(1));
             registrationPaticipations[0].ExtraTicketPetition = CreateValidEntities.ExtraTicketPetition(1);
+            registrationPaticipations[0].Ceremony = CreateValidEntities.Ceremony(3);
+            registrationPaticipations[0].Ceremony.SetIdTo(3);
 
             ControllerRecordFakes.FakeRegistrationParticipation(0, RegistrationParticipationRepository, registrationPaticipations);
             ExtraTicketPetitionRepository
                 .Expect(a => a.EnsurePersistent(Arg<ExtraTicketPetition>.Is.Anything))
                 .Repeat.Any();
+
+            CeremonyService.Expect(a => a.HasAccess(3, "UserName")).Return(true).Repeat.Any();
             #endregion Arrange
 
             #region Act
@@ -267,14 +274,20 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
         {
 
             #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(1, new[] { RoleNames.RoleUser });
+
             var registrationPaticipations = new List<RegistrationParticipation>();
             registrationPaticipations.Add(CreateValidEntities.RegistrationParticipation(1));
             registrationPaticipations[0].ExtraTicketPetition = CreateValidEntities.ExtraTicketPetition(1);
+            registrationPaticipations[0].Ceremony = CreateValidEntities.Ceremony(3);
+            registrationPaticipations[0].Ceremony.SetIdTo(3);
 
             ControllerRecordFakes.FakeRegistrationParticipation(0, RegistrationParticipationRepository, registrationPaticipations);
             ExtraTicketPetitionRepository
                 .Expect(a => a.EnsurePersistent(Arg<ExtraTicketPetition>.Is.Anything))
                 .Repeat.Any();
+
+            CeremonyService.Expect(a => a.HasAccess(3, "UserName")).Return(true).Repeat.Any();
             #endregion Arrange
 
             #region Act
@@ -298,6 +311,42 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
                 .GetArgumentsForCallsMadeOn(a => a.QueueExtraTicketPetition(Arg<RegistrationParticipation>.Is.Anything))[0][0];
             Assert.IsNotNull(args2);
             Assert.AreEqual("Reason1", args2.ExtraTicketPetition.Reason);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// No Access
+        /// </summary>
+        [TestMethod]
+        public void TestDecideExtraTicketPetitionReturnsJson3()
+        {
+
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(1, new[] { RoleNames.RoleUser });
+
+            var registrationPaticipations = new List<RegistrationParticipation>();
+            registrationPaticipations.Add(CreateValidEntities.RegistrationParticipation(1));
+            registrationPaticipations[0].ExtraTicketPetition = CreateValidEntities.ExtraTicketPetition(1);
+            registrationPaticipations[0].Ceremony = CreateValidEntities.Ceremony(3);
+            registrationPaticipations[0].Ceremony.SetIdTo(3);
+
+            ControllerRecordFakes.FakeRegistrationParticipation(0, RegistrationParticipationRepository, registrationPaticipations);
+            ExtraTicketPetitionRepository
+                .Expect(a => a.EnsurePersistent(Arg<ExtraTicketPetition>.Is.Anything))
+                .Repeat.Any();
+
+            CeremonyService.Expect(a => a.HasAccess(3, "UserName")).Return(false).Repeat.Any();
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.DecideExtraTicketPetition(1, true)
+                .AssertResultIs<JsonResult>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("You do not have access to that ceremony.", result.Data);
+            ExtraTicketPetitionRepository.AssertWasNotCalled(a => a.EnsurePersistent(Arg<ExtraTicketPetition>.Is.Anything));
             #endregion Assert
         }
 

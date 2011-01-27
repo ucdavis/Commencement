@@ -54,7 +54,15 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
         {
             "~/Petition/ApproveAllExtraTicketPetition/1".ShouldMapTo<PetitionController>(a => a.ApproveAllExtraTicketPetition(1));
         }
-        
+
+        /// <summary>
+        /// #6
+        /// </summary>
+        [TestMethod]
+        public void TestRegistrationPetitionsMapping()
+        {
+            "~/Petition/RegistrationPetitions/".ShouldMapTo<PetitionController>(a => a.RegistrationPetitions());
+        }
 
         ///// <summary>
         ///// Tests the Register mapping.
