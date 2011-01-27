@@ -61,7 +61,7 @@
       <Platform>Win32</Platform>
       <Options>
         <OutputPath>bin\Release</OutputPath>
-        <TargetServerVersion>SSRS2008</TargetServerVersion>
+        <TargetServerVersion>SSRS2008R2</TargetServerVersion>
         <TargetServerURL>http://blotto/reportserver</TargetServerURL>
         <TargetFolder>Commencement</TargetFolder>
         <TargetDataSourceFolder>Data Sources</TargetDataSourceFolder>
