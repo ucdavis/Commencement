@@ -347,10 +347,13 @@ namespace Commencement.Controllers
     {
         public UpdateTicketModel(Ceremony ceremony, string message)
         {
-            ProjectedAvailableTickets = ceremony.ProjectedAvailableTickets;
-            ProjectedAvailableStreamingTickets = ceremony.ProjectedAvailableStreamingTickets;
-            ProjectedTicketCount = ceremony.ProjectedTicketCount;
-            ProjectedStreamingCount = ceremony.ProjectedTicketStreamingCount;
+            if (ceremony != null)
+            {
+                ProjectedAvailableTickets = ceremony.ProjectedAvailableTickets;
+                ProjectedAvailableStreamingTickets = ceremony.ProjectedAvailableStreamingTickets;
+                ProjectedTicketCount = ceremony.ProjectedTicketCount;
+                ProjectedStreamingCount = ceremony.ProjectedTicketStreamingCount;
+            }
         }
 
         public int ProjectedAvailableTickets { get; set; }
@@ -361,3 +364,4 @@ namespace Commencement.Controllers
         public string Message { get; set; }
     }
 }
+
