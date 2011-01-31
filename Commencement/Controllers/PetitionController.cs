@@ -212,6 +212,13 @@ namespace Commencement.Controllers
 
             return View(registrationPetition);
         }
+
+        /// <summary>
+        /// #8
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isApproved"></param>
+        /// <returns></returns>
         [HttpPost]
         [AnyoneWithRole]
         public ActionResult DecideRegistrationPetition(int id, bool isApproved)

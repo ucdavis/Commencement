@@ -75,7 +75,7 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
 
       
         /// <summary>
-        /// #7
+        /// #8
         /// </summary>
         [TestMethod]
         public void TestDecideRegistrationPetitionMapping()
