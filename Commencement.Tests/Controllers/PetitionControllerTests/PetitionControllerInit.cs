@@ -24,6 +24,9 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
         public IRepository<Ceremony> CeremonyRepository;
         public IRepository<RegistrationParticipation> RegistrationParticipationRepository;
         public IRepository<ExtraTicketPetition> ExtraTicketPetitionRepository;
+        public IRepository<RegistrationPetition> RegistrationPetitionRepository;
+        public IRepository<Registration> RegistrationRepository;
+        
 
         #region Init
         /*
@@ -53,6 +56,11 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             ExtraTicketPetitionRepository = FakeRepository<ExtraTicketPetition>();
             Controller.Repository.Expect(a => a.OfType<ExtraTicketPetition>()).Return(ExtraTicketPetitionRepository).Repeat.Any();
 
+            RegistrationPetitionRepository = FakeRepository<RegistrationPetition>();
+            Controller.Repository.Expect(a => a.OfType<RegistrationPetition>()).Return(RegistrationPetitionRepository).Repeat.Any();
+
+            RegistrationRepository = FakeRepository<Registration>();
+            Controller.Repository.Expect(a => a.OfType<Registration>()).Return(RegistrationRepository).Repeat.Any();
         }
 
 

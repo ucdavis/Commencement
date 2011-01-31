@@ -477,5 +477,47 @@ namespace Commencement.Tests.Core.Helpers
             repository.Expect(a => a.Queryable).Return(colleges.AsQueryable()).Repeat.Any();
             repository.Expect(a => a.GetAll()).Return(colleges).Repeat.Any();
         }
+
+
+        public static void RegistrationPetitions(int count, IRepository<RegistrationPetition> repository)
+        {
+            var registrationPetitions = new List<RegistrationPetition>();
+            RegistrationPetitions(count, repository, registrationPetitions);
+        }
+
+
+        public static void RegistrationPetitions(int count, IRepository<RegistrationPetition> repository, List<RegistrationPetition> specificRegistrationPetitions)
+        {
+            var registrationPetitions = new List<RegistrationPetition>();
+            var specificRegistrationPetitionsCount = 0;
+            if (specificRegistrationPetitions != null)
+            {
+                specificRegistrationPetitionsCount = specificRegistrationPetitions.Count;
+                for (int i = 0; i < specificRegistrationPetitionsCount; i++)
+                {
+                    registrationPetitions.Add(specificRegistrationPetitions[i]);
+                }
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                registrationPetitions.Add(CreateValidEntities.RegistrationPetition(i + specificRegistrationPetitionsCount + 1));
+            }
+
+            var totalCount = registrationPetitions.Count;
+            for (int i = 0; i < totalCount; i++)
+            {
+                registrationPetitions[i].SetIdTo(i + 1);
+                int i1 = i;
+                repository
+                    .Expect(a => a.GetNullableById(i1 + 1))
+                    .Return(registrationPetitions[i])
+                    .Repeat
+                    .Any();
+            }
+            repository.Expect(a => a.GetNullableById(totalCount + 1)).Return(null).Repeat.Any();
+            repository.Expect(a => a.Queryable).Return(registrationPetitions.AsQueryable()).Repeat.Any();
+            repository.Expect(a => a.GetAll()).Return(registrationPetitions).Repeat.Any();
+        }
     }
 }

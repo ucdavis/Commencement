@@ -188,6 +188,12 @@ namespace Commencement.Controllers
             var viewModel = AdminPetitionsViewModel.Create(Repository, _ceremonyService, _petitionService, CurrentUser.Identity.Name, TermService.GetCurrent());
             return View(viewModel);
         }
+
+        /// <summary>
+        /// #7
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [AnyoneWithRole]
         public ActionResult RegistrationPetition(int id)
         {
@@ -198,6 +204,12 @@ namespace Commencement.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
+            if (!_ceremonyService.HasAccess(registrationPetition.Ceremony.Id, CurrentUser.Identity.Name))
+            {
+                Message = "You do not have rights to that ceremony";
+                return this.RedirectToAction(a => a.ExtraTicketPetitions(null));
+            }
+
             return View(registrationPetition);
         }
         [HttpPost]
@@ -205,7 +217,16 @@ namespace Commencement.Controllers
         public ActionResult DecideRegistrationPetition(int id, bool isApproved)
         {
             var registrationPetition = Repository.OfType<RegistrationPetition>().GetNullableById(id);
-            if (registrationPetition == null) return this.RedirectToAction<ErrorController>(a => a.Index());
+            if (registrationPetition == null)
+            {
+                Message = "Petition not found.";
+                return this.RedirectToAction<ErrorController>(a => a.Index());
+            }
+            if (!_ceremonyService.HasAccess(registrationPetition.Ceremony.Id, CurrentUser.Identity.Name))
+            {
+                Message = "You do not have rights to that ceremony";
+                return this.RedirectToAction(a => a.ExtraTicketPetitions(null));
+            }
             var registration = registrationPetition.Registration;
 
             // set the decision

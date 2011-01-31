@@ -64,6 +64,25 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             "~/Petition/RegistrationPetitions/".ShouldMapTo<PetitionController>(a => a.RegistrationPetitions());
         }
 
+        /// <summary>
+        /// #7
+        /// </summary>
+        [TestMethod]
+        public void TestRegistrationPetitionMapping()
+        {
+            "~/Petition/RegistrationPetition/5".ShouldMapTo<PetitionController>(a => a.RegistrationPetition(5));
+        }
+
+      
+        /// <summary>
+        /// #7
+        /// </summary>
+        [TestMethod]
+        public void TestDecideRegistrationPetitionMapping()
+        {
+            "~/Petition/DecideRegistrationPetition/5".ShouldMapTo<PetitionController>(a => a.DecideRegistrationPetition(5, false), true);
+        }
+
         ///// <summary>
         ///// Tests the Register mapping.
         ///// </summary>
