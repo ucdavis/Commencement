@@ -168,6 +168,7 @@
     <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTests3.cs" />
     <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTests4.cs" />
     <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTests5.cs" />
+    <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTests6.cs" />
     <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTestsMapping.cs" />
     <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTests1.cs" />
     <Compile Include="Controllers\PetitionControllerTests\PetitionControllerTestsReflection.cs" />

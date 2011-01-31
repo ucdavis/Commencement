@@ -1,4 +1,6 @@
-﻿using Commencement.Controllers;
+﻿using System.Collections.Generic;
+using Commencement.Controllers;
+using Commencement.Controllers.ViewModels;
 using Commencement.Tests.Core.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;
@@ -83,18 +85,10 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             "~/Petition/DecideRegistrationPetition/5".ShouldMapTo<PetitionController>(a => a.DecideRegistrationPetition(5, false), true);
         }
 
-        ///// <summary>
-        ///// Tests the Register mapping.
-        ///// </summary>
-        //[TestMethod, Ignore]
-        //public void TestRegisterMapping()
-        //{
-        //    "~/Petition/Register".ShouldMapTo<PetitionController>(a => a.Register());
-        //}
-
 
         /// <summary>
         /// Tests the ExtraTicketPetition get mapping.
+        /// #9
         /// </summary>
         [TestMethod]
         public void TestExtraTicketPetitionGetMapping()
@@ -104,11 +98,12 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
 
         /// <summary>
         /// Tests the ExtraTicketPetition put mapping.
+        /// #9
         /// </summary>
         [TestMethod]
         public void TestExtraTicketPetitionPutMapping()
         {
-            "~/Petition/ExtraTicketPetition/5".ShouldMapTo<PetitionController>(a => a.ExtraTicketPetition(5));
+            "~/Petition/ExtraTicketPetition/5".ShouldMapTo<PetitionController>(a => a.ExtraTicketPetition(5, new List<ExtraTicketPetitionPostModel>()), true);
         }
 
         #endregion Mapping Tests
