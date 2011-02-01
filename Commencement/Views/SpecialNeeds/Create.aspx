@@ -24,13 +24,15 @@
             
             <li>
                 <strong><%:Html.LabelFor(a => a.Name, DisplayOptions.HumanizeAndColon) %></strong>
-                <%: Html.TextBoxFor(model => model.Name) %>
+                <%--<%: Html.TextBoxFor(model => model.Name) %>--%>
+                <%: Html.TextBox("specialNeed.Name", Model.Name) %>
                 <%: Html.ValidationMessageFor(model => model.Name) %>
             </li>
             
             <li>
                 <strong><%:Html.LabelFor(a => a.IsActive, DisplayOptions.HumanizeAndColon)%></strong>
-                <%: Html.CheckBoxFor(model => model.IsActive) %>
+                <%--<%: Html.CheckBoxFor(model => model.IsActive) %>--%>
+                <%: Html.CheckBox("specialNeed.IsActive", Model.IsActive) %>
                 <%: Html.ValidationMessageFor(model => model.IsActive) %>
             </li>
          

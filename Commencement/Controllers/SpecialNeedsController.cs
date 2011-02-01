@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Core.Domain;
 using MvcContrib;
@@ -21,7 +22,6 @@ namespace Commencement.Controllers
 
         //
         // GET: /SpecialNeeds/Create
-
         public ActionResult Create()
         {
             return View(new SpecialNeed());
@@ -29,12 +29,10 @@ namespace Commencement.Controllers
 
         //
         // POST: /SpecialNeeds/Create
-
         [HttpPost]
         public ActionResult Create(SpecialNeed specialNeed)
         {
             MvcValidationAdapter.TransferValidationMessagesTo(ModelState, specialNeed.ValidationResults());
-
 
             if (ModelState.IsValid)
             {
@@ -42,6 +40,7 @@ namespace Commencement.Controllers
                 Message = "Special Need Created";
                 return this.RedirectToAction(a => a.Index());
             }
+
             Message = "Special Need Not Created";
             return View(specialNeed);
         }

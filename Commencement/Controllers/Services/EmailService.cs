@@ -164,6 +164,8 @@ namespace Commencement.Controllers.Services
 
         public void QueueRegistrationPetitionDecision(RegistrationPetition registration)
         {
+            Check.Require(registration != null, "registration is required.");
+
             throw new NotImplementedException();
         }
     }
