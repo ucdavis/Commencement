@@ -100,7 +100,8 @@
             
             <select id="CeremonyHour" class="ceremony_time">
                 <% for (int i = 1; i < 13; i++ ) { %>
-                    <% var flag = Model.Ceremony.DateTime.Hour == i; %>
+                    <% var hour = Model.Ceremony.DateTime.Hour > 12 ? Model.Ceremony.DateTime.Hour - 12 : Model.Ceremony.DateTime.Hour;
+                       var flag = hour == i; %>
                     <option value="<%= i %>" "<%= flag ? "selected" : string.Empty %>"><%= i %></option>
                 <% } %>
             </select>
