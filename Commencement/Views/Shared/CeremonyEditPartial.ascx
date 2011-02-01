@@ -65,7 +65,7 @@
                     <strong>Tickets Requested:</strong>
 
                     <select id="<%: string.Format("ceremonyParticipations[{0}]_Tickets", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Tickets", a.Index) %>" >
-                        <% for (int i = 1; i < a.Ceremony.TicketsPerStudent; i++) { %>
+                        <% for (int i = 1; i <= a.Ceremony.TicketsPerStudent; i++) { %>
                             <% if (i == a.Tickets) { %>
                             <% } %>
 
