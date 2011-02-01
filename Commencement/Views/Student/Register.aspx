@@ -13,16 +13,8 @@
 </asp:Content>
 
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
-    <p>
 
-        <% if (Model.Ceremonies.Any(a => a.IsPastPrintingDeadline())) { %>
-            <%= Html.Encode(string.Format(StaticValues.Txt_Introduction, Model.Student.FirstName)) %>
-        <% } else { %>
-            <%: string.Format(StaticValues.Txt_Introduction_AfterPrintingDeadling, Model.Student.FirstName) %>
-        <% } %>
-    </p>
-    
-    <p><%: Html.HtmlEncode(Model.Ceremonies.FirstOrDefault().TermCode.RegistrationWelcome) %></p>
+    <p><%: Html.HtmlEncode(string.Format(Model.Ceremonies.FirstOrDefault().TermCode.RegistrationWelcome, Model.Student.FullName, Model.Ceremonies.FirstOrDefault().Name)) %></p>
 
     <%= Html.ValidationSummary("Please correct all errors below") %>
     <%= Html.ClientSideValidation<Commencement.Core.Domain.Registration>("Registration") %>

@@ -30,6 +30,12 @@ namespace Commencement.Controllers.Filters
 
             var urlHelper = new UrlHelper(filterContext.RequestContext);
 
+            //var test2 =
+            //    registrationRepository.Queryable.Where(
+            //        a =>
+            //        a.Student.Login == filterContext.HttpContext.User.Identity.Name &&
+            //        a.Student.TermCode != TermService.GetCurrent()).Any();
+
             // check if the student has walked previously, there is no exception
             if (registrationRepository.Queryable.Where(a => a.Student.Login == filterContext.HttpContext.User.Identity.Name && a.Student.TermCode != TermService.GetCurrent()).Any())
             {
