@@ -254,3 +254,11 @@ html, body {height:100%;}
 /* ------------------- */
 div.t-grid {}
 #filter_container {margin-top: 20px;}
+
+
+.confirmation-container
+{
+    background-color: #F4F4F4;
+    border: 1px solid #666666;
+    padding: 10px;
+}

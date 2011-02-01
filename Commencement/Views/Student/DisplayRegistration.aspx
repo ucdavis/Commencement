@@ -29,7 +29,12 @@
     <% if (Model.Registration.RegistrationParticipations.Count > 0) { %>
     <h2>Registered Ceremony</h2>
     <% foreach(var a in Model.Registration.RegistrationParticipations) { %>
-        <%: Html.HtmlEncode(a.Ceremony.ConfirmationText)%>
+        <!-- only display this message if it loads within 2 minutes of the registartion date -->
+        <% if (DateTime.Now.Subtract(a.DateRegistered).TotalMinutes <= 2) { %>
+        <div class="confirmation-container">
+            <%= a.Ceremony.ConfirmationText %>
+        </div>
+        <% } %>
         <% Html.RenderPartial("RegisteredCeremonyDisplay", a); %>
         <hr />
     <% } %>

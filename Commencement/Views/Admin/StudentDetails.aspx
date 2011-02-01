@@ -1,6 +1,7 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.RegistrationModel>" %>
 <%@ Import Namespace="Commencement.Controllers" %>
 <%@ Import Namespace="Commencement.Controllers.Filters" %>
+<%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Commencement | Student Details
@@ -54,10 +55,6 @@
         <% if (participations.Count() > 0) { %>
             <h2>Ceremony Information</h2>
             <% foreach(var a in participations) { %>
-               
-                <div id="confirmation-container">
-                <%: a.Ceremony.ConfirmationText %>
-                </div>
 
                 <% Html.RenderPartial("RegisteredCeremonyDisplay", a); %>
                 <hr />

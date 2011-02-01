@@ -1,5 +1,8 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Core.Domain.RegistrationParticipation>" %>
+<%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
+
+    
 <ul class="registration_form">
     <li><strong>Status: </strong><%: Model.Cancelled ? "Cancelled" : "Registered" %></li>
     <li><strong>Major: </strong><%: Model.Major.Name %></li>
