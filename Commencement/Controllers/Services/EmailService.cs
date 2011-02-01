@@ -92,7 +92,7 @@ namespace Commencement.Controllers.Services
                     var subject = template.Subject;
                     var body = _letterGenerator.GenerateRegistrationConfirmation(a, template);
 
-                    var emailQueue = new EmailQueue(a.Registration.Student, template, subject, body, false);
+                    var emailQueue = new EmailQueue(a.Registration.Student, template, subject, body, true);
                     emailQueue.Registration = registration;
                     emailQueue.RegistrationParticipation = a;
 
