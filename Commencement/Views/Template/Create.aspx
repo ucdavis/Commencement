@@ -92,8 +92,15 @@
                 var url = '<%: Url.Action("SendTestEmail", "Template") %>';
                 var subject = $("#Subject").val();
                 var txt = tinyMCE.get("BodyText").getContent();
-                
-                $.getJSON(url, {subject:subject,message: txt}, function(result){if (result) alert("Message has been mailed to you.");});
+
+                var antiForgeryToken = $("input[name='__RequestVerificationToken']").val();
+
+                $.post(url, {subject:subject, message:txt,__RequestVerificationToken:antiForgeryToken }, function(result){
+                    if(result) alert("Message has been mailed to you."); 
+                    else alert("there was an error sending test email");
+                    }
+                );
+
                 
             });
         });

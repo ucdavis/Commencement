@@ -79,6 +79,7 @@ namespace Commencement.Controllers
         }
 
         [ValidateInput(false)]
+        [HttpPost]
         public JsonResult SendTestEmail(string subject, string message)
         {
             var user = Repository.OfType<vUser>().Queryable.Where(a => a.LoginId == CurrentUser.Identity.Name).FirstOrDefault();
