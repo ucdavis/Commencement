@@ -16,12 +16,12 @@ namespace Commencement.Tests.Core.Helpers
     {
         #region Helpers
 
-        public static void LoadTermCodes(string termCode, IRepository<TermCode> termCodeRepository, bool nonActive = false)
+        public static void LoadTermCodes(string termCode, IRepository<TermCode> termCodeRepository, bool nonActive = false, int extratermCodes = 1)
         {
             var termCodes = new List<TermCode>();
             termCodes.Add(CreateValidEntities.TermCode(1));
             termCodes[0].IsActive = !nonActive;
-            ControllerRecordFakes.FakeTermCode(0, termCodeRepository, termCodes);
+            ControllerRecordFakes.FakeTermCode(extratermCodes, termCodeRepository, termCodes);
             termCodes[0].SetIdTo(termCode);
 
             var context = CreateHttpContext("index.aspx", "http://test.org/index.aspx", null);

@@ -9,6 +9,7 @@ using Commencement.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;
 using Rhino.Mocks;
+using UCDArch.Testing;
 
 namespace Commencement.Tests.Controllers.StudentControllerTests
 {
@@ -95,7 +96,7 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
         public void TestRegisterGetRedirectsAsExpected4()
         {
             #region Arrange
-            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository, true);
+            FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository, true, 0);
             var students = new List<Student>();
             var student = CreateValidEntities.Student(1);
             students.Add(student);
@@ -146,6 +147,7 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
         {
             #region Arrange
             FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            Controller.ControllerContext.HttpContext = new MockHttpContext(1, new[] { "" });
             var students = new List<Student>();
             var student = CreateValidEntities.Student(1);
             students.Add(student);
@@ -158,6 +160,16 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
             registration.TermCode = TermCodeRepository.Queryable.First();
             registrations.Add(registration);
             ControllerRecordFakes.FakeRegistration(0, RegistrationRepository, registrations);
+
+            var participations = new List<RegistrationParticipation>();
+            participations.Add(CreateValidEntities.RegistrationParticipation(1));
+            participations[0].Registration = CreateValidEntities.Registration(55);
+            participations[0].Registration.Student = CreateValidEntities.Student(11);
+            participations[0].Registration.Student.Login = "UserName";
+            participations[0].Registration.TermCode = TermCodeRepository.Queryable.First();
+
+            ControllerRecordFakes.FakeRegistrationParticipation(0, ParticipationRepository, participations);
+
             #endregion Arrange
 
             #region Act
@@ -176,8 +188,26 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
         {
             #region Arrange
             FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            Controller.ControllerContext.HttpContext = new MockHttpContext(1, new[] { "" });
+            var colleges = new List<College>();
+            colleges.Add(CreateValidEntities.College(1));
+            colleges.Add(CreateValidEntities.College(2));
+            colleges.Add(CreateValidEntities.College(3));
+            colleges.Add(CreateValidEntities.College(4));
+            for (int i = 0; i < 4; i++)
+            {
+                colleges[i].SetIdTo((i + 1).ToString());
+            }
+
+
             var students = new List<Student>();
             var student = CreateValidEntities.Student(1);
+            student.Majors.Add(CreateValidEntities.MajorCode(1));
+            student.Majors.Add(CreateValidEntities.MajorCode(2));
+            student.Majors.Add(CreateValidEntities.MajorCode(3));
+            student.Majors[0].College = colleges[3];
+            student.Majors[1].College = colleges[3];
+            student.Majors[2].College = colleges[3];
             students.Add(student);
             ControllerRecordFakes.FakeStudent(0, StudentRepository, students, null);
             StudentService.Expect(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything)).Return(StudentRepository.Queryable.First()).Repeat.Any();
@@ -188,6 +218,18 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
             registration.TermCode = CreateValidEntities.TermCode(99);
             registrations.Add(registration);
             ControllerRecordFakes.FakeRegistration(0, RegistrationRepository, registrations);
+
+            var participations = new List<RegistrationParticipation>();
+            participations.Add(CreateValidEntities.RegistrationParticipation(1));
+            participations[0].Registration = CreateValidEntities.Registration(55);
+            participations[0].Registration.Student = CreateValidEntities.Student(11);
+            participations[0].Registration.Student.Login = "UserName";
+            participations[0].Registration.TermCode = TermCodeRepository.Queryable.Last();
+            participations[0].Major = CreateValidEntities.MajorCode(1);
+            participations[0].Major.College = colleges[3];
+
+            ControllerRecordFakes.FakeRegistrationParticipation(0, ParticipationRepository, participations);
+
             #endregion Arrange
 
             #region Act
@@ -206,6 +248,7 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
         {
             #region Arrange
             FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            Controller.ControllerContext.HttpContext = new MockHttpContext(1, new[] { "" });
             var students = new List<Student>();
             var student = CreateValidEntities.Student(1);
             student.Majors.Add(CreateValidEntities.MajorCode(2));
@@ -226,6 +269,17 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
             CeremonyService.Expect(
                 a =>
                 a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything)).Return(null).Repeat.Any();
+
+            var participations = new List<RegistrationParticipation>();
+            participations.Add(CreateValidEntities.RegistrationParticipation(1));
+            participations[0].Registration = CreateValidEntities.Registration(55);
+            participations[0].Registration.Student = CreateValidEntities.Student(11);
+            participations[0].Registration.Student.Login = "UserName";
+            participations[0].Registration.TermCode = TermCodeRepository.Queryable.Last();
+            participations[0].Major = CreateValidEntities.MajorCode(1);
+            participations[0].Major.College = CreateValidEntities.College(9);
+
+            ControllerRecordFakes.FakeRegistrationParticipation(0, ParticipationRepository, participations);
 
             #endregion Arrange
 
@@ -254,6 +308,7 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
         {
             #region Arrange
             FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            Controller.ControllerContext.HttpContext = new MockHttpContext(1, new[] { "" });
             var students = new List<Student>();
             var student = CreateValidEntities.Student(1);
             student.Majors.Add(CreateValidEntities.MajorCode(2));
@@ -275,6 +330,17 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
                 a =>
                 a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything)).Return(new List<Ceremony>()).Repeat.Any();
 
+
+            var participations = new List<RegistrationParticipation>();
+            participations.Add(CreateValidEntities.RegistrationParticipation(1));
+            participations[0].Registration = CreateValidEntities.Registration(55);
+            participations[0].Registration.Student = CreateValidEntities.Student(11);
+            participations[0].Registration.Student.Login = "UserName";
+            participations[0].Registration.TermCode = TermCodeRepository.Queryable.Last();
+            participations[0].Major = CreateValidEntities.MajorCode(1);
+            participations[0].Major.College = CreateValidEntities.College(9);
+
+            ControllerRecordFakes.FakeRegistrationParticipation(0, ParticipationRepository, participations);
             #endregion Arrange
 
             #region Act
@@ -300,8 +366,9 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
         [TestMethod]
         public void TestRegisterGetRedirectsAsExpected10()
         {
-            #region Arrange
+            #region Arrange            
             FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            Controller.ControllerContext.HttpContext = new MockHttpContext(1, new[] { "" });
             var students = new List<Student>();
             var student = CreateValidEntities.Student(1);
             student.Majors.Add(CreateValidEntities.MajorCode(2));
@@ -330,6 +397,17 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
                 a =>
                 a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything)).Return(ceremonies).Repeat.Any();
 
+            var participations = new List<RegistrationParticipation>();
+            participations.Add(CreateValidEntities.RegistrationParticipation(1));
+            participations[0].Registration = CreateValidEntities.Registration(55);
+            participations[0].Registration.Student = CreateValidEntities.Student(11);
+            participations[0].Registration.Student.Login = "UserName";
+            participations[0].Registration.TermCode = TermCodeRepository.Queryable.Last();
+            participations[0].Major = CreateValidEntities.MajorCode(1);
+            participations[0].Major.College = CreateValidEntities.College(9);
+
+            ControllerRecordFakes.FakeRegistrationParticipation(0, ParticipationRepository, participations);
+
             #endregion Arrange
 
             #region Act
@@ -357,6 +435,7 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
         {
             #region Arrange
             FakeTermCodeService.LoadTermCodes("201003", TermCodeRepository);
+            Controller.ControllerContext.HttpContext = new MockHttpContext(1, new[] { "" });
             var students = new List<Student>();
             var student = CreateValidEntities.Student(1);
             student.Majors.Add(CreateValidEntities.MajorCode(2));
@@ -389,6 +468,17 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
             ControllerRecordFakes.FakeState(2, Controller.Repository, null);
             ControllerRecordFakes.FakevTermCode(1, VTermCodeRepository);
             ControllerRecordFakes.FakeSpecialNeeds(1, SpecialNeedRepository);
+
+            var participations = new List<RegistrationParticipation>();
+            participations.Add(CreateValidEntities.RegistrationParticipation(1));
+            participations[0].Registration = CreateValidEntities.Registration(55);
+            participations[0].Registration.Student = CreateValidEntities.Student(11);
+            participations[0].Registration.Student.Login = "UserName";
+            participations[0].Registration.TermCode = TermCodeRepository.Queryable.Last();
+            participations[0].Major = CreateValidEntities.MajorCode(1);
+            participations[0].Major.College = CreateValidEntities.College(9);
+
+            ControllerRecordFakes.FakeRegistrationParticipation(0, ParticipationRepository, participations);
             #endregion Arrange
 
             #region Act
