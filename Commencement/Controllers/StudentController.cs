@@ -304,19 +304,24 @@ namespace Commencement.Controllers
                 return this.RedirectToAction<ErrorController>(a => a.SJA());
             }
 
+
+            // load all participations for the current user
+            var participations = _participationRepository.Queryable.Where(a => a.Registration.Student.Login == CurrentUser.Identity.Name).ToList();
+
+            // check for a current registration
+            var currentReg = participations.Where(a => a.Registration.TermCode.Id == termCode.Id).FirstOrDefault();
+
             // has this student registered yet?
-            var reg = _registrationRepository.Queryable.Where(a => a.Student == student).ToList();
-            var currentReg = reg.Where(a => a.TermCode.Id == termCode.Id).FirstOrDefault();
             if (currentReg != null)
             {
                 // display previous registration
-                // return this.RedirectToAction(a => a.DisplayRegistration(currentReg.Id));
                 return this.RedirectToAction(a => a.DisplayRegistration());
             }
 
-            // has this student registered in a previous term?
-            var pastReg = reg.Where(a => a.TermCode.Id != termCode.Id).FirstOrDefault();
-            if (pastReg != null)
+            // get hte list of all colleges for the student, that the student has walked for
+            var pastColleges = participations.Where(a => a.Registration.TermCode.Id != termCode.Id).Select(a => a.Major.College).Distinct().ToList();
+            // all current colleges match those of previously walked
+            if (student.Majors.Where(a => !pastColleges.Contains(a.College)).Any())
             {
                 // redirect to past registration message
                 return this.RedirectToAction<ErrorController>(a => a.PreviouslyWalked());
