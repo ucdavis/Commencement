@@ -72,7 +72,7 @@ namespace Commencement.Controllers.Filters
 
 
             // get hte list of all colleges for the student, that the student has walked for
-            var previousColleges = participations.Where(a => a.Registration.TermCode != TermService.GetCurrent()).Select(a => a.Major.College).Distinct().ToList();
+            var previousColleges = participations.Where(a => a.Registration.TermCode.Id != TermService.GetCurrent().Id).Select(a => a.Major.College).Distinct().ToList();
             
             //// are all current colleges container in previous colleges
             //var flag = true;        
