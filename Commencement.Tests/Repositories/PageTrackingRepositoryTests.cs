@@ -705,7 +705,7 @@ namespace Commencement.Tests.Repositories
         public void TestConstructorWithParametersDefaultsExpectedValues()
         {
             #region Arrange
-            var record = new PageTracking("loginId", "location", "ipAddress");
+            var record = new PageTracking("loginId", "location", "ipAddress", true);
             #endregion Arrange
 
             #region Act

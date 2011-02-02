@@ -13,16 +13,18 @@ namespace Commencement.Controllers.Filters
         {
             try
             {
+                var emulation = (bool?)filterContext.HttpContext.Session[StaticIndexes.EmulationKey] ?? false;
+
                 var url = filterContext.RequestContext.HttpContext.Request.Url.AbsoluteUri;
                 var login = filterContext.RequestContext.HttpContext.User.Identity.Name;
                 var address = filterContext.RequestContext.HttpContext.Request.UserHostAddress;
 
-                var pageTracking = new PageTracking(login, url, address);
+                var pageTracking = new PageTracking(login, url, address, emulation);
+
 
                 var repository = SmartServiceLocator<IRepository>.GetService();
 
                 repository.OfType<PageTracking>().EnsurePersistent(pageTracking);
-
             }
             catch
             {

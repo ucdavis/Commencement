@@ -14,11 +14,12 @@ namespace Commencement.Core.Domain
             SetDefaults();
         }
 
-        public PageTracking(string loginId, string location, string ipAddress)
+        public PageTracking(string loginId, string location, string ipAddress, bool isEmulating)
         {
             LoginId = loginId;
             Location = location;
             IPAddress = ipAddress;
+            IsEmulating = isEmulating;
 
             SetDefaults();
         }
@@ -32,6 +33,7 @@ namespace Commencement.Core.Domain
         public virtual string Location { get; set; }
         public virtual string IPAddress { get; set; }
         public virtual DateTime DateTime { get; set; }
+        public virtual bool IsEmulating { get; set; }
     }
 
     public class PageTrackingMap : ClassMap<PageTracking>
@@ -46,6 +48,7 @@ namespace Commencement.Core.Domain
             Map(x => x.Location);
             Map(x => x.IPAddress);
             Map(x => x.DateTime);
+            Map(x => x.IsEmulating);
         }
     }
 }
