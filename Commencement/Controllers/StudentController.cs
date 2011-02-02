@@ -306,7 +306,7 @@ namespace Commencement.Controllers
 
 
             // load all participations for the current user
-            var participations = _participationRepository.Queryable.Where(a => a.Registration.Student.Login == CurrentUser.Identity.Name).ToList();
+            var participations = _participationRepository.Queryable.Where(a => a.Registration.Student.Login == CurrentUser.Identity.Name && !a.Cancelled).ToList();
 
             // check for a current registration
             var currentReg = participations.Where(a => a.Registration.TermCode.Id == termCode.Id).FirstOrDefault();
@@ -321,7 +321,7 @@ namespace Commencement.Controllers
             // get hte list of all colleges for the student, that the student has walked for
             var pastColleges = participations.Where(a => a.Registration.TermCode.Id != termCode.Id).Select(a => a.Major.College).Distinct().ToList();
             // all current colleges match those of previously walked
-            if (student.Majors.Where(a => !pastColleges.Contains(a.College)).Any())
+            if (!student.Majors.Where(a => !pastColleges.Contains(a.College)).Any() && pastColleges.Count > 0)
             {
                 // redirect to past registration message
                 return this.RedirectToAction<ErrorController>(a => a.PreviouslyWalked());

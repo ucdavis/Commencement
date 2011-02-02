@@ -68,14 +68,22 @@ namespace Commencement.Controllers.Filters
             // load all participations
             var participations =
                 registrationParticipationRepository.Queryable.Where(
-                    a => a.Registration.Student.Login == filterContext.HttpContext.User.Identity.Name).ToList();
+                    a => a.Registration.Student.Login == filterContext.HttpContext.User.Identity.Name && !a.Cancelled).ToList();
 
 
             // get hte list of all colleges for the student, that the student has walked for
             var previousColleges = participations.Where(a => a.Registration.TermCode != TermService.GetCurrent()).Select(a => a.Major.College).Distinct().ToList();
             
+            //// are all current colleges container in previous colleges
+            //var flag = true;        
+            //foreach (var a in student.Majors.Select(a => a.College))
+            //{
+            //    // find at least one that is not in the list
+
+            //}
+
             // all current colleges match those of previously walked
-            if (student.Majors.Where(a=> !previousColleges.Contains(a.College)).Any())
+            if (!student.Majors.Where(a=> !previousColleges.Contains(a.College)).Any() && previousColleges.Count > 0)
             {
                 filterContext.Result = new RedirectResult(urlHelper.Action("PreviouslyWalked", "Error"));    
             }
