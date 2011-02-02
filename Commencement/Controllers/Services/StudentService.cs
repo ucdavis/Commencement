@@ -90,7 +90,7 @@ namespace Commencement.Controllers.Services
             var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery(StaticValues.StudentService_BannerLookupByLogin_SQL);
             searchQuery.SetString("login", login);
             searchQuery.AddEntity(typeof (BannerStudent));
-
+            searchQuery.SetTimeout(90);
             var result = searchQuery.List<BannerStudent>();
             return ExtractStudentFromResult(result);
         }
@@ -100,8 +100,9 @@ namespace Commencement.Controllers.Services
             var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery(StaticValues.StudentService_BannerLookup_SQL);
             searchQuery.SetString("studentid", studentId);
             searchQuery.AddEntity(typeof (BannerStudent));
-            var result = searchQuery.List<BannerStudent>();
+            searchQuery.SetTimeout(90);
 
+            var result = searchQuery.List<BannerStudent>();
             return ExtractStudentFromResult(result);
         }
 

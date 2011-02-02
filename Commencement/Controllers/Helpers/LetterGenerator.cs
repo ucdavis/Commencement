@@ -64,22 +64,6 @@ namespace Commencement.Controllers.Helpers
             return HandleBody(template.BodyText);
         }
 
-
-        // getting nrid of this email
-        public string GenerateAddPermission(Student student, Template template, Ceremony ceremony)
-        {
-            throw new NotImplementedException();
-
-            Check.Require(student != null, "Student is required.");
-            Check.Require(template != null, "Template is required");
-            Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved);
-
-            _ceremony = ceremony;
-            _student = student;
-
-            return HandleBody(template.BodyText);
-        }
-
         public string GenerateRegistrationPetitionConfirmation(RegistrationPetition registrationPetition, Template template)
         {
             Check.Require(registrationPetition != null, "registrationPetition is required.");
@@ -99,13 +83,15 @@ namespace Commencement.Controllers.Helpers
 
         public string GenerateRegistrationPetitionApproved(RegistrationPetition registrationPetition, Template template)
         {
-            throw new NotImplementedException();
-
             Check.Require(registrationPetition != null, "Registration Petition is required.");
             Check.Require(template != null, "Template is required");
-            Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved);
+            Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved, "template mismatch");
 
-            //RegistrationPetition = registrationPetition;
+            _ceremony = registrationPetition.Ceremony;
+            _student = registrationPetition.Registration.Student;
+            _registrationPetition = registrationPetition;
+            _registration = registrationPetition.Registration;
+            _template = template;
 
             return HandleBody(template.BodyText);
         }

@@ -88,7 +88,7 @@ namespace Commencement.Controllers
         #region Student Details
         public RedirectToRouteResult SearchStudent(string studentId /* Student Id */)
         {
-            var student = _studentRepository.Queryable.Where(a => a.StudentId == studentId).FirstOrDefault();
+            var student = _studentRepository.Queryable.Where(a => a.StudentId == studentId && a.TermCode == TermService.GetCurrent()).FirstOrDefault();
             if (student == null)
             {
                 Message = string.Format("Unable to find student with id {0}", studentId);

@@ -162,11 +162,26 @@ namespace Commencement.Controllers.Services
             }
         }
 
-        public void QueueRegistrationPetitionDecision(RegistrationPetition registration)
+        public void QueueRegistrationPetitionDecision(RegistrationPetition registrationPetition)
         {
-            Check.Require(registration != null, "registration is required.");
+            Check.Require(registrationPetition != null, "registration is required.");
 
-            throw new NotImplementedException();
+            var template =
+                registrationPetition.Ceremony.Templates.Where(
+                    a => a.TemplateType.Name == StaticValues.Template_RegistrationPetition_Approved && a.IsActive).
+                    FirstOrDefault();
+
+            if (template != null)
+            {
+                var subject = template.Subject;
+                var body = _letterGenerator.GenerateRegistrationPetitionApproved(registrationPetition, template);
+
+                var emailQueue = new EmailQueue(registrationPetition.Registration.Student, template, subject, body);
+                emailQueue.Registration = registrationPetition.Registration;
+                emailQueue.RegistrationPetition = registrationPetition;
+
+                _emailQueueRepository.EnsurePersistent(emailQueue);
+            }
         }
     }
 
