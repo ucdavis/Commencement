@@ -304,12 +304,8 @@ namespace Commencement.Controllers
                 return this.RedirectToAction<ErrorController>(a => a.SJA());
             }
 
-
-            // load all participations for the current user
-            var participations = _participationRepository.Queryable.Where(a => a.Registration.Student.Login == CurrentUser.Identity.Name && !a.Cancelled).ToList();
-
-            // check for a current registration
-            var currentReg = participations.Where(a => a.Registration.TermCode.Id == termCode.Id).FirstOrDefault();
+            // check for a current registration, there should only be one
+            var currentReg = _registrationRepository.Queryable.Where(a => a.TermCode.Id == termCode.Id).SingleOrDefault();
 
             // has this student registered yet?
             if (currentReg != null)
@@ -318,7 +314,11 @@ namespace Commencement.Controllers
                 return this.RedirectToAction(a => a.DisplayRegistration());
             }
 
-            // get hte list of all colleges for the student, that the student has walked for
+            // load all non-cancelled participations for the current user
+            // or those blocked/sja blocked
+            var participations = _participationRepository.Queryable.Where(a => a.Registration.Student.Login == CurrentUser.Identity.Name && !a.Cancelled && !a.Registration.Student.SjaBlock && !a.Registration.Student.Blocked).ToList();
+
+            // get the list of all colleges for the student, that the student has walked for
             var pastColleges = participations.Where(a => a.Registration.TermCode.Id != termCode.Id).Select(a => a.Major.College).Distinct().ToList();
             // all current colleges match those of previously walked
             if (!student.Majors.Where(a => !pastColleges.Contains(a.College)).Any() && pastColleges.Count > 0)
