@@ -305,7 +305,7 @@ namespace Commencement.Controllers
             }
 
             // check for a current registration, there should only be one
-            var currentReg = _registrationRepository.Queryable.Where(a => a.TermCode.Id == termCode.Id).SingleOrDefault();
+            var currentReg = _registrationRepository.Queryable.Where(a => a.Student == student && a.TermCode.Id == termCode.Id).SingleOrDefault();
 
             // has this student registered yet?
             if (currentReg != null)
