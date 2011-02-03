@@ -20,6 +20,9 @@
         <li><strong>Major:</strong>
             <%: Model.MajorCode.Name %>
         </li>
+        <li><strong>Units:</strong>
+            <%: Model.Registration.Student.EarnedUnits %>
+        </li>
         <li><strong>Ceremony:</strong>
             <%: Model.Ceremony.DateTime.ToString("g") %>
         </li>
