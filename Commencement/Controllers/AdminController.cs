@@ -313,11 +313,25 @@ namespace Commencement.Controllers
         }
 
         [HttpPost]
-        public ActionResult MoveMajor(MajorCode majorCode, Ceremony ceremony)
+        public ActionResult MoveMajor(string majorCode, int ceremonyId)
         {
-            var origCeremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.Majors.Contains(majorCode) && a.TermCode == TermService.GetCurrent()).FirstOrDefault();
+            var major = _majorRepository.GetNullableById(majorCode);
+            var ceremony = Repository.OfType<Ceremony>().GetNullableById(ceremonyId);
+            
+            var origCeremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.Majors.Contains(major) && a.TermCode == TermService.GetCurrent()).FirstOrDefault();
+
+            //var ceremonies = _ceremonyService.GetCeremonies(CurrentUser.Identity.Name);
+            //// find the ceremony with the major
+            //var origCeremony = ceremonies.Where(a => a.Majors.Contains(major)).FirstOrDefault();
+
+            //foreach (var a in ceremonies)
+            //{
+            //    if (a.Majors.Select(b => b.Id).Contains(major.Id))
+            //        origCeremony = a;
+            //}
+
             var message = string.Empty;
-            if (!ValidateMajorMove(majorCode, ceremony, origCeremony, out message))
+            if (!ValidateMajorMove(major, ceremony, origCeremony, out message))
             {
                 // not valid
                 ModelState.AddModelError("Validation", message);
@@ -325,7 +339,7 @@ namespace Commencement.Controllers
             
             // move is valid, let's go
             var participations = Repository.OfType<RegistrationParticipation>().Queryable
-                                 .Where(a => a.Ceremony == origCeremony && a.Major == majorCode).ToList();
+                                 .Where(a => a.Ceremony == origCeremony && a.Major == major).ToList();
 
             // move each student
             foreach (var a in participations)
@@ -335,14 +349,14 @@ namespace Commencement.Controllers
             }
 
             // move the major in ceremony list
-            origCeremony.Majors.Remove(majorCode);
-            ceremony.Majors.Add(majorCode);
+            origCeremony.Majors.Remove(major);
+            ceremony.Majors.Add(major);
 
             Repository.OfType<Ceremony>().EnsurePersistent(origCeremony);
             Repository.OfType<Ceremony>().EnsurePersistent(ceremony);
 
             // redirect back to....
-            Message = string.Format("{0} has been successfully moved to {1}.", majorCode.Name, ceremony.DateTime.ToString("g"));
+            Message = string.Format("{0} has been successfully moved to {1}.", major.Name, ceremony.DateTime.ToString("g"));
             return this.RedirectToAction(a => a.Index());
         }
 

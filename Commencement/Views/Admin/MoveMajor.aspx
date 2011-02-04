@@ -18,10 +18,10 @@
 
     <ul class="registration_form">
         <li><strong>Major:</strong>
-            <%= this.Select("MajorCode").Options(Model.MajorCodes, x=>x.Id,x=>x.Name).FirstOption("--Select a Major--") %>
+            <%= this.Select("majorCode").Options(Model.MajorCodes, x=>x.Id,x=>x.Name).FirstOption("--Select a Major--") %>
         </li>
         <li><strong>Ceremony:</strong>
-            <%= this.Select("Ceremony").Options(Model.Ceremonies, x=>x.Id, x=>x.DateTime.ToString("g")).FirstOption("--Select a Ceremony--") %>
+            <%= this.Select("ceremonyId").Options(Model.Ceremonies, x=>x.Id, x=>x.DateTime.ToString("g")).FirstOption("--Select a Ceremony--") %>
         </li>
         <li><strong>Validation:</strong>
             <span id="validationMessage"></span>
