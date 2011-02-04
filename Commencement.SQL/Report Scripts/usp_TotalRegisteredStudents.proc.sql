@@ -10,32 +10,29 @@ CREATE PROCEDURE [dbo].[usp_TotalRegisteredStudents]
 	@userid int
 AS
 
-select students.LastName, students.FirstName, students.StudentId, rp.MajorCode Major
-	, reg.Address1, reg.Address2, reg.City, reg.[State], reg.Zip, reg.Email as PrimaryEmail
-	, reg.Email as SecondaryEmail, rp.NumberTickets
-	, etp.NumberTickets as ExtraTickets
-	, etp.NumberTicketsStreaming as ExtraStreamingTickets
-	, CASE 
-		WHEN etp.NumberTickets IS NULL 
-		THEN rp.NumberTickets
-		ELSE etp.NumberTickets + rp.NumberTickets 
-	  END AS TotalTickets
-	, Students.TermCode as Term
-	, CASE WHEN reg.MailTickets = 1 then 'Mail' else 'Pickup' END AS DistributionMethod
-	, rp.DateRegistered
-from RegistrationParticipations rp
-	inner join Registrations reg on rp.RegistrationId = reg.id
-	inner join Students on students.Id = reg.Student_Id
-	left outer join ExtraTicketPetitions etp on etp.id = rp.ExtraTicketPetitionId and etp.IsPending = 1 and etp.IsApproved = 1
-where students.TermCode = @term
-  and reg.MailTickets = 0
-  and students.SJABlock = 0
-  and rp.Cancelled = 0
-  and rp.CeremonyId in ( select CeremonyId from Ceremonies
-							inner join ceremonyeditors on ceremonies.id = ceremonyeditors.CeremonyId
-						 where UserId = @userid
-						   and TermCode = @term)						   
-order by students.LastName
+select s.lastname, s.firstname, s.studentid, rp.majorcode major
+	, r.address1, r.address2, r.city, r.[state], r.zip, s.email as PrimaryEmail
+	, r.email as SecondaryEmail, rp.numbertickets
+	, etp.numbertickets as ExtraTickets, etp.numberticketsstreaming as ExtraStreamingTickets
+	, case
+		when etp.numbertickets is null then rp.numbertickets
+		else etp.numbertickets + rp.numbertickets
+		end as totaltickets
+		, s.termcode as term
+		, case when r.mailtickets = 1 then 'Mail' else 'Pickup' end as DistributionMethod
+	, rp.dateregistered
+	, c.datetime as CeremonyTime
+from registrationparticipations rp
+	inner join registrations r on rp.registrationid = r.id
+	inner join Students s on r.student_id = s.id
+	left outer join extraticketpetitions etp on etp.id = rp.extraticketpetitionid and etp.ispending = 1 and etp.isapproved = 1
+	inner join ceremonies c on c.id = rp.ceremonyid
+where r.termcode = @term
+  and rp.ceremonyid in (select ceremonyid from ceremonyeditors where userid = @userid)
+  and s.sjablock = 0
+  and rp.cancelled = 0
+order by s.lastname
+
 
 --SELECT     Students.LastName, Students.FirstName, Students.StudentId, Majors.Name AS Major, Registrations.Address1, Registrations.Address2, Registrations.City, 
 --                      Registrations.State, Registrations.Zip, Students.Email AS PrimaryEmail, Registrations.Email AS SecondaryEmail, Registrations.NumberTickets, 

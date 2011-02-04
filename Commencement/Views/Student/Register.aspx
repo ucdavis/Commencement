@@ -6,6 +6,22 @@
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">
     Commencement Registration</asp:Content>
 <asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent">
+
+    <style type="text/css">
+        #petition-warning
+        {
+            border: 1px solid red;
+            background-color: #F4F4F4;
+            padding: 0 10px;
+            margin: 10px 20px;
+        }
+        
+        #petition-warning p
+        {
+            margin: 1em 0;
+        }
+    </style>
+
 </asp:Content>
 
 <asp:Content runat="server" ID="Content3" ContentPlaceHolderID="logoContent">
@@ -15,6 +31,13 @@
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
 
     <p><%: Html.HtmlEncode(string.Format(Model.Ceremonies.FirstOrDefault().TermCode.RegistrationWelcome, Model.Student.FullName, Model.Ceremonies.FirstOrDefault().Name)) %></p>
+
+    <% if (Model.Participations.Any(a => a.NeedsPetition)) { %>
+    <div id="petition-warning">
+        <p>According to our records you do not meet the minimum requirements to participate in the commencement ceremony.  See our website for the list of reuqirements: <a href="www.caes.ucdavis.edu/commencement">www.caes.ucdavis.edu/commencement</a></p>
+        <p>Please complete the petition if you would like to participate.</p>
+    </div>
+    <% } %>
 
     <%= Html.ValidationSummary("Please correct all errors below") %>
     <%= Html.ClientSideValidation<Commencement.Core.Domain.Registration>("Registration") %>
