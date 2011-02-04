@@ -50,14 +50,14 @@
     </div>
 
         <div id="ticketCounts">
+            <%foreach(var a in Model.Ceremonies) {%>
             <ul>
-                <%foreach(var a in Model.Ceremonies) {%>
                     <li><strong>Ceremony: </strong><%: a.DateTime.ToString("g") %></li>
+                    <li><strong># Students: </strong><%: a.RegistrationParticipations.Where(b=>!b.Cancelled).Count() %></li>
                     <li><strong># Tickets: </strong><%: a.TicketCount %></li>
                     <%if (a.HasStreamingTickets) { %><li><strong># Streaming Tickets: </strong><%: a.TicketStreamingCount %></li><% } %>
-                <% } %>
-
             </ul>
+            <% } %>
         </div>
 
             <% Html.Grid(Model.Participations)
