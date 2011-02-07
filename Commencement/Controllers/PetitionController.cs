@@ -357,6 +357,10 @@ namespace Commencement.Controllers
                 {
                     ModelState.AddModelError("Reason", string.Format("Reason cannot be blank for petition {0}", a.Ceremony.Name));
                 }
+                else if (a.Reason.Length > 100)
+                {
+                    ModelState.AddModelError("Reason", string.Format("Reason must be 100 characters or less for petition {0}", a.Ceremony.Name));
+                }
                 // validate the deadline before creating valid request, and no previous
                 else
                 {
@@ -364,6 +368,7 @@ namespace Commencement.Controllers
                     a.RegistrationParticipation.ExtraTicketPetition = etp;
                     ceremonyParticipations.Add(a.RegistrationParticipation);
                 }
+
             }
 
             if (ModelState.IsValid)
