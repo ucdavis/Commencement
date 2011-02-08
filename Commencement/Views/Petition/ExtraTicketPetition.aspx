@@ -107,7 +107,7 @@
 
                     <li>
                         <strong>Reason:</strong>
-                        <%: Html.TextArea(string.Format("extraTicketPetitions[{0}].Reason", counter), participation.ExtraTicketPetition != null ? participation.ExtraTicketPetition.Reason : string.Empty) %>
+                        <%: Html.TextArea(string.Format("extraTicketPetitions[{0}].Reason", counter), participation.ExtraTicketPetition != null ? participation.ExtraTicketPetition.Reason : string.Empty, new { @style = "width:400px;" })%><i> *Max 100 characters</i>
                     </li>
 
                     <li><strong></strong><%: Html.SubmitButton("Submit", "Submit") %></li>
