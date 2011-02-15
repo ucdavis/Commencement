@@ -2,7 +2,13 @@
 <%@ Import Namespace="Commencement.Controllers" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">Display Registration</asp:Content>
-<asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent"></asp:Content>
+<asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent">
+
+<style type="text/css">
+.btn {top:55px;}
+</style>
+
+</asp:Content>
 
 <asp:Content runat="server" ID="Content3" ContentPlaceHolderID="logoContent">
 </asp:Content>
