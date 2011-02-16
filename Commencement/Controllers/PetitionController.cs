@@ -80,7 +80,7 @@ namespace Commencement.Controllers
             {
                 try
                 {
-                    _emailService.QueueExtraTicketPetition(participation);
+                    _emailService.QueueExtraTicketPetitionDecision(participation);
                 }
                 catch (Exception ex)
                 {

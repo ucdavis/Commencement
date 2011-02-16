@@ -14,6 +14,7 @@ namespace Commencement.Controllers.Services
     {
         void QueueRegistrationConfirmation(Registration registration);
         void QueueExtraTicketPetition(RegistrationParticipation participation);
+        void QueueExtraTicketPetitionDecision(RegistrationParticipation participation);
         void QueueRegistrationPetition(Registration registration);
         void QueueRegistrationPetitionDecision(RegistrationPetition registration);
     }
@@ -117,6 +118,24 @@ namespace Commencement.Controllers.Services
 
             _emailQueueRepository.EnsurePersistent(emailQueue);
         }
+
+        public void QueueExtraTicketPetitionDecision(RegistrationParticipation participation)
+        {
+            Check.Require(participation != null, "participation is required.");
+
+            var template = participation.Ceremony.Templates.Where(a => a.TemplateType.Name == StaticValues.Template_TicketPetition_Decision && a.IsActive).FirstOrDefault();
+            Check.Require(template != null, "template is required.");
+
+            var subject = template.Subject;
+            var body = _letterGenerator.GenerateExtraTicketRequestPetitionDecision(participation, template);
+
+            var emailQueue = new EmailQueue(participation.Registration.Student, template, subject, body, false);
+            emailQueue.Registration = participation.Registration;
+            emailQueue.RegistrationParticipation = participation;
+
+            _emailQueueRepository.EnsurePersistent(emailQueue);            
+        }
+
 
         public void QueueRegistrationPetition(Registration registration)
         {

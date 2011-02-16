@@ -232,6 +232,15 @@ namespace Commencement.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Extra ticket petition decisiosn.
+        /// </summary>
+        public static string Template_TicketPetition_Decision {
+            get {
+                return ResourceManager.GetString("Template_TicketPetition_Decision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to I agree to adhere to the University policy which prohibits the unlawful use, sale, distribution, dispensing, or possession of alcohol or of controlled substances by students on University premises and official University functions.  Students shall not use illegal substances or abuse legal substances in a manner that impairs scholarly activities or student life.  (Adapted from UCDP&amp;P  Manual Chapter 380, Section 18) Students violating this policy may be excluded from privileges and activities when there is r [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Txt_Disclaimer {
