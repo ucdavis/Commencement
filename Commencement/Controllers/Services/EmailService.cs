@@ -115,6 +115,7 @@ namespace Commencement.Controllers.Services
             var emailQueue = new EmailQueue(participation.Registration.Student, template, subject, body, false);
             emailQueue.Registration = participation.Registration;
             emailQueue.RegistrationParticipation = participation;
+            emailQueue.ExtraTicketPetition = participation.ExtraTicketPetition;
 
             _emailQueueRepository.EnsurePersistent(emailQueue);
         }
@@ -132,6 +133,7 @@ namespace Commencement.Controllers.Services
             var emailQueue = new EmailQueue(participation.Registration.Student, template, subject, body, false);
             emailQueue.Registration = participation.Registration;
             emailQueue.RegistrationParticipation = participation;
+            emailQueue.ExtraTicketPetition = participation.ExtraTicketPetition;
 
             _emailQueueRepository.EnsurePersistent(emailQueue);            
         }
