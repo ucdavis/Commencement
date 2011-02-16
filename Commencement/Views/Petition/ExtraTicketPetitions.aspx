@@ -80,7 +80,9 @@
                                         <img src="<%: Url.Content("~/Images/CheckMark-1.png") %>" class="check" />
                                     <%}).Title("# Streaming Approved");
                                 }
+                                col.Bound(a => a.ExtraTicketPetition.DateSubmitted).Title("Submitted");
                             })
+               .Sortable()
                .Render(); %>
     <% } %>
 
