@@ -232,7 +232,7 @@ namespace Commencement.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Extra ticket petition decisiosn.
+        ///   Looks up a localized string similar to Ticket Petition - Decision.
         /// </summary>
         public static string Template_TicketPetition_Decision {
             get {
