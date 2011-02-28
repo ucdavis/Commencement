@@ -115,7 +115,7 @@ namespace Commencement.Controllers.Services
             foreach (var a in results)
             {
                 var major = _majorRepository.GetNullableById(a.Major);
-                if (major != null) student.Majors.Add(major);
+                if (major != null && !student.Majors.Contains(major)) student.Majors.Add(major);
             }
 
             return student;
