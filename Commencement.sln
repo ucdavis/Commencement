@@ -54,27 +54,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{F4BF011B-6B7
 	EndProjectSection
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 6
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.caes.ucdavis.edu:8088/tfs/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Commencement\\Commencement.csproj
-		SccProjectName1 = Commencement
-		SccLocalPath1 = Commencement
-		SccProjectUniqueName2 = Commencement.Core\\Commencement.Core.csproj
-		SccProjectName2 = Commencement.Core
-		SccLocalPath2 = Commencement.Core
-		SccProjectUniqueName3 = Commencement.Tests\\Commencement.Tests.csproj
-		SccProjectName3 = Commencement.Tests
-		SccLocalPath3 = Commencement.Tests
-		SccProjectUniqueName4 = Commencement.Report\\Commencement.Report.rptproj
-		SccProjectName4 = Commencement.Report
-		SccLocalPath4 = Commencement.Report
-		SccProjectUniqueName5 = Commencement.SQL\\Commencement.SQL.dbproj
-		SccProjectName5 = Commencement.SQL
-		SccLocalPath5 = Commencement.SQL
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		DebugLocal|Any CPU = DebugLocal|Any CPU
