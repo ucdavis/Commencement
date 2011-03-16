@@ -103,7 +103,7 @@ namespace Commencement.Tests.Repositories
 
         #region Fluent Mapping Tests
         [TestMethod]
-        public void TestCanCorrectlyMapPageTracking()
+        public void TestCanCorrectlyMapPageTracking1()
         {
             #region Arrange
             var session = NHibernateSessionManager.Instance.GetSession();
@@ -117,11 +117,32 @@ namespace Commencement.Tests.Repositories
                 .CheckProperty(c => c.DateTime, dateToCompare)
                 .CheckProperty(c => c.IPAddress, "IPAddress")
                 .CheckProperty(c => c.Location, "Location")
-                .CheckProperty(c => c.LoginId, "LoginId")               
+                .CheckProperty(c => c.LoginId, "LoginId")   
+                .CheckProperty(c => c.IsEmulating, true)
                 .VerifyTheMappings();
             #endregion Act/Assert
         }
 
+        [TestMethod]
+        public void TestCanCorrectlyMapPageTracking2()
+        {
+            #region Arrange
+            var session = NHibernateSessionManager.Instance.GetSession();
+            var id = PageTrackingRepository.Queryable.Max(x => x.Id) + 1;
+            var dateToCompare = new DateTime(2010, 01, 01);
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<PageTracking>(session)
+                .CheckProperty(c => c.Id, id)
+                .CheckProperty(c => c.DateTime, dateToCompare)
+                .CheckProperty(c => c.IPAddress, "IPAddress")
+                .CheckProperty(c => c.Location, "Location")
+                .CheckProperty(c => c.LoginId, "LoginId")
+                .CheckProperty(c => c.IsEmulating, false)
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
 
 
         #endregion Fluent Mapping Tests
@@ -678,6 +699,70 @@ namespace Commencement.Tests.Repositories
         }
         #endregion DateTime Tests
 
+        #region IsEmulating Tests
+
+        /// <summary>
+        /// Tests the IsEmulating is false saves.
+        /// </summary>
+        [TestMethod]
+        public void TestIsEmulatingIsFalseSaves()
+        {
+            #region Arrange
+
+            PageTracking pageTracking = GetValid(9);
+            pageTracking.IsEmulating = false;
+
+            #endregion Arrange
+
+            #region Act
+
+            PageTrackingRepository.DbContext.BeginTransaction();
+            PageTrackingRepository.EnsurePersistent(pageTracking);
+            PageTrackingRepository.DbContext.CommitTransaction();
+
+            #endregion Act
+
+            #region Assert
+
+            Assert.IsFalse(pageTracking.IsEmulating);
+            Assert.IsFalse(pageTracking.IsTransient());
+            Assert.IsTrue(pageTracking.IsValid());
+
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the IsEmulating is true saves.
+        /// </summary>
+        [TestMethod]
+        public void TestIsEmulatingIsTrueSaves()
+        {
+            #region Arrange
+
+            var pageTracking = GetValid(9);
+            pageTracking.IsEmulating = true;
+
+            #endregion Arrange
+
+            #region Act
+
+            PageTrackingRepository.DbContext.BeginTransaction();
+            PageTrackingRepository.EnsurePersistent(pageTracking);
+            PageTrackingRepository.DbContext.CommitTransaction();
+
+            #endregion Act
+
+            #region Assert
+
+            Assert.IsTrue(pageTracking.IsEmulating);
+            Assert.IsFalse(pageTracking.IsTransient());
+            Assert.IsTrue(pageTracking.IsValid());
+
+            #endregion Assert
+        }
+
+        #endregion IsEmulating Tests
+
         #region Constructor Tests
 
         /// <summary>
@@ -702,7 +787,7 @@ namespace Commencement.Tests.Repositories
         /// Tests the constructor with parameters defaults expected values.
         /// </summary>
         [TestMethod]
-        public void TestConstructorWithParametersDefaultsExpectedValues()
+        public void TestConstructorWithParametersDefaultsExpectedValues1()
         {
             #region Arrange
             var record = new PageTracking("loginId", "location", "ipAddress", true);
@@ -717,7 +802,28 @@ namespace Commencement.Tests.Repositories
             Assert.AreEqual("loginId", record.LoginId);
             Assert.AreEqual("location", record.Location);
             Assert.AreEqual("ipAddress", record.IPAddress);
+            Assert.IsTrue(record.IsEmulating);
             #endregion Assert		
+        }
+
+        [TestMethod]
+        public void TestConstructorWithParametersDefaultsExpectedValues2()
+        {
+            #region Arrange
+            var record = new PageTracking("loginId", "location", "ipAddress", false);
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(DateTime.Now.Date, record.DateTime.Date);
+            Assert.AreEqual("loginId", record.LoginId);
+            Assert.AreEqual("location", record.Location);
+            Assert.AreEqual("ipAddress", record.IPAddress);
+            Assert.IsFalse(record.IsEmulating);
+            #endregion Assert
         }
         
         #endregion Constructor Tests        
@@ -740,6 +846,7 @@ namespace Commencement.Tests.Repositories
                 "[System.Xml.Serialization.XmlIgnoreAttribute()]"
             }));
             expectedFields.Add(new NameAndType("IPAddress", "System.String", new List<string>()));
+            expectedFields.Add(new NameAndType("IsEmulating", "System.Boolean", new List<string>()));            
             expectedFields.Add(new NameAndType("Location", "System.String", new List<string>()));
             expectedFields.Add(new NameAndType("LoginId", "System.String", new List<string>()));
 

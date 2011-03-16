@@ -306,9 +306,9 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             Assert.IsTrue(args.IsApproved);
             Assert.IsFalse(args.IsPending);
             Assert.AreEqual("Approved", args.Status);
-            EmailService.AssertWasCalled(a => a.QueueExtraTicketPetition(Arg<RegistrationParticipation>.Is.Anything));
+            EmailService.AssertWasCalled(a => a.QueueExtraTicketPetitionDecision(Arg<RegistrationParticipation>.Is.Anything));
             var args2 = (RegistrationParticipation)EmailService
-                .GetArgumentsForCallsMadeOn(a => a.QueueExtraTicketPetition(Arg<RegistrationParticipation>.Is.Anything))[0][0];
+                .GetArgumentsForCallsMadeOn(a => a.QueueExtraTicketPetitionDecision(Arg<RegistrationParticipation>.Is.Anything))[0][0];
             Assert.IsNotNull(args2);
             Assert.AreEqual("Reason1", args2.ExtraTicketPetition.Reason);
             #endregion Assert
