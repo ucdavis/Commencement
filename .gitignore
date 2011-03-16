@@ -28,3 +28,4 @@ obj/
 _ReSharper*/
 [Tt]est[Rr]esult*
 Commencement.SQL/Commencement.SQL.dbmdl
+*.dbmdl
