@@ -53,10 +53,10 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
         }
 
         /// <summary>
-        /// Tests the controller has four attributes.
+        /// Tests the controller has five attributes.
         /// </summary>
         [TestMethod]
-        public void TestControllerHasFourAttributes()
+        public void TestControllerHasFiveAttributes()
         {
             #region Arrange
             var controllerClass = ControllerClass;
@@ -67,7 +67,7 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(4, result.Count());
+            Assert.AreEqual(5, result.Count());
             #endregion Assert
         }
 
@@ -141,6 +141,22 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
 
             #region Assert
             Assert.IsTrue(result.Count() > 0, "SessionExpirationFilterAttribute not found.");
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestControllerHasLoadDisplayDataAttribute()
+        {
+            #region Arrange
+            var controllerClass = ControllerClass;
+            #endregion Arrange
+
+            #region Act
+            var result = controllerClass.GetCustomAttributes(true).OfType<LoadDisplayDataAttribute>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(result.Count() > 0, "LoadDisplayDataAttribute not found.");
             #endregion Assert
         }
 
