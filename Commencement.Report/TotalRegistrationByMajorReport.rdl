@@ -1534,11 +1534,12 @@
           <QueryParameter Name="@term">
             <Value>=Parameters!term.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@userid">
-            <Value>=Parameters!userid.Value</Value>
-          </QueryParameter>
           <QueryParameter Name="@major">
             <Value>=Parameters!major.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@userId">
+            <Value>=Parameters!userId.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -1629,9 +1630,9 @@
       <DataType>String</DataType>
       <Prompt>term</Prompt>
     </ReportParameter>
-    <ReportParameter Name="userid">
+    <ReportParameter Name="userId">
       <DataType>Integer</DataType>
-      <Prompt>userid</Prompt>
+      <Prompt>userId</Prompt>
     </ReportParameter>
     <ReportParameter Name="major">
       <DataType>String</DataType>

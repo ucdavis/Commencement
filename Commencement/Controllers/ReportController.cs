@@ -67,7 +67,7 @@ namespace Commencement.Controllers
                     break;
                 case Report.TotalRegisteredByMajor:
                     name = "TotalRegistrationByMajorReport";
-                    parameters.Add("majorCode", majorCode);
+                    parameters.Add("major", majorCode);
                     break;
                 case Report.TotalRegistrationPetitions:
                     name = "TotalRegistrationPetitions";
