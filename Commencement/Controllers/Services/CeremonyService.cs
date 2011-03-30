@@ -15,7 +15,7 @@ namespace Commencement.Controllers.Services
         void ResetUserCeremonies();
         bool HasAccess(int id, string userId);
 
-        List<Ceremony> StudentEligibility(List<MajorCode> majors, decimal totalUnits, TermCode termCode = null);
+        List<Ceremony> StudentEligibility(List<MajorCode> majors, decimal totalUnits, TermCode termCode = null, int? ceremonyIdOverride = null);
     }
 
     public class CeremonyService : ICeremonyService
@@ -128,7 +128,7 @@ namespace Commencement.Controllers.Services
         /// </summary>
         /// <param name="majors"></param>
         /// <returns>List of ceremonies, if empty, student not eligible for ceremony is system.</returns>
-        public virtual List<Ceremony> StudentEligibility(List<MajorCode> majors, decimal totalUnits, TermCode termCode = null)
+        public virtual List<Ceremony> StudentEligibility(List<MajorCode> majors, decimal totalUnits, TermCode termCode = null, int? ceremonyIdOverride = null)
         {
             // get term code if we don't have one
             if (termCode == null) termCode = TermService.GetCurrent();
@@ -155,6 +155,14 @@ namespace Commencement.Controllers.Services
                         }
                     }
                 }
+            }
+
+            // if this student is eligible for access to another ceremony, add in that special ceremony
+            if (ceremonyIdOverride.HasValue)
+            {
+                var ceremonyOverride = _repository.OfType<Ceremony>().GetNullableById(ceremonyIdOverride.Value);
+
+                if (ceremonyOverride != null) eligibleCeremonies.Add(ceremonyOverride);
             }
 
             // return distinct list

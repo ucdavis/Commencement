@@ -46,10 +46,14 @@ namespace Commencement.Controllers.ViewModels
                 var major = viewModel.Student.Majors[i];
                 var ceremony = viewModel.Ceremonies.Where(a => a.Majors.Contains(major)).FirstOrDefault();
 
+                // set the override ceremony if the student has one
+                if (student.Ceremony != null) ceremony = student.Ceremony;
+
                 var part = CreateCeremonyParticipation(i, edit, student, major, ceremony, registration, ceremonyParticipations);
                 if (part != null) participations.Add(part);
             }
 
+            // populate in any ceremonies that the student has registered for
             if (registration != null)
             {
                 foreach (var a in registration.RegistrationParticipations)

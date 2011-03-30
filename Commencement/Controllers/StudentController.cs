@@ -102,7 +102,7 @@ namespace Commencement.Controllers
             var redirect = CheckStudentForRegistration(student, term);
             if (redirect != null) return redirect;
 
-            var viewModel = RegistrationModel.Create(Repository, _ceremonyService.StudentEligibility(student.Majors.ToList(), student.TotalUnits), student);
+            var viewModel = RegistrationModel.Create(Repository, GetEligibleCeremonies(student), student);
             return View(viewModel);
         }
 
@@ -171,7 +171,7 @@ namespace Commencement.Controllers
                 return this.RedirectToAction(a => a.DisplayRegistration());
             }
 
-            var viewModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(student.Majors.ToList(), student.TotalUnits), student: student, ceremonyParticipations: registrationModel.CeremonyParticipations, registration: registration);
+            var viewModel = RegistrationModel.Create(repository: Repository, ceremonies: GetEligibleCeremonies(student), student: student, ceremonyParticipations: registrationModel.CeremonyParticipations, registration: registration);
             return View(viewModel);
         }
 
@@ -222,7 +222,7 @@ namespace Commencement.Controllers
             }
 
             //Get student info and create registration model
-            var viewModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(student.Majors.ToList(), student.TotalUnits), student: student, registration: registration, edit: true);            
+            var viewModel = RegistrationModel.Create(repository: Repository, ceremonies: GetEligibleCeremonies(student), student: student, registration: registration, edit: true);            
             
             return View(viewModel);
         }
@@ -275,7 +275,7 @@ namespace Commencement.Controllers
                 return this.RedirectToAction(a => a.DisplayRegistration());
             }
 
-            var viewModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(student.Majors.ToList(), student.TotalUnits), student: student, registration: registrationToEdit, edit: true);            
+            var viewModel = RegistrationModel.Create(repository: Repository, ceremonies: GetEligibleCeremonies(student), student: student, registration: registrationToEdit, edit: true);            
             return View(viewModel);
         }
 
@@ -328,7 +328,7 @@ namespace Commencement.Controllers
             }
 
             // see if student can register with this system
-            var eligibleCeremonies = _ceremonyService.StudentEligibility(student.Majors.ToList(), student.TotalUnits);
+            var eligibleCeremonies = GetEligibleCeremonies(student);
             if (eligibleCeremonies == null || eligibleCeremonies.Count == 0)
             {
                 return this.RedirectToAction<ErrorController>(a => a.NotEligible());
@@ -341,6 +341,13 @@ namespace Commencement.Controllers
             }
 
             return null;
+        }
+
+        private List<Ceremony> GetEligibleCeremonies(Student student)
+        {
+            var ceremonyIdOverride = student.Ceremony != null ? (int?)student.Ceremony.Id : null;
+            return _ceremonyService.StudentEligibility(majors: student.Majors.ToList(), totalUnits: student.TotalUnits,
+                                                       ceremonyIdOverride: ceremonyIdOverride);
         }
 
         private Student GetCurrentStudent()
