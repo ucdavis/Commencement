@@ -268,7 +268,10 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
 
             CeremonyService.Expect(
                 a =>
-                a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything)).Return(null).Repeat.Any();
+                a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything,
+                                        Arg<decimal>.Is.Anything,
+                                        Arg<TermCode>.Is.Anything,
+                                        Arg<int?>.Is.Anything)).Return(null).Repeat.Any();
 
             var participations = new List<RegistrationParticipation>();
             participations.Add(CreateValidEntities.RegistrationParticipation(1));
@@ -291,8 +294,8 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
 
             #region Assert
             StudentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
-            var args = CeremonyService.GetArgumentsForCallsMadeOn(a => a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything))[0];
-            Assert.AreEqual(3, args.Count());
+            var args = CeremonyService.GetArgumentsForCallsMadeOn(a => a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything, Arg<int?>.Is.Anything))[0];
+            Assert.AreEqual(4, args.Count());
             var majorCodes = args[0] as List<MajorCode>;
             Assert.IsNotNull(majorCodes);
             Assert.AreEqual(2, majorCodes.Count());
@@ -328,7 +331,10 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
 
             CeremonyService.Expect(
                 a =>
-                a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything)).Return(new List<Ceremony>()).Repeat.Any();
+                a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything,
+                                        Arg<decimal>.Is.Anything,
+                                        Arg<TermCode>.Is.Anything,
+                                        Arg<int?>.Is.Anything)).Return(new List<Ceremony>()).Repeat.Any();
 
 
             var participations = new List<RegistrationParticipation>();
@@ -351,8 +357,8 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
 
             #region Assert
             StudentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
-            var args = CeremonyService.GetArgumentsForCallsMadeOn(a => a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything))[0];
-            Assert.AreEqual(3, args.Count());
+            var args = CeremonyService.GetArgumentsForCallsMadeOn(a => a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything, Arg<int?>.Is.Anything))[0];
+            Assert.AreEqual(4, args.Count());
             var majorCodes = args[0] as List<MajorCode>;
             Assert.IsNotNull(majorCodes);
             Assert.AreEqual(2, majorCodes.Count());
@@ -395,7 +401,10 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
 
             CeremonyService.Expect(
                 a =>
-                a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything)).Return(ceremonies).Repeat.Any();
+                a.StudentEligibility(   Arg<List<MajorCode>>.Is.Anything, 
+                                        Arg<decimal>.Is.Anything, 
+                                        Arg<TermCode>.Is.Anything,
+                                        Arg<int?>.Is.Anything)).Return(ceremonies).Repeat.Any();
 
             var participations = new List<RegistrationParticipation>();
             participations.Add(CreateValidEntities.RegistrationParticipation(1));
@@ -418,8 +427,8 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
 
             #region Assert
             StudentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
-            var args = CeremonyService.GetArgumentsForCallsMadeOn(a => a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything))[0];
-            Assert.AreEqual(3, args.Count());
+            var args = CeremonyService.GetArgumentsForCallsMadeOn(a => a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything, Arg<int?>.Is.Anything))[0];
+            Assert.AreEqual(4, args.Count());
             var majorCodes = args[0] as List<MajorCode>;
             Assert.IsNotNull(majorCodes);
             Assert.AreEqual(2, majorCodes.Count());
@@ -427,6 +436,7 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
             Assert.AreEqual("Name3", majorCodes[1].Name);
             Assert.AreEqual(23m, args[1]);
             Assert.IsNull(args[2]);
+            Assert.IsNull(args[3]);
             #endregion Assert
         }
 
@@ -463,7 +473,7 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
 
             CeremonyService.Expect(
                 a =>
-                a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything)).Return(ceremonies).Repeat.Any();
+                a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything, Arg<int?>.Is.Anything)).Return(ceremonies).Repeat.Any();
 
             ControllerRecordFakes.FakeState(2, Controller.Repository, null);
             ControllerRecordFakes.FakevTermCode(1, VTermCodeRepository);
@@ -490,8 +500,8 @@ namespace Commencement.Tests.Controllers.StudentControllerTests
 
             #region Assert
             StudentService.AssertWasCalled(a => a.GetCurrentStudent(Arg<IPrincipal>.Is.Anything));
-            var args = CeremonyService.GetArgumentsForCallsMadeOn(a => a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything))[0];
-            Assert.AreEqual(3, args.Count());
+            var args = CeremonyService.GetArgumentsForCallsMadeOn(a => a.StudentEligibility(Arg<List<MajorCode>>.Is.Anything, Arg<decimal>.Is.Anything, Arg<TermCode>.Is.Anything, Arg<int?>.Is.Anything))[0];
+            Assert.AreEqual(4, args.Count());
             var majorCodes = args[0] as List<MajorCode>;
             Assert.IsNotNull(majorCodes);
             Assert.AreEqual(2, majorCodes.Count());
