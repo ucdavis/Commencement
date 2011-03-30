@@ -72,7 +72,7 @@
                     <strong>Tickets Requested:</strong>
 
                     <select id="<%: string.Format("ceremonyParticipations[{0}]_Tickets", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Tickets", a.Index) %>" >
-                        <% for (int i = 1; i < a.Ceremony.TicketsPerStudent; i++) { %>
+                        <% for (int i = 1; i <= a.Ceremony.TicketsPerStudent; i++) { %>
                             <option value="<%: i %>" <%: i == a.Tickets ? "selected=\"selected\"" : string.Empty %> ><%: string.Format("{0:00}", i) %></option>
                         <% } %>
                     </select>
