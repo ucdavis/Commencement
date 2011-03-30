@@ -23,7 +23,7 @@ namespace Commencement.Controllers.ViewModels
             {
                 RegistrationModel = registrationModel,
                 Majors = repository.OfType<MajorCode>().GetAll(),
-                Ceremonies = repository.OfType<Ceremony>().Queryable.Where(a=>a.TermCode == TermService.GetCurrent()).ToList()
+                Ceremonies = repository.OfType<Ceremony>().Queryable.Where(a=>a.TermCode == TermService.GetCurrent()).ToList(),
             };
             
             return viewModel;

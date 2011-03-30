@@ -176,7 +176,8 @@ namespace Commencement.Controllers
             var ceremonies = _ceremonyService.GetCeremonies(CurrentUser.Identity.Name);
 
             //var viewModel = RegistrationModel.Create(Repository, ceremonies, student, registration);
-            var registrationModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(student.Majors.ToList(), student.TotalUnits), student: student, registration: registration, edit: true);
+            var overrideCeremonyId = student.Ceremony != null ? (int?) student.Ceremony.Id : null;
+            var registrationModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(majors: student.Majors.ToList(), totalUnits: student.TotalUnits, ceremonyIdOverride: overrideCeremonyId), student: student, registration: registration, edit: true);
             var viewModel = AdminRegisterForStudentViewModel.Create(Repository, registrationModel);
             return View(viewModel);
         }
