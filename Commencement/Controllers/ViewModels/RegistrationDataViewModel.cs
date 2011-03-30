@@ -15,26 +15,50 @@ namespace Commencement.Controllers.ViewModels
         {
             Check.Require(repository != null, "Repository is required.");
 
+            //var viewModel = new RegistrationDataViewModel();
+            //viewModel.RegistrationData = new List<RegistrationData>();
+
+            //var ceremonies = ceremonyService.GetCeremonies(userId, termCode);
+
+            //viewModel.RegistrationData = ceremonies.Select(a => new RegistrationData()
+            //                                      {
+            //                                          TermCode = a.TermCode,
+            //                                          Ceremony = a,
+            //                                          Registrants = a.RegistrationParticipations.Count(),
+            //                                          CancelledRegistrants = a.RegistrationParticipations.Count(),
+            //                                          RegistrationPetitionsSubmitted = a.RegistrationPetitions.Count,
+            //                                          RegistrationPetitionsApproved =
+            //                                              a.RegistrationPetitions.Where(
+            //                                                  b => b.IsApproved && !b.IsPending).Count(),
+            //                                          TicketsRequested = a.ProjectedTicketCount,
+            //                                          ExtraTicketsRequested = a.ProjectedTicketCount,
+            //                                          TotalTickets = a.TotalTickets
+            //                                      }).ToList();
+
+            //return viewModel;
+
+
             var viewModel = new RegistrationDataViewModel();
-            viewModel.RegistrationData = new List<RegistrationData>();
+            
+            // load all ceremonies that a user has access to
+            var ceremonies = ceremonyService.GetCeremonies(userId);
 
-            var ceremonies = ceremonyService.GetCeremonies(userId, termCode);
-
-            viewModel.RegistrationData = ceremonies.Select(a => new RegistrationData()
-                                                  {
-                                                      TermCode = a.TermCode,
-                                                      Ceremony = a,
-                                                      Registrants = a.RegistrationParticipations.Count(),
-                                                      CancelledRegistrants = a.RegistrationParticipations.Count(),
-                                                      RegistrationPetitionsSubmitted = a.RegistrationPetitions.Count,
-                                                      RegistrationPetitionsApproved =
-                                                          a.RegistrationPetitions.Where(
-                                                              b => b.IsApproved && !b.IsPending).Count(),
-                                                      TicketsRequested = a.ProjectedTicketCount,
-                                                      ExtraTicketsRequested = a.ProjectedTicketCount,
-                                                      TotalTickets = a.TotalTickets
-                                                  }).ToList();
-
+            viewModel.RegistrationData = (from a in ceremonies
+                       select new RegistrationData()
+                                  {
+                                      TermCode = a.TermCode,
+                                      Ceremony = a,
+                                      Registrants = a.RegistrationParticipations.Where(b => !b.Cancelled).Count(),
+                                      CancelledRegistrants = a.RegistrationParticipations.Where(b => b.Cancelled).Count(),
+                                      RegistrationPetitionsSubmitted = a.RegistrationPetitions.Count,
+                                      RegistrationPetitionsApproved = a.RegistrationPetitions.Where(b => b.IsApproved).Count(),
+                                      ExtraTicketPetitionsSubmitted = a.RegistrationParticipations.Where(b => b.ExtraTicketPetition != null).Count(),
+                                      ExtraTicketPetitionsApproved = a.RegistrationParticipations.Where(b => b.ExtraTicketPetition != null && b.ExtraTicketPetition.IsApproved).Count(),
+                                      TicketsPavilion = a.TotalTickets,
+                                      TicketsBallroom = a.TicketStreamingCount,
+                                      TicketsByPetition = a.RegistrationParticipations.Where(b => b.ExtraTicketPetition != null && b.ExtraTicketPetition.IsApprovedCompletely).Sum(b => b.ExtraTicketPetition.TotalTickets)
+                                  }).ToList();
+            
             return viewModel;
         }
     }
@@ -60,16 +84,37 @@ namespace Commencement.Controllers.ViewModels
         /// </summary>
         public int RegistrationPetitionsApproved { get; set; }
         /// <summary>
-        /// # of tickets requested by original request
+        /// # of extra ticket petitions submitted
         /// </summary>
-        public int TicketsRequested { get; set; }
+        public int ExtraTicketPetitionsSubmitted { get; set; }
         /// <summary>
-        /// # of tickets requested by extra request
+        /// # of extra ticket petitions approved
         /// </summary>
-        public int ExtraTicketsRequested { get; set; }
+        public int ExtraTicketPetitionsApproved { get; set; }
         /// <summary>
-        /// # of total tickets approved
+        /// # of tickets to the Pavilion
         /// </summary>
-        public int TotalTickets { get; set; }
+        public int TicketsPavilion { get; set; }
+        /// <summary>
+        /// # of tickets to the ballroom
+        /// </summary>
+        public int? TicketsBallroom { get; set; }
+        /// <summary>
+        /// # of tickets to either pavilion or ballroom by petition
+        /// </summary>
+        public int TicketsByPetition { get; set; }
+
+        ///// <summary>
+        ///// # of tickets requested by original request
+        ///// </summary>
+        //public int TicketsRequested { get; set; }
+        ///// <summary>
+        ///// # of tickets requested by extra request
+        ///// </summary>
+        //public int ExtraTicketsRequested { get; set; }
+        ///// <summary>
+        ///// # of total tickets approved
+        ///// </summary>
+        //public int TotalTickets { get; set; }
     }
 }

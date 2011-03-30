@@ -151,7 +151,7 @@ namespace Commencement.Core.Domain
         }
 
         /// <summary>
-        /// Total number of approved tickets
+        /// Total number of approved tickets (for pavilion), including those by extra ticket petition
         /// </summary>
         public virtual int TicketCount
         {

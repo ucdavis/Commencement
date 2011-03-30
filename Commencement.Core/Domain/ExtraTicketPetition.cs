@@ -66,11 +66,17 @@ namespace Commencement.Core.Domain
         #endregion
 
         #region  Extended/Calculated Fields
+        /// <summary>
+        /// Total # of tickets that were originally requested by the student
+        /// </summary>
         public virtual int TotalTicketsRequested
         {
             get { return NumberTicketsRequested + NumberTicketsRequestedStreaming; }
         }
 
+        /// <summary>
+        /// Total # of tickets approved, if status is approved
+        /// </summary>
         public virtual int TotalTickets
         {
             get { return (NumberTickets.HasValue ? NumberTickets.Value: 0) + (NumberTicketsStreaming.HasValue ? NumberTicketsStreaming.Value : 0); }
