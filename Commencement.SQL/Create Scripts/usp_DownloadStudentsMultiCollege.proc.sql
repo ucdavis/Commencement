@@ -93,12 +93,16 @@ using (	select distinct pidm, studentid, firstname, mi
                     , lastname, earnedunits, currentUnits, email, loginid, @term as termcode
         from #students where std <> 'DS') s
 on t.pidm = s.pidm and t.termcode = s.termcode
+when matched then update
+	-- only update the units
+	set t.earnedunits = s.earnedunits, t.currentunits = s.currentunits, dateupdated = getdate()
 when not matched then
     insert (pidm, studentid, firstname, mi, lastname, earnedunits, CurrentUnits, email, termcode, [login])
     values(s.pidm, s.studentid, s.firstname, s.mi, s.lastname, s.earnedunits, s.currentunits, s.email, s.termcode, s.[loginId]);
     
+-- delete the student majors for which wee have an update for them
 delete from StudentMajors
-where Student_Id in ( select id from Students where TermCode = @term )
+where Student_Id in ( select id from Students where studentId in ( select studentid from #students ) )
 
 insert into StudentMajors 
 select distinct students.id, major from #students
