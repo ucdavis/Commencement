@@ -38,6 +38,7 @@ namespace Commencement.Controllers.Helpers
             dest.CurrentUnits = src.CurrentUnits;
             dest.Email = src.Email;
             dest.Login = src.Login;
+            dest.Ceremony = src.Ceremony;
 
             dest.Majors = src.Majors;
         }

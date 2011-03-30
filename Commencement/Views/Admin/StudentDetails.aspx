@@ -42,6 +42,15 @@
     <h2>Student Information</h2>
     <% Html.RenderPartial("StudentInformationPartial", Model.Student); %>
 
+    <!-- Display ceremony override if the override is defined -->
+    <% if (Model.Student.Ceremony != null) { %>
+    <ul class="registration_form">
+    <li class="prefilled"><strong>Ceremony Override:</strong>
+                          <span><%= Html.Encode(Model.Student.Ceremony.DateTime.ToString("g")) %></span>
+    </li>
+    </ul>
+    <% } %>
+
     <% if (Model.Registration != null) { %>
         <h2>Contact Information</h2>
         <!-- Student is registered, show that information -->

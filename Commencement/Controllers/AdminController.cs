@@ -242,7 +242,7 @@ namespace Commencement.Controllers
                 return this.RedirectToAction<AdminController>(a => a.Index());
             }
 
-            var viewModel = AdminEditStudentViewModel.Create(Repository, student);
+            var viewModel = AdminEditStudentViewModel.Create(Repository, _ceremonyService, student, CurrentUser.Identity.Name);
             return View(viewModel);
         }
 
@@ -268,7 +268,7 @@ namespace Commencement.Controllers
                 return this.RedirectToAction<AdminController>(a => a.StudentDetails(id, false));
             }
 
-            var viewModel = AdminEditStudentViewModel.Create(Repository, student);
+            var viewModel = AdminEditStudentViewModel.Create(Repository, _ceremonyService, student, CurrentUser.Identity.Name);
             return View(viewModel);
         }
         #endregion
@@ -277,7 +277,7 @@ namespace Commencement.Controllers
         public ActionResult AddStudent(string studentId)
         {
             var student = _studentService.BannerLookup(studentId);
-            var viewModel = AdminEditStudentViewModel.Create(Repository, student);
+            var viewModel = AdminEditStudentViewModel.Create(Repository, _ceremonyService, student, CurrentUser.Identity.Name);
             return View(viewModel);
         }
         [HttpPost]
@@ -300,7 +300,7 @@ namespace Commencement.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            var viewModel = AdminEditStudentViewModel.Create(Repository, student);
+            var viewModel = AdminEditStudentViewModel.Create(Repository, _ceremonyService, student, CurrentUser.Identity.Name);
             return View(viewModel);
         }
         #endregion

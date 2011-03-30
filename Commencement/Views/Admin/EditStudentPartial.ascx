@@ -41,6 +41,12 @@
             <%: Html.TextBoxFor(a=>a.Student.Login) %>
             <%: Html.ValidationMessageFor(a=>a.Student.Login) %>
         </li>
+        <li><strong>Override Ceremony:</strong>
+            <%= this.Select("Student.Ceremony").Options(Model.Ceremonies,x=>x.Id,x=>x.DateTime.ToString("g"))
+                    .Selected(Model.Student.Ceremony != null ? Model.Student.Ceremony.Id.ToString(): string.Empty)
+                    .FirstOption("--Select an Override Ceremony--")
+                    %>
+        </li>
     </ul>
 
     Add Major: <%= this.Select("AddMajorDropDown").Options(Model.Majors, x=>x.Id, x=>x.Name).FirstOption("--Select a Major--") %> <%: Html.Button("AddMajor", "+", HtmlButtonType.Button, null, new {@class="AddMajor"}) %>
