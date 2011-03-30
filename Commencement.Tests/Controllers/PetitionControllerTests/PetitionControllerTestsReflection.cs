@@ -54,10 +54,10 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
         }
 
         /// <summary>
-        /// Tests the controller has two attributes.
+        /// Tests the controller has three attributes.
         /// </summary>
         [TestMethod]
-        public void TestControllerHasTwottributes()
+        public void TestControllerHasThreettributes()
         {
             #region Arrange
             var controllerClass = ControllerClass;
@@ -68,7 +68,7 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(2, result.Count());
+            Assert.AreEqual(3, result.Count());
             #endregion Assert
         }
 
@@ -107,6 +107,22 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
 
             #region Assert
             Assert.IsTrue(result.Count() > 0, "UseAntiForgeryTokenOnPostByDefault not found.");
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestControllerHasLoadDisplayDataAttribute()
+        {
+            #region Arrange
+            var controllerClass = ControllerClass;
+            #endregion Arrange
+
+            #region Act
+            var result = controllerClass.GetCustomAttributes(true).OfType<LoadDisplayDataAttribute>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(result.Count() > 0, "LoadDisplayDataAttribute not found.");
             #endregion Assert
         }
 
