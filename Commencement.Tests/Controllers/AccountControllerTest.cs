@@ -151,10 +151,10 @@ namespace Commencement.Tests.Controllers
         }
 
         /// <summary>
-        /// Tests the controller has only three attributes.
+        /// Tests the controller has four attributes.
         /// </summary>
         [TestMethod]
-        public void TestControllerHasOnlyThreeAttributes()
+        public void TestControllerHasFourAttributes()
         {
             #region Arrange
             var controllerClass = _controllerClass;
@@ -165,7 +165,7 @@ namespace Commencement.Tests.Controllers
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(3, result.Count());
+            Assert.AreEqual(4, result.Count());
             #endregion Assert
         }
 
@@ -224,6 +224,22 @@ namespace Commencement.Tests.Controllers
 
             #region Assert
             Assert.IsTrue(result.Count() > 0, "HandleTransactionsManuallyAttribute not found.");
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestControllerHasLoadDisplayDataAttribute()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            #endregion Arrange
+
+            #region Act
+            var result = controllerClass.GetCustomAttributes(true).OfType<LoadDisplayDataAttribute>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(result.Count() > 0, "LoadDisplayDataAttribute not found.");
             #endregion Assert
         }
 
