@@ -44,6 +44,17 @@
         <li>
             <strong>
                 <% using (Html.BeginForm("GetReport", "Report", FormMethod.Get)) { %>
+                    <a href="#" class="submit_anchor">Total Registration By Major</a>
+                    <%= Html.Hidden("Report", ReportController.Report.TotalRegisteredByMajor) %>
+                    <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class="term_value"}) %>
+                    <%= this.Select("majorCode").Options(Model.MajorCodes,x=>x.Id,x=>x.Name).FirstOption("--Select a Major") %>
+                <% } %>
+            </strong>
+        </li>
+
+        <li>
+            <strong>
+                <% using (Html.BeginForm("GetReport", "Report", FormMethod.Get)) { %>
                     <a href="#" class="submit_anchor">Sum of all Tickets</a>
                     <%= Html.Hidden("Report", ReportController.Report.SumOfAllTickets) %>
                     <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class = "term_value"}) %>

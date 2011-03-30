@@ -13,6 +13,7 @@ namespace Commencement.Controllers.ViewModels
     {
         public IEnumerable<vTermCode> TermCodes { get; set; }
         public TermCode TermCode { get; set; }
+        public IEnumerable<MajorCode> MajorCodes { get; set; }
 
         public static ReportViewModel Create(IRepository repository)
         {

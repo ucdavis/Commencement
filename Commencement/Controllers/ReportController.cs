@@ -21,14 +21,16 @@ namespace Commencement.Controllers
         private readonly IRepositoryWithTypedId<TermCode, string> _termRepository;
         private readonly IUserService _userService;
         private readonly ICeremonyService _ceremonyService;
+        private readonly IMajorService _majorService;
         private readonly IRepository<RegistrationParticipation> _registrationParticipationRepository;
         private readonly string _serverLocation = ConfigurationManager.AppSettings["ReportServer"];
 
-        public ReportController(IRepositoryWithTypedId<TermCode, string> termRepository, IUserService userService, ICeremonyService ceremonyService, IRepository<RegistrationParticipation> registrationParticipationRepository)
+        public ReportController(IRepositoryWithTypedId<TermCode, string> termRepository, IUserService userService, ICeremonyService ceremonyService, IMajorService majorService, IRepository<RegistrationParticipation> registrationParticipationRepository)
         {
             _termRepository = termRepository;
             _userService = userService;
             _ceremonyService = ceremonyService;
+            _majorService = majorService;
             _registrationParticipationRepository = registrationParticipationRepository;
         }
 
@@ -37,12 +39,18 @@ namespace Commencement.Controllers
 
         public ActionResult Index()
         {
+            // get all ceremonies
+            var ceremonies = _ceremonyService.GetCeremonies(CurrentUser.Identity.Name);
+            var majors = _majorService.GetByCeremonies(CurrentUser.Identity.Name, ceremonies);
+
             var viewModel = ReportViewModel.Create(Repository);
+            viewModel.MajorCodes = majors;
+
             return View(viewModel);
         }
 
         #region Microsoft Report Server Reports
-        public FileResult GetReport(Report report, string termCode)
+        public FileResult GetReport(Report report, string termCode, string majorCode)
         {
             Check.Require(!string.IsNullOrEmpty(termCode), "Term code is required.");
 
@@ -56,6 +64,10 @@ namespace Commencement.Controllers
             {
                 case Report.TotalRegisteredStudents:
                     name = "TotalRegistrationReport";
+                    break;
+                case Report.TotalRegisteredByMajor:
+                    name = "TotalRegistrationByMajorReport";
+                    parameters.Add("majorCode", majorCode);
                     break;
                 case Report.TotalRegistrationPetitions:
                     name = "TotalRegistrationPetitions";
@@ -116,7 +128,7 @@ namespace Commencement.Controllers
 
         public enum Report { TotalRegisteredStudents=0, TotalRegistrationPetitions
                            , SumOfAllTickets, SpecialNeedsRequest, RegistrarsReport
-                           , TicketSignOutSheet
+                           , TicketSignOutSheet, TotalRegisteredByMajor
                            }
         #endregion
 
