@@ -21,7 +21,7 @@ namespace Commencement.Controllers.ViewModels
                                 {
                                     Student = student,
                                     Majors = repository.OfType<MajorCode>().GetAll(),
-                                    Ceremonies = ceremonyService.GetCeremonies(userId)
+                                    Ceremonies = ceremonyService.GetCeremonies(userId, TermService.GetCurrent())
                                 };
 
             return viewModel;
