@@ -14,50 +14,36 @@ AS
 	Provides a summary of all registrations
 */
 
-select Ceremonies.id, Ceremonies.DateTime, Ceremonies.TermCode, Ceremonies.TotalTickets totalceremonytickets
-	, RegistrationTickets.numberTickets RegistrationTickets
-	, ISNULL(PendingExtraTickets.NumberTickets, 0) PendingExtraTickets
-	, ISNULL(PendingExtraTickets.NumberStreamingTickets, 0) PendingStreamingExtraTickets
-	, ISNULL(ApprovedExtraTickets.NumberTickets, 0) ApprovedExtraTickets
-	, ISNULL(ApprovedExtraTickets.NumberStreamingTickets, 0) ApprovedStreamingExtraTickets
+select ceremonies.id, ceremonies.DateTime, ceremonies.TermCode
+	, ceremonies.totaltickets totalceremonytickets
+	, isnull(ceremonies.totalstreamingtickets, 0) TotalStreamingTickets
+	, registrationtickets.tickets RegistrationTickets
+	, isnull(pendingextratickets.tickets, 0) PendingExtraTickets
+	, isnull(pendingextratickets.streamingtickets, 0) PendingStreamingExtraTickets
+	, isnull(extratickets.tickets, 0) ApprovedExtraTickets
+	, isnull(extratickets.streamingtickets, 0) ApprovedStreamingExtraTickets
 from ceremonies
 	left outer join (
-		select SUM(numbertickets) numberTickets, rp.CeremonyId
-		from RegistrationParticipations rp
-			inner join Registrations reg on reg.id = rp.RegistrationId
-			inner join Students on students.Id = reg.Student_Id
-		where students.SJABlock = 0
-		  and rp.Cancelled = 0
-		  and students.TermCode = @term
-		group by rp.CeremonyId
+		select sum(numbertickets) tickets, ceremonyid
+		from registrationparticipations
+		group by ceremonyid
 	) RegistrationTickets on RegistrationTickets.CeremonyId = ceremonies.id
 	left outer join (
-		select SUM(etp.NumberTickets) NumberTickets, SUM(etp.NumberTicketsStreaming) NumberStreamingTickets
-			, rp.CeremonyId
-		from RegistrationParticipations rp
-			inner join ExtraTicketPetitions etp on rp.ExtraTicketPetitionId = etp.id
-			inner join Registrations reg on reg.id = rp.RegistrationId
-			inner join Students on students.Id = reg.Student_Id
-		where students.SJABlock = 0
-		  and rp.Cancelled = 0
-		  and students.TermCode = @term
-		  and etp.IsPending = 1
-		group by rp.CeremonyId			
-	) PendingExtraTickets on PendingExtraTickets.CeremonyId = Ceremonies.id
+		select sum(etp.numbertickets) tickets, sum(etp.numberticketsstreaming) streamingtickets, ceremonyid
+		from extraticketpetitions etp
+			inner join registrationparticipations rp on rp.extraticketpetitionid = etp.id
+		where etp.ispending = 0 and etp.isapproved = 1
+		group by rp.ceremonyid
+	) ExtraTickets on ExtraTickets.CeremonyId = ceremonies.id
 	left outer join (
-		select SUM(etp.NumberTickets) NumberTickets, SUM(etp.NumberTicketsStreaming) NumberStreamingTickets
-			, rp.CeremonyId
-		from RegistrationParticipations rp
-			inner join ExtraTicketPetitions etp on rp.ExtraTicketPetitionId = etp.id
-			inner join Registrations reg on reg.id = rp.RegistrationId
-			inner join Students on students.Id = reg.Student_Id
-		where students.SJABlock = 0
-		  and rp.Cancelled = 0
-		  and students.TermCode = @term
-		  and etp.IsPending = 0
-		  and etp.IsApproved = 1
-		group by rp.CeremonyId			
-	) ApprovedExtraTickets on PendingExtraTickets.CeremonyId = Ceremonies.id
+		select sum(isnull(etp.numbertickets, etp.numberticketsrequested)) tickets
+			 , sum(isnull(etp.numberticketsstreaming, etp.numberticketsrequestedstreaming)) streamingtickets
+			 , ceremonyid
+		from extraticketpetitions etp
+			inner join registrationparticipations rp on rp.extraticketpetitionid = etp.id
+		where etp.ispending = 1
+		group by rp.ceremonyid
+	) PendingExtraTickets on PendingExtraTickets.CeremonyId = ceremonies.id
 where ceremonies.id in ( select CeremonyId from CeremonyEditors 
 									inner join Ceremonies on CeremonyEditors.CeremonyId = Ceremonies.id
 						 where UserId = @userId
