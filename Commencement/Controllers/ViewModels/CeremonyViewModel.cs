@@ -22,6 +22,10 @@ namespace Commencement.Controllers.ViewModels
         public MultiSelectList Majors { get; set; }
         public MultiSelectList Colleges { get; set; }
 
+        public List<int> Hours { get; set; }
+        public List<string> Minutes { get; set; }
+        public List<string> AmPm { get; set; }
+
         public static CeremonyViewModel Create(IRepository repository, IPrincipal user, IMajorService majorService , Ceremony ceremony)
         {
             Check.Require(repository != null, "Repository is required.");
@@ -49,6 +53,21 @@ namespace Commencement.Controllers.ViewModels
             {
                 viewModel.Colleges = new MultiSelectList(colleges, "Id", "Name");
             }
+
+            viewModel.Hours = new List<int>();
+            viewModel.Minutes = new List<string>();
+            viewModel.AmPm = new List<string>();
+
+            for (int i = 1; i < 13; i++)
+            {
+                viewModel.Hours.Add(i);
+            }
+
+            viewModel.Minutes.Add("00");
+            viewModel.Minutes.Add("30");
+            
+            viewModel.AmPm.Add("AM");
+            viewModel.AmPm.Add("PM");
 
             return viewModel;
         }

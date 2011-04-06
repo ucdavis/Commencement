@@ -98,11 +98,21 @@
             <strong>Date/Time of Ceremony:</strong>
             <%= Html.TextBox("CeremonyDate", Model.Ceremony.DateTime.ToString("d"), new {@class="ceremony_time"}) %>
             
-            <select id="CeremonyHour" class="ceremony_time">
+            <%= this.Select("CeremonyHour").Class("ceremony_time").Options(Model.Hours,x=>x,x=>x).Selected(Model.Ceremony.DateTime.Hour > 12 ? Model.Ceremony.DateTime.Hour - 12 : Model.Ceremony.DateTime.Hour)%>
+
+            <%= this.Select("CeremonyMinutes").Class("ceremony_time").Options(Model.Minutes,x=>x,x=>x).Selected(Model.Ceremony.DateTime.Minute) %>
+
+            <%= this.Select("CeremonyAmPm").Class("ceremony_time").Options(Model.AmPm).Selected(Model.Ceremony.DateTime.ToString("tt")) %>
+
+<%--            <select id="CeremonyHour" class="ceremony_time">
                 <% for (int i = 1; i < 13; i++ ) { %>
                     <% var hour = Model.Ceremony.DateTime.Hour > 12 ? Model.Ceremony.DateTime.Hour - 12 : Model.Ceremony.DateTime.Hour;
-                       var flag = hour == i; %>
-                    <option value="<%= i %>" "<%= flag ? "selected" : string.Empty %>"><%= i %></option>
+                       var flag = hour == i;
+                       var selected = flag ? "selected" : string.Empty;
+                       %>
+                    <option value="<%= i %>" '<%= selected %>' ><%: i %></option>
+
+                    
                 <% } %>
             </select>
             
@@ -114,7 +124,7 @@
             <select id="CeremonyAmPm" class="ceremony_time">
                 <option value="AM" "<%= Model.Ceremony.DateTime.ToString("tt") == "AM" ? "selected" : string.Empty %>" >AM</option>
                 <option value="PM" "<%= Model.Ceremony.DateTime.ToString("tt") == "PM" ? "selected" : string.Empty %>" >PM</option>
-            </select>
+            </select>--%>
             
             <%= Html.HiddenFor(x => x.Ceremony.DateTime)%>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.DateTime) %>
@@ -192,7 +202,7 @@
 
         <li>
             <% if (Model.Majors != null) { %>
-            <%= Html.ListBox("CeremonyMajors", Model.Majors, new {style="width:900px"}) %>
+            <%= Html.ListBox("CeremonyMajors", Model.Majors, new {style="width:900px; height: 300px;"}) %>
             <% } else { %>
             <select id="CeremonyMajors" style="width: 200px;" name="CeremonyMajors" multiple="multiple"></select>
             <% } %>
