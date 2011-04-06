@@ -61,6 +61,10 @@
 
                     var $available = $select.siblings("div").find("ul.available").css("height", "280px");
                     var $selected = $select.siblings("div").find("ul.selected").css("height", "280px");
+
+                    $select.siblings("div").css("width", "920px");
+                    $select.siblings("div").find(".selected").css("width", "450px");
+                    $select.siblings("div").find(".available").css("width", "450px");
                 }
             });
             
