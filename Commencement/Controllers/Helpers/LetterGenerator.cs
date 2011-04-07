@@ -70,7 +70,7 @@ namespace Commencement.Controllers.Helpers
             Check.Require(registrationParticipation != null, "registrationParticipation is required.");
             Check.Require(registrationParticipation.Registration.Student != null, "registrationParticipation.Registration.Student is required.");
             Check.Require(template != null, "template is required.");
-            Check.Require(template.TemplateType.Name == StaticValues.Template_TicketPetition, "Template mismatch.");
+            Check.Require(template.TemplateType.Name == StaticValues.Template_TicketPetition_Decision, "Template mismatch.");
             Check.Require(registrationParticipation.Registration != null, "registrationParticipation.Registration is required.");
             Check.Require(registrationParticipation.ExtraTicketPetition != null, "registrationParticipation.ExtraTicketPetition is required.");
 
