@@ -8,7 +8,7 @@
 <asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent">
 
     <style type="text/css">
-        #petition-warning
+        #petition-warning, #printing-warning
         {
             border: 1px solid red;
             background-color: #F4F4F4;
@@ -16,7 +16,7 @@
             margin: 10px 20px;
         }
         
-        #petition-warning p
+        #petition-warning p, #printing-warning p
         {
             margin: 1em 0;
         }
@@ -37,6 +37,12 @@
         <p>According to our records you do not meet the minimum requirements to participate in the commencement ceremony.  See our website for the list of reuqirements: <a href="www.caes.ucdavis.edu/commencement">www.caes.ucdavis.edu/commencement</a></p>
         <p>Please complete the petition if you would like to participate.</p>
     </div>
+    <% } %>
+
+    <% if (Model.Participations.Any(a => a.Ceremony.IsPastPrintingDeadline())) { %>
+        <div id="printing-warning">
+            <p>Due to the late registration and printing deadlines we  cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets allotted per person.</p>
+        </div>
     <% } %>
 
     <%= Html.ValidationSummary("Please correct all errors below") %>
