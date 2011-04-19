@@ -30,7 +30,7 @@
 
         <% }%>
 
-        <div id="ticketCountInline">
+        <div id="ticketCountInline" style="position: relative; top: -20px;">
             <ul>
                 <li><strong>Projected Available:</strong> <span class="projectedAvailabeTickets"><%: Model.Ceremony.ProjectedAvailableTickets %></span></li>
                 <% if (Model.Ceremony.HasStreamingTickets) { %><li><strong>Projected Streaming Available:</strong> <span class="projectedAvailableStreaming"><%: Model.Ceremony.ProjectedAvailableStreamingTickets.HasValue ? Model.Ceremony.ProjectedAvailableStreamingTickets.Value.ToString() : "n/a" %></span></li><% } %>
