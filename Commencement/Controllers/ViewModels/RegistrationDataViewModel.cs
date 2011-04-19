@@ -54,7 +54,7 @@ namespace Commencement.Controllers.ViewModels
                                       RegistrationPetitionsApproved = a.RegistrationPetitions.Where(b => b.IsApproved).Count(),
                                       ExtraTicketPetitionsSubmitted = a.RegistrationParticipations.Where(b => b.ExtraTicketPetition != null).Count(),
                                       ExtraTicketPetitionsApproved = a.RegistrationParticipations.Where(b => b.ExtraTicketPetition != null && b.ExtraTicketPetition.IsApproved).Count(),
-                                      TicketsPavilion = a.TotalTickets,
+                                      TicketsPavilion = a.TicketCount,
                                       TicketsBallroom = a.TicketStreamingCount,
                                       TicketsByPetition = a.RegistrationParticipations.Where(b => b.ExtraTicketPetition != null && b.ExtraTicketPetition.IsApprovedCompletely).Sum(b => b.ExtraTicketPetition.TotalTickets)
                                   }).ToList();
