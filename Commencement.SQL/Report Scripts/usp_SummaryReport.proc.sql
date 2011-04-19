@@ -53,7 +53,6 @@ where ceremonies.id in ( select CeremonyId from CeremonyEditors
 						 where UserId = @userId
 						   and Ceremonies.TermCode = @term
 					    )	
-					    )	
 
 --select Ceremonies.id ceremonyid, Ceremonies.[DateTime], Ceremonies.TermCode, Ceremonies.TotalTickets totalceremonytickets
 --	, RegistrationTickets.NumberTickets RegistrationTickets
