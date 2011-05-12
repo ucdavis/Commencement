@@ -45,7 +45,7 @@ from ceremonies
 			 , ceremonyid
 		from extraticketpetitions etp
 			inner join registrationparticipations rp on rp.extraticketpetitionid = etp.id
-		where etp.ispending = 1
+		where etp.ispending = 1 and rp.Cancelled = 0
 		group by rp.ceremonyid
 	) PendingExtraTickets on PendingExtraTickets.CeremonyId = ceremonies.id
 where ceremonies.id in ( select CeremonyId from CeremonyEditors 
