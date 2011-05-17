@@ -149,7 +149,7 @@ namespace Commencement.Controllers
                     query.Where(
                         a =>
                         !a.LabelPrinted ||
-                        (a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApprovedCompletely &&
+                        (a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved && !a.ExtraTicketPetition.IsPending &&
                          !a.ExtraTicketPetition.LabelPrinted));
             }
 
