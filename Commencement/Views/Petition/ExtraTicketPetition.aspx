@@ -41,12 +41,13 @@
 
     <% using (Html.BeginForm()) { %>
     <%: Html.AntiForgeryToken() %>
+     <ul class="registration_form">
     <%  var counter = 0;
         for (int j = 0; j < Model.Registration.RegistrationParticipations.Count; j++) {
         var participation = Model.Registration.RegistrationParticipations[j];
         %>
         
-        <ul class="registration_form">
+       
             <% if (!Model.AvailableParticipationIds.Contains(participation.Id)) { %>
                 <% if (participation.ExtraTicketPetition != null) { %>
                     <li>
@@ -62,7 +63,7 @@
                     </li>
                 <% } %>
             <% } %>
-            <li class="prefilled"><strong>Ceremony ID:</strong><%: participation.Ceremony.Id %></li>
+            <%--<li class="prefilled"><strog>Ceremony ID:</strong><%: participation.Ceremony.Id %></li>--%>
             <li class="prefilled"><strong>Major:</strong><%: participation.Major.Name %></li>
             <li class="prefilled"><strong>Ceremony Time:</strong><%: participation.Ceremony.DateTime.ToString("g") %></li>
             <li class="prefilled"><strong># Original Tickets Requested:</strong><%: participation.NumberTickets %></li>
@@ -110,11 +111,13 @@
                         <%: Html.TextArea(string.Format("extraTicketPetitions[{0}].Reason", counter), participation.ExtraTicketPetition != null ? participation.ExtraTicketPetition.Reason : string.Empty, new { @style = "width:400px;" })%><i> *Max 100 characters</i>
                     </li>
 
-                    <li><strong></strong><%: Html.SubmitButton("Submit", "Submit") %></li>
+                    
             <%  counter++;
                 } %>
-        </ul>
+
     <% } %>
+                    <li><strong></strong><%: Html.SubmitButton("Submit", "Submit") %></li>
+        </ul>
     <% } %>    
 </asp:Content>
 
