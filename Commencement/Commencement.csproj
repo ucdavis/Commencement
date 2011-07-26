@@ -324,6 +324,7 @@
     <Content Include="Images\preferences.png" />
     <Content Include="Images\speechbubble.jpg" />
     <Content Include="Images\to-do-list_checked1_small.gif" />
+    <Content Include="Scripts\dateFormat.js" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
