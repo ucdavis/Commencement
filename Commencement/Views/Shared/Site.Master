@@ -31,6 +31,10 @@
     
     <%= Html.GoogleAnalytics() %>
     
+    <script type="text/javascript">
+        $(function () { jQuery.ajaxSettings.traditional = true; });
+    </script>
+
     <asp:ContentPlaceHolder ID="HeaderContent" runat="server">
     </asp:ContentPlaceHolder>
     

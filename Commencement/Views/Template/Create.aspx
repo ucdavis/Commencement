@@ -30,6 +30,8 @@
                         .Options(Model.TemplateTypes, x=>x.Id, x=>x.Name)
                         .FirstOption("--Select a Template Type--")
                         .Selected(Model.Template != null ? Model.Template.TemplateType.Id.ToString() : string.Empty) %>
+
+                <input type="button" id="copy-template" value="Copy" />
             </li>
             <li>
                 <strong>Subject: </strong>
@@ -59,11 +61,43 @@
            </div>
     <% } %>
 
+    <div id="copy-dialog">
+    
+        <table id="available-templates">
+            <thead>
+                <tr>
+                    <td></td>
+                    <td>Ceremony</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="button" value="Select" class="select-template" /></td>
+                    <td><%: DateTime.Now.ToString("g") %></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="Select" class="select-template" /></td>
+                    <td><%: DateTime.Now.ToString("g") %></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="Select" /></td>
+                    <td><%: DateTime.Now.ToString("g") %></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="Select" /></td>
+                    <td><%: DateTime.Now.ToString("g") %></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
     <script src="<%= Url.Content("~/Scripts/tiny_mce/jquery.tinymce.js") %>" type="text/javascript"></script>
     <script src="<%= Url.Content("~/Scripts/jquery.enableTinyMce.js") %>" type="text/javascript"></script>
+    <script src="<%= Url.Content("~/Scripts/dateFormat.js") %>" type="text/javascript"></script>
 
     <script type="text/javascript">
 
@@ -100,12 +134,83 @@
                     else alert("there was an error sending test email");
                     }
                 );
-
-                
             });
         });
 
    </script>
-   </div>
+
+   <script type="text/javascript">
+       $(document).ready(function () {
+
+           /*
+           $.ajaxSetup({ "error": function (XMLHttpRequest, textStatus, errorThrown) {
+           alert(textStatus);
+           alert(errorThrown);
+           alert(XMLHttpRequest.responseText);
+           }
+           });
+           */
+
+
+           $("#copy-dialog").dialog({
+               width: 300,
+               modal: true,
+               autoOpen: false,
+               buttons: { Cancel: function () { $(this).dialog("close"); } }
+           });
+
+           $("#copy-template").click(function () {
+
+               // open the dialog
+               $("#copy-dialog").dialog("open");
+
+               // populate the dialog
+               var url = '<%: Url.Action("LoadOldTemplates") %>';
+               var id = $("#TemplateType").val();
+
+               $.getJSON(url, { "templateTypeId": id }, function (result) {
+
+                   // load the tbody
+                   var tbody = $("#available-templates tbody");
+                   // clear the tbody
+                   tbody.empty();
+
+                   $.each(result, function (index, item) {
+
+                       var date = new Date(parseInt(item.Name.substr(6)));
+
+                       var row = $("<tr>");
+                       var button = $("<input>").attr("type", "button").val("Select").data("id", item.Id).addClass("select-template");
+                       var col1 = $("<td>").append(button);
+                       var col2 = $("<td>").html(dateFormat(date, "m/dd/yy h:MM TT"));
+
+                       row.append(col1).append(col2);
+
+                       tbody.append(row);
+                   });
+               });
+           });
+
+           $(".select-template").live("click", function () {
+
+               var url = '<%: Url.Action("LoadOldTemplate") %>';
+               var id = $(this).data("id");
+
+               $.getJSON(url, { "templateId": id }, function (result) {
+
+                   var subject = result.Subject;
+                   var body = result.BodyText;
+
+                   // set the controls
+                   $("#Subject").val(subject);
+                   tinyMCE.execInstanceCommand("BodyText", "mceReplaceContent", false, body);
+
+                   // close the dialog
+                   $("#copy-dialog").dialog("close");
+               });
+
+           });
+       });
+   </script>
 </asp:Content>
 

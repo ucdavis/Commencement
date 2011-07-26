@@ -5,9 +5,11 @@ using System.Net.Mail;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
+using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using MvcContrib;
+using UCDArch.Web.ActionResults;
 using UCDArch.Web.Helpers;
 
 namespace Commencement.Controllers
@@ -16,10 +18,12 @@ namespace Commencement.Controllers
     public class TemplateController : ApplicationController
     {
         private readonly ILetterGenerator _letterGenerator;
+        private readonly ICeremonyService _ceremonyService;
 
-        public TemplateController(ILetterGenerator letterGenerator)
+        public TemplateController(ILetterGenerator letterGenerator, ICeremonyService ceremonyService)
         {
             _letterGenerator = letterGenerator;
+            _ceremonyService = ceremonyService;
         }
 
         //
@@ -89,6 +93,44 @@ namespace Commencement.Controllers
             client.Send(mail);
 
             return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Load a list of old templates that we can copy from
+        /// </summary>
+        /// <param name="templateTypeId">Template Type Id</param>
+        /// <returns></returns>
+        public JsonNetResult LoadOldTemplates(int templateTypeId)
+        {
+            // load all ceremonies user has access to
+            var ceremonies = _ceremonyService.GetCeremonyIds(CurrentUser.Identity.Name);
+
+            // load the template from those ceremonies that matches our current ceremony
+            var templates = Repository.OfType<Template>().Queryable
+                                      .Where(a => a.TemplateType.Id == templateTypeId && ceremonies.Contains(a.Ceremony.Id));
+
+            var result = templates.Select(a => new {Id = a.Id, Name = a.Ceremony.DateTime}).ToList();
+
+            return new JsonNetResult(result);
+        }
+
+        /// <summary>
+        /// Load the text of a specific template
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public JsonNetResult LoadOldTemplate(int templateId)
+        {
+            var ceremonies = _ceremonyService.GetCeremonyIds(CurrentUser.Identity.Name);
+
+            var template = Repository.OfType<Template>().GetNullableById(templateId);
+
+            if (template != null && ceremonies.Contains(template.Ceremony.Id))
+            {
+                return new JsonNetResult(new {BodyText = template.BodyText, Subject = template.Subject});
+            }
+
+            return new JsonNetResult(new {BodyText = string.Empty, Subject = string.Empty});
         }
 
         private string ValidateBody(Template template)
