@@ -29,7 +29,7 @@
             List of all registered students for the selected term.
         </li>
         
-        <li>
+        <%--<li>
             <strong>
                 <% using (Html.BeginForm("GetReport", "Report", FormMethod.Get)) { %>
                     <a href="#" class="submit_anchor">Total Registration Petition</a>
@@ -39,7 +39,7 @@
             </strong>
             
             List of all registration petitions for the selected term.
-        </li>
+        </li>--%>
         
         <li>
             <strong>
