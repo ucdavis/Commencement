@@ -14,6 +14,7 @@ namespace Commencement.Controllers.ViewModels
         public IEnumerable<vTermCode> TermCodes { get; set; }
         public TermCode TermCode { get; set; }
         public IEnumerable<MajorCode> MajorCodes { get; set; }
+        public IEnumerable<Ceremony> Ceremonies { get; set; }
 
         public static ReportViewModel Create(IRepository repository)
         {
@@ -24,7 +25,7 @@ namespace Commencement.Controllers.ViewModels
             var viewModel = new ReportViewModel()
                                 {
                                     TermCodes = Enumerable.ToList<vTermCode>(repository.OfType<vTermCode>().Queryable.Where(a => existingTerms.Contains(a.Id))),
-                                    TermCode = TermService.GetCurrent()
+                                    TermCode = TermService.GetCurrent(),
                                 };
 
             return viewModel;

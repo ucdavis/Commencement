@@ -26,6 +26,10 @@
       <FullPath>TicketSignOutSheet.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>TotalRegistrationByMajorReport.rdl</Name>
+      <FullPath>TotalRegistrationByMajorReport.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>TotalRegistrationPetitions.rdl</Name>
       <FullPath>TotalRegistrationPetitions.rdl</FullPath>
     </ProjectItem>
@@ -34,8 +38,8 @@
       <FullPath>TotalRegistrationReport.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>TotalRegistrationByMajorReport.rdl</Name>
-      <FullPath>TotalRegistrationByMajorReport.rdl</FullPath>
+      <Name>MajorCountByCeremony.rdl</Name>
+      <FullPath>MajorCountByCeremony.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>

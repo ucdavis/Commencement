@@ -45,12 +45,13 @@ namespace Commencement.Controllers
 
             var viewModel = ReportViewModel.Create(Repository);
             viewModel.MajorCodes = majors;
+            viewModel.Ceremonies = ceremonies;
 
             return View(viewModel);
         }
 
         #region Microsoft Report Server Reports
-        public FileResult GetReport(Report report, string termCode, string majorCode)
+        public FileResult GetReport(Report report, string termCode, string majorCode, string ceremony)
         {
             Check.Require(!string.IsNullOrEmpty(termCode), "Term code is required.");
 
@@ -83,6 +84,11 @@ namespace Commencement.Controllers
                     break;
                 case Report.TicketSignOutSheet:
                     name = "TicketSignOutSheet";
+                    break;
+                case Report.MajorCountByCeremony:
+                    name = "MajorCountByCeremony";
+                    parameters.Remove("term");
+                    parameters.Add("ceremonyId", ceremony);
                     break;
             };
 
@@ -128,7 +134,7 @@ namespace Commencement.Controllers
 
         public enum Report { TotalRegisteredStudents=0, TotalRegistrationPetitions
                            , SumOfAllTickets, SpecialNeedsRequest, RegistrarsReport
-                           , TicketSignOutSheet, TotalRegisteredByMajor
+                           , TicketSignOutSheet, TotalRegisteredByMajor, MajorCountByCeremony
                            }
         #endregion
 

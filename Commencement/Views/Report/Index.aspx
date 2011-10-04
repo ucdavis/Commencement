@@ -100,9 +100,24 @@
             Ticket sign out sheet for the selected term.
         </li>
         
+        <li>
+            <strong>
+                <% using (Html.BeginForm("GetReport", "Report", FormMethod.Get)) { %>
+                    <a href="#" class="submit_anchor">Major Count by Ceremony</a>
+                    <%= Html.Hidden("Report", ReportController.Report.MajorCountByCeremony)%>
+                    <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class = "term_value"}) %>        
+                    
+                    <%= this.Select("ceremony").Options(Model.Ceremonies,x=>x.Id,x=>string.Format("{0} ({1})", x.Name, x.DateTime.ToString("g")) ).FirstOption("--Select a Ceremony--") %>
+                               
+                <% } %>
+            </strong>
+
+        </li>
+
         <li><strong><%= Html.ActionLink<ReportController>(a=>a.RegistrationData(), "Registration Data") %></strong>
             Statistics of all past and present terms broken down by ceremony.
         </li>
+
     </ul>
 
     <h2>Label Printing</h2>
