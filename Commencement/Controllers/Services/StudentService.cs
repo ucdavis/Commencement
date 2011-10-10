@@ -48,7 +48,7 @@ namespace Commencement.Controllers.Services
             if (currentStudent == null)
             {
                 var student = BannerLookupByLogin(currentUser.Identity.Name);
-                if (student != null)
+                if (student != null && !_studentRepository.Queryable.Any(a => a.Login == currentUser.Identity.Name && a.TermCode == TermService.GetCurrent()))
                 {
                     student.AddedBy = currentUser.Identity.Name;
                     _studentRepository.EnsurePersistent(student);
