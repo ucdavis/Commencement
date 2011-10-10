@@ -48,13 +48,18 @@ namespace Commencement.Controllers.Services
             if (currentStudent == null)
             {
                 var student = BannerLookupByLogin(currentUser.Identity.Name);
-                if (student != null && !_studentRepository.Queryable.Any(a => a.Login == currentUser.Identity.Name && a.TermCode == TermService.GetCurrent()))
+
+                // student still doesn't exist
+                if (!_studentRepository.Queryable.Any(a => a.Login == currentUser.Identity.Name && a.TermCode == TermService.GetCurrent()))
                 {
-                    student.AddedBy = currentUser.Identity.Name;
-                    _studentRepository.EnsurePersistent(student);
+                    if (student != null)
+                    {
+                        student.AddedBy = currentUser.Identity.Name;
+                        _studentRepository.EnsurePersistent(student);
+                    }
+
+                    currentStudent = student;       
                 }
-                
-                currentStudent = student;   
             }
 
             return currentStudent; // if it returns null, the search didn't yield any results
