@@ -91,7 +91,7 @@ exec (@tsql)
 merge into students t
 using (	select distinct pidm, studentid, firstname, mi
                     , lastname, earnedunits, currentUnits, email, loginid, @term as termcode
-        from #students where std <> 'DS') s
+        from #students where (std is null or std <> 'DS')) s
 on t.pidm = s.pidm and t.termcode = s.termcode
 when matched then update
 	-- only update the units
