@@ -40,4 +40,28 @@ namespace Commencement.Core.Domain
             Map(x => x.LoginId);
         }
     }
+
+    public class BannerName
+    {
+        public virtual string Pidm { get; set; }
+        public virtual string FirstName { get; set; }
+        public virtual string MI { get; set; }
+        public virtual string LastName { get; set; }
+        public virtual string LoginId { get; set; }
+        public virtual string Email { get; set; }
+    }
+
+    public class BannerNameMap : ClassMap<BannerName>
+    {
+        public BannerNameMap()
+        {
+            Id(x => x.Pidm).Column("Pidm");
+
+            Map(x => x.FirstName);
+            Map(x => x.MI);
+            Map(x => x.LastName);
+            Map(x => x.LoginId);
+            Map(x => x.Email);
+        }
+    }
 }

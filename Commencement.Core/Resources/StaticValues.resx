@@ -257,4 +257,7 @@ Any student who is found selling tickets or in possession of counterfeit tickets
   <data name="Template_TicketPetition_Decision" xml:space="preserve">
     <value>Ticket Petition - Decision</value>
   </data>
+  <data name="StudentService_BannerLookupName_SQL" xml:space="preserve">
+    <value>EXEC usp_LookupStudentName :studentid</value>
+  </data>
 </root>

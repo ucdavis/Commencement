@@ -217,5 +217,8 @@
     <Build Include="Report Scripts\usp_MajorCountByCeremony.proc.sql">
       <SubType>Code</SubType>
     </Build>
+    <Build Include="Create Scripts\usp_LookupStudentName.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
   </ItemGroup>
 </Project>

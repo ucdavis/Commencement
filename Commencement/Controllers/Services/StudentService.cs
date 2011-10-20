@@ -17,6 +17,7 @@ namespace Commencement.Controllers.Services
         Registration GetPriorRegistration(Student student, TermCode termCode) ;
         Student BannerLookupByLogin(string login);
         Student BannerLookup(string studentId);
+        Student BannerLookupName(string studentId);
         bool CheckExisting(string login, TermCode term, string studentId = null);
     }
 
@@ -111,6 +112,26 @@ namespace Commencement.Controllers.Services
             return ExtractStudentFromResult(result);
         }
 
+        public Student BannerLookupName(string studentId)
+        {
+            var searchQuery = NHibernateSessionManager.Instance.GetSession().CreateSQLQuery(StaticValues.StudentService_BannerLookupName_SQL);
+            searchQuery.SetString("studentid", studentId);
+            searchQuery.AddEntity(typeof(BannerName));
+            searchQuery.SetTimeout(90);
+
+            var result = searchQuery.List<BannerName>();
+            //return ExtractStudentFromResult(result);
+
+            var r1 = result.FirstOrDefault();
+            if (r1 != null)
+            {
+                var student = new Student() { Pidm = r1.Pidm, FirstName = r1.FirstName, MI = r1.MI, LastName = r1.LastName, Login = r1.LoginId, Email = r1.Email };
+                return student;
+            }
+
+            return null;
+        }
+
         public Student ExtractStudentFromResult(IList<BannerStudent> results)
         {
             var r1 = results.FirstOrDefault();
@@ -201,6 +222,11 @@ namespace Commencement.Controllers.Services
         {
             if (string.IsNullOrEmpty(studentId)) return null;
             return GenerateFake();
+        }
+
+        public Student BannerLookupName(string studentId)
+        {
+            throw new NotImplementedException();
         }
 
         public Student ExtractStudentFromResult(IList<BannerStudent> results)

@@ -278,6 +278,10 @@ namespace Commencement.Controllers
         public ActionResult AddStudent(string studentId)
         {
             var student = _studentService.BannerLookup(studentId);
+            if (!string.IsNullOrWhiteSpace(studentId) && student == null)
+            {
+                student = _studentService.BannerLookupName(studentId);
+            }
             var viewModel = AdminEditStudentViewModel.Create(Repository, _ceremonyService, student, CurrentUser.Identity.Name);
             return View(viewModel);
         }
