@@ -125,7 +125,7 @@ namespace Commencement.Controllers.Services
             var r1 = result.FirstOrDefault();
             if (r1 != null)
             {
-                var student = new Student() { Pidm = r1.Pidm, FirstName = r1.FirstName, MI = r1.MI, LastName = r1.LastName, Login = r1.LoginId, Email = r1.Email };
+                var student = new Student() { StudentId = studentId, Pidm = r1.Pidm, FirstName = r1.FirstName, MI = r1.MI, LastName = r1.LastName, Login = r1.LoginId, Email = r1.Email };
                 return student;
             }
 
