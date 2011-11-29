@@ -155,7 +155,7 @@ namespace Commencement.Controllers
                 
                 try
                 {
-                    _emailService.QueueExtraTicketPetition(a);  // queue the email for the decision
+                    _emailService.QueueExtraTicketPetitionDecision(a);  // queue the email for the decision
                 }
                 catch (Exception ex)
                 {
