@@ -104,7 +104,7 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             Assert.IsNotNull(result);
             Assert.AreEqual("You have successfully approved 2 with a total of 10 regular tickets.", Controller.Message);
             Assert.AreEqual(1, result.RouteValues["ceremonyId"]);
-            EmailService.AssertWasCalled(a => a.QueueExtraTicketPetition(Arg<RegistrationParticipation>.Is.Anything), x => x.Repeat.Times(2));
+            EmailService.AssertWasCalled(a => a.QueueExtraTicketPetitionDecision(Arg<RegistrationParticipation>.Is.Anything), x => x.Repeat.Times(2));
             ExtraTicketPetitionRepository.AssertWasCalled(a => a.EnsurePersistent(Arg<ExtraTicketPetition>.Is.Anything), x => x.Repeat.Times(2));            
             var args = ExtraTicketPetitionRepository.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<ExtraTicketPetition>.Is.Anything)); 
             Assert.AreEqual(2, args.Count());
@@ -175,7 +175,7 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             Assert.IsNotNull(result);
             Assert.AreEqual("You have successfully approved 2 with a total of 10 regular tickets and a total of 8 streaming tickets.", Controller.Message);
             Assert.AreEqual(1, result.RouteValues["ceremonyId"]);
-            EmailService.AssertWasCalled(a => a.QueueExtraTicketPetition(Arg<RegistrationParticipation>.Is.Anything), x => x.Repeat.Times(2));
+            EmailService.AssertWasCalled(a => a.QueueExtraTicketPetitionDecision(Arg<RegistrationParticipation>.Is.Anything), x => x.Repeat.Times(2));
             ExtraTicketPetitionRepository.AssertWasCalled(a => a.EnsurePersistent(Arg<ExtraTicketPetition>.Is.Anything), x => x.Repeat.Times(2));
             var args = ExtraTicketPetitionRepository.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<ExtraTicketPetition>.Is.Anything));
             Assert.AreEqual(2, args.Count());
