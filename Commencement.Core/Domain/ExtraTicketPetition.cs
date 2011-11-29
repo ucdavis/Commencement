@@ -85,6 +85,7 @@ namespace Commencement.Core.Domain
         public virtual void MakeDecision(bool isApproved)
         {
             IsPending = false;
+            LabelPrinted = false;
             IsApproved = isApproved;
             DateDecision = DateTime.Now;
 
