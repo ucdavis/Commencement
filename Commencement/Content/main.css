@@ -228,7 +228,8 @@ body .content {font: 12px/22px Verdana, Arial, sans-serif;}
 #footer_text {text-align:center; padding-top:1em;}
 
 .wrapper {min-height:100%; }
-.main {overflow:auto; padding-bottom:130px;}
+/*.main {overflow:auto; padding-bottom:130px;}*/
+.main { padding-bottom: 130px;}
 html, body {height:100%;}
 
 
