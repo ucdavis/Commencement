@@ -14,7 +14,7 @@
     <h2>Commencement Participation</h2>
 
     <p>
-        Registration for the SPRING 2012 College of Agricultural & Environmental Science’s (CA&ES) Commencement Ceremony is from Wednesday, February 1, 2012 and <strong>ends on Friday, April 13th.</strong><sup>1</sup>.
+        Registration for the SPRING 2012 College of Agricultural & Environmental Sciences (CA&ES) Commencement Ceremony is from Wednesday, February 1, 2012 and <strong>ends on Friday, April 13th.</strong><sup>1</sup>.
     </p>
 
     <p>
@@ -23,7 +23,7 @@
 
     <ul>
         <li>You must complete 160 units by the beginning of the Winter 2012 quarter</li>
-        <li>Your major must be administered by the College of Agricultural & Environmental Science. (<a href="http://caes.ucdavis.edu/NewsEvents/Events/Commencement/major-assignment-by-ceremony">List of majors</a>)</li>
+        <li>Your major must be administered by the College of Agricultural & Environmental Sciences. (<a href="http://caes.ucdavis.edu/NewsEvents/Events/Commencement/major-assignment-by-ceremony">List of majors</a>)</li>
         <li>You must have a UCD LoginID and Kerberos password. (More information: <a href="https://accounts.ucdavis.edu/faq.html">Here</a> )</li>
         <li><strong>Note:</strong> This registration is only to participate the CA&ES Commencement Ceremony and receive tickets for your guests. To officially graduate from the University, you must file an application with the <a href="http://registrar.ucdavis.edu/graduation">Registrar's Office</a>. THESE ARE SEPARATE STEPS WITH DIFFERENT DEADLINES AND REQUIRE SEPARATE ACTIONS ON YOUR PART. (<i>walking in the ceremony does not equate to degree completion</i>). 
         </li>
