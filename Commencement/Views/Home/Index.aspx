@@ -53,10 +53,9 @@
 </ul>
 </div>
 
-<%--<div id="col_ft">
-<p><i>After Oct 21st we will accept late registration until December 1st but due to printing deadlines we cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets allotted per person </i></p>
-<%--<p><sup>2</sup>Upon completion of the registration process, you will receive a registration confirmation e-mail. If you do not receive this e-mail within 24 hours, please re-register. For questions or additional information, please contact the CA&ES commencement coordinator. </p>
-</div>--%>
+<div id="col_ft">
+<p><i>After April 13th we will accept late registration until June 8th but due to printing deadlines we cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets allotted per person </i></p>
+</div>
 
 </div>
 </asp:Content>
