@@ -48,7 +48,7 @@
 <h3>Dates</h3>
 <ul>
 <li><strong>Monday, April 16, 2012</strong> <em>Applications deadline for <a href="http://caes.ucdavis.edu/NewsEvents/Events/Commencement/student-speaker">student Commencement speaker</a></em></li>
-<li><strong>Tentative: Monday, 14th and Tuesday, May 15th (9am-6pm)</strong> <em>Ticket pick-up at the ARC Pavilion ticket office</em></li>
+<li><strong>Monday, 14th and Tuesday, May 15th (9am-6pm)</strong> <em>Ticket pick-up at the ARC Pavilion ticket office</em></li>
 <li><strong>Sunday, June 17, 2012 (9:00 am and 2:00 pm)</strong> <em>Commencement Ceremony at UC Davis ARC Pavilion </em></li>
 </ul>
 </div>
