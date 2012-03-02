@@ -259,6 +259,7 @@ namespace Commencement.Controllers
                     registration.AddParticipation(registrationPetition.MajorCode, registrationPetition.Ceremony,
                                                   registrationPetition.NumberTickets);
 
+                    Message += "Registration Petition has been approved.";
                     try
                     {
                         _emailService.QueueRegistrationPetitionDecision(registrationPetition);
