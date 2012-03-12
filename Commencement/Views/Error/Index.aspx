@@ -8,7 +8,7 @@
 
     <h2>Unknown Error</h2>
 
-    <p>An unknown error has occured. IT has been notified of the issue.</p>
+    <p>An unknown error has occurred. IT has been notified of the issue.</p>
     
 </asp:Content>
 
