@@ -7,6 +7,17 @@
     Commencement | Extra Ticket Petition
 </asp:Content>
 <asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent">
+
+    <script type="text/javascript" src="<%: Url.Content("~/Scripts/jquery.jqEasyCharCounter.min.js") %>"></script>
+
+    <script type="text/javascript">
+        $(function () {
+
+            $(".petition-reason").jqEasyCounter({'maxChars': 100, 'maxCharsWarning': 80});
+
+        });
+    </script>
+
 </asp:Content>
 
 <asp:Content runat="server" ID="Content3" ContentPlaceHolderID="logoContent">
@@ -108,7 +119,7 @@
 
                     <li>
                         <strong>Reason:</strong>
-                        <%: Html.TextArea(string.Format("extraTicketPetitions[{0}].Reason", counter), participation.ExtraTicketPetition != null ? participation.ExtraTicketPetition.Reason : string.Empty, new { @style = "width:400px;" })%><i> *Max 100 characters</i>
+                        <%: Html.TextArea(string.Format("extraTicketPetitions[{0}].Reason", counter), participation.ExtraTicketPetition != null ? participation.ExtraTicketPetition.Reason : string.Empty, new { @style = "width:400px;", @class="petition-reason" })%>
                     </li>
 
                     

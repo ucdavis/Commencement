@@ -25,7 +25,6 @@
                     <li>
                         <strong>Petition Reason:</strong>
                         <textarea type="text" id="<%: string.Format("ceremonyParticipations[{0}]_PetitionReason", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].PetitionReason", a.Index) %>" cols="60" rows="4" class="petition" ></textarea>
-                        <i>Max Length (100)</i>
                     </li>
                     <li>
                         <strong>Completion Term:</strong>
