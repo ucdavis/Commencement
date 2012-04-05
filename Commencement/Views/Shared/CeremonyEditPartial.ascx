@@ -1,5 +1,12 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.ViewModels.RegistrationModel>" %>
 
+<script type="text/javascript" src="<%: Url.Content("~/Scripts/jquery.jqEasyCharCounter.min.js") %>"></script>
+<script>
+    $(function () {
+        $("textarea.petition").jqEasyCounter({'maxChars': 500, 'maxCharsWarning':550});
+    });
+</script>
+
     <% foreach (var a in Model.Participations) { %>
         <fieldset>
             <legend>Commencement for <%: a.Major.Name %></legend>
@@ -17,7 +24,7 @@
                     </li>
                     <li>
                         <strong>Petition Reason:</strong>
-                        <textarea type="text" id="<%: string.Format("ceremonyParticipations[{0}]_PetitionReason", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].PetitionReason", a.Index) %>" cols="60" rows="4" ></textarea>
+                        <textarea type="text" id="<%: string.Format("ceremonyParticipations[{0}]_PetitionReason", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].PetitionReason", a.Index) %>" cols="60" rows="4" class="petition" ></textarea>
                         <i>Max Length (100)</i>
                     </li>
                     <li>

@@ -331,6 +331,7 @@
     <Content Include="Scripts\jquery.anytime.js" />
     <Content Include="Scripts\jquery.bt.min.js" />
     <Content Include="Scripts\jquery.enableTinyMce.js" />
+    <Content Include="Scripts\jquery.jqEasyCharCounter.min.js" />
     <Content Include="Scripts\setScrollingBox.js" />
     <Content Include="Scripts\jquery.livequery.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
@@ -746,7 +747,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>59582</DevelopmentServerPort>
+          <DevelopmentServerPort>41565</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

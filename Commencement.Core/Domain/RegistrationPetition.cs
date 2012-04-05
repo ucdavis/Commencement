@@ -41,7 +41,7 @@ namespace Commencement.Core.Domain
         [NotNull]
         public virtual MajorCode MajorCode { get; set; }
         [Required]
-        [Length(1000)]
+        [Length(500)]
         public virtual string ExceptionReason { get; set; }
         public virtual vTermCode TermCodeComplete{ get; set; }
         [Length(100)]
