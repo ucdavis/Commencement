@@ -56,7 +56,9 @@
 } %>
 
                 <li>
-                    <strong>Date/Time: </strong> <%: a.Ceremony.DateTime.ToString("g") %>
+                    <strong>Date/Time: </strong> 
+                    <%: a.Ceremony.DateTime.ToString("g") %>
+                    <span id="time_disclaimer">*The time of your ceremony is not guaranteed.</span>
                 </li>
                 <li>
                     <strong>Major: </strong>
