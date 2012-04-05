@@ -5,7 +5,7 @@
             <legend>Commencement for <%: a.Major.Name %></legend>
 
             <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Ceremony", a.Index), a.Ceremony.Id) %>
-            <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Major", a.Index), a.Major.Id) %>
+            <%--<%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Major", a.Index), a.Major.Id) %>--%>
             <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].NeedsPetition", a.Index), a.NeedsPetition) %>
 
             <ul class="registration_form">
@@ -59,7 +59,9 @@
                     <strong>Date/Time: </strong> <%: a.Ceremony.DateTime.ToString("g") %>
                 </li>
                 <li>
-                    <strong>Major: </strong><%: a.Major.Name %>
+                    <strong>Major: </strong>
+                    <%--<%: a.Major.Name %>--%>
+                    <%= this.Select(string.Format("ceremonyParticipations[{0}].Major", a.Index)).Options(a.Ceremony.Majors, x=>x.Id, x=>x.Name).Selected(a.Major.Id) %>
                 </li>
                 <li>
                     <strong>Tickets Requested:</strong>
