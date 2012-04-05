@@ -1,5 +1,34 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.ViewModels.RegistrationModel>" %>
 
+    <script type="text/javascript">
+        $(function () {
+
+            // list of davis zip codes
+            var zips = ['95616', '95617', '95618'];
+
+            $('#Registration_City, #Registration_Zip').blur(function () {
+                var city = $('#Registration_City').val().toLowerCase();
+                var zip = $('#Registration_Zip').val();
+
+                if (city == "" || zip == "") return false;
+
+                var isdavisZip = $.inArray(zip, zips) >= 0;
+                var isdavisCity = city == 'davis';
+
+                // davis zip is entered, ask if they want the city to be updated to davis
+                if (isdavisZip && !isdavisCity) {
+                    if (confirm("Would you like to update the city to davis?")) {
+                        $("#Registration_City").val("Davis");
+                    }
+                }
+                if (isdavisCity && !isdavisZip) {
+                    alert("Your zip code does not appear to be a davis zip code.");
+                }
+            });
+
+        });
+    </script>
+
     <ul class="registration_form">
         <li><strong>Address Line 1:</strong>
             <%= Html.TextBoxFor(x => x.Registration.Address1)%>
