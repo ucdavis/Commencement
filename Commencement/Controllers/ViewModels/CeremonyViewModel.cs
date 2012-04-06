@@ -21,6 +21,7 @@ namespace Commencement.Controllers.ViewModels
         public bool IsAdmin { get; set; }
         public MultiSelectList Majors { get; set; }
         public MultiSelectList Colleges { get; set; }
+        public MultiSelectList TicketDistributionMethods { get; set; }
 
         public List<int> Hours { get; set; }
         public List<string> Minutes { get; set; }
@@ -54,6 +55,12 @@ namespace Commencement.Controllers.ViewModels
                 viewModel.Colleges = new MultiSelectList(colleges, "Id", "Name");
             }
 
+            // populate the ticket distribution methods
+            var tdmethods = repository.OfType<TicketDistributionMethod>().Queryable.Where(a => a.IsActive).ToList();
+            var selectedtdmethods = ceremony.TicketDistributionMethods.Select(a => a.Id).ToList();
+            viewModel.TicketDistributionMethods = new MultiSelectList(tdmethods, "Id", "Name", selectedtdmethods);
+
+            // info for the time drop downs
             viewModel.Hours = new List<int>();
             viewModel.Minutes = new List<string>();
             viewModel.AmPm = new List<string>();

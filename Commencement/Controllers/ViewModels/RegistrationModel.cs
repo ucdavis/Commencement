@@ -93,6 +93,7 @@ namespace Commencement.Controllers.ViewModels
                         part.Participate = existingPart.Participate;
                         part.Cancel = existingPart.Cancel;
                         part.NeedsPetition = existingPart.NeedsPetition;
+                        part.TicketDistributionMethod = existingPart.TicketDistributionMethod;
                     }
                 }
 
@@ -109,6 +110,7 @@ namespace Commencement.Controllers.ViewModels
                         part.Participate = !regPart.Cancelled;
                         part.Cancel = regPart.Cancelled;
                         part.NeedsPetition = false;                  // registered, don't need to petition
+                        part.TicketDistributionMethod = regPart.TicketDistributionMethod;
                     }
                 }
 
@@ -138,7 +140,9 @@ namespace Commencement.Controllers.ViewModels
         public int Tickets { get; set; }
         public Ceremony Ceremony { get; set; }
         public MajorCode Major { get; set; }
-        
+
+        public TicketDistributionMethod TicketDistributionMethod { get; set; }
+
         public bool NeedsPetition { get; set; }
         public string PetitionReason { get; set; }
         public vTermCode CompletionTerm { get; set; }

@@ -55,10 +55,9 @@
             <%= Html.TextBoxFor(x=>x.Registration.Email) %>
             <%= Html.ValidationMessageFor(x=>x.Registration.Email) %>
         </li>
-        <li>
+<%--        <li>
             <strong>Ticket Distribution Method:</strong>
             <%= this.RadioButton("Registration.MailTickets").Id("rMailTickets").Value(true).LabelAfter("Mail tickets to the address above").Checked(Model.Registration.MailTickets) %>
-            
         </li>
         <li>
             <strong></strong>
@@ -68,5 +67,5 @@
                 <%= this.RadioButton("Registration.MailTickets").Id("rPickupTickets").Value(false).LabelAfter("I will pick up my tickets in person.  See web site for ticket pickup details.").Checked(Model.Registration.MailTickets == false) %>
                 <a href="http://caes.ucdavis.edu/NewsEvents/Events/Commencement/frequently-asked-questions#when-will-i-receive">here</a>
             <% } %>
-        </li>
+        </li>--%>
     </ul>

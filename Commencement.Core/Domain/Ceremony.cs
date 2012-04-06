@@ -38,6 +38,7 @@ namespace Commencement.Core.Domain
             Editors = new List<CeremonyEditor>();
             Colleges = new List<College>();
             Templates = new List<Template>();
+            TicketDistributionMethods = new List<TicketDistributionMethod>();
 
             DateTime = DateTime.Now;
             RegistrationBegin = DateTime.Now;
@@ -83,7 +84,6 @@ namespace Commencement.Core.Domain
         public virtual int PetitionThreshold { get; set; }
         public virtual bool HasStreamingTickets { get; set; }
 
-
         [NotNull]
         public virtual TermCode TermCode { get; set; }
 
@@ -105,6 +105,8 @@ namespace Commencement.Core.Domain
         public virtual IList<CeremonyEditor> Editors { get; set; }
         [NotNull]
         public virtual IList<Template> Templates { get; set; }
+        [NotNull]
+        public virtual IList<TicketDistributionMethod> TicketDistributionMethods { get; set; }
         #endregion
 
 
@@ -330,7 +332,6 @@ namespace Commencement.Core.Domain
             Map(x => x.ExtraTicketBegin);
             Map(x => x.HasStreamingTickets);
             Map(x => x.ConfirmationText);
- 
 
             //HasMany(x => x.Registrations).Cascade.AllDeleteOrphan().Inverse();
             HasMany(x => x.RegistrationParticipations).Cascade.None().Inverse(); // jcs
@@ -351,6 +352,8 @@ namespace Commencement.Core.Domain
                 .Table("CeremonyMajors")
                 .Fetch.Subselect()
                 .Cascade.SaveUpdate(); //ok jcs
+
+            HasManyToMany(x => x.TicketDistributionMethods).ParentKeyColumn("CeremonyId").ChildKeyColumn("TicketDistributionMethodId").Table("CeremonyXTicketDistributionMethods").Fetch.Subselect().Cascade.SaveUpdate();
         }
     }
 

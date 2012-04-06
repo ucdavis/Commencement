@@ -28,6 +28,8 @@ namespace Commencement.Core.Domain
         public virtual DateTime DateRegistered { get; set; }
         public virtual DateTime DateUpdated { get; set; }
 
+        public virtual TicketDistributionMethod TicketDistributionMethod { get; set; }
+
         #region Extended Fields / Methods
         public virtual string TicketDistribution
         {
@@ -156,6 +158,8 @@ namespace Commencement.Core.Domain
             Map(x => x.LabelPrinted);
             Map(x => x.DateRegistered);
             Map(x => x.DateUpdated);
+
+            References(x => x.TicketDistributionMethod);
         }
     }
 }

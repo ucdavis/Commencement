@@ -15,6 +15,9 @@
     [RegistrationBegin]     DATE          NOT NULL,
     [ExtraTicketBegin]      DATE          NOT NULL,
     [HasStreamingTickets]   BIT           NOT NULL,
-    [ConfirmationText]      VARCHAR (MAX) NULL
+    [ConfirmationText]      VARCHAR (MAX) NULL,
+
+	[PickupTickets]			BIT			NOT NULL DEFAULT 1,
+	[MailTickets]			BIT			NOT NULL DEFAULT 0
 );
 

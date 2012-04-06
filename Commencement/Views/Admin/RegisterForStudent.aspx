@@ -37,16 +37,22 @@
                 <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].ParticipationId", a.Index), a.ParticipationId) %>
 
                 <ul class="registration_form">
+                
+                <!-- Student needs to petition, display a message for them -->
                 <% if (a.NeedsPetition) { %>
                     <li style="border: 1px solid red; color: Red;">
                         This student does not meet requirements for registration for this ceremony and would normally be required to petition.
                     </li>
                 <% } %>
+
+                <!-- Hasn't registered yet. -->
                 <% if (!a.ParticipationId.HasValue) { %>
                     <li>
                         <input type="checkbox" id="<%: string.Format("ceremonyParticipations[{0}]_Participate", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Participate", a.Index) %>" value="true" <%: a.Participate ? "checked" : string.Empty %> />
                         Register for this ceremony
                     </li>
+                
+                <!-- registered already, wanting to edit/cancel. -->
                 <% } else { %>
                      <li>
                         <input type="radio" id="Radio1" name="<%: string.Format("ceremonyParticipations[{0}].Participate", a.Index) %>" value="true" <%: a.Participate ? "checked" : string.Empty %> />
@@ -58,12 +64,19 @@
                 <% } %>
 
                 <li>
-                    <strong>Date/Time: </strong> <%--<%: a.Ceremony.DateTime.ToString("g") %>--%>
+                    <strong>Ticket Distribution:</strong>
+
+                    <%= this.RadioSet(string.Format("ceremonyParticipations[{0}].TicketDistributionMethod", a.Index)).Options(a.Ceremony.TicketDistributionMethods, x=>x.Id, x=>x.Name).Selected(a.TicketDistributionMethod != null ? a.TicketDistributionMethod.Id : string.Empty) %>
+
+                </li>
+
+                <li>
+                    <strong>Date/Time: </strong> 
 
                     <%= this.Select(string.Format("ceremonyParticipations[{0}].Ceremony", a.Index)).Options(Model.Ceremonies, x=>x.Id, x=>x.DateTime).Selected(a.Ceremony.Id)%>
                 </li>
                 <li>
-                    <strong>Major: </strong><%--<%: a.Major.Name %>--%>
+                    <strong>Major: </strong>
 
                     <%= this.Select(string.Format("ceremonyParticipations[{0}].Major", a.Index)).Options(Model.Majors, x=>x.Id, x=>x.Name).Selected(a.Major.Id) %>
 

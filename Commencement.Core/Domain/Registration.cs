@@ -113,10 +113,10 @@ namespace Commencement.Core.Domain
         #endregion
 
         #region Methods
-        public virtual void AddParticipation(MajorCode major, Ceremony ceremony, int numberTickets)
+        public virtual void AddParticipation(MajorCode major, Ceremony ceremony, int numberTickets, TicketDistributionMethod ticketDistributionMethod)
         {
             var participation = new RegistrationParticipation()
-                                    {Major = major, Ceremony = ceremony, NumberTickets = numberTickets, Registration = this};
+                                    {Major = major, Ceremony = ceremony, NumberTickets = numberTickets, TicketDistributionMethod = ticketDistributionMethod, Registration = this};
 
             RegistrationParticipations.Add(participation);
         }

@@ -257,7 +257,7 @@ namespace Commencement.Controllers
                 if (isApproved)
                 {
                     registration.AddParticipation(registrationPetition.MajorCode, registrationPetition.Ceremony,
-                                                  registrationPetition.NumberTickets);
+                                                  registrationPetition.NumberTickets, null);    //TODO: add ticket distribution method
 
                     Message += "Registration Petition has been approved.";
                     try

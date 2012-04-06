@@ -89,9 +89,9 @@ namespace Commencement.Tests.Repositories.RegistrationRepositoryTests
             var ceremony = Repository.OfType<Ceremony>().Queryable.First();
             var registration = GetValid(9);
             registration.SetIdTo(id);
-            registration.AddParticipation(major, ceremony, 4);
-            registration.AddParticipation(major, ceremony, 5);
-            registration.AddParticipation(major, ceremony, 6);
+            registration.AddParticipation(major, ceremony, 4, null);
+            registration.AddParticipation(major, ceremony, 5, null);
+            registration.AddParticipation(major, ceremony, 6, null);
             var registrationParticipations = registration.RegistrationParticipations;
             Assert.AreEqual(3, registrationParticipations.Count);
 

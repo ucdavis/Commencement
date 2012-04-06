@@ -88,7 +88,7 @@ namespace Commencement.Controllers.Helpers
             {
                 if (a.Participate && (adminUpdate || a.Ceremony.RegistrationBegin < DateTime.Now && a.Ceremony.RegistrationDeadline > DateTime.Now))
                 {
-                    registration.AddParticipation(a.Major, a.Ceremony, a.Tickets);
+                    registration.AddParticipation(a.Major, a.Ceremony, a.Tickets, a.TicketDistributionMethod);
                 }
             }
         }
@@ -106,13 +106,14 @@ namespace Commencement.Controllers.Helpers
                 if (adminUpdate || a.Ceremony.RegistrationBegin < DateTime.Now && a.Ceremony.RegistrationDeadline > DateTime.Now)
                 {
                     // case where we are newly registering
-                    if (rp == null && a.Participate && !a.Cancel) registration.AddParticipation(a.Major, a.Ceremony, a.Tickets);
+                    if (rp == null && a.Participate && !a.Cancel) registration.AddParticipation(a.Major, a.Ceremony, a.Tickets, a.TicketDistributionMethod);
                     // case where we are cancelling
                     else if (rp != null)
                     {
                         rp.Cancelled = a.Participate ? !a.Participate : a.Cancel;
                         rp.DateUpdated = DateTime.Now;
                         rp.NumberTickets = a.Tickets;
+                        rp.TicketDistributionMethod = a.TicketDistributionMethod;
 
                         if (adminUpdate)
                         {

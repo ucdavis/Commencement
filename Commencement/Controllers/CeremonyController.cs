@@ -68,7 +68,7 @@ namespace Commencement.Controllers
             }
 
             Ceremony ceremony = new Ceremony();
-            CopyCeremony(ceremony, ceremonyEditModel.Ceremony, ceremonyEditModel.CeremonyMajors, ceremonyEditModel.Colleges);
+            CopyCeremony(ceremony, ceremonyEditModel.Ceremony, ceremonyEditModel.CeremonyMajors, ceremonyEditModel.Colleges, ceremonyEditModel.TicketDistributionMethods);
             ceremony.TermCode = termCode;
             ceremony.AddEditor(_userService.GetCurrentUser(User), true);
 
@@ -116,6 +116,7 @@ namespace Commencement.Controllers
             
             return View(viewModel);
         }
+
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Edit(CeremonyEditModel ceremonyEditModel)
@@ -137,7 +138,7 @@ namespace Commencement.Controllers
             destCeremony.TermCode = termCode;
 
             // copy all the fields
-            CopyCeremony(destCeremony, ceremonyEditModel.Ceremony, ceremonyEditModel.CeremonyMajors, ceremonyEditModel.Colleges);
+            CopyCeremony(destCeremony, ceremonyEditModel.Ceremony, ceremonyEditModel.CeremonyMajors, ceremonyEditModel.Colleges, ceremonyEditModel.TicketDistributionMethods);
 
             // validate the ceremony
             destCeremony.TransferValidationMessagesTo(ModelState);
@@ -243,7 +244,13 @@ namespace Commencement.Controllers
             foreach (var m in srcMajors.Where(a=>srcColleges.Contains(a.College))) destMajors.Add(m);
         }
 
-        private void CopyCeremony(Ceremony destCeremony, Ceremony srcCeremony, IList<MajorCode> srcMajors, IList<College> srcColleges)
+        private void MergeTicketDistributionMethods(IList<TicketDistributionMethod> dest, IList<TicketDistributionMethod> src)
+        {
+            dest.Clear();
+            foreach(var t in src) dest.Add(t);
+        }
+
+        private void CopyCeremony(Ceremony destCeremony, Ceremony srcCeremony, IList<MajorCode> srcMajors, IList<College> srcColleges, IList<TicketDistributionMethod> srcTicketDistributionMethods )
         {
             destCeremony.DateTime = srcCeremony.DateTime;
             destCeremony.Location = srcCeremony.Location;
@@ -261,6 +268,7 @@ namespace Commencement.Controllers
             destCeremony.ConfirmationText = srcCeremony.ConfirmationText;
 
             MergeCeremonyMajors(destCeremony.Majors, srcMajors, srcColleges);
+            MergeTicketDistributionMethods(destCeremony.TicketDistributionMethods, srcTicketDistributionMethods);
         }
 
         private DateTime CreateDeadline(DateTime src)
@@ -278,11 +286,13 @@ namespace Commencement.Controllers
         public Ceremony Ceremony { get; set; }
         public IList<MajorCode> CeremonyMajors { get; set; }
         public IList<College> Colleges { get; set; }
+        public IList<TicketDistributionMethod> TicketDistributionMethods { get; set; }
 
         public CeremonyEditModel()
         {
             CeremonyMajors = new List<MajorCode>();
             Colleges = new List<College>();
+            TicketDistributionMethods = new List<TicketDistributionMethod>();
         }
     }
 }

@@ -66,6 +66,12 @@
                     <%: a.Ceremony.DateTime.ToString("g") %>
                     <span id="time_disclaimer">*The time of your ceremony is not guaranteed.</span>
                 </li>
+
+                <li>
+                    <strong>Ticket Distribution:</strong>
+                    <%= this.RadioSet(string.Format("ceremonyParticipations[{0}].TicketDistributionMethod", a.Index)).Options(a.Ceremony.TicketDistributionMethods, x=>x.Id, x=>x.Name).Selected(a.TicketDistributionMethod != null ? a.TicketDistributionMethod.Id : string.Empty) %>
+                </li>
+
                 <li>
                     <strong>Major: </strong>
                     <%--<%: a.Major.Name %>--%>

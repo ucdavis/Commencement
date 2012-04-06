@@ -32,8 +32,6 @@
 
             $("#CeremonyMajors").multiselect();
 
-
-
             $(".college").change(function () { GetMajors(); });
         });
 
@@ -107,29 +105,7 @@
             <%= this.Select("CeremonyMinutes").Class("ceremony_time").Options(Model.Minutes,x=>x,x=>x).Selected(Model.Ceremony.DateTime.Minute) %>
 
             <%= this.Select("CeremonyAmPm").Class("ceremony_time").Options(Model.AmPm).Selected(Model.Ceremony.DateTime.ToString("tt")) %>
-
-<%--            <select id="CeremonyHour" class="ceremony_time">
-                <% for (int i = 1; i < 13; i++ ) { %>
-                    <% var hour = Model.Ceremony.DateTime.Hour > 12 ? Model.Ceremony.DateTime.Hour - 12 : Model.Ceremony.DateTime.Hour;
-                       var flag = hour == i;
-                       var selected = flag ? "selected" : string.Empty;
-                       %>
-                    <option value="<%= i %>" '<%= selected %>' ><%: i %></option>
-
-                    
-                <% } %>
-            </select>
-            
-            <select id="CeremonyMinutes" class="ceremony_time">
-                <option value="00" "<%= Model.Ceremony.DateTime.Minute == 0 ? "selected" : string.Empty %>">00</option>
-                <option value="30" "<%= Model.Ceremony.DateTime.Minute == 30 ? "selected" : string.Empty %>">30</option>
-            </select>
-            
-            <select id="CeremonyAmPm" class="ceremony_time">
-                <option value="AM" "<%= Model.Ceremony.DateTime.ToString("tt") == "AM" ? "selected" : string.Empty %>" >AM</option>
-                <option value="PM" "<%= Model.Ceremony.DateTime.ToString("tt") == "PM" ? "selected" : string.Empty %>" >PM</option>
-            </select>--%>
-            
+          
             <%= Html.HiddenFor(x => x.Ceremony.DateTime)%>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.DateTime) %>
         </li>
@@ -193,6 +169,28 @@
             <%: Html.TextBox("Ceremony.ExtraTicketDeadline", Model.Ceremony.ExtraTicketDeadline.ToString("d"), new { @class = "showBtTop", @title = "Last date to accept extra ticket requests" })%>
             <%= Html.ValidationMessageFor(x=>x.Ceremony.ExtraTicketDeadline) %>
         </li>
+        
+<%--        <li>
+            <strong><%: Html.LabelFor(a => a.Ceremony.PickupTickets, DisplayOptions.HumanizeAndColon) %></strong>
+            <%: Html.EditorFor(a => a.Ceremony.PickupTickets) %>
+            <%: Html.ValidationMessageFor(a => a.Ceremony.PickupTickets) %>
+        </li>
+        <li>
+            <strong><%: Html.LabelFor(a => a.Ceremony.MailTickets, DisplayOptions.HumanizeAndColon) %></strong>
+            <%: Html.EditorFor(a => a.Ceremony.MailTickets) %>
+            <%: Html.ValidationMessageFor(a => a.Ceremony.MailTickets) %>
+        </li>--%>
+
+        <li>
+            <strong>Ticket Distribution Methods</strong>
+            <% if (Model.TicketDistributionMethods != null) { %>
+                <%--<%= Html.ListBox("TicketDistributionMethods", Model.TicketDistributionMethods, new { style="width: 350px; height: 150px;"}) %>--%>
+                <%= this.CheckBoxList("TicketDistributionMethods").Options(Model.TicketDistributionMethods) %>
+            <% } else { %>
+                <select id="TicketDistributionMethods" style="width: 200px;" name="TicketDistributionMethods" multiple="multiple"></select>
+            <% } %>
+        </li>
+
         <li>
             <strong><%: Html.LabelFor(a => a.Ceremony.ConfirmationText, DisplayOptions.HumanizeAndColon) %></strong>
             <%: Html.TextAreaFor(a => a.Ceremony.ConfirmationText, new {@style="width:900px;"}) %>

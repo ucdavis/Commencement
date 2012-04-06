@@ -42,16 +42,18 @@
     <script type="text/javascript">
         $(function () {
             $("select").change(function () {
-
-                var major = $("#majorCode").val();
-                var ceremony = $("#ceremonyId").val();
-
-                if (major != "" && ceremony != "") {
-                    var url = '<%: Url.Action("ValidateMoveMajor", "Admin") %>';
-                    //$.post(url, { majorCode: major, ceremonyId: ceremony, __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val() }, function (data) { alert("hi"); });
-                    $.getJSON(url, { majorCode: major, ceremonyId: ceremony }, function (data) { $("#validationMessage").html(data); });
-                }
+                validateMajor();
             });
         });
+        
+        function validateMajor() {
+            var major = $("#majorCode").val();
+            var ceremony = $("#ceremonyId").val();
+
+            if (major != "" && ceremony != "") {
+                var url = '<%: Url.Action("ValidateMoveMajor", "Admin") %>';
+                $.getJSON(url, { majorCode: major, ceremonyId: ceremony }, function (data) { $("#validationMessage").html(data); });
+            }            
+        }
     </script>
 </asp:Content>
