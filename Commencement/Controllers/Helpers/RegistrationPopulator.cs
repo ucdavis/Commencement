@@ -141,6 +141,7 @@ namespace Commencement.Controllers.Helpers
                     var petition = new RegistrationPetition(registration, a.Major, a.Ceremony, a.PetitionReason, a.CompletionTerm, a.Tickets);
                     petition.TransferUnitsFrom = string.IsNullOrEmpty(a.TransferCollege) ? null : a.TransferCollege;
                     petition.TransferUnits = string.IsNullOrEmpty(a.TransferUnits) ? null : a.TransferUnits;
+                    petition.TicketDistributionMethod = a.TicketDistributionMethod;
 
                     registration.AddPetition(petition);
                 }
