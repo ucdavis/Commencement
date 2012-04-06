@@ -376,7 +376,12 @@ namespace Commencement.Controllers
             if (majorCode == null || origCeremony == null || destCeremony == null)
             {
                 message = "There was an error, validating this move.";
-                //return Json(message, JsonRequestBehavior.AllowGet);
+                return false;
+            }
+
+            if (destCeremony.Majors.Contains(majorCode))
+            {
+                message = "Major is already in the selected ceremony.";
                 return false;
             }
 
@@ -388,7 +393,6 @@ namespace Commencement.Controllers
                                     , majorCode.Name, destCeremony.DateTime.ToString("g"), participations.Count(), participations.Sum(a => a.TotalTickets)
                                     , destCeremony.AvailableTickets - participations.Sum(a => a.TotalTickets));
 
-            //return Json(message, JsonRequestBehavior.AllowGet);            
             return true;
         }
         #endregion
