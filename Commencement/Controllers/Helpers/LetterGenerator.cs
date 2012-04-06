@@ -16,6 +16,7 @@ namespace Commencement.Controllers.Helpers
         //string GenerateAddPermission(Student student, Template template, Ceremony ceremony);
         string GenerateRegistrationPetitionConfirmation(RegistrationPetition registrationPetition, Template template);
         string GenerateRegistrationPetitionApproved(RegistrationPetition registrationPetition, Template template);
+        string GenerateMoveMajor(RegistrationParticipation registrationParticipation, Template template);
         bool ValidateTemplate(Template template, List<string> invalidTokens);
     }
 
@@ -111,6 +112,21 @@ namespace Commencement.Controllers.Helpers
             _student = registrationPetition.Registration.Student;
             _registrationPetition = registrationPetition;
             _registration = registrationPetition.Registration;
+            _template = template;
+
+            return HandleBody(template.BodyText);
+        }
+
+        public string GenerateMoveMajor(RegistrationParticipation registrationParticipation, Template template)
+        {
+            Check.Require(registrationParticipation != null, "registrationParticipation is required.");
+            Check.Require(template != null, "template is required.");
+            Check.Require(template.TemplateType.Name == StaticValues.Template_MoveMajor, "template mismatch.");
+
+            _ceremony = registrationParticipation.Ceremony;
+            _student = registrationParticipation.Registration.Student;
+            _registrationParticipation = registrationParticipation;
+            _registration = registrationParticipation.Registration;
             _template = template;
 
             return HandleBody(template.BodyText);

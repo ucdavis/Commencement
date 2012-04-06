@@ -17,7 +17,7 @@ namespace Commencement.Controllers.ViewModels
         {
             Check.Require(repository != null, "Repository is required.");
 
-            var viewModel = new MoveMajorViewModel() {Ceremonies = ceremonyService.GetCeremonies(currentUser.Identity.Name), MajorCodes = new List<MajorCode>()};
+            var viewModel = new MoveMajorViewModel() {Ceremonies = ceremonyService.GetCeremonies(currentUser.Identity.Name, TermService.GetCurrent()), MajorCodes = new List<MajorCode>()};
             //viewModel.MajorCodes = viewModel.Ceremonies.Select(a => a.Majors).ToList();
 
             var majorCodes = new List<MajorCode>();

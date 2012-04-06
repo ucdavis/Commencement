@@ -29,6 +29,7 @@ namespace Commencement.Controllers
 
         public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService, IEmailService emailService, IMajorService majorService, ICeremonyService ceremonyService, IRegistrationService registrationService, IRegistrationPopulator registrationPopulator, IRepository<Registration> registrationRepository, IErrorService errorService)
         {
+            if (emailService == null) throw new ArgumentNullException("emailService");
             _studentRepository = studentRepository;
             _majorRepository = majorRepository;
             _studentService = studentService;
@@ -325,16 +326,6 @@ namespace Commencement.Controllers
             
             var origCeremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.Majors.Contains(major) && a.TermCode == TermService.GetCurrent()).FirstOrDefault();
 
-            //var ceremonies = _ceremonyService.GetCeremonies(CurrentUser.Identity.Name);
-            //// find the ceremony with the major
-            //var origCeremony = ceremonies.Where(a => a.Majors.Contains(major)).FirstOrDefault();
-
-            //foreach (var a in ceremonies)
-            //{
-            //    if (a.Majors.Select(b => b.Id).Contains(major.Id))
-            //        origCeremony = a;
-            //}
-
             var message = string.Empty;
             if (!ValidateMajorMove(major, ceremony, origCeremony, out message))
             {
@@ -351,6 +342,9 @@ namespace Commencement.Controllers
             {
                 a.Ceremony = ceremony;
                 Repository.OfType<RegistrationParticipation>().EnsurePersistent(a);
+
+                // queue an email confirmation, reflecting the updated major
+                _emailService.QueueMajorMove(a.Registration, a);
             }
 
             // move the major in ceremony list
