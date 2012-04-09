@@ -262,8 +262,7 @@ namespace Commencement.Controllers
             }
 
             _registrationPopulator.UpdateRegistration(registrationToEdit, registrationPostModel, student, ModelState);
-
-
+            
             registrationToEdit.TransferValidationMessagesTo(ModelState);
 
             if (ModelState.IsValid)
