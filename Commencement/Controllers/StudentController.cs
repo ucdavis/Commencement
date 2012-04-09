@@ -345,8 +345,12 @@ namespace Commencement.Controllers
                 return this.RedirectToAction<ErrorController>(a => a.NotEligible());
             }
 
-            // see if registration is open for at least one ceremony
-            if (!eligibleCeremonies.Where(a => a.RegistrationBegin < DateTime.Now).Any())
+            var test = eligibleCeremonies.Where(a => a.RegistrationBegin < DateTime.Now && DateTime.Now <= a.RegistrationDeadline.AddDays(3)).Any();
+
+            var test2 = eligibleCeremonies.FirstOrDefault().RegistrationDeadline.AddDays(3);
+
+            // see if registration is open for at least one ceremony, includes 3 day grace period
+            if (!eligibleCeremonies.Where(a => a.RegistrationBegin < DateTime.Now && DateTime.Now.Date <= a.RegistrationDeadline.Date.AddDays(3)).Any())
             {
                 return this.RedirectToAction<ErrorController>(a => a.NotOpen());
             }
