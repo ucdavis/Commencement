@@ -40,11 +40,11 @@ b, strong {font: 18px/27px 'CicleGordita', Arial, sans-serif; font-weight:normal
 */
 
 
-h1 {font: 22px/32px Verdana, Arial, sans-serif; letter-spacing: 0; text-align:center;}
-h2 {font: 16px/26px Verdana, Arial, sans-serif; letter-spacing: 0; margin:0.25em 0; font-weight:bold;}
-h3 {font: 16px/26px Verdana, Arial, sans-serif; letter-spacing: 0; text-align:center; margin-top:3em;}
-body {font: 14px/14px Verdana, Arial, sans-serif;}
-b, strong {font: 13px/24px Verdana, Arial, sans-serif; font-weight:bold;}
+h1 {font: 22px/32px Helvetica, Arial, sans-serif; letter-spacing: 0; text-align:center;}
+h2 {font: 16px/26px Helvetica, Arial, sans-serif; letter-spacing: 0; margin:0.25em 0; font-weight:bold;}
+h3 {font: 16px/26px Helvetica, Arial, sans-serif; letter-spacing: 0; text-align:center; margin-top:3em;}
+body {font: 14px/14px Helvetica, Arial, sans-serif;}
+b, strong {font: 13px/24px Helvetica, Arial, sans-serif; font-weight:bold;}
 
 /* ---------------- */
 /*   h1 {font: 40px/48px 'CicleGordita', Arial, sans-serif;letter-spacing: 0; text-align:center;}
@@ -85,12 +85,15 @@ body .content {font: 12px/22px Verdana, Arial, sans-serif;}
 /* ---------------- */
 /*  form formatting */
 /* ---------------- */
+fieldset { padding: 1em;margin: 1em 0;}
+fieldset legend {border: 1px solid black; padding: .25em 1em;background-color: #00497b;color: white;font-weight: bold;}
+
 .registration_form li{list-style:none; margin-left:1em; letter-spacing:2px; margin-top:0.25em;}
 .prefilled span {color:#333;}
 .registration_form input {}
 .registration_form li strong {width:200px; display:inline-block;}
 
-
+input[type='text'], select { padding: .5em;}
 
 /* ---------------- */
 /*       btn's      */
@@ -105,7 +108,6 @@ body .content {font: 12px/22px Verdana, Arial, sans-serif;}
 .btn a {color:#f0f6fa; text-decoration:none; padding:5px 10px; display:block;}
 .btn li:hover {background-color:#FFF; color:#000; border:1px solid #00497b;}
 .btn li:hover a {color:#000;}
-
 
 
 .front_menu {margin:0 auto; width:910px;}

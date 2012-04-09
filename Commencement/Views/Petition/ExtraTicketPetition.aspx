@@ -70,7 +70,7 @@
                     </li>
                 <% } else if (DateTime.Now > participation.Ceremony.ExtraTicketDeadline) { %>
                     <li>
-                        This ceremony is not available for extra ticket petitions.  The deadline was on <%: participation.Ceremony.ExtraTicketDeadline %>.
+                        This ceremony is not available for extra ticket petitions.  The deadline was on <%: participation.Ceremony.ExtraTicketDeadline.ToString("d") %>.
                     </li>
                 <% } %>
             <% } %>

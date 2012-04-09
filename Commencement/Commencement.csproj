@@ -333,6 +333,7 @@
     <Content Include="Scripts\jquery.bt.min.js" />
     <Content Include="Scripts\jquery.enableTinyMce.js" />
     <Content Include="Scripts\jquery.jqEasyCharCounter.min.js" />
+    <Content Include="Scripts\jquery.qtip-1.0.0-rc3.min.js" />
     <Content Include="Scripts\setScrollingBox.js" />
     <Content Include="Scripts\jquery.livequery.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />

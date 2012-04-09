@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.NHibernateValidator.Extensions;
@@ -56,6 +57,7 @@ namespace Commencement.Core.Domain
         
         [NotNull]
         [Future]
+        [DisplayName("Date/Time of Ceremony")]
         public virtual DateTime DateTime { get; set; }
 
         [NotNull]
