@@ -26,7 +26,7 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             #region Act
             var result = Controller.ApproveAllExtraTicketPetition(1)
                 .AssertActionRedirect()
-                .ToAction<PetitionController>(a => a.ExtraTicketPetitions(null));
+                .ToAction<PetitionController>(a => a.ExtraTicketPetitions(null, null));
             #endregion Act
 
             #region Assert
@@ -54,7 +54,7 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             #region Act
             var result = Controller.ApproveAllExtraTicketPetition(1)
                 .AssertActionRedirect()
-                .ToAction<PetitionController>(a => a.ExtraTicketPetitions(null));
+                .ToAction<PetitionController>(a => a.ExtraTicketPetitions(null, null));
             #endregion Act
 
             #region Assert
@@ -97,7 +97,7 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             #region Act
             var result = Controller.ApproveAllExtraTicketPetition(1)
                 .AssertActionRedirect()
-                .ToAction<PetitionController>(a => a.ExtraTicketPetitions(null));
+                .ToAction<PetitionController>(a => a.ExtraTicketPetitions(null, null));
             #endregion Act
 
             #region Assert
@@ -168,7 +168,7 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             #region Act
             var result = Controller.ApproveAllExtraTicketPetition(1)
                 .AssertActionRedirect()
-                .ToAction<PetitionController>(a => a.ExtraTicketPetitions(null));
+                .ToAction<PetitionController>(a => a.ExtraTicketPetitions(null, null));
             #endregion Act
 
             #region Assert
@@ -218,7 +218,7 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             #region Act
             var result = Controller.ApproveAllExtraTicketPetition(1)
                 .AssertActionRedirect()
-                .ToAction<PetitionController>(a => a.ExtraTicketPetitions(null));
+                .ToAction<PetitionController>(a => a.ExtraTicketPetitions(null, null));
             #endregion Act
 
             #region Assert

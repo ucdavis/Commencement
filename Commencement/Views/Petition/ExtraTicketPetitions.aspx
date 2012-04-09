@@ -16,7 +16,8 @@
 
     <% using (Html.BeginForm("ExtraTicketPetitions", "Petition", FormMethod.Get)) { %>
         Ceremony At: <%= this.Select("ceremonyId").Options(Model.Ceremonies, x=>x.Id, x=>x.DateTime.ToString("g")).Selected(Model.Ceremony != null ? Model.Ceremony.Id : 0) %>
-        <input type="submit" value="Submit" />
+        View All : <%: Html.CheckBox("ViewAll", Model.ViewAll) %>
+        <input type="submit" value="View" />
     <% } %>
 
     <% if (Model.Ceremony != null) { %>
@@ -53,8 +54,10 @@
                .Columns(col =>
                             {
                                 col.Add(a => { %>
+                                    <% if (a.ExtraTicketPetition.IsPending) { %>
                                     <img src='<%: Url.Content("~/Images/CheckMark-1.png") %>' class="decision" data-approve="true" data-participationId='<%: a.Id %>' />
                                     <img src='<%: Url.Content("~/Images/Cancel-1.png") %>' class="decision" data-approve="false" data-participationId='<%: a.Id %>' />
+                                    <% } %>
                                 <% }).HtmlAttributes(new {Style = "width:50px;"});
                                 col.Bound(a => a.Registration.Student.LastName);
                                 col.Bound(a => a.Registration.Student.FirstName);
@@ -66,18 +69,26 @@
                                 col.Bound(a => a.ExtraTicketPetition.NumberTicketsRequested).Title("# Requested");
                                 if (Model.Ceremony.HasStreamingTickets){col.Bound(a => a.ExtraTicketPetition.NumberTicketsRequestedStreaming).Title("# Streaming");}
                                 col.Add(a => { %>
+                                    <% if (a.ExtraTicketPetition.IsPending) { %>
                                     <%: Html.TextBox("TicketsApproved", a.ExtraTicketPetition.NumberTickets.HasValue ? a.ExtraTicketPetition.NumberTickets : a.ExtraTicketPetition.NumberTicketsRequested, new {@class="tickets", participationId=a.Id, ceremonyId=a.Ceremony.Id}) %>
                                     <img src="<%: Url.Content("~/Images/loading.gif") %>" class="loading" />
                                     <img src="<%: Url.Content("~/Images/Cancel-1.png") %>" class="cancel" />
                                     <img src="<%: Url.Content("~/Images/CheckMark-1.png") %>" class="check" />
+                                    <% } else { %>
+                                        <%: a.ExtraTicketPetition.NumberTickets %>
+                                    <% } %>
                                 <% }).Title("# Approved");
                                 if (Model.Ceremony.HasStreamingTickets)
                                 {
                                     col.Add(a => {%>
+                                        <% if (a.ExtraTicketPetition.IsPending) { %>
                                         <%: Html.TextBox("StreamingApproved", a.ExtraTicketPetition.NumberTicketsStreaming.HasValue ? a.ExtraTicketPetition.NumberTicketsStreaming.Value : a.ExtraTicketPetition.NumberTicketsRequestedStreaming, new { @class = "tickets streaming", participationId = a.Id, ceremonyId = a.Ceremony.Id })%>
                                         <img src="<%: Url.Content("~/Images/loading.gif") %>" class="loading" />
                                         <img src="<%: Url.Content("~/Images/Cancel-1.png") %>" class="cancel" />
                                         <img src="<%: Url.Content("~/Images/CheckMark-1.png") %>" class="check" />
+                                        <% } else { %>
+                                            <%: a.ExtraTicketPetition.NumberTicketsRequestedStreaming %>
+                                        <% } %>
                                     <%}).Title("# Streaming Approved");
                                 }
                                 col.Bound(a => a.ExtraTicketPetition.DateSubmitted).Title("Submitted");
@@ -149,9 +160,27 @@
             var url = '<%: Url.Action("DecideExtraTicketPetition", "Petition") %>';
 
             $.post(url, { id: id, isApproved: approved, __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val() }, function (data) {
+
+                var viewAll = $("#ViewAll").is(':checked');
+
                 if (data == "") {
-                    $button.parents("tr").fadeOut(1500, function () { $(this).remove(); });
+                    if (viewAll) {
+
+                        $button.parents("td").find("img").fadeOut(1500, function () { $(this).remove(); });
+
+                        var $ticketsApproved = $button.parents("tr").find("#TicketsApproved");
+                        $ticketsApproved.parents("td").html($ticketsApproved.val());
+
+                        var $streamingApproved = $button.parents("tr").find("#StreamingApproved");
+                        $streamingApproved.parents("td").html($streamingApproved.val());
+
+                    }
+                    else {
+                        // delete the row, becuase we are showing only pending
+                        $button.parents("tr").fadeOut(1500, function () { $(this).remove(); });
+                    }
                 }
+
             });
         }
 

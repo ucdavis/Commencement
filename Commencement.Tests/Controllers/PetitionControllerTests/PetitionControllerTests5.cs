@@ -51,7 +51,7 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             #region Act
             Controller.DecideRegistrationPetition(1, true)
                 .AssertActionRedirect()
-                .ToAction<PetitionController>(a => a.ExtraTicketPetitions(null));
+                .ToAction<PetitionController>(a => a.ExtraTicketPetitions(null, null));
 
             #endregion Act
 

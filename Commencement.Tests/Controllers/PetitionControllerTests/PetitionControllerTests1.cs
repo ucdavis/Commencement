@@ -50,7 +50,7 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.ExtraTicketPetitions(4)
+            var result = Controller.ExtraTicketPetitions(4, null)
                 .AssertViewRendered()
                 .WithViewData<AdminExtraTicketPetitionViewModel>();
 
@@ -84,7 +84,7 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.ExtraTicketPetitions(null)
+            var result = Controller.ExtraTicketPetitions(null, null)
                 .AssertViewRendered()
                 .WithViewData<AdminExtraTicketPetitionViewModel>();
 
@@ -119,7 +119,7 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.ExtraTicketPetitions(2)
+            var result = Controller.ExtraTicketPetitions(2, null)
                 .AssertViewRendered()
                 .WithViewData<AdminExtraTicketPetitionViewModel>();
 
@@ -162,7 +162,7 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.ExtraTicketPetitions(2)
+            var result = Controller.ExtraTicketPetitions(2, null)
                 .AssertViewRendered()
                 .WithViewData<AdminExtraTicketPetitionViewModel>();
 

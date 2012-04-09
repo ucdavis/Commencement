@@ -49,9 +49,9 @@ namespace Commencement.Controllers
         /// <param name="ceremonyId"></param>
         /// <returns></returns>
         [AnyoneWithRole]
-        public ActionResult ExtraTicketPetitions(int? ceremonyId)
+        public ActionResult ExtraTicketPetitions(int? ceremonyId, bool? viewAll)
         {
-            var viewModel = AdminExtraTicketPetitionViewModel.Create(Repository, _ceremonyService, _petitionService, CurrentUser, TermService.GetCurrent(), ceremonyId);
+            var viewModel = AdminExtraTicketPetitionViewModel.Create(Repository, _ceremonyService, _petitionService, CurrentUser, TermService.GetCurrent(), ceremonyId, viewAll);
             return View(viewModel);
         }
 
@@ -135,11 +135,11 @@ namespace Commencement.Controllers
             var ceremony = ceremonies.SingleOrDefault(a => a.Id == id);
 
             // ceremony not found or user does not have access, redirect to the page so they can select a valid ceremony
-            if (ceremony == null) return this.RedirectToAction(a => a.ExtraTicketPetitions(null));
+            if (ceremony == null) return this.RedirectToAction(a => a.ExtraTicketPetitions(null, null));
             if (!_ceremonyService.HasAccess(ceremony.Id, CurrentUser.Identity.Name))
             {
                 Message = "You do not have rights to that ceremony";
-                return this.RedirectToAction(a => a.ExtraTicketPetitions(null));
+                return this.RedirectToAction(a => a.ExtraTicketPetitions(null, null));
             }
             // load up all pending extra ticket petitions
             var participations = _petitionService.GetPendingExtraTicket(CurrentUser.Identity.Name, ceremony.Id);
@@ -173,7 +173,7 @@ namespace Commencement.Controllers
             if (ceremony.HasStreamingTickets) Message += string.Format(" and a total of {0} streaming tickets.", streamingCount);
             else Message += ".";
 
-            return this.RedirectToAction(a => a.ExtraTicketPetitions(id));
+            return this.RedirectToAction(a => a.ExtraTicketPetitions(id, null));
         }
         #endregion
 
@@ -207,7 +207,7 @@ namespace Commencement.Controllers
             if (!_ceremonyService.HasAccess(registrationPetition.Ceremony.Id, CurrentUser.Identity.Name))
             {
                 Message = "You do not have rights to that ceremony";
-                return this.RedirectToAction(a => a.ExtraTicketPetitions(null));
+                return this.RedirectToAction(a => a.ExtraTicketPetitions(null, null));
             }
 
             return View(registrationPetition);
@@ -232,7 +232,7 @@ namespace Commencement.Controllers
             if (!_ceremonyService.HasAccess(registrationPetition.Ceremony.Id, CurrentUser.Identity.Name))
             {
                 Message = "You do not have rights to that ceremony";
-                return this.RedirectToAction(a => a.ExtraTicketPetitions(null));
+                return this.RedirectToAction(a => a.ExtraTicketPetitions(null, null));
             }
             var registration = registrationPetition.Registration;
 

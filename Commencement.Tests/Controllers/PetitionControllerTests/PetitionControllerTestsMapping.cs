@@ -26,7 +26,7 @@ namespace Commencement.Tests.Controllers.PetitionControllerTests
         [TestMethod]
         public void TestExtraTicketPetitionsMapping()
         {
-            "~/Petition/ExtraTicketPetitions/5".ShouldMapTo<PetitionController>(a => a.ExtraTicketPetitions(5), true);
+            "~/Petition/ExtraTicketPetitions/5".ShouldMapTo<PetitionController>(a => a.ExtraTicketPetitions(5, null), true);
         }
 
         /// <summary>
