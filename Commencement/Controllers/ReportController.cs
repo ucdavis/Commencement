@@ -159,23 +159,6 @@ namespace Commencement.Controllers
                          !a.ExtraTicketPetition.LabelPrinted));
             }
 
-            //var query = from a in Repository.OfType<Registration>().Queryable
-            //            where _ceremonyService.GetCeremonies(CurrentUser.Identity.Name, term).Contains(a.RegistrationParticipations[0].Ceremony)
-            //                //&& !a.SjaBlock && !a.Cancelled
-            //                && a.MailTickets == printMailing
-            //            orderby a.Student.LastName 
-            //            select a;
-
-            // filter to only pending labels
-            //if (!printAll)
-            //{
-            //    query = (IOrderedQueryable<Registration>)query.Where(a =>
-            //                                            //(!a.LabelPrinted)
-            //                                            //||
-            //                                            //(a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved && !a.ExtraTicketPetition.LabelPrinted)
-            //                                            );
-            //}
-
             var registrations = query.ToList();
             var doc = GenerateLabelDoc(registrations, printAll);
 
@@ -240,14 +223,12 @@ namespace Commencement.Controllers
                 {
                     string cell = string.Empty;
 
-                    if (rp.Registration.MailTickets)
+                    if (rp.TicketDistributionMethod.Id == StaticIndexes.Td_Mail)
                     {
                         var address2 = string.IsNullOrEmpty(rp.Registration.Address2) ? string.Empty : string.Format(Labels.Avergy5160_Mail_Address2, rp.Registration.Address2);
                         cell = string.Format(Labels.Avery5160_MailCell, rp.Registration.Student.FullName, rp.Registration.Address1,
                                                  address2, rp.Registration.City + ", " + rp.Registration.State.Id + " " + rp.Registration.Zip
                                                  , rp.Registration.RegistrationParticipations[0].Ceremony.DateTime.ToString("t") + "-" + ticketString);
-
-
                     }
                     else
                     {

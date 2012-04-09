@@ -128,6 +128,12 @@
   <data name="EmulationKey" xml:space="preserve">
     <value>Emulation</value>
   </data>
+  <data name="Td_Mail" xml:space="preserve">
+    <value>ML</value>
+  </data>
+  <data name="Td_Pickup" xml:space="preserve">
+    <value>PU</value>
+  </data>
   <data name="UserCeremoniesKey" xml:space="preserve">
     <value>UserCeremonies</value>
     <comment>Session variable key to get user's ceremonies</comment>
