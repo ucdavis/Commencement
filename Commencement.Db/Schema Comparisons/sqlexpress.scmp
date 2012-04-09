@@ -2,18 +2,18 @@
 <SchemaComparison>
   <Version>1</Version>
   <SourceModelProvider>
-    <ProjectBasedModelProvider>
-      <ProjectGuid>{81c39207-8981-4004-bfb6-183c702cde79}</ProjectGuid>
-      <Name>Commencement.Db</Name>
-    </ProjectBasedModelProvider>
-  </SourceModelProvider>
-  <TargetModelProvider>
     <ConnectionBasedModelProvider>
       <ConnectionString>Data Source=.\sqlexpress;Initial Catalog=Commencement;Integrated Security=True;Pooling=False</ConnectionString>
       <DatabaseName>Commencement</DatabaseName>
       <DspFamilyName>sql</DspFamilyName>
       <Name>[SUPERKING\sqlexpress.Commencement]</Name>
     </ConnectionBasedModelProvider>
+  </SourceModelProvider>
+  <TargetModelProvider>
+    <ProjectBasedModelProvider>
+      <ProjectGuid>{81c39207-8981-4004-bfb6-183c702cde79}</ProjectGuid>
+      <Name>Commencement.Db</Name>
+    </ProjectBasedModelProvider>
   </TargetModelProvider>
   <SchemaCompareSettingsService>
     <SchemaCompareSettingsService>
@@ -318,48 +318,9 @@
     </ConfigurationOptionsElement>
   </SchemaCompareSettingsService>
   <ExcludedSourceElements>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100User, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>prodcommencement</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Procedure, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>dbo</Name>
-      <Name>usp_DownloadMissingMajors</Name>
-    </SelectedItem>
     <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Procedure, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>dbo</Name>
       <Name>usp_DownloadStudentsMultiCollege</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Procedure, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>dbo</Name>
-      <Name>usp_LookupStudentName</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>dbo</Name>
-      <Name>usp_LookupStudentName</Name>
-      <Name>@studentid</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Procedure, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>dbo</Name>
-      <Name>usp_MajorCountByCeremony</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>dbo</Name>
-      <Name>usp_MajorCountByCeremony</Name>
-      <Name>@ceremonyId</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>dbo</Name>
-      <Name>usp_MajorCountByCeremony</Name>
-      <Name>@userId</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Procedure, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>dbo</Name>
-      <Name>usp_ProcessMailing</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>dbo</Name>
-      <Name>usp_ProcessMailing</Name>
-      <Name>@immediate</Name>
     </SelectedItem>
     <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Procedure, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>dbo</Name>
@@ -437,49 +398,30 @@
     </SelectedItem>
     <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Procedure, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>dbo</Name>
-      <Name>usp_TotalRegisteredByMajor</Name>
+      <Name>usp_TotalRegistrationPetitions</Name>
     </SelectedItem>
     <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>dbo</Name>
-      <Name>usp_TotalRegisteredByMajor</Name>
+      <Name>usp_TotalRegistrationPetitions</Name>
       <Name>@term</Name>
     </SelectedItem>
     <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>dbo</Name>
-      <Name>usp_TotalRegisteredByMajor</Name>
-      <Name>@userid</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>dbo</Name>
-      <Name>usp_TotalRegisteredByMajor</Name>
-      <Name>@major</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Procedure, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>dbo</Name>
-      <Name>usp_TotalRegisteredStudents</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>dbo</Name>
-      <Name>usp_TotalRegisteredStudents</Name>
-      <Name>@term</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>dbo</Name>
-      <Name>usp_TotalRegisteredStudents</Name>
+      <Name>usp_TotalRegistrationPetitions</Name>
       <Name>@userid</Name>
     </SelectedItem>
     <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Procedure, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>dbo</Name>
-      <Name>usp_TotalRegistrationPetitions</Name>
+      <Name>usp_TotalRegisteredStudents</Name>
     </SelectedItem>
     <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>dbo</Name>
-      <Name>usp_TotalRegistrationPetitions</Name>
+      <Name>usp_TotalRegisteredStudents</Name>
       <Name>@term</Name>
     </SelectedItem>
     <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>dbo</Name>
-      <Name>usp_TotalRegistrationPetitions</Name>
+      <Name>usp_TotalRegisteredStudents</Name>
       <Name>@userid</Name>
     </SelectedItem>
   </ExcludedSourceElements>
@@ -564,6 +506,20 @@
     </SelectedItem>
     <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Procedure, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>dbo</Name>
+      <Name>usp_TotalRegistrationPetitions</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>usp_TotalRegistrationPetitions</Name>
+      <Name>@term</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>usp_TotalRegistrationPetitions</Name>
+      <Name>@userid</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Procedure, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
       <Name>usp_TotalRegisteredStudents</Name>
     </SelectedItem>
     <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
@@ -578,17 +534,58 @@
     </SelectedItem>
     <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Procedure, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>dbo</Name>
-      <Name>usp_TotalRegistrationPetitions</Name>
+      <Name>usp_DownloadMissingMajors</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Procedure, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>usp_LookupStudentName</Name>
     </SelectedItem>
     <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>dbo</Name>
-      <Name>usp_TotalRegistrationPetitions</Name>
+      <Name>usp_LookupStudentName</Name>
+      <Name>@studentid</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Procedure, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>usp_MajorCountByCeremony</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>usp_MajorCountByCeremony</Name>
+      <Name>@ceremonyId</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>usp_MajorCountByCeremony</Name>
+      <Name>@userId</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Procedure, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>usp_ProcessMailing</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>usp_ProcessMailing</Name>
+      <Name>@immediate</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Procedure, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>usp_TotalRegisteredByMajor</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>usp_TotalRegisteredByMajor</Name>
       <Name>@term</Name>
     </SelectedItem>
     <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>dbo</Name>
-      <Name>usp_TotalRegistrationPetitions</Name>
+      <Name>usp_TotalRegisteredByMajor</Name>
       <Name>@userid</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100SubroutineParameter, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>usp_TotalRegisteredByMajor</Name>
+      <Name>@major</Name>
     </SelectedItem>
   </ExcludedTargetElements>
 </SchemaComparison>

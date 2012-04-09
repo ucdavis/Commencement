@@ -222,6 +222,7 @@
     <Compile Include="Controllers\ViewModels\AdminRegistrationPetitionViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeCeremonyViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeMajorViewModel.cs" />
+    <Compile Include="Controllers\ViewModels\EmailStudentsViewModel.cs" />
     <Compile Include="Controllers\ViewModels\MajorCodeViewModel.cs" />
     <Compile Include="Controllers\ViewModels\MoveMajorViewModel.cs" />
     <Compile Include="Controllers\ViewModels\RegistrationDataViewModel.cs" />
@@ -602,6 +603,7 @@
     <Content Include="Views\Ceremony\Edit.aspx" />
     <Content Include="Views\Ceremony\EditPermissions.aspx" />
     <Content Include="Views\Ceremony\Index.aspx" />
+    <Content Include="Views\EmailQueue\EmailStudents.aspx" />
     <Content Include="Views\EmailQueue\Index.aspx" />
     <Content Include="Views\Error\Index.aspx" />
     <Content Include="Views\Error\NotEligible.aspx" />

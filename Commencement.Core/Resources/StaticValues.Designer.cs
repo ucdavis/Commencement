@@ -205,6 +205,15 @@ namespace Commencement.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email All Students.
+        /// </summary>
+        public static string Template_EmailAllStudents {
+            get {
+                return ResourceManager.GetString("Template_EmailAllStudents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Major Move.
         /// </summary>
         public static string Template_MoveMajor {

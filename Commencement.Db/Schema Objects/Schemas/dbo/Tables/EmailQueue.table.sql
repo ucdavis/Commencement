@@ -4,7 +4,7 @@
     [Created]                     DATETIME         NOT NULL,
     [Pending]                     BIT              NOT NULL,
     [SentDateTime]                DATETIME         NULL,
-    [TemplateId]                  INT              NOT NULL,
+    [TemplateId]                  INT              NULL,
     [Subject]                     VARCHAR (100)    NOT NULL,
     [Body]                        VARCHAR (MAX)    NOT NULL,
     [Immediate]                   BIT              NOT NULL,
@@ -14,4 +14,6 @@
     [ExtraTicketPetitionId]       INT              NULL,
     [ErrorCode]                   INT              NULL
 );
+
+
 

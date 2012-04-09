@@ -12,3 +12,10 @@ select @rid = id from TemplateTypes where Code = 'RC'
 
 insert into templatetokens (templatetypeid, name)
 select @tid, name from templatetokens where templatetypeid = @rid
+
+-- =============================================
+-- Insert needed data for email blast "template"
+-- =============================================
+
+insert into TemplateTypes(Name, [Description], Code)
+values ('Email All Students', 'E-mail sent to all students for a specific ceremony.', 'EA')

@@ -39,7 +39,6 @@ namespace Commencement.Core.Domain
         public virtual DateTime Created { get; set; }
         public virtual bool Pending { get; set; }
         public virtual DateTime? SentDateTime { get; set; }
-        [NotNull]
         public virtual Template Template { get; set; }
         [Length(100)]
         [Required]

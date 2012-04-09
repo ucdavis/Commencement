@@ -263,4 +263,7 @@ Any student who is found selling tickets or in possession of counterfeit tickets
   <data name="Template_MoveMajor" xml:space="preserve">
     <value>Major Move</value>
   </data>
+  <data name="Template_EmailAllStudents" xml:space="preserve">
+    <value>Email All Students</value>
+  </data>
 </root>

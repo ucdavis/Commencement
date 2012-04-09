@@ -1,2 +1,2 @@
-﻿CREATE USER [prodcommencement] FOR LOGIN [AESDEAN\prodcommencement];
+﻿/*CREATE USER [prodcommencement] FOR LOGIN [AESDEAN\prodcommencement];*/
 
