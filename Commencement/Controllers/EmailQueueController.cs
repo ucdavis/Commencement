@@ -80,7 +80,7 @@ namespace Commencement.Controllers
             if (templateType == null)
             {
                 Message = "Invalid template type, please have the database checked.";
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("Index");
             }
 
             if (emailStudents.Ceremony == null)
@@ -109,7 +109,7 @@ namespace Commencement.Controllers
                 }
 
                 Message = "Emails have been queued.";
-                return RedirectToAction("Index", "Admin");    
+                return RedirectToAction("Index");    
             }
 
             var viewModel = EmailStudentsViewModel.Create(Repository, _ceremonyService, CurrentUser.Identity.Name);

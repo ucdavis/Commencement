@@ -10,6 +10,7 @@
 
     <ul class="btn">
         <li><%: Html.ActionLink<AdminController>(a=>a.Index(), "Home") %></li>
+        <li><%: Html.ActionLink<EmailQueueController>(a=>a.EmailStudents(), "Email Blast Students") %></li>
     </ul>
 
     <h2>Email Queue</h2>
