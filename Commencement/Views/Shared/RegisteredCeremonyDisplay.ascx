@@ -1,23 +1,19 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Core.Domain.RegistrationParticipation>" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
-<div class="ceremony">
+<div class="ceremony ui-corner-all">
 
-    <div class="ui-widget-header"><%: Model.Ceremony.Name %></div>
+    <div class="title ui-widget-header ui-corner-top"><%: string.Format("{0} ({1})", Model.Ceremony.Name, Model.Ceremony.DateTime) %></div>
 
     <ul class="registration_form">
-        <li><strong>Status: </strong><%: Model.Cancelled ? "Cancelled" : "Registered" %></li>
-        <li><strong>Major: </strong><%: Model.Major.Name %></li>
-        <li><strong>Date Registered:</strong><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateRegistered) %></li>
-        <li><strong>Last Update:</strong><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateUpdated) %></li>
+        <li><strong>Status:</strong><%: Model.Cancelled ? "Cancelled" : "Registered" %></li>
+        <li><strong>Major:</strong><%: Model.Major.Name %></li>
         <li><strong>Tickets Requested:</strong><span><%= Html.Encode(Model.NumberTickets) %></span>
         </li>
         <li>
-            <strong>Ticket Distribution Method:</strong>
-            <span><%= Html.Encode(Model.TicketDistribution) %></span>
+            <strong>Ticket Distribution:</strong>
+            <span><%= Html.Encode(Model.TicketDistributionMethod != null ? Model.TicketDistributionMethod.Name : "n/a") %></span>
         </li>
-        <li class="prefilled"><strong>Ceremony Date:</strong> <span>
-            <%= Html.Encode(string.Format("{0}", Model.Ceremony.DateTime.ToString("g"))) %></span> </li>
         <% if (Model.ExtraTicketPetition != null) { %>
                 <% if (!Model.ExtraTicketPetition.IsPending && Model.ExtraTicketPetition.IsApproved) { %>
                     <li><strong># Extra Tickets Approved:</strong>
@@ -40,7 +36,15 @@
                     No extra ticket petition has been submitted for this registration.
                 </li>
         <% } %>
+
+        <li><strong>Date Registered:</strong></li>
+        <li><strong>Last Update:</strong></li>
     </ul>
+
+    <div class="foot ui-corner-bottom">
+        <span>Registered: <%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateRegistered) %></span>
+        <span style="float: right;">Last Update: <%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateUpdated) %></span>
+    </div>
 
 </div>
     
