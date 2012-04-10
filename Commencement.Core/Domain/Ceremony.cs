@@ -68,6 +68,7 @@ namespace Commencement.Core.Domain
         [Min(1)]
         public virtual int TotalTickets { get; set; }
 
+        [DisplayName("Streaming Tickets")]
         public virtual int? TotalStreamingTickets { get; set; }
 
         [NotNull]
@@ -81,6 +82,7 @@ namespace Commencement.Core.Domain
         [NotNull]
         public virtual DateTime ExtraTicketDeadline { get; set; }
 
+        [DisplayName("Extra Tickets/Student")]
         public virtual int ExtraTicketPerStudent { get; set; }
         public virtual int MinUnits { get; set; }
         public virtual int PetitionThreshold { get; set; }

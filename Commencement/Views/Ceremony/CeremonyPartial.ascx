@@ -12,9 +12,6 @@
 
     <script type="text/javascript">
         $(function () {
-            //$("#Ceremony_DateTime").AnyTime_picker();
-            $("#CeremonyDate").datepicker();
-
             $(".ceremony_time").change(function () {
                 var date = $("#CeremonyDate").val();
                 var hour = $("#CeremonyHour").val();
@@ -23,12 +20,6 @@
 
                 $("#Ceremony_DateTime").val(date + " " + hour + ":" + minute + ":00 " + ampm);
             });
-
-            $("#Ceremony_PrintingDeadline").datepicker();
-            $("#Ceremony_RegistrationBegin").datepicker();
-            $("#Ceremony_RegistrationDeadline").datepicker();
-            $("#Ceremony_ExtraTicketBegin").datepicker();
-            $("#Ceremony_ExtraTicketDeadline").datepicker();
 
             $("#CeremonyMajors").multiselect();
 
@@ -102,7 +93,7 @@
             </li>
             <li>
                 <strong><%: Html.LabelFor(a => a.Ceremony.DateTime, DisplayOptions.HumanizeAndColon) %></strong>
-                <%= Html.TextBox("CeremonyDate", Model.Ceremony.DateTime.ToString("d"), new {@class="ceremony_time"}) %>
+                <%= Html.TextBox("CeremonyDate", Model.Ceremony.DateTime.ToString("d"), new {@class="ceremony_time date"}) %>
             
                 <%= this.Select("CeremonyHour").Class("ceremony_time").Options(Model.Hours,x=>x,x=>x).Selected(Model.Ceremony.DateTime.Hour > 12 ? Model.Ceremony.DateTime.Hour - 12 : Model.Ceremony.DateTime.Hour)%>
 
@@ -119,12 +110,12 @@
                 <%= Html.ValidationMessageFor(x=>x.Ceremony.Location) %>
             </li>
             <li>
-                <strong>Minimum Units:</strong>
+                <strong><%: Html.LabelFor(a => a.Ceremony.MinUnits, DisplayOptions.HumanizeAndColon) %></strong>
                 <%: Html.TextBoxFor(x => x.Ceremony.MinUnits, new { @class = "hastip", @title = "Minimum number of units required to register." })%>
                 <%: Html.ValidationMessageFor(x=>x.Ceremony.MinUnits) %>
             </li>
             <li>
-                <strong>Petition Threshold:</strong>
+                <strong><%: Html.LabelFor(a => a.Ceremony.PetitionThreshold, DisplayOptions.HumanizeAndColon) %></strong>
                 <%: Html.TextBoxFor(x => x.Ceremony.PetitionThreshold, new { @class = "hastip", @title = "Minimum number of units to be allowed to submit registration petition" })%>
                 <%: Html.ValidationMessageFor(x=>x.Ceremony.PetitionThreshold) %>
             </li>
@@ -138,23 +129,23 @@
 
         <ul class="registration_form">
             <li>
-                <strong>Tickets per Student:</strong>
-                <%= Html.TextBoxFor(x=>x.Ceremony.TicketsPerStudent) %>
+                <strong><%: Html.LabelFor(a => a.Ceremony.TicketsPerStudent, DisplayOptions.HumanizeAndColon) %></strong>
+                <%= Html.TextBoxFor(x => x.Ceremony.TicketsPerStudent, new { @class="hastip", @title = "Maximum # of tickets a student can request." })%>
                 <%= Html.ValidationMessageFor(x=>x.Ceremony.TicketsPerStudent) %>
             </li>
             <li>
-                <strong>Extra Ticket Request Max Per Student</strong>
-                <%= Html.TextBoxFor(x=>x.Ceremony.ExtraTicketPerStudent) %>
+                <strong><%: Html.LabelFor(a => a.Ceremony.ExtraTicketPerStudent, DisplayOptions.HumanizeAndColon) %></strong>
+                <%= Html.TextBoxFor(x => x.Ceremony.ExtraTicketPerStudent, new { @class="hastip", @title = "Maximum # of extra tickets a student can petition for." })%>
                 <%= Html.ValidationMessageFor(x=>x.Ceremony.ExtraTicketPerStudent) %>
             </li>
             <li>
-                <strong>Total Tickets:</strong>
-                <%= Html.TextBoxFor(x => x.Ceremony.TotalTickets, new { @class = "showBtRight", @title = "Total number of tickets available to everyone." })%>
+                <strong><%: Html.LabelFor(a => a.Ceremony.TotalTickets, DisplayOptions.HumanizeAndColon) %></strong>
+                <%= Html.TextBoxFor(x => x.Ceremony.TotalTickets, new { @class = "hastip", @title = "Total number of tickets available to everyone." })%>
                 <%= Html.ValidationMessageFor(x=>x.Ceremony.TotalTickets) %>            
             </li>
             <li>
-                <strong>Total Streaming Tickets:</strong>
-                <%: Html.TextBoxFor(x => x.Ceremony.TotalStreamingTickets, new { @class = "showBtRight", @title = "Total number of tickets for streaming tickets" })%>
+                <strong><%: Html.LabelFor(a => a.Ceremony.TotalStreamingTickets, DisplayOptions.HumanizeAndColon) %></strong>
+                <%: Html.TextBoxFor(x => x.Ceremony.TotalStreamingTickets, new { @class = "hastip", @title = "Total number of tickets for streaming tickets" })%>
                 <%: Html.ValidationMessageFor(x=>x.Ceremony.TotalStreamingTickets) %>
             </li>        
         </ul>
@@ -166,31 +157,26 @@
         <legend>Dates</legend>
 
         <ul class="registration_form">
-            <li>
-                <strong>Registration Begin:</strong>
-                <%: Html.TextBox("Ceremony.RegistrationBegin", Model.Ceremony.RegistrationBegin.ToString("d")) %>
+
+            <li><strong>Registration:</strong>
+                <%: Html.TextBox("Ceremony.RegistrationBegin", Model.Ceremony.RegistrationBegin.ToString("d"), new { @class="hastip date", @title="Registration will begin on this date." })%>
                 <%: Html.ValidationMessageFor(x=>x.Ceremony.RegistrationBegin) %>
-            </li>
-            <li>
-                <strong>Registration Closure:</strong>
-                <%: Html.TextBox("Ceremony.RegistrationDeadline", Model.Ceremony.RegistrationDeadline.ToString("d"), new { @class = "showBtTop", @title = "Registration will be blocked after this date." })%>
+                through
+                <%: Html.TextBox("Ceremony.RegistrationDeadline", Model.Ceremony.RegistrationDeadline.ToString("d"), new { @class = "hastip date", @title = "Registration will be blocked after this date (+3 days)." })%>
                 <%= Html.ValidationMessageFor(x=>x.Ceremony.RegistrationDeadline) %>
             </li>
             <li>
-                <strong>Program Printing Deadline:</strong>
-                <%: Html.TextBox("Ceremony.PrintingDeadline", Model.Ceremony.PrintingDeadline.ToString("d"), new { @class = "showBtTop", @title = "Registration will continue to be open past this date." })%>
+                <strong>Program Deadline:</strong>
+                <%: Html.TextBox("Ceremony.PrintingDeadline", Model.Ceremony.PrintingDeadline.ToString("d"), new { @class = "hastip date", @title = "Deadline for the program printing.  A warning will come up that says registering after this date may result in name not appearing in program." })%>
                 <%= Html.ValidationMessageFor(x=>x.Ceremony.PrintingDeadline) %>
             </li>
-            <li>
-                <strong>Extra Ticket Request Begin:</strong>
-                <%: Html.TextBox("Ceremony.ExtraTicketBegin", Model.Ceremony.ExtraTicketBegin.ToString("d")) %>
+            <li><strong>Extra Ticket Requests:</strong>
+                <%: Html.TextBox("Ceremony.ExtraTicketBegin", Model.Ceremony.ExtraTicketBegin.ToString("d"), new { @class="hastip date", @title = "Extra ticket requests will begin on this date." })%>
                 <%: Html.ValidationMessageFor(x=>x.Ceremony.ExtraTicketBegin) %>
-            </li>
-            <li>
-                <strong>Extra Ticket Request Deadline:</strong>
-                <%: Html.TextBox("Ceremony.ExtraTicketDeadline", Model.Ceremony.ExtraTicketDeadline.ToString("d"), new { @class = "showBtTop", @title = "Last date to accept extra ticket requests" })%>
+                through
+                <%: Html.TextBox("Ceremony.ExtraTicketDeadline", Model.Ceremony.ExtraTicketDeadline.ToString("d"), new { @class = "hastip date", @title = "Last date to accept extra ticket requests" })%>
                 <%= Html.ValidationMessageFor(x=>x.Ceremony.ExtraTicketDeadline) %>
-            </li>        
+            </li>       
         </ul>
 
     </fieldset>
@@ -200,8 +186,7 @@
         <legend>Ticket Distribution Method(s)</legend>
 
         <% if (Model.TicketDistributionMethods != null) { %>
-            <%--<%= Html.ListBox("TicketDistributionMethods", Model.TicketDistributionMethods, new { style="width: 350px; height: 150px;"}) %>--%>
-            <%= this.CheckBoxList("TicketDistributionMethods").Options(Model.TicketDistributionMethods) %>
+            <%= this.CheckBoxList("TicketDistributionMethods").Options(Model.TicketDistributionMethods).Class("radio_list") %>
         <% } else { %>
             <select id="TicketDistributionMethods" style="width: 200px;" name="TicketDistributionMethods" multiple="multiple"></select>
         <% } %>
@@ -222,12 +207,14 @@
 
             <strong>Colleges:</strong>
 
-            <%= this.CheckBoxList("Colleges").Options(Model.Colleges).ItemClass("college") %>
+            <%= this.CheckBoxList("Colleges").Options(Model.Colleges).Class("radio_list").ItemClass("college") %>
+
+            <strong>Majors:</strong>
 
             <% if (Model.Majors != null) { %>
             <%= Html.ListBox("CeremonyMajors", Model.Majors, new {style="width:900px; height: 300px;"}) %>
             <% } else { %>
-            <select id="Select1" style="width: 200px;" name="CeremonyMajors" multiple="multiple"></select>
+            <select id="CeremonyMajors" style="width: 900px; height: 300px;" name="CeremonyMajors" multiple="multiple"></select>
             <% } %>
 
     </fieldset>
