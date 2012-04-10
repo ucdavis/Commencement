@@ -47,26 +47,31 @@
                     .FirstOption("--Select an Override Ceremony--")
                     %>
         </li>
-    </ul>
-
-    Add Major: <%= this.Select("AddMajorDropDown").Options(Model.Majors, x=>x.Id, x=>x.Name).FirstOption("--Select a Major--") %> <%: Html.Button("AddMajor", "+", HtmlButtonType.Button, null, new {@class="AddMajor"}) %>
-    <% Html.Grid(Model.Student.Majors)
-           .Name("Majors")
-           .Columns(col=>
-                        {
-                            col.Add(a =>
-                                        {%>
-                                            <img src="<%: Url.Content("~/Images/Cancel-1.png") %>" class="RemoveMajor" />
-                                            <%: Html.Hidden("Student.Majors", a.Id) %>
-                                        <%});
-                            col.Bound(a => a.Major.Id).Title("Major Code");
-                            col.Bound(a => a.Major.Name).Title("Major Name");
-                        })
-            .Render();
-           %>
-
-    <%: Html.SubmitButton("Submit", "Save") %>
-
+        <li><strong>Add Major:</strong>
+            <%= this.Select("AddMajorDropDown").Options(Model.Majors, x=>x.Id, x=>x.Name).FirstOption("--Select a Major--") %> 
+            <%: Html.Button("AddMajor", "+", HtmlButtonType.Button, null, new {@class="AddMajor button"}) %>
+        </li>
+    
+        <li><strong>&nbsp;</strong>
+            <% Html.Grid(Model.Student.Majors)
+                   .Name("Majors")
+                   .Columns(col=>
+                                {
+                                    col.Add(a =>
+                                                {%>
+                                                    <img src="<%: Url.Content("~/Images/Cancel-1.png") %>" class="RemoveMajor" />
+                                                    <%: Html.Hidden("Student.Majors", a.Id) %>
+                                                <%});
+                                    col.Bound(a => a.Major.Id).Title("Major Code");
+                                    col.Bound(a => a.Major.Name).Title("Major Name");
+                                })
+                    .Render();
+                   %>
+        </li>
+        <li><strong>&nbsp;</strong>
+            <%: Html.SubmitButton("Submit", "Save", new { @class="button" })%>
+        </li>
+        </ul>   
     <% } %>
 
     <script type="text/javascript">
@@ -103,3 +108,7 @@
             });
         });
     </script>
+
+    <style type="text/css">
+        #Majors {display : inline-block;}
+    </style>

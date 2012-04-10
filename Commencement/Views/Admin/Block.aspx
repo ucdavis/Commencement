@@ -36,10 +36,10 @@
             <%: Html.Hidden("block", true) %>
 
             <p>Please select a reason for blocking this student:</p>
-            <ul>
+            <ul class="registration_form">
                 <li><input type="radio" value="sja" name="reason" />SJA</li>
                 <li><input type="radio" value="other" name="reason" />Other</li>
-                <li><%: Html.SubmitButton("Block", "Block") %></li>
+                <li><%: Html.SubmitButton("Block", "Block", new { @class="button" })%></li>
             </ul>
         <% } %>
     <% } %>

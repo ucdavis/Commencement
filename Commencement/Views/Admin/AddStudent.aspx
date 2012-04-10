@@ -19,7 +19,7 @@
         <% using (Html.BeginForm("AddStudent", "Admin", FormMethod.Get)) { %>
         Student ID:
         <%: Html.TextBox("StudentId") %>
-        <%: Html.SubmitButton("Submit", "Search") %>
+        <%: Html.SubmitButton("Submit", "Search", new { @class="button" })%>
         <% } %>
     <% } %>
 
