@@ -12,11 +12,13 @@
         <li><%= Html.ActionLink<AdminController>(a=>a.AdminLanding(), "Back to Administration") %></li>
     </ul>
 
-    <h2>Major Codes Maintenance</h2>
+    <div class="page_bar">
+        <div class="col1"><h2>Major Codes Maintenance</h2></div>
+        <div class="col2"><%: Html.ActionLink<MajorCodeController>(a => a.Add(), "Add/Activate Major", new { @class="button" })%></div>
+    </div>
+    
 
     <%: Html.AntiForgeryToken() %>
-
-    <%: Html.ActionLink<MajorCodeController>(a=>a.Add(), "Add/Activate Major") %>
 
     <%
         Html.Grid(Model.MajorCodes.Where(a=>a.IsActive))
@@ -31,7 +33,7 @@
                              col.Add(a => { %>
                                             <%--<%= this.Select("College").Options(Model.Colleges, x=>x.Id, x=>x.Id).FirstOption("--Select College--").Selected(a.College).Class("college") %>--%>
 
-                                            <select class="college" data-id="<%: a.Id %>">
+                                            <select class="college" data-id="<%: a.Id %>" style="min-width: 70px;">
                                                 <% foreach (var b in Model.Colleges.Where(b=>b.Display)) { %>
                                                     <option value="<%: b.Id %>" <%: a.College == b ? "selected" : string.Empty %> ><%: b.Id %></option>
                                                 <% } %>

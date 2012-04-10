@@ -12,12 +12,14 @@
     <li>
     <%= Html.ActionLink<CeremonyController>(a => a.Edit(Model.Id) , "Back to Ceremony") %>
     </li>
-    <li>
-        <%= Html.ActionLink<CeremonyController>(a=>a.AddEditor(Model.Id), "Add Editor") %>
-    </li>
     </ul>
 
-    <h2>Edit Permissions for <%: Model.Name %></h2>
+    <div class="page_bar">
+        <div class="col1"><h2>Edit Permissions for <%: Model.Name %></h2></div>
+        <div class="col2"><%= Html.ActionLink<CeremonyController>(a => a.AddEditor(Model.Id), "Add Editor", new { @class="button" })%></div>
+    </div>
+
+    
 
     <% Html.Grid(Model.Editors)
 		.Transactional()

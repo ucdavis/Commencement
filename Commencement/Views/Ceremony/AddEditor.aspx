@@ -7,9 +7,9 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-        <ul class="btn">
+    <ul class="btn">
     <li>
-    <%= Html.ActionLink<CeremonyController>(a => a.EditPermissions(Model.Ceremony.Id) , "Back to Ceremony") %>
+        <%= Html.ActionLink<CeremonyController>(a => a.EditPermissions(Model.Ceremony.Id) , "Back to Permissions") %>
     </li>
     </ul>
 
@@ -24,8 +24,10 @@
                 <%= this.Select("userId").Options(Model.Users, x=>x.Id, x=>x.FullName).Selected(Model.User != null ? Model.User.Id : 0).FirstOption("--Select a User--") %>
             </li>
             <li>
-                <strong></strong>
-                <%= Html.SubmitButton("submit", "Save") %>
+                <strong>&nbsp;</strong>
+                <%= Html.SubmitButton("submit", "Save", new { @class="button" })%>
+                |
+                <%= Html.ActionLink<CeremonyController>(a => a.EditPermissions(Model.Ceremony.Id) , "Cancel") %>
             </li>
 
         </ul>

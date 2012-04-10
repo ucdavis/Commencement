@@ -13,10 +13,10 @@
         </li>
     </ul>
 
-    <h2>Special Needs Maintenance</h2>
-        <p>
-            <%= Html.ActionLink<SpecialNeedsController>(a => a.Create(), "Create New")%>
-        </p>
+    <div class="page_bar">
+        <div class="col1"><h2>Special Needs Maintenance</h2></div>
+        <div class="col2"><%= Html.ActionLink<SpecialNeedsController>(a => a.Create(), "Create New", new { @class="button" })%></div>
+    </div>
 
         <div>
         <% Html.Grid(Model)

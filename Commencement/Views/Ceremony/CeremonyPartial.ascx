@@ -68,6 +68,10 @@
         });
     </script>
 
+    <style type="text/css">
+        .ceremony_time {min-width: 60px;}
+    </style>
+
     <fieldset id="details">
     
         <legend>Ceremony Details</legend>

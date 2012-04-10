@@ -36,9 +36,11 @@
                 <%: Html.ValidationMessageFor(model => model.IsActive) %>
             </li>
          
-            <p>
-                <input type="submit" value="Create" />
-            </p>
+            <li><strong>&nbsp;</strong>
+                <input type="submit" value="Create" class="button" />
+                |
+                <%: Html.ActionLink("Cancel", "Index") %>
+            </li>
         </ul>
 
     <% } %>

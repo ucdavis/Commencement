@@ -27,7 +27,9 @@
             <span id="validationMessage"></span>
         </li>
         <li><strong>&nbsp;</strong>
-            <%: Html.SubmitButton("Save", "Save") %>
+            <%: Html.SubmitButton("Save", "Save", new { @class="button" })%>
+            |
+            <%: Html.ActionLink("Cancel", "Index", "Admin") %>
         </li>
     </ul>
     <% } %>

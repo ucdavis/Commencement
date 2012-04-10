@@ -6,6 +6,10 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <ul class="btn">
+        <li><%= Html.ActionLink("Back to Administration", "Index") %></li>
+    </ul>
+
     <h2>Add / Activate Major</h2>
 
     <%= Html.ValidationSummary("Please correct all errors below") %>
@@ -18,9 +22,9 @@
             </li>
         </ul>
 
-        <p>
+        <div class="ui-corner-all" style="border: 1px solid lightgray; text-align: center; padding: 1em; margin: 1em;">
         --Or--
-        </p>
+        </div>
 
         <ul class="registration_form">
             <li><strong>Major Code:</strong>
@@ -31,9 +35,13 @@
             </li>
         </ul>
 
-        <p>
-            <%: Html.SubmitButton("Add", "Add") %>
-        </p>
+        <ul class="registration_form" style="margin-top: 1.5em;">
+            <li><strong>&nbsp;</strong>
+                <input type="submit" class="button" value="Add Major" />
+                |
+                <%: Html.ActionLink("Cancel", "Index") %>
+            </li>
+        </ul>
 
     <% } %>
 
