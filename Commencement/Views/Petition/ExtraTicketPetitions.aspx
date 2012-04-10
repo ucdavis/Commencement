@@ -12,25 +12,34 @@
         <li><%= Html.ActionLink<PetitionController>(a=>a.Index(), "Back to Petitions") %></li>
     </ul>
 
-    <h2>Extra Ticket Petitions</h2>
+    <div class="page_bar">
+        <div class="col1"><h2>Extra Ticket Petitions</h2></div>
+        <div class="col2">
+        
+            <% using (Html.BeginForm("ExtraTicketPetitions", "Petition", FormMethod.Get)) { %>
+                Ceremony At: <%= this.Select("ceremonyId").Options(Model.Ceremonies, x=>x.Id, x=>x.DateTime.ToString("g")).Selected(Model.Ceremony != null ? Model.Ceremony.Id : 0) %>
+                View All : <%: Html.CheckBox("ViewAll", Model.ViewAll) %>
+                <input type="submit" value="View" class="button" />
+            <% } %>
 
-    <% using (Html.BeginForm("ExtraTicketPetitions", "Petition", FormMethod.Get)) { %>
-        Ceremony At: <%= this.Select("ceremonyId").Options(Model.Ceremonies, x=>x.Id, x=>x.DateTime.ToString("g")).Selected(Model.Ceremony != null ? Model.Ceremony.Id : 0) %>
-        View All : <%: Html.CheckBox("ViewAll", Model.ViewAll) %>
-        <input type="submit" value="View" />
-    <% } %>
+            <% if (Model.Ceremony != null) { %>
+                <% using (Html.BeginForm("ApproveAllExtraTicketPetition", "Petition", FormMethod.Post)) { %>
+        
+                    <%= Html.AntiForgeryToken() %>
+                    <%: Html.Hidden("id", Model.Ceremony.Id) %>
+                    <%: Html.SubmitButton("ApproveAll", "Approve All", new { @class="button" })%>
+
+                <% } %>
+            <% } %>
+        </div>
+    </div>
+
+    
+
+
 
     <% if (Model.Ceremony != null) { %>
         
-        <% using (Html.BeginForm("ApproveAllExtraTicketPetition", "Petition", FormMethod.Post))
-           { %>
-        
-            <%= Html.AntiForgeryToken() %>
-            <%: Html.Hidden("id", Model.Ceremony.Id) %>
-            <%: Html.SubmitButton("ApproveAll", "Approve All") %>
-
-        <% }%>
-
         <div id="ticketCountInline" style="position: relative; top: -20px;">
             <ul>
                 <li><strong>Projected Available:</strong> <span class="projectedAvailabeTickets"><%: Model.Ceremony.ProjectedAvailableTickets %></span></li>
@@ -63,8 +72,9 @@
                                 col.Bound(a => a.Registration.Student.FirstName);
                                 col.Bound(a => a.NumberTickets).Title("# Tickets");
                                 col.Add(a=>{ %>
-                                    <img src='<%: Url.Content("~/Images/speechbubble.jpg") %>' class="reason" />
-                                    <div class="reasonText" style="display:none;"><%: !string.IsNullOrEmpty(a.ExtraTicketPetition.Reason) ? a.ExtraTicketPetition.Reason : "n/a" %></div>
+
+                                    <img src='<%: Url.Content("~/Images/speechbubble.jpg") %>' class="hastip" title="<%: !string.IsNullOrEmpty(a.ExtraTicketPetition.Reason) ? a.ExtraTicketPetition.Reason : "n/a" %>" />
+                                    
                                 <%}).Title("Reason");
                                 col.Bound(a => a.ExtraTicketPetition.NumberTicketsRequested).Title("# Requested");
                                 if (Model.Ceremony.HasStreamingTickets){col.Bound(a => a.ExtraTicketPetition.NumberTicketsRequestedStreaming).Title("# Streaming");}
@@ -103,8 +113,8 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
 
-    <script type="text/javascript" src='<%: Url.Content("~/Scripts/jquery.bt.min.js") %>'></script>
-    <link href="<%= Url.Content("~/Content/jquery.bt.css") %>" rel="Stylesheet" type="text/css" media="screen" />
+<%--    <script type="text/javascript" src='<%: Url.Content("~/Scripts/jquery.bt.min.js") %>'></script>
+    <link href="<%= Url.Content("~/Content/jquery.bt.css") %>" rel="Stylesheet" type="text/css" media="screen" />--%>
 
     <script type="text/javascript">
 
@@ -116,7 +126,7 @@
 
             SetScrollingBox($("#ticketCountBar"), $("#ticketCountInline"));
 
-            $(".reason").each(function (index, item) { $(item).bt($(item).siblings("div.reasonText").html()); });
+            //$(".reason").each(function (index, item) { $(item).bt($(item).siblings("div.reasonText").html()); });
         });
 
         function SaveTicketAmount(id, ceremonyId, amount, streaming, box) {
@@ -243,6 +253,10 @@
         {
             
         }
+        
+        .page_bar .col1 {width: 30%;}
+        .page_bar .col2 {width: 70%;}
+        .page_bar form {display: inline-block; margin-left: 10px;}
     </style>
 
 </asp:Content>

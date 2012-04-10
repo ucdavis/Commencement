@@ -43,7 +43,7 @@
                 <strong>College</strong>
                 <%= this.Select("collegeCode").Options(Model.Colleges,x=>x.Id, x=>x.Name).FirstOption(string.Empty, "--Select a College--").Selected(Model.collegeFilter) %>
             </li>
-            <li><strong></strong><%= Html.SubmitButton("Submit", "Filter") %></li>
+            <li><strong></strong><%= Html.SubmitButton("Submit", "Filter", new { @class="button" })%></li>
         </ul>
         <% } %>
         </div>

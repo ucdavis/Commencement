@@ -30,7 +30,7 @@
             <%: Model.NumberTickets %>
         </li>
         <li><strong>Ticket Distribution:</strong>
-            <%: Model.Registration.TicketDistributionMethod %>
+            <%: Model.TicketDistributionMethod != null ? Model.TicketDistributionMethod.Name : "n/a" %>
         </li>
         <li><strong>Date Submitted:</strong>
             <%: Model.DateSubmitted.ToString("g") %>
@@ -47,14 +47,16 @@
                 <%: Html.Hidden("isApproved", true) %>
                 <%: Html.Hidden("id", Model.Id) %>
                 <%: Html.AntiForgeryToken() %>
-                <%: Html.SubmitButton("NotApproved", "Approved") %>
+                <%: Html.SubmitButton("NotApproved", "Approved", new { @class="button" })%>
             <% } %>
             <% using (Html.BeginForm("DecideRegistrationPetition", "Petition", FormMethod.Post, new {style="display:inline;"})) { %>
                 <%: Html.Hidden("isApproved", false) %>
                 <%: Html.Hidden("id", Model.Id) %>
                 <%: Html.AntiForgeryToken() %>
-                <%: Html.SubmitButton("Deny", "Deny") %>
+                <%: Html.SubmitButton("Deny", "Deny", new { @class = "button" })%>
             <% } %>
+            |
+            <%: Html.ActionLink("Cancel", "RegistrationPetitions") %>
         </li>
         <% } %>
     </ul>

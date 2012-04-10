@@ -10,10 +10,13 @@
 
     <ul class="btn">
         <li><%= Html.ActionLink<AdminController>(a=>a.Index(), "Home")  %></li>
-        <li><%= Html.ActionLink<AdminController>(a=>a.AddStudent(null), "Add Student") %></li>
     </ul>
 
-    <h2>Students</h2>
+    <div class="page_bar">
+        <div class="col1"><h2>Students</h2></div>
+        <div class="col2"><%= Html.ActionLink<AdminController>(a => a.AddStudent(null), "Add Student", new { @class="button" })%></div>
+    </div>
+    
        
 
     <div id="filter_container">
@@ -35,7 +38,7 @@
                 <strong>Major Code:</strong>
                 <%= this.Select("majorCode").Options(Model.MajorCodes, x=>x.Id, x=>x.Name).Selected(Model.majorCodeFilter).FirstOption(string.Empty, "--Select a Major--") %>
             </li>
-            <li><strong></strong><%= Html.SubmitButton("Submit", "Filter") %></li>
+            <li><strong></strong><%= Html.SubmitButton("Submit", "Filter", new { @class="button" })%></li>
         </ul>
         <% } %>
     </div>

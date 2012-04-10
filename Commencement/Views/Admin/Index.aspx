@@ -14,7 +14,7 @@
     <div id="searchStudent" style="margin-left: 15px; margin-bottom: 20px;">
         <% using (Html.BeginForm("SearchStudent", "Admin", FormMethod.Get)) { %>
             <%: Html.TextBox("studentId", string.Empty, new { maxlength = 9 })%>
-            <%: Html.SubmitButton("Search", "Search") %>
+            <%: Html.SubmitButton("Search", "Search", new { @class="button" })%>
         <% } %>
     </div>
 
@@ -22,7 +22,7 @@
         <strong>Term:</strong> <%: TermService.GetCurrent().Name %>
     </div>
 
-    <ul class="front_menu">
+    <ul class="front_menu" style="margin-top: .5em">
 
         <li class="left">
             <a href="<%= Url.Action("Students", "Admin") %>"><img src="<%= Url.Content("~/Images/students.png") %>" /><br />Students</a>

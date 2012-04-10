@@ -33,7 +33,7 @@
                 <%: Html.TextArea("EmailStudents.Body", Model.Body) %>
             </li>
             <li><strong>&nbsp;</strong>
-                <input type="submit" value="Send"/> |
+                <input type="submit" value="Send" class="button" /> |
                 <%: Html.ActionLink("Cancel", "Index", "Admin") %>
             </li>
         </ul>

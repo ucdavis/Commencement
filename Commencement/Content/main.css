@@ -32,31 +32,12 @@ a {text-decoration: none; }
 /*    font          */
 /* ---------------- */
 
-/* 
-h1 {font: 40px/48px 'CicleSemi', Arial, sans-serif;letter-spacing: 0; text-align:center;}
-h2 {font: 30px/38px 'CicleSemi', Arial, sans-serif;letter-spacing: 0; margin:0.25em 0;}
-h3 {font: 14px/24px 'CicleSemiItalic', Arial, sans-serif;letter-spacing: 0; text-align:center; margin-top:3em;}
-body {font: 16px/26px 'CicleFina', Arial, sans-serif;}
-b, strong {font: 18px/27px 'CicleGordita', Arial, sans-serif; font-weight:normal;}
-*/
-
 
 h1 {font: 22px/32px Helvetica, Arial, sans-serif; letter-spacing: 0; text-align:center;}
 h2 {font: 18px/26px Helvetica, Arial, sans-serif; letter-spacing: 0; margin:0.25em 0; font-weight:bold;}
 h3 {font: 16px/26px Helvetica, Arial, sans-serif; letter-spacing: 0; text-align:center; margin-top:3em;}
 body {font: 14px/14px Helvetica, Arial, sans-serif;}
 b, strong {font: 13px/24px Helvetica, Arial, sans-serif; font-weight:bold;}
-
-/* ---------------- */
-/*   h1 {font: 40px/48px 'CicleGordita', Arial, sans-serif;letter-spacing: 0; text-align:center;}
-p.style1 {font: 18px/27px 'CicleFina', Arial, sans-serif;}
-p.style2 {font: 18px/27px 'CicleFinaItalic', Arial, sans-serif;}
-p.style3 {font: 18px/27px 'CicleGordita', Arial, sans-serif;}
-p.style4 {font: 18px/27px 'CicleGorditaItalic', Arial, sans-serif;}
-p.style5 {font: 18px/27px 'CicleSemi', Arial, sans-serif;}
-p.style6 {font: 18px/27px 'CicleSemiItalic', Arial, sans-serif;}
-p.style7 {font: 18px/27px 'CicleShadow', Arial, sans-serif;}       */
-/* ---------------- */
 
 /* ---------------- */
 /*    content       */
@@ -94,10 +75,14 @@ fieldset legend {border: 1px solid black; padding: .25em 1em;background-color: #
 .registration_form input {}
 .registration_form li strong {width:200px; display:inline-block;}
 
-input[type='text'], select { padding: .5em; min-width: 200px;}
+input[type='text'] { padding: .5em; min-width: 200px;}
+select {padding: .5em; min-width: 217px;}
 div.radio_list {margin: 0 0 1em 0;}
 div.radio_list input {display:inline-block; margin-left:210px; margin-top: .5em;}
 div.radio_list label {display:inline-block; width:550px; margin-left:5px;}
+
+.ceremony {border: 1px solid orange; margin-bottom: 1em;}
+.ceremony .title {border: 1px solid red; padding: .5em; font-weight: bold;}
 
 /* ---------------- */
 /*       btn's      */
@@ -273,3 +258,6 @@ div.t-grid {}
 {
     margin: 0.5em 0;
 }
+
+
+.message { margin: .5em 1em 1em 1em; padding: 1em; }

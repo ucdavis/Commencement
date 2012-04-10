@@ -17,74 +17,110 @@
             <%= Html.ActionLink<AdminController>(a=>a.Students(null, null, null, null), "Back to List") %>
         <% } %>
     </li>
-
-        <li><%: Html.ActionLink<AdminController>(a=>a.EditStudent(Model.Student.Id), "Edit Student") %></li>
-        <% if (Model.Participations.Any()) { %>
-        <li><%: Html.ActionLink<AdminController>(a=>a.RegisterForStudent(Model.Student.Id), "Edit Registration") %></li>
-        <% } %>
-        <li><%: Html.ActionLink<AdminController>(a=>a.Block(Model.Student.Id), "Block from Registration") %></li>
-        <% if (User.IsInRole(RoleNames.RoleEmulationUser)) { %>
-        <li><%= Html.ActionLink<AccountController>(a=>a.Emulate(Model.Student.Login), "Emulate") %></li>
-    <% } %>
     </ul>
 
+    <div class="page_bar">
+        <div class="col1"><h2>Student Details</h2></div>
+        <div class="col2">
+            <%: Html.ActionLink<AdminController>(a => a.EditStudent(Model.Student.Id), "Edit Student", new { @class="button" })%>
+            <% if (Model.Participations.Any()) { %>
+                <%: Html.ActionLink<AdminController>(a => a.RegisterForStudent(Model.Student.Id), "Edit Registration", new { @class = "button" })%>
+            <% } %>
+            <%: Html.ActionLink<AdminController>(a => a.Block(Model.Student.Id), "Block from Registration", new { @class = "button" })%>
+            <% if (User.IsInRole(RoleNames.RoleEmulationUser)) { %>
+                <%= Html.ActionLink<AccountController>(a => a.Emulate(Model.Student.Login), "Emulate", new { @class = "button" })%>
+            <% } %>
+        </div>
+    </div>
+
     <% if (Model.Student.SjaBlock) { %>
-        <div style="background-color:red;">
+        <div class="ui-state-error ui-corner-all message">
             SJA has asked that we not allow this student to walk.
         </div>
     <% } %>
     <% if (Model.Student.Blocked) { %>
-        <div style="background-color:red;">
+        <div class="ui-state-error ui-corner-all message">
             Student has been blocked from registration.
         </div>
     <% } %>
 
-    <h2>Student Information</h2>
-    <% Html.RenderPartial("StudentInformationPartial", Model.Student); %>
+    <fieldset>
+        
+        <legend>Student</legend>
 
-    <!-- Display ceremony override if the override is defined -->
-    <% if (Model.Student.Ceremony != null) { %>
-    <ul class="registration_form">
-    <li class="prefilled"><strong>Ceremony Override:</strong>
-                          <span><%= Html.Encode(Model.Student.Ceremony.DateTime.ToString("g")) %></span>
-    </li>
-    </ul>
+        <% Html.RenderPartial("StudentInformationPartial", Model.Student); %>
+
+        <!-- Display ceremony override if the override is defined -->
+        <% if (Model.Student.Ceremony != null) { %>
+        <ul class="registration_form">
+            <li class="prefilled"><strong>Ceremony Override:</strong>
+                                  <span><%= Html.Encode(Model.Student.Ceremony.DateTime.ToString("g")) %></span>
+            </li>
+        </ul>
     <% } %>
 
-    <% if (Model.Registration != null) { %>
-        <h2>Contact Information</h2>
-        <!-- Student is registered, show that information -->
-        <% Html.RenderPartial("RegistrationDisplay", Model.Registration); %>
+    </fieldset>
+
+    <% if(Model.Registration != null) { %>
+    
+        <fieldset>
+    
+            <legend>Contact Information</legend>
+
+            <!-- Student is registered, show that information -->
+            <% Html.RenderPartial("RegistrationDisplay", Model.Registration); %>
+
+        </fieldset>
+
 
         <%
-            var participations = Model.Registration.RegistrationParticipations.Where(a => Model.Ceremonies.Contains(a.Ceremony));
-            var petitions = Model.Registration.RegistrationPetitions.Where(a=> Model.Ceremonies.Contains(a.Ceremony));
-            %>
+        var participations = Model.Registration.RegistrationParticipations.Where(a => Model.Ceremonies.Contains(a.Ceremony));
+        var petitions = Model.Registration.RegistrationPetitions.Where(a=> Model.Ceremonies.Contains(a.Ceremony));
+        %>
+
+        <% if (participations.Any()) { %>
         
-        <% if (participations.Count() > 0) { %>
-            <h2>Ceremony Information</h2>
-            <% foreach(var a in participations) { %>
-                    <%--<div class="confirmation-container">
-            <%= a.Ceremony.ConfirmationText %>
-        </div>--%>
-                <% Html.RenderPartial("RegisteredCeremonyDisplay", a); %>
-                <hr />
-            <% } %>
-        <% } %>                     
+            <fieldset>
+            
+                <% if (participations.Count() == 1) { %>
+                    <legend>Ceremony</legend>
+                <% } else { %>
+                    <legend>Ceremonies</legend>
+                <% } %>
+
+                <% foreach(var a in participations) { %>
+                    <% Html.RenderPartial("RegisteredCeremonyDisplay", a); %>
+                <% } %>
+
+            </fieldset>
+
+        <% } %>
 
         <% if (petitions.Count() > 0) { %>
             <h2>Petition Information</h2>
             <% foreach (var a in petitions) { %>
                 <% Html.RenderPartial("RegistrationPetitionDisplay", a); %>
             <% } %>
-        <% } %>
-    <% } else { %>
-        <h2>Registration</h2>
-        Student has not registered.
-    <% } %>
+        <% } %> 
     
+    <% } else { %>
+
+        <fieldset>
+        
+            <legend>Registration</legend>
+
+            Student has not registered.
+
+        </fieldset>
+    <% } %>    
 
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
+
+    <style type="text/css">
+        .page_bar .col1 {width: 30%;}
+        .page_bar .col2 {width: 70%;}
+    </style>
+
 </asp:Content>

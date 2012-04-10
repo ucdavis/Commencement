@@ -10,17 +10,22 @@
 
     <ul class="btn">
         <li><%: Html.ActionLink<AdminController>(a=>a.Index(), "Home") %></li>
-        <li><%: Html.ActionLink<EmailQueueController>(a=>a.EmailStudents(), "Email Blast Students") %></li>
     </ul>
 
-    <h2>Email Queue</h2>
-    <%: Html.AntiForgeryToken() %>
+    <div class="page_bar">
+        <div class="col1"><h2>Email Queue</h2></div>
+        <div class="col2">
+            <% if (Convert.ToBoolean(Request.QueryString["showAll"])) { %>
+                <%: Html.ActionLink<EmailQueueController>(a => a.Index(false), "Show Pending", new { @class = "button" })%>
+            <% } else { %>
+                <%: Html.ActionLink<EmailQueueController>(a => a.Index(true), "Show All", new { @class = "button" })%>
+            <% } %>
+            <%: Html.ActionLink<EmailQueueController>(a => a.EmailStudents(), "Email Blast Students", new { @class="button" })%>
+        </div>
+    </div>
 
-    <% if (Convert.ToBoolean(Request.QueryString["showAll"])) { %>
-        <%: Html.ActionLink<EmailQueueController>(a=>a.Index(false), "Show Pending") %>
-    <% } else { %>
-        <%: Html.ActionLink<EmailQueueController>(a=>a.Index(true), "Show All") %>
-    <% } %>
+    
+    <%: Html.AntiForgeryToken() %>
 
     <% Html.Grid(Model)
            .Name("EmailQueue")
