@@ -77,9 +77,14 @@ fieldset legend {border: 1px solid black; padding: .25em 1em;background-color: #
 
 input[type='text'] { padding: .5em; min-width: 200px;}
 select {padding: .5em; min-width: 217px;}
-div.radio_list {margin: 0 0 1em 0;}
+input[type='radio'], input[type='checkbox'] {margin-right: 5px;}
+div.radio_list {margin: 0 0 1em 0; display: inline-block;}
+div.radio_list label {margin-left: 5px; display: inline-block; margin-right: 1em;}
+
+/*
 div.radio_list input {display:inline-block; margin-left:210px; margin-top: .5em;}
 div.radio_list label {display:inline-block; width:550px; margin-left:5px;}
+*/
 
 .ceremony 
 {
