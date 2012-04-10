@@ -46,6 +46,9 @@
             // load up the date pickers
             $(".date").datepicker();
 
+            // load up the buttons
+            $(".button").button();
+
         });
     </script>
     

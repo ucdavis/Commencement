@@ -7,10 +7,11 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-<ul class="btn">
-    <li>
-    <%= Html.ActionLink<CeremonyController>(a => a.Index() , "Back to List") %>
-    </li></ul>
+    <ul class="btn">
+        <li>
+        <%= Html.ActionLink<CeremonyController>(a => a.Index() , "Back to List") %>
+        </li>
+    </ul>
 
     <h2>Create</h2>
 

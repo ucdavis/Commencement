@@ -1,14 +1,10 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.ViewModels.CeremonyViewModel>" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
-    <%--<link href="<%= Url.Content("~/Content/anytimec.css") %>" type="text/css" rel="Stylesheet" />--%>
     <link href="<%= Url.Content("~/Content/ui.multiselect.css") %>" type="text/css" rel="Stylesheet" />
     
-    <%--<script src="<%= Url.Content("~/Scripts/jquery.anytime.js") %>" type="text/javascript"></script>--%>
     <script src="<%= Url.Content("~/Scripts/ui.multiselect.js") %>" type="text/javascript"></script>
     <script src="<%= Url.Content("~/Scripts/jquery.livequery.js") %>" type="text/javascript"></script>
-   <%-- <script type="text/javascript" src='<%: Url.Content("~/Scripts/jquery.bt.min.js") %>'></script>
-    <link href="<%= Url.Content("~/Content/jquery.bt.css") %>" rel="Stylesheet" type="text/css" media="screen" />--%>
 
     <script type="text/javascript">
         $(function () {
@@ -62,8 +58,6 @@
     </script>
     <script type="text/javascript">
         function myCustomOnChangeHandler(inst) {
-            //            alert("Some one modified something");
-            //            alert("The HTML is now:" + inst.getBody().innerHTML);
             tinyMCE.triggerSave(); //Needed because of client side validation
         }
     </script>
@@ -71,14 +65,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#Ceremony_ConfirmationText").enableTinyMce({ script_location: '<%= Url.Content("~/Scripts/tiny_mce/tiny_mce.js") %>', overrideWidth: '900', overrideHeight: '250', overrideOnchange: 'myCustomOnChangeHandler' }); //, overrideShowPreview: 'preview,', overridePlugin_preview_pageurl: '<%= Url.Content("~/Static/Preview.html") %>' });
-//            $.each($(".showBtRight"), function (index, item) {
-//                $(item).bt({ trigger: ['focus', 'blur'], positions: ['right'] });
-//            });
-//            $.each($(".showBtTop"), function (index, item) {
-//                $(item).bt({ trigger: ['focus', 'blur'], positions: ['top'] });
-//            });
         });
-       
     </script>
 
     <fieldset id="details">
@@ -218,10 +205,13 @@
             <% } %>
 
     </fieldset>
-
+    <fieldset>
     <ul class="registration_form">
         <li>
             <strong></strong>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Submit" class="button" />
+            |
+            <%: Html.ActionLink("Cancel", "Index", new { }, new { })%>
         </li>
     </ul>
+    </fieldset>

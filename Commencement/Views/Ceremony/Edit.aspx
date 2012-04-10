@@ -7,19 +7,19 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-<ul class="btn">
-    <li>
-    <%= Html.ActionLink<CeremonyController>(a => a.Index() , "Back to List") %>
-    </li>
-    <li>
-        <%: Html.ActionLink<CeremonyController>(a=>a.EditPermissions(Model.Ceremony.Id), "Permissions") %>
-    </li>
-    <li>
-        <%= Html.ActionLink<TemplateController>(a=>a.Index(Model.Ceremony.Id), "Email Templates") %>
-    </li>
-</ul>
+    <ul class="btn">
+        <li>
+        <%= Html.ActionLink<CeremonyController>(a => a.Index() , "Back to List") %>
+        </li>
+    </ul>
 
-    <h2>Edit Ceremony</h2>
+    <div class="page_bar">
+        <div class="col1"><h2>Edit Ceremony</h2></div>
+        <div class="col2">
+            <%: Html.ActionLink<CeremonyController>(a => a.EditPermissions(Model.Ceremony.Id), "Permissions", new { @class="button" })%>
+            <%= Html.ActionLink<TemplateController>(a => a.Index(Model.Ceremony.Id), "Email Templates", new { @class = "button" })%>
+        </div>
+    </div>
 
     <%= Html.ValidationSummary("Please correct all errors below") %>
     <%= Html.ClientSideValidation<Commencement.Core.Domain.Ceremony>("Ceremony") %>

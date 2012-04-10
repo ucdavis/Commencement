@@ -14,9 +14,10 @@
     <%= Html.ActionLink<AdminController>(a=>a.Index(), "Home") %>
     </li></ul>
 
-    <h2>Ceremonies</h2>
-
-    <%= Html.ActionLink<CeremonyController>(a=>a.Create(), "Create New") %>
+    <div class="page_bar">
+    <div class="col1"><h2>Ceremonies</h2></div>
+    <div class="col2"><%= Html.ActionLink<CeremonyController>(a => a.Create(), "Create New", new { @class="button" })%></div>
+    </div>
 
     <% Html.Grid(Model.Ceremonies)
            .Name("Ceremonies")
