@@ -125,6 +125,11 @@ namespace Commencement.Core.Domain
         public virtual string CeremonyName { 
             get
             {
+                if (!string.IsNullOrEmpty(Name))
+                {
+                    return Name;
+                }
+                
                 var sb = new StringBuilder();
 
                 if (this.TermCode.Id.EndsWith("03")) sb.Append("Spring");
