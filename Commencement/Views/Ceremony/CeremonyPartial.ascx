@@ -82,6 +82,10 @@
                 <%: Html.Hidden("Term", Model.TermCode.Id) %>
                 <%: Model.TermCode.Name %>
             </li>
+            <li><strong><%: Html.LabelFor(a => a.Ceremony.Name, DisplayOptions.HumanizeAndColon) %></strong>
+                <%: Html.TextBoxFor(a => a.Ceremony.Name, new {@class="hastip", title="Name to be displayed, if this is left blank will display 'Commencement for MajorName'"}) %>
+                <%: Html.ValidationMessageFor(x => x.Ceremony.Name) %>
+            </li>
             <li>
                 <strong><%: Html.LabelFor(a => a.Ceremony.DateTime, DisplayOptions.HumanizeAndColon) %></strong>
                 <%= Html.TextBox("CeremonyDate", Model.Ceremony.DateTime.ToString("d"), new {@class="ceremony_time date"}) %>

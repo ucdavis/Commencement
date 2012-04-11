@@ -51,6 +51,10 @@ namespace Commencement.Core.Domain
         #endregion
 
         #region Mapped Fields
+
+        [Length(100)]
+        public virtual string Name { get; set; }
+
         [Required]
         [Length(200)]
         public virtual string Location { get; set; }

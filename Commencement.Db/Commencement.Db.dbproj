@@ -651,6 +651,12 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF__Ceremonie__Picku__4865BE2A.defconst.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF__Ceremonie__MailT__4959E263.defconst.sql">
+      <SubType>Code</SubType>
+    </Build>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Catbert3.Db\Catbert3.Db.dbproj">

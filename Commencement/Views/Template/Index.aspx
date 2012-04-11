@@ -11,11 +11,13 @@
 <ul class="btn">
     <li>
     <%= Html.ActionLink<CeremonyController>(a=>a.Edit(Model.Ceremony.Id), "Back to Ceremony") %>
-    </li></ul>
+    </li>
+</ul>
 
-    <h2>Email Templates for <%: Model.Ceremony.CeremonyName %></h2>
-
-    <%= Html.ActionLink<TemplateController>(a=>a.Create(Model.Ceremony.Id, null), "Create  New Template") %>
+    <div class="page_bar">
+        <div class="col1"><h2>Email Templates for <%: Model.Ceremony.CeremonyName %></h2></div>
+        <div class="col2"><%= Html.ActionLink<TemplateController>(a=>a.Create(Model.Ceremony.Id, null), "Create  New Template", new {@class="button"}) %></div>
+    </div>
 
     <div id="template_container">
     

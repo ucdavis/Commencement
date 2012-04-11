@@ -7,10 +7,11 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 <div id="fix">
-<ul class="btn">
+    <ul class="btn">
     <li>
     <%= Html.ActionLink<TemplateController>(a=>a.Index(Model.Ceremony.Id), "Back to List") %>
-    </li></ul>
+    </li>
+    </ul>
 
     <h2>Create</h2>
 
@@ -31,7 +32,7 @@
                         .FirstOption("--Select a Template Type--")
                         .Selected(Model.Template != null ? Model.Template.TemplateType.Id.ToString() : string.Empty) %>
 
-                <input type="button" id="copy-template" value="Copy" />
+                <input type="button" id="copy-template" value="Copy" class="button" />
             </li>
             <li>
                 <strong>Subject: </strong>
@@ -42,9 +43,11 @@
                 <%= Html.TextArea("BodyText", Model.Template != null ? Model.Template.BodyText : string.Empty) %>
                 <%= Html.ValidationMessageFor(a=>a.Template.BodyText) %> 
             </li>
-            <li>
-                <input type="submit" value="Create" />
-                <input type="button" value="Send Test Email" id="send-test" />
+            <li><strong>&nbsp;</strong>
+                <input type="submit" value="Create" class="button" />
+                <input type="button" value="Send Test Email" id="send-test" class="button" />
+                |
+                <%= Html.ActionLink<TemplateController>(a=>a.Index(Model.Ceremony.Id), "Cancel") %>
             </li>
             </ul>
                  
@@ -61,7 +64,7 @@
            </div>
     <% } %>
 
-    <div id="copy-dialog">
+    <div id="copy-dialog" title="Copy">
     
         <table id="available-templates">
             <thead>
@@ -71,22 +74,6 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><input type="button" value="Select" class="select-template" /></td>
-                    <td><%: DateTime.Now.ToString("g") %></td>
-                </tr>
-                <tr>
-                    <td><input type="button" value="Select" class="select-template" /></td>
-                    <td><%: DateTime.Now.ToString("g") %></td>
-                </tr>
-                <tr>
-                    <td><input type="button" value="Select" /></td>
-                    <td><%: DateTime.Now.ToString("g") %></td>
-                </tr>
-                <tr>
-                    <td><input type="button" value="Select" /></td>
-                    <td><%: DateTime.Now.ToString("g") %></td>
-                </tr>
             </tbody>
         </table>
 
@@ -182,7 +169,7 @@
                        var date = new Date(parseInt(item.Name.substr(6)));
 
                        var row = $("<tr>");
-                       var button = $("<input>").attr("type", "button").val("Select").data("id", item.Id).addClass("select-template");
+                       var button = $("<input>").attr("type", "button").val("Select").data("id", item.Id).addClass("select-template button");
                        var col1 = $("<td>").append(button);
                        var col2 = $("<td>").html(dateFormat(date, "m/dd/yy h:MM TT"));
 

@@ -8,7 +8,7 @@
     <AnsiPadding>False</AnsiPadding>
     <AnsiWarnings>False</AnsiWarnings>
     <ArithAbort>False</ArithAbort>
-    <AutoClose>False</AutoClose>
+    <AutoClose>True</AutoClose>
     <AutoCreateStatistics>True</AutoCreateStatistics>
     <AutoShrink>False</AutoShrink>
     <AutoUpdateStatistics>True</AutoUpdateStatistics>

@@ -69,6 +69,7 @@ body .content {font: 12px/22px Verdana, Arial, sans-serif;}
 /* ---------------- */
 fieldset { padding: 1em;margin: 1em 0;}
 fieldset legend {border: 1px solid black; padding: .25em 1em;background-color: #00497b;color: white;font-weight: bold;}
+fieldset legend a { color: white;}
 
 .registration_form li{list-style:none; margin-left:1em; letter-spacing:2px; margin-top:0.25em;}
 .prefilled span {color:#333;}
