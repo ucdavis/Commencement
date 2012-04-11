@@ -36,14 +36,11 @@
                     No extra ticket petition has been submitted for this registration.
                 </li>
         <% } %>
-
-        <li><strong>Date Registered:</strong></li>
-        <li><strong>Last Update:</strong></li>
     </ul>
 
     <div class="foot ui-corner-bottom">
-        <span>Registered: <%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateRegistered) %></span>
-        <span style="float: right;">Last Update: <%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateUpdated) %></span>
+        <span><strong>Registered:</strong> <i><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateRegistered) %></i></span>
+        <span style="float: right;"><strong>Last Update:</strong> <i><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateUpdated) %></i></span>
     </div>
 
 </div>

@@ -25,34 +25,55 @@
     </ul>
 
     <h2>Your commencement registration for <%= Html.Encode(Model.Registration.TermCode.Name) %></h2>
-           
-    <h2>Student Information</h2>
-    <% Html.RenderPartial("StudentInformationPartial", Model.Registration.Student); %>
+    
+    <fieldset>
         
-    <h2>Contact Information</h2>
-    <% Html.RenderPartial("RegistrationDisplay", Model.Registration); %>
+        <legend>Student Information</legend>
+        
+        <% Html.RenderPartial("StudentInformationPartial", Model.Registration.Student); %>
 
-    <% if (Model.Registration.RegistrationParticipations.Count > 0) { %>
-    <h2>Registered Ceremony</h2>
-    <% foreach(var a in Model.Registration.RegistrationParticipations) { %>
-        <!-- only display this message if it loads within 2 minutes of the registartion date -->
-        <% if (DateTime.Now.Subtract(a.DateRegistered).TotalMinutes <= 2) { %>
-        <div class="confirmation-container">
-            <%= a.Ceremony.ConfirmationText %>
-        </div>
-        <% } %>
-        <% Html.RenderPartial("RegisteredCeremonyDisplay", a); %>
-        <hr />
-    <% } %>
-    <% } %>
+    </fieldset>
+           
+    <fieldset>
+        
+        <legend>Contact Information</legend>
+        
+        <% Html.RenderPartial("RegistrationDisplay", Model.Registration); %>
 
-    <% if (Model.Registration.RegistrationPetitions.Count > 0) { %>
-    <h2>Petitioned Ceremony</h2>
-    <% foreach(var a in Model.Registration.RegistrationPetitions) { %>
-        <% Html.RenderPartial("RegistrationPetitionDisplay", a); %>
-        <hr />
-    <% } %>
+    </fieldset>
+        
+    <% if (Model.Registration.RegistrationParticipations.Count > 0) { %>        
+    
+        <fieldset>
+            
+            <legend>Registered <%: Model.Registration.RegistrationParticipations.Count == 1 ? "Ceremony" : "Ceremonies" %></legend>
+            
+            <% foreach(var a in Model.Registration.RegistrationParticipations) { %>
+                <!-- only display this message if it loads within 2 minutes of the registartion date -->
+                <% if (DateTime.Now.Subtract(a.DateRegistered).TotalMinutes <= 2) { %>
+                <div class="confirmation-container">
+                    <%= a.Ceremony.ConfirmationText %>
+                </div>
+                <% } %>
+                <% Html.RenderPartial("RegisteredCeremonyDisplay", a); %>
+            <% } %>
+
+        </fieldset>
+
     <% } %>
     
+    <% if (Model.Registration.RegistrationPetitions.Count > 0) { %>
+    
+        <fieldset>
+            
+            <legend>Petitioned <%: Model.Registration.RegistrationPetitions.Count == 1 ? "Ceremony" : "Ceremonies" %></legend>
+            
+            <% foreach(var a in Model.Registration.RegistrationPetitions) { %>
+                <% Html.RenderPartial("RegistrationPetitionDisplay", a); %>
+            <% } %>
+
+        </fieldset>
+
+    <% } %>
 </asp:Content>
 

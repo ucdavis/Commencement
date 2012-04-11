@@ -24,8 +24,16 @@
 
         <% Html.RenderPartial("RegistrationEditForm"); %>    
     
-        <input type="submit" value="Update Registration" />
-    
+        <fieldset>
+        <ul class="registration_form">
+            <li><strong>&nbsp;</strong>
+                <input type="submit" value="Update Registration" class="button" />
+                |
+                <%: Html.ActionLink<StudentController>(a=>a.DisplayRegistration(), "Cancel") %>
+            </li>
+        </ul>
+        
+        </fieldset>
     <% } %>
 
 

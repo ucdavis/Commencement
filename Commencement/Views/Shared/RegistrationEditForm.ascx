@@ -7,15 +7,35 @@
             });
         });
     </script>
-
-    <h2>Student Information</h2>
-    <% Html.RenderPartial("StudentInformationPartial", Model.Student); %>
     
-    <h2>Contact Information</h2>    
-    <% Html.RenderPartial("ContactEditPartial"); %>        
+    <fieldset>
+        
+        <legend>Student Information</legend>
+        
+        <% Html.RenderPartial("StudentInformationPartial", Model.Student); %>
 
-    <h2>Ceremony Information</h2>
-    <% Html.RenderPartial("CeremonyEditPartial"); %>
+    </fieldset>
+    
+    <fieldset>
+        
+        <legend>Contact Information</legend>
+        
+        <% Html.RenderPartial("ContactEditPartial"); %>   
 
-    <h2>Special Needs</h2>
-    <% Html.RenderPartial("SpecialNeedsPartial"); %>
+    </fieldset>
+    
+    <fieldset>
+        
+        <legend>Ceremony</legend>
+        
+        <% Html.RenderPartial("CeremonyEditPartial"); %>
+
+    </fieldset>
+    
+    <fieldset>
+        
+        <legend>Special Needs</legend>
+        
+        <% Html.RenderPartial("SpecialNeedsPartial"); %>
+
+    </fieldset>
