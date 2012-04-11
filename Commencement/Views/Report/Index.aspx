@@ -107,7 +107,7 @@
                     <%= Html.Hidden("Report", ReportController.Report.MajorCountByCeremony)%>
                     <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class = "term_value"}) %>        
                     
-                    <%= this.Select("ceremony").Options(Model.Ceremonies,x=>x.Id,x=>string.Format("{0} ({1})", x.Name, x.DateTime.ToString("g")) ).FirstOption("--Select a Ceremony--") %>
+                    <%= this.Select("ceremony").Options(Model.Ceremonies,x=>x.Id,x=>string.Format("{0} ({1})", x.CeremonyName, x.DateTime.ToString("g")) ).FirstOption("--Select a Ceremony--") %>
                                
                 <% } %>
             </strong>

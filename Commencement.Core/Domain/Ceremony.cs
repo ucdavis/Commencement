@@ -118,7 +118,7 @@ namespace Commencement.Core.Domain
         /// <summary>
         /// Derived string name
         /// </summary>
-        public virtual string Name { 
+        public virtual string CeremonyName { 
             get
             {
                 var sb = new StringBuilder();

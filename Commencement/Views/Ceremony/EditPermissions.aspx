@@ -15,7 +15,7 @@
     </ul>
 
     <div class="page_bar">
-        <div class="col1"><h2>Edit Permissions for <%: Model.Name %></h2></div>
+        <div class="col1"><h2>Edit Permissions for <%: Model.CeremonyName %></h2></div>
         <div class="col2"><%= Html.ActionLink<CeremonyController>(a => a.AddEditor(Model.Id), "Add Editor", new { @class="button" })%></div>
     </div>
 

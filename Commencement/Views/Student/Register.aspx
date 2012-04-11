@@ -30,7 +30,7 @@
 
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
 
-    <p><%: Html.HtmlEncode(string.Format(Model.Ceremonies.FirstOrDefault().TermCode.RegistrationWelcome, Model.Student.FullName, Model.Ceremonies.FirstOrDefault().Name)) %></p>
+    <p><%: Html.HtmlEncode(string.Format(Model.Ceremonies.FirstOrDefault().TermCode.RegistrationWelcome, Model.Student.FullName, Model.Ceremonies.FirstOrDefault().CeremonyName)) %></p>
 
     <% if (Model.Participations.Any(a => a.NeedsPetition)) { %>
     <div id="petition-warning">

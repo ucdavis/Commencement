@@ -22,7 +22,7 @@
         <ul class="registration_form" id="left_bar">
         
             <li><strong>Ceremony:</strong>
-                <%= this.Select("EmailStudents.Ceremony").Options(Model.Ceremonies, x=>x.Id, x=> string.Format("{0} ({1})", x.Name, x.DateTime)).FirstOption("--Select Ceremony--").Selected(Model.Ceremony != null ? Model.Ceremony.Id : 0) %>
+                <%= this.Select("EmailStudents.Ceremony").Options(Model.Ceremonies, x=>x.Id, x=> string.Format("{0} ({1})", x.CeremonyName, x.DateTime)).FirstOption("--Select Ceremony--").Selected(Model.Ceremony != null ? Model.Ceremony.Id : 0) %>
                 <%: Html.ValidationMessage("Ceremony", "*") %>
             </li>
             <li><strong>Subject:</strong>

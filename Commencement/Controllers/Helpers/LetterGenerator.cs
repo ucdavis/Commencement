@@ -219,7 +219,7 @@ namespace Commencement.Controllers.Helpers
             {
                 case "studentid":           return _student.StudentId;
                 case "studentname":         return _student.FullName;
-                case "ceremonyname":        return _ceremony.Name;
+                case "ceremonyname":        return _ceremony.CeremonyName;
                 case "ceremonytime":        return _ceremony.DateTime.ToString("f");
                 case "ceremonylocation":    return _ceremony.Location;
                 case "addressline1":        return _registration.Address1;

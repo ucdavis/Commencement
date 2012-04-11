@@ -13,7 +13,7 @@
     </li>
     </ul>
 
-    <h2>Add Editor to <%: Model.Ceremony.Name %></h2>
+    <h2>Add Editor to <%: Model.Ceremony.CeremonyName %></h2>
 
     <% using (Html.BeginForm("AddEditor", "Ceremony", FormMethod.Post)) { %>
 

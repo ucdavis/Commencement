@@ -1082,7 +1082,7 @@ namespace Commencement.Tests.Repositories
                     Assert.AreEqual(xVal.Count, yVal.Count);
                     for (int i = 0; i < xVal.Count; i++)
                     {
-                        Assert.AreEqual(xVal[i].Name, yVal[i].Name);
+                        Assert.AreEqual(xVal[i].CeremonyName, yVal[i].CeremonyName);
                         Assert.AreEqual(xVal[i].Id, yVal[i].Id);
                     }
                     return true;

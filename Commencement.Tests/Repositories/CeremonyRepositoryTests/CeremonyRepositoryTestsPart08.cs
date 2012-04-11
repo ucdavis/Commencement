@@ -235,7 +235,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             #endregion Arrange
 
             #region Act
-            var result = ceremony.Name;
+            var result = ceremony.CeremonyName;
             #endregion Act
 
             #region Assert
@@ -260,7 +260,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             #endregion Arrange
 
             #region Act
-            var result = ceremony.Name;
+            var result = ceremony.CeremonyName;
             #endregion Act
 
             #region Assert
@@ -285,7 +285,7 @@ namespace Commencement.Tests.Repositories.CeremonyRepositoryTests
             #endregion Arrange
 
             #region Act
-            var result = ceremony.Name;
+            var result = ceremony.CeremonyName;
             #endregion Act
 
             #region Assert

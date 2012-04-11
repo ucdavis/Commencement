@@ -3,7 +3,7 @@
 
 <div class="ceremony ui-corner-all">
 
-    <div class="title ui-widget-header ui-corner-top"><%: string.Format("{0} ({1})", Model.Ceremony.Name, Model.Ceremony.DateTime) %></div>
+    <div class="title ui-widget-header ui-corner-top"><%: string.Format("{0} ({1})", Model.Ceremony.CeremonyName, Model.Ceremony.DateTime) %></div>
 
     <ul class="registration_form">
         <li><strong>Status:</strong><%: Model.Cancelled ? "Cancelled" : "Registered" %></li>

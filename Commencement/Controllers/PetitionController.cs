@@ -344,23 +344,23 @@ namespace Commencement.Controllers
 
                 if (tickets > a.Ceremony.ExtraTicketPerStudent)
                 {
-                    ModelState.AddModelError("# Tickets", string.Format("Petition for {0} has too many tickets selected.  The max is {1} for this ceremony.", a.Ceremony.Name, a.Ceremony.ExtraTicketPerStudent));
+                    ModelState.AddModelError("# Tickets", string.Format("Petition for {0} has too many tickets selected.  The max is {1} for this ceremony.", a.Ceremony.CeremonyName, a.Ceremony.ExtraTicketPerStudent));
                 }
                 else if (DateTime.Now > a.Ceremony.ExtraTicketDeadline)
                 {
-                    ModelState.AddModelError("Deadline", string.Format("Petition for {0} has pasted the deadline.", a.Ceremony.Name));
+                    ModelState.AddModelError("Deadline", string.Format("Petition for {0} has pasted the deadline.", a.Ceremony.CeremonyName));
                 }
                 else if (a.RegistrationParticipation.ExtraTicketPetition != null)
                 {
-                    ModelState.AddModelError("ExtraTicketPetition", string.Format("Our records indicate that you have already submitted a petition for {0}", a.Ceremony.Name));
+                    ModelState.AddModelError("ExtraTicketPetition", string.Format("Our records indicate that you have already submitted a petition for {0}", a.Ceremony.CeremonyName));
                 }
                 else if (string.IsNullOrEmpty(a.Reason))
                 {
-                    ModelState.AddModelError("Reason", string.Format("Reason cannot be blank for petition {0}", a.Ceremony.Name));
+                    ModelState.AddModelError("Reason", string.Format("Reason cannot be blank for petition {0}", a.Ceremony.CeremonyName));
                 }
                 else if (a.Reason.Length > 100)
                 {
-                    ModelState.AddModelError("Reason", string.Format("Reason must be 100 characters or less for petition {0}", a.Ceremony.Name));
+                    ModelState.AddModelError("Reason", string.Format("Reason must be 100 characters or less for petition {0}", a.Ceremony.CeremonyName));
                 }
                 // validate the deadline before creating valid request, and no previous
                 else

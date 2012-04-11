@@ -13,7 +13,7 @@
     <%= Html.ActionLink<CeremonyController>(a=>a.Edit(Model.Ceremony.Id), "Back to Ceremony") %>
     </li></ul>
 
-    <h2>Email Templates for <%: Model.Ceremony.Name %></h2>
+    <h2>Email Templates for <%: Model.Ceremony.CeremonyName %></h2>
 
     <%= Html.ActionLink<TemplateController>(a=>a.Create(Model.Ceremony.Id, null), "Create  New Template") %>
 
