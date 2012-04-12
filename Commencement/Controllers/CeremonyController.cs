@@ -267,6 +267,9 @@ namespace Commencement.Controllers
             destCeremony.Colleges = srcColleges;
             destCeremony.ConfirmationText = srcCeremony.ConfirmationText;
 
+            destCeremony.WebsiteUrl = srcCeremony.WebsiteUrl;
+            destCeremony.SurveyUrl = srcCeremony.SurveyUrl;
+
             MergeCeremonyMajors(destCeremony.Majors, srcMajors, srcColleges);
             MergeTicketDistributionMethods(destCeremony.TicketDistributionMethods, srcTicketDistributionMethods);
         }

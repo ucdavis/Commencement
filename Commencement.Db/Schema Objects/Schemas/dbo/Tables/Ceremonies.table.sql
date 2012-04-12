@@ -18,8 +18,12 @@
     [HasStreamingTickets]   BIT           NOT NULL,
     [ConfirmationText]      VARCHAR (MAX) NULL,
     [PickupTickets]         BIT           NOT NULL,
-    [MailTickets]           BIT           NOT NULL
+    [MailTickets]           BIT           NOT NULL,
+    [WebsiteUrl]            VARCHAR (MAX) NULL,
+    [SurveyUrl]             VARCHAR (MAX) NULL
 );
+
+
 
 
 

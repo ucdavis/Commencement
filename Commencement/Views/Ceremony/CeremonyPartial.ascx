@@ -117,6 +117,23 @@
         </ul>
 
     </fieldset>
+    
+    <fieldset>
+        
+        <legend>Website Links</legend>
+        
+        <ul class="registration_form">
+            <li><strong><%: Html.LabelFor(a => a.Ceremony.WebsiteUrl, DisplayOptions.HumanizeAndColon) %></strong>
+                <%: Html.TextBoxFor(a => a.Ceremony.WebsiteUrl, new {@class="hastip", title="Url to the Dean's Office FAQ for commencement."}) %>                
+                <%: Html.ValidationMessageFor(a => a.Ceremony.WebsiteUrl) %>
+            </li>
+            <li><strong><%: Html.LabelFor(a => a.Ceremony.SurveyUrl, DisplayOptions.HumanizeAndColon) %></strong>
+                <%: Html.TextBoxFor(a => a.Ceremony.SurveyUrl, new {@class="hastip", title="Url to a survey, that will redirect students to fill out."}) %>
+                <%: Html.ValidationMessageFor(a => a.Ceremony.SurveyUrl) %>
+            </li>
+        </ul>
+
+    </fieldset>
 
     <fieldset id="tickets">
     

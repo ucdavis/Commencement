@@ -115,8 +115,11 @@ namespace Commencement.Core.Domain
         public virtual IList<Template> Templates { get; set; }
         [NotNull]
         public virtual IList<TicketDistributionMethod> TicketDistributionMethods { get; set; }
-        #endregion
 
+        public virtual string WebsiteUrl { get; set; }
+        public virtual string SurveyUrl { get; set; }
+
+        #endregion
 
         #region Extended Fields / Methods
         /// <summary>
@@ -367,6 +370,9 @@ namespace Commencement.Core.Domain
                 .Cascade.SaveUpdate(); //ok jcs
 
             HasManyToMany(x => x.TicketDistributionMethods).ParentKeyColumn("CeremonyId").ChildKeyColumn("TicketDistributionMethodId").Table("CeremonyXTicketDistributionMethods").Fetch.Subselect().Cascade.SaveUpdate();
+
+            Map(x => x.WebsiteUrl);
+            Map(x => x.SurveyUrl);
         }
     }
 
