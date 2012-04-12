@@ -19,3 +19,6 @@ select @tid, name from templatetokens where templatetypeid = @rid
 
 insert into TemplateTypes(Name, [Description], Code)
 values ('Email All Students', 'E-mail sent to all students for a specific ceremony.', 'EA')
+
+insert into TicketDistributionMethods(id, name, isactive) values ('ML', 'Mail Tickets', 1)
+insert into TicketDistributionMethods(id, name, isactive) values ('PU', 'Pickup Tickets', 1)
