@@ -52,21 +52,52 @@
         <%= Html.AntiForgeryToken() %>
 
         <% Html.RenderPartial("RegistrationEditForm"); %>    
-
-    <h3>
-        <div class="legaldisclaimer"><%= Html.CheckBox("gradTrack") %><label for="gradTrack"><%: string.Format(StaticValues.Txt_GradTrack) %></label></div>
-    </h3>
-    
-    <h3>
-        <%= string.Format(StaticValues.Txt_Disclaimer) %>
         
-        <br />
-        <div class="legaldisclaimer"><%= Html.CheckBox("agreeToDisclaimer", new { @class = "required" }) %><label for="agreeToDisclaimer">I Agree</label></div>
-    </h3>
+        <fieldset>
+            
+            <legend>Grad Track</legend>
+            
+            <div class="message">
+                
+                I think we need to add some more description as to what grad track is?
+            </div>
+            
+            <ul class="registration_form">
+                <li><strong>&nbsp;</strong>
+                    <%: Html.CheckBox("gradTrack") %><label for="gradTrack"><%: string.Format(StaticValues.Txt_GradTrack) %></label>
+                </li>
+            </ul>
 
+        </fieldset>
 
+        <fieldset>
+            
+            <legend>Legal Disclaimer</legend>
+            
+            <div class="message">
+                <%= string.Format(StaticValues.Txt_Disclaimer) %>
+            </div>
+            
+            <ul class="registration_form">
+                <li><strong>&nbsp;</strong>
+                    <%= Html.CheckBox("agreeToDisclaimer", new { @class = "required" }) %><label for="agreeToDisclaimer">I Agree</label>
+                    <span style="color: red; font-weight: bold;">*</span>
+                </li>
+            </ul>
 
-    <input type="submit" value="Register for Commencement" />
+        </fieldset>
+
+        <fieldset>
+            
+            <ul class="registration_form">
+                <li><strong>&nbsp;</strong>
+                    <input type="submit" value="Register for Commencement" class="button" />            
+                </li>
+            </ul>
+
+        </fieldset>
+
+    
     
     <% } %>
     

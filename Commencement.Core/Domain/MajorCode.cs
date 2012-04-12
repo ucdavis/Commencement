@@ -35,6 +35,14 @@ namespace Commencement.Core.Domain
         }
 
         /// <summary>
+        /// returns the real major id for those with consolidation codes
+        /// </summary>
+        public virtual string MajorId
+        {
+            get { return ConsolidationMajor != null ? ConsolidationMajor.Id : Id; }
+        }
+
+        /// <summary>
         /// returns the real college for those with consolidation codes
         /// </summary>
         public virtual College MajorCollege {

@@ -8,8 +8,8 @@
 </script>
 
     <% foreach (var a in Model.Participations) { %>
-        <fieldset>
-            <legend>Commencement for <%: a.Major.Name %></legend>
+        <div class="ceremony ui-corner-all">
+            <div class="title ui-corner-top"><%: a.Ceremony.CeremonyName %></div>
 
             <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Ceremony", a.Index), a.Ceremony.Id) %>
             <%--<%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Major", a.Index), a.Major.Id) %>--%>
@@ -82,7 +82,7 @@
 
                 <li>
                     <strong>Major: </strong>
-                    <%= this.Select(string.Format("ceremonyParticipations[{0}].Major", a.Index)).Options(a.Ceremony.Majors, x=>x.Id, x=>x.Name).Selected(a.Major.Id) %>
+                    <%= this.Select(string.Format("ceremonyParticipations[{0}].Major", a.Index)).Options(a.Ceremony.Majors.Where(b => b.ConsolidationMajor == null), x=>x.Id, x=>x.Name).Selected(a.Major.MajorId).Class("hastip").Attr("title", "The major you would like to walk with.") %>
                 </li>
                 <li>
                     <strong>Tickets Requested:</strong>
@@ -97,5 +97,7 @@
                     </select>
                 </li>
             </ul>
-        </fieldset>
+            
+            <div class="foot ui-corner-bottom"></div>
+        </div>
     <% } %>
