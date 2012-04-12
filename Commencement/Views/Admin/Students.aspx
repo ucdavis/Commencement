@@ -23,7 +23,7 @@
         <h3><a href="#">Filters</a></h3>
         <% using (Html.BeginForm("Students", "Admin", FormMethod.Post)) { %>
             <%= Html.AntiForgeryToken() %>
-        <ul>
+        <ul class="registration_form">
         
             <li><strong>Student Id:</strong>
                 <%= Html.TextBox("studentId", Model.studentidFilter) %>

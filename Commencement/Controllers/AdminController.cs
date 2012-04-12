@@ -74,7 +74,7 @@ namespace Commencement.Controllers
             // get the newest active term
             var term = TermService.GetCurrent();
 
-            var viewModel = AdminStudentViewModel.Create(Repository, _majorService, term, studentid, lastName, firstName, majorCode);
+            var viewModel = AdminStudentViewModel.Create(Repository, _majorService, _ceremonyService, term, studentid, lastName, firstName, majorCode, CurrentUser.Identity.Name);
 
             return View(viewModel);
         }

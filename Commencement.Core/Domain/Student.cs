@@ -100,7 +100,7 @@ namespace Commencement.Core.Domain
         {
             get
             {
-                return string.Join(",", Majors.Select(x => x.Id).ToArray());
+                return string.Join(",", Majors.Select(x => x.MajorId).ToArray());
             }
         }
 

@@ -20,13 +20,17 @@ namespace Commencement.Controllers.ViewModels
         public string firstNameFilter { get; set; }
         public string majorCodeFilter { get; set; }
 
-        public static AdminStudentViewModel Create(IRepository repository, IMajorService majorService, TermCode termCode, string studentid, string lastName, string firstName, string majorCode)
+        public static AdminStudentViewModel Create(IRepository repository, IMajorService majorService, ICeremonyService ceremonyService, TermCode termCode, string studentid, string lastName, string firstName, string majorCode, string userId)
         {
             Check.Require(repository != null, "Repository is required.");
 
+            // build a list of majors that the current user has assigned to their ceremonies
+            var ceremonies = ceremonyService.GetCeremonies(userId, TermService.GetCurrent());
+            var majors = ceremonies.SelectMany(a => a.Majors).Where(a => a.ConsolidationMajor == null).ToList();
+
             var viewModel = new AdminStudentViewModel()
                                 {
-                                    MajorCodes = majorService.GetAESMajors(),
+                                    MajorCodes = majors,
                                     studentidFilter = studentid,
                                     lastNameFilter = lastName,
                                     firstNameFilter = firstName,
