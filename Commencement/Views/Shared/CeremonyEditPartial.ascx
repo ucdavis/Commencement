@@ -14,9 +14,9 @@
             <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Ceremony", a.Index), a.Ceremony.Id) %>
             <%--<%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Major", a.Index), a.Major.Id) %>--%>
             <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].NeedsPetition", a.Index), a.NeedsPetition) %>
-
-            <ul class="registration_form">
-
+            
+            <div class="ui-state-highlight message">
+                <ul class="registration_form">
                 <% if (a.NeedsPetition) { %>
                     <li>
                         <input type="checkbox" id="<%: string.Format("ceremonyParticipations[{0}]_Petition", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Petition", a.Index) %>" value="true" <%: a.Petition ? "checked" : string.Empty %> />
@@ -52,14 +52,17 @@
                     <li>
                         <input type="radio" id="<%: string.Format("ceremonyParticipations[{0}]_Participate", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Participate", a.Index) %>" value="true" <%: a.Participate ? "checked" : string.Empty %> />
                         I would like to participate in this ceremony.
-                        <br />
+                    </li><li>
                         <input type="radio" id="<%: string.Format("ceremonyParticipations[{0}]_Cancel", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Cancel", a.Index) %>" value="true" <%: a.Cancel ? "checked" : string.Empty %> />
                         I would like to cancel this registration.  I understand that this will forfeit my tickets and if I change my mind I may not be able to receive the same amount of tickets.
 
                         <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].ParticipationId", a.Index), a.ParticipationId) %>
                     </li>
-                <%
-} %>
+                <% } %>
+                </ul>
+            </div>
+
+            <ul class="registration_form">
 
                 <li>
                     <strong>Date/Time: </strong> 
@@ -69,12 +72,16 @@
 
                 <li>
                     <strong>Ticket Distribution:</strong>
-                    <%= this.RadioSet(string.Format("ceremonyParticipations[{0}].TicketDistributionMethod", a.Index)).Options(a.Ceremony.TicketDistributionMethods, x=>x.Id, x=>x.Name).Selected(a.TicketDistributionMethod != null ? a.TicketDistributionMethod.Id : string.Empty) %>
+                    <% if (a.Ceremony.TicketDistributionMethods.Count > 0) { %>
+                    <%= this.RadioSet(string.Format("ceremonyParticipations[{0}].TicketDistributionMethod", a.Index)).Options(a.Ceremony.TicketDistributionMethods, x=>x.Id, x=>x.Name).Selected(a.TicketDistributionMethod != null ? a.TicketDistributionMethod.Id : string.Empty).Class("radio_list") %>
+                    <% } else { %>
+                    Please consult the Dean's Office FAQ
+                    <% } %>
+                    
                 </li>
 
                 <li>
                     <strong>Major: </strong>
-                    <%--<%: a.Major.Name %>--%>
                     <%= this.Select(string.Format("ceremonyParticipations[{0}].Major", a.Index)).Options(a.Ceremony.Majors, x=>x.Id, x=>x.Name).Selected(a.Major.Id) %>
                 </li>
                 <li>
