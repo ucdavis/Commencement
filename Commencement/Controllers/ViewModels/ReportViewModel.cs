@@ -11,20 +11,23 @@ namespace Commencement.Controllers.ViewModels
 {
     public class ReportViewModel
     {
-        public IEnumerable<vTermCode> TermCodes { get; set; }
+        public IEnumerable<TermCode> TermCodes { get; set; }
         public TermCode TermCode { get; set; }
         public IEnumerable<MajorCode> MajorCodes { get; set; }
         public IEnumerable<Ceremony> Ceremonies { get; set; }
 
-        public static ReportViewModel Create(IRepository repository)
+        public static ReportViewModel Create(IRepository repository, ICeremonyService ceremonyService, string userId)
         {
             Check.Require(repository != null, "Repository is required.");
+
+            var ceremonies = ceremonyService.GetCeremonies(userId);
+            var terms = ceremonies.Select(a => a.TermCode).OrderByDescending(a => a.Id).Distinct();
 
             var existingTerms = repository.OfType<TermCode>().Queryable.Select(a=>a.Id).ToList();
 
             var viewModel = new ReportViewModel()
                                 {
-                                    TermCodes = Enumerable.ToList<vTermCode>(repository.OfType<vTermCode>().Queryable.Where(a => existingTerms.Contains(a.Id))),
+                                    TermCodes = terms,
                                     TermCode = TermService.GetCurrent(),
                                 };
 

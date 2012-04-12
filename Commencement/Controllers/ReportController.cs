@@ -12,6 +12,7 @@ using Commencement.Core.Resources;
 using Microsoft.Reporting.WebForms;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
+using UCDArch.Web.ActionResults;
 
 namespace Commencement.Controllers
 {
@@ -39,13 +40,9 @@ namespace Commencement.Controllers
 
         public ActionResult Index()
         {
-            // get all ceremonies
-            var ceremonies = _ceremonyService.GetCeremonies(CurrentUser.Identity.Name);
-            var majors = _majorService.GetByCeremonies(CurrentUser.Identity.Name, ceremonies);
-
-            var viewModel = ReportViewModel.Create(Repository);
-            viewModel.MajorCodes = majors;
-            viewModel.Ceremonies = ceremonies;
+            var viewModel = ReportViewModel.Create(Repository, _ceremonyService, CurrentUser.Identity.Name);
+            viewModel.MajorCodes = GetMajorsForTerm(TermService.GetCurrent().Id);
+            viewModel.Ceremonies = GetCeremoniesForTerm(TermService.GetCurrent().Id);
 
             return View(viewModel);
         }
@@ -251,6 +248,37 @@ namespace Commencement.Controllers
         {
             var viewModel = RegistrationDataViewModel.Create(Repository, _ceremonyService, CurrentUser.Identity.Name, TermService.GetCurrent());
             return View(viewModel);
+        }
+
+        public JsonNetResult LoadMajorsForTerm(string term)
+        {
+            var majors = GetMajorsForTerm(term);
+
+            return new JsonNetResult(majors.Select(a => new { a.Id, Name = a.MajorName }));
+        }
+
+        private List<MajorCode> GetMajorsForTerm(string term)
+        {
+            var termCode = _termRepository.GetNullableById(term);
+            var ceremonies = _ceremonyService.GetCeremonies(CurrentUser.Identity.Name, termCode);
+            var majors = ceremonies.SelectMany(a => a.Majors).Where(a => a.ConsolidationMajor == null).ToList();
+
+            return majors;
+        }
+
+        public JsonNetResult LoadCeremoniesForTerm(string term)
+        {
+            var ceremonies = GetCeremoniesForTerm(term);
+
+            return new JsonNetResult(ceremonies.Select(a => new {a.Id, Name=a.CeremonyName}).ToList());
+        }
+
+        private List<Ceremony> GetCeremoniesForTerm(string term)
+        {
+            var termCode = _termRepository.GetNullableById(term);
+            var ceremonies = _ceremonyService.GetCeremonies(CurrentUser.Identity.Name, termCode);
+
+            return ceremonies;
         }
     }
 
