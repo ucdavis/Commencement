@@ -1,11 +1,4 @@
-﻿IF EXISTS (SELECT * FROM sysobjects WHERE type = 'P' AND name = 'usp_TicketSignOutSheet')
-    BEGIN
-        DROP  Procedure  usp_TicketSignOutSheet
-    END
-
-GO
-
-CREATE PROCEDURE [dbo].[usp_TicketSignOutSheet]
+﻿CREATE PROCEDURE [dbo].[usp_TicketSignOutSheet]
 	@term varchar(6),
 	@userid int
 AS

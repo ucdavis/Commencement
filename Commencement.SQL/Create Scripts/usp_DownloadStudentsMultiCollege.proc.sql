@@ -1,11 +1,4 @@
-﻿IF EXISTS (SELECT * FROM sysobjects WHERE type = 'P' AND name = 'usp_DownloadStudentsMultiCollege')
-	BEGIN
-		DROP  Procedure  usp_DownloadStudentsMultiCollege
-	END
-
-GO
-
-CREATE PROCEDURE [dbo].[usp_DownloadStudentsMultiCollege]
+﻿CREATE PROCEDURE [dbo].[usp_DownloadStudentsMultiCollege]
 AS
     
 IF object_id('tempdb..#Students') IS NOT NULL

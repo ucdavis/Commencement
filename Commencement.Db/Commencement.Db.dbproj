@@ -152,6 +152,24 @@
     <NotInBuild Include="Schema Comparisons\Vogel.scmp">
       <SubType>NotInBuild</SubType>
     </NotInBuild>
+    <NotInBuild Include="Scripts\Misc\IntialLoad.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
+    <NotInBuild Include="Scripts\Misc\FakeStudents.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
+    <NotInBuild Include="Scripts\Misc\Insert_AuditActions.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
+    <NotInBuild Include="Scripts\Misc\Insert_States.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
+    <NotInBuild Include="Scripts\Misc\Insert_TemplateTokens.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
+    <NotInBuild Include="Scripts\Misc\Insert_TemplateTypes.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
   </ItemGroup>
   <ItemGroup>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_TermCodes_IsActive.defconst.sql">
@@ -655,6 +673,9 @@
       <SubType>Code</SubType>
     </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF__Ceremonie__MailT__4959E263.defconst.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Scripts\Misc\Insert_Majors-Colleges.proc.sql">
       <SubType>Code</SubType>
     </Build>
   </ItemGroup>

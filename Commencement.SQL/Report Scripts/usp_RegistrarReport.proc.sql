@@ -1,11 +1,4 @@
-﻿IF EXISTS (SELECT * FROM sysobjects WHERE type = 'P' AND name = 'usp_RegistrarReport')
-	BEGIN
-		DROP  Procedure  usp_RegistrarReport
-	END
-
-GO
-
-CREATE PROCEDURE [dbo].[usp_RegistrarReport]
+﻿CREATE PROCEDURE [dbo].[usp_RegistrarReport]
 	@term varchar(6),
 	@userId int
 AS

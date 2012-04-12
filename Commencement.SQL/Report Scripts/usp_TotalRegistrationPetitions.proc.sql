@@ -1,11 +1,4 @@
-﻿IF EXISTS (SELECT * FROM sysobjects WHERE type = 'P' AND name = 'usp_TotalRegistrationPetitions')
-    BEGIN
-        DROP  Procedure  usp_TotalRegistrationPetitions
-    END
-
-GO
-
-CREATE PROCEDURE [dbo].[usp_TotalRegistrationPetitions]
+﻿CREATE PROCEDURE [dbo].[usp_TotalRegistrationPetitions]
 	@term varchar(6),
 	@userid int
 AS

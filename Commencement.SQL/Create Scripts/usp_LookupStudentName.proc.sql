@@ -1,11 +1,4 @@
-﻿IF EXISTS (SELECT * FROM sysobjects WHERE type = 'P' AND name = 'usp_LookupStudentName')
-	BEGIN
-		DROP  Procedure  usp_LookupStudentName
-	END
-
-GO
-
-CREATE Procedure usp_LookupStudentName
+﻿CREATE Procedure usp_LookupStudentName
 	(
 		@studentid varchar(9)
 	)

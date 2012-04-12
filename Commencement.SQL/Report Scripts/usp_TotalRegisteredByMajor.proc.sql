@@ -1,11 +1,4 @@
-﻿IF EXISTS (SELECT * FROM sysobjects WHERE type = 'P' AND name = 'usp_TotalRegisteredByMajor')
-    BEGIN
-        DROP  Procedure  usp_TotalRegisteredByMajor
-    END
-
-GO
-
-CREATE PROCEDURE [dbo].[usp_TotalRegisteredByMajor]
+﻿CREATE PROCEDURE [dbo].[usp_TotalRegisteredByMajor]
 	@term varchar(6),
 	@userid int,
 	@major varchar(4)

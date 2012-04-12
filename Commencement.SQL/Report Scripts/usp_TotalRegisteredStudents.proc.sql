@@ -1,11 +1,4 @@
-﻿IF EXISTS (SELECT * FROM sysobjects WHERE type = 'P' AND name = 'usp_TotalRegisteredStudents')
-    BEGIN
-        DROP  Procedure  usp_TotalRegisteredStudents
-    END
-
-GO
-
-CREATE PROCEDURE [dbo].[usp_TotalRegisteredStudents]
+﻿CREATE PROCEDURE [dbo].[usp_TotalRegisteredStudents]
 	@term varchar(6),
 	@userid int
 AS

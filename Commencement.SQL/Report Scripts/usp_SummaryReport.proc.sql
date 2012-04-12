@@ -1,11 +1,4 @@
-﻿IF EXISTS (SELECT * FROM sysobjects WHERE type = 'P' AND name = 'usp_SummaryReport')
-    BEGIN
-        DROP  Procedure  usp_SummaryReport
-    END
-
-GO
-
-CREATE PROCEDURE [dbo].[usp_SummaryReport]
+﻿CREATE PROCEDURE [dbo].[usp_SummaryReport]
 	@term varchar(6),
 	@userid int
 AS

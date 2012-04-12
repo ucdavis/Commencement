@@ -1,11 +1,4 @@
-﻿IF EXISTS (SELECT * FROM sysobjects WHERE type = 'P' AND name = 'usp_DownloadMissingMajors')
-	BEGIN
-		DROP  Procedure  usp_DownloadMissingMajors
-	END
-
-GO
-
-CREATE PROCEDURE [dbo].[usp_DownloadMissingMajors]
+﻿CREATE PROCEDURE [dbo].[usp_DownloadMissingMajors]
 	
 AS
 	

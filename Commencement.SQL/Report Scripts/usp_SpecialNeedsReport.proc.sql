@@ -1,11 +1,4 @@
-﻿IF EXISTS (SELECT * FROM sysobjects WHERE type = 'P' AND name = 'usp_SpecialNeedsReport')
-    BEGIN
-        DROP  Procedure  usp_SpecialNeedsReport
-    END
-
-GO
-
-CREATE PROCEDURE [dbo].[usp_SpecialNeedsReport]
+﻿CREATE PROCEDURE [dbo].[usp_SpecialNeedsReport]
     @term varchar(6),
     @userid int
 AS

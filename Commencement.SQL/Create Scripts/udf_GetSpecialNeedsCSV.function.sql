@@ -1,8 +1,4 @@
-﻿SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
+﻿-- =============================================
 -- Author:		Alan Lai
 -- Create date: 1/27/2011	
 -- Description:	Takes a list of values from a table to
