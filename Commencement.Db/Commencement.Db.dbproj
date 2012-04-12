@@ -170,6 +170,9 @@
     <NotInBuild Include="Scripts\Misc\Insert_TemplateTypes.sql">
       <SubType>NotInBuild</SubType>
     </NotInBuild>
+    <NotInBuild Include="Schema Comparisons\Terry.scmp">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
   </ItemGroup>
   <ItemGroup>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_TermCodes_IsActive.defconst.sql">
