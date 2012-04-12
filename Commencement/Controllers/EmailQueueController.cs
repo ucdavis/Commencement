@@ -49,7 +49,7 @@ namespace Commencement.Controllers
                 emailQueue.Pending = false;
                 _emailQueueRepository.EnsurePersistent(emailQueue);
             }
-            catch (Exception ex)
+            catch 
             {
 #if debug
                 throw;
