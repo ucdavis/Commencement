@@ -998,7 +998,7 @@
     <file relUrl="Views/Ceremony/Create.aspx" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Content/font/Cicle_Shadow-webfont.svg" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Content/Common/Icons/page_white_text.png" publishTime="04/11/2012 09:57:32" />
-    <file relUrl="bin/Commencement.Core.pdb" publishTime="04/12/2012 15:29:19" />
+    <file relUrl="bin/Commencement.Core.pdb" publishTime="04/13/2012 13:28:09" />
     <file relUrl="Scripts/tiny_mce/plugins/advlink/link.htm" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Content/images/ui-bg_inset-hard_100_fcfdfd_1x100.png" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Views/Admin/RegisterForStudent.aspx" publishTime="04/11/2012 09:57:32" />
@@ -1080,7 +1080,7 @@
     <file relUrl="Scripts/xVal.jquery.validate.js" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Scripts/tiny_mce/plugins/tabfocus/editor_plugin.js" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Scripts/tiny_mce/plugins/safari/editor_plugin.js" publishTime="04/11/2012 09:57:32" />
-    <file relUrl="bin/Commencement.Core.dll" publishTime="04/12/2012 15:29:19" />
+    <file relUrl="bin/Commencement.Core.dll" publishTime="04/13/2012 13:28:09" />
     <file relUrl="Scripts/tiny_mce/plugins/example/dialog.htm" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Scripts/tiny_mce/plugins/xhtmlxtras/js/ins.js" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Scripts/jquery-1.4.1.min.js" publishTime="04/11/2012 09:57:32" />
@@ -1115,10 +1115,10 @@
     <file relUrl="Content/Common/Icons/Suites/test.png" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Scripts/jquery.validate-vsdoc.js" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Images/ceremony.png" publishTime="04/11/2012 09:57:32" />
-    <file relUrl="bin/Commencement.pdb" publishTime="04/13/2012 13:19:31" />
+    <file relUrl="bin/Commencement.pdb" publishTime="04/13/2012 15:03:00" />
     <file relUrl="Scripts/tiny_mce/plugins/emotions/img/smiley-cool.gif" publishTime="04/11/2012 09:57:32" />
     <file relUrl="bin/Castle.Core.dll" publishTime="04/11/2012 09:57:31" />
-    <file relUrl="Commencement.Publish.xml" publishTime="04/13/2012 13:17:29" />
+    <file relUrl="Commencement.Publish.xml" publishTime="04/13/2012 13:19:57" />
     <file relUrl="Scripts/tiny_mce/plugins/xhtmlxtras/js/attributes.js" publishTime="04/11/2012 09:57:32" />
     <file relUrl="bin/MvcContrib.dll" publishTime="04/11/2012 09:57:31" />
     <file relUrl="Views/Admin/EditStudentPartial.ascx" publishTime="04/11/2012 13:15:34" />
@@ -1140,7 +1140,7 @@
     <file relUrl="Scripts/tiny_mce/plugins/xhtmlxtras/editor_plugin.js" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Content/telerik.vista.css" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Scripts/tiny_mce/plugins/template/langs/en_dlg.js" publishTime="04/11/2012 09:57:32" />
-    <file relUrl="Views/Error/NotEligible.aspx" publishTime="04/11/2012 09:57:32" />
+    <file relUrl="Views/Error/NotEligible.aspx" publishTime="04/13/2012 14:01:22" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/skins/default/img/buttons.png" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Content/Common/Icons/Ajax/Scheduler.png" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Images/email_template.png" publishTime="04/11/2012 09:57:32" />
@@ -1178,7 +1178,7 @@
     <file relUrl="Images/move.png" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Images/registrations.png" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Views/TermCode/Index.aspx" publishTime="04/11/2012 09:57:32" />
-    <file relUrl="Views/Ceremony/CeremonyPartial.ascx" publishTime="04/12/2012 08:51:03" />
+    <file relUrl="Views/Ceremony/CeremonyPartial.ascx" publishTime="04/13/2012 13:29:51" />
     <file relUrl="Scripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/window.css" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Scripts/tiny_mce/plugins/advlink/editor_plugin.js" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Scripts/tiny_mce/plugins/bbcode/editor_plugin.js" publishTime="04/11/2012 09:57:32" />
@@ -1262,12 +1262,12 @@
     <file relUrl="Scripts/tiny_mce/plugins/xhtmlxtras/ins.htm" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Views/Error/Index.aspx" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Scripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/img/horizontal.gif" publishTime="04/11/2012 09:57:32" />
-    <file relUrl="Views/Admin/Registrations.aspx" publishTime="04/11/2012 13:15:34" />
+    <file relUrl="Views/Admin/Registrations.aspx" publishTime="04/13/2012 14:08:29" />
     <file relUrl="Views/Admin/Students.aspx" publishTime="04/12/2012 10:51:57" />
     <file relUrl="Scripts/tiny_mce/plugins/table/js/merge_cells.js" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Content/Common/Icons/Suites_32/AJAX.png" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Views/Shared/SpecialNeedsPartial.ascx" publishTime="04/13/2012 09:15:56" />
-    <file relUrl="bin/Commencement.dll" publishTime="04/13/2012 13:19:32" />
+    <file relUrl="bin/Commencement.dll" publishTime="04/13/2012 15:03:00" />
     <file relUrl="Scripts/tiny_mce/plugins/fullscreen/fullscreen.htm" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Scripts/tiny_mce/plugins/pagebreak/editor_plugin_src.js" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Scripts/tiny_mce/plugins/table/table.htm" publishTime="04/11/2012 09:57:32" />
@@ -1449,7 +1449,7 @@
     <file relUrl="Views/SpecialNeeds/Index.aspx" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Content/jquery-ui-1.8.4.custom.css" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Views/Admin/AdminLanding.aspx" publishTime="04/11/2012 09:57:32" />
-    <file relUrl="Web.config" publishTime="04/13/2012 10:15:49" />
+    <file relUrl="Web.config" publishTime="04/13/2012 15:05:19" />
     <file relUrl="Views/Shared/RegistrationEditForm.ascx" publishTime="04/11/2012 15:48:48" />
     <file relUrl="Scripts/MicrosoftMvcValidation.debug.js" publishTime="04/11/2012 09:57:32" />
     <file relUrl="app_offline2.htm" publishTime="04/11/2012 09:57:32" />

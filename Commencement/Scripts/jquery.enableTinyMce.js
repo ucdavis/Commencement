@@ -9,7 +9,20 @@
                 script_location: "../../Scripts/tiny_mce/tiny_mce.js",
                 overrideHeight: "400",
                 overrideWidth: "400",
-                overrideOnchange: ""
+                overrideOnchange: "",
+                //http://www.matthewkenny.com/2009/05/tinymce-and-jquery-validation/
+                initInstanceCallback: 
+                    function (editor) {
+                        //Get the textarea
+                        var container = $('#' + editor.editorId);
+
+                        //Get the form submit buttons for the textarea
+                        $(editor.formElement).find("input[type=submit]").click(
+                            function (event) {
+                                container.val(editor.getContent());
+                            }
+                        );
+                    }
             }, options);
 
 
@@ -46,6 +59,7 @@
                     media_external_list_url: "js/media_list.js",
 
                     onchange_callback : settings.overrideOnchange,
+                    init_instance_callback: settings.initInstanceCallback
                 });
 
             });
@@ -53,3 +67,18 @@
         } // end of gooCal
     }); // end of $.fn.extend
 })(jQuery);
+
+
+
+//tinyMCE.init({
+//    mode: 'textareas',
+//    theme: 'advanced',
+//    theme_advanced_buttons1: 'bold,italic,underline',
+//    theme_advanced_buttons2: '',
+//    theme_advanced_buttons3: '',
+//    theme_advanced_toolbar_location: 'top',
+//    theme_advanced_toolbar_align: 'left',
+//    theme_advanced_statusbar_location: 'bottom',
+//    init_instance_callback: "initialiseInstance"
+//});
+
