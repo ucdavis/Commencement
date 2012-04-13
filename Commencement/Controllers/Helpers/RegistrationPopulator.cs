@@ -76,7 +76,10 @@ namespace Commencement.Controllers.Helpers
             if (specialNeeds == null) return new List<SpecialNeed>();
 
             var needs = new List<int>();
-            foreach (var a in specialNeeds) needs.Add(Convert.ToInt32(a));
+            foreach (var a in specialNeeds)
+            {
+                if(!string.IsNullOrEmpty(a)) needs.Add(Convert.ToInt32(a));
+            }
             return _specialNeedsRepository.Queryable.Where(a => needs.Contains(a.Id)).ToList();
         }
 
