@@ -28,7 +28,8 @@
                                             <%= Html.ActionLink<CeremonyController>(b=>b.Edit(a.Id), "Select") %>                                            
                                             <%
                                         });
-                            col.Bound(a => a.TermCode.Name).Title("Term Code");
+                            col.Bound(a => a.CeremonyName).Title("Name");
+                            col.Bound(a => a.TermCode.Id).Title("Term");
                             col.Bound(a => a.DateTime).Format("{0:MM/dd/yyyy hh:mm tt}");
                             col.Bound(a => a.Location);
                             col.Bound(a => a.TotalTickets);

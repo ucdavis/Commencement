@@ -16,22 +16,27 @@ while(@@FETCH_STATUS = 0)
 begin
 
 	delete from @temp
-	insert into @temp select top(10)percent student_id 
-					  from studentmajors 
-					  where majorcode = @majorcode 
-					    and student_id in ( select id from students where termcode = @term )
-						and student_id not in ( select id from registrations where termcode = @term )
+	insert into @temp (id) 
+		select top(10)percent student_id 
+		from studentmajors 
+		where majorcode = @majorcode 
+			and student_id in ( select id from students where termcode = @term )
+			and student_id not in ( select student_id from registrations where termcode = @term )
 	
 	-- insert the registration
-	insert into registrations (student_id, address1, city, state, zip, email, termcode, gradtrack)
-	select temp.id, cast(floor(rand(convert(varbinary, newid())) * 10000) as varchar(10)) + ' Fake Street' address1, 'davis' city, 'CA' state, '95616' zip, '201203' termcode, cast(floor((rand(convert(varbinary, newid())) *10000)) as int) % 2 gradtrack
+	insert into registrations (student_id, address1, city, state, zip, termcode, gradtrack)
+	select temp.id, cast(floor(rand(convert(varbinary, newid())) * 10000) as varchar(10)) + ' Fake Street' address1
+		, 'davis' city, 'CA' state, '95616' zip
+		, @term termcode
+		, cast(floor((rand(convert(varbinary, newid())) *10000)) as int) % 2 gradtrack
 	from @temp temp
 
 	-- insert the participations
 	insert into RegistrationParticipations (registrationid, majorcode, ceremonyid, numbertickets, labelprinted, dateregistered, dateupdated, ticketdistributionmethodid)
 	select registrations.id, @majorcode, @ceremonyid, (cast(floor((rand(convert(varbinary, newid())) *10000)) as int) % 9) + 1
-		, 0, getdate(), getdate(), td.id
-	from registrations, (select *, newid() from ticketdistributionmethods order by newid()) td
+		, 0, getdate(), getdate()
+		, (select id from (select top(1) *, newid() sortkey from ticketdistributionmethods order by sortkey) td)
+	from registrations
 	where student_id in ( select id from @temp)
 	  and termcode = @term
 

@@ -330,6 +330,7 @@ namespace Commencement.Core.Domain
         public CeremonyMap()
         {
             Id(x => x.Id);
+            Map(x => x.Name);
             Map(x => x.Location);
             Map(x => x.DateTime);
             Map(x => x.TicketsPerStudent);

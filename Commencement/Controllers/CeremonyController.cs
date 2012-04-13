@@ -252,6 +252,7 @@ namespace Commencement.Controllers
 
         private void CopyCeremony(Ceremony destCeremony, Ceremony srcCeremony, IList<MajorCode> srcMajors, IList<College> srcColleges, IList<TicketDistributionMethod> srcTicketDistributionMethods )
         {
+            destCeremony.Name = srcCeremony.Name;
             destCeremony.DateTime = srcCeremony.DateTime;
             destCeremony.Location = srcCeremony.Location;
             destCeremony.TicketsPerStudent = srcCeremony.TicketsPerStudent;

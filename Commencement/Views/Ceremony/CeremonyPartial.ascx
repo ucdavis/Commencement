@@ -61,7 +61,6 @@
             tinyMCE.triggerSave(); //Needed because of client side validation
         }
     </script>
-
     <script type="text/javascript">
         $(document).ready(function () {
             $("#Ceremony_ConfirmationText").enableTinyMce({ script_location: '<%= Url.Content("~/Scripts/tiny_mce/tiny_mce.js") %>', overrideWidth: '900', overrideHeight: '250', overrideOnchange: 'myCustomOnChangeHandler' }); //, overrideShowPreview: 'preview,', overridePlugin_preview_pageurl: '<%= Url.Content("~/Static/Preview.html") %>' });
@@ -234,7 +233,7 @@
     <ul class="registration_form">
         <li>
             <strong></strong>
-            <input type="submit" value="Submit" class="button" />
+            <input type="submit" value="Save" class="button" />
             |
             <%: Html.ActionLink("Cancel", "Index", new { }, new { })%>
         </li>
