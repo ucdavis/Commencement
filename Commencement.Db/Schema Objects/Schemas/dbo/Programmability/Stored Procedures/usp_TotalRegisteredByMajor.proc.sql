@@ -13,11 +13,12 @@ select s.lastname, s.firstname, s.studentid, rp.majorcode major
 		when etp.numbertickets is null then rp.numbertickets
 		else etp.numbertickets + rp.numbertickets
 		end as totaltickets
-		, s.termcode as term
-		, case when r.mailtickets = 1 then 'Mail' else 'Pickup' end as DistributionMethod
+	, s.termcode as term
+	, tdm.Name as DistributionMethod
 	, rp.dateregistered
 	, c.datetime as CeremonyTime
 from registrationparticipations rp
+	left outer join TicketDistributionMethods tdm on rp.TicketDistributionMethodId = tdm.id
 	inner join registrations r on rp.registrationid = r.id
 	inner join Students s on r.student_id = s.id
 	left outer join extraticketpetitions etp on etp.id = rp.extraticketpetitionid and etp.ispending = 1 and etp.isapproved = 1

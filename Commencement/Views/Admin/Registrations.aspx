@@ -65,10 +65,6 @@
                    .Name("Registrations")
                    .CellAction(cell =>
                                    {
-                                       if (cell.Column.Name == "Registration.MailTickets")
-                                       {
-                                           cell.Text = cell.DataItem.Registration.MailTickets == true ? "Yes" : "No";
-                                       }
                                        if (cell.Column.Name == "Registration.DateRegistered")
                                        {
                                            cell.Text = cell.DataItem.DateRegistered.ToString("g");
@@ -82,7 +78,11 @@
                                      col.Bound(a => a.Registration.Student.StudentId);
                                      col.Bound(a => a.Registration.Student.LastName);
                                      col.Bound(a => a.Registration.Student.FirstName);
-                                     col.Bound(a => a.Registration.MailTickets);
+                                     col.Add(a => { %>
+                                        <div class="hastip" title="<%: a.TicketDistributionMethod != null ? a.TicketDistributionMethod.Name : "n/a" %>">
+                                            <%: a.TicketDistributionMethod != null ? a.TicketDistributionMethod.Id : "n/a" %>
+                                        </div>
+                                     <% }).Title("TD");
                                      col.Bound(a => a.NumberTickets);
                                      col.Bound(a => a.Major.Id).Title("Major");
                                      col.Bound(a => a.DateRegistered);
