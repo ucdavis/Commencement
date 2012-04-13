@@ -8,7 +8,7 @@
 
     <h2>Error - Not Eligible</h2>
 
-    <p>According to our records you are not eligible for participation in the College of Agricultural & Environmental Sciences commencement ceremony. Please refer to <a href="http://commencement.ucdavis.edu">http://commencement.ucdavis.edu</a> for more information.</p>
+    <p>According to our records you are not eligible for registration for commencement with this system. Please refer to <a href="http://commencement.ucdavis.edu">http://commencement.ucdavis.edu</a> for more information.</p>
 
 </asp:Content>
 
