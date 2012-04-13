@@ -24,7 +24,7 @@
         <%= Html.HiddenFor(a => a.Id) %>
         
             <fieldset>
-                <legend> Information </legend>
+                <legend>Information</legend>
                 <ul class="registration_form">
                     <li>
                         <strong><%: Html.LabelFor(a => a.Name, DisplayOptions.HumanizeAndColon) %></strong>
@@ -36,32 +36,54 @@
                     </li>
                 </ul> 
             </fieldset>
-            <ul class="registration_form">           
-            <li>
-                <strong>Cap and Gown Deadline:</strong>
-                <%: Html.TextBox("CapAndGownDeadline", Model.CapAndGownDeadline.ToString("d"), new {@class="date"}) %>
-                <%: Html.ValidationMessageFor(a=>a.CapAndGownDeadline) %>
-            </li>
-            <li>
-                <strong>File to Graduate Deadline:</strong>
-                <%: Html.TextBox("FileToGraduateDeadline", Model.FileToGraduateDeadline.ToString("d"), new {@class="date"}) %>
-                <%: Html.ValidationMessageFor(a=>a.FileToGraduateDeadline) %>
-            </li>
-            <li>
-                <strong><%:Html.LabelFor(a => a.LandingText, DisplayOptions.HumanizeAndColon) %></strong>
-                <%: Html.TextAreaFor(model => model.LandingText)%>
-                <%: Html.ValidationMessageFor(model => model.LandingText) %>
-            </li>            
-            <li>
-                <strong><%:Html.LabelFor(a => a.RegistrationWelcome, DisplayOptions.HumanizeAndColon) %></strong>
-                <%: Html.TextAreaFor(model => model.RegistrationWelcome) %>
-                <%: Html.ValidationMessageFor(model => model.RegistrationWelcome) %>
-            </li>
             
-            <p>
-                <input type="submit" value="Save" />
-            </p>
-        </ul>
+            <fieldset>
+                
+                <legend>Deadlines</legend>
+                <ul class="registration_form">           
+                    <li>
+                        <strong>Cap and Gown Deadline:</strong>
+                        <%: Html.TextBox("CapAndGownDeadline", Model.CapAndGownDeadline.ToString("d"), new {@class="date"}) %>
+                        <%: Html.ValidationMessageFor(a=>a.CapAndGownDeadline) %>
+                    </li>
+                    <li>
+                        <strong>File to Graduate Deadline:</strong>
+                        <%: Html.TextBox("FileToGraduateDeadline", Model.FileToGraduateDeadline.ToString("d"), new {@class="date"}) %>
+                        <%: Html.ValidationMessageFor(a=>a.FileToGraduateDeadline) %>
+                    </li>    
+                </ul>    
+
+            </fieldset>
+
+            <fieldset>
+                
+                <legend><%:Html.LabelFor(a => a.LandingText, DisplayOptions.Humanize) %></legend>
+                
+                <%: Html.ValidationMessageFor(model => model.LandingText) %>
+                <%: Html.TextAreaFor(model => model.LandingText)%>
+
+            </fieldset>
+            
+            <fieldset>
+                
+                <legend><%:Html.LabelFor(a => a.RegistrationWelcome, DisplayOptions.Humanize) %></legend>
+                
+                <%: Html.ValidationMessageFor(model => model.RegistrationWelcome) %>
+                <%: Html.TextAreaFor(model => model.RegistrationWelcome) %>
+
+            </fieldset>
+
+            <fieldset>
+                
+                <ul class="registration_form">
+                    <li><strong>&nbsp;</strong>
+                        <input type="submit" value="Save" class="button" />    
+                        |
+                        <%= Html.ActionLink<TermCodeController>(a => a.Index() , "Cancel") %>
+                    </li>
+                </ul>
+
+            </fieldset>
 
     <% } %>
 
@@ -75,8 +97,6 @@
         $(document).ready(function () {
             $("#LandingText").enableTinyMce({ script_location: '<%= Url.Content("~/Scripts/tiny_mce/tiny_mce.js") %>', overrideWidth: '500', overrideHeight: '250' }); //, overrideShowPreview: 'preview,', overridePlugin_preview_pageurl: '<%= Url.Content("~/Static/Preview.html") %>' });
             $("#RegistrationWelcome").enableTinyMce({ script_location: '<%= Url.Content("~/Scripts/tiny_mce/tiny_mce.js") %>', overrideWidth: '500', overrideHeight: '250' }); //, overrideShowPreview: 'preview,', overridePlugin_preview_pageurl: '<%= Url.Content("~/Static/Preview.html") %>' });
-
-            $(".date").datepicker();
         });
    </script>
 </asp:Content>
