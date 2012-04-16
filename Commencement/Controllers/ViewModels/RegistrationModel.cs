@@ -40,18 +40,52 @@ namespace Commencement.Controllers.ViewModels
 
             var participations = new List<CeremonyParticipation>();
 
-            // populate a list of available participations that a student can attend
-            for (int i = 0; i < viewModel.Student.Majors.Count; i++)
+            var colleges = viewModel.Student.Majors.Select(a => a.College).Distinct().ToList();
+
+            for (var i = 0; i < colleges.Count(); i++)
             {
-                var major = viewModel.Student.Majors[i];
-                var ceremony = viewModel.Ceremonies.Where(a => a.Majors.Contains(major)).FirstOrDefault();
+                MajorCode major = null;
+                Ceremony ceremony = null;
 
-                // set the override ceremony if the student has one
-                if (student.Ceremony != null) ceremony = student.Ceremony;
+                foreach (var maj in viewModel.Student.Majors.Where(a => a.College == colleges[i]))
+                {
+                    major = maj;
 
-                var part = CreateCeremonyParticipation(i, edit, student, major, ceremony, registration, ceremonyParticipations);
-                if (part != null) participations.Add(part);
+                    if (student.Ceremony != null)
+                    {
+                        ceremony = student.Ceremony;
+                    }
+                    else
+                    {
+                        ceremony = viewModel.Ceremonies.Where(a => a.Majors.Contains(maj)).FirstOrDefault();    
+                    }
+                    
+                    if (major != null && ceremony != null) break;
+                }
+
+                // found a valid ceremony
+                if (major != null && ceremony != null)
+                {
+                    var part = CreateCeremonyParticipation(i, edit, student, major, ceremony, registration, null);
+                    if (part!= null) participations.Add(part);
+                }
+
+                
             }
+
+            // This was the old code for loading participations, one for every major, not 1 per college
+            //// populate a list of available participations that a student can attend
+            //for (int i = 0; i < viewModel.Student.Majors.Count; i++)
+            //{
+            //    var major = viewModel.Student.Majors[i];
+            //    var ceremony = viewModel.Ceremonies.Where(a => a.Majors.Contains(major)).FirstOrDefault();
+
+            //    // set the override ceremony if the student has one
+            //    if (student.Ceremony != null) ceremony = student.Ceremony;
+
+            //    var part = CreateCeremonyParticipation(i, edit, student, major, ceremony, registration, ceremonyParticipations);
+            //    if (part != null) participations.Add(part);
+            //}
 
             // populate in any ceremonies that the student has registered for
             if (registration != null)
@@ -66,7 +100,7 @@ namespace Commencement.Controllers.ViewModels
                 }
             }
 
-            viewModel.Participations = participations;
+                viewModel.Participations = participations;
 
             return viewModel;
         }

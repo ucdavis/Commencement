@@ -11,6 +11,7 @@
     .time_disclaimer{ font-style: italic;color: grey;margin-left: 20px;}    
 </style>
 
+
     <% foreach (var a in Model.Participations) { %>
         <div class="ceremony ui-corner-all">
             <div class="title ui-corner-top"><%: a.Ceremony.CeremonyName %></div>
