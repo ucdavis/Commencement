@@ -50,34 +50,40 @@
 
                         <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].NeedsPetition", a.Index), a.NeedsPetition) %>
                         <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].ParticipationId", a.Index), a.ParticipationId) %>
+                        
+                        <div class="ui-state-focus message">
+                            <ul class="registration_form">
+                                <!-- Student needs to petition, display a message for them -->
+                                <% if (a.NeedsPetition) { %>
+                                    <li style="border: 1px solid red; color: Red;">
+                                        This student does not meet requirements for registration for this ceremony and would normally be required to petition.
+                                    </li>
+                                <% } %>
+
+                                <!-- Hasn't registered yet. -->
+                                <% if (!a.ParticipationId.HasValue) { %>
+                                    <li>
+                                        <input type="checkbox" id="<%: string.Format("ceremonyParticipations[{0}]_Participate", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Participate", a.Index) %>" value="true" <%: a.Participate ? "checked" : string.Empty %> />
+                                        Register for this ceremony
+                                    </li>
+                
+                                <!-- registered already, wanting to edit/cancel. -->
+                                <% } else { %>
+                                     <li>
+                                        <input type="radio" id="Radio1" name="<%: string.Format("ceremonyParticipations[{0}].Participate", a.Index) %>" value="true" <%: a.Participate ? "checked" : string.Empty %> />
+                                        Register for this ceremony
+                                     </li>
+                                     <li>
+                                        <input type="radio" id="<%: string.Format("ceremonyParticipations[{0}]_Cancel", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Cancel", a.Index) %>" value="true" <%: a.Cancel ? "checked" : string.Empty %> />
+                                        Cancel this registration
+                                    </li>
+                                <% } %>                                
+                            </ul>
+                        </div>
 
                         <ul class="registration_form">
                 
-                        <!-- Student needs to petition, display a message for them -->
-                        <% if (a.NeedsPetition) { %>
-                            <li style="border: 1px solid red; color: Red;">
-                                This student does not meet requirements for registration for this ceremony and would normally be required to petition.
-                            </li>
-                        <% } %>
 
-                        <!-- Hasn't registered yet. -->
-                        <% if (!a.ParticipationId.HasValue) { %>
-                            <li><strong>&nbsp;</strong>
-                                <input type="checkbox" id="<%: string.Format("ceremonyParticipations[{0}]_Participate", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Participate", a.Index) %>" value="true" <%: a.Participate ? "checked" : string.Empty %> />
-                                Register for this ceremony
-                            </li>
-                
-                        <!-- registered already, wanting to edit/cancel. -->
-                        <% } else { %>
-                             <li><strong>&nbsp;</strong>
-                                <input type="radio" id="Radio1" name="<%: string.Format("ceremonyParticipations[{0}].Participate", a.Index) %>" value="true" <%: a.Participate ? "checked" : string.Empty %> />
-                                Register for this ceremony
-                             </li>
-                             <li><strong>&nbsp;</strong>
-                                <input type="radio" id="<%: string.Format("ceremonyParticipations[{0}]_Cancel", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Cancel", a.Index) %>" value="true" <%: a.Cancel ? "checked" : string.Empty %> />
-                                Cancel this registration
-                            </li>
-                        <% } %>
 
                         <li>
                             <strong>Ticket Distribution:</strong>

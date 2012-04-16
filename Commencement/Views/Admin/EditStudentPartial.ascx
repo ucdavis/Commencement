@@ -8,7 +8,7 @@
 
 
     <ul class="registration_form">
-        <li><strong>Student Id:</strong>
+        <li><strong>Student Id:<span>*</span></strong>
             <%: Model.Student.StudentId %>
             <%: Html.HiddenFor(a=>a.Student.StudentId) %>
             <%: Html.HiddenFor(a=>a.Student.Pidm) %>
@@ -47,7 +47,7 @@
                     .FirstOption("--Select an Override Ceremony--")
                     %>
         </li>
-        <li><strong>Add Major:</strong>
+        <li><strong>Add Major:<span>*</span></strong>
             <%= this.Select("AddMajorDropDown").Options(Model.Majors, x=>x.Id, x=>x.Name).FirstOption("--Select a Major--") %> 
             <%: Html.Button("AddMajor", "+", HtmlButtonType.Button, null, new {@class="AddMajor button"}) %>
         </li>

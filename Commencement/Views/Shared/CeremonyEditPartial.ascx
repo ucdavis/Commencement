@@ -7,15 +7,18 @@
     });
 </script>
 
+<style type="text/css">
+    .time_disclaimer{ font-style: italic;color: grey;margin-left: 20px;}    
+</style>
+
     <% foreach (var a in Model.Participations) { %>
         <div class="ceremony ui-corner-all">
             <div class="title ui-corner-top"><%: a.Ceremony.CeremonyName %></div>
 
             <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Ceremony", a.Index), a.Ceremony.Id) %>
-            <%--<%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Major", a.Index), a.Major.Id) %>--%>
             <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].NeedsPetition", a.Index), a.NeedsPetition) %>
             
-            <div class="ui-state-highlight message">
+            <div class="ui-state-focus message">
                 <ul class="registration_form">
                 <% if (a.NeedsPetition) { %>
                     <li>
@@ -67,7 +70,7 @@
                 <li>
                     <strong>Date/Time: </strong> 
                     <%: a.Ceremony.DateTime.ToString("g") %>
-                    <span id="time_disclaimer">*The time of your ceremony is not guaranteed.</span>
+                    <span class="time_disclaimer">*The time of your ceremony is not guaranteed.</span>
                 </li>
 
                 <li>

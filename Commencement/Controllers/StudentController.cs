@@ -169,15 +169,15 @@ namespace Commencement.Controllers
                     
                 }
 
-                // successful registration
-                // redirect to exit survey, change requested by francesca on 8/16/2011
-                var url = ConfigurationManager.AppSettings["ExitSurvey"];
+                //// successful registration
+                //// redirect to exit survey, change requested by francesca on 8/16/2011
+                //var url = ConfigurationManager.AppSettings["ExitSurvey"];
 
-                // if specified in web config, redirect to exit survey
-                if (!string.IsNullOrWhiteSpace(url))
-                {
-                    return Redirect(url);
-                }
+                //// if specified in web config, redirect to exit survey
+                //if (!string.IsNullOrWhiteSpace(url))
+                //{
+                //    return Redirect(url);
+                //}
 
                 // exist survey not specified, just display the registration
                 return this.RedirectToAction(a => a.DisplayRegistration());
