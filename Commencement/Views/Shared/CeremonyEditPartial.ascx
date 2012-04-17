@@ -13,6 +13,9 @@
 
 
     <% foreach (var a in Model.Participations) { %>
+    
+        <% var ceremonyInfo = Model.CollegeCeremonyInfos.Where(x => x.College == a.Major.College).FirstOrDefault(); %>
+
         <div class="ceremony ui-corner-all">
             <div class="title ui-corner-top"><%: a.Ceremony.CeremonyName %></div>
 
@@ -86,7 +89,8 @@
 
                 <li>
                     <strong>Major: </strong>
-                    <%= this.Select(string.Format("ceremonyParticipations[{0}].Major", a.Index)).Options(a.Ceremony.Majors.Where(b => b.ConsolidationMajor == null), x=>x.Id, x=>x.Name).Selected(a.Major.MajorId).Class("hastip").Attr("title", "The major you would like to walk with.") %>
+                    <%--<%= this.Select(string.Format("ceremonyParticipations[{0}].Major", a.Index)).Options(a.Ceremony.Majors.Where(b => b.ConsolidationMajor == null), x=>x.Id, x=>x.Name).Selected(a.Major.MajorId).Class("hastip").Attr("title", "The major you would like to walk with.") %>--%>
+                    <%= this.Select(string.Format("ceremonyParticipations[{0}].Major", a.Index)).Options(ceremonyInfo.MajorCodes.Where(x => x.ConsolidationMajor == null).OrderBy(x => x.MajorName), x=>x.Id, x=>x.Name).Selected(a.Major.MajorId).Class("hastip").Attr("title", "The major you would like to walk with.") %>
                 </li>
                 <li>
                     <strong>Tickets Requested:</strong>
