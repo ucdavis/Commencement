@@ -294,6 +294,21 @@
     <Content Include="Content\Common\sprite.png" />
     <Content Include="Content\Common\validation-error-message.png" />
     <Content Include="Content\font.css" />
+    <Content Include="Content\images\ui-bg_diagonals-small_50_aaaaaa_40x40.png" />
+    <Content Include="Content\images\ui-bg_flat_50_aaaaaa_40x100.png" />
+    <Content Include="Content\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\images\ui-bg_glass_20_014a81_1x400.png" />
+    <Content Include="Content\images\ui-bg_glass_20_3182c0_1x400.png" />
+    <Content Include="Content\images\ui-bg_glass_20_ffffff_1x400.png" />
+    <Content Include="Content\images\ui-bg_glass_50_fbf7eb_1x400.png" />
+    <Content Include="Content\images\ui-bg_highlight-soft_50_014a81_1x100.png" />
+    <Content Include="Content\images\ui-bg_inset-soft_50_fcf0f0_1x100.png" />
+    <Content Include="Content\images\ui-icons_014a81_256x240.png" />
+    <Content Include="Content\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\images\ui-icons_c83900_256x240.png" />
+    <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\images\ui-icons_fffff_256x240.png" />
+    <Content Include="Content\jquery-ui-1.8.19.custom.css" />
     <Content Include="Images\to-do-list_checked1_small.gif" />
     <Content Include="Content\jquery.bt.css" />
     <Content Include="Content\main.css" />
@@ -705,22 +720,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app_offline2.htm" />
-    <Content Include="Content\images\ui-bg_flat_0_aaaaaa_40x100.png" />
-    <Content Include="Content\images\ui-bg_flat_55_fbec88_40x100.png" />
-    <Content Include="Content\images\ui-bg_glass_75_d0e5f5_1x400.png" />
-    <Content Include="Content\images\ui-bg_glass_85_dfeffc_1x400.png" />
-    <Content Include="Content\images\ui-bg_glass_95_fef1ec_1x400.png" />
-    <Content Include="Content\images\ui-bg_gloss-wave_55_5c9ccc_500x100.png" />
-    <Content Include="Content\images\ui-bg_inset-hard_100_f5f8f9_1x100.png" />
-    <Content Include="Content\images\ui-bg_inset-hard_100_fcfdfd_1x100.png" />
-    <Content Include="Content\images\ui-icons_217bc0_256x240.png" />
-    <Content Include="Content\images\ui-icons_2e83ff_256x240.png" />
-    <Content Include="Content\images\ui-icons_469bdd_256x240.png" />
-    <Content Include="Content\images\ui-icons_6da8d5_256x240.png" />
-    <Content Include="Content\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Content\images\ui-icons_d8e7f3_256x240.png" />
-    <Content Include="Content\images\ui-icons_f9bd01_256x240.png" />
-    <Content Include="Content\jquery-ui-1.8.4.custom.css" />
     <Content Include="Images\ceremony.png" />
     <Content Include="Images\email_template.png" />
     <Content Include="Images\pending_petition.png" />

@@ -9,7 +9,7 @@
     <li><strong>City:</strong><span><%= Html.Encode(Model.City) %></span> </li>
     <li><strong>State:</strong><span><%= Html.Encode(Model.State) %></span> </li>
     <li><strong>Zip Code:</strong><span><%= Html.Encode(Model.Zip) %></span> </li>
-    <li class="prefilled"><strong>Email Address:</strong> <span>
+    <li class="prefilled"><strong>Email Address:</strong><span>
         <%= Html.Encode(Model.Student.Email) %></span> </li>
     <% if (!string.IsNullOrEmpty(Model.Email))
        { %>
