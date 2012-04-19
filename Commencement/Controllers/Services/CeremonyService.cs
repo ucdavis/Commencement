@@ -163,7 +163,7 @@ namespace Commencement.Controllers.Services
                 var ceremonyOverride = _repository.OfType<Ceremony>().GetNullableById(ceremonyIdOverride.Value);
 
                 Check.Ensure(ceremonyOverride != null, "ceremonyOverride is required.");
-                Check.Ensure(ceremonies.Select(a=>a.Id).Contains(ceremonyOverride.Id) , "Override ceremony is not is the list of ceremonies for the targetted term.");
+                Check.Ensure(ceremonies.Select(a => a.Id).Contains(ceremonyOverride.Id), "Override ceremony is not is the list of ceremonies for the targetted term.");
 
                 eligibleCeremonies.Add(ceremonyOverride);
             }

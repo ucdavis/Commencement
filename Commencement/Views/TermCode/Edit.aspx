@@ -15,8 +15,11 @@
             <%= Html.ActionLink<TermCodeController>(a => a.Index() , "Back to List") %>
         </li>
     </ul>
-
-    <h2>Edit <%= Html.Encode(Model.Id) %></h2>
+    
+    <div class="page_bar">
+        <div class="col1"><h2>Edit for <%= Html.Encode(Model.Id) %></h2></div>
+        <div class="col2"><%= Html.ActionLink<TermCodeController>(a => a.Details(Model.Id) , "View Details", new{@class="button"}) %></div>
+    </div>
 
     <% using (Html.BeginForm()) {%>
         <%: Html.ValidationSummary(true) %>
@@ -32,7 +35,7 @@
                     </li>            
                     <li>
                         <strong><%:Html.LabelFor(a => a.IsActive, DisplayOptions.HumanizeAndColon) %></strong>
-                        <%: Html.DisplayFor(model => model.IsActive) %>
+                        <%: Model.IsActive ? "Yes" : "No" %>
                     </li>
                 </ul> 
             </fieldset>

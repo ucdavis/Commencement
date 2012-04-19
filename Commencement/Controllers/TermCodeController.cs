@@ -86,8 +86,15 @@ namespace Commencement.Controllers
         public ActionResult Edit(string id, TermCode termCode)
         {
             var termCodeToUpdate = Repository.OfType<TermCode>().Queryable.Where(a => a.Id == id).Single();
+
             termCodeToUpdate.LandingText = termCode.LandingText;
             termCodeToUpdate.RegistrationWelcome = termCode.RegistrationWelcome;
+
+            // copy the dates
+            termCodeToUpdate.RegistrationBegin = termCode.RegistrationBegin;
+            termCodeToUpdate.RegistrationDeadline = termCode.RegistrationDeadline;
+            termCodeToUpdate.CapAndGownDeadline = termCode.CapAndGownDeadline;
+            termCodeToUpdate.FileToGraduateDeadline = termCode.FileToGraduateDeadline;
 
             termCodeToUpdate.TransferValidationMessagesTo(ModelState);
             if (ModelState.IsValid)

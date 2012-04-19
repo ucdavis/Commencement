@@ -13,39 +13,53 @@
         <%= Html.ActionLink<TermCodeController>(a => a.Index() , "Back to List") %>
     </li>
     <li>
-        <%= Html.ActionLink<TermCodeController>(a => a.Edit(Model.Id) , "Edit") %>
+        
     </li>
 </ul>
-    <h2>Details</h2>
 
-        <ul class="registration_form">
-            <li>
-                <strong><%=Html.Label("Term Code:") %></strong>
-                <%=Html.DisplayFor(a => a.Id) %>
-            </li>
-            <li>
-               <strong> <%=Html.Label("Description:")%></strong>
-                <%=Html.DisplayFor(a => a.Name) %>
-            </li>
-            <li>
-                <strong><%=Html.Label("IsActive:")%></strong>
-                <%=Html.DisplayFor(a => a.IsActive) %>
-            </li>
-            <li>                
-                <fieldset>
-                <legend><strong>LandingText</strong></legend>
-                <%: Html.HtmlEncode(Model.LandingText)%>
-                </fieldset>
-            </li>
-            <li>
-                <fieldset>
-                <legend><strong>RegistrationWelcome</strong></legend>
-                <%: Html.HtmlEncode(Model.RegistrationWelcome)%>
-                </fieldset>
-            </li>
-        </ul>
-      
+<div class="page_bar">
+    <div class="col1"><h2>Details for <%= Html.Encode(Model.Id) %></h2></div>
+    <div class="col2"><%= Html.ActionLink<TermCodeController>(a => a.Edit(Model.Id) , "Edit", new{@class="button"}) %></div>
+</div>
 
+<fieldset>
+        
+    <legend>Details</legend>
+        
+    <ul class="registration_form">
+        <li>
+            <strong><%: Html.LabelFor(x=>x.Name, DisplayOptions.HumanizeAndColon) %></strong>
+            <%=Html.DisplayFor(a => a.Name) %>
+        </li>
+        <li>
+            <strong><%=Html.LabelFor(x=>x.IsActive, DisplayOptions.HumanizeAndColon)%></strong>
+            <%: Model.IsActive ? "Yes" : "No" %>
+        </li>
+        <li>
+            <strong>Registration Dates:</strong>                
+            <%: string.Format("{0} to {1}", Model.RegistrationBegin.ToString("d"), Model.RegistrationDeadline.ToString("d")) %>
+        </li>
+        <li>
+            <strong><%: Html.LabelFor(x=>x.FileToGraduateDeadline, DisplayOptions.HumanizeAndColon) %></strong>
+            <%: Model.FileToGraduateDeadline.ToString("d") %>
+        </li>
+        <li>
+            <strong><%: Html.LabelFor(x=>x.CapAndGownDeadline, DisplayOptions.HumanizeAndColon) %></strong>
+            <%: Model.CapAndGownDeadline %>
+        </li>
+    </ul>
+
+</fieldset>
+
+<fieldset>
+    <legend>Landing Text</legend>
+    <%: Html.HtmlEncode(Model.LandingText)%>
+</fieldset>
+
+<fieldset>
+    <legend>Registration Welcome</legend>
+    <%: Html.HtmlEncode(Model.RegistrationWelcome)%>
+</fieldset>
 
 </asp:Content>
 

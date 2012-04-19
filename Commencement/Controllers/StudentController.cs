@@ -80,10 +80,7 @@ namespace Commencement.Controllers
         [PageTrackingFilter]
         public RedirectToRouteResult RegistrationRouting()
         {
-            var term = TermService.GetCurrent();
-            var student = _studentService.GetCurrentStudent(CurrentUser);
-
-            var redirect = CheckStudentForRegistration(student, term);
+            var redirect = CheckStudentForRegistration();
             if (redirect != null) return redirect;
 
             // redirect the student to the register page
@@ -97,10 +94,9 @@ namespace Commencement.Controllers
         [PageTrackingFilter]
         public ActionResult Register()
         {
-            var term = TermService.GetCurrent();
             var student = _studentService.GetCurrentStudent(CurrentUser);
 
-            var redirect = CheckStudentForRegistration(student, term);
+            var redirect = CheckStudentForRegistration();
             if (redirect != null) return redirect;
 
             var viewModel = RegistrationModel.Create(Repository, GetEligibleCeremonies(student), student);
@@ -115,13 +111,12 @@ namespace Commencement.Controllers
         [HttpPost]
         public ActionResult Register(RegistrationPostModel registrationModel)
         {
-            var term = TermService.GetCurrent();
             var student = GetCurrentStudent();
 
             if (student == null) return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null));
 
             // validate they can register, also checks for duplicate registrations
-            var redirect = CheckStudentForRegistration(student, term);
+            var redirect = CheckStudentForRegistration();
             if (redirect != null) return redirect;
 
             var registration = _registrationPopulator.PopulateRegistration(registrationModel, student, ModelState);
@@ -297,26 +292,31 @@ namespace Commencement.Controllers
         /// <param name="student"></param>
         /// <param name="termCode"></param>
         /// <returns>Redirect instruction, if null, student is valid to register</returns>
-        private RedirectToRouteResult CheckStudentForRegistration(Student student, TermCode termCode)
+        private RedirectToRouteResult CheckStudentForRegistration()
         {
+            var termCode = TermService.GetCurrent();
+            var student = _studentService.GetCurrentStudent(CurrentUser);
+
             // unable to find record for some reason, either from download or banner lookup
             if (student == null || student.Blocked)
             {
                 return this.RedirectToAction<ErrorController>(a => a.NotEligible());
             }
 
-            if (termCode == null)
+            // no active term, or current term's reg is not open, includes 3 day grace period
+            if (termCode == null && (DateTime.Now.Date < termCode.RegistrationBegin.Date || DateTime.Now.Date > termCode.RegistrationDeadline.Date.AddDays(3)))
             {
                 return this.RedirectToAction<ErrorController>(a => a.NotOpen());
             }
 
+            // student is blocked becuase of sja
             if (student.SjaBlock)
             {
                 return this.RedirectToAction<ErrorController>(a => a.SJA());
             }
 
             // check for a current registration, there should only be one
-            var currentReg = _registrationRepository.Queryable.Where(a => a.Student == student && a.TermCode.Id == termCode.Id).SingleOrDefault();
+            var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == student && a.TermCode.Id == termCode.Id);
 
             // has this student registered yet?
             if (currentReg != null)
@@ -325,14 +325,14 @@ namespace Commencement.Controllers
                 return this.RedirectToAction(a => a.DisplayRegistration());
             }
 
-            // load all non-cancelled participations for the current user
-            // or those blocked/sja blocked
-            var participations = _participationRepository.Queryable.Where(a => a.Registration.Student.Login == CurrentUser.Identity.Name && !a.Cancelled && !a.Registration.Student.SjaBlock && !a.Registration.Student.Blocked).ToList();
+            // load all part participations that were never cancelled or blocked
+            var participations = _participationRepository.Queryable.Where(a => a.Registration.Student == student && !a.Cancelled && !a.Registration.Student.SjaBlock && !a.Registration.Student.Blocked).ToList();
 
             // get the list of all colleges for the student, that the student has walked for
             var pastColleges = participations.Where(a => a.Registration.TermCode.Id != termCode.Id).Select(a => a.Major.College).Distinct().ToList();
+            
             // all current colleges match those of previously walked
-            if (!student.Majors.Where(a => !pastColleges.Contains(a.College)).Any() && pastColleges.Count > 0)
+            if (student.Majors.All(a => pastColleges.Contains(a.College)) && pastColleges.Count > 0)
             {
                 // redirect to past registration message
                 return this.RedirectToAction<ErrorController>(a => a.PreviouslyWalked());
@@ -343,12 +343,6 @@ namespace Commencement.Controllers
             if (eligibleCeremonies == null || eligibleCeremonies.Count == 0)
             {
                 return this.RedirectToAction<ErrorController>(a => a.NotEligible());
-            }
-
-            // see if registration is open for at least one ceremony, includes 3 day grace period
-            if (!eligibleCeremonies.Where(a => a.RegistrationBegin < DateTime.Now && DateTime.Now.Date <= a.RegistrationDeadline.Date.AddDays(3)).Any())
-            {
-                return this.RedirectToAction<ErrorController>(a => a.NotOpen());
             }
 
             return null;
@@ -369,8 +363,6 @@ namespace Commencement.Controllers
         }
         #endregion
     }
-
-
 
     public class RegistrationConfirmationViewModel
     {
