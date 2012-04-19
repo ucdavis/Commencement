@@ -29,6 +29,9 @@ namespace Commencement.Core.Domain
 
             CapAndGownDeadline = DateTime.Now;
             FileToGraduateDeadline = DateTime.Now;
+
+            RegistrationBegin = DateTime.Now;
+            RegistrationDeadline = DateTime.Now;
         }
 
         [Required]
@@ -43,6 +46,10 @@ namespace Commencement.Core.Domain
         public virtual DateTime FileToGraduateDeadline { get; set; }
         [NotNull]
         public virtual IList<Ceremony> Ceremonies { get; set; }
+
+        public virtual DateTime RegistrationBegin { get; set; }
+        public virtual DateTime RegistrationDeadline { get; set; }
+
     }
 
     public class TermCodeMap : ClassMap<TermCode>
@@ -57,6 +64,9 @@ namespace Commencement.Core.Domain
             Map(x => x.RegistrationWelcome);
             Map(x => x.CapAndGownDeadline);
             Map(x => x.FileToGraduateDeadline);
+
+            Map(x => x.RegistrationBegin);
+            Map(x => x.RegistrationDeadline);
 
             HasMany(x => x.Ceremonies).KeyColumn("TermCode").Cascade.None().Inverse();
         }

@@ -40,7 +40,12 @@
             <fieldset>
                 
                 <legend>Deadlines</legend>
-                <ul class="registration_form">           
+                <ul class="registration_form">
+                    <li><strong>Registration:</strong>
+                        <%: Html.TextBox("RegistrationBegin", Model.RegistrationBegin.ToString("d"), new {@class="date"}) %>
+                        through
+                        <%: Html.TextBox("RegistrationDeadline", Model.RegistrationDeadline.ToString("d"), new {@class="date"}) %>
+                    </li>           
                     <li>
                         <strong>Cap and Gown Deadline:</strong>
                         <%: Html.TextBox("CapAndGownDeadline", Model.CapAndGownDeadline.ToString("d"), new {@class="date"}) %>
