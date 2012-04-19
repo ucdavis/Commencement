@@ -10,27 +10,34 @@ namespace Commencement.Controllers.ViewModels
 {
     public class RegistrationModel
     {
+        // Values for dropdowns
+        public IEnumerable<State> States { get; set; }
+        //public IEnumerable<CollegeCeremonyInfo> CollegeCeremonyInfos { get; set; }
+        public MultiSelectList SpecialNeeds { get; set; }
+
+        // registration information
         public Registration Registration { get; set; }
         public Student Student { get; private set; }
-        public IEnumerable<Ceremony> Ceremonies { get; private set; }
-        public IEnumerable<State> States { get; set; }
-        public MultiSelectList SpecialNeeds { get; set; }
         public IEnumerable<CeremonyParticipation> Participations { get; set; }
-        public IQueryable<vTermCode> FutureTerms { get; set; }
 
-        public IEnumerable<CollegeCeremonyInfo> CollegeCeremonyInfos { get; set; }
+        // not sure if these are even used
+        public IEnumerable<Ceremony> Ceremonies { get; private set; }
+        public IQueryable<vTermCode> FutureTerms { get; set; }
 
         public static RegistrationModel Create(IRepository repository, IList<Ceremony> ceremonies, Student student, Registration registration = null, List<CeremonyParticipation> ceremonyParticipations = null, bool edit = false)
         {
             var viewModel = new RegistrationModel
                                 {
                                     States = repository.OfType<State>().GetAll(),
+        
                                     Registration = registration ?? new Registration() {Student = student},
-                                    Ceremonies = ceremonies,
                                     Student = student,
+
+                                    Ceremonies = ceremonies,
                                     FutureTerms = repository.OfType<vTermCode>().Queryable.Where(a=>a.EndDate > DateTime.Now)
                                 };
 
+            // since the change to using a drop down, this is somewhat unnecessary, but should we move back to checkboxes, it would be a simple change
             var specialNeeds = repository.OfType<SpecialNeed>().Queryable.Where(a=>a.IsActive).ToList();
             if (viewModel.Registration.Id != 0 && viewModel.Registration.SpecialNeeds != null)
             {
@@ -50,7 +57,7 @@ namespace Commencement.Controllers.ViewModels
                 {
                     if (!participations.Any(b => b.Major == a.Major))
                     {
-                        var part = CreateCeremonyParticipation(participations.Count, edit, student, a.Major, a.Ceremony, registration, null);
+                        var part = CreateCeremonyParticipation(participations.Count, edit, student, a.Major, a.Ceremony, registration, null, repository);
                         if (part != null) participations.Add(part);
                     }
                 }
@@ -60,7 +67,7 @@ namespace Commencement.Controllers.ViewModels
             var studentsColleges = viewModel.Student.Majors.Select(a => a.College).Distinct().ToList();
 
             // load this quarter's ceremony information
-            var ceremonyInfos = GatherCollegeCeremonyInfo(repository);
+            //var ceremonyInfos = GatherCollegeCeremonyInfo(repository);
             
             // go through all the student's colleges
             for (var i = 0; i < studentsColleges.Count(); i++)
@@ -68,16 +75,12 @@ namespace Commencement.Controllers.ViewModels
                 MajorCode major = null;
                 Ceremony ceremony = null;
                 College college = studentsColleges[i];
-                var ceremonyInfo = ceremonyInfos.Where(a => a.College == college).FirstOrDefault();
+                //var ceremonyInfo = ceremonyInfos.Where(a => a.College == college).FirstOrDefault();
 
                 foreach (var maj in viewModel.Student.Majors.Where(a => a.College == college))
                 {
                     major = maj;
-
-                    if (ceremonyInfo.MajorCodes.Contains(major))
-                    {
-                        ceremony = GetCeremony(ceremonyInfo, major);
-                    }
+                    ceremony = GetCeremony(repository, maj);
 
                     if (major != null && ceremony != null) break;
                 }
@@ -85,7 +88,7 @@ namespace Commencement.Controllers.ViewModels
                 // found a valid ceremony to go with the major
                 if (major != null && ceremony != null)
                 {
-                    var part = CreateCeremonyParticipation(i, edit, student, major, ceremony, registration, null);
+                    var part = CreateCeremonyParticipation(i, edit, student, major, ceremony, registration, null, repository);
                     if (part != null && !participations.Any(a => a.Major.College == college))
                     {
                         participations.Add(part);
@@ -94,12 +97,12 @@ namespace Commencement.Controllers.ViewModels
             }
 
             viewModel.Participations = participations;
-            viewModel.CollegeCeremonyInfos = ceremonyInfos;
+            //viewModel.CollegeCeremonyInfos = ceremonyInfos;
 
             return viewModel;
         }
 
-        private static CeremonyParticipation CreateCeremonyParticipation(int index, bool edit, Student student, MajorCode major, Ceremony ceremony, Registration registration, List<CeremonyParticipation> ceremonyParticipations)
+        private static CeremonyParticipation CreateCeremonyParticipation(int index, bool edit, Student student, MajorCode major, Ceremony ceremony, Registration registration, List<CeremonyParticipation> ceremonyParticipations, IRepository repository)
         {
             if (ceremony != null)
             {
@@ -112,9 +115,7 @@ namespace Commencement.Controllers.ViewModels
 
                 if (ceremonyParticipations != null)
                 {
-                    var existingPart =
-                        ceremonyParticipations.Where(a => a.Ceremony == ceremony && a.Major == major).FirstOrDefault
-                            ();
+                    var existingPart = ceremonyParticipations.FirstOrDefault(a => a.Ceremony == ceremony && a.Major == major);
                     if (existingPart != null)
                     {
                         part.Tickets = existingPart.Tickets;
@@ -127,9 +128,7 @@ namespace Commencement.Controllers.ViewModels
 
                 if (registration != null)
                 {
-                    var regPart =
-                        registration.RegistrationParticipations.Where(
-                            a => a.Ceremony.Id == ceremony.Id && a.Major.Id == major.Id).FirstOrDefault();
+                    var regPart = registration.RegistrationParticipations.FirstOrDefault(a => a.Ceremony.Id == ceremony.Id && a.Major.Id == major.Id);
 
                     if (regPart != null)
                     {
@@ -142,39 +141,24 @@ namespace Commencement.Controllers.ViewModels
                     }
                 }
 
+                // set the college/ceremony lookup values
+                var college = repository.OfType<College>().Queryable.FirstOrDefault(x => x.Display && x.Id == major.College.Id);
+                var ceremonies = repository.OfType<Ceremony>().Queryable.Where(x => x.TermCode == TermService.GetCurrent() && x.Colleges.Contains(college)).ToList();
+                var majors = ceremonies.SelectMany(x => x.Majors);
+
+                part.College = college;
+                part.Ceremonies = ceremonies;
+                part.MajorCodes = majors.Where(x => x.College == college && x.ConsolidationMajor == null).OrderBy(x => x.MajorName).ToList();
+
                 return part;
             }
 
             return null;
         }
 
-        private static List<CollegeCeremonyInfo> GatherCollegeCeremonyInfo(IRepository repository)
+        private static Ceremony GetCeremony(IRepository repository, MajorCode major)
         {
-            var results = new List<CollegeCeremonyInfo>();
-
-            // load all colleges
-            var colleges = repository.OfType<College>().Queryable.Where(a => a.Display).ToList();
-
-            // load all ceremonies
-            var ceremonies = repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode == TermService.GetCurrent()).ToList();
-
-            // go through each of the colleges
-            foreach (var college in colleges)
-            {
-                results.Add(new CollegeCeremonyInfo(college, ceremonies.Where(a => a.Colleges.Contains(college)).ToList()));
-            }
-
-            return results;
-        }
-
-        private static Ceremony GetCeremony(CollegeCeremonyInfo ceremonyInfo, MajorCode major)
-        {
-            foreach (var c in ceremonyInfo.Ceremonies)
-            {
-                if (c.Majors.Contains(major)) return c;
-            }
-
-            return null;
+            return repository.OfType<Ceremony>().Queryable.FirstOrDefault(x => x.TermCode == TermService.GetCurrent() && x.Majors.Contains(major));
         }
     }
 
@@ -205,19 +189,10 @@ namespace Commencement.Controllers.ViewModels
         public vTermCode CompletionTerm { get; set; }
         public string TransferCollege { get; set; }
         public string TransferUnits { get; set; }
-    }
 
-    public class CollegeCeremonyInfo
-    {
+        // lookup values for the individual college/ceremony information
         public College College { get; set; }
         public IEnumerable<Ceremony> Ceremonies { get; set; }
         public IEnumerable<MajorCode> MajorCodes { get; set; }
-
-        public CollegeCeremonyInfo(College college, IEnumerable<Ceremony> ceremonies)
-        {
-            College = college;
-            Ceremonies = ceremonies;
-            MajorCodes = ceremonies.SelectMany(a => a.Majors).ToList();
-        }
     }
 }

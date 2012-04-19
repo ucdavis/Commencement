@@ -32,13 +32,6 @@
 
     <p><%: Html.HtmlEncode(string.Format(Model.Ceremonies.FirstOrDefault().TermCode.RegistrationWelcome, Model.Student.FullName, Model.Ceremonies.FirstOrDefault().CeremonyName)) %></p>
 
-    <% if (Model.Participations.Any(a => a.NeedsPetition)) { %>
-    <div id="petition-warning">
-        <p>According to our records you do not meet the minimum requirements to participate in the commencement ceremony.  See our website for the list of reuqirements: <a href="www.caes.ucdavis.edu/commencement">www.caes.ucdavis.edu/commencement</a></p>
-        <p>Please complete the petition if you would like to participate.</p>
-    </div>
-    <% } %>
-
     <% if (Model.Participations.Any(a => a.Ceremony.IsPastPrintingDeadline())) { %>
         <div id="printing-warning">
             <p>Due to the late registration and printing deadlines we  cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets allotted per person.</p>
@@ -96,8 +89,6 @@
 
         </fieldset>
 
-    
-    
     <% } %>
     
 </asp:Content>

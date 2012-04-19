@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Security.Principal;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Services;
@@ -11,8 +9,6 @@ using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using UCDArch.Core.PersistanceSupport;
 using MvcContrib;
-using MvcContrib.Attributes;
-using UCDArch.Core.Utils;
 using UCDArch.Web.Helpers;
 using Commencement.Controllers.Helpers;
 
