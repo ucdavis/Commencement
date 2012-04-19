@@ -147,38 +147,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Domain\MajorCode.hbm.xml" />
-    <EmbeddedResource Include="Domain\Registration.hbm.xml" />
-    <EmbeddedResource Include="Domain\State.hbm.xml" />
     <EmbeddedResource Include="Domain\Student.hbm.xml" />
     <EmbeddedResource Include="Domain\vTermCode.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Domain\Ceremony.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Domain\CeremonyEditor.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Domain\TermCode.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Domain\Template.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Domain\SearchStudent.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Domain\TemplateType.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Domain\ExtraTicketPetition.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Domain\PageTracking.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Domain\Audit.hbm.xml" />
     <EmbeddedResource Include="Resources\StaticIndexes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>StaticIndexes.Designer.cs</LastGenOutput>
@@ -189,7 +161,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Domain\RegistrationPetition.hbm.xml" />
     <EmbeddedResource Include="Resources\Labels.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Labels.Designer.cs</LastGenOutput>
