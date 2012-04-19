@@ -36,6 +36,10 @@
         
         <legend>Special Needs</legend>
         
+        <div class="disclaimer">
+            Any special needs you may have.  Please do not provide special needs of your guests.
+        </div>
+
         <% Html.RenderPartial("SpecialNeedsPartial"); %>
 
     </fieldset>

@@ -293,3 +293,5 @@ div.t-grid {}
 
 
 .message { margin: .5em 1em 1em 1em; padding: 1em; }
+.disclaimer { margin-bottom: 1em;line-height: 1.15em;}
+.disclaimer p { margin-bottom: 1em;}

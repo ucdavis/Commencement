@@ -89,6 +89,16 @@ namespace Commencement.Core.Domain
                 return string.Format("{0}{1} {2}", FirstName, string.IsNullOrEmpty(MI) || MI.Trim() == string.Empty ? string.Empty : " " + MI , LastName);
             }
         }
+
+        /// <summary>
+        /// Comma seperated list of majors (ignoring consolidation codes)
+        /// </summary>
+        public virtual string ActualStrMajors { 
+            get { return string.Join(",", Majors.Select(x => x.Name).ToArray()); } 
+        }
+        /// <summary>
+        /// Comma seperated list of majors (including consolidation codes)
+        /// </summary>
         public virtual string StrMajors
         {
             get
@@ -96,6 +106,9 @@ namespace Commencement.Core.Domain
                 return string.Join(",", Majors.Select(x=>x.MajorName).ToArray());
             }
         }
+        /// <summary>
+        /// Comma seperated list of major ids (including consolidation codes)
+        /// </summary>
         public virtual string StrMajorCodes
         {
             get

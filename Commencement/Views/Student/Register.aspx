@@ -57,14 +57,13 @@
             
             <legend>Grad Track</legend>
             
-            <div class="message">
-                
-                I think we need to add some more description as to what grad track is?
+            <div class="disclaimer">
+                May we provide your information to Grad Trak? Grad Trak will use your information to provide you with your photo proof(s) after the ceremony. There is no obligation to purchase photos and your personal information will be used for the delivery of proofs only. Grad Trak will not provide the information to any other entity, except for if required by law.
             </div>
             
             <ul class="registration_form">
                 <li><strong>&nbsp;</strong>
-                    <%: Html.CheckBox("gradTrack") %><label for="gradTrack"><%: string.Format(StaticValues.Txt_GradTrack) %></label>
+                    <%: Html.CheckBox("gradTrack") %><label for="gradTrack">I authorize</label>
                 </li>
             </ul>
 
@@ -74,7 +73,7 @@
             
             <legend>Legal Disclaimer</legend>
             
-            <div class="message">
+            <div class="disclaimer">
                 <%= string.Format(StaticValues.Txt_Disclaimer) %>
             </div>
             

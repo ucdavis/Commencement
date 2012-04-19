@@ -8,6 +8,6 @@
     </li>
     <li class="prefilled"><strong>Units Completed:</strong><span><%= Html.Encode(Model.TotalUnits) %></span>
     </li>
-    <li class="prefilled"><strong>Major:</strong><span><%: Model.StrMajors %></span>
+    <li class="prefilled"><strong>Major:</strong><span><%: Model.ActualStrMajors %></span>
     </li>
 </ul>

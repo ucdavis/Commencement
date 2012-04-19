@@ -157,11 +157,11 @@
     <value>Ticket Petition</value>
   </data>
   <data name="Txt_Disclaimer" xml:space="preserve">
-    <value>I agree to adhere to the University policy which prohibits the unlawful use, sale, distribution, dispensing, or possession of alcohol or of controlled substances by students on University premises and official University functions.  Students shall not use illegal substances or abuse legal substances in a manner that impairs scholarly activities or student life.  (Adapted from UCDP&amp;P  Manual Chapter 380, Section 18) Students violating this policy may be excluded from privileges and activities when there is reasonable cause to believe that their conduct 1) threatens the safety of themselves and others on University property or at University functions; and/or 2) disrupts the orderly operation of the campus (Adapted from UC Board of Regents Policy on Student Conduct &amp; Discipline).
-&lt;br/&gt;
+    <value>&lt;p&gt;I agree to adhere to the University policy which prohibits the unlawful use, sale, distribution, dispensing, or possession of alcohol or of controlled substances by students on University premises and official University functions.  Students shall not use illegal substances or abuse legal substances in a manner that impairs scholarly activities or student life.  (Adapted from UCDP&amp;P  Manual Chapter 380, Section 18) Students violating this policy may be excluded from privileges and activities when there is reasonable cause to believe that their conduct 1) threatens the safety of themselves and others on University property or at University functions; and/or 2) disrupts the orderly operation of the campus (Adapted from UC Board of Regents Policy on Student Conduct &amp; Discipline).
+&lt;/p&gt;&lt;p&gt;
 Any student who is found selling tickets or in possession of counterfeit tickets will be dismissed from commencement and reported to Student Judicial Affairs.
-&lt;br/&gt;
-*Please share these policies with your family &amp; friends attending.</value>
+&lt;/p&gt;&lt;p&gt;
+*Please share these policies with your family &amp; friends attending.&lt;/p&gt;</value>
   </data>
   <data name="Txt_Introduction" xml:space="preserve">
     <value>Welcome {0}.  After you have submitted your registration you may log back in and update any of your information up until the registration deadline.</value>
@@ -241,9 +241,6 @@ Any student who is found selling tickets or in possession of counterfeit tickets
   </data>
   <data name="StudentService_BannerLookupByLogin_SQL" xml:space="preserve">
     <value>EXEC usp_SearchStudentByLogin :login</value>
-  </data>
-  <data name="Txt_GradTrack" xml:space="preserve">
-    <value>I authorize my information to be released to Grad Track</value>
   </data>
   <data name="Student_RegistrationPetition_Successful" xml:space="preserve">
     <value>You have successfully submitted your registration petition.</value>

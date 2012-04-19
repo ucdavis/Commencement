@@ -2,4 +2,8 @@
 
 <%--<%= this.CheckBoxList("SpecialNeeds").Options(Model.SpecialNeeds).ItemClass("SpecialNeeds").Class("radio_list")%>--%>
 
-<%= this.Select("SpecialNeeds").Options(Model.SpecialNeeds).FirstOption("--Special Needs Request--") %>
+<ul class="registration_form">
+    <li><strong>&nbsp;</strong>
+        <%= this.Select("SpecialNeeds").Options(Model.SpecialNeeds).FirstOption("--Special Needs Request--") %>    
+    </li>
+</ul>
