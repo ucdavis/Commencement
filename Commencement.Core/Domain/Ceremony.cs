@@ -13,7 +13,7 @@ namespace Commencement.Core.Domain
     public class Ceremony : DomainObject
     {
         #region Constructors
-        public Ceremony(string location, DateTime dateTime, int ticketsPerStudent, int totalTickets, DateTime printingDeadline, DateTime registrationDeadline, TermCode termCode)
+        public Ceremony(string location, DateTime dateTime, int ticketsPerStudent, int totalTickets, DateTime printingDeadline, TermCode termCode)
         {
             SetDefaults();
 
@@ -22,7 +22,6 @@ namespace Commencement.Core.Domain
             TicketsPerStudent = ticketsPerStudent;
             TotalTickets = totalTickets;
             PrintingDeadline = printingDeadline;
-            RegistrationDeadline = registrationDeadline;
             TermCode = termCode;
         }
 
@@ -42,8 +41,6 @@ namespace Commencement.Core.Domain
             TicketDistributionMethods = new List<TicketDistributionMethod>();
 
             DateTime = DateTime.Now;
-            RegistrationBegin = DateTime.Now;
-            RegistrationDeadline = DateTime.Now;
             ExtraTicketBegin = DateTime.Now;
             ExtraTicketDeadline = DateTime.Now;
             PrintingDeadline = DateTime.Now;
@@ -77,10 +74,6 @@ namespace Commencement.Core.Domain
 
         [NotNull]
         public virtual DateTime PrintingDeadline { get; set; }
-        [NotNull]
-        public virtual DateTime RegistrationBegin { get; set; }
-        [NotNull]
-        public virtual DateTime RegistrationDeadline { get; set; }
         [NotNull]
         public virtual DateTime ExtraTicketBegin { get; set; }
         [NotNull]
@@ -304,12 +297,12 @@ namespace Commencement.Core.Domain
 
         public virtual bool IsEditor(string userId)
         {
-            return Editors.Where(a => a.User.LoginId == userId).Any();
+            return Editors.Any(a => a.User.LoginId == userId);
         }
 
         public virtual bool CanRegister()
         {
-            return (DateTime.Now >= RegistrationBegin && DateTime.Now.Date <= RegistrationDeadline);
+            return DateTime.Now.Date >= TermCode.RegistrationBegin.Date && DateTime.Now.Date <= TermCode.RegistrationDeadline.AddDays(3).Date;
         }
 
         public virtual bool CanSubmitExtraTicket()
@@ -337,7 +330,6 @@ namespace Commencement.Core.Domain
             Map(x => x.TotalTickets);
             Map(x => x.TotalStreamingTickets);
             Map(x => x.PrintingDeadline);
-            Map(x => x.RegistrationDeadline);
 
             References(x => x.TermCode).Column("TermCode");
 
@@ -345,7 +337,6 @@ namespace Commencement.Core.Domain
             Map(x => x.ExtraTicketPerStudent);
             Map(x => x.MinUnits);
             Map(x => x.PetitionThreshold);
-            Map(x => x.RegistrationBegin);
             Map(x => x.ExtraTicketBegin);
             Map(x => x.HasStreamingTickets);
             Map(x => x.ConfirmationText);

@@ -89,7 +89,7 @@ namespace Commencement.Controllers.Helpers
 
             foreach (var a in ceremonyParticipations)
             {
-                if (a.Participate && (adminUpdate || a.Ceremony.RegistrationBegin < DateTime.Now && a.Ceremony.RegistrationDeadline > DateTime.Now))
+                if (a.Participate && (adminUpdate || a.Ceremony.CanRegister()))
                 {
                     registration.AddParticipation(a.Major, a.Ceremony, a.Tickets, a.TicketDistributionMethod);
                 }
@@ -106,7 +106,7 @@ namespace Commencement.Controllers.Helpers
                 var rp = registration.RegistrationParticipations.Where(b => b.Id == a.ParticipationId).SingleOrDefault();
 
                 // only allow updates within registration times or during an admin update
-                if (adminUpdate || a.Ceremony.RegistrationBegin < DateTime.Now && a.Ceremony.RegistrationDeadline > DateTime.Now)
+                if (adminUpdate || a.Ceremony.CanRegister())
                 {
                     // case where we are newly registering
                     if (rp == null && a.Participate && !a.Cancel) registration.AddParticipation(a.Major, a.Ceremony, a.Tickets, a.TicketDistributionMethod);
@@ -139,7 +139,7 @@ namespace Commencement.Controllers.Helpers
                 // check for existing registration
                 var noExistingParticipation = !_participationRepository.Queryable.Any(b => b.Ceremony == a.Ceremony && b.Registration.Student == registration.Student);
 
-                if (noExistingPetition && noExistingParticipation && (a.Ceremony.RegistrationBegin < DateTime.Now && a.Ceremony.RegistrationDeadline > DateTime.Now))
+                if (noExistingPetition && noExistingParticipation && a.Ceremony.CanRegister())
                 {
                     var petition = new RegistrationPetition(registration, a.Major, a.Ceremony, a.PetitionReason, a.CompletionTerm, a.Tickets);
                     petition.TransferUnitsFrom = string.IsNullOrEmpty(a.TransferCollege) ? null : a.TransferCollege;

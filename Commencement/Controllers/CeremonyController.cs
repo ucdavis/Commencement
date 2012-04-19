@@ -257,8 +257,6 @@ namespace Commencement.Controllers
             destCeremony.Location = srcCeremony.Location;
             destCeremony.TicketsPerStudent = srcCeremony.TicketsPerStudent;
             destCeremony.TotalTickets = srcCeremony.TotalTickets;
-            destCeremony.RegistrationBegin = srcCeremony.RegistrationBegin;
-            destCeremony.RegistrationDeadline = CreateDeadline(srcCeremony.RegistrationDeadline);
             destCeremony.ExtraTicketBegin = srcCeremony.ExtraTicketBegin;
             destCeremony.ExtraTicketDeadline = CreateDeadline(srcCeremony.ExtraTicketDeadline);
             destCeremony.ExtraTicketPerStudent = srcCeremony.ExtraTicketPerStudent;
