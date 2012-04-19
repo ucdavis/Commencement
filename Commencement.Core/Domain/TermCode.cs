@@ -50,6 +50,11 @@ namespace Commencement.Core.Domain
         public virtual DateTime RegistrationBegin { get; set; }
         public virtual DateTime RegistrationDeadline { get; set; }
 
+        public virtual bool CanRegister()
+        {
+            return DateTime.Now.Date >= RegistrationBegin.Date && DateTime.Now.Date <= RegistrationDeadline.AddDays(3).Date;
+        }
+
     }
 
     public class TermCodeMap : ClassMap<TermCode>

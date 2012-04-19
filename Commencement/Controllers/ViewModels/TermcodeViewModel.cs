@@ -16,7 +16,7 @@ namespace Commencement.Controllers.ViewModels
             var viewModel = new TermcodeViewModel();
 
             var termCodes = Repository.OfType<TermCode>().Queryable.OrderByDescending(a => a.IsActive).ThenBy(a => a.Id);
-            viewModel.AllTermCodes = termCodes.Select(a => new TermCodeUnion {IsActive = a.IsActive, IsInTermCode = true, Name = a.Name, TermCodeId = a.Id}).ToList();
+            viewModel.AllTermCodes = termCodes.Select(a => new TermCodeUnion {IsActive = a.IsActive, IsInTermCode = true, Name = a.Name, TermCodeId = a.Id, RegistrationBegin = a.RegistrationBegin, RegistrationDeadline = a.RegistrationDeadline}).ToList();
 
             viewModel.VTermCodes = Repository.OfType<vTermCode>().Queryable.Where(a => a.StartDate >= DateTime.Now) .ToList();
             var count = 0;
@@ -40,5 +40,9 @@ namespace Commencement.Controllers.ViewModels
         public string Name { get; set; }
         public bool IsActive { get; set; }
         public bool IsInTermCode { get; set; }
+
+        public DateTime RegistrationBegin { get; set; }
+        public DateTime RegistrationDeadline { get; set; }
+
     }
 }

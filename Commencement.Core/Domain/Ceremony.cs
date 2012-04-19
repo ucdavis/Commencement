@@ -234,59 +234,6 @@ namespace Commencement.Core.Domain
             }
         }
 
-        ///// <summary>
-        ///// # available tickets
-        ///// </summary>
-        //public virtual int AvailableTickets { 
-        //    get
-        //    {
-        //        //return TotalTickets - Registrations.Where(a=>!a.SjaBlock).Sum(a => a.TotalTickets);
-
-        //        return 0;
-        //    } 
-        //}
-
-        ///// <summary>
-        ///// # of tickets requested by original registration
-        ///// </summary>
-        //public virtual int RequestedTickets
-        //{
-        //    //get { return Registrations.Where(a => !a.SjaBlock && !a.Cancelled).Sum(a => a.NumberTickets); }
-        //    get {
-        //        RegistrationParticipations.Where(a => !a.Cancelled);
-        //        return 0;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// # of tickets requested by extra ticket petitions
-        ///// </summary>
-        //public virtual int ExtraRequestedtickets
-        //{
-        //    get
-        //    {
-        //        //return Registrations.Where(a => a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved 
-        //        //                            && !a.ExtraTicketPetition.IsPending && !a.SjaBlock && !a.Cancelled)
-        //        //                    .Sum(a => a.ExtraTicketPetition.NumberTickets.Value);
-
-        //        return 0;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Total # of requested tickets (original request and extra ticket approved)
-        ///// </summary>
-        //public virtual int TotalRequestedTickets
-        //{
-        //    get
-        //    {
-        //        // a.TotalTickets filters and returns 0 for cancelled or sjablock registrations
-        //        //return Registrations.Sum(a => a.TotalTickets);
-
-        //        return 0;
-        //    }
-        //}
-
         public virtual void AddEditor(vUser user, bool owner = false)
         {
             var editor = new CeremonyEditor(user, owner);
@@ -302,7 +249,7 @@ namespace Commencement.Core.Domain
 
         public virtual bool CanRegister()
         {
-            return DateTime.Now.Date >= TermCode.RegistrationBegin.Date && DateTime.Now.Date <= TermCode.RegistrationDeadline.AddDays(3).Date;
+            return TermCode.CanRegister();
         }
 
         public virtual bool CanSubmitExtraTicket()

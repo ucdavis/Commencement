@@ -23,7 +23,7 @@ namespace Commencement.Controllers
 
         public ActionResult Details(string termCodeId)
         {
-            var termCode = Repository.OfType<TermCode>().Queryable.Where(a => a.Id == termCodeId).Single();
+            var termCode = Repository.OfType<TermCode>().Queryable.Single(a => a.Id == termCodeId);
             return View(termCode);
         }
 
@@ -33,7 +33,7 @@ namespace Commencement.Controllers
         /// <returns></returns>
         public ActionResult Add(string termCodeId)
         {
-            var vTermCode = Repository.OfType<vTermCode>().Queryable.Where(a => a.Id == termCodeId).Single();
+            var vTermCode = Repository.OfType<vTermCode>().Queryable.Single(a => a.Id == termCodeId);
             var termCode = new TermCode(vTermCode);
             termCode.IsActive = false;
             Repository.OfType<TermCode>().EnsurePersistent(termCode);
@@ -47,7 +47,7 @@ namespace Commencement.Controllers
         /// <returns></returns>
         public ActionResult Activate(string termCodeId)
         {
-            var termCode = Repository.OfType<TermCode>().Queryable.Where(a => a.Id == termCodeId).Single();
+            var termCode = Repository.OfType<TermCode>().Queryable.Single(a => a.Id == termCodeId);
             var termCodes = Repository.OfType<TermCode>().Queryable.Where(a => a.IsActive);
             foreach (var code in termCodes)
             {
@@ -73,7 +73,7 @@ namespace Commencement.Controllers
         /// <returns></returns>
         public ActionResult Edit(string termCodeId)
         {
-            var termCode = Repository.OfType<TermCode>().Queryable.Where(a => a.Id == termCodeId).Single();
+            var termCode = Repository.OfType<TermCode>().Queryable.Single(a => a.Id == termCodeId);
 
             return View(termCode);
         }
@@ -85,7 +85,7 @@ namespace Commencement.Controllers
         [ValidateInput(false)]
         public ActionResult Edit(string id, TermCode termCode)
         {
-            var termCodeToUpdate = Repository.OfType<TermCode>().Queryable.Where(a => a.Id == id).Single();
+            var termCodeToUpdate = Repository.OfType<TermCode>().Queryable.Single(a => a.Id == id);
 
             termCodeToUpdate.LandingText = termCode.LandingText;
             termCodeToUpdate.RegistrationWelcome = termCode.RegistrationWelcome;
@@ -101,6 +101,7 @@ namespace Commencement.Controllers
             {
                 Repository.OfType<TermCode>().EnsurePersistent(termCodeToUpdate);
                 Message = id + " Term Code Saved.";
+                TermService.UpdateCurrent(termCodeToUpdate);
                 return this.RedirectToAction(a => a.Index());
             }
             Message = id + " Unable to save.";

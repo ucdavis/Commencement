@@ -11,7 +11,12 @@
     <div class="content">
 
     <div class="left_col">
+        
     <h2>Commencement Participation</h2>
+
+    <%: Html.HtmlEncode(Model.LandingText) %>
+
+    <%--
 
     <p>
         Registration for the SPRING 2012 College of Agricultural & Environmental Sciences (CA&ES) Commencement Ceremony is from Wednesday, February 1, 2012 and <strong>ends on Friday, April 13th.</strong>
@@ -36,12 +41,11 @@
         <strong>
         The University policy prohibits the selling of commencement tickets for money or commercial value.  Violation will result in referral to Student Judicial Affairs.
         </strong>
-    </p>
-
-
-    <% if (Model.Ceremonies.Min(a => a.RegistrationBegin) <= DateTime.Now && Model.Ceremonies.Max(a=>a.RegistrationDeadline >= DateTime.Now) ) { %>
-        <span class="reg_btn"><%: Html.ActionLink<StudentController>(a => a.Index(), "Register")%></span>
-    <% } %>
+    </p>--%>
+    
+    <% if (Model.CanRegister()) { %>
+        <span class="reg_btn button"><%: Html.ActionLink<StudentController>(a => a.Index(), "Register")%></span>
+    <% }%>
 </div>
 
 <div class="right_col">

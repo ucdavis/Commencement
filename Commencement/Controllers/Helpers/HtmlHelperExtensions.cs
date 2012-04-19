@@ -131,6 +131,7 @@ namespace Commencement.Controllers.Helpers
                               string.Format(SpanEncodedStyled, XXLargeText),
                               string.Format(SpanStyled, XXLargeText));
             formattedEncodedText = formattedEncodedText.Replace(@"&amp;", @"&"); //This needs to happen after ReplaceComplexTag calls
+
             return new FormattedString() {FormattedValue = formattedEncodedText.ToString()};
         }
 

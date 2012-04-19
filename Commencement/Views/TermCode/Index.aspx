@@ -28,6 +28,14 @@
                           {
                               cell.Text = cell.DataItem.IsInTermCode ? "Yes" : "No";
                           }
+                          if (cell.Column.Name == "RegistrationBegin")
+                          {
+                              cell.Text = cell.DataItem.RegistrationBegin.ToString("d");
+                          }
+                          if (cell.Column.Name == "RegistrationDeadline")
+                          {
+                              cell.Text = cell.DataItem.RegistrationDeadline.ToString("d");
+                          }
                       })
             .Columns(col=>
                         {
@@ -46,6 +54,8 @@
                                         <% });
                             col.Bound(x => x.TermCodeId).Title("Term Code");
                             col.Bound(x => x.Name).Title("Description");
+                            col.Bound(x => x.RegistrationBegin);
+                            col.Bound(x => x.RegistrationDeadline);
                             col.Bound(x => x.IsActive).Title("Active");
                             col.Bound(x => x.IsInTermCode).Title("Added");
                         })

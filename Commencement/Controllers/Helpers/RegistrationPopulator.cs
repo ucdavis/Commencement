@@ -102,7 +102,6 @@ namespace Commencement.Controllers.Helpers
 
             foreach (var a in ceremonyParticipations)
             {
-                //var rp = registration.RegistrationParticipations.Where(b => b.Major == a.Major && b.Ceremony == a.Ceremony).FirstOrDefault();
                 var rp = registration.RegistrationParticipations.Where(b => b.Id == a.ParticipationId).SingleOrDefault();
 
                 // only allow updates within registration times or during an admin update

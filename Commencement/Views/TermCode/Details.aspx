@@ -53,12 +53,16 @@
 
 <fieldset>
     <legend>Landing Text</legend>
-    <%: Html.HtmlEncode(Model.LandingText)%>
+    
+    <div class="content">
+        <%: Html.HtmlEncode(Model.LandingText) %>    
+    </div>
+    
 </fieldset>
 
 <fieldset>
     <legend>Registration Welcome</legend>
-    <%: Html.HtmlEncode(Model.RegistrationWelcome)%>
+    <%= Model.RegistrationWelcome %>
 </fieldset>
 
 </asp:Content>
