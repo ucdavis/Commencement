@@ -6,9 +6,14 @@
     <div class="title ui-widget-header ui-corner-top"><%: string.Format("{0} ({1})", Model.Ceremony.CeremonyName, Model.Ceremony.DateTime) %></div>
     
     <ul class="registration_form">
-        <li><strong>Status:</strong><%: Model.Cancelled ? "Cancelled" : "Registered" %></li>
-        <li><strong>Major:</strong><%: Model.Major.Name %></li>
-        <li><strong>Tickets Requested:</strong><span><%= Html.Encode(Model.NumberTickets) %></span>
+        <li><strong>Status:</strong>
+            <%: Model.Cancelled ? "Cancelled" : "Registered" %>
+        </li>
+        <li><strong>Major:</strong>
+            <%: Model.Major.Name %>
+        </li>
+        <li><strong>Tickets Requested:</strong>
+            <span><%= Html.Encode(Model.NumberTickets) %></span>
         </li>
         <li>
             <strong>Ticket Distribution:</strong>
