@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
 using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
@@ -11,6 +12,7 @@ using UCDArch.Web.Controller;
 
 namespace Commencement.Controllers
 {
+    [AnyoneWithRole]
     public class EmailQueueController : SuperController
     {
         private readonly IRepository<EmailQueue> _emailQueueRepository;
@@ -71,7 +73,6 @@ namespace Commencement.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        //public ActionResult EmailStudents(Ceremony ceremony, string subject, string body)
         public ActionResult EmailStudents(EmailStudentsViewModel emailStudents)
         {
             // get the template type
@@ -117,6 +118,19 @@ namespace Commencement.Controllers
             viewModel.Subject = emailStudents.Subject;
             viewModel.Body = emailStudents.Body;
             return View(viewModel);
+        }
+
+        public ActionResult Details(int id)
+        {
+            var emailQueue = _emailQueueRepository.GetNullableById(id);
+
+            if (emailQueue == null)
+            {
+                Message = "Email queue message not found.";
+                return RedirectToAction("Index");
+            }
+
+            return View(emailQueue);
         }
 
     }

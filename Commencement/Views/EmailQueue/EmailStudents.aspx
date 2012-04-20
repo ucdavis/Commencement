@@ -31,6 +31,7 @@
             </li>
             <li><strong>Body:<%: Html.ValidationMessage("Body", "*") %></strong>
                 <%: Html.TextArea("EmailStudents.Body", Model.Body) %>
+                
             </li>
             <li><strong>&nbsp;</strong>
                 <input type="submit" value="Send" class="button" /> |
@@ -49,7 +50,7 @@
                 </ul>
             </div>
         </div>
-
+        <div style="clear: both;"></div>
     <% } %>
 </asp:Content>
 
