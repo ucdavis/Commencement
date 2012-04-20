@@ -112,7 +112,7 @@ namespace Commencement.Controllers.Helpers
                     // case where we are cancelling
                     else if (rp != null)
                     {
-                        rp.Cancelled = a.Participate ? !a.Participate : a.Cancel;
+                        rp.Cancelled = a.Participate && !a.Cancel ? !a.Participate : a.Cancel;
                         rp.DateUpdated = DateTime.Now;
                         rp.NumberTickets = a.Tickets;
                         rp.TicketDistributionMethod = a.TicketDistributionMethod;
