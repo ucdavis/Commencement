@@ -73,22 +73,17 @@
         </fieldset>
 
 
-        <%
-        var participations = Model.Registration.RegistrationParticipations.Where(a => Model.Ceremonies.Contains(a.Ceremony));
-        var petitions = Model.Registration.RegistrationPetitions.Where(a=> Model.Ceremonies.Contains(a.Ceremony));
-        %>
-
-        <% if (participations.Any()) { %>
+        <% if (Model.Registration.RegistrationParticipations.Any()) { %>
         
             <fieldset>
             
-                <% if (participations.Count() == 1) { %>
+                <% if (Model.Registration.RegistrationParticipations.Count() == 1) { %>
                     <legend>Ceremony</legend>
                 <% } else { %>
                     <legend>Ceremonies</legend>
                 <% } %>
 
-                <% foreach(var a in participations) { %>
+                <% foreach(var a in Model.Registration.RegistrationParticipations) { %>
                     <% Html.RenderPartial("RegisteredCeremonyDisplay", a); %>
                 <% } %>
 
@@ -96,15 +91,14 @@
 
         <% } %>
 
-        <% if (petitions.Count() > 0) { %>
+        <% if (Model.Registration.RegistrationPetitions.Any()) { %>
             <h2>Petition Information</h2>
-            <% foreach (var a in petitions) { %>
+            <% foreach (var a in Model.Registration.RegistrationPetitions) { %>
                 <% Html.RenderPartial("RegistrationPetitionDisplay", a); %>
             <% } %>
         <% } %> 
     
     <% } else { %>
-
         <fieldset>
         
             <legend>Registration</legend>

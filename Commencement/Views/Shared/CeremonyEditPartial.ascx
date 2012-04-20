@@ -78,7 +78,7 @@
                 <li>
                     <strong>Ticket Distribution:</strong>
                     <% if (a.Ceremony.TicketDistributionMethods.Count > 0) { %>
-                    <%= this.RadioSet(string.Format("ceremonyParticipations[{0}].TicketDistributionMethod", a.Index)).Options(a.Ceremony.TicketDistributionMethods, x=>x.Id, x=>x.Name).Selected(a.TicketDistributionMethod != null ? a.TicketDistributionMethod.Id : string.Empty).Class("radio_list") %>
+                    <%= this.RadioSet(string.Format("ceremonyParticipations[{0}].TicketDistributionMethod", a.Index)).Options(a.Ceremony.TicketDistributionMethods, x=>x.Id, x=>x.Name).Selected(a.TicketDistributionMethod != null ? a.TicketDistributionMethod.Id : (a.Ceremony.TicketDistributionMethods.Count == 1 ? a.Ceremony.TicketDistributionMethods.First().Id : string.Empty )).Class("radio_list") %>
                     <% } else { %>
                     Please consult the Dean's Office FAQ
                     <% } %>

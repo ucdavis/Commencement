@@ -14,6 +14,7 @@ namespace Commencement.Controllers.ViewModels
         public IEnumerable<State> States { get; set; }
         //public IEnumerable<CollegeCeremonyInfo> CollegeCeremonyInfos { get; set; }
         public MultiSelectList SpecialNeeds { get; set; }
+        public IQueryable<vTermCode> FutureTerms { get; set; }
 
         // registration information
         public Registration Registration { get; set; }
@@ -21,8 +22,8 @@ namespace Commencement.Controllers.ViewModels
         public IEnumerable<CeremonyParticipation> Participations { get; set; }
 
         // not sure if these are even used
-        public IEnumerable<Ceremony> Ceremonies { get; private set; }
-        public IQueryable<vTermCode> FutureTerms { get; set; }
+        //public IEnumerable<Ceremony> Ceremonies { get; private set; }
+        
 
         public static RegistrationModel Create(IRepository repository, IList<Ceremony> ceremonies, Student student, Registration registration = null, List<CeremonyParticipation> ceremonyParticipations = null, bool edit = false)
         {
@@ -32,8 +33,7 @@ namespace Commencement.Controllers.ViewModels
         
                                     Registration = registration ?? new Registration() {Student = student},
                                     Student = student,
-
-                                    Ceremonies = ceremonies,
+                                    //Ceremonies = ceremonies,
                                     FutureTerms = repository.OfType<vTermCode>().Queryable.Where(a=>a.EndDate > DateTime.Now)
                                 };
 

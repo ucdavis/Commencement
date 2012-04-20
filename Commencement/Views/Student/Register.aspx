@@ -1,5 +1,6 @@
 <%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.RegistrationModel>"
     MasterPageFile="~/Views/Shared/Site.Master" %>
+<%@ Import Namespace="Commencement.Controllers.Services" %>
 <%@ Import Namespace="Commencement.Core.Resources" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
@@ -30,7 +31,9 @@
 
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
 
-    <p><%: Html.HtmlEncode(string.Format(Model.Ceremonies.FirstOrDefault().TermCode.RegistrationWelcome, Model.Student.FullName, Model.Ceremonies.FirstOrDefault().CeremonyName)) %></p>
+    <%--<p><%: Html.HtmlEncode(string.Format(Termser().TermCode.RegistrationWelcome, Model.Student.FullName, Model.Ceremonies.FirstOrDefault().CeremonyName)) %></p>--%>
+    
+    <%: Html.HtmlEncode(TermService.GetCurrent().RegistrationWelcome) %>
 
     <% if (Model.Participations.Any(a => a.Ceremony.IsPastPrintingDeadline())) { %>
         <div id="printing-warning">
