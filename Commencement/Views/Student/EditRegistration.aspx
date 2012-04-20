@@ -1,7 +1,20 @@
 <%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.RegistrationModel>" MasterPageFile="~/Views/Shared/Site.Master" %>
 <%@ Import Namespace="Commencement.Controllers" %>
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">Edit registration</asp:Content>
-<asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent"></asp:Content>
+<asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent">
+    
+    <script type="text/javascript">
+        $(function () {
+
+            $('input[type="radio"]').click(function () {
+                $(this).parents("ul.registration_form").find('input[type="radio"]').removeAttr("checked");
+                $(this).attr("checked", "checked");
+            });
+
+        });
+    </script>
+
+</asp:Content>
 
 <asp:Content runat="server" ID="Content3" ContentPlaceHolderID="logoContent">
 </asp:Content>
