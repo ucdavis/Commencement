@@ -84,6 +84,7 @@ select {padding: .5em; min-width: 217px;}
 input[type='radio'], input[type='checkbox'] {margin-right: 5px;}
 div.radio_list {margin: 0 0 1em 0; display: inline-block;}
 div.radio_list label {margin-left: 5px; display: inline-block; margin-right: 1em;}
+textarea { padding: .5em;}
 
 /*
 div.radio_list input {display:inline-block; margin-left:210px; margin-top: .5em;}

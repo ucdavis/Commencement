@@ -30,7 +30,9 @@
                     <%: Model.ExtraTicketPetition.TotalTicketsRequested %></li>
                 <% } %>
 
-                <li><strong>Reason:</strong><%: Model.ExtraTicketPetition.Reason %></li>
+                <li><strong>Reason:</strong>
+                    <%: Model.ExtraTicketPetition.Reason %>
+                </li>
             <li>
                 <strong>Status:</strong>
                 <%: Model.ExtraTicketPetition.IsPending ? "Pending Decision" : (Model.ExtraTicketPetition.IsApproved ? "Approved" : "Denied") %>
@@ -44,7 +46,7 @@
     </ul>
 
     <div class="foot ui-corner-bottom">
-        <span><strong>Registered:</strong> <i><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateRegistered) %></i></span>
+        <span><strong>Registered:</strong><i><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateRegistered) %></i></span>
         <span style="float: right;"><strong>Last Update:</strong> <i><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateUpdated) %></i></span>
     </div>
 
