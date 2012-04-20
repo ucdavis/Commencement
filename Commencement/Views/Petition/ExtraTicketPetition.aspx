@@ -58,9 +58,10 @@
     
         <%: Html.AntiForgeryToken() %>
         
-        <%  var counter = 0;
-            for (int j = 0; j < Model.Registration.RegistrationParticipations.Count; j++) {
-                var participation = Model.Registration.RegistrationParticipations[j];
+        <% var registrations = Model.Registration.RegistrationParticipations.Where(x => !x.Cancelled).ToList();
+            var counter = 0;
+            for (int j = 0; j < registrations.Count; j++) {
+                var participation = registrations[j];
             %>
     
             <fieldset>
@@ -80,8 +81,12 @@
                     <% } %>
 
                     <ul class="registration_form">
-                    <li class="prefilled"><strong>Major:</strong><%: participation.Major.Name %></li>
-                    <li class="prefilled"><strong>Ceremony Time:</strong><%: participation.Ceremony.DateTime.ToString("g") %></li>
+                    <li class="prefilled"><strong>Major:</strong>
+                        <%: participation.Major.Name %>
+                    </li>
+                    <li class="prefilled"><strong>Ceremony Time:</strong>
+                        <%: participation.Ceremony.DateTime.ToString("g") %>
+                    </li>
                     <li class="prefilled hastip" style="display: inline-block;" title="# tickets originally requested when registering."><strong># Tickets Requested:</strong>
                         <%: participation.NumberTickets %>
                     </li>

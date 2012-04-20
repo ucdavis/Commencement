@@ -27,8 +27,6 @@
         </div>
     </div>
 
-    
-    
     <fieldset>
         
         <legend>Student Information</legend>
@@ -54,7 +52,7 @@
             <% foreach(var a in Model.Registration.RegistrationParticipations) { %>
                 <!-- only display this message if it loads within 2 minutes of the registartion date -->
                 <% if (DateTime.Now.Subtract(a.DateRegistered).TotalMinutes <= 2) { %>
-                <div class="confirmation-container">
+                <div class="confirmation-container ui-corner-all ui-state-highlight">
                     <%= a.Ceremony.ConfirmationText %>
                 </div>
                 <% } %>

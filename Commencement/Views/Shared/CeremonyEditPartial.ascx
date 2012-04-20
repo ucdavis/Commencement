@@ -15,7 +15,7 @@
     <% foreach (var a in Model.Participations) { %>
     
         <div class="ceremony ui-corner-all">
-            <div class="title ui-corner-top"><%: a.Ceremony.CeremonyName %></div>
+            <div class="title ui-corner-top ui-widget-header"><%: a.Ceremony.CeremonyName %></div>
 
             <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Ceremony", a.Index), a.Ceremony.Id) %>
             <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].NeedsPetition", a.Index), a.NeedsPetition) %>

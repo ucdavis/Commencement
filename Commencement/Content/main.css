@@ -284,8 +284,8 @@ div.t-grid {}
 .confirmation-container
 {
     background-color: #F4F4F4;
-    border: 1px solid red;
     padding: 10px;
+    margin-bottom: 1em;
 }
 .confirmation-container p
 {

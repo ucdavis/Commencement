@@ -26,7 +26,7 @@ namespace Commencement.Controllers.ViewModels
                                     AvailableParticipationIds = registration.RegistrationParticipations.Where(
                                                                     a =>
                                                                     DateTime.Now >= a.Ceremony.ExtraTicketBegin && DateTime.Now <= a.Ceremony.ExtraTicketDeadline &&
-                                                                    a.ExtraTicketPetition == null).Select(a => a.Id).ToList()
+                                                                    a.ExtraTicketPetition == null && !a.Cancelled).Select(a => a.Id).ToList()
                                 };
             return viewModel;
         }

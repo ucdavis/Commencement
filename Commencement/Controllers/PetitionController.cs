@@ -300,10 +300,10 @@ namespace Commencement.Controllers
             var minBeginDate = ceremonies.Min(a => a.ExtraTicketBegin);
             var maxEndDate = ceremonies.Max(a => a.ExtraTicketDeadline);
 
-            // extra ticket deadline has passed or no more tickets
+            // extra ticket deadline has passed 
             if (DateTime.Now > maxEndDate)
             {
-                Message = "Deadline for all extra ticket requests has passed or there are no more tickets available.";
+                Message = "Deadline for all extra ticket requests has passed.";
                 return this.RedirectToAction<StudentController>(a => a.DisplayRegistration());
             }
 

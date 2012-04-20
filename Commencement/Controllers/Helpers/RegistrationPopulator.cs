@@ -116,6 +116,7 @@ namespace Commencement.Controllers.Helpers
                         rp.DateUpdated = DateTime.Now;
                         rp.NumberTickets = a.Tickets;
                         rp.TicketDistributionMethod = a.TicketDistributionMethod;
+                        rp.Major = a.Major;
 
                         if (adminUpdate)
                         {
