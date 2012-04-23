@@ -32,7 +32,6 @@
            .Columns(col =>
                         {
                             col.Add(a => { %>
-                                        <img class="cancel" src="<%: Url.Content("~/Images/Cancel-1.png") %>" data-id='<%: a.Id %>' />
                                         <%: Html.ActionLink("Details", "Details", new {id=a.Id}, new {@class="button"}) %>
                                         <% });
                             col.Bound("Student.StudentId");
@@ -40,6 +39,9 @@
                             col.Bound("Subject");
                             col.Bound("Created");
                             col.Bound("Id");
+                            col.Add(a => { %>
+                                <img class="cancel" src="<%: Url.Content("~/Images/Cancel-1.png") %>" data-id='<%: a.Id %>' />
+                            <% });
                         })
            .Render();
         %>
@@ -65,5 +67,9 @@
             });
         });
     </script>
+    
+    <style type="text/css">
+        .cancel { cursor: pointer;}
+    </style>
 
 </asp:Content>

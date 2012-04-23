@@ -9,7 +9,9 @@
     
     <div class="page_bar">
         <div class="col1"><h2>Email Queue Details</h2></div>
-        <div class="col2"></div>
+        <div class="col2">
+            <%: Html.ActionLink("Back to List", "Index", "EmailQueue", new {@class="button"}) %>
+        </div>
     </div>
     
     <fieldset>
@@ -26,8 +28,8 @@
             <li class="prefilled"><strong><%: Html.LabelFor(x => x.Created, DisplayOptions.HumanizeAndColon) %></strong>
                 <%: Model.Created %>
             </li>
-            <li class="prefilled"><strong><%: Html.LabelFor(x => x.SentDateTime, DisplayOptions.HumanizeAndColon) %></strong>
-                <%: Model.SentDateTime.HasValue ? Model.SentDateTime.ToString() : "Pending" %>
+            <li class="prefilled"><strong>Status:</strong>
+                <%: Model.SentDateTime.HasValue ? string.Format("Sent on {0}",Model.SentDateTime.ToString()) : "Pending" %>
             </li>
         </ul>
 
