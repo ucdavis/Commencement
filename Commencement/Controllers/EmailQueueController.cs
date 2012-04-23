@@ -115,10 +115,16 @@ namespace Commencement.Controllers
                     }
                 }
                 // Those eligible but not registered
-                else if (emailStudents.EmailType == EmailStudentsViewModel.MassEmailType.Eligible)
+                else if (emailStudents.EmailType == EmailStudentsViewModel.MassEmailType.Eligible || emailStudents.EmailType == EmailStudentsViewModel.MassEmailType.AllEligible)
                 {
                     var students = emailStudents.Ceremony.Majors.SelectMany(a => a.Students).Where(a => a.TermCode == emailStudents.Ceremony.TermCode);
-                    students = students.Where(a => !emailStudents.Ceremony.RegistrationParticipations.Select(x => x.Registration.Student).Contains(a)).ToList();
+
+                    // filter out students who have registered, only trying to send to students who are eligible and not registered
+                    if (emailStudents.EmailType == EmailStudentsViewModel.MassEmailType.Eligible)
+                    {
+                        students = students.Where(a => !emailStudents.Ceremony.RegistrationParticipations.Select(x => x.Registration.Student).Contains(a)).ToList();    
+                    }
+                    
 
                     foreach (var student in students)
                     {
