@@ -31,8 +31,6 @@ a {text-decoration: none; }
 /* ---------------- */
 /*    font          */
 /* ---------------- */
-
-
 h1 {font: 22px/32px Helvetica, Arial, sans-serif; letter-spacing: 0; text-align:center;}
 h2 {font: 18px/26px Helvetica, Arial, sans-serif; letter-spacing: 0; margin:0.25em 0; font-weight:bold;}
 h3 {font: 16px/26px Helvetica, Arial, sans-serif; letter-spacing: 0; text-align:center; margin-top:3em;}
@@ -71,7 +69,7 @@ fieldset { padding: 1em;margin: 1em 0;}
 fieldset legend {border: 1px solid black; padding: .25em 1em;background-color: #00497b;color: white;font-weight: bold;}
 fieldset legend a { color: white;}
 
-.registration_form li{list-style:none; margin-left:1em; margin-top:0.25em;}
+.registration_form li{list-style:none; margin-left:1em; margin-top:0.25em;min-height: 32px;}
 .prefilled span {color:#333;}
 .registration_form input {}
 .registration_form li strong {width:200px; display:inline-block;}
@@ -85,11 +83,6 @@ input[type='radio'], input[type='checkbox'] {margin-right: 5px;}
 div.radio_list {margin: 0 0 1em 0; display: inline-block;}
 div.radio_list label {margin-left: 5px; display: inline-block; margin-right: 1em;}
 textarea { padding: .5em;}
-
-/*
-div.radio_list input {display:inline-block; margin-left:210px; margin-top: .5em;}
-div.radio_list label {display:inline-block; width:550px; margin-left:5px;}
-*/
 
 .ceremony 
 {

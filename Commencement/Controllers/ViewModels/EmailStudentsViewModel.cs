@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Web.Mvc;
 using Commencement.Controllers.Services;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
@@ -9,10 +11,11 @@ namespace Commencement.Controllers.ViewModels
     public class EmailStudentsViewModel
     {
         public List<Ceremony> Ceremonies { get; set; }
-
+        
         public Ceremony Ceremony { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
+        public MassEmailType EmailType { get; set; }
 
         public static EmailStudentsViewModel Create(IRepository repository, ICeremonyService ceremonyService, string userId)
         {
@@ -26,5 +29,9 @@ namespace Commencement.Controllers.ViewModels
 
             return viewModel;
         }
+
+        public enum MassEmailType { Eligible = 1, Registered = 2, AllEligible = 3 };
     }
+    
+    
 }

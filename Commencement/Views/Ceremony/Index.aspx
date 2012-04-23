@@ -25,7 +25,7 @@
                         {
                             col.Template(a =>
                                         {   %>
-                                            <%= Html.ActionLink<CeremonyController>(b=>b.Edit(a.Id), "Select") %>                                            
+                                            <%= Html.ActionLink<CeremonyController>(b=>b.Edit(a.Id), "Select", new{@class="button"}) %>                                            
                                             <%
                                         });
                             col.Bound(a => a.CeremonyName).Title("Name");

@@ -17,7 +17,7 @@ namespace Commencement.Controllers.Helpers
         string GenerateRegistrationPetitionConfirmation(RegistrationPetition registrationPetition, Template template);
         string GenerateRegistrationPetitionApproved(RegistrationPetition registrationPetition, Template template);
         string GenerateMoveMajor(RegistrationParticipation registrationParticipation, Template template);
-        string GenerateEmailAllStudents(RegistrationParticipation registrationParticipation, string body, TemplateType templateType);
+        string GenerateEmailAllStudents(Ceremony ceremony, Student student, string body, TemplateType templateType);
         bool ValidateTemplate(Template template, List<string> invalidTokens);
     }
 
@@ -133,15 +133,18 @@ namespace Commencement.Controllers.Helpers
             return HandleBody(template.BodyText);
         }
 
-        public string GenerateEmailAllStudents(RegistrationParticipation registrationParticipation, string body, TemplateType templateType)
+        public string GenerateEmailAllStudents(Ceremony ceremony, Student student, string body, TemplateType templateType)
         {
-            Check.Require(registrationParticipation != null, "registrationParticipation is required.");
+            //Check.Require(registrationParticipation != null, "registrationParticipation is required.");
+            Check.Require(ceremony != null, "ceremony is required");
+            Check.Require(student != null, "student is required");
             Check.Require(!string.IsNullOrWhiteSpace(body), "body is required.");
 
-            _ceremony = registrationParticipation.Ceremony;
-            _student = registrationParticipation.Registration.Student;
-            _registrationParticipation = registrationParticipation;
-            _registration = registrationParticipation.Registration;
+            _ceremony = ceremony;
+            _student = student;
+            //_registrationParticipation = registrationParticipation;
+            //_registration = registrationParticipation.Registration;
+            _registration = new Registration();
             _template = new Template(){TemplateType = templateType};
 
             return HandleBody(body);

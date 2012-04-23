@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.EmailStudentsViewModel>" %>
 <%@ Import Namespace="Commencement.Controllers" %>
+<%@ Import Namespace="Commencement.Controllers.ViewModels" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Commencement | EmailStudents
@@ -25,13 +26,16 @@
                 <%= this.Select("EmailStudents.Ceremony").Options(Model.Ceremonies, x=>x.Id, x=> string.Format("{0} ({1})", x.CeremonyName, x.DateTime)).FirstOption("--Select Ceremony--").Selected(Model.Ceremony != null ? Model.Ceremony.Id : 0) %>
                 <%: Html.ValidationMessage("Ceremony", "*") %>
             </li>
+            <li><strong>Student Population:</strong>
+                <%--<%: Html.DropDownListFor(model => model.EmailType, new SelectList(Enum.GetValues(typeof(EmailStudentsViewModel.MassEmailType))), "--Select Population--", new {@class="hastip", title="Description here"}) %>--%>
+                <%: Html.DropDownList("EmailStudents.EmailType", new SelectList(Enum.GetValues(typeof(EmailStudentsViewModel.MassEmailType)), Model.EmailType), "--Select Population--", new {@class="hastip", title="hello"})%>
+            </li>
             <li><strong>Subject:</strong>
                 <%: Html.TextBox("EmailStudents.Subject", Model.Subject) %>
                 <%: Html.ValidationMessage("Subject", "*") %>
             </li>
             <li><strong>Body:<%: Html.ValidationMessage("Body", "*") %></strong>
                 <%: Html.TextArea("EmailStudents.Body", Model.Body) %>
-                
             </li>
             <li><strong>&nbsp;</strong>
                 <input type="submit" value="Send" class="button" /> |

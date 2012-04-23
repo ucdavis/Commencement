@@ -16,12 +16,14 @@ namespace Commencement.Controllers
     public class EmailQueueController : SuperController
     {
         private readonly IRepository<EmailQueue> _emailQueueRepository;
+        private readonly IRepositoryWithTypedId<Student, Guid> _studentRepository;
         private readonly ICeremonyService _ceremonyService;
         private readonly ILetterGenerator _letterGenerator;
 
-        public EmailQueueController(IRepository<EmailQueue> emailQueueRepository, ICeremonyService ceremonyService, ILetterGenerator letterGenerator)
+        public EmailQueueController(IRepository<EmailQueue> emailQueueRepository, IRepositoryWithTypedId<Student, Guid> studentRepository , ICeremonyService ceremonyService, ILetterGenerator letterGenerator)
         {
             _emailQueueRepository = emailQueueRepository;
+            _studentRepository = studentRepository;
             _ceremonyService = ceremonyService;
             _letterGenerator = letterGenerator;
         }
@@ -99,16 +101,34 @@ namespace Commencement.Controllers
 
             if (ModelState.IsValid)
             {
-                foreach (var participation in emailStudents.Ceremony.RegistrationParticipations)
+                // Those registered
+                if (emailStudents.EmailType == EmailStudentsViewModel.MassEmailType.Registered)
                 {
-                    var bodyText = _letterGenerator.GenerateEmailAllStudents(participation, emailStudents.Body, templateType);
+                    foreach (var participation in emailStudents.Ceremony.RegistrationParticipations)
+                    {
+                        var bodyText = _letterGenerator.GenerateEmailAllStudents(emailStudents.Ceremony, participation.Registration.Student, emailStudents.Body, templateType);
 
-                    var eq = new EmailQueue(participation.Registration.Student, null, emailStudents.Subject, bodyText, false);
-                    eq.Registration = participation.Registration;
-                    eq.RegistrationParticipation = participation;
-                    Repository.OfType<EmailQueue>().EnsurePersistent(eq);
+                        var eq = new EmailQueue(participation.Registration.Student, null, emailStudents.Subject, bodyText, false);
+                        eq.Registration = participation.Registration;
+                        eq.RegistrationParticipation = participation;
+                        Repository.OfType<EmailQueue>().EnsurePersistent(eq);
+                    }
                 }
+                // Those eligible but not registered
+                else if (emailStudents.EmailType == EmailStudentsViewModel.MassEmailType.Eligible)
+                {
+                    var students = emailStudents.Ceremony.Majors.SelectMany(a => a.Students).Where(a => a.TermCode == emailStudents.Ceremony.TermCode);
+                    students = students.Where(a => !emailStudents.Ceremony.RegistrationParticipations.Select(x => x.Registration.Student).Contains(a)).ToList();
 
+                    foreach (var student in students)
+                    {
+                        var bodyText = _letterGenerator.GenerateEmailAllStudents(emailStudents.Ceremony, student, emailStudents.Body, templateType);
+
+                        var eq = new EmailQueue(student, null, emailStudents.Subject, bodyText, false);
+                        Repository.OfType<EmailQueue>().EnsurePersistent(eq);
+                    }
+                }
+                
                 Message = "Emails have been queued.";
                 return RedirectToAction("Index");    
             }

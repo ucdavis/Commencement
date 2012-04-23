@@ -20,7 +20,7 @@
             <% } else { %>
                 <%: Html.ActionLink<EmailQueueController>(a => a.Index(true), "Show All", new { @class = "button" })%>
             <% } %>
-            <%: Html.ActionLink<EmailQueueController>(a => a.EmailStudents(), "Email Blast Students", new { @class="button" })%>
+            <%: Html.ActionLink<EmailQueueController>(a => a.EmailStudents(), "Mass Email", new { @class="button" })%>
         </div>
     </div>
 

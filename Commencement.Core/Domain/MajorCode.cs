@@ -1,4 +1,5 @@
-﻿using FluentNHibernate.Mapping;
+﻿using System.Collections.Generic;
+using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
 namespace Commencement.Core.Domain
@@ -21,6 +22,8 @@ namespace Commencement.Core.Domain
         public virtual MajorCode ConsolidationMajor { get; set; }
 
         public virtual bool IsActive { get; set; }
+
+        public virtual IList<Student> Students { get; set; }
 
         /// <summary>
         /// returns the real major for those with consolidation codes
@@ -65,6 +68,8 @@ namespace Commencement.Core.Domain
             References(x => x.College).Column("CollegeCode");
 
             Map(x => x.IsActive);
+
+            HasManyToMany(x => x.Students).ParentKeyColumn("MajorCode").ChildKeyColumn("Student_Id").Table("StudentMajors").Cascade.None();
         }
     }
 
