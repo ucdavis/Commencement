@@ -163,7 +163,18 @@
 
         </div>
         
+        <div class="report">
+            
+            <div class="title">
+                <div class="col1">Honors Report</div>
+                <div class="col2">
+                    <a href="<%= Url.Action("Honors", "Report") %>" class="submit_anchor button"><span class="ui-icon ui-icon-disk"></span>Download</a>
+                </div>
+            </div>
+            
+            <div class="description">Honors report for the given term</div>
 
+        </div>
 
     </fieldset>
     

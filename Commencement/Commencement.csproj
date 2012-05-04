@@ -637,6 +637,7 @@
     <Content Include="Views\Petition\ExtraTicketPetitions.aspx" />
     <Content Include="Views\Petition\RegistrationPetition.aspx" />
     <Content Include="Views\Petition\RegistrationPetitions.aspx" />
+    <Content Include="Views\Report\Honors.aspx" />
     <Content Include="Views\Shared\CeremonyEditPartial.ascx" />
     <Content Include="Views\Shared\ContactEditPartial.ascx" />
     <Content Include="Views\Shared\RegistrationPetitionDisplay.ascx" />

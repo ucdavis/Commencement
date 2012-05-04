@@ -250,6 +250,22 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
+        public ActionResult Honors()
+        {
+            ViewData["Colleges"] = Repository.OfType<College>().Queryable.Where(a => a.Display).ToList();
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Honors(HonorsPostModel honorsPostModel)
+        {
+            ViewData["Colleges"] = Repository.OfType<College>().Queryable.Where(a => a.Display).ToList();
+            ViewData["HonorsPostModel"] = honorsPostModel;
+
+            return View();
+        }
+
         public JsonNetResult LoadMajorsForTerm(string term)
         {
             var majors = GetMajorsForTerm(term);
@@ -325,5 +341,38 @@ namespace Commencement.Controllers
         public string Cell1 { get; set; }
         public string Cell2 { get; set; }
         public string Cell3 { get; set; }
+    }
+
+    public class HonorsPostModel
+    {
+        public College College { get; set; }
+        public decimal Honors4590 { get; set; }
+        public decimal? HighHonors4590 { get; set; }
+        public decimal? HighestHonors4590 { get; set; }
+
+        public decimal Honors90135 { get; set; }
+        public decimal? HighHonors90135 { get; set; }
+        public decimal? HighestHonors90135 { get; set; }
+
+        public decimal Honors135 { get; set; }
+        public decimal? HighHonors135 { get; set; }
+        public decimal? HighestHonors135 { get; set; }
+
+        public bool Validate()
+        {
+            if (College == null) return false;
+
+            if (Honors4590 == 0 || Honors90135 == 0 || Honors135 == 0) return false;
+
+            if (College.Id != "LS")
+            {
+                return HighHonors4590.HasValue && HighestHonors4590.HasValue && HighHonors90135.HasValue &&
+                       HighestHonors90135.HasValue
+                       && HighHonors135.HasValue && HighestHonors135.HasValue;
+            }
+
+            return true;
+        }
+
     }
 }
