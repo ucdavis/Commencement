@@ -254,16 +254,20 @@ namespace Commencement.Controllers
         {
             ViewData["Colleges"] = Repository.OfType<College>().Queryable.Where(a => a.Display).ToList();
 
-            return View();
+            return View(new HonorsPostModel());
         }
 
         [HttpPost]
         public ActionResult Honors(HonorsPostModel honorsPostModel)
         {
-            ViewData["Colleges"] = Repository.OfType<College>().Queryable.Where(a => a.Display).ToList();
-            ViewData["HonorsPostModel"] = honorsPostModel;
+            if (honorsPostModel.Validate())
+            {
+                Message = "Here is your file.";
+            }
 
-            return View();
+            ViewData["Colleges"] = Repository.OfType<College>().Queryable.Where(a => a.Display).ToList();
+
+            return View(honorsPostModel);
         }
 
         public JsonNetResult LoadMajorsForTerm(string term)
