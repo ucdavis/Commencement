@@ -262,7 +262,7 @@ namespace Commencement.Controllers
         {
             if (honorsPostModel.Validate())
             {
-                Message = "Here is your file.";
+                Message = "You would get your file here, once I wire this up.";
             }
 
             ViewData["Colleges"] = Repository.OfType<College>().Queryable.Where(a => a.Display).ToList();
