@@ -41,6 +41,14 @@
       <Name>TotalRegistrationReport.rdl</Name>
       <FullPath>TotalRegistrationReport.rdl</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>Honors.rdl</Name>
+      <FullPath>Honors.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>HonorsLS.rdl</Name>
+      <FullPath>HonorsLS.rdl</FullPath>
+    </ProjectItem>
   </Reports>
   <Configurations>
     <Configuration>
