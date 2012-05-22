@@ -15,4 +15,6 @@
 	[HighHonors135] DECIMAL(18, 3) NULL, 
     [HighestHonors135] DECIMAL(18, 3) NULL, 
     [CollegeCode] CHAR(2) NOT NULL, 
+    CONSTRAINT [FK_HonorsReports_College] FOREIGN KEY ([CollegeCode]) REFERENCES [Colleges]([Id]), 
+    CONSTRAINT [FK_HonorsReports_TermCode] FOREIGN KEY ([TermCode]) REFERENCES [TermCodes]([Id]), 
 )
