@@ -10,6 +10,14 @@
   <DataSets />
   <Reports>
     <ProjectItem>
+      <Name>Honors.rdl</Name>
+      <FullPath>Honors.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>HonorsLS.rdl</Name>
+      <FullPath>HonorsLS.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>MajorCountByCeremony.rdl</Name>
       <FullPath>MajorCountByCeremony.rdl</FullPath>
     </ProjectItem>
@@ -41,14 +49,6 @@
       <Name>TotalRegistrationReport.rdl</Name>
       <FullPath>TotalRegistrationReport.rdl</FullPath>
     </ProjectItem>
-    <ProjectItem>
-      <Name>Honors.rdl</Name>
-      <FullPath>Honors.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>HonorsLS.rdl</Name>
-      <FullPath>HonorsLS.rdl</FullPath>
-    </ProjectItem>
   </Reports>
   <Configurations>
     <Configuration>
@@ -68,7 +68,8 @@
       <Options>
         <OutputPath>bin\DebugLocal</OutputPath>
         <TargetServerVersion>SSRS2008</TargetServerVersion>
-        <TargetFolder>Commencement.Report</TargetFolder>
+        <TargetServerURL>http://devreports.caes.ucdavis.edu/reportserver</TargetServerURL>
+        <TargetFolder>Commencement</TargetFolder>
         <TargetDataSourceFolder>Data Sources</TargetDataSourceFolder>
       </Options>
     </Configuration>

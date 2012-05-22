@@ -759,10 +759,6 @@
       <DataType>String</DataType>
       <Prompt>term</Prompt>
     </ReportParameter>
-    <ReportParameter Name="coll">
-      <DataType>String</DataType>
-      <Prompt>coll</Prompt>
-    </ReportParameter>
     <ReportParameter Name="honors_4590">
       <DataType>Float</DataType>
       <Prompt>honors 4590</Prompt>
@@ -774,30 +770,6 @@
     <ReportParameter Name="honors_135">
       <DataType>Float</DataType>
       <Prompt>honors 135</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="highhonors_4590">
-      <DataType>Float</DataType>
-      <Prompt>highhonors 4590</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="highhonors_90135">
-      <DataType>Float</DataType>
-      <Prompt>highhonors 90135</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="highhonors_135">
-      <DataType>Float</DataType>
-      <Prompt>highhonors 135</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="highesthonors_4590">
-      <DataType>Float</DataType>
-      <Prompt>highesthonors 4590</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="highesthonors_90135">
-      <DataType>Float</DataType>
-      <Prompt>highesthonors 90135</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="highesthonors_135">
-      <DataType>Float</DataType>
-      <Prompt>highesthonors 135</Prompt>
     </ReportParameter>
   </ReportParameters>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>

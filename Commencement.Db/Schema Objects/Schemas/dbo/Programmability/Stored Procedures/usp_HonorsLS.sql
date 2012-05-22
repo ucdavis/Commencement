@@ -60,7 +60,7 @@ set @awarded = '
 
 	) HonorsAwarded on spriden_pidm = HonorsAwarded.Pidm
 		inner join stvmajr on honorsawarded.major = stvmajr.stvmajr_code
-		inner join stvhond on honorsawarded.honorslevel = stvhond_stvhond_code
+		inner join stvhond on honorsawarded.honorslevel = stvhond_code
 	where spriden_change_ind is null
 '
 

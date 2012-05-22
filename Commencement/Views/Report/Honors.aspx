@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<HonorsPostModel>" %>
 <%@ Import Namespace="Commencement.Controllers" %>
+<%@ Import Namespace="Commencement.Controllers.Helpers" %>
 <%@ Import Namespace="Commencement.Core.Domain" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
@@ -22,7 +23,12 @@
             
             <tr>
                 <td colspan="5">
-                    College: <%= this.Select("honorsPostModel.College").Options((List<College>)ViewData["Colleges"], x => x.Id, x=> x.Name).FirstOption("--Select College--").Selected(Model != null && Model.College != null ? Model.College.Id : string.Empty) %>
+                    <strong class="field-label">Term:</strong> <%: Html.TextBox("honorsPostModel.TermCode", Model != null ? Model.TermCode : string.Empty) %>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <strong class="field-label">College:</strong> <%= this.Select("honorsPostModel.College").Options(Model.Colleges, x => x.Id, x=> x.Name).FirstOption("--Select College--").Selected(Model != null && Model.College != null ? Model.College.Id : string.Empty) %>
                 </td>
             </tr>
         
@@ -64,6 +70,25 @@
         </ul>
 
     <% } %>
+    
+    <hr style="margin: 1em 0; border: 1px dotted lightgray;"/>
+
+    <% Html.Grid(Model.HonorsReports.OrderByDescending(a => a.DateRequested))
+           .Name("HonorsReports")
+           .Columns(col =>
+                        {
+                            col.Add(a => { %>
+                            
+                                <% if (a.Contents != null) { %>
+                                <%: Html.ActionLink("Download", "DownloadHonors", "Report", new {id=a.Id}, new {})%>
+                                <% } %>
+
+                            <% });
+                            col.Bound(x => x.DateRequested);
+                            col.Bound(x => x.TermCode);
+                            col.Bound(x => x.College.Id).Title("College");
+                        })
+            .Render(); %>
 
 </asp:Content>
 
@@ -74,6 +99,8 @@
         table th, table td { padding: 1em;}
         th { background-color: #0D548A;color: white;}
         input[type="text"] {min-width: 100px;  width: 100px;}
+        
+        .field-label { display: inline-block;width: 75px;}
     </style>
     
     <script type="text/javascript">

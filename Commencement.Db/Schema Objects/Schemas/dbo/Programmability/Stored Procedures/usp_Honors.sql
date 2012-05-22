@@ -17,8 +17,9 @@ AS
 declare @tsql varchar(max), @awarded varchar(max), @candidate varchar(max)
 
 set @awarded = '
-	select spriden_id as StudentId, spriden_first_name as FirstName, spriden_mi as MiddleName, spriden_last_name as LastName, stvhond_desc HonorsLevel
-		, stvmajr_desc as MajorDescription
+	select spriden_id as StudentId, spriden_first_name as FirstName, spriden_mi as MiddleName, spriden_last_name as LastName
+		, stvhond_desc HonorsLevel, stvmajr_desc as Major
+		, grades.uc_hours, round(grades.uc_gpa, 3) uc_gpa
 	from spriden
 	inner join (
 
@@ -62,15 +63,24 @@ set @awarded = '
 
 	) HonorsAwarded on spriden_pidm = HonorsAwarded.Pidm
 		inner join stvmajr on honorsawarded.major = stvmajr.stvmajr_code
-		inner join stvhond on honorsawarded.honorslevel = stvhond_stvhond_code
+		inner join stvhond on honorsawarded.honorslevel = stvhond_code
+		left outer join (
+			select shrlgpa_pidm pidm
+			, sum(shrlgpa_quality_points) / sum(shrlgpa_gpa_hours) uc_gpa
+			, sum(shrlgpa_hours_earned) uc_hours
+			from shrlgpa
+			where shrlgpa_gpa_type_ind in (''''I'''', ''''U'''')
+			group by shrlgpa_pidm
+			having sum(shrlgpa_gpa_hours) > 0
+		) Grades on Grades.Pidm = spriden_pidm
 	where spriden_change_ind is null
 '
 
 set @candidate = '
 
-select spriden_id, spriden_last_name, spriden_first_name, spriden_mi
-		, grades.uc_hours, round(grades.uc_gpa, 3) uc_gpa, zhvlcfs_majr_code
-		, stvhond_desc
+select spriden_id, spriden_first_name, spriden_mi, spriden_last_name
+		, stvhond_desc, zhvlcfs_majr_code
+		, grades.uc_hours, round(grades.uc_gpa, 3) uc_gpa
 from zhvlcfs
 	inner join spriden on spriden_pidm = zhvlcfs_pidm
 	left outer join (

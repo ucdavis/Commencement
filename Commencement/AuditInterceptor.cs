@@ -46,9 +46,17 @@ namespace Commencement
             {
                 AuditDate = DateTime.Now,
                 ObjectName = entity.GetType().Name,
-                ObjectId = id == null ? null : id.ToString(),
-                Username = string.IsNullOrEmpty(Principal.Identity.Name) ? "NoUser" : Principal.Identity.Name
+                ObjectId = id == null ? null : id.ToString()
             };
+
+            try
+            {
+                audit.Username = string.IsNullOrEmpty(Principal.Identity.Name) ? "NoUser" : Principal.Identity.Name;
+            }
+            catch
+            {
+                audit.Username = "NoUser";
+            }
 
             audit.SetActionCode(auditActionType);
 

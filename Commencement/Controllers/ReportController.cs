@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
+using Commencement.Controllers.Helpers;
 using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
@@ -252,9 +253,12 @@ namespace Commencement.Controllers
 
         public ActionResult Honors()
         {
-            ViewData["Colleges"] = Repository.OfType<College>().Queryable.Where(a => a.Display).ToList();
+            var viewModel = new HonorsPostModel();
+            viewModel.TermCode = TermService.GetCurrent().Id;
+            viewModel.Colleges = Repository.OfType<College>().Queryable.Where(a => a.Display).ToList();
+            viewModel.HonorsReports = Repository.OfType<HonorsReport>().Queryable.Where(a => a.User.LoginId == User.Identity.Name).ToList();
 
-            return View(new HonorsPostModel());
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -262,12 +266,22 @@ namespace Commencement.Controllers
         {
             if (honorsPostModel.Validate())
             {
-                Message = "You would get your file here, once I wire this up.";
+                ReportRequestHandler.ExecuteReportRequest(Repository, honorsPostModel, User.Identity.Name);
+
+                Message = "Request has been submitted, you will receive an email when it is ready.";
             }
 
-            ViewData["Colleges"] = Repository.OfType<College>().Queryable.Where(a => a.Display).ToList();
+            honorsPostModel.Colleges = Repository.OfType<College>().Queryable.Where(a => a.Display).ToList();
+            honorsPostModel.HonorsReports = Repository.OfType<HonorsReport>().Queryable.Where(a => a.User.LoginId == User.Identity.Name).ToList();
 
             return View(honorsPostModel);
+        }
+
+        public FileResult DownloadHonors(int id)
+        {
+            var hr = Repository.OfType<HonorsReport>().GetNullableById(id);
+
+            return File(hr.Contents, "application/excel", string.Format("{0}-Honors{1}.xls", hr.TermCode, hr.College.Id));
         }
 
         public JsonNetResult LoadMajorsForTerm(string term)
@@ -349,7 +363,13 @@ namespace Commencement.Controllers
 
     public class HonorsPostModel
     {
+        public HonorsPostModel()
+        {
+            HonorsReports = new List<HonorsReport>();
+        }
+
         public College College { get; set; }
+        public string TermCode { get; set; }
         public decimal Honors4590 { get; set; }
         public decimal? HighHonors4590 { get; set; }
         public decimal? HighestHonors4590 { get; set; }
@@ -361,6 +381,9 @@ namespace Commencement.Controllers
         public decimal Honors135 { get; set; }
         public decimal? HighHonors135 { get; set; }
         public decimal? HighestHonors135 { get; set; }
+
+        public IEnumerable<HonorsReport> HonorsReports { get; set; }
+        public IEnumerable<College> Colleges { get; set; }
 
         public bool Validate()
         {
@@ -376,6 +399,28 @@ namespace Commencement.Controllers
             }
 
             return true;
+        }
+
+        public HonorsReport Convert()
+        {
+            var hr = new HonorsReport();
+
+            hr.College = College;
+            hr.TermCode = TermCode;
+
+            hr.Honors4590 = Honors4590;
+            hr.HighHonors4590 = HighHonors4590;
+            hr.HighestHonors4590 = HighestHonors4590;
+
+            hr.Honors90135 = Honors90135;
+            hr.HighHonors90135 = HighHonors90135;
+            hr.HighestHonors90135 = HighestHonors90135;
+
+            hr.Honors135 = Honors135;
+            hr.HighHonors135 = HighHonors135;
+            hr.HighestHonors135 = HighestHonors135;
+
+            return hr;
         }
 
     }

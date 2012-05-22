@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[HonorsReports]
 (
-	[Id] INT NOT NULL PRIMARY KEY, 
-    [Contents] VARBINARY(MAX) NOT NULL, 
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [Contents] VARBINARY(MAX) NULL, 
     [DateRequested] DATETIME NOT NULL DEFAULT getdate(), 
     [UserId] INT NOT NULL, 
     [TermCode] VARCHAR(6) NOT NULL, 
@@ -15,6 +15,5 @@
 	[HighHonors135] DECIMAL(18, 3) NULL, 
     [HighestHonors135] DECIMAL(18, 3) NULL, 
     [CollegeCode] CHAR(2) NOT NULL, 
-    CONSTRAINT [FK_HonorsReports_College] FOREIGN KEY ([CollegeCode]) REFERENCES [Colleges]([Id]), 
-    CONSTRAINT [FK_HonorsReports_TermCode] FOREIGN KEY ([TermCode]) REFERENCES [TermCodes]([Id]), 
+    CONSTRAINT [FK_HonorsReports_College] FOREIGN KEY ([CollegeCode]) REFERENCES [Colleges]([Id]) 
 )
