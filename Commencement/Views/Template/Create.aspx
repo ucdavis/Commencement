@@ -173,6 +173,8 @@
                        var col1 = $("<td>").append(button);
                        var col2 = $("<td>").html(dateFormat(date, "m/dd/yy h:MM TT"));
 
+                       button.button();
+
                        row.append(col1).append(col2);
 
                        tbody.append(row);
