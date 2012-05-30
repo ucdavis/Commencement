@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Web;
 using System.Web.Mvc;
 using Commencement.Controllers;
 using Commencement.Core.Domain;
+using Elmah;
 using Microsoft.Practices.ServiceLocation;
 using MvcContrib.Castle;
 using Castle.Windsor;
@@ -49,6 +51,19 @@ namespace Commencement
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
 
             return container;
+        }
+
+        /// <summary>
+        /// ELMAH filtering for the mail log
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ErrorMail_Filtering(object sender, ExceptionFilterEventArgs e)
+        {
+            if (e.Exception.GetBaseException() is HttpException)
+            {
+                e.Dismiss();
+            }
         }
     }
 }
