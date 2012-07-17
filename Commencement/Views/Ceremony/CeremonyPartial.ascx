@@ -23,6 +23,7 @@
         });
 
         function GetMajors() {
+            
             var url = '<%= Url.Action("GetMajors", "Ceremony") %>';
             $.each($(".college:checked"), function (index, item) {
                 if (index == 0) url = url + "?colleges=" + $(item).val();
@@ -30,14 +31,27 @@
 
             });
 
+            // maintain the list of selected majors
+            var options = $("#CeremonyMajors option:selected");
+            var selected = $.map(options, function (item, index) {
+                return $(item).val();
+            });
             $.getJSON(url, function (result) {
 
                 if (result == null || result.length <= 0) $("li.node").remove();
                 else {
-                    var $select = $("<select>").addClass("newData").attr("name", "CeremonyMajors").attr("id", "CeremonyMajors").attr("multiple", "multiple").hide();
+                    //var $select = $("<select>").addClass("newData").attr("name", "CeremonyMajors").attr("id", "CeremonyMajors").attr("multiple", "multiple").hide();
+
+                    var $select = $("<select>").attr("id", "CeremonyMajors").attr("name", "CeremonyMajors").attr("multiple", "multiple");
+                    $select.css("width", "900px").css("height", "300px").hide();
 
                     $.each(result, function (index, item) {
                         var option = $("<option>").val(item.Id).html(item.Name);
+
+                        if ($.inArray(item.Id, selected) != -1) {
+                            option.attr("selected", "selected");
+                        }
+
                         $select.append(option);
                     });
 
@@ -50,6 +64,8 @@
                     $select.siblings("div").css("width", "920px");
                     $select.siblings("div").find(".selected").css("width", "450px");
                     $select.siblings("div").find(".available").css("width", "450px");
+
+                    $select.multiselect();
                 }
             });
             
@@ -168,6 +184,13 @@
         <legend>Dates</legend>
 
         <ul class="registration_form">
+            <li><strong>Registration Deadline:<span>*</span></strong>
+                <%: Html.TextBox("Ceremony.RegistrationBegin", Model.Ceremony.RegistrationBegin.ToString("d"), new { @class="hastip date", @title = "Registrations will begin on this date." })%>
+                <%: Html.ValidationMessageFor(x=>x.Ceremony.RegistrationBegin) %>
+                through
+                <%: Html.TextBox("Ceremony.RegistrationDeadline", Model.Ceremony.RegistrationDeadline.ToString("d"), new { @class = "hastip date", @title = "Registration deadline." })%>
+                <%= Html.ValidationMessageFor(x=>x.Ceremony.RegistrationDeadline) %>
+            </li>
             <li>
                 <strong>Program Deadline:<span>*</span></strong>
                 <%: Html.TextBox("Ceremony.PrintingDeadline", Model.Ceremony.PrintingDeadline.ToString("d"), new { @class = "hastip date", @title = "Deadline for the program printing.  A warning will come up that says registering after this date may result in name not appearing in program." })%>
