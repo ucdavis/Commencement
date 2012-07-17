@@ -87,6 +87,9 @@ namespace Commencement.Controllers
                 // null out the current list of ceremonies the user has access to
                 _ceremonyService.ResetUserCeremonies();
 
+                // display a message
+                Message = "Ceremony has been created.";
+
                 // redirect to the list
                 return this.RedirectToAction(a => a.Edit(ceremony.Id));
             }

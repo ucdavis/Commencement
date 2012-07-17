@@ -149,5 +149,11 @@ namespace Commencement.Controllers
 
             return message;
         }
+
+        public JsonNetResult LoadTemplate(int templateId, int ceremonyId)
+        {
+            var template = Repository.OfType<Template>().Queryable.FirstOrDefault(a => a.TemplateType.Id == templateId && a.IsActive && a.Ceremony.Id == ceremonyId);
+            return new JsonNetResult(new {body = template.BodyText,subject = template.Subject});
+        }
     }
 }

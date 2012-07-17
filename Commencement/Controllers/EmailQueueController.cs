@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
@@ -19,6 +20,8 @@ namespace Commencement.Controllers
         private readonly IRepositoryWithTypedId<Student, Guid> _studentRepository;
         private readonly ICeremonyService _ceremonyService;
         private readonly ILetterGenerator _letterGenerator;
+
+        private readonly List<string> _massEmailTemplates = new List<string>(new string[2]{StaticValues.Template_NotifyOpenTicketPetitions, StaticValues.Template_RemainingTickets});
 
         public EmailQueueController(IRepository<EmailQueue> emailQueueRepository, IRepositoryWithTypedId<Student, Guid> studentRepository , ICeremonyService ceremonyService, ILetterGenerator letterGenerator)
         {
@@ -68,7 +71,7 @@ namespace Commencement.Controllers
 
         public ActionResult EmailStudents()
         {
-            var viewModel = EmailStudentsViewModel.Create(Repository, _ceremonyService, CurrentUser.Identity.Name);
+            var viewModel = EmailStudentsViewModel.Create(Repository, _ceremonyService, CurrentUser.Identity.Name, _massEmailTemplates);
 
             return View(viewModel);
         }
@@ -78,7 +81,7 @@ namespace Commencement.Controllers
         public ActionResult EmailStudents(EmailStudentsViewModel emailStudents)
         {
             // get the template type
-            var templateType = Repository.OfType<TemplateType>().Queryable.Where(a => a.Name == StaticValues.Template_EmailAllStudents).FirstOrDefault();
+            var templateType = emailStudents.TemplateType;
 
             if (templateType == null)
             {
@@ -139,10 +142,11 @@ namespace Commencement.Controllers
                 return RedirectToAction("Index");    
             }
 
-            var viewModel = EmailStudentsViewModel.Create(Repository, _ceremonyService, CurrentUser.Identity.Name);
+            var viewModel = EmailStudentsViewModel.Create(Repository, _ceremonyService, CurrentUser.Identity.Name, _massEmailTemplates);
             viewModel.Ceremony = emailStudents.Ceremony;
             viewModel.Subject = emailStudents.Subject;
             viewModel.Body = emailStudents.Body;
+            viewModel.TemplateType = emailStudents.TemplateType;
             return View(viewModel);
         }
 

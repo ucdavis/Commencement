@@ -76,10 +76,6 @@ namespace Commencement.Core.Domain
         public virtual TermCode TermCode { get; set; }
 
         [NotNull]
-        public virtual DateTime RegistrationBegin { get; set; }
-        [NotNull]
-        public virtual DateTime RegistrationDeadline { get; set; }
-        [NotNull]
         public virtual DateTime PrintingDeadline { get; set; }
         [NotNull]
         public virtual DateTime ExtraTicketBegin { get; set; }
@@ -284,8 +280,6 @@ namespace Commencement.Core.Domain
 
             References(x => x.TermCode).Column("TermCode");
 
-            Map(x => x.RegistrationBegin);
-            Map(x => x.RegistrationDeadline);
             Map(x => x.ExtraTicketDeadline);
             Map(x => x.ExtraTicketPerStudent);
             Map(x => x.MinUnits);

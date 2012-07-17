@@ -159,6 +159,7 @@
     <EmbeddedResource Include="Resources\StaticValues.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>StaticValues.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

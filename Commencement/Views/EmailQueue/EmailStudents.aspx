@@ -26,8 +26,10 @@
                 <%= this.Select("EmailStudents.Ceremony").Options(Model.Ceremonies, x=>x.Id, x=> string.Format("{0} ({1})", x.CeremonyName, x.DateTime)).FirstOption("--Select Ceremony--").Selected(Model.Ceremony != null ? Model.Ceremony.Id : 0) %>
                 <%: Html.ValidationMessage("Ceremony", "*") %>
             </li>
+            <li><strong>Template:</strong>
+                <%: Html.DropDownList("EmailStudents.TemplateType", new SelectList(Model.TemplateTypes, "Id", "Name"), "--Select Template--")%>
+            </li>
             <li><strong>Student Population:</strong>
-                <%--<%: Html.DropDownListFor(model => model.EmailType, new SelectList(Enum.GetValues(typeof(EmailStudentsViewModel.MassEmailType))), "--Select Population--", new {@class="hastip", title="Description here"}) %>--%>
                 <%: Html.DropDownList("EmailStudents.EmailType", new SelectList(Enum.GetValues(typeof(EmailStudentsViewModel.MassEmailType)), Model.EmailType), "--Select Population--", new {@class="hastip", title="hello"})%>
             </li>
             <li><strong>Subject:</strong>
@@ -65,14 +67,27 @@
 
     <script type="text/javascript">
 
-        $(function() {
+        $(function () {
 
             $("#EmailStudents_Body").enableTinyMce({ script_location: '<%= Url.Content("~/Scripts/tiny_mce/tiny_mce.js") %>', overrideWidth: "700" });
 
             $(".add_token").click(function (event) {
                 tinyMCE.execInstanceCommand("EmailStudents_Body", "mceInsertContent", false, $(this).data("token"));
             });
-            
+
+            $("#EmailStudents_TemplateType").change(function (e) {
+
+                var id = $(this).val();
+                var ceremonyId = $("#EmailStudents_Ceremony").val();
+                var url = '<%: Url.Action("LoadTemplate", "Template") %>';
+
+                $.get(url, { templateId: id, ceremonyId: ceremonyId }, function (results) {
+                    $("#EmailStudents_Subject").val(results.subject);
+                    $("#EmailStudents_Body").text(results.body);
+                });
+
+            });
+
         });
 
     </script>

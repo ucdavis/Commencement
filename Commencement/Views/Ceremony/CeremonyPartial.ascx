@@ -184,13 +184,6 @@
         <legend>Dates</legend>
 
         <ul class="registration_form">
-            <li><strong>Registration Deadline:<span>*</span></strong>
-                <%: Html.TextBox("Ceremony.RegistrationBegin", Model.Ceremony.RegistrationBegin.ToString("d"), new { @class="hastip date", @title = "Registrations will begin on this date." })%>
-                <%: Html.ValidationMessageFor(x=>x.Ceremony.RegistrationBegin) %>
-                through
-                <%: Html.TextBox("Ceremony.RegistrationDeadline", Model.Ceremony.RegistrationDeadline.ToString("d"), new { @class = "hastip date", @title = "Registration deadline." })%>
-                <%= Html.ValidationMessageFor(x=>x.Ceremony.RegistrationDeadline) %>
-            </li>
             <li>
                 <strong>Program Deadline:<span>*</span></strong>
                 <%: Html.TextBox("Ceremony.PrintingDeadline", Model.Ceremony.PrintingDeadline.ToString("d"), new { @class = "hastip date", @title = "Deadline for the program printing.  A warning will come up that says registering after this date may result in name not appearing in program." })%>

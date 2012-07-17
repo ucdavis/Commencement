@@ -263,4 +263,10 @@ Any student who is found selling tickets or in possession of counterfeit tickets
   <data name="Template_EmailAllStudents" xml:space="preserve">
     <value>Email All Students</value>
   </data>
+  <data name="Template_NotifyOpenTicketPetitions" xml:space="preserve">
+    <value>Notify Open Ticket Petition</value>
+  </data>
+  <data name="Template_RemainingTickets" xml:space="preserve">
+    <value>Remaining Tickets</value>
+  </data>
 </root>
