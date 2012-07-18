@@ -69,12 +69,12 @@ namespace Commencement.Controllers
         /// <param name="firstName"></param>
         /// <param name="majorCode"></param>
         /// <returns></returns>
-        public ActionResult Students(string studentid, string lastName, string firstName, string majorCode)
+        public ActionResult Students(string studentid, string lastName, string firstName, string majorCode, string college)
         {
             // get the newest active term
             var term = TermService.GetCurrent();
 
-            var viewModel = AdminStudentViewModel.Create(Repository, _majorService, _ceremonyService, term, studentid, lastName, firstName, majorCode, CurrentUser.Identity.Name);
+            var viewModel = AdminStudentViewModel.Create(Repository, _majorService, _ceremonyService, term, studentid, lastName, firstName, majorCode, college, CurrentUser.Identity.Name);
 
             return View(viewModel);
         }
@@ -167,7 +167,7 @@ namespace Commencement.Controllers
             if (student == null)
             {
                 Message = StaticValues.Error_StudentNotFound;
-                return this.RedirectToAction(a => a.Students(null, null, null, null));
+                return this.RedirectToAction(a => a.Students(null, null, null, null, null));
             }
 
             // check if the student has a registration already
@@ -191,7 +191,7 @@ namespace Commencement.Controllers
             if (student == null)
             {
                 Message = StaticValues.Error_StudentNotFound;
-                return this.RedirectToAction(a => a.Students(null, null, null, null));
+                return this.RedirectToAction(a => a.Students(null, null, null, null, null));
             }
 
             // check for an existing registration

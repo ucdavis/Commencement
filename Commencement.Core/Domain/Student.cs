@@ -106,6 +106,7 @@ namespace Commencement.Core.Domain
                 return string.Join(",", Majors.Select(x=>x.MajorName).ToArray());
             }
         }
+
         /// <summary>
         /// Comma seperated list of major ids (including consolidation codes)
         /// </summary>
@@ -115,6 +116,11 @@ namespace Commencement.Core.Domain
             {
                 return string.Join(",", Majors.Select(x => x.MajorId).ToArray());
             }
+        }
+
+        public virtual string StrColleges
+        {
+            get { return string.Join(",", Majors.Select(a => a.College.Id).Distinct()); }
         }
 
         public virtual decimal TotalUnits { 

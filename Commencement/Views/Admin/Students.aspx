@@ -17,8 +17,6 @@
         <div class="col2"><%= Html.ActionLink<AdminController>(a => a.AddStudent(null), "Add Student", new { @class="button" })%></div>
     </div>
     
-       
-
     <div id="filter_container">
         <h3><a href="#">Filters</a></h3>
         <% using (Html.BeginForm("Students", "Admin", FormMethod.Post)) { %>
@@ -38,6 +36,12 @@
                 <strong>Major Code:</strong>
                 <%= this.Select("majorCode").Options(Model.MajorCodes, x=>x.Id, x=>x.Name).Selected(Model.majorCodeFilter).FirstOption(string.Empty, "--Select a Major--") %>
             </li>
+            <% if (Model.Colleges.Count() > 1) { %>
+                <li>
+                    <strong>College:</strong>
+                    <%= this.Select("college").Options(Model.Colleges, x=> x.Id, x=> x.Name).Selected(Model.collegeCodeFilter).FirstOption(string.Empty, "--Select a College--") %>
+                </li>
+            <% } %>
             <li><strong></strong><%= Html.SubmitButton("Submit", "Filter", new { @class="button" })%></li>
         </ul>
         <% } %>
@@ -69,7 +73,7 @@
                             col.Bound(x => x.Student.StrMajorCodes ).Title("Majors");
                             col.Bound(x => x.Registration).Title("Registered").Width(40);
                         })
-           .DataBinding(binding=>binding.Server().Select<AdminController>(a=>a.Students(Model.studentidFilter, Model.lastNameFilter, Model.firstNameFilter, Model.majorCodeFilter)))
+           .DataBinding(binding=>binding.Server().Select<AdminController>(a=>a.Students(Model.studentidFilter, Model.lastNameFilter, Model.firstNameFilter, Model.majorCodeFilter, Model.collegeCodeFilter)))
            .Sortable(s=>s.OrderBy(a=>a.Add(b=>b.Student.LastName)))
            .Pageable(p=>p.PageSize(100))
            .Render(); 

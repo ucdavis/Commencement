@@ -109,7 +109,7 @@ namespace Commencement.Controllers
         {
             var student = GetCurrentStudent();
 
-            if (student == null) return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null));
+            if (student == null) return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null, null));
 
             // validate they can register, also checks for duplicate registrations
             var redirect = CheckStudentForRegistration();

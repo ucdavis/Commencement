@@ -15,18 +15,21 @@ namespace Commencement.Controllers.ViewModels
         //public IEnumerable<Student> Students { get; set; }
         public ICollection<StudentRegistrationModel> StudentRegistrationModels { get; set; }
         public IEnumerable<MajorCode> MajorCodes { get; set; }
+        public IEnumerable<College> Colleges { get; set; }
         public string studentidFilter { get; set; }
         public string lastNameFilter { get; set; }
         public string firstNameFilter { get; set; }
         public string majorCodeFilter { get; set; }
+        public string collegeCodeFilter { get; set; }
 
-        public static AdminStudentViewModel Create(IRepository repository, IMajorService majorService, ICeremonyService ceremonyService, TermCode termCode, string studentid, string lastName, string firstName, string majorCode, string userId)
+        public static AdminStudentViewModel Create(IRepository repository, IMajorService majorService, ICeremonyService ceremonyService, TermCode termCode, string studentid, string lastName, string firstName, string majorCode, string college, string userId)
         {
             Check.Require(repository != null, "Repository is required.");
 
             // build a list of majors that the current user has assigned to their ceremonies
             var ceremonies = ceremonyService.GetCeremonies(userId, TermService.GetCurrent());
             var majors = ceremonies.SelectMany(a => a.Majors).Where(a => a.ConsolidationMajor == null).ToList();
+            var colleges = ceremonies.SelectMany(a => a.Colleges).Distinct().ToList();
 
             var viewModel = new AdminStudentViewModel()
                                 {
@@ -34,7 +37,8 @@ namespace Commencement.Controllers.ViewModels
                                     studentidFilter = studentid,
                                     lastNameFilter = lastName,
                                     firstNameFilter = firstName,
-                                    majorCodeFilter = majorCode
+                                    majorCodeFilter = majorCode,
+                                    Colleges = colleges
                                 };
 
             // get the list of students with optional filters
@@ -46,6 +50,7 @@ namespace Commencement.Controllers.ViewModels
                 ).ToList();
 
             if (!string.IsNullOrEmpty(majorCode)) students = students.Where(a => a.StrMajorCodes.Contains(majorCode)).ToList();
+            if (!string.IsNullOrEmpty(college)) students = students.Where(a => a.StrColleges.Contains(college)).ToList();
 
             // get all active registrations
             var reg = repository.OfType<RegistrationParticipation>().Queryable.Where(
