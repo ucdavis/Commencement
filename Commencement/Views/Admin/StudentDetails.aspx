@@ -14,7 +14,7 @@
         <% if (Request.QueryString["Registration"]!= null && Convert.ToBoolean(Request.QueryString["Registration"])) { %>
             <%= Html.ActionLink<AdminController>(a=>a.Registrations(null, null, null, null, null, null), "Back to List") %>
         <% } else { %>
-            <%= Html.ActionLink<AdminController>(a=>a.Students(null, null, null, null), "Back to List") %>
+            <%= Html.ActionLink<AdminController>(a=>a.Students(null, null, null, null, null), "Back to List") %>
         <% } %>
     </li>
     </ul>
