@@ -73,9 +73,14 @@
         </li>
         </ul>   
     <% } %>
-
+    
+    <link href="<%: Url.Content("~/Content/chosen.css") %>" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="<%: Url.Content("~/Scripts/jquery.chosen.min.js") %>"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+
+            $("#AddMajorDropDown").chosen({ no_results_text: "No results matched" });
+
             $(".AddMajor").click(function () {
                 var selectedOption = $("#AddMajorDropDown option:selected");
 
