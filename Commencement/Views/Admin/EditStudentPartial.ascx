@@ -48,7 +48,7 @@
                     %>
         </li>
         <li><strong>Add Major:<span>*</span></strong>
-            <%= this.Select("AddMajorDropDown").Options(Model.Majors, x=>x.Id, x=>x.Name).FirstOption("--Select a Major--") %> 
+            <%= this.Select("AddMajorDropDown").Options(Model.Majors.OrderBy(a => a.Name), x=>x.Id, x=> string.Format("{0} ({1})", x.Name, x.Id)).FirstOption("--Select a Major--") %> 
             <%: Html.Button("AddMajor", "+", HtmlButtonType.Button, null, new {@class="AddMajor button"}) %>
         </li>
     

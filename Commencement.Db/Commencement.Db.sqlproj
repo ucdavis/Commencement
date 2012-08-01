@@ -206,6 +206,7 @@
     <None Include="Scripts\Misc\Fake Register.sql">
       <SubType>NotInBuild</SubType>
     </None>
+    <None Include="Scripts\Misc\lsconsolidationcodes.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Permissions.sql" />

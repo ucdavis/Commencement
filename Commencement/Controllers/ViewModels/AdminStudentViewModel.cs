@@ -28,7 +28,7 @@ namespace Commencement.Controllers.ViewModels
 
             // build a list of majors that the current user has assigned to their ceremonies
             var ceremonies = ceremonyService.GetCeremonies(userId, TermService.GetCurrent());
-            var majors = ceremonies.SelectMany(a => a.Majors).Where(a => a.ConsolidationMajor == null).ToList();
+            var majors = ceremonies.SelectMany(a => a.Majors).Where(a => a.ConsolidationMajor == null && a.IsActive).ToList();
             var colleges = ceremonies.SelectMany(a => a.Colleges).Distinct().ToList();
 
             var viewModel = new AdminStudentViewModel()
