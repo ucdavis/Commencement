@@ -84,7 +84,7 @@
                                         </div>
                                      <% }).Title("TD");
                                      col.Bound(a => a.NumberTickets);
-                                     col.Bound(a => a.Major.Id).Title("Major");
+                                     col.Bound(a => a.Major.MajorId).Title("Major");
                                      col.Bound(a => a.DateRegistered);
                                  })
                     .DataBinding(binding=>binding.Server().Select<AdminController>(a=>a.Registrations(Model.studentidFilter, Model.lastNameFilter, Model.firstNameFilter, Model.majorCodeFilter, Model.ceremonyFilter, Model.collegeFilter)))

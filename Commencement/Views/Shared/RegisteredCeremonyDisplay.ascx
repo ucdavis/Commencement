@@ -10,7 +10,7 @@
             <%: Model.Cancelled ? "Cancelled" : "Registered" %>
         </li>
         <li><strong>Major:</strong>
-            <%: Model.Major.Name %>
+            <%: Model.Major.MajorName %>
         </li>
         <li><strong>Tickets Requested:</strong>
             <span><%= Html.Encode(Model.NumberTickets) %></span>

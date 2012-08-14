@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <publishData>
-  <publishProfile publishUrl="\\hughman\wwwroot\commencement" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Test" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="False">
+  <publishProfile publishUrl="\\hughman\wwwroot\commencement" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Test" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
     <file relUrl="Views/Ceremony/Create.aspx" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Views/Template/Create.aspx" publishTime="05/29/2012 10:45:48" />
     <file relUrl="Content/Common/Icons/page_white_text.png" publishTime="04/11/2012 09:57:32" />
@@ -112,12 +112,12 @@
     <file relUrl="Scripts/jquery.validate-vsdoc.js" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Images/ceremony.png" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Content/images/ui-bg_highlight-soft_50_014a81_1x100.png" publishTime="04/18/2012 14:52:00" />
-    <file relUrl="bin/Commencement.pdb" publishTime="08/01/2012 16:44:58" />
+    <file relUrl="bin/Commencement.pdb" publishTime="08/14/2012 10:50:06" />
     <file relUrl="favicon.ico" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Scripts/tiny_mce/plugins/searchreplace/js/searchreplace.js" publishTime="08/01/2012 16:27:27" />
     <file relUrl="bin/Castle.Core.dll" publishTime="04/11/2012 09:57:31" />
     <file relUrl="Scripts/tiny_mce/plugins/advhr/editor_plugin_src.js" publishTime="08/01/2012 16:27:26" />
-    <file relUrl="Commencement.Publish.xml" publishTime="08/01/2012 16:49:23" />
+    <file relUrl="Commencement.Publish.xml" publishTime="08/14/2012 08:26:23" />
     <file relUrl="Content/chosen.css" publishTime="08/01/2012 16:42:38" />
     <file relUrl="Scripts/tiny_mce/plugins/emotions/img/smiley-cool.gif" publishTime="08/01/2012 16:27:26" />
     <file relUrl="Views/Admin/EditStudentPartial.ascx" publishTime="08/01/2012 16:43:10" />
@@ -163,7 +163,7 @@
     <file relUrl="Scripts/tiny_mce/plugins/emotions/langs/en_dlg.js" publishTime="08/01/2012 16:27:26" />
     <file relUrl="Views/Ceremony/EditPermissions.aspx" publishTime="07/17/2012 08:11:28" />
     <file relUrl="Scripts/tiny_mce/plugins/spellchecker/img/wline.gif" publishTime="08/01/2012 16:27:27" />
-    <file relUrl="Views/Shared/Site.Master" publishTime="04/18/2012 14:52:00" />
+    <file relUrl="Views/Shared/Site.Master" publishTime="08/14/2012 08:26:18" />
     <file relUrl="Images/logo-ucdavis.png" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Content/Common/Icons/Mvc/Menu.png" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/js/image.js" publishTime="08/01/2012 16:27:27" />
@@ -268,13 +268,13 @@
     <file relUrl="Scripts/tiny_mce/plugins/tabfocus/editor_plugin.js" publishTime="08/01/2012 16:27:27" />
     <file relUrl="Views/Error/Index.aspx" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Scripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/img/horizontal.gif" publishTime="08/01/2012 16:27:27" />
-    <file relUrl="Views/Admin/Registrations.aspx" publishTime="04/13/2012 14:08:29" />
+    <file relUrl="Views/Admin/Registrations.aspx" publishTime="08/14/2012 10:49:53" />
     <file relUrl="Views/Admin/Students.aspx" publishTime="07/18/2012 07:23:04" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/skins/default/content.css" publishTime="08/01/2012 16:27:27" />
     <file relUrl="Scripts/tiny_mce/plugins/table/js/merge_cells.js" publishTime="08/01/2012 16:27:27" />
     <file relUrl="Content/Common/Icons/Suites_32/AJAX.png" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Views/Shared/SpecialNeedsPartial.ascx" publishTime="04/19/2012 10:40:45" />
-    <file relUrl="bin/Commencement.dll" publishTime="08/01/2012 16:44:58" />
+    <file relUrl="bin/Commencement.dll" publishTime="08/14/2012 10:50:06" />
     <file relUrl="Scripts/tiny_mce/plugins/fullscreen/fullscreen.htm" publishTime="08/01/2012 16:27:27" />
     <file relUrl="Content/images/ui-bg_glass_50_fbf7eb_1x400.png" publishTime="04/18/2012 14:52:00" />
     <file relUrl="Scripts/tiny_mce/plugins/pagebreak/editor_plugin_src.js" publishTime="08/01/2012 16:27:27" />
@@ -520,7 +520,7 @@
     <file relUrl="Scripts/tiny_mce/themes/advanced/js/anchor.js" publishTime="08/01/2012 16:27:27" />
     <file relUrl="Views/Petition/RegistrationPetitions.aspx" publishTime="04/11/2012 09:57:32" />
   </publishProfile>
-  <publishProfile publishUrl="\\glurmo\wwwroot\commencement" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Release" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
+  <publishProfile publishUrl="\\glurmo\wwwroot\commencement" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Release" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="False">
     <file relUrl="Views/Ceremony/Create.aspx" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Views/Template/Create.aspx" publishTime="05/29/2012 10:45:48" />
     <file relUrl="Content/Common/Icons/page_white_text.png" publishTime="04/11/2012 09:57:32" />
