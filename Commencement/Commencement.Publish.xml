@@ -117,7 +117,7 @@
     <file relUrl="Scripts/tiny_mce/plugins/searchreplace/js/searchreplace.js" publishTime="08/01/2012 16:27:27" />
     <file relUrl="bin/Castle.Core.dll" publishTime="04/11/2012 09:57:31" />
     <file relUrl="Scripts/tiny_mce/plugins/advhr/editor_plugin_src.js" publishTime="08/01/2012 16:27:26" />
-    <file relUrl="Commencement.Publish.xml" publishTime="08/14/2012 08:26:23" />
+    <file relUrl="Commencement.Publish.xml" publishTime="08/14/2012 10:58:48" />
     <file relUrl="Content/chosen.css" publishTime="08/01/2012 16:42:38" />
     <file relUrl="Scripts/tiny_mce/plugins/emotions/img/smiley-cool.gif" publishTime="08/01/2012 16:27:26" />
     <file relUrl="Views/Admin/EditStudentPartial.ascx" publishTime="08/01/2012 16:43:10" />
@@ -264,7 +264,7 @@
     <file relUrl="Scripts/tiny_mce/plugins/searchreplace/searchreplace.htm" publishTime="08/01/2012 16:27:27" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/langs/en.js" publishTime="08/01/2012 16:27:27" />
     <file relUrl="Scripts/jquery.chosen.min.js" publishTime="08/01/2012 16:39:36" />
-    <file relUrl="Views/Shared/RegisteredCeremonyDisplay.ascx" publishTime="04/20/2012 12:21:00" />
+    <file relUrl="Views/Shared/RegisteredCeremonyDisplay.ascx" publishTime="08/14/2012 10:51:48" />
     <file relUrl="Scripts/tiny_mce/plugins/tabfocus/editor_plugin.js" publishTime="08/01/2012 16:27:27" />
     <file relUrl="Views/Error/Index.aspx" publishTime="04/11/2012 09:57:32" />
     <file relUrl="Scripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/img/horizontal.gif" publishTime="08/01/2012 16:27:27" />
@@ -518,7 +518,7 @@
     <file relUrl="Scripts/tiny_mce/utils/editable_selects.js" publishTime="08/01/2012 16:27:27" />
     <file relUrl="Scripts/tiny_mce/plugins/layer/editor_plugin_src.js" publishTime="08/01/2012 16:27:27" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/js/anchor.js" publishTime="08/01/2012 16:27:27" />
-    <file relUrl="Views/Petition/RegistrationPetitions.aspx" publishTime="04/11/2012 09:57:32" />
+    <file relUrl="Views/Petition/RegistrationPetitions.aspx" publishTime="08/14/2012 10:59:02" />
   </publishProfile>
   <publishProfile publishUrl="\\glurmo\wwwroot\commencement" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Release" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="False">
     <file relUrl="Views/Ceremony/Create.aspx" publishTime="04/11/2012 09:57:32" />
