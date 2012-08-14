@@ -28,6 +28,6 @@ when matched then update set
 when not matched by source then update set
 	t.isactive = 0
 when not matched then
-	insert (id, name, disciplinecode, collegecode, isactive) values (s.stvmajr_code, s.stvmajr_desc, s.stvmajr_desc, s.collegecode, 1);
+	insert (id, name, disciplinecode, collegecode, isactive) values (s.stvmajr_code, s.stvmajr_desc, s.stvmajr_dspc_code, s.collegecode, 1);
 
 RETURN 0

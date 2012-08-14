@@ -255,6 +255,8 @@
   <ItemGroup>
     <Content Include="Commencement.Publish.xml" />
     <Content Include="Content\anytimec.css" />
+    <Content Include="Content\chosen-sprite.png" />
+    <Content Include="Content\chosen.css" />
     <Content Include="Content\Common\Icons\Ajax\Editor.png" />
     <Content Include="Content\Common\Icons\Ajax\Grid.png" />
     <Content Include="Content\Common\Icons\Ajax\Scheduler.png" />

@@ -173,9 +173,6 @@
     <None Include="Schema Comparisons\Donbot.scmp">
       <SubType>NotInBuild</SubType>
     </None>
-    <None Include="Schema Comparisons\sqlexpress.scmp">
-      <SubType>NotInBuild</SubType>
-    </None>
     <None Include="Scripts\Misc\Update.sql">
       <SubType>NotInBuild</SubType>
     </None>
@@ -207,6 +204,9 @@
       <SubType>NotInBuild</SubType>
     </None>
     <None Include="Scripts\Misc\lsconsolidationcodes.sql" />
+    <None Include="Schema Comparisons\sqlexpress.scmp">
+      <SubType>NotInBuild</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Build Include="Permissions.sql" />
