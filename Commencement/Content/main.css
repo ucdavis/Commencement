@@ -141,7 +141,8 @@ textarea { padding: .5em;}
 .choose_ceremony_message strong {font: 22px/30px 'CicleGordita', Arial, sans-serif; font-weight:normal;}
 
 
-#right_bar {float:right;line-height:normal; -moz-border-radius: 5px; -webkit-border-radius: 5px; color:#fff; border:1px solid #CCC; display:inline-block; padding:1em 0.5em; margin-top:165px; width:200px; margin-left:10px; background-color:#f4f4f4; border:1px solid #666;}
+#right_bar {float:right;line-height:normal; -moz-border-radius: 5px; -webkit-border-radius: 5px; color:#fff; border:1px solid #CCC; display:inline-block; padding:1em 0.5em; margin-top:100px; width:200px; margin-left:10px; background-color:#f4f4f4; border:1px solid #666;}
+#right_bar li { min-height: 0;}
 #left_bar {float:left; width:690px;}
 #fix form p {width:500px; clear:both; float:left;}
 .mceEditor {clear:both;}

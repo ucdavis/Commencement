@@ -87,6 +87,7 @@ namespace Commencement.Controllers
         public JsonResult SendTestEmail(string subject, string message)
         {
             var user = Repository.OfType<vUser>().Queryable.Where(a => a.LoginId == CurrentUser.Identity.Name).FirstOrDefault();
+            
             var mail = new MailMessage("automatedemail@caes.ucdavis.edu", user.Email, subject, message);
             mail.IsBodyHtml = true;
             var client = new SmtpClient();
