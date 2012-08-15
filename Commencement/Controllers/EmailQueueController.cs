@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
@@ -78,7 +80,7 @@ namespace Commencement.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult EmailStudents(EmailStudentsViewModel emailStudents)
+        public ActionResult EmailStudents(EmailStudentsViewModel emailStudents, HttpPostedFileBase file)
         {
             // get the template type
             var templateType = emailStudents.TemplateType;
@@ -104,16 +106,34 @@ namespace Commencement.Controllers
 
             if (ModelState.IsValid)
             {
+                Attachment attachment = null;
+
+                if (file != null)
+                {
+                    var reader = new BinaryReader(file.InputStream);
+                    var data = reader.ReadBytes(file.ContentLength);
+
+                    attachment = new Attachment();
+                    attachment.Contents = data;
+                    attachment.ContentType = file.ContentType;
+                }
+
                 // Those registered
                 if (emailStudents.EmailType == EmailStudentsViewModel.MassEmailType.Registered)
                 {
-                    foreach (var participation in emailStudents.Ceremony.RegistrationParticipations)
+                    foreach (var participation in emailStudents.Ceremony.RegistrationParticipations.Where(a => !a.Cancelled))
                     {
                         var bodyText = _letterGenerator.GenerateEmailAllStudents(emailStudents.Ceremony, participation.Registration.Student, emailStudents.Body, templateType);
 
                         var eq = new EmailQueue(participation.Registration.Student, null, emailStudents.Subject, bodyText, false);
                         eq.Registration = participation.Registration;
                         eq.RegistrationParticipation = participation;
+
+                        if (attachment != null)
+                        {
+                            eq.Attachment = attachment;
+                        }
+
                         Repository.OfType<EmailQueue>().EnsurePersistent(eq);
                     }
                 }
@@ -134,6 +154,10 @@ namespace Commencement.Controllers
                         var bodyText = _letterGenerator.GenerateEmailAllStudents(emailStudents.Ceremony, student, emailStudents.Body, templateType);
 
                         var eq = new EmailQueue(student, null, emailStudents.Subject, bodyText, false);
+                        if (attachment != null)
+                        {
+                            eq.Attachment = attachment;
+                        }
                         Repository.OfType<EmailQueue>().EnsurePersistent(eq);
                     }
                 }

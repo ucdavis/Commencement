@@ -12,7 +12,9 @@
     [RegistrationParticipationId] INT              NULL,
     [RegistrationPetitionId]      INT              NULL,
     [ExtraTicketPetitionId]       INT              NULL,
-    [ErrorCode]                   INT              NULL
+    [ErrorCode]                   INT              NULL, 
+    [AttachmentId] INT NULL, 
+    CONSTRAINT [FK_EmailQueue_Attachments] FOREIGN KEY ([AttachmentId]) REFERENCES [Attachments]([Id])
 );
 
 

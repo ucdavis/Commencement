@@ -16,7 +16,7 @@
 
     <%= Html.ValidationSummary("Please correct the erros and try again.") %>
 
-    <% using (Html.BeginForm()) { %>
+    <% using (Html.BeginForm("EmailStudents", "EmailQueue", FormMethod.Post, new {enctype="multipart/form-data"})) { %>
     
         <%= Html.AntiForgeryToken() %>
 
@@ -31,6 +31,9 @@
             </li>
             <li><strong>Student Population:</strong>
                 <%: Html.DropDownList("EmailStudents.EmailType", new SelectList(Enum.GetValues(typeof(EmailStudentsViewModel.MassEmailType)), Model.EmailType), "--Select Population--", new {@class="hastip", title="hello"})%>
+            </li>
+            <li><strong>Attachment</strong>
+                <input type="file" name="file"/>
             </li>
             <li><strong>Subject:</strong>
                 <%: Html.TextBox("EmailStudents.Subject", Model.Subject) %>

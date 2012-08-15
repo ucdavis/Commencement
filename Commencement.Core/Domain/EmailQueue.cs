@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
@@ -51,6 +48,7 @@ namespace Commencement.Core.Domain
         public virtual RegistrationParticipation RegistrationParticipation { get; set; }
         public virtual RegistrationPetition RegistrationPetition { get; set; }
         public virtual ExtraTicketPetition ExtraTicketPetition { get; set; }
+        public virtual Attachment Attachment { get; set; }
     }
 
     public class EmailQueueMap : ClassMap<EmailQueue>
@@ -72,6 +70,7 @@ namespace Commencement.Core.Domain
             References(x => x.RegistrationParticipation);
             References(x => x.RegistrationPetition);
             References(x => x.ExtraTicketPetition);
+            References(x => x.Attachment).Cascade.SaveUpdate();
         }
     }
 
