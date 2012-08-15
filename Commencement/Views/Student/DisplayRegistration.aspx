@@ -84,7 +84,7 @@
         <% foreach (var a in Model.Registration.RegistrationParticipations.Where(a => !string.IsNullOrEmpty(a.Ceremony.SurveyUrl))) { %>
             <% if (DateTime.Now.Subtract(a.DateRegistered).TotalMinutes <= 2) { %>
             <script type="text/javascript">
-                window.open('<%: a.Ceremony.SurveyUrl %>', '<%: a.Ceremony.Id %>');
+                window.open('<%: a.Ceremony.SurveyUrl %>', '_<%: a.Ceremony.Id %>');
             </script>
             <% } %>
         <% } %>     

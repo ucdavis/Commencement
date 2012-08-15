@@ -9,7 +9,7 @@
 <asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent">
 
     <style type="text/css">
-        #petition-warning, #printing-warning
+        #petition-warning, #printing-warning, #late-reg
         {
             border: 1px solid red;
             background-color: #F4F4F4;
@@ -31,13 +31,17 @@
 
 <asp:Content runat="server" ID="Content2" ContentPlaceHolderID="MainContent">
 
-    <%--<p><%: Html.HtmlEncode(string.Format(Termser().TermCode.RegistrationWelcome, Model.Student.FullName, Model.Ceremonies.FirstOrDefault().CeremonyName)) %></p>--%>
-    
     <%: Html.HtmlEncode(TermService.GetCurrent().RegistrationWelcome) %>
 
     <% if (Model.Participations.Any(a => a.Ceremony.IsPastPrintingDeadline())) { %>
         <div id="printing-warning">
             <p>Due to the late registration and printing deadlines we  cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets allotted per person.</p>
+        </div>
+    <% } %>
+    
+    <% if (TermService.GetCurrent().RegistrationDeadline < DateTime.Now) { %>
+        <div id="late-reg">
+            <p>The registration deadline has passed.  You can petition but may not receieve as many tickets.</p>
         </div>
     <% } %>
 
