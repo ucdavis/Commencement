@@ -111,7 +111,7 @@ namespace Commencement.Controllers.ViewModels
                 part.Major = major;
                 part.Ceremony = ceremony;
                 part.Edit = edit;
-                part.NeedsPetition = student.TotalUnits < ceremony.MinUnits && student.TotalUnits >= ceremony.PetitionThreshold;
+                part.NeedsPetition = (student.TotalUnits < ceremony.MinUnits && student.TotalUnits >= ceremony.PetitionThreshold) || (ceremony.TermCode.RegistrationDeadline < DateTime.Now);
 
                 if (ceremonyParticipations != null)
                 {

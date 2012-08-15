@@ -44,7 +44,7 @@
     </p>--%>
     
     <% if (Model.CanRegister()) { %>
-        <span class="reg_btn button"><%: Html.ActionLink<StudentController>(a => a.Index(), "Register")%></span>
+        <span class="reg_btn button"><%: Html.ActionLink<StudentController>(a => a.Index(), "Continue")%></span>
     <% }%>
 </div>
 
