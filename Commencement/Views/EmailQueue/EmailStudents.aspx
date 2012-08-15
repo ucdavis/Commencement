@@ -91,6 +91,10 @@
         });
 
     </script>
+    
+    <style type="text/css">
+        #right_bar { margin-top: 170px;}
+    </style>
 
 </asp:Content>
 
