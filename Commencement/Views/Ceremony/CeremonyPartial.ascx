@@ -139,7 +139,7 @@
         
         <ul class="registration_form">
             <li><strong><%: Html.LabelFor(a => a.Ceremony.WebsiteUrl, DisplayOptions.HumanizeAndColon) %></strong>
-                <%: Html.TextBoxFor(a => a.Ceremony.WebsiteUrl, new {@class="hastip", title="Url to the Dean's Office FAQ for commencement."}) %>                
+                <%: Html.TextBoxFor(a => a.Ceremony.WebsiteUrl, new {@class="hastip", title="Url to an informational web page for Commencement."}) %>                
                 <%: Html.ValidationMessageFor(a => a.Ceremony.WebsiteUrl) %>
             </li>
             <li><strong><%: Html.LabelFor(a => a.Ceremony.SurveyUrl, DisplayOptions.HumanizeAndColon) %></strong>
