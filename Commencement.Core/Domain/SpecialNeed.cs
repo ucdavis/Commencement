@@ -10,6 +10,7 @@ namespace Commencement.Core.Domain
         [Required]
         [Length(100)]
         public virtual string Name { get; set; }
+        public virtual string Tip { get; set; }
         public virtual bool IsActive { get; set; }
     }
 
@@ -19,6 +20,7 @@ namespace Commencement.Core.Domain
         {
             Id(x => x.Id);
             Map(x => x.Name);
+            Map(x => x.Tip);
             Map(x => x.IsActive);
         }
     }

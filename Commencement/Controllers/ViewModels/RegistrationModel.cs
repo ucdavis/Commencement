@@ -16,6 +16,8 @@ namespace Commencement.Controllers.ViewModels
         public MultiSelectList SpecialNeeds { get; set; }
         public IQueryable<vTermCode> FutureTerms { get; set; }
 
+        public List<SpecialNeed> FullSpecialNeeds { get; set; }
+
         // registration information
         public Registration Registration { get; set; }
         public Student Student { get; private set; }
@@ -39,6 +41,7 @@ namespace Commencement.Controllers.ViewModels
 
             // since the change to using a drop down, this is somewhat unnecessary, but should we move back to checkboxes, it would be a simple change
             var specialNeeds = repository.OfType<SpecialNeed>().Queryable.Where(a=>a.IsActive).ToList();
+            viewModel.FullSpecialNeeds = specialNeeds;
             if (viewModel.Registration.Id != 0 && viewModel.Registration.SpecialNeeds != null)
             {
                 viewModel.SpecialNeeds = new MultiSelectList(specialNeeds, "Id", "Name", registration.SpecialNeeds.Select(a=>a.Id).ToList());
