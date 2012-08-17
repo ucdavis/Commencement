@@ -37,7 +37,7 @@
         <legend>Special Needs</legend>
         
         <div class="disclaimer">
-            Please indicate any special needs you (personally) have that will affect your ability to participate in the ceremony (lining up, sitting, crossing the stage, etc.). For guest accommodations, please refer back to the UC Davis Commencement site (link to new window).
+            Please indicate any special needs you (personally) have that will affect your ability to participate in the ceremony (lining up, sitting, crossing the stage, etc.). For guest accommodations, please refer back to the <a href="http://commencement.ucdavis.edu" target="ucd_commencement">UC Davis Commencement site</a>.
         </div>
 
         <% Html.RenderPartial("SpecialNeedsPartial"); %>
