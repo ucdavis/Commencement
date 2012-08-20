@@ -14,7 +14,9 @@
         
     <h2>Commencement Participation</h2>
 
-    <%: Html.HtmlEncode(Model.LandingText) %>
+    <%--<%: Html.HtmlEncode(Model.LandingText) %>--%>
+    
+    <%= Model.LandingText %>
 
     <%--
 
@@ -51,9 +53,12 @@
 <div class="right_col">
 <h3>Dates</h3>
 <ul>
-<li><strong>Monday, April 16, 2012</strong> <em>Applications deadline for <a href="http://caes.ucdavis.edu/NewsEvents/Events/Commencement/student-speaker">student Commencement speaker</a></em></li>
+<%--<li><strong>Monday, April 16, 2012</strong> <em>Applications deadline for <a href="http://caes.ucdavis.edu/NewsEvents/Events/Commencement/student-speaker">student Commencement speaker</a></em></li>
 <li><strong>Monday, 14th and Tuesday, May 15th (9am-6pm)</strong> <em>Ticket pick-up at the ARC Pavilion ticket office</em></li>
-<li><strong>Sunday, June 17, 2012 (9:00 am and 2:00 pm)</strong> <em>Commencement Ceremony at UC Davis ARC Pavilion </em></li>
+<li><strong>Sunday, June 17, 2012 (9:00 am and 2:00 pm)</strong> <em>Commencement Ceremony at UC Davis ARC Pavilion </em></li>--%>
+<li><strong>June 1 - October 19, 2012</strong>File for candidacy period for Fall 2012 graduation with the Office of the University Registrar at <a href="http://registrar.ucdavis.edu/">http://registrar.ucdavis.edu/</a></li>
+<li><strong>August 20 - October 19, 2012</strong>Online Registration for Commencement participation available</li>
+<li><strong>August 20 -November 28</strong>Online pre-order period for cap and gown rental through the UC Davis Bookstore at <a href="http:/bookstore.ucdavis.edu/graduation/">http:/bookstore.ucdavis.edu/graduation/</a></li>
 </ul>
 </div>
 
