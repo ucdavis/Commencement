@@ -55,6 +55,19 @@ insert into templatetokens(id, templatetypeid, name) values (51, 4, 'Student Nam
 insert into templatetokens(id, templatetypeid, name) values (52, 4, 'Exception Reason')
 insert into templatetokens(id, templatetypeid, name) values (53, 4, 'Completion Term')
 insert into templatetokens(id, templatetypeid, name) values (54, 4, 'Petition Decision')
+insert into TemplateTokens (templatetypeid, name) values (4, 'Ceremony Name')
+insert into TemplateTokens (templatetypeid, name) values (4, 'Ceremony Time')
+insert into TemplateTokens (templatetypeid, name) values (4, 'Ceremony Location')
+insert into TemplateTokens (templatetypeid, name) values (4, 'Address Line 1')
+insert into TemplateTokens (templatetypeid, name) values (4, 'Address Line 2')
+insert into TemplateTokens (templatetypeid, name) values (4, 'City')
+insert into TemplateTokens (templatetypeid, name) values (4, 'State')
+insert into TemplateTokens (templatetypeid, name) values (4, 'Zip')
+insert into TemplateTokens (templatetypeid, name) values (4, 'Distribution Method')
+insert into TemplateTokens (templatetypeid, name) values (4, 'Special Needs')
+insert into TemplateTokens (templatetypeid, name) values (4, 'Status')
+insert into TemplateTokens (templatetypeid, name) values (4, 'Major')
+insert into TemplateTokens (templatetypeid, name) values (4, 'NumberOfTickets')
 
 SET IDENTITY_INSERT [dbo].[TemplateTokens] OFF
 GO

@@ -274,8 +274,7 @@ namespace Commencement.Controllers.Helpers
                 {
                     case "exceptionreason":         return _registrationPetition.ExceptionReason;
                     case "completionterm":          return _registrationPetition.TermCodeComplete.Description;
-                    case "status":                  return _registrationPetition.IsPending ? "Pending"
-                                                         : (_registrationPetition.IsApproved ? "Approved" : "Denied");
+                    case "status":                  return _registrationPetition.IsPending ? "Pending" : (_registrationPetition.IsApproved ? "Approved" : "Denied");
                     case "major":                   return _registrationPetition.MajorCode.Name;
                     case "numberoftickets":         return _registrationPetition.NumberTickets.ToString();
                 }

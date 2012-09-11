@@ -8,8 +8,6 @@ using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using MvcContrib;
-using UCDArch.Core.PersistanceSupport;
-
 
 namespace Commencement.Controllers
 {
@@ -242,10 +240,10 @@ namespace Commencement.Controllers
             var isValid = true;
 
             // validate to make sure that they don't already have registrations
-            if (Repository.OfType<RegistrationParticipation>().Queryable.Where(a => (a.Ceremony == registrationPetition.Ceremony 
-                                                                                 || a.Major == registrationPetition.MajorCode)
-                                                                                 && a.Registration == registrationPetition.Registration
-                                                                                 && isApproved).Any())
+            if (Repository.OfType<RegistrationParticipation>().Queryable.Any(a => (a.Ceremony == registrationPetition.Ceremony 
+                                                                                   || a.Major == registrationPetition.MajorCode)
+                                                                                  && a.Registration == registrationPetition.Registration
+                                                                                  && isApproved))
             {
                 isValid = false;
                 Message = "Student has already been registered for this major/ceremony.";
