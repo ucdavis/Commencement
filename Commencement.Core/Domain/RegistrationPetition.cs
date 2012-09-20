@@ -20,7 +20,7 @@ namespace Commencement.Core.Domain
             MajorCode = major;
             Ceremony = ceremony;
             ExceptionReason = exceptionReason;
-            TermCodeComplete = completionTerm;
+            //TermCodeComplete = completionTerm;
             NumberTickets = numberTickets;
             
             SetDefaults();
@@ -43,7 +43,7 @@ namespace Commencement.Core.Domain
         [Required]
         [Length(500)]
         public virtual string ExceptionReason { get; set; }
-        public virtual vTermCode TermCodeComplete{ get; set; }
+        //public virtual vTermCode TermCodeComplete{ get; set; }
         [Length(100)]
         public virtual string TransferUnitsFrom { get; set; }
         [Length(5)]
@@ -82,7 +82,7 @@ namespace Commencement.Core.Domain
             References(x => x.Registration);
             References(x => x.MajorCode).Column("MajorCode");
             Map(x => x.ExceptionReason);
-            References(x => x.TermCodeComplete).Column("CompletionTerm");
+            //References(x => x.TermCodeComplete).Column("CompletionTerm");
             Map(x => x.TransferUnitsFrom);
             Map(x => x.TransferUnits);
             Map(x => x.IsPending);

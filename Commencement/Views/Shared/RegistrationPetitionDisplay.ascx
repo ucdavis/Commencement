@@ -13,8 +13,6 @@
             <%: Model.Status %></li>
         <li><strong>Reason for Petition:</strong>
             <%= Html.Encode(Model.ExceptionReason) %></li>
-        <li><strong>Term to Complete:</strong>
-            <%= Html.Encode(Model.TermCodeComplete.Description) %></li>
         <li><strong>Transfer Units From*:</strong>
             <%= Html.Encode(Model.TransferUnitsFrom) %></li>
         <li><strong>Transfer Units*:</strong>

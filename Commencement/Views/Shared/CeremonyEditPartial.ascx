@@ -31,14 +31,14 @@
                         <strong>Petition Reason:</strong>
                         <textarea type="text" id="<%: string.Format("ceremonyParticipations[{0}]_PetitionReason", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].PetitionReason", a.Index) %>" cols="60" rows="4" class="petition" ></textarea>
                     </li>
-                    <li>
+<%--                    <li>
                         <strong>Completion Term:</strong>
                         <select id="<%:string.Format("ceremonyParticipations[{0}]_CompletionTerm", a.Index) %>" name="<%:string.Format("ceremonyParticipations[{0}].CompletionTerm", a.Index) %>">
                             <% foreach (var b in Model.FutureTerms) { %>
                                 <option value="<%: b.Id %>"><%: b.Description %></option>
                             <% } %>
                         </select>
-                    </li>
+                    </li>--%>
                     <li>
                         <strong>Transfer College:</strong>
                         <input type="text" id="<%: string.Format("ceremonyParticipations[{0}]_TransferCollege", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].TransferCollege", a.Index) %>" style="width:200px;" />
