@@ -58,7 +58,7 @@
 </div>
 
 <div id="col_ft">
-    <p><i>After April 13th we will accept late registration until June 8th but due to printing deadlines we cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets allotted per person </i></p>
+    <p><i>After <%: Model.RegistrationDeadline.ToString("MMMM d") %> we will accept late registrations but due to printing deadlines we cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets allotted per person </i></p>
 </div>
 
 </div>
