@@ -300,11 +300,15 @@ namespace Commencement.Controllers
             }
 
             // no active term, or current term's reg is not open, includes 3 day grace period
-            if (termCode == null && (DateTime.Now.Date < termCode.RegistrationBegin.Date || DateTime.Now.Date > termCode.RegistrationDeadline.Date.AddDays(3)))
+            //if (termCode == null && (DateTime.Now.Date < termCode.RegistrationBegin.Date || DateTime.Now.Date > termCode.RegistrationDeadline.Date.AddDays(3)))
+            //{
+            //    return this.RedirectToAction<ErrorController>(a => a.NotOpen());
+            //}
+            if (termCode == null || !termCode.CanRegister())
             {
                 return this.RedirectToAction<ErrorController>(a => a.NotOpen());
             }
-
+            
             // student is blocked becuase of sja
             if (student.SjaBlock)
             {

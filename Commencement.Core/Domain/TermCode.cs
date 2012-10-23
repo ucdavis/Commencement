@@ -49,12 +49,24 @@ namespace Commencement.Core.Domain
 
         public virtual DateTime RegistrationBegin { get; set; }
         public virtual DateTime RegistrationDeadline { get; set; }
+        public virtual DateTime? RegistrationPetitionDeadline { get; set; }
 
-        public virtual bool CanRegister()
+        /// <summary>
+        /// Determines if the system should be open for registration
+        /// </summary>
+        /// <param name="regular">Ignore the registration petition deadline</param>
+        /// <returns></returns>
+        public virtual bool CanRegister(bool regular = false)
         {
-            return DateTime.Now.Date >= RegistrationBegin.Date && DateTime.Now.Date <= RegistrationDeadline.AddDays(3).Date;
-        }
+            // registration petition deadline is after the registration deadline + grace period
+            if (!regular && RegistrationPetitionDeadline.HasValue && RegistrationPetitionDeadline.Value.Date > RegistrationDeadline.Date)
+            {
+                return DateTime.Now.Date >= RegistrationBegin.Date && DateTime.Now.Date <= RegistrationPetitionDeadline.Value.Date;
+            }
 
+            // no registration petition deadline, default to the standard deadlines
+            return DateTime.Now.Date >= RegistrationBegin.Date && DateTime.Now.Date <= RegistrationDeadline.Date;
+        }
     }
 
     public class TermCodeMap : ClassMap<TermCode>
@@ -72,6 +84,7 @@ namespace Commencement.Core.Domain
 
             Map(x => x.RegistrationBegin);
             Map(x => x.RegistrationDeadline);
+            Map(x => x.RegistrationPetitionDeadline);
 
             HasMany(x => x.Ceremonies).KeyColumn("TermCode").Cascade.None().Inverse();
         }

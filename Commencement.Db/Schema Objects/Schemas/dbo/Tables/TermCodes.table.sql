@@ -8,6 +8,7 @@
     [FileToGraduateDeadline] DATE          NOT NULL,
     [RegistrationBegin]      DATE          CONSTRAINT [DF_TermCodes_RegistrationBegin] DEFAULT (getdate()) NOT NULL,
     [RegistrationDeadline]   DATE          CONSTRAINT [DF_TermCodes_RegistrationEnd] DEFAULT (getdate()) NOT NULL,
+    [RegistrationPetitionDeadline] DATE NULL, 
     CONSTRAINT [PK_TermCodes] PRIMARY KEY CLUSTERED ([id] ASC)
 );
 

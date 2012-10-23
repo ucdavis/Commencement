@@ -59,6 +59,11 @@
                         <%: Html.TextBox("FileToGraduateDeadline", Model.FileToGraduateDeadline.ToString("d"), new {@class="date"}) %>
                         <%: Html.ValidationMessageFor(a=>a.FileToGraduateDeadline) %>
                     </li>    
+                    <li>
+                        <strong>Registration Petition Deadline:</strong>
+                        <%: Html.TextBox("RegistrationPetitionDeadline", Model.RegistrationPetitionDeadline.HasValue ? Model.RegistrationPetitionDeadline.Value.ToString("d") : string.Empty, new { @class = "date" })%>
+                        <%: Html.ValidationMessageFor(a=>a.RegistrationPetitionDeadline) %>
+                    </li>
                 </ul>    
 
             </fieldset>

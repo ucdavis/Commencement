@@ -95,6 +95,7 @@ namespace Commencement.Controllers
             termCodeToUpdate.RegistrationDeadline = termCode.RegistrationDeadline;
             termCodeToUpdate.CapAndGownDeadline = termCode.CapAndGownDeadline;
             termCodeToUpdate.FileToGraduateDeadline = termCode.FileToGraduateDeadline;
+            termCodeToUpdate.RegistrationPetitionDeadline = termCode.RegistrationPetitionDeadline;
 
             termCodeToUpdate.TransferValidationMessagesTo(ModelState);
             if (ModelState.IsValid)
