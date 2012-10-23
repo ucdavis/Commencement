@@ -14,8 +14,6 @@
         
     <h2>Commencement Participation</h2>
 
-    <%--<%: Html.HtmlEncode(Model.LandingText) %>--%>
-    
     <%= Model.LandingText %>
 
     <%--

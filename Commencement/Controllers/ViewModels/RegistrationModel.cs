@@ -91,7 +91,7 @@ namespace Commencement.Controllers.ViewModels
                 // found a valid ceremony to go with the major
                 if (major != null && ceremony != null)
                 {
-                    var part = CreateCeremonyParticipation(i, edit, student, major, ceremony, registration, null, repository);
+                    var part = CreateCeremonyParticipation(participations.Count, edit, student, major, ceremony, registration, null, repository);
                     if (part != null && !participations.Any(a => a.Major.College == college))
                     {
                         participations.Add(part);

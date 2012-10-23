@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Commencement">
+</Property><Property Name="Solution File" Value="C:\Users\lai\Documents\Visual Studio 2010\Projects\Commencement\Commencement.sln">
+</Property><Property Name="Date" Value="Tuesday, October 23, 2012">
+</Property><Property Name="Time" Value="7:27 AM">
+</Property></Properties><Event ErrorLevel="0" Project="Commencement" Source="Commencement\Commencement.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="Commencement" Source="Commencement\Commencement.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="Commencement.Core" Source="Commencement.Core\Commencement.Core.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="Commencement.Core" Source="Commencement.Core\Commencement.Core.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="Commencement.Tests" Source="Commencement.Tests\Commencement.Tests.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="Commencement.Tests" Source="Commencement.Tests\Commencement.Tests.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="C:\Users\lai\Documents\Visual Studio 2010\Projects\Commencement\Commencement.Db\Commencement.Db.sqlproj" Source="Commencement.Db\Commencement.Db.sqlproj" Description="Beginning Upgrade">
+</Event><Event ErrorLevel="3" Project="C:\Users\lai\Documents\Visual Studio 2010\Projects\Commencement\Commencement.Db\Commencement.Db.sqlproj" Source="Commencement.Db\Commencement.Db.sqlproj" Description="Converted">
+</Event><Event ErrorLevel="3" Project="C:\Users\lai\Documents\Visual Studio 2010\Projects\Commencement\Commencement.Db\Commencement.Db.sqlproj" Source="Commencement.Db\Commencement.Db.sqlproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="C:\Users\lai\Documents\Visual Studio 2010\Projects\Commencement\Catbert3.Db\Catbert3.Db.sqlproj" Source="Catbert3.Db\Catbert3.Db.sqlproj" Description="Beginning Upgrade">
+</Event><Event ErrorLevel="3" Project="C:\Users\lai\Documents\Visual Studio 2010\Projects\Commencement\Catbert3.Db\Catbert3.Db.sqlproj" Source="Catbert3.Db\Catbert3.Db.sqlproj" Description="Converted">
+</Event><Event ErrorLevel="3" Project="C:\Users\lai\Documents\Visual Studio 2010\Projects\Commencement\Catbert3.Db\Catbert3.Db.sqlproj" Source="Catbert3.Db\Catbert3.Db.sqlproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="C:\Users\lai\Documents\Visual Studio 2010\Projects\Commencement\Students.Db\Students.Db.sqlproj" Source="Students.Db\Students.Db.sqlproj" Description="Beginning Upgrade">
+</Event><Event ErrorLevel="3" Project="C:\Users\lai\Documents\Visual Studio 2010\Projects\Commencement\Students.Db\Students.Db.sqlproj" Source="Students.Db\Students.Db.sqlproj" Description="Converted">
+</Event><Event ErrorLevel="3" Project="C:\Users\lai\Documents\Visual Studio 2010\Projects\Commencement\Students.Db\Students.Db.sqlproj" Source="Students.Db\Students.Db.sqlproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="Commencement.sln" Description="The solution file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="" Source="Commencement.sln" Description="No Conversion Required">
+</Event></UpgradeLog>
