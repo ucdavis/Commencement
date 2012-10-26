@@ -8,8 +8,6 @@
 .btn {top:55px;}
 </style>
 
-
-
 </asp:Content>
 
 <asp:Content runat="server" ID="Content3" ContentPlaceHolderID="logoContent">

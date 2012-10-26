@@ -72,11 +72,11 @@
                                      <li>
                                         <input type="radio" id="Radio1" name="<%: string.Format("ceremonyParticipations[{0}].Participate", a.Index) %>" value="true" <%: a.Participate ? "checked" : string.Empty %> />
                                         Register for this ceremony
-                                     </li>
-                                     <li>
+                                        <br/>
+                                        <br/>
                                         <input type="radio" id="<%: string.Format("ceremonyParticipations[{0}]_Cancel", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Cancel", a.Index) %>" value="true" <%: a.Cancel ? "checked" : string.Empty %> />
                                         Cancel this registration
-                                    </li>
+                                     </li>
                                 <% } %>                                
                             </ul>
                         </div>

@@ -247,9 +247,9 @@ namespace Commencement.Core.Domain
             return Editors.Any(a => a.User.LoginId == userId);
         }
 
-        public virtual bool CanRegister()
+        public virtual bool CanRegister(bool regular = false)
         {
-            return TermCode.CanRegister();
+            return TermCode.CanRegister(regular);
         }
 
         public virtual bool CanSubmitExtraTicket()

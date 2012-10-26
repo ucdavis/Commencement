@@ -15,36 +15,11 @@
     <h2>Commencement Participation</h2>
 
     <%= Model.LandingText %>
-
-    <%--
-
-    <p>
-        Registration for the SPRING 2012 College of Agricultural & Environmental Sciences (CA&ES) Commencement Ceremony is from Wednesday, February 1, 2012 and <strong>ends on Friday, April 13th.</strong>
-    </p>
-
-    <p>
-        In order to participate in the Spring 2012 CA&ES Commencement Ceremony, you will need to meet the following criteria:
-    </p>
-
-    <ul>
-        <li>You must complete 160 units by the end of the Winter 2012 quarter</li>
-        <li>Your major must be administered by the College of Agricultural & Environmental Sciences. (<a href="http://caes.ucdavis.edu/NewsEvents/Events/Commencement/major-assignment-by-ceremony">List of majors</a>)</li>
-        <li>You must have a UCD LoginID and Kerberos password. (More information: <a href="https://accounts.ucdavis.edu/faq.html">Here</a> )</li>
-        <li><strong>Note:</strong> This registration is only to participate the CA&ES Commencement Ceremony and receive tickets for your guests. To officially graduate from the University, you must file an application with the <a href="http://registrar.ucdavis.edu/graduation">Registrar's Office</a>. THESE ARE SEPARATE STEPS WITH DIFFERENT DEADLINES AND REQUIRE SEPARATE ACTIONS ON YOUR PART. (<i>walking in the ceremony does not equate to degree completion</i>). 
-        </li>
-    </ul>
-    <p>
-        **Upon completion of the registration process, you will receive a registration confirmation e-mail. If you do not receive this e-mail within 24 hours, please re-register. For questions or additional information, please contact the <a href="mailto:commencement@caes.ucdavis.edu">CA&ES commencement coordinator</a>.
-    </p>
-
-    <p>
-        <strong>
-        The University policy prohibits the selling of commencement tickets for money or commercial value.  Violation will result in referral to Student Judicial Affairs.
-        </strong>
-    </p>--%>
-    
+   
     <% if (Model.CanRegister()) { %>
         <span class="reg_btn button"><%: Html.ActionLink<StudentController>(a => a.Index(), "Continue")%></span>
+    <% } else if ((bool)ViewData["Registered"]) { %>
+        <span class="reg_btn button"><%: Html.ActionLink<StudentController>(a => a.Index(), "View Registration")%></span>
     <% }%>
 </div>
 

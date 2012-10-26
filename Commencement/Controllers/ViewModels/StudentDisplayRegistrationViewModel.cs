@@ -36,7 +36,7 @@ namespace Commencement.Controllers.ViewModels
             var hasAvailableExtraTicketPetition = participations.Any(a=>a.ExtraTicketPetition== null);
 
             viewModel.CanPetitionForExtraTickets = (ceremonies.Any(a => a.CanSubmitExtraTicket()) && hasAvailableExtraTicketPetition);
-            viewModel.CanEditRegistration = ceremonies.Any(a => a.CanRegister());
+            viewModel.CanEditRegistration = ceremonies.Any(a => a.CanRegister(true));
 
             return viewModel;
         }
