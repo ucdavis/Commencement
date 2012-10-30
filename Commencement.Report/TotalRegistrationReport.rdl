@@ -467,6 +467,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>TotalRegisteredStudents</DataSetName>
+        <Top>0in</Top>
         <Height>1.81344in</Height>
         <Width>3.24404in</Width>
         <Style>
@@ -489,6 +490,9 @@
             </TablixColumn>
             <TablixColumn>
               <Width>2.41926in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>2in</Width>
@@ -688,6 +692,50 @@
                       </Paragraphs>
                       <rd:DefaultName>Textbox8</rd:DefaultName>
                       <RepeatWith>TablixDetail</RepeatWith>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>None</Style>
+                          <Width>1.5pt</Width>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Width>1pt</Width>
+                        </RightBorder>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox3">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>College Code</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox3</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>DimGray</Color>
@@ -1341,6 +1389,51 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
+                    <Textbox Name="CollegeCode">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!CollegeCode.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>CollegeCode</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Gray</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Color>LightGrey</Color>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>Silver</Color>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>Silver</Color>
+                          <Style>Solid</Style>
+                        </RightBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
                     <Textbox Name="Address1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -1781,6 +1874,7 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
+            <TablixMember />
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
@@ -1789,18 +1883,7 @@
               <FixedData>true</FixedData>
               <RepeatOnNewPage>true</RepeatOnNewPage>
             </TablixMember>
-            <TablixMember>
-              <Group Name="Group2">
-                <GroupExpressions>
-                  <GroupExpression>=Fields!StudentId.Value</GroupExpression>
-                </GroupExpressions>
-              </Group>
-              <TablixMembers>
-                <TablixMember>
-                  <Group Name="Details" />
-                </TablixMember>
-              </TablixMembers>
-            </TablixMember>
+            <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
         <RepeatColumnHeaders>true</RepeatColumnHeaders>
@@ -1818,7 +1901,7 @@
         </SortExpressions>
         <Top>1.84469in</Top>
         <Height>0.48958in</Height>
-        <Width>21.37164in</Width>
+        <Width>22.37164in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -2042,39 +2125,43 @@
       </Query>
       <Fields>
         <Field Name="LastName">
-          <DataField>LastName</DataField>
+          <DataField>lastname</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="FirstName">
-          <DataField>FirstName</DataField>
+          <DataField>firstname</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="StudentId">
-          <DataField>StudentId</DataField>
+          <DataField>studentid</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Major">
-          <DataField>Major</DataField>
+          <DataField>major</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CollegeCode">
+          <DataField>CollegeCode</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Address1">
-          <DataField>Address1</DataField>
+          <DataField>address1</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Address2">
-          <DataField>Address2</DataField>
+          <DataField>address2</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="City">
-          <DataField>City</DataField>
+          <DataField>city</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="State">
-          <DataField>State</DataField>
+          <DataField>state</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Zip">
-          <DataField>Zip</DataField>
+          <DataField>zip</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="PrimaryEmail">
@@ -2086,39 +2173,27 @@
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="NumberTickets">
-          <DataField>NumberTickets</DataField>
+          <DataField>numbertickets</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="ExtraTicketPetitions">
-          <DataField>ExtraTicketPetitions</DataField>
+        <Field Name="ExtraTickets">
+          <DataField>ExtraTickets</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="MailTickets">
-          <DataField>MailTickets</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
+        <Field Name="ExtraStreamingTickets">
+          <DataField>ExtraStreamingTickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="CeremonyTime">
           <DataField>CeremonyTime</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="Tickets">
-          <DataField>Tickets</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="RegistrationTickets">
-          <DataField>RegistrationTickets</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="TotalTickets">
-          <DataField>TotalTickets</DataField>
+          <DataField>totaltickets</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="TermCode">
-          <DataField>TermCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Term">
-          <DataField>Term</DataField>
+          <DataField>term</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DistributionMethod">
@@ -2126,7 +2201,7 @@
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DateRegistered">
-          <DataField>DateRegistered</DataField>
+          <DataField>dateregistered</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
       </Fields>
