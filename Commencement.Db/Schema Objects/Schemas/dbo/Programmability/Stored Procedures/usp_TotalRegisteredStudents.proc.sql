@@ -9,6 +9,7 @@ select s.lastname, s.firstname, s.studentid
 		when majors.ConsolidationCode is not null then majors.ConsolidationCode
 		else rp.MajorCode
 		end major
+		, majors.CollegeCode
 	, r.address1, r.address2, r.city, r.[state], r.zip, s.email as PrimaryEmail
 	, r.email as SecondaryEmail, rp.numbertickets
 	, etp.numbertickets as ExtraTickets, etp.numberticketsstreaming as ExtraStreamingTickets
