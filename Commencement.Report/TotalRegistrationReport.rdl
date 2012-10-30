@@ -467,7 +467,6 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>TotalRegisteredStudents</DataSetName>
-        <Top>0in</Top>
         <Height>1.81344in</Height>
         <Width>3.24404in</Width>
         <Style>
@@ -1883,7 +1882,18 @@
               <FixedData>true</FixedData>
               <RepeatOnNewPage>true</RepeatOnNewPage>
             </TablixMember>
-            <TablixMember />
+            <TablixMember>
+              <Group Name="Group2">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!StudentId.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="Details" />
+                </TablixMember>
+              </TablixMembers>
+            </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
         <RepeatColumnHeaders>true</RepeatColumnHeaders>
@@ -2125,43 +2135,39 @@
       </Query>
       <Fields>
         <Field Name="LastName">
-          <DataField>lastname</DataField>
+          <DataField>LastName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="FirstName">
-          <DataField>firstname</DataField>
+          <DataField>FirstName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="StudentId">
-          <DataField>studentid</DataField>
+          <DataField>StudentId</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Major">
-          <DataField>major</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CollegeCode">
-          <DataField>CollegeCode</DataField>
+          <DataField>Major</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Address1">
-          <DataField>address1</DataField>
+          <DataField>Address1</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Address2">
-          <DataField>address2</DataField>
+          <DataField>Address2</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="City">
-          <DataField>city</DataField>
+          <DataField>City</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="State">
-          <DataField>state</DataField>
+          <DataField>State</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Zip">
-          <DataField>zip</DataField>
+          <DataField>Zip</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="PrimaryEmail">
@@ -2173,27 +2179,39 @@
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="NumberTickets">
-          <DataField>numbertickets</DataField>
+          <DataField>NumberTickets</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="ExtraTickets">
-          <DataField>ExtraTickets</DataField>
+        <Field Name="ExtraTicketPetitions">
+          <DataField>ExtraTicketPetitions</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="ExtraStreamingTickets">
-          <DataField>ExtraStreamingTickets</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+        <Field Name="MailTickets">
+          <DataField>MailTickets</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
         <Field Name="CeremonyTime">
           <DataField>CeremonyTime</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="TotalTickets">
-          <DataField>totaltickets</DataField>
+        <Field Name="Tickets">
+          <DataField>Tickets</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="RegistrationTickets">
+          <DataField>RegistrationTickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="TotalTickets">
+          <DataField>TotalTickets</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="TermCode">
+          <DataField>TermCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="Term">
-          <DataField>term</DataField>
+          <DataField>Term</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DistributionMethod">
@@ -2201,8 +2219,12 @@
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DateRegistered">
-          <DataField>dateregistered</DataField>
+          <DataField>DateRegistered</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="CollegeCode">
+          <DataField>CollegeCode</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
         </Field>
       </Fields>
     </DataSet>
