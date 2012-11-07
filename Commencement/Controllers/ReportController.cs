@@ -231,7 +231,7 @@ namespace Commencement.Controllers
                     else
                     {
                         cell = string.Format(Labels.Avery5160_PickupCell, rp.Registration.Student.FullName,
-                                             rp.Registration.Student.StudentId, rp.Registration.RegistrationParticipations[0].Major.Name
+                                             rp.Registration.Student.StudentId, string.Format("{0} ({1})", rp.Registration.RegistrationParticipations[0].Major.Id, rp.Registration.RegistrationParticipations[0].Major.College.Id)
                                              , rp.Ceremony.DateTime.ToString("t") + "-" + ticketString);
                     }
 
