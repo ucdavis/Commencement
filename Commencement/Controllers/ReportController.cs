@@ -154,7 +154,7 @@ namespace Commencement.Controllers
                         a =>
                         !a.LabelPrinted ||
                         (a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved && !a.ExtraTicketPetition.IsPending &&
-                         !a.ExtraTicketPetition.LabelPrinted));
+                         !a.ExtraTicketPetition.LabelPrinted)).OrderBy(a => a.Registration.Student.LastName);
             }
 
             var registrations = query.ToList();
