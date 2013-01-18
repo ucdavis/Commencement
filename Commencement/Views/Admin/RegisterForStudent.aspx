@@ -150,6 +150,13 @@
         <fieldset>
         
             <ul class="registration_form">
+                <li>
+                    <label for="supressEmail">
+                        <%= Html.CheckBox("supressEmail", false)%>
+                        Do not send email update to student
+                    </label>
+                </li>
+
                 <li><strong>&nbsp;</strong>
                     <input type="submit" value="Update Registration" class="button" />
                     |

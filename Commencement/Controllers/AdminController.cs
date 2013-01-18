@@ -184,7 +184,7 @@ namespace Commencement.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegisterForStudent(Guid id, RegistrationPostModel registrationPostModel)
+        public ActionResult RegisterForStudent(Guid id, RegistrationPostModel registrationPostModel, bool supressEmail)
         {
             // load the student
             var student = _studentRepository.GetNullableById(id);
@@ -195,7 +195,7 @@ namespace Commencement.Controllers
             }
 
             // check for an existing registration
-            var registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student && a.TermCode == TermService.GetCurrent()).SingleOrDefault();
+            var registration = Repository.OfType<Registration>().Queryable.SingleOrDefault(a => a.Student == student && a.TermCode == TermService.GetCurrent());
 
             if (registration == null)
             {
@@ -212,15 +212,19 @@ namespace Commencement.Controllers
             {
                 _registrationRepository.EnsurePersistent(registration);
 
-                try
+                if (!supressEmail)
                 {
-                    // add email for registration into queue
-                    _emailService.QueueRegistrationConfirmation(registration);
-                }
-                catch (Exception ex)
-                {
-                    _errorService.ReportError(ex);
-                    Message += StaticValues.Student_Email_Problem;
+                    try
+                    {
+
+                        // add email for registration into queue
+                        _emailService.QueueRegistrationConfirmation(registration);
+                    }
+                    catch (Exception ex)
+                    {
+                        _errorService.ReportError(ex);
+                        Message += StaticValues.Student_Email_Problem;
+                    }    
                 }
 
                 // put message up for student
