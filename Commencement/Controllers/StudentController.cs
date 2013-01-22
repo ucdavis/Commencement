@@ -160,6 +160,18 @@ namespace Commencement.Controllers
                     
                 }
 
+
+                // only registered for one ceremony and that ceremony has survey url
+                if (registration.RegistrationParticipations.Count == 1)
+                {
+                    var rp = registration.RegistrationParticipations.First();
+
+                    if (!string.IsNullOrEmpty(rp.Ceremony.SurveyUrl))
+                    {
+                        return Redirect(rp.Ceremony.SurveyUrl);
+                    }
+                }
+
                 //// successful registration
                 //// redirect to exit survey, change requested by francesca on 8/16/2011
                 //var url = ConfigurationManager.AppSettings["ExitSurvey"];
