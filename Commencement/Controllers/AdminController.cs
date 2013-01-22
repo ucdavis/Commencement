@@ -116,6 +116,8 @@ namespace Commencement.Controllers
             var viewModel = RegistrationModel.Create(Repository, _ceremonyService.GetCeremonies(CurrentUser.Identity.Name), student);
             viewModel.Registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student).FirstOrDefault();
 
+            ViewData["IsAdmin"] = true;
+
             return View(viewModel);
         }
         #endregion
@@ -171,7 +173,7 @@ namespace Commencement.Controllers
             }
 
             // check if the student has a registration already
-            var registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student && a.TermCode == TermService.GetCurrent()).SingleOrDefault();
+            var registration = Repository.OfType<Registration>().Queryable.SingleOrDefault(a => a.Student == student && a.TermCode == TermService.GetCurrent());
 
             // load the current user's ceremonies, to determine what they can register the student for
             var ceremonies = _ceremonyService.GetCeremonies(CurrentUser.Identity.Name);

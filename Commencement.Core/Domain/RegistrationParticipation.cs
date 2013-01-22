@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
@@ -13,6 +14,8 @@ namespace Commencement.Core.Domain
             LabelPrinted = false;
             DateRegistered = DateTime.Now;
             DateUpdated = DateTime.Now;
+
+            TransferRequests = new List<TransferRequest>();
         }
         [NotNull]
         public virtual Registration Registration { get; set; }
@@ -29,6 +32,8 @@ namespace Commencement.Core.Domain
         public virtual DateTime DateUpdated { get; set; }
 
         public virtual TicketDistributionMethod TicketDistributionMethod { get; set; }
+
+        public virtual IList<TransferRequest> TransferRequests { get; set; }
 
         #region Extended Fields / Methods
         public virtual string TicketDistribution
@@ -160,6 +165,8 @@ namespace Commencement.Core.Domain
             Map(x => x.DateUpdated);
 
             References(x => x.TicketDistributionMethod);
+
+            HasMany(x => x.TransferRequests);
         }
     }
 }

@@ -45,8 +45,11 @@
         <li class="left">
             <a href="<%= Url.Action("Index", "Ceremony") %>"><img src="<%= Url.Content("~/Images/ceremony.png") %>" /><br />Ceremony List</a>
         </li>
-        <% if (User.IsInRole(RoleNames.RoleAdmin)) { %>
         <li>
+            <a href="<%= Url.Action("Index", "TransferRequest") %>"><img src="<%= Url.Content("~/Images/transfer.png") %>"/><br/>Transfer Requests</a>
+        </li>
+        <% if (User.IsInRole(RoleNames.RoleAdmin)) { %>
+        <li class="left">
             <a href="<%= Url.Action("AdminLanding", "Admin") %>"><img src="<%= Url.Content("~/Images/preferences.png") %>" /><br />Administration</a>
         </li>
         <% } %>

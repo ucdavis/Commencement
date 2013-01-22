@@ -39,18 +39,6 @@ namespace Commencement.Controllers.Services
 
         public virtual List<Ceremony> GetCeremonies (string userId, TermCode termCode = null)
         {
-            //if (UserCeremonies == null || ((List<Ceremony>)UserCeremonies).Count <= 0)
-            //{
-            //    var ceremonyIds = GetCeremonyIds(userId, termCode);
-
-            //    // build the query for getting the available ceremonies
-            //    var query = from a in _repository.OfType<Ceremony>().Queryable
-            //                where ceremonyIds.Contains(a.Id)
-            //                select a;
-
-            //    UserCeremonies = query.ToList();
-            //}
-
             var ceremonyIds = GetCeremonyIds(userId, termCode);
             var query = from a in _repository.OfType<Ceremony>().Queryable
                         where ceremonyIds.Contains(a.Id)
@@ -62,27 +50,10 @@ namespace Commencement.Controllers.Services
             }
 
             return query.ToList();
-
-            //if (UserCeremonies == null || UserCeremonies.Count <= 0)
-            //{
-            //    var ceremonyIds = GetCeremonyIds(userId);
-
-            //    // build the query for getting the available ceremonies
-            //    var query = from a in _repository.OfType<Ceremony>().Queryable
-            //                where ceremonyIds.Contains(a.Id)
-            //                select a;
-
-            //    UserCeremonies = query.ToList();
-            //}
-
-            //return termCode != null ? UserCeremonies.Where(a=>a.TermCode == termCode).ToList() : UserCeremonies;
         }
 
         public virtual List<int> GetCeremonyIds (string userId, TermCode termCode = null)
         {
-            //if (UserCeremonyIds == null || termCode != null)
-            //{
-            // get a list of ceremonies that the user has access to
             var query = from a in _repository.OfType<CeremonyEditor>().Queryable
                         where a.User.LoginId == userId
                         select a;
@@ -93,20 +64,6 @@ namespace Commencement.Controllers.Services
             }
 
             return query.Select(a => a.Ceremony.Id).ToList();
-
-            //    // always cache the full list of ceremonies
-            //    UserCeremonyIds = query.Select(a => a.Ceremony.Id).ToList();
-
-            //    // if a term is provided return limited version
-            //    if (termCode != null)
-            //    {
-            //        query = query.Where(a => a.Ceremony.TermCode == termCode);
-            //        return query.Select(a=>a.Ceremony.Id).ToList();
-            //    }
-            //}
-
-            //return UserCeremonyIds;
-
         }
 
         public virtual void ResetUserCeremonies()

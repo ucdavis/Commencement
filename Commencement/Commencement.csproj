@@ -212,6 +212,7 @@
     <Compile Include="Controllers\Services\UserService.cs" />
     <Compile Include="Controllers\SpecialNeedsController.cs" />
     <Compile Include="Controllers\TermCodeController.cs" />
+    <Compile Include="Controllers\TransferRequestController.cs" />
     <Compile Include="Controllers\ViewModels\AddEditorViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AddMajorCodeViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminEditStudentViewModel.cs" />
@@ -246,6 +247,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\ViewModels\TransferRequestViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteConfigurator.asax.cs" />
   </ItemGroup>
@@ -309,6 +311,7 @@
     <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\images\ui-icons_fffff_256x240.png" />
     <Content Include="Content\jquery-ui-1.8.19.custom.css" />
+    <Content Include="Images\transfer.png" />
     <Content Include="Images\to-do-list_checked1_small.gif" />
     <Content Include="Content\jquery.bt.css" />
     <Content Include="Content\main.css" />
@@ -672,6 +675,9 @@
     <Content Include="Views\TermCode\Details.aspx" />
     <Content Include="Views\TermCode\Edit.aspx" />
     <Content Include="Views\TermCode\Index.aspx" />
+    <Content Include="Views\TransferRequest\Create.aspx" />
+    <Content Include="Views\TransferRequest\Index.aspx" />
+    <Content Include="Views\TransferRequest\Review.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

@@ -130,6 +130,7 @@
     <Compile Include="Domain\TemplateType.cs" />
     <Compile Include="Domain\TermCode.cs" />
     <Compile Include="Domain\TicketDistributionMethod.cs" />
+    <Compile Include="Domain\TransferRequest.cs" />
     <Compile Include="Domain\vTermCode.cs" />
     <Compile Include="Domain\vUsers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

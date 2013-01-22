@@ -160,7 +160,6 @@ namespace Commencement.Controllers
                     
                 }
 
-
                 // only registered for one ceremony and that ceremony has survey url
                 if (registration.RegistrationParticipations.Count == 1)
                 {
