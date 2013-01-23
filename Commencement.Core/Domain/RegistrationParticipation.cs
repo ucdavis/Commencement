@@ -14,6 +14,7 @@ namespace Commencement.Core.Domain
             LabelPrinted = false;
             DateRegistered = DateTime.Now;
             DateUpdated = DateTime.Now;
+            ExitSurvey = false;
 
             TransferRequests = new List<TransferRequest>();
         }
@@ -30,6 +31,8 @@ namespace Commencement.Core.Domain
         public virtual bool LabelPrinted { get; set; }
         public virtual DateTime DateRegistered { get; set; }
         public virtual DateTime DateUpdated { get; set; }
+
+        public virtual bool ExitSurvey { get; set; }
 
         public virtual TicketDistributionMethod TicketDistributionMethod { get; set; }
 
@@ -163,6 +166,7 @@ namespace Commencement.Core.Domain
             Map(x => x.LabelPrinted);
             Map(x => x.DateRegistered);
             Map(x => x.DateUpdated);
+            Map(x => x.ExitSurvey);
 
             References(x => x.TicketDistributionMethod);
 

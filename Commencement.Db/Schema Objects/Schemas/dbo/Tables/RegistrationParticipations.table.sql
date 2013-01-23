@@ -9,7 +9,8 @@
     [ExtraTicketPetitionId]      INT         NULL,
     [DateRegistered]             DATETIME    NOT NULL,
     [DateUpdated]                DATETIME    NULL,
-    [TicketDistributionMethodId] VARCHAR (2) NULL
+    [TicketDistributionMethodId] VARCHAR (2) NULL, 
+    [ExitSurvey] BIT NOT NULL DEFAULT 0
 );
 
 
