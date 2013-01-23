@@ -157,19 +157,32 @@ namespace Commencement.Controllers
                         }
                         Message += StaticValues.Student_RegistrationPetition_Successful;
                     }
+
+                    // exit survey redirects once saved
+                    if (registration.RegistrationParticipations.Any(a => !a.ExitSurvey && !string.IsNullOrEmpty(a.Ceremony.SurveyUrl)))
+                    {
+                        var rp = registration.RegistrationParticipations.First(a => !a.ExitSurvey && !string.IsNullOrEmpty(a.Ceremony.SurveyUrl));
+
+                        rp.ExitSurvey = true;
+                        Repository.OfType<RegistrationParticipation>().EnsurePersistent(rp);
+
+                        return Redirect(rp.Ceremony.SurveyUrl);
+                    }
                     
                 }
 
                 // only registered for one ceremony and that ceremony has survey url
-                if (registration.RegistrationParticipations.Count == 1)
-                {
-                    var rp = registration.RegistrationParticipations.First();
+                //if (registration.RegistrationParticipations.Count == 1)
+                //{
+                //    var rp = registration.RegistrationParticipations.First();
 
-                    if (!string.IsNullOrEmpty(rp.Ceremony.SurveyUrl))
-                    {
-                        return Redirect(rp.Ceremony.SurveyUrl);
-                    }
-                }
+                //    if (!string.IsNullOrEmpty(rp.Ceremony.SurveyUrl))
+                //    {
+                //        return Redirect(rp.Ceremony.SurveyUrl);
+                //    }
+                //}
+
+
 
                 //// successful registration
                 //// redirect to exit survey, change requested by francesca on 8/16/2011
@@ -207,6 +220,17 @@ namespace Commencement.Controllers
 
             // must have either registration or at least one petition
             if (registration == null) return this.RedirectToAction(a => a.Index());
+
+            // exit survey redirect if they still have an outstanding survey
+            if (registration.RegistrationParticipations.Any(a => !a.ExitSurvey && !string.IsNullOrEmpty(a.Ceremony.SurveyUrl)))
+            {
+                var rp = registration.RegistrationParticipations.First(a => !a.ExitSurvey && !string.IsNullOrEmpty(a.Ceremony.SurveyUrl));
+
+                rp.ExitSurvey = true;
+                Repository.OfType<RegistrationParticipation>().EnsurePersistent(rp);
+
+                return Redirect(rp.Ceremony.SurveyUrl);
+            }
 
             var viewModel = StudentDisplayRegistrationViewModel.Create(Repository, registration);
 
