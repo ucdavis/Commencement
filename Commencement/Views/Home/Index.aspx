@@ -26,9 +26,18 @@
 <div class="right_col">
 <h3>Dates</h3>
 <ul>
-    <li><strong>June 1 - October 10, 2012</strong>File for candidacy period for Fall 2012 graduation with the Office of the University Registrar at <a href="http://registrar.ucdavis.edu/">http://registrar.ucdavis.edu/</a></li>
-    <li><strong>August 20 - October 19, 2012</strong>Online Registration for Commencement participation available</li>
-    <li><strong>August 20 -November 28</strong>Online pre-order period for cap and gown rental through the UC Davis Bookstore at <a href="http:/bookstore.ucdavis.edu/graduation/">http:/bookstore.ucdavis.edu/graduation/</a></li>
+    <li><strong>February 1 - April 12, 2013</strong>
+        File for candidacy period for Spring 2013 graduation with the Office of the <a href="http://registrar.ucdavis.edu/">University Registrar</a>
+    </li>
+    <li><strong>March 1 – TBD</strong>
+        Online pre-order period for <a href="http://bookstore.ucdavis.edu/graduation/">cap and gown</a> rental through the UC Davis Stores
+    </li>
+    <li><strong>Tuesday, March 5th 9am-6pm</strong>
+        Grad Faire in the Griffin Lounge, Memorial Union
+    </li>
+    <li><strong>Friday, April 12th by 5pm</strong>
+        <a href="http://commencement.ucdavis.edu/general_info/index.html#speaker">Student Speaker</a> Applications due
+    </li>
 </ul>
 </div>
 
