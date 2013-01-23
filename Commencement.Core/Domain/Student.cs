@@ -120,7 +120,10 @@ namespace Commencement.Core.Domain
 
         public virtual string StrColleges
         {
-            get { return string.Join(",", Majors.Select(a => a.College.Id).Distinct()); }
+            get
+            {
+                return string.Join(",", Majors.Where(a => a.College != null && a.IsActive).Select(a => a.College.Id).Distinct());
+            }
         }
 
         public virtual decimal TotalUnits { 
