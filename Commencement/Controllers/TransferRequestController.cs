@@ -50,7 +50,7 @@ namespace Commencement.Controllers
         }
 
         [HttpPost]
-        public ActionResult Review(int id, bool approved)
+        public ActionResult Review(int id, bool? approved, int numberTickets, int? numberTicketsRequested, int? numberTicketsRequestedStreaming, int? numberExtraTickets, int? numberExtraTicketsStreaming)
         {
             var ceremonyIds = _ceremonyService.GetCeremonyIds(User.Identity.Name, TermService.GetCurrent());
             var request = Repository.OfType<TransferRequest>().GetNullableById(id);
@@ -67,33 +67,55 @@ namespace Commencement.Controllers
                 return RedirectToAction("Index");
             }
 
-            if (approved)
+            if (approved.HasValue)
             {
-                var rp = request.RegistrationParticipation;
-                
-                rp.Ceremony = request.Ceremony;
-                if (rp.NumberTickets > request.Ceremony.TicketsPerStudent)
+                if (approved.Value)
                 {
-                    rp.NumberTickets = request.Ceremony.TicketsPerStudent;
-                }
-                
-                if (rp.ExtraTicketPetition != null)
-                {
-                    if (rp.ExtraTicketPetition.NumberTickets > request.Ceremony.ExtraTicketPerStudent)
+                    var rp = request.RegistrationParticipation;
+                    rp.Ceremony = request.Ceremony;
+                    rp.NumberTickets = numberTickets;
+
+                    if (rp.ExtraTicketPetition != null)
                     {
-                        rp.ExtraTicketPetition.NumberTickets = request.Ceremony.ExtraTicketPerStudent;
+                        if (numberTicketsRequested.HasValue)
+                        {
+                            rp.ExtraTicketPetition.NumberTicketsRequested = numberTicketsRequested.Value;
+                        }
+
+                        if (numberTicketsRequestedStreaming.HasValue && request.Ceremony.HasStreamingTickets)
+                        {
+                            rp.ExtraTicketPetition.NumberTicketsRequestedStreaming = numberTicketsRequestedStreaming.Value;
+                        }
+                        else
+                        {
+                            rp.ExtraTicketPetition.NumberTicketsRequestedStreaming = 0;
+                        }
+
+                        rp.ExtraTicketPetition.NumberTickets = numberExtraTickets;
+
+                        if (request.Ceremony.HasStreamingTickets)
+                        {
+                            rp.ExtraTicketPetition.NumberTicketsStreaming = numberExtraTicketsStreaming;    
+                        }
+                        else
+                        {
+                            rp.ExtraTicketPetition.NumberTicketsStreaming = null;
+                        }
                     }
+
+                    Repository.OfType<RegistrationParticipation>().EnsurePersistent(rp);    
                 }
 
-                Repository.OfType<RegistrationParticipation>().EnsurePersistent(rp);
+                request.Pending = false;
+                Repository.OfType<TransferRequest>().EnsurePersistent(request);
+
+                Message = string.Format("Transfer request for {0} has been {1}.", request.RegistrationParticipation.Registration.Student.FullName, approved.Value ? "approved" : "denied");
+
+                return RedirectToAction("Index");    
             }
 
-            request.Pending = false;
-            Repository.OfType<TransferRequest>().EnsurePersistent(request);
-
-            Message = string.Format("Transfer request for {0} has been {1}.", request.RegistrationParticipation.Registration.Student.FullName, approved ? "approved" : "denied");
-
-            return RedirectToAction("Index");
+            Message = "Approval decision is required.";
+            return View(request);
         }
 
         /// <summary>
