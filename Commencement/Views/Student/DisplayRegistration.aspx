@@ -77,7 +77,7 @@
 
     <% } %> 
     
-    <!-- Open up exit survey for each valid ceremony -->
+<%--    <!-- Open up exit survey for each valid ceremony -->
     <% if (Model.Registration.RegistrationParticipations.Any()) { %>
         <% foreach (var a in Model.Registration.RegistrationParticipations.Where(a => !string.IsNullOrEmpty(a.Ceremony.SurveyUrl))) { %>
             <% if (DateTime.Now.Subtract(a.DateRegistered).TotalMinutes <= 2) { %>
@@ -86,7 +86,7 @@
             </script>
             <% } %>
         <% } %>     
-    <% } %>
+    <% } %>--%>
 
 </asp:Content>
 
