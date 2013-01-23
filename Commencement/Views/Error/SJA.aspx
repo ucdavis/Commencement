@@ -8,7 +8,7 @@
 
     <h2>Error - Not Eligible</h2>
 
-    <p>According to our records you are not eligible for participation in the commencement ceremony.  If you have any questions please contact Student Judicial Affairs for further information. Thank you.</p>
+    <p>According to our records you may not be eligible to participate in the commencement ceremony.  If you have any questions please contact Student Judicial Affairs for further information. Thank you.</p>
 
 </asp:Content>
 
