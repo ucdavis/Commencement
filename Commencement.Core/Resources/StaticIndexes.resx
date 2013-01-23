@@ -128,6 +128,9 @@
   <data name="EmulationKey" xml:space="preserve">
     <value>Emulation</value>
   </data>
+  <data name="Td_Electronic" xml:space="preserve">
+    <value>EP</value>
+  </data>
   <data name="Td_Mail" xml:space="preserve">
     <value>ML</value>
   </data>

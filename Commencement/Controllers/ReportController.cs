@@ -228,7 +228,7 @@ namespace Commencement.Controllers
                                                  address2, rp.Registration.City + ", " + rp.Registration.State.Id + " " + rp.Registration.Zip
                                                  , rp.Registration.RegistrationParticipations[0].Ceremony.DateTime.ToString("t") + "-" + ticketString);
                     }
-                    else
+                    else if(rp.TicketDistributionMethod.Id == StaticIndexes.Td_Pickup)
                     {
                         cell = string.Format(Labels.Avery5160_PickupCell, rp.Registration.Student.FullName,
                                              rp.Registration.Student.StudentId, string.Format("{0} ({1})", rp.Registration.RegistrationParticipations[0].Major.Id, rp.Registration.RegistrationParticipations[0].Major.College.Id)
