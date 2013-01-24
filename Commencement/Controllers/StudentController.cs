@@ -313,7 +313,7 @@ namespace Commencement.Controllers
                 return this.RedirectToAction(a => a.DisplayRegistration());
             }
 
-            // no active term, or current term's reg is not open, includes 3 day grace period
+            // no active term, or current term's reg is not open
             if (termCode == null || !termCode.CanRegister())
             {
                 return this.RedirectToAction<ErrorController>(a => a.NotOpen());

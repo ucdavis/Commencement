@@ -58,7 +58,7 @@ namespace Commencement.Core.Domain
         /// <returns></returns>
         public virtual bool CanRegister(bool regular = false)
         {
-            // registration petition deadline is after the registration deadline + grace period
+            // registration petition deadline is after the registration deadline
             if (!regular && RegistrationPetitionDeadline.HasValue && RegistrationPetitionDeadline.Value.Date > RegistrationDeadline.Date)
             {
                 return DateTime.Now.Date >= RegistrationBegin.Date && DateTime.Now.Date <= RegistrationPetitionDeadline.Value.Date;
