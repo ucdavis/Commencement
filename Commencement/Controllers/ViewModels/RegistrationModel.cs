@@ -27,7 +27,7 @@ namespace Commencement.Controllers.ViewModels
         //public IEnumerable<Ceremony> Ceremonies { get; private set; }
         
 
-        public static RegistrationModel Create(IRepository repository, IList<Ceremony> ceremonies, Student student, Registration registration = null, List<CeremonyParticipation> ceremonyParticipations = null, bool edit = false)
+        public static RegistrationModel Create(IRepository repository, IList<Ceremony> ceremonies, Student student, Registration registration = null, List<CeremonyParticipation> ceremonyParticipations = null, bool edit = false, bool admin = false)
         {
             var viewModel = new RegistrationModel
                                 {
@@ -66,12 +66,10 @@ namespace Commencement.Controllers.ViewModels
                 }
             }
 
+            /*
             // the student's colleges
             var studentsColleges = viewModel.Student.Majors.Select(a => a.College).Distinct().ToList();
 
-            // load this quarter's ceremony information
-            //var ceremonyInfos = GatherCollegeCeremonyInfo(repository);
-            
             // go through all the student's colleges
             for (var i = 0; i < studentsColleges.Count(); i++)
             {
@@ -98,14 +96,31 @@ namespace Commencement.Controllers.ViewModels
                     }
                 }
             }
+            */
+
+            foreach (var major in student.Majors)
+            {
+                if (!participations.Any(a => a.Major == major))
+                {
+                    Ceremony ceremony = GetCeremony(repository, major);
+                    
+                    if (ceremony != null)
+                    {
+                        var part = CreateCeremonyParticipation(participations.Count, edit, student, major, ceremony, registration, null, repository, admin);
+                        if (part != null)
+                        {
+                            participations.Add(part);
+                        }
+                    }
+                }
+            }
 
             viewModel.Participations = participations;
-            //viewModel.CollegeCeremonyInfos = ceremonyInfos;
 
             return viewModel;
         }
 
-        private static CeremonyParticipation CreateCeremonyParticipation(int index, bool edit, Student student, MajorCode major, Ceremony ceremony, Registration registration, List<CeremonyParticipation> ceremonyParticipations, IRepository repository)
+        private static CeremonyParticipation CreateCeremonyParticipation(int index, bool edit, Student student, MajorCode major, Ceremony ceremony, Registration registration, List<CeremonyParticipation> ceremonyParticipations, IRepository repository, bool admin = false)
         {
             if (ceremony != null)
             {
@@ -144,14 +159,21 @@ namespace Commencement.Controllers.ViewModels
                     }
                 }
 
-                // set the college/ceremony lookup values
-                var college = repository.OfType<College>().Queryable.FirstOrDefault(x => x.Display && x.Id == major.College.Id);
-                var ceremonies = repository.OfType<Ceremony>().Queryable.Where(x => x.TermCode == TermService.GetCurrent() && x.Colleges.Contains(college)).ToList();
-                var majors = ceremonies.SelectMany(x => x.Majors);
+                if (admin)
+                {
+                    // set the college/ceremony lookup values
+                    var college = repository.OfType<College>().Queryable.FirstOrDefault(x => x.Display && x.Id == major.College.Id);
+                    var ceremonies = repository.OfType<Ceremony>().Queryable.Where(x => x.TermCode == TermService.GetCurrent() && x.Colleges.Contains(college)).ToList();
+                    var majors = ceremonies.SelectMany(x => x.Majors).Where(x => x.IsActive);
 
-                part.College = college;
-                part.Ceremonies = ceremonies;
-                part.MajorCodes = majors.Where(x => x.College == college && x.ConsolidationMajor == null).OrderBy(x => x.MajorName).ToList();
+                    part.College = college;
+                    part.Ceremonies = ceremonies;
+                    part.MajorCodes = majors.Where(x => x.College == college && x.ConsolidationMajor == null).OrderBy(x => x.MajorName).ToList();    
+                }
+                else
+                {
+                    part.MajorCodes = part.Ceremony.Majors.OrderBy(x => x.MajorName).ToList();
+                }
 
                 return part;
             }

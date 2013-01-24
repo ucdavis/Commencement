@@ -180,7 +180,7 @@ namespace Commencement.Controllers
 
             //var viewModel = RegistrationModel.Create(Repository, ceremonies, student, registration);
             var overrideCeremonyId = student.Ceremony != null ? (int?) student.Ceremony.Id : null;
-            var registrationModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(majors: student.Majors.ToList(), totalUnits: student.TotalUnits, ceremonyIdOverride: overrideCeremonyId), student: student, registration: registration, edit: true);
+            var registrationModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(majors: student.Majors.ToList(), totalUnits: student.TotalUnits, ceremonyIdOverride: overrideCeremonyId), student: student, registration: registration, edit: true, admin: true);
             var viewModel = AdminRegisterForStudentViewModel.Create(Repository, registrationModel);
             return View(viewModel);
         }
@@ -236,7 +236,7 @@ namespace Commencement.Controllers
             }
 
             // load the current user's ceremonies, to determine what they can register the student for
-            var registrationModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(student.Majors.ToList(), student.TotalUnits), student: student, registration: registration, edit: true);
+            var registrationModel = RegistrationModel.Create(repository: Repository, ceremonies: _ceremonyService.StudentEligibility(student.Majors.ToList(), student.TotalUnits), student: student, registration: registration, edit: true, admin: true);
             var viewModel = AdminRegisterForStudentViewModel.Create(Repository, registrationModel);
             return View(viewModel);
         }
