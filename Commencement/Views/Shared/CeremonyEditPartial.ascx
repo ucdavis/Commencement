@@ -88,16 +88,16 @@
                 <li>
                     <strong>Major: </strong>
                     <%--<%= this.Select(string.Format("ceremonyParticipations[{0}].Major", a.Index)).Options(a.Ceremony.Majors.Where(b => b.ConsolidationMajor == null), x=>x.Id, x=>x.Name).Selected(a.Major.MajorId).Class("hastip").Attr("title", "The major you would like to walk with.") %>--%>
-                    <%= this.Select(string.Format("ceremonyParticipations[{0}].Major", a.Index)).Options(a.MajorCodes, x=>x.Id, x=>x.Name).Selected(a.Major.MajorId).Class("hastip").Attr("title", "The major you would like to walk with.") %>
+                    <%= this.Select(string.Format("ceremonyParticipations[{0}].Major", a.Index)).Options(a.MajorCodes, x=>x.Id, x=>x.Name).Selected(a.Major.MajorId).Class("hastip").Attr("title", "The major you would like to walk with.").Attr("class", "long") %>
                 </li>
                 <li>
-                    <strong>Tickets Requested:</strong>
+                    <strong>Tickets Requested:<span>*</span></strong>
 
-                    <select id="<%: string.Format("ceremonyParticipations[{0}]_Tickets", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Tickets", a.Index) %>" >
+                    <select id="<%: string.Format("ceremonyParticipations[{0}]_Tickets", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Tickets", a.Index) %>" class="required long" >
+                        
+                        <option value="">--Select # of Tickets--</option>
+                        
                         <% for (int i = 1; i <= a.Ceremony.TicketsPerStudent; i++) { %>
-                            <% if (i == a.Tickets) { %>
-                            <% } %>
-
                             <option value="<%: i %>" <%: i == a.Tickets ? "selected=\"selected\"" : string.Empty %> ><%: string.Format("{0:00}", i) %></option>
                         <% } %>
                     </select>
