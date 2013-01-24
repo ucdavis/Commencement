@@ -41,13 +41,21 @@ namespace Commencement.Controllers.ViewModels
                                     Colleges = colleges
                                 };
 
+            var query = repository.OfType<Student>().Queryable.Where(a =>
+                    a.TermCode == termCode
+                    && (a.StudentId.Contains(string.IsNullOrEmpty(studentid) ? string.Empty : studentid.Trim()))
+                    && (a.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName.Trim()))
+                    && (a.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName.Trim()))
+                    );
+
+            if (colleges.Count == 1)
+            {
+                var coll = colleges.First();
+                query = query.Where(a => a.StrColleges.Contains(coll.Id));
+            }
+
             // get the list of students with optional filters
-            var students = repository.OfType<Student>().Queryable.Where(a =>
-                a.TermCode == termCode
-                && (a.StudentId.Contains(string.IsNullOrEmpty(studentid) ? string.Empty : studentid.Trim()))
-                && (a.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName.Trim()))
-                && (a.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName.Trim()))
-                ).ToList();
+            var students = query.ToList();
 
             if (!string.IsNullOrEmpty(majorCode)) students = students.Where(a => a.StrMajorCodes.Contains(majorCode)).ToList();
             if (!string.IsNullOrEmpty(college)) students = students.Where(a => a.StrColleges.Contains(college)).ToList();
