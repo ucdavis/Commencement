@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Commencement.Controllers.Services;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
@@ -20,7 +21,7 @@ namespace Commencement.Controllers.ViewModels
             var viewModel = new AdminEditStudentViewModel()
                                 {
                                     Student = student,
-                                    Majors = repository.OfType<MajorCode>().GetAll(),
+                                    Majors = repository.OfType<MajorCode>().Queryable.Where(a => a.IsActive).OrderBy(a => a.Name).ToList(),
                                     Ceremonies = ceremonyService.GetCeremonies(userId, TermService.GetCurrent())
                                 };
 
