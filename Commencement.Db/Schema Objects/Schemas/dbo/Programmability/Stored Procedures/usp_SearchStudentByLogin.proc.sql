@@ -20,6 +20,7 @@ AS
 			, zgvlcfs_term_code_eff as lastTerm
 			, shrttrm_astd_code_end_of_term as astd
 			, lower(wormoth_login_id) as loginid
+			, (case when sjaholds.sprhold_pidm is not null then 1 else 0 end) sja
 		from wormoth
 			inner join zgvlcfs on wormoth_pidm = zgvlcfs_pidm
 			inner join spriden on wormoth_pidm = spriden_pidm
@@ -31,6 +32,13 @@ AS
 				where goremal_emal_code = ''''UCD''''
 					and goremal_status_ind = ''''A''''
 			) email on email.goremal_pidm = wormoth_pidm
+			left outer join (
+				select distinct sprhold_pidm
+				from sprhold
+				where sprhold_hldd_code in (''''BA'''', ''''BB'''', ''''RG'''')
+				  and sprhold_from_date < sysdate
+				  and sprhold_to_date > sysdate
+			) sjaholds on sjaholds.sprhold_pidm = zgvlcfs_pidm
 		where wormoth_login_id = ''''' + @login + '''''
 		  and zgvlcfs_term_code_eff in (select max(zgvlcfs_term_code_eff) from zgvlcfs izgvlcfs where izgvlcfs.zgvlcfs_pidm = zgvlcfs.zgvlcfs_pidm)
 		  and spriden_change_ind is null
