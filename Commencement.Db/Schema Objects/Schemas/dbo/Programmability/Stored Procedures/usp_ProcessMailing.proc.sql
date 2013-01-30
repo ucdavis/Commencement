@@ -26,8 +26,8 @@ AS
 	begin
 	
 		exec msdb.dbo.sp_send_dbmail
+			@profile_name = 'Commencement',
 			@recipients = @emails,
-			@blind_copy_recipients = @automatedEmail,
 			@subject = @subject,
 			@body = @body,
 			@body_format = 'HTML';
