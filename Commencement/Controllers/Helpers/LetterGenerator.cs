@@ -36,7 +36,7 @@ namespace Commencement.Controllers.Helpers
             Check.Require(registrationParticipation != null, "registrationParticipation is required.");
             Check.Require(registrationParticipation.Registration.Student != null, "registrationParticipation.Registration.Student is required.");
             Check.Require(template != null, "template is required.");
-            Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationConfirmation, "Template mismatch.");
+            Check.Require(template.TemplateType.Name == StaticValues.Template_RegistrationConfirmation || template.TemplateType.Name == StaticValues.Template_Cancellation, "Template mismatch.");
             Check.Require(registrationParticipation.Registration != null, "registrationParticipation.Registration is required.");
 
             _ceremony = registrationParticipation.Ceremony;

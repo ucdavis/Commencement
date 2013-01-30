@@ -44,8 +44,10 @@ namespace Commencement.Controllers.Services
             // fix for task 237
             foreach (var a in registration.RegistrationParticipations)
             {
-                var template = a.Ceremony.Templates.FirstOrDefault(b => b.TemplateType.Name == StaticValues.Template_RegistrationConfirmation
-                                                                        && b.IsActive);
+                var template = a.Cancelled ? 
+                    a.Ceremony.Templates.FirstOrDefault(b => b.TemplateType.Name == StaticValues.Template_Cancellation && b.IsActive)
+                    :
+                    a.Ceremony.Templates.FirstOrDefault(b => b.TemplateType.Name == StaticValues.Template_RegistrationConfirmation && b.IsActive);
 
                 if (template != null)
                 {

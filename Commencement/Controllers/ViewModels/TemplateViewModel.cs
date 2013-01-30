@@ -35,7 +35,7 @@ namespace Commencement.Controllers.ViewModels
 
             var viewModel = new TemplateCreateViewModel()
                                 {
-                                    TemplateTypes = repository.OfType<TemplateType>().GetAll(),
+                                    TemplateTypes = repository.OfType<TemplateType>().Queryable.OrderBy(a => a.Name),
                                     Template = template,
                                     Ceremony = ceremony
                                 };

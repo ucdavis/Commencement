@@ -269,4 +269,7 @@ Any student who is found selling tickets or in possession of counterfeit tickets
   <data name="Template_RemainingTickets" xml:space="preserve">
     <value>Remaining Tickets</value>
   </data>
+  <data name="Template_Cancellation" xml:space="preserve">
+    <value>Cancellation</value>
+  </data>
 </root>
