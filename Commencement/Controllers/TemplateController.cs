@@ -86,9 +86,18 @@ namespace Commencement.Controllers
         [HttpPost]
         public JsonResult SendTestEmail(string subject, string message)
         {
-            var user = Repository.OfType<vUser>().Queryable.Where(a => a.LoginId == CurrentUser.Identity.Name).FirstOrDefault();
+            var user = Repository.OfType<vUser>().Queryable.FirstOrDefault(a => a.LoginId == CurrentUser.Identity.Name);
             
-            var mail = new MailMessage("automatedemail@caes.ucdavis.edu", user.Email, subject, message);
+            //var mail = new MailMessage("undergradcommencement@ucdavis.edu", user.Email, subject, message);
+            //var mail = new MailMessage(, user.Email, subject, message);
+
+            var fromAddress = new MailAddress("undergradcommencement@ucdavis.edu", "Commencement (Do Not Reply)");
+            var toAddress = new MailAddress(user.Email);
+            var mail = new MailMessage(fromAddress, toAddress);
+
+            mail.Subject = subject;
+            mail.Body = message;
+
             mail.IsBodyHtml = true;
             var client = new SmtpClient();
             client.Send(mail);

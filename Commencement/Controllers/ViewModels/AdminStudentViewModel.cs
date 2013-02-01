@@ -48,14 +48,15 @@ namespace Commencement.Controllers.ViewModels
                     && (a.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName.Trim()))
                     );
 
+            // get the list of students with optional filters
+            var students = query.ToList();
+
             if (colleges.Count == 1)
             {
                 var coll = colleges.First();
-                query = query.Where(a => a.StrColleges.Contains(coll.Id));
+                students = students.Where(a => a.StrColleges.Contains(coll.Id)).ToList();
             }
-
-            // get the list of students with optional filters
-            var students = query.ToList();
+            
 
             if (!string.IsNullOrEmpty(majorCode)) students = students.Where(a => a.StrMajorCodes.Contains(majorCode)).ToList();
             if (!string.IsNullOrEmpty(college)) students = students.Where(a => a.StrColleges.Contains(college)).ToList();
