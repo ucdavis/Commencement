@@ -716,6 +716,7 @@
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_DownloadMajors.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\Attachments.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\TransferRequests.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_CleanupDuplicateStudents.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Catbert3.Db\Catbert3.Db.sqlproj">

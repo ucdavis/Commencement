@@ -123,4 +123,7 @@ select distinct students.id, major from #students
     
 DROP TABLE #Students
 
+-- clean up any duplicates that may have popped up
+exec usp_CleanupDuplicateStudents
+
 RETURN 0
