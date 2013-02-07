@@ -53,63 +53,46 @@ namespace Commencement.Controllers.ViewModels
 
             var participations = new List<CeremonyParticipation>();
 
-            // populate in any ceremonies that the student has registered for
-            if (registration != null)
+            if (ceremonyParticipations == null)
             {
-                foreach (var a in registration.RegistrationParticipations)
+                // populate in any ceremonies that the student has registered for
+                if (registration != null)
                 {
-                    if (!participations.Any(b => b.Major == a.Major))
+                    foreach (var a in registration.RegistrationParticipations)
                     {
-                        var part = CreateCeremonyParticipation(participations.Count, edit, student, a.Major, a.Ceremony, registration, null, repository);
-                        if (part != null) participations.Add(part);
+                        if (!participations.Any(b => b.Major == a.Major))
+                        {
+                            var part = CreateCeremonyParticipation(participations.Count, edit, student, a.Major, a.Ceremony, registration, null, repository);
+                            if (part != null) participations.Add(part);
+                        }
                     }
                 }
+
+                foreach (var major in student.Majors)
+                {
+                    Ceremony ceremony = GetCeremony(repository, major);
+
+                    if (ceremony != null && !participations.Any(a => a.Ceremony == ceremony))
+                    {
+                        var part = CreateCeremonyParticipation(participations.Count, edit, student, major, ceremony, registration, null, repository, admin);
+                        if (part != null)
+                        {
+                            participations.Add(part);
+                        }
+                    }
+                }    
             }
-
-            /*
-            // the student's colleges
-            var studentsColleges = viewModel.Student.Majors.Select(a => a.College).Distinct().ToList();
-
-            // go through all the student's colleges
-            for (var i = 0; i < studentsColleges.Count(); i++)
+            else
             {
-                MajorCode major = null;
-                Ceremony ceremony = null;
-                College college = studentsColleges[i];
-                //var ceremonyInfo = ceremonyInfos.Where(a => a.College == college).FirstOrDefault();
-
-                foreach (var maj in viewModel.Student.Majors.Where(a => a.College == college))
+                // fill in the majors
+                for (var i = 0; i < ceremonyParticipations.Count; i++)
                 {
-                    major = maj;
-                    ceremony = GetCeremony(repository, maj);
-
-                    if (major != null && ceremony != null) break;
+                    var part = ceremonyParticipations[i];
+                    part.MajorCodes = part.Ceremony.Majors.OrderBy(x => x.MajorName).ToList();
+                    part.Index = i;
                 }
 
-                // found a valid ceremony to go with the major
-                if (major != null && ceremony != null)
-                {
-                    var part = CreateCeremonyParticipation(participations.Count, edit, student, major, ceremony, registration, null, repository);
-                    if (part != null && !participations.Any(a => a.Major.College == college))
-                    {
-                        participations.Add(part);
-                    }
-                }
-            }
-            */
-
-            foreach (var major in student.Majors)
-            {
-                Ceremony ceremony = GetCeremony(repository, major);
-
-                if (ceremony != null && !participations.Any(a => a.Ceremony == ceremony))
-                {
-                    var part = CreateCeremonyParticipation(participations.Count, edit, student, major, ceremony, registration, null, repository, admin);
-                    if (part != null)
-                    {
-                        participations.Add(part);
-                    }
-                }
+                participations = ceremonyParticipations;
             }
 
             viewModel.Participations = participations;

@@ -88,7 +88,7 @@
     <TargetDatabase>
     </TargetDatabase>
     <TreatTSqlWarningsAsErrors>False</TreatTSqlWarningsAsErrors>
-    <SuppressTSqlWarnings />
+    <SuppressTSqlWarnings>71562, 71502, 70558</SuppressTSqlWarnings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>.\sql\debug\</OutputPath>

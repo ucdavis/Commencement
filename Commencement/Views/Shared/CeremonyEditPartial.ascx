@@ -29,7 +29,7 @@
                     </li>
                     <li>
                         <strong>Petition Reason:</strong>
-                        <textarea type="text" id="<%: string.Format("ceremonyParticipations[{0}]_PetitionReason", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].PetitionReason", a.Index) %>" cols="60" rows="4" class="petition" ></textarea>
+                        <textarea type="text" id="<%: string.Format("ceremonyParticipations[{0}]_PetitionReason", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].PetitionReason", a.Index) %>" cols="60" rows="4" class="petition" ><%: a.PetitionReason %></textarea>
                     </li>
 <%--                    <li>
                         <strong>Completion Term:</strong>
@@ -41,11 +41,11 @@
                     </li>--%>
                     <li>
                         <strong>Transfer College:</strong>
-                        <input type="text" id="<%: string.Format("ceremonyParticipations[{0}]_TransferCollege", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].TransferCollege", a.Index) %>" style="width:200px;" />
+                        <input type="text" id="<%: string.Format("ceremonyParticipations[{0}]_TransferCollege", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].TransferCollege", a.Index) %>" style="width:200px;" value="<%: a.TransferCollege %>" />
                     </li>
                     <li>
                         <strong>Transfer Units:</strong>
-                        <input type="text" id="<%: string.Format("ceremonyParticipations[{0}]_TransferUnits", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].TransferUnits", a.Index) %>" />
+                        <input type="text" id="<%: string.Format("ceremonyParticipations[{0}]_TransferUnits", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].TransferUnits", a.Index) %>" value="<%: a.TransferUnits %>" />
                     </li>
                 <% } %>
                 <% else if (!a.Edit) { %>
@@ -93,7 +93,7 @@
                 <li>
                     <strong>Tickets Requested:<span>*</span></strong>
 
-                    <select id="<%: string.Format("ceremonyParticipations[{0}]_Tickets", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Tickets", a.Index) %>" class="required long" >
+                    <select id="<%: string.Format("ceremonyParticipations[{0}]_Tickets", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Tickets", a.Index) %>" class="long" >
                         
                         <option value="">--Select # of Tickets--</option>
                         

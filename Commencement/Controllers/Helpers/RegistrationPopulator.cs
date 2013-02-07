@@ -139,14 +139,20 @@ namespace Commencement.Controllers.Helpers
                 // check for existing registration
                 var noExistingParticipation = !_participationRepository.Queryable.Any(b => b.Ceremony == a.Ceremony && b.Registration.Student == registration.Student);
 
+
                 if (noExistingPetition && noExistingParticipation && a.Ceremony.CanRegister())
                 {
+                    if (a.Tickets == 0)
+                    {
+                        modelState.AddModelError("Tickets", "You need to select more than 0 tickets.");
+                    }
+                    
                     var petition = new RegistrationPetition(registration, a.Major, a.Ceremony, a.PetitionReason, a.CompletionTerm, a.Tickets);
                     petition.TransferUnitsFrom = string.IsNullOrEmpty(a.TransferCollege) ? null : a.TransferCollege;
                     petition.TransferUnits = string.IsNullOrEmpty(a.TransferUnits) ? null : a.TransferUnits;
                     petition.TicketDistributionMethod = a.TicketDistributionMethod;
 
-                    registration.AddPetition(petition);
+                    registration.AddPetition(petition);    
                 }
             }
 
