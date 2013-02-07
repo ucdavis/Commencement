@@ -107,6 +107,8 @@ namespace Commencement.Controllers
         [HttpPost]
         public ActionResult Register(RegistrationPostModel registrationModel)
         {
+            ModelState.Clear();
+
             var student = GetCurrentStudent();
 
             if (student == null) return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null, null));
@@ -277,6 +279,66 @@ namespace Commencement.Controllers
 
             var viewModel = RegistrationModel.Create(repository: Repository, ceremonies: GetEligibleCeremonies(student), student: student, registration: registrationToEdit, edit: true);            
             return View(viewModel);
+        }
+
+        [PageTrackingFilter]
+        public ActionResult CancelRegistrationPetition(int id)
+        {
+            var regPetition = Repository.OfType<RegistrationPetition>().GetNullableById(id);
+
+            if (regPetition == null)
+            {
+                Message = "Unable to find registration petition, please try again.";
+                return RedirectToAction("DisplayRegistration");
+            }
+
+            if (regPetition.Registration.Student.Login != User.Identity.Name)
+            {
+                return RedirectToAction("UnauthorizedAccess", "Error");
+            }
+
+            return View(regPetition);
+        }
+
+        [HttpPost]
+        public ActionResult CancelRegistrationPetition(int id, bool cancel)
+        {
+            var regPetition = Repository.OfType<RegistrationPetition>().GetNullableById(id);
+
+            if (regPetition == null)
+            {
+                Message = "Unable to find registration petition, please try again.";
+                return RedirectToAction("DisplayRegistration");
+            }
+
+            if (regPetition.Registration.Student.Login != User.Identity.Name)
+            {
+                return RedirectToAction("UnauthorizedAccess", "Error");
+            }
+
+            if (cancel)
+            {
+                Repository.OfType<RegistrationPetition>().Remove(regPetition);
+
+                // check if we can delete the registration object
+                if (!regPetition.Registration.RegistrationParticipations.Any() &&
+                    !regPetition.Registration.RegistrationPetitions.Any())
+                {
+                    Repository.OfType<Registration>().Remove(regPetition.Registration);
+                }
+
+                Message = "Petition was successfully deleted.";
+                return RedirectToAction("CancelRegistartionPetitionConfirm");
+            }
+
+            Message = "Petition was not deleted.";
+            return RedirectToAction("DisplayRegistration");
+        }
+
+        [PageTrackingFilter]
+        public ActionResult CancelRegistartionPetitionConfirm()
+        {
+            return View();
         }
 
         #region Helper Methods

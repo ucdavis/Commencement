@@ -2,7 +2,14 @@
 
 <div class="ui-corner-all ceremony">
     
-    <div class="title ui-corner-top"><%: string.Format("{0} ({1})", Model.Ceremony.CeremonyName, Model.Ceremony.DateTime) %></div>
+    <div class="title ui-corner-top">
+        <%: string.Format("{0} ({1})", Model.Ceremony.CeremonyName, Model.Ceremony.DateTime) %>
+        
+        <% if (!Context.User.IsInRole("User") && !Context.User.IsInRole("Admin")) { %>
+            <%: Html.ActionLink("Cancel Petition", "CancelRegistrationPetition", "Student", new { id = Model.Id }, new { @class = "button cancel-btn", style = "float:right;" })%>
+            <div style="clear:both;"></div>
+        <% } %>
+    </div>
 
     <ul class="registration_form">
         <li><strong>Date Submitted:</strong>
@@ -23,5 +30,9 @@
         <span><strong>Submitted:</strong> <i><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateSubmitted) %></i></span>
         <span style="float: right;"><strong>Last Update:</strong> <i><%: string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateDecision) %></i></span>
     </div>
-
+    
 </div>
+
+<style type="text/css">
+    a.cancel-btn.ui-state-default { background: none rgb(185, 185, 185) !important;}
+</style>

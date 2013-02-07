@@ -666,6 +666,8 @@
     <Content Include="Views\Shared\RegisteredCeremonyDisplay.ascx" />
     <Content Include="Views\SpecialNeeds\Create.aspx" />
     <Content Include="Views\SpecialNeeds\Index.aspx" />
+    <Content Include="Views\Student\CancelRegistartionPetitionConfirm.aspx" />
+    <Content Include="Views\Student\CancelRegistrationPetition.aspx" />
     <Content Include="Views\Student\DisplayRegistration.aspx" />
     <Content Include="Views\Student\Register.aspx" />
     <Content Include="Views\Shared\RegistrationDisplay.ascx" />
