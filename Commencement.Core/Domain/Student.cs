@@ -94,7 +94,7 @@ namespace Commencement.Core.Domain
         /// Comma seperated list of majors (ignoring consolidation codes)
         /// </summary>
         public virtual string ActualStrMajors { 
-            get { return string.Join(",", Majors.Select(x => x.Name).ToArray()); } 
+            get { return string.Join(",", Majors.Select(x => x.MajorName).ToArray()); } 
         }
         /// <summary>
         /// Comma seperated list of majors (including consolidation codes)

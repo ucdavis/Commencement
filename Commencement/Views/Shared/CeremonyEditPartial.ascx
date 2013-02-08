@@ -88,7 +88,7 @@
                 <li>
                     <strong>Major: </strong>
                     <%--<%= this.Select(string.Format("ceremonyParticipations[{0}].Major", a.Index)).Options(a.Ceremony.Majors.Where(b => b.ConsolidationMajor == null), x=>x.Id, x=>x.Name).Selected(a.Major.MajorId).Class("hastip").Attr("title", "The major you would like to walk with.") %>--%>
-                    <%= this.Select(string.Format("ceremonyParticipations[{0}].Major", a.Index)).Options(a.MajorCodes, x=>x.Id, x=>x.Name).Selected(a.Major.MajorId).Class("hastip").Attr("title", "The major you would like to walk with.").Attr("class", "long") %>
+                    <%= this.Select(string.Format("ceremonyParticipations[{0}].Major", a.Index)).Options(a.MajorCodes, x=>x.Id, x=>x.MajorName).Selected(a.Major.MajorId).Class("hastip").Attr("title", "The major you would like to walk with.").Attr("class", "long") %>
                 </li>
                 <li>
                     <strong>Tickets Requested:<span>*</span></strong>
