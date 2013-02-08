@@ -20,6 +20,15 @@
             <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].Ceremony", a.Index), a.Ceremony.Id) %>
             <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].NeedsPetition", a.Index), a.NeedsPetition) %>
             
+            <% if (a.NeedsPetition) { %>
+                <div style="border: 1px solid #eed3d7; margin: 1em; padding: 1em; line-height: 17px; background-color: #f2dede; color: #b94a48; font-weight: bold;">
+                    You are required to petition for this ceremony because you do not meet the minimum unit requirements (<%: a.Ceremony.MinUnits %>) at this time. 
+                    <% if (a.Ceremony.TermCode.Id.EndsWith("03")) { %>
+                    If you will  have enough units at the end of the Winter quarter and do not wish to petiton, please come back after the end of Winter term.  You will have until <%: a.Ceremony.TermCode.RegistrationDeadline.ToString("d") %> to complete your registration.
+                    <% } %>
+                </div>
+            <% } %>
+
             <div class="ui-state-focus message">
                 <ul class="registration_form">
                 <% if (a.NeedsPetition) { %>
