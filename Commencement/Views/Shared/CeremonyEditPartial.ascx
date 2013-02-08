@@ -22,9 +22,9 @@
             
             <% if (a.NeedsPetition) { %>
                 <div style="border: 1px solid #eed3d7; margin: 1em; padding: 1em; line-height: 17px; background-color: #f2dede; color: #b94a48; font-weight: bold;">
-                    You are required to petition for this ceremony because you do not meet the minimum unit requirements (<%: a.Ceremony.MinUnits %>) at this time. 
+                    You are required to petition for this ceremony because you do not meet the <a href="http://commencement.ucdavis.edu/registration.html">minimum unit requirements</a> and are required to complete the below petition. 
                     <% if (a.Ceremony.TermCode.Id.EndsWith("03")) { %>
-                    If you will  have enough units at the end of the Winter quarter and do not wish to petiton, please come back after the end of Winter term.  You will have until <%: a.Ceremony.TermCode.RegistrationDeadline.ToString("d") %> to complete your registration.
+                    If you will have enough units at the end of the Winter quarter and do not wish to petiton, please come back after the end of Winter term.  You will have until <%: a.Ceremony.TermCode.RegistrationDeadline.ToString("d") %> to complete your registration.
                     <% } %>
                 </div>
             <% } %>
