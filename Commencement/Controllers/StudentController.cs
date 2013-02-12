@@ -318,6 +318,11 @@ namespace Commencement.Controllers
 
             if (cancel)
             {
+                var emailQueue = Repository.OfType<EmailQueue>().Queryable.Where(a => a.RegistrationPetition == regPetition).ToList();
+                foreach (var queue in emailQueue)
+                {
+                    Repository.OfType<EmailQueue>().Remove(queue);
+                }
                 Repository.OfType<RegistrationPetition>().Remove(regPetition);
 
                 // check if we can delete the registration object
