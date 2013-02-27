@@ -49,6 +49,14 @@
       <Name>TotalRegistrationReport.rdl</Name>
       <FullPath>TotalRegistrationReport.rdl</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>TicketingByCeremony.rdl</Name>
+      <FullPath>TicketingByCeremony.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>TicketingAllCeremonies.rdl</Name>
+      <FullPath>TicketingAllCeremonies.rdl</FullPath>
+    </ProjectItem>
   </Reports>
   <Configurations>
     <Configuration>

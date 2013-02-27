@@ -212,6 +212,7 @@
     <Compile Include="Controllers\Services\UserService.cs" />
     <Compile Include="Controllers\SpecialNeedsController.cs" />
     <Compile Include="Controllers\TermCodeController.cs" />
+    <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Controllers\TransferRequestController.cs" />
     <Compile Include="Controllers\ViewModels\AddEditorViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AddMajorCodeViewModel.cs" />
@@ -677,6 +678,7 @@
     <Content Include="Views\TermCode\Details.aspx" />
     <Content Include="Views\TermCode\Edit.aspx" />
     <Content Include="Views\TermCode\Index.aspx" />
+    <Content Include="Views\Ticket\Index.aspx" />
     <Content Include="Views\TransferRequest\Create.aspx" />
     <Content Include="Views\TransferRequest\Index.aspx" />
     <Content Include="Views\TransferRequest\Review.aspx" />

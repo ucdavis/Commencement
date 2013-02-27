@@ -34,6 +34,15 @@ namespace Commencement.Controllers.Filters
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public class TicketingAttribute : AuthorizeAttribute
+    {
+        public TicketingAttribute()
+        {
+            Roles = RoleNames.RoleTicketing;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class EmulationUserOnlyAttribute : AuthorizeAttribute
     {
         public EmulationUserOnlyAttribute()
@@ -47,5 +56,7 @@ namespace Commencement.Controllers.Filters
         public static readonly string RoleAdmin = "Admin";
         public static readonly string RoleUser = "User";
         public static readonly string RoleEmulationUser = "EmulationUser";
+
+        public static readonly string RoleTicketing = "Ticketing";
     }
 }
