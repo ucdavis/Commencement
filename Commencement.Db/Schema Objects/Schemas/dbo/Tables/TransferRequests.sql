@@ -7,7 +7,9 @@
     [DateRequested] DATETIME NOT NULL DEFAULT (getdate()), 
     [UserId] INT NOT NULL, 
     [Pending] BIT NOT NULL DEFAULT ((1)), 
+    [MajorCode] VARCHAR(4) NOT NULL, 
     CONSTRAINT [FK_TransferRequest_RegistrationParticipations] FOREIGN KEY ([RegistrationParticipationId]) REFERENCES [RegistrationParticipations]([Id]), 
-    CONSTRAINT [FK_TransferRequest_Ceremonies] FOREIGN KEY ([CeremonyId]) REFERENCES [Ceremonies]([Id])
+    CONSTRAINT [FK_TransferRequest_Ceremonies] FOREIGN KEY ([CeremonyId]) REFERENCES [Ceremonies]([Id]), 
+    CONSTRAINT [FK_TransferRequests_Majors] FOREIGN KEY ([MajorCode]) REFERENCES [Majors]([Id])
 
 )

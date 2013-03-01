@@ -23,6 +23,8 @@ namespace Commencement.Core.Domain
         public virtual DateTime DateRequested { get; set; }
         [Required]
         public virtual vUser User { get; set; }
+        [Required]
+        public virtual MajorCode MajorCode { get; set; }
 
         public virtual bool Pending { get; set; }
     }
@@ -40,6 +42,7 @@ namespace Commencement.Core.Domain
             References(x => x.RegistrationParticipation);
             References(x => x.Ceremony);
             References(x => x.User).Column("UserId").Fetch.Join();
+            References(x => x.MajorCode).Column("MajorCode");
         }
     }
 }
