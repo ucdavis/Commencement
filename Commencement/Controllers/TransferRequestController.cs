@@ -4,6 +4,7 @@ using Commencement.Controllers.Filters;
 using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
+using UCDArch.Web.ActionResults;
 using UCDArch.Web.Helpers;
 
 namespace Commencement.Controllers
@@ -164,6 +165,18 @@ namespace Commencement.Controllers
 
             var viewModel = TransferRequestViewModel.Create(Repository, rp, User.Identity.Name);
             return View(viewModel);
+        }
+
+        public JsonNetResult GetMajorsByCeremony(int ceremonyId)
+        {
+            var ceremony = Repository.OfType<Ceremony>().GetNullableById(ceremonyId);
+
+            if (ceremony != null)
+            {
+                return new JsonNetResult(ceremony.Majors.Select(a => new {Id = a.Id, Name = a.MajorName}).Distinct());
+            }
+
+            return new JsonNetResult(false);
         }
 
     }

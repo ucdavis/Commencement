@@ -39,11 +39,13 @@
                 <strong><%: Html.LabelFor(model => model.TransferRequest.Ceremony) %><span>*</span></strong>
                 <%= this.Select("TransferRequest.Ceremony").Options(Model.Ceremonies,x=>x.Id,x=>x.CeremonyName).Selected(Model.TransferRequest.Ceremony != null ? Model.TransferRequest.Ceremony.Id.ToString() : null).FirstOption("--Select a Ceremony--") %>
             </li>
+            <li><strong>Major: <span>*</span></strong>
+                <select id="TransferRequest_Major" name="TransferRequest.Major" disabled="disabled"></select>
+            </li>
             <li><strong><%: Html.LabelFor(model => model.TransferRequest.Reason) %><span>*</span></strong>
                 <%: Html.TextAreaFor(model => model.TransferRequest.Reason) %>
                 <%: Html.ValidationMessageFor(model => model.TransferRequest.Reason) %>
             </li>
-            
                      
             <li><strong>&nbsp;</strong>
                 <input type="submit" value="Create" class="button" />
@@ -58,6 +60,36 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
+    
+    <script type="text/javascript">
+
+        var url = '<%: Url.Action("GetMajorsByCeremony") %>';
+
+        $(function () {
+            $('#TransferRequest_Ceremony').change(function () {
+
+                var id = $(this).val();
+
+                if (id == '') {
+
+                    $('#TransferRequest_Major').children().remove();
+                    $('#TransferRequest_Major').attr('disabled', 'disabled');
+
+                } else {
+                    $.getJSON(url, { ceremonyId: id }, function (results) {
+
+                        $.each(results, function (index, item) {
+                            $('#TransferRequest_Major').append($('<option>').attr('value', item.Id).html(item.Name + ' (' + item.Id + ')'));
+                        });
+
+                        $('#TransferRequest_Major').removeAttr('disabled');
+
+                    });
+                }
+            });
+        });
+    </script>
+
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="logoContent" runat="server">
