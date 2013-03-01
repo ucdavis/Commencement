@@ -40,7 +40,7 @@
                 <%= this.Select("TransferRequest.Ceremony").Options(Model.Ceremonies,x=>x.Id,x=>x.CeremonyName).Selected(Model.TransferRequest.Ceremony != null ? Model.TransferRequest.Ceremony.Id.ToString() : null).FirstOption("--Select a Ceremony--") %>
             </li>
             <li><strong>Major: <span>*</span></strong>
-                <select id="TransferRequest_Major" name="TransferRequest.Major" disabled="disabled"></select>
+                <select id="TransferRequest_MajorCode" name="TransferRequest.MajorCode" disabled="disabled"></select>
             </li>
             <li><strong><%: Html.LabelFor(model => model.TransferRequest.Reason) %><span>*</span></strong>
                 <%: Html.TextAreaFor(model => model.TransferRequest.Reason) %>
