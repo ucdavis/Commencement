@@ -4,6 +4,7 @@ using Commencement.Controllers.Filters;
 using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
+using FluentNHibernate.Conventions.Inspections;
 using UCDArch.Web.ActionResults;
 using UCDArch.Web.Helpers;
 
@@ -75,6 +76,7 @@ namespace Commencement.Controllers
                     var rp = request.RegistrationParticipation;
                     rp.Ceremony = request.Ceremony;
                     rp.NumberTickets = numberTickets;
+                    rp.Major = request.MajorCode;
 
                     if (rp.ExtraTicketPetition != null)
                     {
@@ -177,6 +179,18 @@ namespace Commencement.Controllers
             }
 
             return new JsonNetResult(false);
+        }
+
+        public ActionResult MajorList(int id)
+        {
+            var ceremony = Repository.OfType<Ceremony>().GetNullableById(id);
+
+            if (ceremony != null)
+            {
+                return View(ceremony.Majors);
+            }
+
+            return RedirectToAction("Index", "Error");
         }
 
     }

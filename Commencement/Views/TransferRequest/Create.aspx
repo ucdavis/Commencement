@@ -38,9 +38,13 @@
             <li>
                 <strong><%: Html.LabelFor(model => model.TransferRequest.Ceremony) %><span>*</span></strong>
                 <%= this.Select("TransferRequest.Ceremony").Options(Model.Ceremonies,x=>x.Id,x=>x.CeremonyName).Selected(Model.TransferRequest.Ceremony != null ? Model.TransferRequest.Ceremony.Id.ToString() : null).FirstOption("--Select a Ceremony--") %>
+                <%: Html.ValidationMessageFor(model => model.TransferRequest.Ceremony) %>
+                <img id="major-loader" src="<%: Url.Content("~/Images/ajax-loader.gif") %>" alt="Ajax Loader" style="display:none;"/>
             </li>
             <li><strong>Major: <span>*</span></strong>
-                <select id="TransferRequest_MajorCode" name="TransferRequest.MajorCode" disabled="disabled"></select>
+                <%= this.Select("TransferRequest.MajorCode").FirstOption("--Select a Major--").Disabled(true) %>
+                <%: Html.ValidationMessageFor(model => model.TransferRequest.MajorCode) %>
+                <a href="#" id="more-majors" class="button hastip" title="View Major List" style="top:10px;"><span class="ui-icon ui-icon-grip-solid-horizontal"></span></a>
             </li>
             <li><strong><%: Html.LabelFor(model => model.TransferRequest.Reason) %><span>*</span></strong>
                 <%: Html.TextAreaFor(model => model.TransferRequest.Reason) %>
@@ -69,23 +73,45 @@
             $('#TransferRequest_Ceremony').change(function () {
 
                 var id = $(this).val();
+                var $dd = $('#TransferRequest_MajorCode');
+
+                $dd.children().remove();
+                $dd.append($('<option>').html('--Select a Major--'));
 
                 if (id == '') {
 
-                    $('#TransferRequest_Major').children().remove();
-                    $('#TransferRequest_Major').attr('disabled', 'disabled');
+                    $dd.attr('disabled', 'disabled');
 
                 } else {
+
+                    var $loader = $('#major-loader').show();
+
                     $.getJSON(url, { ceremonyId: id }, function (results) {
 
+                        $dd.removeAttr('disabled');
+
                         $.each(results, function (index, item) {
-                            $('#TransferRequest_Major').append($('<option>').attr('value', item.Id).html(item.Name + ' (' + item.Id + ')'));
+                            $dd.append($('<option>').attr('value', item.Id).html(item.Name + ' (' + item.Id + ')'));
                         });
 
-                        $('#TransferRequest_Major').removeAttr('disabled');
+                        $loader.hide();
 
                     });
                 }
+            });
+
+            $('#more-majors').click(function (event) {
+
+                var ceremony = $('#TransferRequest_Ceremony').val();
+                var url = '<%:Url.Action("MajorList") %>';
+
+                if (ceremony != '') {
+                    window.open(url + '\\' + ceremony);
+                } else {
+                    alert('Please select a ceremony.');
+                }
+
+                event.preventDefault();
             });
         });
     </script>

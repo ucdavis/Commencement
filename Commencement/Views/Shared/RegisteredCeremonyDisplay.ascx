@@ -6,9 +6,15 @@
     <div class="title ui-widget-header ui-corner-top">
         <span><%: string.Format("{0} ({1})", Model.Ceremony.CeremonyName, Model.Ceremony.DateTime) %></span>
         <% if (ViewData["IsAdmin"] != null && (bool)ViewData["IsAdmin"]) { %>
-            <span style="float:right;">
-                <%: Html.ActionLink("Transfer", "Create", "TransferRequest", new { id = Model.Id }, new {@class="button"})%>
-            </span>
+            <% if (Model.TransferRequests.Any()) { %>
+                <span style="float:right; color: rgb(255, 128, 128);">
+                    Transfer Request Pending
+                </span>
+            <% } else { %>
+                <span style="float:right;">
+                    <%: Html.ActionLink("Transfer", "Create", "TransferRequest", new { id = Model.Id }, new {@class="button"})%>
+                </span>
+            <% } %>
         <% }%>
     </div>
 

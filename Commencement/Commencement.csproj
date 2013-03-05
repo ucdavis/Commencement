@@ -681,6 +681,7 @@
     <Content Include="Views\Ticket\Index.aspx" />
     <Content Include="Views\TransferRequest\Create.aspx" />
     <Content Include="Views\TransferRequest\Index.aspx" />
+    <Content Include="Views\TransferRequest\MajorList.aspx" />
     <Content Include="Views\TransferRequest\Review.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

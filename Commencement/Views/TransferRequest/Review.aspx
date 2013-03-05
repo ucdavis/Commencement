@@ -41,7 +41,11 @@
                 <strong>Reason</strong>
                 <%: Model.Reason %>
             </li>
-    
+            <li class="prefilled">
+                <strong>Requested Major</strong>
+                <%: Model.MajorCode.MajorName %>
+            </li>
+
             <li class="prefilled">
                 <strong>Tickets Requested</strong>
                 <%: Html.TextBox("NumberTickets", Model.RegistrationParticipation.NumberTickets, new { @class = "ticketbox" }) %>
