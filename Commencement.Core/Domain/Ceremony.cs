@@ -254,12 +254,12 @@ namespace Commencement.Core.Domain
 
         public virtual bool CanSubmitExtraTicket()
         {
-            return (DateTime.Now >= ExtraTicketBegin && DateTime.Now.Date <= ExtraTicketDeadline);
+            return (DateTime.Now.Date >= ExtraTicketBegin.Date && DateTime.Now.Date <= ExtraTicketDeadline.Date);
         }
 
         public virtual bool IsPastPrintingDeadline()
         {
-            return DateTime.Now.Date > PrintingDeadline;
+            return DateTime.Now.Date > PrintingDeadline.Date;
         }
 
         #endregion

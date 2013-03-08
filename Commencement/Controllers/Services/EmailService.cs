@@ -12,7 +12,7 @@ namespace Commencement.Controllers.Services
 {
     public interface IEmailService
     {
-        void QueueRegistrationConfirmation(Registration registration);
+        void QueueRegistrationConfirmation(Registration registration, string additionalMessage = null);
         void QueueExtraTicketPetition(RegistrationParticipation participation);
         void QueueExtraTicketPetitionDecision(RegistrationParticipation participation);
         void QueueRegistrationPetition(Registration registration);
@@ -37,7 +37,7 @@ namespace Commencement.Controllers.Services
         /// Queue's up each individual email for each registration participation
         /// </summary>
         /// <param name="registration"></param>
-        public void QueueRegistrationConfirmation(Registration registration)
+        public void QueueRegistrationConfirmation(Registration registration, string additionalMessage = null)
         {
             Check.Require(registration != null, "Registration is required.");
 
@@ -53,6 +53,11 @@ namespace Commencement.Controllers.Services
                 {
                     var subject = template.Subject;
                     var body = _letterGenerator.GenerateRegistrationConfirmation(a, template);
+
+                    if (!string.IsNullOrEmpty(additionalMessage))
+                    {
+                        body += additionalMessage;
+                    }
 
                     var emailQueue = new EmailQueue(a.Registration.Student, template, subject, body, true);
                     emailQueue.Registration = registration;

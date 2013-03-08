@@ -27,6 +27,29 @@ namespace Commencement.Core.Domain
         public virtual MajorCode MajorCode { get; set; }
 
         public virtual bool Pending { get; set; }
+
+        public virtual bool HasTicketAdjustment()
+        {
+            return RegistrationParticipation.NumberTickets > Ceremony.TicketsPerStudent;
+        }
+
+        public virtual bool HasPetitionAdjustment()
+        {
+            if (RegistrationParticipation.ExtraTicketPetition != null)
+            {
+                // check the target ceremony
+                if (Ceremony.CanSubmitExtraTicket())
+                {
+                    if (RegistrationParticipation.ExtraTicketPetition.NumberTicketsRequested >
+                        Ceremony.ExtraTicketPerStudent)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 
     public class TransferRequestMap : ClassMap<TransferRequest>

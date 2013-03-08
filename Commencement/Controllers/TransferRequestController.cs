@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
+using Commencement.Core.Resources;
 using FluentNHibernate.Conventions.Inspections;
 using UCDArch.Web.ActionResults;
 using UCDArch.Web.Helpers;
@@ -14,10 +16,14 @@ namespace Commencement.Controllers
     public class TransferRequestController : ApplicationController
     {
         private readonly ICeremonyService _ceremonyService;
+        private readonly IErrorService _errorService;
+        private readonly IEmailService _emailService;
 
-        public TransferRequestController(ICeremonyService ceremonyService)
+        public TransferRequestController(ICeremonyService ceremonyService, IErrorService errorService, IEmailService emailService)
         {
             _ceremonyService = ceremonyService;
+            _errorService = errorService;
+            _emailService = emailService;
         }
 
         //
@@ -52,7 +58,7 @@ namespace Commencement.Controllers
         }
 
         [HttpPost]
-        public ActionResult Review(int id, bool? approved, int numberTickets, int? numberTicketsRequested, int? numberTicketsRequestedStreaming, int? numberExtraTickets, int? numberExtraTicketsStreaming)
+        public ActionResult Review(int id, bool? approved, int numberTickets)//, int? numberTicketsRequested, int? numberTicketsRequestedStreaming, int? numberExtraTickets, int? numberExtraTicketsStreaming)
         {
             var ceremonyIds = _ceremonyService.GetCeremonyIds(User.Identity.Name, TermService.GetCurrent());
             var request = Repository.OfType<TransferRequest>().GetNullableById(id);
@@ -73,40 +79,46 @@ namespace Commencement.Controllers
             {
                 if (approved.Value)
                 {
+                    var additionalMessage = string.Empty;
+
                     var rp = request.RegistrationParticipation;
                     rp.Ceremony = request.Ceremony;
+                    if (rp.NumberTickets != numberTickets) additionalMessage += "<br/><strong>Please note that the # of tickets you have requested has changed.</strong>";
                     rp.NumberTickets = numberTickets;
                     rp.Major = request.MajorCode;
 
                     if (rp.ExtraTicketPetition != null)
                     {
-                        if (numberTicketsRequested.HasValue)
-                        {
-                            rp.ExtraTicketPetition.NumberTicketsRequested = numberTicketsRequested.Value;
-                        }
+                        // reset
+                        rp.ExtraTicketPetition.IsPending = true;
+                        rp.ExtraTicketPetition.IsApproved = false;
 
-                        if (numberTicketsRequestedStreaming.HasValue && request.Ceremony.HasStreamingTickets)
+                        // adjust tickets if necessary
+                        if (rp.ExtraTicketPetition.NumberTicketsRequested > request.Ceremony.ExtraTicketPerStudent)
                         {
-                            rp.ExtraTicketPetition.NumberTicketsRequestedStreaming = numberTicketsRequestedStreaming.Value;
-                        }
-                        else
-                        {
-                            rp.ExtraTicketPetition.NumberTicketsRequestedStreaming = 0;
-                        }
-
-                        rp.ExtraTicketPetition.NumberTickets = numberExtraTickets;
-
-                        if (request.Ceremony.HasStreamingTickets)
-                        {
-                            rp.ExtraTicketPetition.NumberTicketsStreaming = numberExtraTicketsStreaming;    
-                        }
-                        else
-                        {
-                            rp.ExtraTicketPetition.NumberTicketsStreaming = null;
+                            rp.ExtraTicketPetition.NumberTicketsRequested = request.Ceremony.ExtraTicketPerStudent;
+                            additionalMessage += "<br/><strong>Please note that your extra ticket petition has changed, please log in to see the updated # of tickets.</strong>";
                         }
                     }
 
-                    Repository.OfType<RegistrationParticipation>().EnsurePersistent(rp);    
+                    Repository.OfType<RegistrationParticipation>().EnsurePersistent(rp);
+
+                    // trigger the confirmation email
+                    if (rp.Registration.RegistrationParticipations.Count > 0)
+                    {
+                        try
+                        {
+                            // add email for registration into queue
+                            _emailService.QueueRegistrationConfirmation(rp.Registration, additionalMessage);
+                        }
+                        catch (Exception ex)
+                        {
+                            _errorService.ReportError(ex);
+                            Message += StaticValues.Student_Email_Problem;
+                        }
+                        Message += StaticValues.Student_Register_Successful;
+                    }
+
                 }
 
                 request.Pending = false;
