@@ -92,6 +92,8 @@ namespace Commencement.Controllers
                         // reset
                         rp.ExtraTicketPetition.IsPending = true;
                         rp.ExtraTicketPetition.IsApproved = false;
+                        rp.ExtraTicketPetition.NumberTickets = null;
+                        rp.ExtraTicketPetition.NumberTicketsStreaming = null;
 
                         // adjust tickets if necessary
                         if (rp.ExtraTicketPetition.NumberTicketsRequested > request.Ceremony.ExtraTicketPerStudent)
