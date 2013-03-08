@@ -69,6 +69,9 @@
 
         var url = '<%: Url.Action("GetMajorsByCeremony") %>';
 
+        var origId = '<%: Model.RegistrationParticipation.Major.Id %>';
+        var origName = '<%: Model.RegistrationParticipation.Major.MajorName %>';
+
         $(function () {
             $('#TransferRequest_Ceremony').change(function () {
 
@@ -76,7 +79,6 @@
                 var $dd = $('#TransferRequest_MajorCode');
 
                 $dd.children().remove();
-                $dd.append($('<option>').html('--Select a Major--'));
 
                 if (id == '') {
 
@@ -89,6 +91,8 @@
                     $.getJSON(url, { ceremonyId: id }, function (results) {
 
                         $dd.removeAttr('disabled');
+
+                        $dd.append($('<option>').attr('value', origId).html(origName + ' (' + origId + ')'));
 
                         $.each(results, function (index, item) {
                             $dd.append($('<option>').attr('value', item.Id).html(item.Name + ' (' + item.Id + ')'));
