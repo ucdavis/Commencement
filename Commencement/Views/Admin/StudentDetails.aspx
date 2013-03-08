@@ -23,9 +23,7 @@
         <div class="col1"><h2>Student Details</h2></div>
         <div class="col2">
             <%: Html.ActionLink<AdminController>(a => a.EditStudent(Model.Student.Id), "Edit Student", new { @class="button" })%>
-            <% if (Model.Participations.Any()) { %>
-                <%: Html.ActionLink<AdminController>(a => a.RegisterForStudent(Model.Student.Id), "Edit Registration", new { @class = "button" })%>
-            <% } %>
+            <%: Html.ActionLink<AdminController>(a => a.RegisterForStudent(Model.Student.Id), "Edit Registration", new { @class = "button" })%>
             <%: Html.ActionLink<AdminController>(a => a.Block(Model.Student.Id), "Block from Registration", new { @class = "button" })%>
             <% if (User.IsInRole(RoleNames.RoleEmulationUser)) { %>
                 <%= Html.ActionLink<AccountController>(a => a.Emulate(Model.Student.Login), "Emulate", new { @class = "button" })%>
