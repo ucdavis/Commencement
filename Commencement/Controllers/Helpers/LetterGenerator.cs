@@ -230,7 +230,6 @@ namespace Commencement.Controllers.Helpers
                 case "city":                return _registration.City;
                 case "state":               return _registration.State.Id;
                 case "zip":                 return _registration.Zip;
-                case "distributionmethod":  return _registration.TicketDistributionMethod;
                 case "specialneeds":        return string.Join(", ", _registration.SpecialNeeds);
             }
 
@@ -245,6 +244,7 @@ namespace Commencement.Controllers.Helpers
                     case "numberoftickets":     return _registrationParticipation.NumberTickets.ToString();
                     case "major":               return _registrationParticipation.Major.Name;
                     case "status":              return _registrationParticipation.Cancelled ? "Cancelled" : "Registered";
+                    case "distributionmethod":  return _registrationParticipation.TicketDistributionMethod.Name;
                 }
             }
             else if (templateName == StaticValues.Template_TicketPetition || templateName == StaticValues.Template_TicketPetition_Decision)
@@ -264,6 +264,7 @@ namespace Commencement.Controllers.Helpers
                     case "status":                  return _extraTicketPetition.IsPending ? "Pending"
                                                             : (_extraTicketPetition.IsApproved ? "Approved" : "Denied");
                     case "major":                   return _registrationParticipation.Major.Name;
+                    case "distributionmethod":      return _registrationParticipation.TicketDistributionMethod.Name;
                 }
             }
             else if (templateName == StaticValues.Template_RegistrationPetition || templateName == StaticValues.Template_RegistrationPetition_Approved)
@@ -277,6 +278,7 @@ namespace Commencement.Controllers.Helpers
                     case "status":                  return _registrationPetition.IsPending ? "Pending" : (_registrationPetition.IsApproved ? "Approved" : "Denied");
                     case "major":                   return _registrationPetition.MajorCode.Name;
                     case "numberoftickets":         return _registrationPetition.NumberTickets.ToString();
+                    case "distributionmethod":      return _registrationPetition.TicketDistributionMethod.Name;
                 }
 
             }

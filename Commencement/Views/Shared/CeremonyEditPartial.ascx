@@ -50,11 +50,11 @@
                     </li>--%>
                     <li>
                         <strong>Transfer College:</strong>
-                        <input type="text" id="<%: string.Format("ceremonyParticipations[{0}]_TransferCollege", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].TransferCollege", a.Index) %>" style="width:200px;" value="<%: a.TransferCollege %>" />
+                        <input type="text" id="<%: string.Format("ceremonyParticipations[{0}]_TransferCollege", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].TransferCollege", a.Index) %>" style="width:200px;" value="<%: a.TransferCollege %>" max="100" />
                     </li>
                     <li>
                         <strong>Transfer Units:</strong>
-                        <input type="text" id="<%: string.Format("ceremonyParticipations[{0}]_TransferUnits", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].TransferUnits", a.Index) %>" value="<%: a.TransferUnits %>" />
+                        <input type="text" id="<%: string.Format("ceremonyParticipations[{0}]_TransferUnits", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].TransferUnits", a.Index) %>" value="<%: a.TransferUnits %>" maxlength="5" />
                     </li>
                 <% } %>
                 <% else if (!a.Edit) { %>

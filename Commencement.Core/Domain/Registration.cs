@@ -91,15 +91,7 @@ namespace Commencement.Core.Domain
             //LabelPrinted = true;
             //if (ExtraTicketPetition != null) ExtraTicketPetition.LabelPrinted = true;
         }
-        public virtual string TicketDistributionMethod
-        {
-            get
-            {
-                return MailTickets
-                           ? "Mail tickets to provided address"
-                           : "Pickup tickets.  Refer to college FAQ";
-            }
-        }
+
         #endregion
 
         #region Calculated Fields

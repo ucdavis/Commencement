@@ -31,29 +31,29 @@
 
     <ul class="registration_form">
         <li><strong>Address Line 1:<span>*</span></strong>
-            <%= Html.TextBoxFor(x => x.Registration.Address1)%>
+            <%= Html.TextBoxFor(x => x.Registration.Address1, new { maxlength = 200 })%>
             <%= Html.ValidationMessageFor(x=>x.Registration.Address1) %>
         </li>
         <li><strong>Address Line 2:</strong>
-            <%= Html.TextBoxFor(x => x.Registration.Address2)%>
+            <%= Html.TextBoxFor(x => x.Registration.Address2, new { maxlength = 200 })%>
             <%= Html.ValidationMessageFor(x=>x.Registration.Address2) %>
         </li>
         <li><strong>City:<span>*</span></strong>
-            <%= Html.TextBoxFor(x => x.Registration.City)%>
+            <%= Html.TextBoxFor(x => x.Registration.City, new { maxlength = 100 })%>
             <%= Html.ValidationMessageFor(x=>x.Registration.City) %>
         </li>
         <li><strong>State:<span>*</span></strong>
             <%= this.Select("Registration.State").Options(Model.States, x => x.Id, x => x.Name).Selected("CA")%>
         </li>
         <li><strong>Zip Code:<span>*</span></strong>
-            <%= Html.TextBoxFor(x => x.Registration.Zip, new { maxlength = 5, size = 5 }) %>
+            <%= Html.TextBoxFor(x => x.Registration.Zip, new { maxlength = 15, size = 5 }) %>
             <%= Html.ValidationMessageFor(x=>x.Registration.Zip) %>
         </li>
         <li class="prefilled"><strong>Email:</strong>
             <span><%= Html.Encode(Model.Student.Email) %></span>
         </li>
         <li><strong>Alternate Email:</strong>
-            <%= Html.TextBoxFor(x=>x.Registration.Email) %>
+            <%= Html.TextBoxFor(x=>x.Registration.Email, new { maxlength = 100}) %>
             <%= Html.ValidationMessageFor(x=>x.Registration.Email) %>
         </li>
     </ul>
