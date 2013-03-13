@@ -48,7 +48,7 @@ namespace Commencement.Core.Domain
             Map(x => x.Export);
 
             HasMany(x => x.SurveyFieldOptions).Inverse().Cascade.AllDeleteOrphan();
-            HasManyToMany<SurveyFieldValidator>(a => a.SurveyFieldValidators)
+            HasManyToMany(a => a.SurveyFieldValidators)
                 .ParentKeyColumn("SurveyFieldId")
                 .ChildKeyColumn("SurveyFieldValidatorId")
                 .Table("SurveyFieldXSurveyFieldValidators")
@@ -111,7 +111,7 @@ namespace Commencement.Core.Domain
             Id(x => x.Id);
 
             Map(x => x.Name);
-            Map(x => x.SurveyField);
+            References(x => x.SurveyField);
         }
     }
 }

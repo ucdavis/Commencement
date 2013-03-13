@@ -211,6 +211,7 @@
     <Compile Include="Controllers\Services\TermService.cs" />
     <Compile Include="Controllers\Services\UserService.cs" />
     <Compile Include="Controllers\SpecialNeedsController.cs" />
+    <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Controllers\TermCodeController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Controllers\TransferRequestController.cs" />
@@ -356,6 +357,7 @@
     <Content Include="Scripts\jquery.enableTinyMce.js" />
     <Content Include="Scripts\jquery.jqEasyCharCounter.min.js" />
     <Content Include="Scripts\jquery.qtip-1.0.0-rc3.min.js" />
+    <Content Include="Scripts\knockout-2.2.1.js" />
     <Content Include="Scripts\setScrollingBox.js" />
     <Content Include="Scripts\jquery.livequery.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
@@ -672,6 +674,8 @@
     <Content Include="Views\Student\DisplayRegistration.aspx" />
     <Content Include="Views\Student\Register.aspx" />
     <Content Include="Views\Shared\RegistrationDisplay.ascx" />
+    <Content Include="Views\Survey\Create.aspx" />
+    <Content Include="Views\Survey\Index.aspx" />
     <Content Include="Views\Template\Create.aspx" />
     <Content Include="Views\Template\Index.aspx" />
     <Content Include="Views\Template\TokenPartial.ascx" />

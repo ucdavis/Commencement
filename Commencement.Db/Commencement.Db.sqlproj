@@ -212,6 +212,7 @@
     <None Include="Schema Comparisons\sqlexpress.scmp">
       <SubType>NotInBuild</SubType>
     </None>
+    <None Include="Scripts\Misc\SurveyBase.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Permissions.sql" />
