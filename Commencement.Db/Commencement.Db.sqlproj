@@ -724,12 +724,14 @@
       <Project>{59ddc8a6-84f3-450a-97b0-02f37b848a72}</Project>
       <Private>True</Private>
       <DatabaseVariableLiteralValue>Catbert3</DatabaseVariableLiteralValue>
+      <SuppressMissingDependenciesErrors>True</SuppressMissingDependenciesErrors>
     </ProjectReference>
     <ProjectReference Include="..\Students.Db\Students.Db.sqlproj">
       <Name>Students.Db</Name>
       <Project>{7dfa519c-a273-4633-be04-38b0df0d519e}</Project>
       <Private>True</Private>
-      <DatabaseVariableLiteralValue>Students</DatabaseVariableLiteralValue>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseSqlCmdVariable>Students</DatabaseSqlCmdVariable>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -741,5 +743,11 @@
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Post-Deployment\Script.PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="Students">
+      <DefaultValue>Students</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
   </ItemGroup>
 </Project>
