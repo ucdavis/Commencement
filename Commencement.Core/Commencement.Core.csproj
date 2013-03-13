@@ -125,6 +125,8 @@
     <Compile Include="Domain\SpecialNeed.cs" />
     <Compile Include="Domain\State.cs" />
     <Compile Include="Domain\Student.cs" />
+    <Compile Include="Domain\Survey.cs" />
+    <Compile Include="Domain\SurveyField.cs" />
     <Compile Include="Domain\Template.cs" />
     <Compile Include="Domain\TemplateToken.cs" />
     <Compile Include="Domain\TemplateType.cs" />

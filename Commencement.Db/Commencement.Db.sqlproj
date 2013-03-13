@@ -717,6 +717,14 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\Attachments.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\TransferRequests.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_CleanupDuplicateStudents.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Surveys.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyFields.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyFieldTypes.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyFieldValidators.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyFieldXSurveyFieldValidators.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyAnswers.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\RegistrationSurveys.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyFieldOptions.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Catbert3.Db\Catbert3.Db.sqlproj">
@@ -749,5 +757,8 @@
       <DefaultValue>Students</DefaultValue>
       <Value>$(SqlCmdVar__1)</Value>
     </SqlCmdVariable>
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="Commencement.Db.refactorlog" />
   </ItemGroup>
 </Project>

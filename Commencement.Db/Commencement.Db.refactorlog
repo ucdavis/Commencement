@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="621ee1af-f3a1-44aa-9a39-5fd77ba72ef7" ChangeDateTime="03/13/2013 18:09:07">
+    <Property Name="ElementName" Value="[dbo].[SurveyFields].[FormFieldTypeId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SurveyFields]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SurveyFieldTypeId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8e211015-1bd0-4ca4-9ba0-9b13fa9f7d23" ChangeDateTime="03/13/2013 18:14:40">
+    <Property Name="ElementName" Value="[dbo].[SurveyAnswers].[SurveyId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SurveyAnswers]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SurveyRegistrationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f673a51d-367a-45da-b091-c776fc1364a3" ChangeDateTime="03/13/2013 18:27:17">
+    <Property Name="ElementName" Value="[dbo].[SurveyFields].[Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SurveyFields]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Prompt" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3f1f6bce-2034-4ac5-bf7c-5a7aaa9f0196" ChangeDateTime="03/13/2013 18:44:02">
+    <Property Name="ElementName" Value="[dbo].[SurveyAnswers].[SurveyRegistrationId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SurveyAnswers]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RegistrationSurveyId" />
+  </Operation>
+</Operations>
