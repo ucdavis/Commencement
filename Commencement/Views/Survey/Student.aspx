@@ -164,7 +164,7 @@
         .prompt { font-weight: bold;width: 100%;margin-bottom: .5em;line-height: 18px;}
         .group-header { font-size: x-large;font-weight: bold;border-bottom: 1px solid black;padding-bottom: .25em; }
         
-        label.radio { display: block;}
+        label.radio, label.checkbox { display: block;margin: .25em;}
         div.option { margin: .5em 0;}
         select { min-width: 450px;}
         textarea { width: 100%;}
@@ -179,6 +179,10 @@
             padding-left: 1em;
         }
         fieldset p { margin: .5em;}
+        
+        #error-container { color: red; }
+        #error-container ul { margin-top: 1em;}
+        #error-container li { margin-left: 20px;}
     </style>
 
 </asp:Content>
