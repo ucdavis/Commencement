@@ -18,7 +18,9 @@
     [PickupTickets]         BIT           NOT NULL,
     [MailTickets]           BIT           NOT NULL,
     [WebsiteUrl]            VARCHAR (MAX) NULL,
-    [SurveyUrl]             VARCHAR (MAX) NULL
+    [SurveyUrl]             VARCHAR (MAX) NULL, 
+    [SurveyId] INT NULL, 
+    CONSTRAINT [FK_Ceremonies_Surveys] FOREIGN KEY ([SurveyId]) REFERENCES [Surveys]([Id])
 );
 
 

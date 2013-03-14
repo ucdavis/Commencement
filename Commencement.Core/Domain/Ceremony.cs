@@ -111,6 +111,7 @@ namespace Commencement.Core.Domain
 
         public virtual string WebsiteUrl { get; set; }
         public virtual string SurveyUrl { get; set; }
+        public virtual Survey Survey { get; set; }
 
         #endregion
 
@@ -312,6 +313,7 @@ namespace Commencement.Core.Domain
 
             Map(x => x.WebsiteUrl);
             Map(x => x.SurveyUrl);
+            References(x => x.Survey);
         }
     }
 

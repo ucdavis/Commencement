@@ -163,7 +163,6 @@ namespace Commencement.Controllers
                     // redirect to exit survey if needed
                     var surveyRedirect = SurveyRedirector(registration);
                     if (surveyRedirect != null) return surveyRedirect;
-                    
                 }
 
                 // exit survey not specified, just display the registration
@@ -423,30 +422,27 @@ namespace Commencement.Controllers
             return currentStudent;
         }
 
-        private RedirectResult SurveyRedirector (Registration registration)
+        private ActionResult SurveyRedirector (Registration registration)
         {
-            // exit survey redirect if they still have an outstanding survey
-            if (registration.RegistrationParticipations.Any(a => !a.ExitSurvey && !string.IsNullOrEmpty(a.Ceremony.SurveyUrl)))
+            // participations where survey url or assigned survey is specified
+            var participations = registration.RegistrationParticipations.Where(a => !a.ExitSurvey && (!string.IsNullOrEmpty(a.Ceremony.SurveyUrl) || a.Ceremony.Survey != null) && !a.Cancelled);
+
+            if (participations.Any())
             {
-                // grab the first survey url
-                var surveyUrl = registration.RegistrationParticipations.Where(a => !a.ExitSurvey && !string.IsNullOrEmpty(a.Ceremony.SurveyUrl)).Select(a => a.Ceremony.SurveyUrl).Distinct();
-                string url;
+                var p = participations.First();
 
-                if (!surveyUrl.Any())
-                    return null;
-                
-                url = surveyUrl.First();
-                
-                // mark all participations that need that url
-                var participations = registration.RegistrationParticipations.Where(a => !a.ExitSurvey && a.Ceremony.SurveyUrl == url);
-
-                foreach (var p in participations)
+                if (!string.IsNullOrEmpty(p.Ceremony.SurveyUrl))
                 {
+                    var url = p.Ceremony.SurveyUrl;
                     p.ExitSurvey = true;
                     Repository.OfType<RegistrationParticipation>().EnsurePersistent(p);
+                    return Redirect(url);
                 }
-
-                return Redirect(url);
+                
+                if (p.Ceremony.Survey != null)
+                {
+                    return RedirectToAction("Student", "Survey", new {id = p.Ceremony.Survey.Id, participationId = p.Id});
+                }
             }
 
             return null;
