@@ -37,7 +37,9 @@
                 </thead>
                 <tbody data-bind="foreach: questions">
                     <tr>
-                        <td><input type="text" data-bind="value: prompt"/></td>
+                        <td>
+                            <input type="text" data-bind="value: prompt, attr: {'name': 'questions[' + $index() + '].prompt'}"/>
+                        </td>
                         <td>
                             <span data-bind="text: fieldType().name"></span>
                             <input type="hidden" data-bind="value: fieldType().id"/>
@@ -76,6 +78,15 @@
                 </tfoot>
             </table>            
 
+        </fieldset>
+        
+        <fieldset>
+            <ul class="registration_form">
+                <li><strong>&nbsp;</strong>
+                    <input type="submit" class="buttons" value="Create Survey"/>
+                    <%: Html.ActionLink("Cancel", "Index") %>
+                </li>
+            </ul>
         </fieldset>
 
     <% }%>
@@ -119,28 +130,6 @@
             };
 
             function createModels() {
-
-//                commencement.FieldType = function(id, name, hasOptions) {
-//                    var self = this;
-
-//                    self.id = id;
-//                    self.name = name;
-//                    self.hasOptions = hasOptions;
-//                };
-
-//                commencement.Validator = function(id, name) {
-//                    var self = this;
-
-//                    self.id = id;
-//                    self.name = name;
-//                };
-
-//                commencement.options = function(id, name) {
-//                    var self = this;
-
-//                    self.id = id;
-//                    self.name = name;
-//                };
 
                 commencement.Question = function(prompt, fieldType) {
                     var self = this;

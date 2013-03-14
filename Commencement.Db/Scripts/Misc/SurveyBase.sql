@@ -7,11 +7,13 @@ from FormFieldTypes
 insert into SurveyFieldTypes (name, hasoptions, filterable) values ('Text Box', 0, 1)
 insert into SurveyFieldTypes (name, hasoptions, filterable) values ('Text Area', 0, 1)
 insert into SurveyFieldTypes (name, hasoptions, filterable) values ('Boolean', 0, 0)
+insert into SurveyFieldTypes (name, hasoptions, filterable) values ('Boolean/Other', 1, 0)
 insert into SurveyFieldTypes (name, hasoptions, filterable) values ('Radio Buttons', 1, 0)
 insert into SurveyFieldTypes (name, hasoptions, filterable) values ('Checkbox List', 1, 0)
 insert into SurveyFieldTypes (name, hasoptions, filterable) values ('Drop Down', 1, 1)
 insert into SurveyFieldTypes (name, hasoptions, filterable) values ('Date', 0, 1)
 insert into SurveyFieldTypes (name, hasoptions, filterable) values ('No Answer', 0, 0)
+
 
 /*
 Regex validators
