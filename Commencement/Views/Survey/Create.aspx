@@ -8,16 +8,14 @@
 
     <h2>Create Survey</h2>
     
-    <% using(Html.BeginForm()) { %>
-        <%= Html.AntiForgeryToken() %>
-        
+    <form id="survey-form">
         <fieldset>
             
             <legend>Settings</legend>
             
             <ul class="registration_form">
                 <li><strong>Name<span>*</span></strong>
-                    <%: Html.TextBoxFor(model => model.Survey.Name) %>
+                    <input type="text" id="name"/>
                 </li>
             </ul>
             
@@ -42,7 +40,7 @@
                         </td>
                         <td>
                             <span data-bind="text: fieldType().name"></span>
-                            <input type="hidden" data-bind="value: fieldType().id"/>
+                            <input type="hidden" data-bind="value: fieldType().id, attr: {'name': 'questions[' + $index() + '].fieldType'}"/>
                         </td>
                         <td>
                             <button class="buttons" data-bind="click: $root.popValidators">+ Validator</button>
@@ -54,6 +52,7 @@
                         <td colspan="3">
                             <ul data-bind="foreach:options">
                                 <li><span data-bind="text: $data"></span>
+                                    <input type="hidden" data-bind="attr: {'name': 'questions['+ $parentContext.$index() +'].options['+$index()+']'}"/>
                                     <button class="buttons" data-bind="click: $parent.removeOption">X</button>
                                 </li>
                             </ul>
@@ -63,6 +62,7 @@
                         <td colspan="3">
                             <ul data-bind="foreach:validators">
                                 <li><span data-bind="text: name"></span>
+                                    <input type="hidden" data-bind="attr: {'name': 'questions['+ $parentContext.$index() +'].validators['+$index()+']'}"/>
                                     <button class="buttons" data-bind="click: $parent.removeValidator">X</button>
                                 </li>
                             </ul>
@@ -83,13 +83,14 @@
         <fieldset>
             <ul class="registration_form">
                 <li><strong>&nbsp;</strong>
-                    <input type="submit" class="buttons" value="Create Survey"/>
+                    <input id="form-submit" type="submit" class="buttons" value="Create Survey"/>
+                    <img src="<%: Url.Content("~/Images/ajax-loader.gif") %>" style="display:none;" id="loader"/>
                     <%: Html.ActionLink("Cancel", "Index") %>
                 </li>
             </ul>
         </fieldset>
 
-    <% }%>
+    </form>        
     
     <div id="modal-validator" title="Select Validator(s)">
         
@@ -126,7 +127,10 @@
 
             commencement.init = function() {
                 createModels();
-                ko.applyBindings(new commencement.Survey());
+                ko.applyBindings(commencement.Survey);
+
+                configureModals();
+                configureSave();
             };
 
             function createModels() {
@@ -155,10 +159,13 @@
                     };
                 };
 
-                commencement.Survey = function() {
+                commencement.Survey = new function() {
                     var self = this;
 
+                    // list of questions
                     self.questions = ko.observableArray();
+
+                    // list of lookups
                     self.fieldTypes = ko.observableArray(fieldTypes);
                     self.validators = ko.observableArray(validators);
 
@@ -209,13 +216,64 @@
                 };
             }
 
+            function configureModals() {
+                $('#modal-validator').dialog({autoOpen: false, modal: true});
+                $('#modal-option').dialog({ autoOpen: false, modal: true });    
+            }
+
+            function configureSave() {
+                $('#form-submit').click(function(e) {
+                    e.preventDefault();
+
+                    var questions = commencement.Survey.questions();
+                    var qs = $.map(questions, function(q) {
+                        return {
+                            Options : q.options(),
+                            ValidatorIds : $.map(q.validators(), function(v) { return v.id; }),
+                            Prompt : q.prompt(),
+                            FieldTypeId : q.fieldType().id
+                        };
+                    });
+
+                    var data = {
+                        name: $('#name').val(),
+                        questions: qs
+                    };
+
+                    // perform the ajax call
+                    var request = $.ajax({
+                        url: options.postUrl,
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        async: false,
+                        data: ko.toJSON(data),
+                        start: function() { $('#loader').show(); }
+                    });
+
+                    request.success(function() {
+                        $('#loader').hide();
+                        alert("Survey has been saved");
+                        window.location.replace(options.redirectUrl);
+                    });
+
+                    request.fail(function (jqXHR, textStatus) {
+                        $('#loader').hide();
+                        alert("Request failed: " + textStatus);
+                    });
+
+                });
+            }
+
         }(window.Commencement = window.commencement || {}, jQuery));
+
+        Commencement.options({
+            postUrl: '<%: Url.Action("Create") %>',
+            redirectUrl: '<%: Url.Action("Index") %>'
+        });
 
         $(function() {
             Commencement.init();
-
-            $('#modal-validator').dialog({autoOpen: false, modal: true});
-            $('#modal-option').dialog({ autoOpen: false, modal: true });
         });
 
     </script>

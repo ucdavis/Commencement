@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
+using UCDArch.Web.Attributes;
 
 namespace Commencement.Controllers
 {
@@ -24,6 +25,12 @@ namespace Commencement.Controllers
             return View(SurveyCreateViewModel.Create(Repository));
         }
 
+        [HttpPost]
+        [BypassAntiForgeryToken]
+        public ActionResult Create(string name, List<QuestionPost> questions )
+        {
+            return View(SurveyCreateViewModel.Create(Repository));
+        }
     }
 
     public class SurveyCreateViewModel
@@ -43,5 +50,13 @@ namespace Commencement.Controllers
 
             return viewModel;
         }
+    }
+
+    public class QuestionPost
+    {
+        public string Prompt { get; set; }
+        public int FieldTypeId { get; set; }
+        public List<string> Options { get; set; }
+        public List<int> ValidatorIds { get; set; }
     }
 }
