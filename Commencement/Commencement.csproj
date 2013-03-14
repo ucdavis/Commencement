@@ -357,6 +357,7 @@
     <Content Include="Scripts\jquery.enableTinyMce.js" />
     <Content Include="Scripts\jquery.jqEasyCharCounter.min.js" />
     <Content Include="Scripts\jquery.qtip-1.0.0-rc3.min.js" />
+    <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\knockout-2.2.1.js" />
     <Content Include="Scripts\setScrollingBox.js" />
     <Content Include="Scripts\jquery.livequery.js" />
