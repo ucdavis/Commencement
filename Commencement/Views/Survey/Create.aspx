@@ -8,14 +8,19 @@
 
     <h2>Create Survey</h2>
     
-    <form id="survey-form">
+    <%= Html.ValidationSummary("Please correct all errors below") %>
+
+    <% using (Html.BeginForm("Create", "Survey", FormMethod.Post)) { %>
+        
+        <%= Html.AntiForgeryToken() %>
+        
         <fieldset>
             
             <legend>Settings</legend>
             
             <ul class="registration_form">
                 <li><strong>Name<span>*</span></strong>
-                    <input type="text" id="name"/>
+                    <input type="text" id="name" name="name" class="required" maxlength="50"/>
                 </li>
             </ul>
             
@@ -25,7 +30,7 @@
             
             <legend>Questions</legend>
 
-            <table style="text-align: left;">
+            <table style="text-align: left; width: 100%;">
                 <thead>
                     <tr>
                         <th>Prompt</th>
@@ -36,23 +41,24 @@
                 <tbody data-bind="foreach: questions">
                     <tr>
                         <td>
-                            <input type="text" data-bind="value: prompt, attr: {'name': 'questions[' + $index() + '].prompt'}"/>
+                            <textarea data-bind="value: prompt, attr: {'name': 'questions[' + $index() + '].Prompt'}" class="required" style="width: 575px; height: 80px;"></textarea>
                         </td>
                         <td>
                             <span data-bind="text: fieldType().name"></span>
-                            <input type="hidden" data-bind="value: fieldType().id, attr: {'name': 'questions[' + $index() + '].fieldType'}"/>
+                            <input type="hidden" data-bind="value: fieldType().id, attr: {'name': 'questions[' + $index() + '].FieldTypeId'}"/>
                         </td>
                         <td>
-                            <button class="buttons" data-bind="click: $root.popValidators">+ Validator</button>
-                            <button class="buttons" data-bind="click: $root.popOptions, visible: fieldType().hasOptions">+ Option</button>
-                            <button class="buttons" data-bind="click: $root.removeQuestion">Remove</button>
+                            <button class="buttons" data-bind="click: $root.popValidators">Validator</button>
+                            <button class="buttons" data-bind="click: $root.popOptions, visible: fieldType().hasOptions">Option</button>
+                            <button class="buttons" data-bind="click: $root.removeQuestion">X</button>
                         </td>
                     </tr>
-                    <tr class="option-row" data-bind="visible: options().length > 0">
+                    <tr class="option-row" data-bind="visible: fieldType().hasOptions">
                         <td colspan="3">
+                            <span class="warning" data-bind="visible: options().length == 0">This question requires one or more options specified.</span>
                             <ul data-bind="foreach:options">
                                 <li><span data-bind="text: $data"></span>
-                                    <input type="hidden" data-bind="attr: {'name': 'questions['+ $parentContext.$index() +'].options['+$index()+']'}"/>
+                                    <input type="hidden" data-bind="value: $data, attr: {'name': 'questions['+ $parentContext.$index() +'].Options['+$index()+']'}"/>
                                     <button class="buttons" data-bind="click: $parent.removeOption">X</button>
                                 </li>
                             </ul>
@@ -62,7 +68,7 @@
                         <td colspan="3">
                             <ul data-bind="foreach:validators">
                                 <li><span data-bind="text: name"></span>
-                                    <input type="hidden" data-bind="attr: {'name': 'questions['+ $parentContext.$index() +'].validators['+$index()+']'}"/>
+                                    <input type="hidden" data-bind="value: id, attr: {'name': 'questions['+ $parentContext.$index() +'].ValidatorIds['+$index()+']'}"/>
                                     <button class="buttons" data-bind="click: $parent.removeValidator">X</button>
                                 </li>
                             </ul>
@@ -71,7 +77,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td><input type="text" data-bind="value: prompt"/></td>
+                        <td><textarea id="new-prompt" data-bind="value: prompt" style="width: 575px; height: 80px;"></textarea></td>
                         <td><select id="fieldType" data-bind="value: fieldType, options: fieldTypes, optionsText: 'name'"></select></td>
                         <td><button class="buttons" data-bind="click: addQuestion">Add</button></td>
                     </tr>
@@ -84,13 +90,12 @@
             <ul class="registration_form">
                 <li><strong>&nbsp;</strong>
                     <input id="form-submit" type="submit" class="buttons" value="Create Survey"/>
-                    <img src="<%: Url.Content("~/Images/ajax-loader.gif") %>" style="display:none;" id="loader"/>
                     <%: Html.ActionLink("Cancel", "Index") %>
                 </li>
             </ul>
         </fieldset>
 
-    </form>        
+    <% } %>
     
     <div id="modal-validator" title="Select Validator(s)">
         
@@ -101,7 +106,7 @@
     
     <div id="modal-option" title="Add Option">
         
-        <input type="text" data-bind="value: newOption"/>
+        <input id="newoption" type="text" data-bind="value: newOption"/>
         <button class="buttons" data-bind="click: addOption">Add</button>
 
     </div>
@@ -130,7 +135,7 @@
                 ko.applyBindings(commencement.Survey);
 
                 configureModals();
-                configureSave();
+                //configureSave();
             };
 
             function createModels() {
@@ -185,6 +190,8 @@
                     self.addQuestion = function() {
                         self.questions.push(new commencement.Question(self.prompt(), self.fieldType()));
                         self.prompt('');
+                        
+                        $('#new-prompt').focus();
                     };
 
                     // remove question from table
@@ -202,6 +209,8 @@
                     self.addValidator = function() {
                         var validator = self.selectedValidator();
                         self.validatorQuestion().validators.push(validator);
+
+                        $('#validators').focus();
                     };
 
                     self.popOptions = function(question) {
@@ -212,57 +221,21 @@
                     self.addOption = function() {
                         self.optionQuestion().options.push(self.newOption());
                         self.newOption('');
+
+                        $('#newoption').focus();
                     };
                 };
             }
 
             function configureModals() {
-                $('#modal-validator').dialog({autoOpen: false, modal: true});
-                $('#modal-option').dialog({ autoOpen: false, modal: true });    
-            }
-
-            function configureSave() {
-                $('#form-submit').click(function(e) {
-                    e.preventDefault();
-
-                    var questions = commencement.Survey.questions();
-                    var qs = $.map(questions, function(q) {
-                        return {
-                            Options : q.options(),
-                            ValidatorIds : $.map(q.validators(), function(v) { return v.id; }),
-                            Prompt : q.prompt(),
-                            FieldTypeId : q.fieldType().id
-                        };
-                    });
-
-                    var data = {
-                        name: $('#name').val(),
-                        questions: qs
-                    };
-
-                    // perform the ajax call
-                    var request = $.ajax({
-                        url: options.postUrl,
-                        type: 'POST',
-                        dataType: 'json',
-                        contentType: 'application/json',
-                        async: false,
-                        data: ko.toJSON(data),
-                        start: function() { $('#loader').show(); }
-                    });
-
-                    request.success(function() {
-                        $('#loader').hide();
-                        alert("Survey has been saved");
-                        window.location.replace(options.redirectUrl);
-                    });
-
-                    request.fail(function (jqXHR, textStatus) {
-                        $('#loader').hide();
-                        alert("Request failed: " + textStatus);
-                    });
-
+                $('#modal-validator').dialog({
+                    autoOpen: false, modal: true,
+                    close: function() { $('#new-prompt').focus(); }
                 });
+                $('#modal-option').dialog({ autoOpen: false, modal: true, close: function() {
+                    $('#new-prompt').focus();
+                }
+                });    
             }
 
         }(window.Commencement = window.commencement || {}, jQuery));
@@ -274,12 +247,39 @@
 
         $(function() {
             Commencement.init();
+            $('form').validate();
+
+            $('#form-submit').click(function(e) {
+                e.preventDefault();
+
+                var questions = Commencement.Survey.questions();
+
+                var flag = true;
+                $.each(questions, function(index, item) {
+                    if (item.fieldType().hasOptions && item.options().length == 0) {
+                        flag = false;
+                    }
+                });
+                
+                if (flag) {
+                    $(this).parents('form').submit();
+                } else {
+                    alert("There are one or more questions with that require options but do not have any specified.");
+                }
+
+            });
         });
 
     </script>
 
     <style type="text/css">
         .buttons { padding: .5em 1em;}
+        .warning { color: red;}
+        .error { margin-left: 7px;color: red;}
+        
+        .option-row td, .validator-row td { min-height: 50px;background-color: #F2F2F2;padding: .5em; }
+        .option-row ul, .validator-row ul { list-style: none; }
+        .option-row li, .validator-row li { float: left;display: block;width: 50%; }
     </style>
 
 </asp:Content>

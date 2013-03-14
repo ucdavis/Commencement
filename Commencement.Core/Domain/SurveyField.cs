@@ -13,8 +13,11 @@ namespace Commencement.Core.Domain
         {
             Order = 0;
             Hidden = false;
-            ShowIn = true;
+            ShowInTable = true;
             Export = true;
+
+            SurveyFieldOptions = new List<SurveyFieldOption>();
+            SurveyFieldValidators = new List<SurveyFieldValidator>();
         }
 
         public virtual Survey Survey { get; set; }
@@ -22,11 +25,17 @@ namespace Commencement.Core.Domain
         public virtual SurveyFieldType SurveyFieldType { get; set; }
         public virtual int Order { get; set; }
         public virtual bool Hidden { get; set; }
-        public virtual bool ShowIn { get; set; }
+        public virtual bool ShowInTable { get; set; }
         public virtual bool Export { get; set; }
 
         public virtual IList<SurveyFieldOption> SurveyFieldOptions { get; set; }
         public virtual IList<SurveyFieldValidator> SurveyFieldValidators { get; set; }
+
+        public virtual void AddFieldOption(SurveyFieldOption option)
+        {
+            option.SurveyField = this;
+            SurveyFieldOptions.Add(option);
+        }
 
         public virtual string ValidationClasses
         {
@@ -44,7 +53,7 @@ namespace Commencement.Core.Domain
             References(x => x.SurveyFieldType);
             Map(x => x.Order).Column("`Order`");
             Map(x => x.Hidden);
-            Map(x => x.ShowIn);
+            Map(x => x.ShowInTable);
             Map(x => x.Export);
 
             HasMany(x => x.SurveyFieldOptions).Inverse().Cascade.AllDeleteOrphan();

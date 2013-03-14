@@ -8,11 +8,23 @@ namespace Commencement.Core.Domain
 {
     public class Survey : DomainObject
     {
+        public Survey()
+        {
+            SurveyFields = new List<SurveyField>();
+        }
+
         [Required]
         [StringLength(50)]
         public virtual string Name { get; set; }
 
         public virtual IList<SurveyField> SurveyFields { get; set; }
+
+        public virtual void AddSurveyField(SurveyField field)
+        {
+            field.Survey = this;
+            SurveyFields.Add(field);
+        }
+
     }
     public class SurveyMap : ClassMap<Survey>
     {
@@ -29,12 +41,24 @@ namespace Commencement.Core.Domain
 
     public class RegistrationSurvey : DomainObject
     {
+        public RegistrationSurvey()
+        {
+            Completed = DateTime.Now;
+            SurveyAnswers = new List<SurveyAnswer>();
+        }
+
         public virtual RegistrationParticipation RegistrationParticipation { get; set; }
         public virtual Ceremony Ceremony { get; set; }
         public virtual DateTime Completed { get; set; }
         public virtual Survey Survey { get; set; }
 
         public virtual IList<SurveyAnswer> SurveyAnswers { get; set; }
+
+        public virtual void AddSurveyAnswer(SurveyAnswer answer)
+        {
+            answer.RegistrationSurvey = this;
+            SurveyAnswers.Add(answer);
+        }
     }
     public class RegistrationSurveyMap : ClassMap<RegistrationSurvey>
     {

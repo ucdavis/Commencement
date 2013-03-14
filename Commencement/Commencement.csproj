@@ -677,6 +677,7 @@
     <Content Include="Views\Shared\RegistrationDisplay.ascx" />
     <Content Include="Views\Survey\Create.aspx" />
     <Content Include="Views\Survey\Index.aspx" />
+    <Content Include="Views\Survey\Student.aspx" />
     <Content Include="Views\Template\Create.aspx" />
     <Content Include="Views\Template\Index.aspx" />
     <Content Include="Views\Template\TokenPartial.ascx" />
