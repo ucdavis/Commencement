@@ -1,18 +1,15 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.SurveyViewModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%: Model.Survey.Name %>
+	Survey Preview
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
-    <h2><%: Model.Survey.Name %></h2>
+    <h2>Survey Preview | <%: Model.Survey.Name %></h2>
     
-    <% using (Html.BeginForm()) { %>
-        <%= Html.AntiForgeryToken() %>
-        <%: Html.Partial("_Survey") %>
-        <input type="submit" value="Submit Survey" class="button" style="margin-top: 1em;"/>
-    <% } %>
+    <%: Html.Partial("_Survey") %>
+    <%: Html.ActionLink("Back to List", "Index", "Survey", new {}, new {@class="button", style="margin-top: 1em;"}) %>
 
 </asp:Content>
 

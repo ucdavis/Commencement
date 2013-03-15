@@ -10,12 +10,14 @@ namespace Commencement.Core.Domain
     {
         public Survey()
         {
+            Created = DateTime.Now;
             SurveyFields = new List<SurveyField>();
         }
 
         [Required]
         [StringLength(50)]
         public virtual string Name { get; set; }
+        public virtual DateTime Created { get; set; }
 
         public virtual IList<SurveyField> SurveyFields { get; set; }
 
@@ -34,6 +36,7 @@ namespace Commencement.Core.Domain
 
             Id(x => x.Id);
             Map(x => x.Name);
+            Map(x => x.Created);
 
             HasMany(x => x.SurveyFields).Inverse().Cascade.AllDeleteOrphan();
         }

@@ -20,10 +20,12 @@
                     {
                         col.Template(a =>
                                     {   %>
-                                        <%= Html.ActionLink<CeremonyController>(b=>b.Edit(a.Id), "Select", new{@class="button"}) %>                                            
+                                        <%--<%= Html.ActionLink<CeremonyController>(b=>b.Edit(a.Id), "Select", new{@class="button"}) %>                                            --%>
+                                        <%= Html.ActionLink("Preview", "Preview", new {id=a.Id}, new {@class="button"}) %>
                                         <%
                                     });
                         col.Bound(a => a.Name);
+                        col.Bound(a => a.Created);
                     } )
         .Pageable()
         .Render();

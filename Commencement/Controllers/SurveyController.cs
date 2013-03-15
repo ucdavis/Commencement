@@ -66,6 +66,14 @@ namespace Commencement.Controllers
             return RedirectToAction("Index");
         }
 
+        [AnyoneWithRole]
+        public ActionResult Preview(int id)
+        {
+            var survey = Repository.OfType<Survey>().GetNullableById(id);
+            var viewModel = new SurveyViewModel() {Survey = survey, Errors = new List<string>(new[] {"Blank blank is required.", "These are sample error messages."})};
+            return View(viewModel);
+        }
+
         [StudentsOnly]
         public ActionResult Student(int id, int participationId)
         {
