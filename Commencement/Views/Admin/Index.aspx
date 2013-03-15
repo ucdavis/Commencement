@@ -48,6 +48,9 @@
         <li>
             <a href="<%= Url.Action("Index", "TransferRequest") %>"><img src="<%= Url.Content("~/Images/transfer.png") %>"/><br/>Transfer Requests</a>
         </li>
+        <li class="left">
+            <a href="<%= Url.Action("Index", "Survey") %>"><img src="<%= Url.Content("~/Images/chart.png") %>"/><br/>Surveys</a>
+        </li>
         <% if (User.IsInRole(RoleNames.RoleAdmin)) { %>
         <li class="left">
             <a href="<%= Url.Action("AdminLanding", "Admin") %>"><img src="<%= Url.Content("~/Images/preferences.png") %>" /><br />Administration</a>

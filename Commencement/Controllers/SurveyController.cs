@@ -18,6 +18,8 @@ namespace Commencement.Controllers
         [AnyoneWithRole]
         public ActionResult Index()
         {
+            Message = "Please contact Francesca, before using any features in this section.  It is currently experimental and being tested by CA&ES.";
+
             var surveys = Repository.OfType<Survey>().GetAll();
             return View(surveys);
         }
