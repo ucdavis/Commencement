@@ -59,7 +59,8 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
     
-    <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+    <%--<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>--%>
+    <script type="text/javascript" src="<%: Url.Content("~/Scripts/highchart.js") %>"></script>
 
     <style type="text/css">
         .question {

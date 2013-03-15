@@ -3,7 +3,7 @@
 
 <div id="field-<%: Model.Item1.Id %>"></div>
 
-<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+<%--<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>--%>
 <script type="text/javascript">
     $(function () {
 
