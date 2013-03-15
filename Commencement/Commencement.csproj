@@ -678,7 +678,9 @@
     <Content Include="Views\Survey\Create.aspx" />
     <Content Include="Views\Survey\Index.aspx" />
     <Content Include="Views\Survey\Preview.aspx" />
+    <Content Include="Views\Survey\Results.aspx" />
     <Content Include="Views\Survey\Student.aspx" />
+    <Content Include="Views\Survey\_RenderResponseChart.ascx" />
     <Content Include="Views\Survey\_Survey.ascx" />
     <Content Include="Views\Survey\_SurveyHeaders.ascx" />
     <Content Include="Views\Template\Create.aspx" />

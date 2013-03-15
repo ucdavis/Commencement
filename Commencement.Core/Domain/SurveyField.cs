@@ -30,13 +30,13 @@ namespace Commencement.Core.Domain
 
         public virtual IList<SurveyFieldOption> SurveyFieldOptions { get; set; }
         public virtual IList<SurveyFieldValidator> SurveyFieldValidators { get; set; }
+        public virtual IList<SurveyAnswer> SurveyAnswers { get; set; }
 
         public virtual void AddFieldOption(SurveyFieldOption option)
         {
             option.SurveyField = this;
             SurveyFieldOptions.Add(option);
         }
-
         public virtual string ValidationClasses
         {
             get { return string.Join(" ", SurveyFieldValidators.Select(a => a.Class).ToArray()); }
@@ -63,6 +63,7 @@ namespace Commencement.Core.Domain
                 .Table("SurveyFieldXSurveyFieldValidators")
                 .Cascade.SaveUpdate()
                 .Fetch.Subselect();
+            HasMany(x => x.SurveyAnswers).Inverse().Cascade.None();
         }
     }
 
@@ -71,6 +72,8 @@ namespace Commencement.Core.Domain
         public virtual string Name { get; set; }
         public virtual bool HasOptions { get; set; }
         public virtual bool Filterable { get; set; }
+        public virtual bool Answerable { get; set; }
+        public virtual bool FixedAnswers { get; set; }
     }
     public class SurveyFieldTypeMap : ClassMap<SurveyFieldType>
     {
@@ -83,6 +86,8 @@ namespace Commencement.Core.Domain
             Map(x => x.Name);
             Map(x => x.HasOptions);
             Map(x => x.Filterable);
+            Map(x => x.Answerable);
+            Map(x => x.FixedAnswers);
         }
     }
 

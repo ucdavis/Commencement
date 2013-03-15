@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -71,6 +72,13 @@ namespace Commencement.Controllers
         {
             var survey = Repository.OfType<Survey>().GetNullableById(id);
             var viewModel = new SurveyViewModel() {Survey = survey, Errors = new List<string>(new[] {"Blank blank is required.", "These are sample error messages."})};
+            return View(viewModel);
+        }
+
+        [AnyoneWithRole]
+        public ActionResult Results(int id)
+        {
+            var viewModel = SurveyStatsViewModel.Create(Repository, id);
             return View(viewModel);
         }
 
@@ -190,5 +198,55 @@ namespace Commencement.Controllers
     {
         public string Answer { get; set; }
         public int QuestionId { get; set; }
+    }
+
+    public class SurveyStatsViewModel
+    {
+        public static SurveyStatsViewModel Create(IRepository repository, int surveyId)
+        {
+            var viewModel = new SurveyStatsViewModel()
+                {
+                    Survey = repository.OfType<Survey>().GetById(surveyId),
+                    Stats = new List<Tuple<SurveyField, Hashtable>>()
+                };
+
+            // calculate the stats
+            foreach (var field in viewModel.Survey.SurveyFields.Where(a => a.SurveyFieldType.Answerable).OrderBy(a => a.Order))
+            {
+                var stat = new Hashtable();
+
+                // put in all the options
+                if (field.SurveyFieldType.FixedAnswers && field.SurveyFieldType.Name != "Boolean/Other")
+                {
+                    foreach (var option in field.SurveyFieldOptions.OrderBy(a => a.Id))
+                    {
+                        stat.Add(option.Name, 0);
+                    }    
+                }
+
+                foreach (var ans in field.SurveyAnswers)
+                {
+                    if (!string.IsNullOrEmpty(ans.Answer))
+                    {
+                        if (stat.ContainsKey(ans.Answer))
+                        {
+                            var count = (int)stat[ans.Answer];
+                            stat[ans.Answer] = count + 1;
+                        }
+                        else
+                        {
+                            stat.Add(ans.Answer, 1);
+                        }    
+                    }
+                }
+
+                viewModel.Stats.Add(new Tuple<SurveyField, Hashtable>(field, stat));
+            }
+            
+            return viewModel;
+        }
+
+        public Survey Survey { get; set; }
+        public List<Tuple<SurveyField, Hashtable>> Stats { get; set; }
     }
 }
