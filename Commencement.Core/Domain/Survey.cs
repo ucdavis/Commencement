@@ -12,6 +12,7 @@ namespace Commencement.Core.Domain
         {
             Created = DateTime.Now;
             SurveyFields = new List<SurveyField>();
+            Ceremonies = new List<Ceremony>();
         }
 
         [Required]
@@ -20,6 +21,7 @@ namespace Commencement.Core.Domain
         public virtual DateTime Created { get; set; }
 
         public virtual IList<SurveyField> SurveyFields { get; set; }
+        public virtual IList<Ceremony> Ceremonies { get; set; }
 
         public virtual void AddSurveyField(SurveyField field)
         {
@@ -39,6 +41,7 @@ namespace Commencement.Core.Domain
             Map(x => x.Created);
 
             HasMany(x => x.SurveyFields).Inverse().Cascade.AllDeleteOrphan();
+            HasMany(x => x.Ceremonies).Inverse().Cascade.None();
         }
     }
 

@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
-using UCDArch.Web.Attributes;
 
 namespace Commencement.Controllers
 {
@@ -76,9 +75,9 @@ namespace Commencement.Controllers
         }
 
         [AnyoneWithRole]
-        public ActionResult Results(int id)
+        public ActionResult Results(int id, int? ceremonyId)
         {
-            var viewModel = SurveyStatsViewModel.Create(Repository, id);
+            var viewModel = SurveyStatsViewModel.Create(Repository, id, ceremonyId);
             return View(viewModel);
         }
 
@@ -202,13 +201,29 @@ namespace Commencement.Controllers
 
     public class SurveyStatsViewModel
     {
-        public static SurveyStatsViewModel Create(IRepository repository, int surveyId)
+        public Survey Survey { get; set; }
+        public Ceremony Ceremony { get; set; }
+        public List<Tuple<SurveyField, Hashtable>> Stats { get; set; }
+        public List<Ceremony> Ceremonies { get; set; }
+
+        public static SurveyStatsViewModel Create(IRepository repository, int surveyId, int? ceremonyId = null)
         {
             var viewModel = new SurveyStatsViewModel()
                 {
                     Survey = repository.OfType<Survey>().GetById(surveyId),
                     Stats = new List<Tuple<SurveyField, Hashtable>>()
                 };
+
+            viewModel.Ceremonies = viewModel.Survey.Ceremonies.ToList();
+
+            if (viewModel.Ceremonies.Count == 1)
+            {
+                viewModel.Ceremony = viewModel.Ceremonies.FirstOrDefault();
+            }
+            else if (ceremonyId.HasValue)
+            {
+                viewModel.Ceremony = repository.OfType<Ceremony>().GetById(ceremonyId.Value);
+            }
 
             // calculate the stats
             foreach (var field in viewModel.Survey.SurveyFields.Where(a => a.SurveyFieldType.Answerable).OrderBy(a => a.Order))
@@ -224,7 +239,11 @@ namespace Commencement.Controllers
                     }    
                 }
 
-                foreach (var ans in field.SurveyAnswers)
+                var answers = viewModel.Ceremony != null
+                                  ? field.SurveyAnswers.Where(a => a.RegistrationSurvey.Ceremony == viewModel.Ceremony)
+                                  : field.SurveyAnswers;
+
+                foreach (var ans in answers)
                 {
                     if (!string.IsNullOrEmpty(ans.Answer))
                     {
@@ -246,7 +265,6 @@ namespace Commencement.Controllers
             return viewModel;
         }
 
-        public Survey Survey { get; set; }
-        public List<Tuple<SurveyField, Hashtable>> Stats { get; set; }
+        
     }
 }

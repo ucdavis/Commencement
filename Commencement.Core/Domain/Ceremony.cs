@@ -39,6 +39,7 @@ namespace Commencement.Core.Domain
             Colleges = new List<College>();
             Templates = new List<Template>();
             TicketDistributionMethods = new List<TicketDistributionMethod>();
+            RegistrationSurveys = new List<RegistrationSurvey>();
 
             DateTime = DateTime.Now;
             ExtraTicketBegin = DateTime.Now;
@@ -108,6 +109,8 @@ namespace Commencement.Core.Domain
         public virtual IList<Template> Templates { get; set; }
         [NotNull]
         public virtual IList<TicketDistributionMethod> TicketDistributionMethods { get; set; }
+
+        public virtual IList<RegistrationSurvey> RegistrationSurveys { get; set; }
 
         public virtual string WebsiteUrl { get; set; }
         public virtual string SurveyUrl { get; set; }
@@ -310,6 +313,7 @@ namespace Commencement.Core.Domain
                 .Cascade.SaveUpdate(); //ok jcs
 
             HasManyToMany(x => x.TicketDistributionMethods).ParentKeyColumn("CeremonyId").ChildKeyColumn("TicketDistributionMethodId").Table("CeremonyXTicketDistributionMethods").Fetch.Subselect().Cascade.SaveUpdate();
+            HasMany(x => x.RegistrationSurveys).Inverse().Cascade.None();
 
             Map(x => x.WebsiteUrl);
             Map(x => x.SurveyUrl);
