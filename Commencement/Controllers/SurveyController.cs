@@ -156,7 +156,7 @@ namespace Commencement.Controllers
             Repository.OfType<RegistrationParticipation>().EnsurePersistent(participation);
             Repository.OfType<RegistrationSurvey>().EnsurePersistent(response);
 
-            Message = "Success!";
+            Message = "Finished!";
             return RedirectToAction("DisplayRegistration", "Student");
         }
     }
