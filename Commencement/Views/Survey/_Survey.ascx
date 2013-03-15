@@ -81,6 +81,7 @@
                 case "drop down" : %>
                    
                 <select name="<%: string.Format(name, i) %>" class="<%: question.ValidationClasses %>">
+                    <option value="">--Select From the List--</option>
                     <% foreach(var o in question.SurveyFieldOptions) { %>
                         <option value="<%: o.Name %>" <%: answer == o.Name ? "selected" : string.Empty %>><%: o.Name %></option>
                     <% } %>
