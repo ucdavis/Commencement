@@ -20,40 +20,39 @@
         <% } %>
     </p>
     <% if (Model.Ceremony != null) { %>
-    <p style="margin: 1em 0;"><strong># Responses: <%: Model.Ceremony.RegistrationSurveys.Count %></strong></p>
-    <% } %>
+        <p style="margin: 1em 0;"><strong># Responses: <%: Model.Ceremony.RegistrationSurveys.Count %></strong></p>
     
-
-    <% foreach (var question in Model.Stats) { %>
+        <% foreach (var question in Model.Stats) { %>
     
-        <div class="question">
+            <div class="question">
             
-            <div class="prompt"><%: question.Item1.Prompt %></div>
+                <div class="prompt"><%: question.Item1.Prompt %></div>
             
-            <div class="results-container">
+                <div class="results-container">
             
-                <%--Show bargraph or just text answers--%>
-                <% if (question.Item1.SurveyFieldType.FixedAnswers) { %>
+                    <%--Show bargraph or just text answers--%>
+                    <% if (question.Item1.SurveyFieldType.FixedAnswers) { %>
                 
-                    <%: Html.Partial("_RenderResponseChart", question)%>
+                        <%: Html.Partial("_RenderResponseChart", question)%>
 
-                <% } else { %>
+                    <% } else { %>
                 
-                    <% foreach (DictionaryEntry response in question.Item2) { %>
+                        <% foreach (DictionaryEntry response in question.Item2) { %>
                     
-                        <ul>
-                            <li><%: response.Key %></li>
-                        </ul>
+                            <ul>
+                                <li><%: response.Key %></li>
+                            </ul>
+
+                        <% } %>
 
                     <% } %>
-
-                <% } %>
                 
+                </div>
+
             </div>
 
-        </div>
-
-    <% } %>
+        <% }
+    } %>
 
 </asp:Content>
 

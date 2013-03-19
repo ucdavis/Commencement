@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
+using Commencement.Controllers.Services;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 
@@ -12,6 +13,13 @@ namespace Commencement.Controllers
     
     public class SurveyController : ApplicationController
     {
+        private readonly ICeremonyService _ceremonyService;
+
+        public SurveyController(ICeremonyService ceremonyService)
+        {
+            _ceremonyService = ceremonyService;
+        }
+
         //
         // GET: /Survey/
 
@@ -79,7 +87,7 @@ namespace Commencement.Controllers
         [AnyoneWithRole]
         public ActionResult Results(int id, int? ceremonyId)
         {
-            var viewModel = SurveyStatsViewModel.Create(Repository, id, ceremonyId);
+            var viewModel = SurveyStatsViewModel.Create(Repository, _ceremonyService, CurrentUser.Identity.Name, id, ceremonyId);
             return View(viewModel);
         }
 
@@ -208,7 +216,7 @@ namespace Commencement.Controllers
         public List<Tuple<SurveyField, Hashtable>> Stats { get; set; }
         public List<Ceremony> Ceremonies { get; set; }
 
-        public static SurveyStatsViewModel Create(IRepository repository, int surveyId, int? ceremonyId = null)
+        public static SurveyStatsViewModel Create(IRepository repository, ICeremonyService ceremonyService, string userId, int surveyId, int? ceremonyId = null)
         {
             var viewModel = new SurveyStatsViewModel()
                 {
@@ -216,52 +224,57 @@ namespace Commencement.Controllers
                     Stats = new List<Tuple<SurveyField, Hashtable>>()
                 };
 
-            viewModel.Ceremonies = viewModel.Survey.Ceremonies.ToList();
+            var userCeremonies = ceremonyService.GetCeremonyIds(userId);
+            // give back ceremonies user has access to
+            viewModel.Ceremonies = viewModel.Survey.Ceremonies.Where(a => userCeremonies.Contains(a.Id)).ToList();
 
-            if (viewModel.Ceremonies.Count == 1)
+            // only one ceremony
+            if (viewModel.Ceremonies.Count == 1 && !ceremonyId.HasValue)
             {
-                viewModel.Ceremony = viewModel.Ceremonies.FirstOrDefault();
+                ceremonyId = viewModel.Ceremonies.First().Id;
             }
-            else if (ceremonyId.HasValue)
+
+            // verify the user's access to the selected ceremony
+            if (ceremonyId.HasValue && ceremonyService.HasAccess(ceremonyId.Value, userId))
             {
                 viewModel.Ceremony = repository.OfType<Ceremony>().GetById(ceremonyId.Value);
-            }
 
-            // calculate the stats
-            foreach (var field in viewModel.Survey.SurveyFields.Where(a => a.SurveyFieldType.Answerable).OrderBy(a => a.Order))
-            {
-                var stat = new Hashtable();
-
-                // put in all the options
-                if (field.SurveyFieldType.FixedAnswers && field.SurveyFieldType.Name != "Boolean/Other")
+                // calculate the stats
+                foreach (var field in viewModel.Survey.SurveyFields.Where(a => a.SurveyFieldType.Answerable).OrderBy(a => a.Order))
                 {
-                    foreach (var option in field.SurveyFieldOptions.OrderBy(a => a.Id))
-                    {
-                        stat.Add(option.Name, 0);
-                    }    
-                }
+                    var stat = new Hashtable();
 
-                var answers = viewModel.Ceremony != null
-                                  ? field.SurveyAnswers.Where(a => a.RegistrationSurvey.Ceremony == viewModel.Ceremony)
-                                  : field.SurveyAnswers;
-
-                foreach (var ans in answers)
-                {
-                    if (!string.IsNullOrEmpty(ans.Answer))
+                    // put in all the options
+                    if (field.SurveyFieldType.FixedAnswers && field.SurveyFieldType.Name != "Boolean/Other")
                     {
-                        if (stat.ContainsKey(ans.Answer))
+                        foreach (var option in field.SurveyFieldOptions.OrderBy(a => a.Id))
                         {
-                            var count = (int)stat[ans.Answer];
-                            stat[ans.Answer] = count + 1;
+                            stat.Add(option.Name, 0);
                         }
-                        else
-                        {
-                            stat.Add(ans.Answer, 1);
-                        }    
                     }
-                }
 
-                viewModel.Stats.Add(new Tuple<SurveyField, Hashtable>(field, stat));
+                    var answers = viewModel.Ceremony != null
+                                      ? field.SurveyAnswers.Where(a => a.RegistrationSurvey.Ceremony == viewModel.Ceremony)
+                                      : field.SurveyAnswers;
+
+                    foreach (var ans in answers)
+                    {
+                        if (!string.IsNullOrEmpty(ans.Answer))
+                        {
+                            if (stat.ContainsKey(ans.Answer))
+                            {
+                                var count = (int)stat[ans.Answer];
+                                stat[ans.Answer] = count + 1;
+                            }
+                            else
+                            {
+                                stat.Add(ans.Answer, 1);
+                            }
+                        }
+                    }
+
+                    viewModel.Stats.Add(new Tuple<SurveyField, Hashtable>(field, stat));
+                }
             }
             
             return viewModel;
