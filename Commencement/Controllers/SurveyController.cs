@@ -292,17 +292,40 @@ namespace Commencement.Controllers
 
                     foreach (var ans in answers)
                     {
-                        if (!string.IsNullOrEmpty(ans.Answer))
+                        if (field.SurveyFieldType.HasMultiAnswer)
                         {
-                            if (stat.ContainsKey(ans.Answer))
+                            var results = ans.Answer.Split('|');
+
+                            foreach (var a in results)
                             {
-                                var count = (int)stat[ans.Answer];
-                                stat[ans.Answer] = count + 1;
+                                if (!string.IsNullOrEmpty(a))
+                                {
+                                    if (stat.ContainsKey(a))
+                                    {
+                                        var count = (int) stat[a];
+                                        stat[a] = count + 1;
+                                    }
+                                    else
+                                    {
+                                        stat.Add(a, 1);
+                                    }
+                                }
                             }
-                            else
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(ans.Answer))
                             {
-                                stat.Add(ans.Answer, 1);
-                            }
+                                if (stat.ContainsKey(ans.Answer))
+                                {
+                                    var count = (int)stat[ans.Answer];
+                                    stat[ans.Answer] = count + 1;
+                                }
+                                else
+                                {
+                                    stat.Add(ans.Answer, 1);
+                                }
+                            }    
                         }
                     }
 
