@@ -146,14 +146,38 @@ namespace Commencement.Controllers
             {
                 var question = Repository.OfType<SurveyField>().GetById(answer.QuestionId);
 
-                // check for required validation
-                if (question.SurveyFieldValidators.Select(a => a.Name.ToLower()).Contains("required") && string.IsNullOrEmpty(answer.Answer))
+                if (question.SurveyFieldType.Name == "Boolean/Other")
                 {
-                    viewModel.Errors.Add(question.Prompt);
+                    if (answer.Answers.Count() == 1)
+                    {
+                        answer.Answer = answer.Answers.First();
+                    }
+                    else if (answer.Answers.Count() > 1)
+                    {
+                        answer.Answer = answer.Answers.FirstOrDefault(a => a != "Yes");
+                    }
+                    else
+                    {
+                        answer.Answer = string.Empty;
+                    }
                 }
-    
+
+                // check for required validation
+                if (question.SurveyFieldValidators.Select(a => a.Name.ToLower()).Contains("required"))
+                {
+                    // single answer
+                    if (!question.SurveyFieldType.HasMultiAnswer && string.IsNullOrEmpty(answer.Answer))
+                    {
+                        viewModel.Errors.Add(question.Prompt);    
+                    }
+                    if (question.SurveyFieldType.HasMultiAnswer && answer.Answers == null)
+                    {
+                        viewModel.Errors.Add(question.Prompt);    
+                    }
+                }
+
                 // add it regardless
-                response.AddSurveyAnswer(new SurveyAnswer() {Answer = answer.Answer, SurveyField = question});
+                response.AddSurveyAnswer(new SurveyAnswer() {Answer = question.SurveyFieldType.HasMultiAnswer ? answer.GetAnswers() : answer.Answer, SurveyField = question});
             }
 
             if (viewModel.Errors.Any())
@@ -207,6 +231,15 @@ namespace Commencement.Controllers
     {
         public string Answer { get; set; }
         public int QuestionId { get; set; }
+        public string[] Answers { get; set; }
+
+        public string GetAnswers()
+        {
+            if (Answers == null) return string.Empty;
+
+            return string.Join("|", Answers);
+        }
+
     }
 
     public class SurveyStatsViewModel

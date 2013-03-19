@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.SurveyViewModel>" %>
 
 <% var name = "answers[{0}].Answer";
+   var multiName = "answers[{0}].Answers";
    var questions = Model.Survey.SurveyFields.OrderBy(a => a.Order).ToList();
    %>
 
@@ -72,7 +73,7 @@
                    
                 <% foreach (var o in question.SurveyFieldOptions) { %>
                     <label class="checkbox">
-                        <input type="checkbox" name="<%: string.Format(name, i) %>" value="<%:o.Name %>" <%: answer == o.Name ? "checked=\"checked\"" : string.Empty %> />
+                        <input type="checkbox" name="<%: string.Format(multiName, i) %>" value="<%:o.Name %>" <%: answer == o.Name ? "checked=\"checked\"" : string.Empty %> />
                         <%: o.Name %> 
                     </label>
                 <% } %>
@@ -95,12 +96,12 @@
             <% break;
                 case "boolean/other" : %>
                    
-                <label class="radio"><%: Html.RadioButton(string.Format(name, i), "Yes", answer == "Yes", new {@class="boolother"}) %> Yes</label>
-                <label class="radio"><%: Html.RadioButton(string.Format(name, i), "No", answer == "No", new { @class = "boolother" })%> No</label>
+                <label class="radio"><%: Html.RadioButton(string.Format(multiName, i), "Yes", answer == "Yes", new {@class="boolother"}) %> Yes</label>
+                <label class="radio"><%: Html.RadioButton(string.Format(multiName, i), "No", answer == "No", new { @class = "boolother" })%> No</label>
 
                 <% foreach (var o in question.SurveyFieldOptions) { %>
                     <div class="option"><%: o.Name %></div>
-                    <input type="text" name="<%: string.Format(name, i) %>" class="boolother" value="<%: answer != "Yes" && answer != "No" ? answer : string.Empty %>"/>
+                    <input type="text" name="<%: string.Format(multiName, i) %>" class="boolother" value="<%: answer != "Yes" && answer != "No" ? answer : string.Empty %>"/>
                 <% } %>
             <% break; %>
         <% } %>

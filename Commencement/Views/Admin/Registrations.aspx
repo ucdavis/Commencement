@@ -11,7 +11,7 @@
     <ul class="btn"><li><%= Html.ActionLink<AdminController>(a=>a.Index(), "Home")  %></li></ul>
 
     <h2>Registrations</h2>
-
+        
     <div id="filter_container">
         <h3><a href="#">Filters</a></h3>
         <div>

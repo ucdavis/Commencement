@@ -74,6 +74,7 @@ namespace Commencement.Core.Domain
         public virtual bool Filterable { get; set; }
         public virtual bool Answerable { get; set; }
         public virtual bool FixedAnswers { get; set; }
+        public virtual bool HasMultiAnswer { get; set; }
     }
     public class SurveyFieldTypeMap : ClassMap<SurveyFieldType>
     {
@@ -88,6 +89,7 @@ namespace Commencement.Core.Domain
             Map(x => x.Filterable);
             Map(x => x.Answerable);
             Map(x => x.FixedAnswers);
+            Map(x => x.HasMultiAnswer);
         }
     }
 

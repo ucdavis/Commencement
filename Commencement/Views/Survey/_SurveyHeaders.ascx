@@ -1,19 +1,22 @@
 ﻿<script type="text/javascript">
     $(function () {
         $('.boolother').change(function () {
+
             var name = $(this).attr('name');
             var type = $(this).attr('type');
-
             var controls = $('input[name="' + name + '"]');
 
-            // the textbox is being used, clear the radio's
+            // typing into the text box, auto mark yes
             if (type == 'text') {
                 $.each(controls, function (index, item) {
-                    if ($(item).attr('type') == 'radio') {
-                        $(item).attr('checked', false);
+                    if ($(item).val() == "Yes") {
+                        $(item).attr('checked', true);
                     }
                 });
-            } else {
+            }
+
+            // selected no, blank the text box
+            if (type == 'radio' && $(this).val() == 'No') {
                 $.each(controls, function (index, item) {
                     if ($(item).attr('type') == 'text') {
                         $(item).val('');

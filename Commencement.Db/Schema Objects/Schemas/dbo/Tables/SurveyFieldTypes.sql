@@ -5,5 +5,6 @@
     [HasOptions] BIT          CONSTRAINT [DF_FormFieldTypes_HasOptions] DEFAULT ((0)) NOT NULL,
     [Filterable] BIT          NOT NULL, 
     [Answerable] BIT NOT NULL DEFAULT ((1)), 
-    [FixedAnswers] BIT NOT NULL DEFAULT ((0)),
+    [FixedAnswers] BIT NOT NULL DEFAULT ((0)), 
+    [HasMultiAnswer] BIT NOT NULL DEFAULT 1,
 )
