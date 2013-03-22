@@ -46,10 +46,6 @@
                 <strong>Name:</strong>
                 <%: Model.Registration.Student.FullName %>
             </li>
-            <li class="prefilled">
-                <strong>Delivery Method:</strong>
-                <%: Model.Registration.TicketDistributionMethod %>
-            </li>
         </ul>
 
     </fieldset>
@@ -86,6 +82,10 @@
                     </li>
                     <li class="prefilled"><strong>Ceremony Time:</strong>
                         <%: participation.Ceremony.DateTime.ToString("g") %>
+                    </li>
+                    <li class="prefilled">
+                        <strong>Delivery Method:</strong>
+                        <%: participation.TicketDistributionMethod.Name %>
                     </li>
                     <li class="prefilled hastip" style="display: inline-block;" title="# tickets originally requested when registering."><strong># Tickets Requested:</strong>
                         <%: participation.NumberTickets %>
