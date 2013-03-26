@@ -294,22 +294,25 @@ namespace Commencement.Controllers
                     {
                         if (field.SurveyFieldType.HasMultiAnswer)
                         {
-                            var results = ans.Answer.Split('|');
-
-                            foreach (var a in results)
+                            if (!string.IsNullOrEmpty(ans.Answer))
                             {
-                                if (!string.IsNullOrEmpty(a))
+                                var results = ans.Answer.Split('|');
+
+                                foreach (var a in results)
                                 {
-                                    if (stat.ContainsKey(a))
+                                    if (!string.IsNullOrEmpty(a))
                                     {
-                                        var count = (int) stat[a];
-                                        stat[a] = count + 1;
+                                        if (stat.ContainsKey(a))
+                                        {
+                                            var count = (int)stat[a];
+                                            stat[a] = count + 1;
+                                        }
+                                        else
+                                        {
+                                            stat.Add(a, 1);
+                                        }
                                     }
-                                    else
-                                    {
-                                        stat.Add(a, 1);
-                                    }
-                                }
+                                }    
                             }
                         }
                         else
