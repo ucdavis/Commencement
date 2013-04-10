@@ -201,6 +201,7 @@
     <Compile Include="Controllers\MajorCodeController.cs" />
     <Compile Include="Controllers\PetitionController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\RetroactiveController.cs" />
     <Compile Include="Controllers\Services\CeremonyService.cs" />
     <Compile Include="Controllers\Services\EmailService.cs" />
     <Compile Include="Controllers\Services\ErrorService.cs" />
@@ -314,6 +315,7 @@
     <Content Include="Content\images\ui-icons_fffff_256x240.png" />
     <Content Include="Content\jquery-ui-1.8.19.custom.css" />
     <Content Include="Images\chart.png" />
+    <Content Include="Images\clock.png" />
     <Content Include="Images\transfer.png" />
     <Content Include="Images\to-do-list_checked1_small.gif" />
     <Content Include="Content\jquery.bt.css" />
@@ -663,6 +665,8 @@
     <Content Include="Views\Petition\RegistrationPetition.aspx" />
     <Content Include="Views\Petition\RegistrationPetitions.aspx" />
     <Content Include="Views\Report\Honors.aspx" />
+    <Content Include="Views\Retroactive\Details.aspx" />
+    <Content Include="Views\Retroactive\Index.aspx" />
     <Content Include="Views\Shared\CeremonyEditPartial.ascx" />
     <Content Include="Views\Shared\ContactEditPartial.ascx" />
     <Content Include="Views\Shared\RegistrationPetitionDisplay.ascx" />
