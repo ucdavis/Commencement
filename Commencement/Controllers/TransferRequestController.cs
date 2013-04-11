@@ -86,6 +86,7 @@ namespace Commencement.Controllers
                     if (rp.NumberTickets != numberTickets) additionalMessage += "<br/><strong>Please note that the # of tickets you have requested has changed.</strong>";
                     rp.NumberTickets = numberTickets;
                     rp.Major = request.MajorCode;
+                    rp.DateUpdated = DateTime.Now;
 
                     if (rp.ExtraTicketPetition != null)
                     {

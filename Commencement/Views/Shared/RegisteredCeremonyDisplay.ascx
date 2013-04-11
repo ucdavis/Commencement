@@ -6,7 +6,7 @@
     <div class="title ui-widget-header ui-corner-top">
         <span><%: string.Format("{0} ({1})", Model.Ceremony.CeremonyName, Model.Ceremony.DateTime) %></span>
         <% if (ViewData["IsAdmin"] != null && (bool)ViewData["IsAdmin"]) { %>
-            <% if (Model.TransferRequests.Any()) { %>
+            <% if (Model.TransferRequests.Any(a => a.Pending)) { %>
                 <span style="float:right; color: rgb(255, 128, 128);">
                     Transfer Request Pending
                 </span>
