@@ -109,6 +109,8 @@ textarea { padding: .5em;}
     padding: .5em;
 }
 
+.ui-state-focus .field-validation-error { color: white;}
+
 /* ---------------- */
 /*       btn's      */
 /* ---------------- */
