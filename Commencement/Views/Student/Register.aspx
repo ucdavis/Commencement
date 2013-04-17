@@ -11,10 +11,13 @@
     <style type="text/css">
         #petition-warning, #printing-warning, #late-reg
         {
-            border: 1px solid red;
+            border: 1px solid #eed3d7;
             background-color: #F4F4F4;
-            padding: 0 10px;
+            padding: 1em;
             margin: 10px 20px;
+            background-color: #f2dede;
+            color: #b94a48;
+            font-weight: bold;
         }
         
         #petition-warning p, #printing-warning p
@@ -35,7 +38,7 @@
 
     <% if (Model.Participations.Any(a => a.Ceremony.IsPastPrintingDeadline())) { %>
         <div id="printing-warning">
-            <p>Due to the late registration and printing deadlines we  cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets allotted per person.</p>
+            <p>Due to the late registration and printing deadlines we cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets allotted per person.</p>
         </div>
     <% } %>
     

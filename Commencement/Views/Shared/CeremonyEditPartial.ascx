@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.ViewModels.RegistrationModel>" %>
+<%@ Import Namespace="Commencement.Controllers.Services" %>
 
 <script type="text/javascript" src="<%: Url.Content("~/Scripts/jquery.jqEasyCharCounter.min.js") %>"></script>
 <script>
@@ -22,10 +23,19 @@
             
             <% if (a.NeedsPetition) { %>
                 <div style="border: 1px solid #eed3d7; margin: 1em; padding: 1em; line-height: 17px; background-color: #f2dede; color: #b94a48; font-weight: bold;">
-                    You are required to petition for this ceremony because you do not meet the <a href="http://commencement.ucdavis.edu/registration.html">minimum unit requirements</a> and are required to complete the below petition. 
-                    <% if (a.Ceremony.TermCode.Id.EndsWith("03")) { %>
-                    If you will have enough units at the end of the Winter quarter and do not wish to petiton, please come back after the end of Winter term.  You will have until <%: a.Ceremony.TermCode.RegistrationDeadline.ToString("d") %> to complete your registration.
+                    
+                    <%--Registration deadline hasn't passed yet, just unit requirement--%>
+                    <% if (TermService.GetCurrent().RegistrationDeadline.Date >= DateTime.Now.Date) { %>
+                        You are required to petition for this ceremony because you do not meet the <a href="http://commencement.ucdavis.edu/registration.html">minimum unit requirements</a> and are required to complete the below petition. 
+                    <%--Registration deadline has passed, could be past reg or unit requirement--%>
+                    <% } else { %>
+                        You are required to petition for this ceremony because you either do not meet the [1]minimum unit requirements or are past the [2]registration deadline.
                     <% } %>
+                    
+                    <% if (a.Ceremony.TermCode.Id.EndsWith("03")) { %>
+                        If you will have enough units at the end of the Winter quarter and do not wish to petiton, please come back after the end of Winter term.  You will have until <%: a.Ceremony.TermCode.RegistrationDeadline.ToString("d") %> to complete your registration.
+                    <% } %>
+
                 </div>
             <% } %>
 

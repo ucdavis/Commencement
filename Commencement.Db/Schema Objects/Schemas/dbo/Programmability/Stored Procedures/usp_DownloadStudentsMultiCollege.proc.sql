@@ -41,7 +41,7 @@ select @sisterm = term from openquery(sis, '
 set @minUnits = (select min(PetitionThreshold) from Ceremonies where termcode = @term)    
 
 if (GETDATE() + 8 < (select MIN(RegistrationBegin) from TermCodes) or
-	getdate() > (select MAX(registrationdeadline) from TermCodes) )
+	getdate() > (select MAX(registrationpetitiondeadline) from TermCodes) )
 	begin
 		return 2
 	end
