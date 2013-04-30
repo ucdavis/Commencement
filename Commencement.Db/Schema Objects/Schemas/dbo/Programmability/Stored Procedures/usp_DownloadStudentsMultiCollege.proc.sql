@@ -114,7 +114,7 @@ when not matched then
 
 -- delete the student majors for which wee have an update for them
 delete from StudentMajors
-where Student_Id in ( select id from Students where studentId in ( select studentid from #students ) )
+where Student_Id in ( select id from Students where pidm in ( select pidm from #students ) )
 
 -- insert the updated student majors
 insert into StudentMajors 
