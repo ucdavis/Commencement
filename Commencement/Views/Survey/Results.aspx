@@ -19,9 +19,19 @@
             <input type="submit" class="button"/>
         <% } %>
     </p>
-    <% if (Model.Ceremony != null) { %>
-        <p style="margin: 1em 0;"><strong># Responses: <%: Model.Ceremony.RegistrationSurveys.Count %></strong></p>
-    
+    <% if (Model.Ceremony != null) { 
+           var responsecount = (decimal)Model.Ceremony.RegistrationSurveys.Count;
+           var participationcount = (decimal)Model.Ceremony.RegistrationParticipations.Count(a => !a.Cancelled);
+           %>
+        <p style="margin: 1em 0;"><strong># Responses: <%: responsecount %></strong></p>
+        <p style="margin: 1em 0;">
+            <strong># Registrations: <%: participationcount %>
+            <% if (participationcount > 0) { %>
+                ( <%: Math.Floor((responsecount / participationcount) * 100) %>% )
+            <% } %>
+        </strong>
+        </p>
+
         <% foreach (var question in Model.Stats) { %>
     
             <div class="question">
@@ -33,7 +43,11 @@
                     <%--Show bargraph or just text answers--%>
                     <% if (question.Item1.SurveyFieldType.FixedAnswers) { %>
                 
-                        <%: Html.Partial("_RenderResponseChart", question)%>
+                        <ul>
+                        <% foreach (DictionaryEntry entry in question.Item2) { %>
+                            <li><strong><%: entry.Key %>: </strong><%: entry.Value %></li>
+                        <% } %>
+                        </ul>
 
                     <% } else { %>
                 
@@ -51,16 +65,13 @@
 
             </div>
 
-        <% }
-    } %>
+        <% } %>
+    <% } %>
 
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
     
-    <%--<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>--%>
-    <script type="text/javascript" src="<%: Url.Content("~/Scripts/highchart.js") %>"></script>
-
     <style type="text/css">
         .question {
              border: 1px solid #F2F2F2;
@@ -88,7 +99,7 @@
         .results-container li {
             margin: .5em;
         }
-    </style>
+    </style>--%>
 
 </asp:Content>
 
