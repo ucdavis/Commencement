@@ -31,6 +31,7 @@
             <% } %>
         </strong>
         </p>
+        <p style="margin: 1em 0;"><a href="<%: Url.Action("Export", new {id=Model.Survey.Id, ceremonyId=Model.Ceremony.Id}) %>" class="button">Export</a></p>
 
         <% foreach (var question in Model.Stats) { %>
     
@@ -99,8 +100,7 @@
         .results-container li {
             margin: .5em;
         }
-    </style>--%>
-
+    </style>
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="logoContent" runat="server">

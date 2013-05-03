@@ -14,10 +14,12 @@ namespace Commencement.Controllers
     public class SurveyController : ApplicationController
     {
         private readonly ICeremonyService _ceremonyService;
+        private readonly IExcelService _excelService;
 
-        public SurveyController(ICeremonyService ceremonyService)
+        public SurveyController(ICeremonyService ceremonyService, IExcelService excelService)
         {
             _ceremonyService = ceremonyService;
+            _excelService = excelService;
         }
 
         //
@@ -89,6 +91,21 @@ namespace Commencement.Controllers
         {
             var viewModel = SurveyStatsViewModel.Create(Repository, _ceremonyService, CurrentUser.Identity.Name, id, ceremonyId);
             return View(viewModel);
+        }
+
+        [AnyoneWithRole]
+        public ActionResult Export(int id, int ceremonyId)
+        {
+            var survey = Repository.OfType<Survey>().GetById(id);
+            var ceremony = Repository.OfType<Ceremony>().GetById(ceremonyId);
+            var columns = survey.SurveyFields.OrderBy(a => a.Order).Select(a => a.Prompt).ToList();
+
+            var registrationSurveys = survey.RegistrationSurveys.Where(a => a.Ceremony.Id == ceremonyId).ToList();
+            var rows = registrationSurveys.Select(rs => rs.SurveyAnswers.OrderBy(a => a.SurveyField.Order).Select(response => response.Answer).ToList()).ToList();
+
+            var file = _excelService.Create(columns, rows, Server);
+            var filename = ceremony.CeremonyName + ".xls";
+            return File(file, "application/vnd.ms-excel", filename);
         }
 
         [StudentsOnly]
