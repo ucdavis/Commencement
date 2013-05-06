@@ -8,6 +8,8 @@
     .option-row td, .validator-row td { min-height: 50px;background-color: #F2F2F2;padding: .5em; }
     .option-row ul, .validator-row ul { list-style: none; }
     .option-row li, .validator-row li { float: left;display: block;width: 50%; }
+    
+    .bordered-row hr { margin: 10px 0;color: #f3f3f3;}
 </style>
 
 <script type="text/javascript" src="<%: Url.Content("~/Scripts/knockout-2.2.0.js") %>"></script>

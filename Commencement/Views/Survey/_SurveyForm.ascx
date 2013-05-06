@@ -20,7 +20,7 @@
         <thead>
             <tr>
                 <th>Prompt</th>
-                <th>Type</th>
+                <th align="center">Type</th>
                 <th></th>
             </tr>
         </thead>
@@ -30,7 +30,7 @@
                     <input type="hidden" data-bind="value:id, attr: {'name': 'questions[' + $index() + '].Id'}"/>
                     <textarea data-bind="value: prompt, attr: {'name': 'questions[' + $index() + '].Prompt'}" class="required" style="width: 575px; height: 80px;"></textarea>
                 </td>
-                <td>
+                <td align="center">
                     <span data-bind="text: fieldType().name"></span>
                     <input type="hidden" data-bind="value: fieldType().id, attr: {'name': 'questions[' + $index() + '].FieldTypeId'}"/>
                 </td>
@@ -44,9 +44,10 @@
                 <td colspan="3">
                     <span class="warning" data-bind="visible: options().length == 0">This question requires one or more options specified.</span>
                     <ul data-bind="foreach:options">
-                        <li><span data-bind="text: $data"></span>
-                            <input type="hidden" data-bind="value: $data, attr: {'name': 'questions['+ $parentContext.$index() +'].Options['+$index()+']'}"/>
+                        <li>
                             <button class="buttons" data-bind="click: $parent.removeOption">X</button>
+                            <span data-bind="text: $data"></span>
+                            <input type="hidden" data-bind="value: $data, attr: {'name': 'questions['+ $parentContext.$index() +'].Options['+$index()+']'}"/>
                         </li>
                     </ul>
                 </td>
@@ -54,13 +55,15 @@
             <tr class="validator-row" data-bind="visible: validators().length > 0">
                 <td colspan="3">
                     <ul data-bind="foreach:validators">
-                        <li><span data-bind="text: name"></span>
-                            <input type="hidden" data-bind="value: id, attr: {'name': 'questions['+ $parentContext.$index() +'].ValidatorIds['+$index()+']'}"/>
+                        <li>
                             <button class="buttons" data-bind="click: $parent.removeValidator">X</button>
+                            <span data-bind="text: name"></span>
+                            <input type="hidden" data-bind="value: id, attr: {'name': 'questions['+ $parentContext.$index() +'].ValidatorIds['+$index()+']'}"/>
                         </li>
                     </ul>
                 </td>
             </tr>
+            <tr class="bordered-row"><td colspan="3"><hr /></td></tr>
         </tbody>
         <tfoot>
             <tr>
