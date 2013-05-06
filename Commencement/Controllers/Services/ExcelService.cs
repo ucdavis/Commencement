@@ -12,28 +12,20 @@ namespace Commencement.Controllers.Services
 {
     public interface IExcelService
     {
-        MemoryStream Create(List<string> columns, List<List<string>> rows, HttpServerUtilityBase server);
+        byte[] Create(List<string> columns, List<List<string>> rows, HttpServerUtilityBase server);
     }
 
     public class ExcelService : IExcelService
     {
-        private const string TemplateLocation = @"~\Content\NPOITemplate.xls";
-
-        public MemoryStream Create(List<string> columns, List<List<string>> rows, HttpServerUtilityBase server)
+        public byte[] Create(List<string> columns, List<List<string>> rows, HttpServerUtilityBase server)
         {
-            // Opening the Excel template...
-            var fs = new FileStream(server.MapPath(TemplateLocation), FileMode.Open, FileAccess.Read);
-
-            // Getting the complete workbook...
-            var templateWorkbook = new HSSFWorkbook(fs, true);
-
-            // Getting the worksheet by its name...
-            var sheet = templateWorkbook.GetSheetAt(0);// GetSheet("Sheet1");
+            var workbook = new HSSFWorkbook();
+            var sheet = workbook.CreateSheet("Sheet1");
 
             // create header style
-            var headerFont = templateWorkbook.CreateFont();
+            var headerFont = workbook.CreateFont();
             headerFont.Boldweight = (short)FontBoldWeight.BOLD;
-            var headerStyle = templateWorkbook.CreateCellStyle();
+            var headerStyle = workbook.CreateCellStyle();
             headerStyle.FillBackgroundColor = HSSFColor.GREY_40_PERCENT.index;
             headerStyle.FillForegroundColor = HSSFColor.GREY_40_PERCENT.index;
             headerStyle.FillPattern = FillPatternType.SOLID_FOREGROUND;
@@ -68,12 +60,11 @@ namespace Commencement.Controllers.Services
                 sheet.AutoSizeColumn(i);
             }
 
-            var ms = new MemoryStream();
-
-            // Writing the workbook content to the FileStream...
-            templateWorkbook.Write(ms);
-
-            return ms;
+            using (var ms = new MemoryStream())
+            {
+                workbook.Write(ms);
+                return ms.ToArray();
+            }
         }
     }
 }
