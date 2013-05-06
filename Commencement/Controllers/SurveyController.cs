@@ -79,6 +79,20 @@ namespace Commencement.Controllers
         }
 
         [AnyoneWithRole]
+        public ActionResult Edit(int id)
+        {
+            var survey = Repository.OfType<Survey>().GetNullableById(id);
+            return View(SurveyCreateViewModel.Create(Repository, survey));
+        }
+
+        [AnyoneWithRole]
+        [HttpPost]
+        public ActionResult Edit(int id, List<QuestionPost> questions )
+        {
+            return View();
+        }
+
+        [AnyoneWithRole]
         public ActionResult Preview(int id)
         {
             var survey = Repository.OfType<Survey>().GetNullableById(id);
@@ -232,6 +246,7 @@ namespace Commencement.Controllers
     }
     public class QuestionPost
     {
+        public int? Id { get; set; }
         public string Prompt { get; set; }
         public int FieldTypeId { get; set; }
         public List<string> Options { get; set; }
