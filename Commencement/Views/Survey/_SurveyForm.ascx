@@ -66,20 +66,26 @@
             <tr class="bordered-row"><td colspan="3"><hr /></td></tr>
         </tbody>
         <tfoot>
-            <tr>
-                <td><textarea id="new-prompt" data-bind="value: prompt" style="width: 575px; height: 80px;"></textarea></td>
-                <td><select id="fieldType" data-bind="value: fieldType, options: fieldTypes, optionsText: 'name'"></select></td>
-                <td><button class="buttons" data-bind="click: addQuestion">Add</button></td>
-            </tr>
         </tfoot>
     </table>            
 
 </fieldset>
         
 <fieldset>
+    <legend>New Question</legend>
+    <table>
+    <tr>
+        <td><textarea id="new-prompt" data-bind="value: prompt" style="width: 575px; height: 80px;"></textarea></td>
+        <td><select id="fieldType" data-bind="value: fieldType, options: fieldTypes, optionsText: 'name'"></select></td>
+        <td><button class="buttons" data-bind="click: addQuestion">Add</button></td>
+    </tr>
+    </table>
+</fieldset>
+
+<fieldset>
     <ul class="registration_form">
         <li><strong>&nbsp;</strong>
-            <input id="form-submit" type="submit" class="buttons" value="Create Survey"/>
+            <input id="form-submit" type="submit" class="buttons" value="Save Survey"/>
             <%: Html.ActionLink("Cancel", "Index") %>
         </li>
     </ul>

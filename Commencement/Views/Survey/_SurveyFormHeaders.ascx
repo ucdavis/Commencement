@@ -25,7 +25,7 @@
                                 prompt=a.Prompt, 
                                 fieldtype = a.SurveyFieldType.Id, 
                                 options = a.SurveyFieldOptions.Select(b => new {id=b.Id, name=b.Name}),
-                                validators = a.SurveyFieldOptions.Select(b => new {id=b.Id, name=b.Name})
+                                validators = a.SurveyFieldValidators.Select(b => new {id=b.Id, name=b.Name})
                             })) %>;
 
     (function(commencement, $, undefined) {
@@ -47,10 +47,10 @@
 
         function createModels() {
 
-            commencement.Question = function(prompt, fieldType) {
+            commencement.Question = function(prompt, fieldType, qid) {
                 var self = this;
 
-                self.id = ko.observable();
+                self.id = ko.observable(qid);
                 self.prompt = ko.observable(prompt);
                 self.fieldType = ko.observable(fieldType);
                 self.validators = ko.observableArray();
@@ -96,7 +96,7 @@
 
                 // add question to table
                 self.addQuestion = function() {
-                    self.questions.push(new commencement.Question(self.prompt(), self.fieldType()));
+                    self.questions.push(new commencement.Question(self.prompt(), self.fieldType(), -1));
                     self.prompt('');
                         
                     $('#new-prompt').focus();
@@ -158,11 +158,9 @@
                         }
                     }
 
-                    var question = new commencement.Question(questions[i].prompt, ft);
-                    question.id(questions[i].id);
+                    var question = new commencement.Question(questions[i].prompt, ft, questions[i].id);
 
                     if (questions[i].validators.length > 0) {
-                        
                         for (var j = 0; j < questions[i].validators.length; j++) {
                             
                             for(var k = 0; k < commencement.Survey.validators().length; k++)

@@ -10,7 +10,7 @@
     
     <%= Html.ValidationSummary("Please correct all errors below") %>
 
-    <% using (Html.BeginForm("Create", "Survey", FormMethod.Post)) { %>
+    <% using (Html.BeginForm("Edit", "Survey", FormMethod.Post)) { %>
         
         <%= Html.AntiForgeryToken() %>
         

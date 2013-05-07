@@ -28,7 +28,7 @@ namespace Commencement.Controllers
         [AnyoneWithRole]
         public ActionResult Index()
         {
-            Message = "Please contact Francesca before using any features in this section.  It is currently experimental and being tested by CA&ES.";
+            Message += "  Please contact Francesca before using any features in this section.  It is currently experimental and being tested by CA&ES.";
 
             var surveys = Repository.OfType<Survey>().GetAll();
             return View(surveys);
@@ -45,12 +45,13 @@ namespace Commencement.Controllers
         public ActionResult Create(string name, List<QuestionPost> questions )
         {
             var survey = new Survey() {Name = name};
+            var types = Repository.OfType<SurveyFieldType>().GetAll();
 
             for (var i = 0; i < questions.Count; i++ )
             {
                 var q = questions[i];
 
-                var type = Repository.OfType<SurveyFieldType>().GetById(q.FieldTypeId);
+                var type = types.First(a => a.Id == q.FieldTypeId);
                 var field = new SurveyField() { Prompt = q.Prompt, SurveyFieldType = type, Order = i};
 
                 if (type.HasOptions && q.Options != null)
@@ -82,6 +83,13 @@ namespace Commencement.Controllers
         public ActionResult Edit(int id)
         {
             var survey = Repository.OfType<Survey>().GetNullableById(id);
+
+            if (survey.RegistrationSurveys.Any())
+            {
+                Message = "Cannot edit this survey becuase there are already responses.";
+                return RedirectToAction("Index");
+            }
+            
             return View(SurveyCreateViewModel.Create(Repository, survey));
         }
 
@@ -89,7 +97,70 @@ namespace Commencement.Controllers
         [HttpPost]
         public ActionResult Edit(int id, List<QuestionPost> questions )
         {
-            return View();
+            var survey = Repository.OfType<Survey>().GetNullableById(id);
+            var types = Repository.OfType<SurveyFieldType>().GetAll();
+
+            if (survey.RegistrationSurveys.Any())
+            {
+                Message = "Cannot edit this survey becuase there are already responses.";
+                return RedirectToAction("Index");
+            }
+
+            // get the list of distinct question ids, figure out what to delete
+            var ids = questions.Where(a => a.Id > 0).Select(a => a.Id).ToList();
+            var toDelete = survey.SurveyFields.Where(a => !ids.Contains(a.Id)).ToList();
+            foreach (var d in toDelete) survey.SurveyFields.Remove(d);
+
+            for (var i = 0; i < questions.Count; i++)
+            {
+                var q = questions[i];
+
+                SurveyField sf = null;
+
+                // editing existing question
+                if (q.Id > 0)
+                {
+                    sf = survey.SurveyFields.Single(a => a.Id == q.Id);
+                    sf.Prompt = q.Prompt;
+                    sf.Order = i;
+
+                    // empty the lists, they'll get repopulated shortly
+                    sf.SurveyFieldOptions.Clear();
+                    sf.SurveyFieldValidators.Clear();
+                }
+                // adding new question
+                else
+                {
+                    var type = types.First(a => a.Id == q.FieldTypeId);
+                    sf = new SurveyField() { Prompt = q.Prompt, SurveyFieldType = type, Order = i };
+                }
+
+                if (sf.SurveyFieldType.HasOptions && q.Options != null)
+                {
+                    foreach (var o in q.Options.Distinct())
+                    {
+                        sf.AddFieldOption(new SurveyFieldOption() { Name = o });
+                    }
+                }
+
+                if (q.ValidatorIds != null)
+                {
+                    foreach (var v in q.ValidatorIds.Distinct())
+                    {
+                        sf.SurveyFieldValidators.Add(Repository.OfType<SurveyFieldValidator>().GetById(v));
+                    }
+                }
+
+                if (q.Id <= 0)
+                {
+                    survey.AddSurveyField(sf);
+                }
+            }
+
+            Repository.OfType<Survey>().EnsurePersistent(survey);
+
+            Message = "Survey updated.";
+            return View(SurveyCreateViewModel.Create(Repository, survey));
         }
 
         [AnyoneWithRole]
@@ -246,7 +317,7 @@ namespace Commencement.Controllers
     }
     public class QuestionPost
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public string Prompt { get; set; }
         public int FieldTypeId { get; set; }
         public List<string> Options { get; set; }
