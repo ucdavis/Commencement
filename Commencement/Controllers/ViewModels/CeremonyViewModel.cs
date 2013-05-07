@@ -22,6 +22,7 @@ namespace Commencement.Controllers.ViewModels
         public MultiSelectList Majors { get; set; }
         public MultiSelectList Colleges { get; set; }
         public MultiSelectList TicketDistributionMethods { get; set; }
+        public List<Survey> Surveys { get; set; }
 
         public List<int> Hours { get; set; }
         public List<string> Minutes { get; set; }
@@ -36,7 +37,8 @@ namespace Commencement.Controllers.ViewModels
                                 {
                                     TermCode = TermService.GetCurrent(),
                                     IsAdmin = user.IsInRole(RoleNames.RoleAdmin),
-                                    Ceremony = ceremony
+                                    Ceremony = ceremony,
+                                    Surveys = repository.OfType<Survey>().GetAll().ToList()
                                 };
 
             // poplate the colleges and majors

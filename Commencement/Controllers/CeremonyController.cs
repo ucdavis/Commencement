@@ -271,6 +271,7 @@ namespace Commencement.Controllers
 
             destCeremony.WebsiteUrl = srcCeremony.WebsiteUrl;
             destCeremony.SurveyUrl = srcCeremony.SurveyUrl;
+            destCeremony.Survey = srcCeremony.Survey;
 
             MergeCeremonyMajors(destCeremony.Majors, srcMajors, srcColleges);
             MergeTicketDistributionMethods(destCeremony.TicketDistributionMethods, srcTicketDistributionMethods);
