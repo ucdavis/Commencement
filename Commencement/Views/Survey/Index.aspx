@@ -20,7 +20,7 @@
                     {
                         col.Template(a =>
                                     {   %>
-                                        <%= Html.ActionLink<SurveyController>(b=>b.Edit(a.Id), "Edit", new{@class="button"}) %>                                            
+                                        <%= Html.ActionLink("Edit", "Edit", new {id=a.Id}, new{@class="button"}) %>                                            
                                         <%= Html.ActionLink("Preview", "Preview", new {id=a.Id}, new {@class="button"}) %>
                                         <%= Html.ActionLink("Responses", "Results", new {id=a.Id}, new {@class="button"}) %>
                                         <%
