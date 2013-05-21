@@ -88,6 +88,9 @@ namespace Commencement.Controllers
                     parameters.Remove("term");
                     parameters.Add("ceremonyId", ceremony);
                     break;
+                case Report.RegistartionMajorMismatch:
+                    name = "RegistrationMajorMismatch";
+                    break;
             };
 
             return File(GetReport(string.Format("/commencement/{0}", name), parameters), "application/excel", string.Format("{0}.xls", name));
@@ -132,7 +135,7 @@ namespace Commencement.Controllers
 
         public enum Report { TotalRegisteredStudents=0, TotalRegistrationPetitions
                            , SumOfAllTickets, SpecialNeedsRequest, RegistrarsReport
-                           , TicketSignOutSheet, TotalRegisteredByMajor, MajorCountByCeremony
+                           , TicketSignOutSheet, TotalRegisteredByMajor, MajorCountByCeremony, RegistartionMajorMismatch
                            }
         #endregion
 

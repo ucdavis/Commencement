@@ -34,6 +34,14 @@
       <FullPath>SummaryReport.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>TicketingAllCeremonies.rdl</Name>
+      <FullPath>TicketingAllCeremonies.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>TicketingByCeremony.rdl</Name>
+      <FullPath>TicketingByCeremony.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>TicketSignOutSheet.rdl</Name>
       <FullPath>TicketSignOutSheet.rdl</FullPath>
     </ProjectItem>
@@ -50,12 +58,8 @@
       <FullPath>TotalRegistrationReport.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>TicketingByCeremony.rdl</Name>
-      <FullPath>TicketingByCeremony.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>TicketingAllCeremonies.rdl</Name>
-      <FullPath>TicketingAllCeremonies.rdl</FullPath>
+      <Name>RegistrationMajorMismatch.rdl</Name>
+      <FullPath>RegistrationMajorMismatch.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>

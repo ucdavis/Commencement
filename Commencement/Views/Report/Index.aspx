@@ -175,6 +175,21 @@
             <div class="description">Honors report for the given term</div>
 
         </div>
+        
+        <div class="report">
+            <div class="title">
+                <div class="col1">Registration Major Mismatch Report</div>
+                <div class="col2">
+                    <% using (Html.BeginForm("GetReport", "Report", FormMethod.Get)) { %>
+                        <img src="<%: Url.Content("~/Images/ajax-loader.gif") %>" id="Img1" style="display: none;"/>
+                        <a href="#" class="submit_anchor button"><span class="ui-icon ui-icon-disk"></span>Download</a>
+                        <%= Html.Hidden("Report", ReportController.Report.RegistartionMajorMismatch)%>
+                        <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class = "term_value"}) %>        
+                    <% } %>
+                </div>
+            </div>
+            <div class="description">List of students who have a major registered for a ceremony that it does not belong to.</div>
+        </div>
 
     </fieldset>
     

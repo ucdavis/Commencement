@@ -1,7 +1,7 @@
 ﻿
 CREATE PROCEDURE [dbo].[usp_TotalRegisteredStudents]
 	@term varchar(6),
-	@userid int
+	@userId int
 AS
 
 select s.lastname, s.firstname, s.studentid
