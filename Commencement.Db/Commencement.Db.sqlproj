@@ -728,6 +728,8 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyFieldOptions.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\HonorsCutoffs.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_DownloadHonorsCutoffs.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Functions\udf_CalculateEndTerm.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Functions\udf_CalculateStartTerm.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Catbert3.Db\Catbert3.Db.sqlproj">

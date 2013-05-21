@@ -114,6 +114,7 @@
     <Compile Include="Domain\CeremonyEditor.cs" />
     <Compile Include="Domain\EmailQueue.cs" />
     <Compile Include="Domain\ExtraTicketPetition.cs" />
+    <Compile Include="Domain\HonorsCutoff.cs" />
     <Compile Include="Domain\HonorsReport.cs" />
     <Compile Include="Domain\MajorCode.cs" />
     <Compile Include="Domain\PageTracking.cs" />
