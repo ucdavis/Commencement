@@ -314,6 +314,40 @@ namespace Commencement.Controllers
 
             return ceremonies;
         }
+
+        public JsonNetResult GetCutOffs(int term, string college)
+        {
+            var cutoffs =
+                Repository.OfType<HonorsCutoff>()
+                          .Queryable.Where(a => a.College == college && (a.StartTerm <= term && a.EndTerm >= term))
+                          .OrderBy(a => a.MinUnits)
+                          .ToList();
+
+            var result = new HonorsCutoffModel();
+
+            if (cutoffs.Count != 3) return new JsonNetResult(result);
+
+            if (college == "LS")
+            {
+                result.Tier1Honors = cutoffs[0].HonorsGpa;
+                result.Tier2Honors = cutoffs[1].HonorsGpa;
+                result.Tier3Honors = cutoffs[2].HonorsGpa;
+            }
+            else
+            {
+                result.Tier1Honors = cutoffs[0].HonorsGpa;
+                result.Tier1HighHonors = cutoffs[0].HighHonorsGpa;
+                result.Tier1HighestHonors = cutoffs[0].HighestHonorsGpa;
+                result.Tier2Honors = cutoffs[1].HonorsGpa;
+                result.Tier2HighHonors = cutoffs[1].HighHonorsGpa;
+                result.Tier2HighestHonors = cutoffs[1].HighestHonorsGpa;
+                result.Tier3Honors = cutoffs[2].HonorsGpa;
+                result.Tier3HighHonors = cutoffs[2].HighHonorsGpa;
+                result.Tier3HighestHonors = cutoffs[2].HighestHonorsGpa;
+            }
+
+            return new JsonNetResult(result);
+        }
     }
 
     public class LabelRow
@@ -423,5 +457,20 @@ namespace Commencement.Controllers
             return hr;
         }
 
+    }
+
+    public class HonorsCutoffModel
+    {
+        public decimal Tier1Honors { get; set; }
+        public decimal Tier1HighHonors { get; set; }
+        public decimal Tier1HighestHonors { get; set; }
+
+        public decimal Tier2Honors { get; set; }
+        public decimal Tier2HighHonors { get; set; }
+        public decimal Tier2HighestHonors { get; set; }
+
+        public decimal Tier3Honors { get; set; }
+        public decimal Tier3HighHonors { get; set; }
+        public decimal Tier3HighestHonors { get; set; }
     }
 }
