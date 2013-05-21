@@ -18,7 +18,7 @@
         
             <% using (Html.BeginForm("ExtraTicketPetitions", "Petition", FormMethod.Get)) { %>
                 Ceremony At: <%= this.Select("ceremonyId").Options(Model.Ceremonies, x=>x.Id, x=>x.DateTime.ToString("g")).Selected(Model.Ceremony != null ? Model.Ceremony.Id : 0) %>
-                View All : <%: Html.CheckBox("ViewAll", Model.ViewAll) %>
+                View All : <%= Html.CheckBox("ViewAll", Model.ViewAll)%>
                 <input type="submit" value="View" class="button" />
             <% } %>
 
@@ -33,10 +33,6 @@
             <% } %>
         </div>
     </div>
-
-    
-
-
 
     <% if (Model.Ceremony != null) { %>
         
@@ -103,6 +99,7 @@
                                 }
                                 col.Bound(a => a.ExtraTicketPetition.DateSubmitted).Title("Submitted");
                             })
+               .DataBinding(data => data.Server().Select("ExtraTicketPetitions", "Petition", new {viewAll = Model.ViewAll, ceremonyId = Model.Ceremony.Id}))
                .Sortable()
                .Render(); %>
     <% } %>
