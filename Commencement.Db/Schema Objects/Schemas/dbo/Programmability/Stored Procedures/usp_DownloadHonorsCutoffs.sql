@@ -44,11 +44,11 @@ AS
 --			and zorhond_hond_code = 1
 --		') as data
 --	) as s
---on (t.StartTerm = s.StartTerm and t.College = s.College and t.MinUnits = s.MinUnits)
+--on (t.SourceTerm = s.StartTerm and t.College = s.College and t.MinUnits = s.MinUnits)
 --when matched then
 --	update set HonorsGpa = s.HonorsGpa, HighHonorsGpa = s.HighHonorsGpa, HighestHonorsGpa = s.HighestHonorsGpa
 --when not matched then 
---	insert (College, StartTerm, MinUnits, HonorsGpa, HighHonorsGpa, HighestHonorsGpa)
+--	insert (College, SourceTerm, MinUnits, HonorsGpa, HighHonorsGpa, HighestHonorsGpa)
 --	values (s.College, s.StartTerm, s.MinUnits, s.HonorsGpa, s.HighHonorsGpa, s.HighestHonorsGpa);
 
 RETURN 0
