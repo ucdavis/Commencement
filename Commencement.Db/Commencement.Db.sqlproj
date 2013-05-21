@@ -88,7 +88,7 @@
     <TargetDatabase>
     </TargetDatabase>
     <TreatTSqlWarningsAsErrors>False</TreatTSqlWarningsAsErrors>
-    <SuppressTSqlWarnings>71562, 71502, 70558</SuppressTSqlWarnings>
+    <SuppressTSqlWarnings>71562, 71502, 70558, 71501</SuppressTSqlWarnings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>.\sql\debug\</OutputPath>
@@ -726,6 +726,8 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyAnswers.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\RegistrationSurveys.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyFieldOptions.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\HonorsCutoffs.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_DownloadHonorsCutoffs.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Catbert3.Db\Catbert3.Db.sqlproj">
