@@ -113,6 +113,7 @@
             $("#honorsPostModel_College").change(function () {
 
                 var $that = $(this);
+                var $term = $('#honorsPostModel_TermCode');
 
                 // LS is special is how honors are calculated
                 if ($that.val() == "LS") {
@@ -121,41 +122,56 @@
                     $(".hidable").attr('disabled', false);
                 }
 
-                $('#honorsPostModel_Honors4590').val('');
-                $('#honorsPostModel_Honors90135').val('');
-                $('#honorsPostModel_Honors135').val('');
+                updateCutoffs($term, $that);
 
-                $('#honorsPostModel_HighHonors4590').val('');
-                $('#honorsPostModel_HighHonors90135').val('');
-                $('#honorsPostModel_HighHonors135').val('');
+            });
 
-                $('#honorsPostModel_HighestHonors4590').val('');
-                $('#honorsPostModel_HighestHonors90135').val('');
-                $('#honorsPostModel_HighestHonors135').val('');
+            $('#honorsPostModel_TermCode').change(function () {
 
-                // go out and load the gpa values
-                $.getJSON(cutoffUrl, { term: $('#honorsPostModel_TermCode').val(), college: $that.val() }, function (result) {
+                var $college = $('#honorsPostModel_College');
+                var $term = $(this);
 
-                    $('#honorsPostModel_Honors4590').val(result.Tier1Honors);
-                    $('#honorsPostModel_Honors90135').val(result.Tier2Honors);
-                    $('#honorsPostModel_Honors135').val(result.Tier3Honors);
+                updateCutoffs($term, $college);
 
-                    if ($that.val() != 'LS') {
-                        $('#honorsPostModel_HighHonors4590').val(result.Tier1HighHonors);
-                        $('#honorsPostModel_HighHonors90135').val(result.Tier2HighHonors);
-                        $('#honorsPostModel_HighHonors135').val(result.Tier3HighHonors);
-
-                        $('#honorsPostModel_HighestHonors4590').val(result.Tier1HighestHonors);
-                        $('#honorsPostModel_HighestHonors90135').val(result.Tier2HighestHonors);
-                        $('#honorsPostModel_HighestHonors135').val(result.Tier3HighestHonors);
-                    }
-                });
             });
 
             $(document).ajaxStart(function () { $('#loader').show(); });
             $(document).ajaxComplete(function () { $('#loader').hide(); });
 
         });
+
+        function updateCutoffs($term, $college) {
+            $('#honorsPostModel_Honors4590').val('');
+            $('#honorsPostModel_Honors90135').val('');
+            $('#honorsPostModel_Honors135').val('');
+
+            $('#honorsPostModel_HighHonors4590').val('');
+            $('#honorsPostModel_HighHonors90135').val('');
+            $('#honorsPostModel_HighHonors135').val('');
+
+            $('#honorsPostModel_HighestHonors4590').val('');
+            $('#honorsPostModel_HighestHonors90135').val('');
+            $('#honorsPostModel_HighestHonors135').val('');
+
+            // go out and load the gpa values
+            $.getJSON(cutoffUrl, { term: $term.val(), college: $college.val() }, function (result) {
+
+                $('#honorsPostModel_Honors4590').val(result.Tier1Honors);
+                $('#honorsPostModel_Honors90135').val(result.Tier2Honors);
+                $('#honorsPostModel_Honors135').val(result.Tier3Honors);
+
+                if ($college.val() != 'LS') {
+                    $('#honorsPostModel_HighHonors4590').val(result.Tier1HighHonors);
+                    $('#honorsPostModel_HighHonors90135').val(result.Tier2HighHonors);
+                    $('#honorsPostModel_HighHonors135').val(result.Tier3HighHonors);
+
+                    $('#honorsPostModel_HighestHonors4590').val(result.Tier1HighestHonors);
+                    $('#honorsPostModel_HighestHonors90135').val(result.Tier2HighestHonors);
+                    $('#honorsPostModel_HighestHonors135').val(result.Tier3HighestHonors);
+                }
+            });
+        }
+        
     </script>
 
 </asp:Content>
