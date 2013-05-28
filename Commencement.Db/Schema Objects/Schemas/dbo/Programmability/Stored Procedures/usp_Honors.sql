@@ -14,6 +14,9 @@
 
 AS
 
+SET ANSI_NULLS ON
+SET ANSI_WARNINGS ON
+
 declare @tsql varchar(max), @awarded varchar(max), @candidate varchar(max)
 
 set @awarded = '

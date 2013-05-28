@@ -706,8 +706,14 @@
       <SubType>Code</SubType>
     </Build>
     <Build Include="Security\RoleMemberships.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_HonorsLS.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_Honors.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_HonorsLS.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_Honors.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\HonorsReports.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\Majors.table.sql">
       <SubType>Code</SubType>
