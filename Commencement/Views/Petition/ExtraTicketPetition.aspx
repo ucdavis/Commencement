@@ -70,7 +70,7 @@
                                 This ceremony is not available for extra ticket petition because you have previously submitted a petition.
                         <% } else if (DateTime.Now < participation.Ceremony.ExtraTicketBegin) { %>
                                 This ceremony is not available for extra ticket petition.  Please return on <%: participation.Ceremony.ExtraTicketBegin.ToString("d") %> to submit a petition.
-                        <% } else if (DateTime.Now > participation.Ceremony.ExtraTicketDeadline) { %>
+                        <% } else if (DateTime.Now > participation.Ceremony.ExtraTicketDeadline.AddDays(1)) { %>
                                 This ceremony is not available for extra ticket petitions.  The deadline was on <%: participation.Ceremony.ExtraTicketDeadline.ToString("d") %>.
                         <% } %>
                         </div>

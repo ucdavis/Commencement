@@ -299,7 +299,7 @@ namespace Commencement.Controllers
             var maxEndDate = ceremonies.Max(a => a.ExtraTicketDeadline);
 
             // extra ticket deadline has passed 
-            if (DateTime.Now > maxEndDate)
+            if (DateTime.Now > maxEndDate.AddDays(1))
             {
                 Message = "Deadline for all extra ticket requests has passed.";
                 return this.RedirectToAction<StudentController>(a => a.DisplayRegistration());
@@ -311,7 +311,7 @@ namespace Commencement.Controllers
                 return this.RedirectToAction<StudentController>(a => a.DisplayRegistration());
             }
 
-            if (!registration.RegistrationParticipations.Any(a => a.ExtraTicketPetition == null))
+            if (registration.RegistrationParticipations.All(a => a.ExtraTicketPetition != null))
             {
                 Message = string.Format("You have already submitted your extra ticket request(s).");
                 return this.RedirectToAction<StudentController>(a => a.DisplayRegistration());
@@ -344,9 +344,9 @@ namespace Commencement.Controllers
                 {
                     ModelState.AddModelError("# Tickets", string.Format("Petition for {0} has too many tickets selected.  The max is {1} for this ceremony.", a.Ceremony.CeremonyName, a.Ceremony.ExtraTicketPerStudent));
                 }
-                else if (DateTime.Now > a.Ceremony.ExtraTicketDeadline)
+                else if (DateTime.Now > a.Ceremony.ExtraTicketDeadline.AddDays(1))
                 {
-                    ModelState.AddModelError("Deadline", string.Format("Petition for {0} has pasted the deadline.", a.Ceremony.CeremonyName));
+                    ModelState.AddModelError("Deadline", string.Format("Petition for {0} has past the deadline.", a.Ceremony.CeremonyName));
                 }
                 else if (a.RegistrationParticipation.ExtraTicketPetition != null)
                 {

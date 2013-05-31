@@ -25,7 +25,7 @@ namespace Commencement.Controllers.ViewModels
                                     ExtraTicketPetitionPostModels = new List<ExtraTicketPetitionPostModel>(),
                                     AvailableParticipationIds = registration.RegistrationParticipations.Where(
                                                                     a =>
-                                                                    DateTime.Now >= a.Ceremony.ExtraTicketBegin && DateTime.Now <= a.Ceremony.ExtraTicketDeadline &&
+                                                                    DateTime.Now >= a.Ceremony.ExtraTicketBegin && DateTime.Now < a.Ceremony.ExtraTicketDeadline.AddDays(1) &&
                                                                     a.ExtraTicketPetition == null && !a.Cancelled).Select(a => a.Id).ToList()
                                 };
             return viewModel;
