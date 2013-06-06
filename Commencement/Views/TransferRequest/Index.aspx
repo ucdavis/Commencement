@@ -14,18 +14,20 @@
            .Name("TransferRequests")
            .Columns(col =>
                {
-                   col.Add(a =>
-                       { %>
+                   col.Add(a => { %>
+                       <% if(a.Pending) {%>
                         <a href="<%: Url.Action("Review", new {id=a.Id}) %>">
                             <img src="<%: Url.Content("~/Images/to-do-list_checked1_small.gif") %>"/>
                         </a>
-                         <% });
+                        <% } %>
+                        <% });
                    col.Bound(x => x.RegistrationParticipation.Registration.Student.StudentId).Title("Student Id");
                    col.Bound(x => x.RegistrationParticipation.Registration.Student.FirstName).Title("First Name");
                    col.Bound(x => x.RegistrationParticipation.Registration.Student.LastName).Title("Last Name");
                    col.Bound(x => x.DateRequested);
                    col.Bound(x => x.Ceremony.CeremonyName);
                    col.Bound(x => x.Ceremony.DateTime);
+                   col.Bound(x => x.Pending);
                })
             .Render();
             %>

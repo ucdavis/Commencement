@@ -736,7 +736,9 @@
     <Content Include="connectionStrings-Prod.config" />
     <Content Include="connectionStrings-Test.config" />
     <Content Include="appSettings-Prod.config" />
-    <Content Include="appSettings-Test.config" />
+    <Content Include="appSettings-Test.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Forms\alcohol_policy.pdf" />
     <Content Include="Content\font\Cicle_Fina-webfont.eot" />
     <Content Include="Content\font\Cicle_Fina-webfont.svg" />
@@ -770,6 +772,7 @@
     <Content Include="Forms\registration_petition.pdf" />
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>

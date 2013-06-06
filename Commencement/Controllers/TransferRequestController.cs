@@ -32,8 +32,7 @@ namespace Commencement.Controllers
         public ActionResult Index()
         {
             var ceremonyIds = _ceremonyService.GetCeremonyIds(User.Identity.Name, TermService.GetCurrent());
-            var requests = Repository.OfType<TransferRequest>().Queryable.Where(a => a.Pending && ceremonyIds.Contains(a.Ceremony.Id));
-
+            var requests = Repository.OfType<TransferRequest>().Queryable.Where(a => ceremonyIds.Contains(a.Ceremony.Id)).OrderBy(o => o.Pending).OrderByDescending(od => od.DateRequested);            
             return View(requests);
         }
 
