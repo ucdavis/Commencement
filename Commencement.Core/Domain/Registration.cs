@@ -49,6 +49,9 @@ namespace Commencement.Core.Domain
         public virtual TermCode TermCode { get; set; }
         public virtual bool GradTrack { get; set; }
 
+        [Length(50)]
+        public virtual string TicketPassword { get; set; }
+
         public virtual IList<RegistrationParticipation> RegistrationParticipations { get; set; }
         public virtual IList<RegistrationPetition> RegistrationPetitions { get; set; }
         public virtual IList<SpecialNeed> SpecialNeeds { get; set; }
