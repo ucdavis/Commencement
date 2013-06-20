@@ -207,7 +207,7 @@ namespace Commencement.Controllers.Services
     //        _emailQueueRepository = emailQueueRepository;
     //    }
 
-    //    private readonly string emailAddr = "anlai@ucdavis.edu";
+    //    private readonly string emailAddr = "jsylvestre@ucdavis.edu";
 
     //    public void SendRegistrationConfirmation(Registration registration)
     //    {

@@ -24,7 +24,7 @@ namespace Commencement.Controllers.Services
 
             var client = new SmtpClient("smtp.ucdavis.edu");
 
-            var message = new MailMessage("automatedemail@caes.ucdavis.edu", "anlai@ucdavis.edu");
+            var message = new MailMessage("automatedemail@caes.ucdavis.edu", "jsylvestre@ucdavis.edu");
             message.Subject = "Commencement Error";
             message.Body = ex.Message;
             message.IsBodyHtml = true;
