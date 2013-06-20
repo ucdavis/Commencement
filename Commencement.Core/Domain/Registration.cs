@@ -140,6 +140,7 @@ namespace Commencement.Core.Domain
             Map(x => x.MailTickets);
             References(x => x.TermCode).Column("TermCode");
             Map(x => x.GradTrack);
+            Map(x => x.TicketPassword);
 
             HasMany(a => a.RegistrationParticipations).Inverse().Cascade.AllDeleteOrphan();
             HasMany(a => a.RegistrationPetitions).Inverse().Cascade.AllDeleteOrphan();
