@@ -23,14 +23,14 @@
         <ul class="registration_form" id="left_bar">
         
             <li><strong>Ceremony:</strong>
-                <%= this.Select("EmailStudents.Ceremony").Options(Model.Ceremonies, x=>x.Id, x=> string.Format("{0} ({1})", x.CeremonyName, x.DateTime)).FirstOption("--Select Ceremony--").Selected(Model.Ceremony != null ? Model.Ceremony.Id : 0) %>
+                <%= this.Select("EmailStudents.Ceremony").Options(Model.Ceremonies, x=>x.Id, x=> string.Format("{0} ({1})", x.CeremonyName, x.DateTime)).FirstOption("--Select Ceremony--").Selected(Model.Ceremony != null ? Model.Ceremony.Id : 0).Class("hastip").Title("Required") %>
                 <%: Html.ValidationMessage("Ceremony", "*") %>
             </li>
             <li><strong>Template:</strong>
-                <%: Html.DropDownList("EmailStudents.TemplateType", new SelectList(Model.TemplateTypes, "Id", "Name"), "--Select Template--")%>
+                <%: Html.DropDownList("EmailStudents.TemplateType", new SelectList(Model.TemplateTypes, "Id", "Name"), "--Select Template--", new { @class = "hastip", title = "Optional" })%>
             </li>
             <li><strong>Student Population:</strong>
-                <%: Html.DropDownList("EmailStudents.EmailType", new SelectList(Enum.GetValues(typeof(EmailStudentsViewModel.MassEmailType)), Model.EmailType), "--Select Population--", new {@class="hastip", title="hello"})%>
+                <%: Html.DropDownList("EmailStudents.EmailType", new SelectList(Enum.GetValues(typeof(EmailStudentsViewModel.MassEmailType)), Model.EmailType), "--Select Population--", new {@class="hastip", title="Required"})%>
             </li>
             <li><strong>Attachment</strong>
                 <input type="file" name="file"/>
