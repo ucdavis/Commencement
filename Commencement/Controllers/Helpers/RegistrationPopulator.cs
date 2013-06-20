@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
@@ -47,12 +48,15 @@ namespace Commencement.Controllers.Helpers
             registration.SpecialNeeds = LoadSpecialNeeds(specialNeeds);
             registration.GradTrack = registrationPostModel.GradTrack;
 
+            registration.TicketPassword = Membership.GeneratePassword(10,3);
+
             //ValidateCeremonyParticipations(ceremonyParticipations, modelState);
             AddCeremonyParticipations(registration, ceremonyParticipations, modelState, adminUpdate);
             AddRegistrationPetitions(registration, ceremonyParticipations, modelState);
 
             return registration;
         }
+
 
         public void UpdateRegistration(Registration registration, RegistrationPostModel registrationPostModel, Student student, ModelStateDictionary modelState, bool adminUpdate = false)
         {
