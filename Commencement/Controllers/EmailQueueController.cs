@@ -85,11 +85,11 @@ namespace Commencement.Controllers
             // get the template type
             var templateType = emailStudents.TemplateType;
 
-            if (templateType == null)
-            {
-                Message = "Invalid template type, please have the database checked.";
-                return RedirectToAction("Index");
-            }
+            //if (templateType == null) // It looks like this can be optional. The two mass Email Templates don't look like they are actually used later on
+            //{
+            //    Message = "Invalid template type, please have the database checked.";
+            //    return RedirectToAction("Index");
+            //}
 
             if (emailStudents.Ceremony == null)
             {
@@ -147,7 +147,6 @@ namespace Commencement.Controllers
                     {
                         students = students.Where(a => !emailStudents.Ceremony.RegistrationParticipations.Select(x => x.Registration.Student).Contains(a)).ToList();    
                     }
-                    
 
                     foreach (var student in students)
                     {
