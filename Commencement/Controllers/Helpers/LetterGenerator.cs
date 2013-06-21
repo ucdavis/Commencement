@@ -17,7 +17,7 @@ namespace Commencement.Controllers.Helpers
         string GenerateRegistrationPetitionConfirmation(RegistrationPetition registrationPetition, Template template);
         string GenerateRegistrationPetitionApproved(RegistrationPetition registrationPetition, Template template);
         string GenerateMoveMajor(RegistrationParticipation registrationParticipation, Template template);
-        string GenerateEmailAllStudents(Ceremony ceremony, Student student, string body, TemplateType templateType);
+        string GenerateEmailAllStudents(Ceremony ceremony, Student student, string body, TemplateType templateType, Registration registration);
         bool ValidateTemplate(Template template, List<string> invalidTokens);
     }
 
@@ -133,7 +133,7 @@ namespace Commencement.Controllers.Helpers
             return HandleBody(template.BodyText);
         }
 
-        public string GenerateEmailAllStudents(Ceremony ceremony, Student student, string body, TemplateType templateType)
+        public string GenerateEmailAllStudents(Ceremony ceremony, Student student, string body, TemplateType templateType, Registration registration)
         {
             //Check.Require(registrationParticipation != null, "registrationParticipation is required.");
             Check.Require(ceremony != null, "ceremony is required");
@@ -144,7 +144,7 @@ namespace Commencement.Controllers.Helpers
             _student = student;
             //_registrationParticipation = registrationParticipation;
             //_registration = registrationParticipation.Registration;
-            _registration = new Registration();
+            _registration = registration ?? new Registration();
             _template = new Template(){TemplateType = templateType};
 
             return HandleBody(body);
@@ -281,6 +281,14 @@ namespace Commencement.Controllers.Helpers
                     case "distributionmethod":      return _registrationPetition.TicketDistributionMethod.Name;
                 }
 
+            }
+            else if (templateName == StaticValues.Template_ElectronicTicketDistribution)
+            {
+                switch (parameter.ToLower())
+                {
+                    case "ticketpassword": return _registration.TicketPassword != null ? _registration.TicketPassword : "Error Password Not Found";
+                    case "login": return _student.Email;
+                }
             }
 
             throw new ArgumentException("Invalid parameter was passed.");
