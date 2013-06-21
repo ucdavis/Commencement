@@ -31,6 +31,7 @@
             </li>
             <li><strong>Student Population:</strong>
                 <%: Html.DropDownList("EmailStudents.EmailType", new SelectList(Enum.GetValues(typeof(EmailStudentsViewModel.MassEmailType)), Model.EmailType), "--Select Population--", new {@class="hastip", title="Required"})%>
+                <%: Html.ValidationMessage("EmailType", "*")%>
             </li>
             <li><strong>Attachment</strong>
                 <input type="file" name="file"/>

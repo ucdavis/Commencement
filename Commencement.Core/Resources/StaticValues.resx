@@ -272,4 +272,7 @@ Any student who is found selling tickets or in possession of counterfeit tickets
   <data name="Template_Cancellation" xml:space="preserve">
     <value>Cancellation</value>
   </data>
+  <data name="Template_ElectronicTicketDistribution" xml:space="preserve">
+    <value>Electronic Ticket Distribution</value>
+  </data>
 </root>
