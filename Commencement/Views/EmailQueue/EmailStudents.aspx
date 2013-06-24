@@ -31,6 +31,7 @@
             </li>
             <li><strong>Student Population:</strong>
                 <%: Html.DropDownList("EmailStudents.EmailType", new SelectList(Enum.GetValues(typeof(EmailStudentsViewModel.MassEmailType)), Model.EmailType), "--Select Population--", new {@class="hastip", title="Required"})%>
+                <%: Html.ValidationMessage("EmailType", "*")%>
             </li>
             <li><strong>Attachment</strong>
                 <input type="file" name="file"/>
@@ -48,17 +49,18 @@
             </li>
         </ul>
 
-        <div id="right_bar">
-            <div class="tokens">
-                <ul>
-                    <li><a href="javascript:;" class="add_token" data-token="{StudentId}">Student Id</a></li>
-                    <li><a href="javascript:;" class="add_token" data-token="{StudentName}">Student Name</a></li>
-                    <li><a href="javascript:;" class="add_token" data-token="{CeremonyName}">Ceremony Name</a></li>
-                    <li><a href="javascript:;" class="add_token" data-token="{CeremonyTime}">Ceremony Time</a></li>
-                    <li><a href="javascript:;" class="add_token" data-token="{CeremonyLocation}">Ceremony Location</a></li>
+           <div id="right_bar">
+                <ul class="registration_form">
+                    <% foreach (var a in Model.TemplateTypes) { %>
+                        <div id="<%: a.Code %>" class="tokens" style='<%: Model.TemplateType != null && Model.TemplateType.Code == a.Code ? "display:block;" : "display:none;" %>'>
+                            <% foreach (var b in a.TemplateTokens) { %>
+                                <li><a href="javascript:;" class="add_token" data-token="<%: b.Token %>"><%: b.Name %></a></li>
+                            <% } %>
+                        </div>
+                    <% } %>
                 </ul>
-            </div>
-        </div>
+           </div>
+
         <div style="clear: both;"></div>
     <% } %>
 </asp:Content>
@@ -69,8 +71,23 @@
     <script src="<%= Url.Content("~/Scripts/jquery.enableTinyMce.js") %>" type="text/javascript"></script>
 
     <script type="text/javascript">
+        
+        var templatecodes = [];
 
         $(function () {
+            
+            <% foreach(var a in Model.TemplateTypes) { %>
+                templatecodes['<%: a.Name %>'] = '<%: a.Code %>';
+            <% } %>
+            
+
+            $("#EmailStudents_TemplateType").change(function(){
+                $(".tokens").hide();    // hide all token containers
+
+                // show the one we want
+                var selected = $("#EmailStudents_TemplateType option:selected").text();
+                $("#" + templatecodes[selected]).show();
+            });
 
             $("#EmailStudents_Body").enableTinyMce({ script_location: '<%= Url.Content("~/Scripts/tiny_mce/tiny_mce.js") %>', overrideWidth: "700" });
 
@@ -88,6 +105,8 @@
                     $("#EmailStudents_Subject").val(results.subject);
                     $("#EmailStudents_Body").text(results.body);
                 });
+                
+
 
             });
 

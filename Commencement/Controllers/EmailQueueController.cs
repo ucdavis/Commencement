@@ -23,7 +23,7 @@ namespace Commencement.Controllers
         private readonly ICeremonyService _ceremonyService;
         private readonly ILetterGenerator _letterGenerator;
 
-        private readonly List<string> _massEmailTemplates = new List<string>(new string[2]{StaticValues.Template_NotifyOpenTicketPetitions, StaticValues.Template_RemainingTickets});
+        private readonly List<string> _massEmailTemplates = new List<string>(new string[3]{StaticValues.Template_NotifyOpenTicketPetitions, StaticValues.Template_RemainingTickets, StaticValues.Template_ElectronicTicketDistribution});
 
         public EmailQueueController(IRepository<EmailQueue> emailQueueRepository, IRepositoryWithTypedId<Student, Guid> studentRepository , ICeremonyService ceremonyService, ILetterGenerator letterGenerator)
         {
@@ -104,6 +104,11 @@ namespace Commencement.Controllers
                 ModelState.AddModelError("Body", "Body is required.");
             }
 
+            if (templateType != null && templateType.Name == StaticValues.Template_ElectronicTicketDistribution && emailStudents.EmailType != EmailStudentsViewModel.MassEmailType.Registered)
+            {
+                ModelState.AddModelError("EmailType", "The Student Population must be Registered when using the Electronic Ticket Distribution Template");
+            }
+
             if (ModelState.IsValid)
             {
                 Attachment attachment = null;
@@ -123,7 +128,7 @@ namespace Commencement.Controllers
                 {
                     foreach (var participation in emailStudents.Ceremony.RegistrationParticipations.Where(a => !a.Cancelled))
                     {
-                        var bodyText = _letterGenerator.GenerateEmailAllStudents(emailStudents.Ceremony, participation.Registration.Student, emailStudents.Body, templateType);
+                        var bodyText = _letterGenerator.GenerateEmailAllStudents(emailStudents.Ceremony, participation.Registration.Student, emailStudents.Body, templateType, participation.Registration);
 
                         var eq = new EmailQueue(participation.Registration.Student, null, emailStudents.Subject, bodyText, false);
                         eq.Registration = participation.Registration;
@@ -150,7 +155,7 @@ namespace Commencement.Controllers
 
                     foreach (var student in students)
                     {
-                        var bodyText = _letterGenerator.GenerateEmailAllStudents(emailStudents.Ceremony, student, emailStudents.Body, templateType);
+                        var bodyText = _letterGenerator.GenerateEmailAllStudents(emailStudents.Ceremony, student, emailStudents.Body, templateType, null);
 
                         var eq = new EmailQueue(student, null, emailStudents.Subject, bodyText, false);
                         if (attachment != null)
