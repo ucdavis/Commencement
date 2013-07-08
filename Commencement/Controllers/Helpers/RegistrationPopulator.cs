@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -9,6 +10,7 @@ using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using MvcContrib;
 using UCDArch.Core.PersistanceSupport;
+using UCDArch.Core.Utils;
 using UCDArch.Data.NHibernate;
 
 namespace Commencement.Controllers.Helpers
@@ -48,13 +50,34 @@ namespace Commencement.Controllers.Helpers
             registration.SpecialNeeds = LoadSpecialNeeds(specialNeeds);
             registration.GradTrack = registrationPostModel.GradTrack;
 
-            registration.TicketPassword = Membership.GeneratePassword(10,3);
+            registration.TicketPassword = GeneratePassword(); //Membership.GeneratePassword(10,3);
 
             //ValidateCeremonyParticipations(ceremonyParticipations, modelState);
             AddCeremonyParticipations(registration, ceremonyParticipations, modelState, adminUpdate);
             AddRegistrationPetitions(registration, ceremonyParticipations, modelState);
 
             return registration;
+        }
+
+        /// <summary>
+        /// Generate an 8 character AlphaNumeric password with no special characters
+        /// </summary>
+        /// <returns></returns>
+        private string GeneratePassword()
+        {
+            string newPassword = string.Empty;
+            for (int i = 0; i < 10; i++)
+            {
+                newPassword = Membership.GeneratePassword(20, 0);
+                newPassword = Regex.Replace(newPassword, @"[^a-zA-Z0-9]", m => "").Substring(0, 8);
+                if (newPassword.Length == 8)
+                {
+                    break;
+                }
+            }
+            Check.Require(newPassword.Length == 8, "Problem generating password of 8 characters");
+
+            return newPassword;
         }
 
 
