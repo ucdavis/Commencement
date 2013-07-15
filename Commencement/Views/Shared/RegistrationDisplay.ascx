@@ -16,6 +16,8 @@
         <span><%= Html.Encode(Model.Zip) %></span> </li>
     <li class="prefilled"><strong>Email Address:</strong><span>
         <%= Html.Encode(Model.Student.Email) %></span> </li>
+    <li class="prefilled"><strong>Ticket Password:</strong><span>
+        <%= Html.Encode(Model.TicketPassword) %></span> </li>
     <% if (!string.IsNullOrEmpty(Model.Email))
        { %>
     <li><strong>Secondary Email Address:</strong>
