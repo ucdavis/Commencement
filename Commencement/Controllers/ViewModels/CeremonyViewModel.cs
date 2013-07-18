@@ -41,8 +41,21 @@ namespace Commencement.Controllers.ViewModels
                                     Surveys = repository.OfType<Survey>().GetAll().ToList()
                                 };
 
-            // poplate the colleges and majors
+            // populate the colleges and majors
             var colleges = repository.OfType<College>().Queryable.Where(a => a.Display).ToList();
+
+            foreach (var clg in colleges)
+            {
+                if (viewModel.Ceremony.CeremonySurveys.All(a => a.College != clg))
+                {
+                    var ceremonySurvey = new CeremonySurvey();
+                    ceremonySurvey.College = clg;
+                    ceremonySurvey.Ceremony = viewModel.Ceremony;
+                    viewModel.Ceremony.CeremonySurveys.Add(ceremonySurvey);
+                }
+            }
+
+
             IEnumerable<MajorCode> majors;
             if (ceremony.Id != 0)
             {

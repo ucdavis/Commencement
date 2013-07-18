@@ -112,6 +112,7 @@
     <Compile Include="Domain\BannerStudent.cs" />
     <Compile Include="Domain\Ceremony.cs" />
     <Compile Include="Domain\CeremonyEditor.cs" />
+    <Compile Include="Domain\CeremonySurvey.cs" />
     <Compile Include="Domain\EmailQueue.cs" />
     <Compile Include="Domain\ExtraTicketPetition.cs" />
     <Compile Include="Domain\HonorsCutoff.cs" />
