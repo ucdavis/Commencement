@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[CeremonySurveys]
 (
-	[id] INT NOT NULL PRIMARY KEY, 
+	[id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [CeremonyId] INT NOT NULL, 
     [CollegeId] CHAR(2) NOT NULL, 
     [SurveyUrl] VARCHAR(MAX) NULL, 
