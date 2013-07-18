@@ -206,7 +206,7 @@ namespace Commencement.Controllers
             }
 
             // need to validate the student is currently eligible to take this survey
-            if (participation.Ceremony.Survey != survey)
+            if(!participation.Ceremony.CeremonySurveys.Any(a => a.Survey == survey))
             {
                 return RedirectToAction("DisplayRegistration", "Student");
             }
@@ -236,7 +236,7 @@ namespace Commencement.Controllers
             }
 
             // need to validate the student is currently eligible to take this survey
-            if (participation.Ceremony.Survey != survey)
+            if (!participation.Ceremony.CeremonySurveys.Any(a => a.Survey == survey))
             {
                 return RedirectToAction("DisplayRegistration", "Student");    
             }

@@ -424,28 +424,52 @@ namespace Commencement.Controllers
 
         private ActionResult SurveyRedirector (Registration registration)
         {
-            // participations where survey url or assigned survey is specified
-            var participations = registration.RegistrationParticipations.Where(a => !a.ExitSurvey && (!string.IsNullOrEmpty(a.Ceremony.SurveyUrl) || a.Ceremony.Survey != null) && !a.Cancelled);
-
-            if (participations.Any())
+            //Does the college have a survey for this student?
+            var participations = registration.RegistrationParticipations.Where(a => !a.ExitSurvey && !a.Cancelled);
+            foreach (var registrationParticipation in participations)
             {
-                var p = participations.First();
-
-                if (!string.IsNullOrEmpty(p.Ceremony.SurveyUrl))
+                var college = registrationParticipation.Major.MajorCollege;
+                var survey = registrationParticipation.Ceremony.CeremonySurveys.SingleOrDefault(a => a.College == college && (!string.IsNullOrWhiteSpace(a.SurveyUrl) || a.Survey != null));
+                if (survey != null)
                 {
-                    var url = p.Ceremony.SurveyUrl;
-                    p.ExitSurvey = true;
-                    Repository.OfType<RegistrationParticipation>().EnsurePersistent(p);
-                    return Redirect(url);
-                }
-                
-                if (p.Ceremony.Survey != null)
-                {
-                    return RedirectToAction("Student", "Survey", new {id = p.Ceremony.Survey.Id, participationId = p.Id});
+                    if (!string.IsNullOrWhiteSpace(survey.SurveyUrl))
+                    {
+                        var url = survey.SurveyUrl;
+                        registrationParticipation.ExitSurvey = true;
+                        Repository.OfType<RegistrationParticipation>().EnsurePersistent(registrationParticipation);
+                        return Redirect(url);
+                    }
+                    if (survey.Survey != null)
+                    {
+                        return RedirectToAction("Student", "Survey", new { id = survey.Survey.Id, participationId = registrationParticipation.Id });
+                    }
                 }
             }
 
             return null;
+
+            //// participations where survey url or assigned survey is specified            
+            //var participations = registration.RegistrationParticipations.Where(a => !a.ExitSurvey && (!string.IsNullOrEmpty(a.Ceremony.SurveyUrl) || a.Ceremony.Survey != null) && !a.Cancelled);
+
+            //if (participations.Any())
+            //{
+            //    var p = participations.First();
+
+            //    if (!string.IsNullOrEmpty(p.Ceremony.SurveyUrl))
+            //    {
+            //        var url = p.Ceremony.SurveyUrl;
+            //        p.ExitSurvey = true;
+            //        Repository.OfType<RegistrationParticipation>().EnsurePersistent(p);
+            //        return Redirect(url);
+            //    }
+                
+            //    if (p.Ceremony.Survey != null)
+            //    {
+            //        return RedirectToAction("Student", "Survey", new {id = p.Ceremony.Survey.Id, participationId = p.Id});
+            //    }
+            //}
+
+            //return null;
         }
         #endregion
     }
