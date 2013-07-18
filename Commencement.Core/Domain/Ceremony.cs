@@ -319,7 +319,7 @@ namespace Commencement.Core.Domain
             HasManyToMany(x => x.TicketDistributionMethods).ParentKeyColumn("CeremonyId").ChildKeyColumn("TicketDistributionMethodId").Table("CeremonyXTicketDistributionMethods").Fetch.Subselect().Cascade.SaveUpdate();
             HasMany(x => x.RegistrationSurveys).Inverse().Cascade.None();
 
-           HasMany(x => x.CeremonySurveys).Inverse().Cascade.AllDeleteOrphan();
+            HasMany(x => x.CeremonySurveys).Inverse().Cascade.SaveUpdate();
 
             Map(x => x.WebsiteUrl);
             Map(x => x.SurveyUrl);

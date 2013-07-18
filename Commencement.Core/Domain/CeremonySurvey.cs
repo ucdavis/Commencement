@@ -12,7 +12,7 @@ namespace Commencement.Core.Domain
         public virtual College College { get; set; }
 
         public virtual Survey Survey { get; set; }
-        public string SurveyUrl { get; set; }
+        public virtual string SurveyUrl { get; set; }
     }
 
     public class CeremonySurveyMap : ClassMap<CeremonySurvey>
@@ -23,7 +23,7 @@ namespace Commencement.Core.Domain
 
             References(x => x.Ceremony).Cascade.None();
             References(x => x.College).Cascade.None();
-            References(x => x.Survey).Cascade.None();
+            References(x => x.Survey).Nullable().Cascade.None();
 
             Map(x => x.SurveyUrl);
         }

@@ -273,15 +273,23 @@ namespace Commencement.Controllers
             destCeremony.SurveyUrl = srcCeremony.SurveyUrl;
             destCeremony.Survey = srcCeremony.Survey;
 
-            destCeremony.CeremonySurveys = new List<CeremonySurvey>();
             foreach (var ceremonySurvey in srcCeremony.CeremonySurveys)
             {
-                var cSurv = new CeremonySurvey();
-                cSurv.Ceremony = destCeremony;
-                cSurv.College = _collegeRepository.Queryable.Single(a => a.Id == ceremonySurvey.College.Id);
-                cSurv.SurveyUrl = ceremonySurvey.SurveyUrl;
-                cSurv.Survey = ceremonySurvey.Survey;
-                destCeremony.CeremonySurveys.Add(cSurv);
+                var destCeremonySurvey = destCeremony.CeremonySurveys.SingleOrDefault(a => a.College.Id == ceremonySurvey.College.Id);
+                if (destCeremonySurvey == null)
+                {
+                    var cSurvey = new CeremonySurvey();
+                    cSurvey.Ceremony = destCeremony;
+                    cSurvey.College = ceremonySurvey.College;
+                    cSurvey.Survey = ceremonySurvey.Survey;
+                    cSurvey.SurveyUrl = ceremonySurvey.SurveyUrl;
+                    destCeremony.CeremonySurveys.Add(cSurvey);
+                }
+                else
+                {
+                    destCeremonySurvey.Survey = ceremonySurvey.Survey;
+                    destCeremonySurvey.SurveyUrl = ceremonySurvey.SurveyUrl;
+                }
             }
 
             MergeCeremonyMajors(destCeremony.Majors, srcMajors, srcColleges);
