@@ -362,7 +362,11 @@ namespace Commencement.Controllers
 
             var userCeremonies = ceremonyService.GetCeremonyIds(userId);
             // give back ceremonies user has access to
-            viewModel.Ceremonies = viewModel.Survey.Ceremonies.Where(a => userCeremonies.Contains(a.Id)).ToList();
+            viewModel.Ceremonies = viewModel.Survey.Ceremonies.Where(a => userCeremonies.Contains(a.Id)).ToList(); //OK, I think we need to keep this for ones done before we had multi surveys per ceremony
+
+            var otherCeremonies = repository.OfType<Ceremony>().Queryable.Where(a => userCeremonies.Contains(a.Id) && a.CeremonySurveys.Any(b => b.Survey == viewModel.Survey)).ToList();
+            viewModel.Ceremonies.AddRange(otherCeremonies);
+            viewModel.Ceremonies = viewModel.Ceremonies.Distinct().ToList();
 
             // only one ceremony
             if (viewModel.Ceremonies.Count == 1 && !ceremonyId.HasValue)
