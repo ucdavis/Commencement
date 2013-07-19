@@ -142,16 +142,32 @@
                 <%: Html.TextBoxFor(a => a.Ceremony.WebsiteUrl, new {@class="hastip", title="Url to an informational web page for Commencement."}) %>                
                 <%: Html.ValidationMessageFor(a => a.Ceremony.WebsiteUrl) %>
             </li>
-            <li><strong><%: Html.LabelFor(a => a.Ceremony.SurveyUrl, DisplayOptions.HumanizeAndColon) %></strong>
-                <%: Html.TextBoxFor(a => a.Ceremony.SurveyUrl, new {@class="hastip", title="Url to a survey, that will redirect students to fill out."}) %>
-                <%: Html.ValidationMessageFor(a => a.Ceremony.SurveyUrl) %>
-            </li>
-            <li><strong>-- OR Internal Survey--</strong></li>
-            <li><strong>Survey:</strong>
-                <%= this.Select("Ceremony.Survey").Options(Model.Surveys,x=>x.Id, x=>x.Name).FirstOption("--Select a Survey--").Selected(Model.Ceremony.Survey != null ? Model.Ceremony.Survey.Id.ToString() : string.Empty) %>
-            </li>
+<%--            <li><strong><%: Html.LabelFor(a => a.Ceremony.SurveyUrl, DisplayOptions.HumanizeAndColon) %></strong>
+                        <%: Html.TextBoxFor(a => a.Ceremony.SurveyUrl, new {@class="hastip", title="Url to a survey, that will redirect students to fill out."}) %>
+                        <%: Html.ValidationMessageFor(a => a.Ceremony.SurveyUrl) %>
+                    </li>
+                    <li><strong>-- OR Internal Survey--</strong></li>
+                    <li><strong>Survey:</strong>
+                        <%= this.Select("Ceremony.Survey").Options(Model.Surveys,x=>x.Id, x=>x.Name).FirstOption("--Select a Survey--").Selected(Model.Ceremony.Survey != null ? Model.Ceremony.Survey.Id.ToString() : string.Empty) %>
+            </li>    --%>  
+            <% foreach (var ceremonySurvey in Model.Ceremony.CeremonySurveys){%>
+                <%: Html.HiddenFor(a => a.Ceremony.CeremonySurveys[Model.Ceremony.CeremonySurveys.IndexOf(ceremonySurvey)].College.Id)%>
+              <fieldset>
+                <legend><%=ceremonySurvey.College.Name%></legend>                
+                    <li><strong><%: Html.LabelFor(a => a.Ceremony.CeremonySurveys[Model.Ceremony.CeremonySurveys.IndexOf(ceremonySurvey)].SurveyUrl, DisplayOptions.HumanizeAndColon)%></strong>
+                        <%: Html.TextBoxFor(a => a.Ceremony.CeremonySurveys[Model.Ceremony.CeremonySurveys.IndexOf(ceremonySurvey)].SurveyUrl, new {@class="hastip", title="Url to a survey, that will redirect students to fill out."}) %>
+                        <%: Html.ValidationMessageFor(a => a.Ceremony.CeremonySurveys[Model.Ceremony.CeremonySurveys.IndexOf(ceremonySurvey)].SurveyUrl)%>
+                    </li>
+                    <li><strong>-- OR Internal Survey--</strong></li>
+                    <li><strong>Survey:</strong>
+                        <% var ceremonySurveyId = "Ceremony.CeremonySurveys[" + Model.Ceremony.CeremonySurveys.IndexOf(ceremonySurvey) + "].Survey";%>
+                        <%= this.Select(ceremonySurveyId).Options(Model.Surveys, x => x.Id, x => x.Name).FirstOption("--Select a Survey--").Selected(ceremonySurvey.Survey != null ? ceremonySurvey.Survey.Id.ToString() : string.Empty)%>
+                    </li>                
+            </fieldset>  
+              <% } %>
+        
+                                         
         </ul>
-
     </fieldset>
 
     <fieldset id="tickets">

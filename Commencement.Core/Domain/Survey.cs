@@ -57,6 +57,7 @@ namespace Commencement.Core.Domain
         }
 
         public virtual RegistrationParticipation RegistrationParticipation { get; set; }
+        public virtual RegistrationPetition RegistrationPetition { get; set; }
         public virtual Ceremony Ceremony { get; set; }
         public virtual DateTime Completed { get; set; }
         public virtual Survey Survey { get; set; }
@@ -75,7 +76,8 @@ namespace Commencement.Core.Domain
         {
             Id(x => x.Id);
 
-            References(x => x.RegistrationParticipation);
+            References(x => x.RegistrationParticipation).Nullable();
+            References(x => x.RegistrationPetition).Nullable();
             References(x => x.Ceremony);
             References(x => x.Survey);
             Map(x => x.Completed);

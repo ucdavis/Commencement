@@ -41,6 +41,8 @@ namespace Commencement.Core.Domain
             TicketDistributionMethods = new List<TicketDistributionMethod>();
             RegistrationSurveys = new List<RegistrationSurvey>();
 
+            CeremonySurveys = new List<CeremonySurvey>();
+
             DateTime = DateTime.Now;
             ExtraTicketBegin = DateTime.Now;
             ExtraTicketDeadline = DateTime.Now;
@@ -115,6 +117,8 @@ namespace Commencement.Core.Domain
         public virtual string WebsiteUrl { get; set; }
         public virtual string SurveyUrl { get; set; }
         public virtual Survey Survey { get; set; }
+
+        public virtual IList<CeremonySurvey> CeremonySurveys { get; set; } 
 
         #endregion
 
@@ -314,6 +318,8 @@ namespace Commencement.Core.Domain
 
             HasManyToMany(x => x.TicketDistributionMethods).ParentKeyColumn("CeremonyId").ChildKeyColumn("TicketDistributionMethodId").Table("CeremonyXTicketDistributionMethods").Fetch.Subselect().Cascade.SaveUpdate();
             HasMany(x => x.RegistrationSurveys).Inverse().Cascade.None();
+
+            HasMany(x => x.CeremonySurveys).Inverse().Cascade.SaveUpdate();
 
             Map(x => x.WebsiteUrl);
             Map(x => x.SurveyUrl);

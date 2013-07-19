@@ -12,7 +12,8 @@
     [DateDecision]               DATETIME      NULL,
     [CeremonyId]                 INT           NOT NULL,
     [NumberTickets]              INT           NOT NULL,
-    [TicketDistributionMethodId] VARCHAR (2)   NULL
+    [TicketDistributionMethodId] VARCHAR (2)   NULL,
+	[ExitSurvey] BIT NOT NULL DEFAULT 0
 );
 
 

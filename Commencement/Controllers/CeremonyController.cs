@@ -116,7 +116,7 @@ namespace Commencement.Controllers
             }
 
             var viewModel = CeremonyViewModel.Create(Repository, User, _majorService, ceremony);
-            
+
             return View(viewModel);
         }
 
@@ -272,6 +272,25 @@ namespace Commencement.Controllers
             destCeremony.WebsiteUrl = srcCeremony.WebsiteUrl;
             destCeremony.SurveyUrl = srcCeremony.SurveyUrl;
             destCeremony.Survey = srcCeremony.Survey;
+
+            foreach (var ceremonySurvey in srcCeremony.CeremonySurveys)
+            {
+                var destCeremonySurvey = destCeremony.CeremonySurveys.SingleOrDefault(a => a.College.Id == ceremonySurvey.College.Id);
+                if (destCeremonySurvey == null)
+                {
+                    var cSurvey = new CeremonySurvey();
+                    cSurvey.Ceremony = destCeremony;
+                    cSurvey.College = ceremonySurvey.College;
+                    cSurvey.Survey = ceremonySurvey.Survey;
+                    cSurvey.SurveyUrl = ceremonySurvey.SurveyUrl;
+                    destCeremony.CeremonySurveys.Add(cSurvey);
+                }
+                else
+                {
+                    destCeremonySurvey.Survey = ceremonySurvey.Survey;
+                    destCeremonySurvey.SurveyUrl = ceremonySurvey.SurveyUrl;
+                }
+            }
 
             MergeCeremonyMajors(destCeremony.Majors, srcMajors, srcColleges);
             MergeTicketDistributionMethods(destCeremony.TicketDistributionMethods, srcTicketDistributionMethods);
