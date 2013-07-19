@@ -446,6 +446,28 @@ namespace Commencement.Controllers
                 }
             }
 
+            var petitions = registration.RegistrationPetitions.Where(a => !a.ExitSurvey && a.IsPending);
+            foreach (var registrationPetition in petitions)
+            {
+                var college = registrationPetition.MajorCode.MajorCollege;
+                var survey = registrationPetition.Ceremony.CeremonySurveys.SingleOrDefault(a => a.College == college && (!string.IsNullOrWhiteSpace(a.SurveyUrl) || a.Survey != null));
+                if (survey != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(survey.SurveyUrl))
+                    {
+                        var url = survey.SurveyUrl;
+                        registrationPetition.ExitSurvey = true;
+                        Repository.OfType<RegistrationPetition>().EnsurePersistent(registrationPetition);
+                        return Redirect(url);
+                    }
+
+                    if (survey.Survey != null)
+                    {
+                        return RedirectToAction("Student", "Survey", new { id = survey.Survey.Id, petitionId = registrationPetition.Id });
+                    }
+                }
+            }
+
             return null;
 
             //// participations where survey url or assigned survey is specified            

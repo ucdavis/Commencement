@@ -194,29 +194,61 @@ namespace Commencement.Controllers
         }
 
         [StudentsOnly]
-        public ActionResult Student(int id, int participationId)
+        public ActionResult Student(int id, int? participationId, int? petitionId)
         {
             var survey = Repository.OfType<Survey>().GetNullableById(id);
-            var participation = Repository.OfType<RegistrationParticipation>().GetNullableById(participationId);
-
-            if (survey == null || participation == null)
+            if (participationId == null && petitionId == null)
             {
-                Message = "Unable to locate survey";
+                Message = "Unable to locate survey.";
                 return RedirectToAction("Index", "Student");
             }
-
-            // need to validate the student is currently eligible to take this survey
-            if(!participation.Ceremony.CeremonySurveys.Any(a => a.Survey == survey))
+            if (participationId != null)
             {
-                return RedirectToAction("DisplayRegistration", "Student");
+                var participation = Repository.OfType<RegistrationParticipation>().GetNullableById(participationId.Value);
+
+                if (survey == null || participation == null)
+                {
+                    Message = "Unable to locate survey";
+                    return RedirectToAction("Index", "Student");
+                }
+
+                // need to validate the student is currently eligible to take this survey
+                if (!participation.Ceremony.CeremonySurveys.Any(a => a.Survey == survey && a.College == participation.Major.MajorCollege))
+                {
+                    return RedirectToAction("DisplayRegistration", "Student");
+                }
+
+                // check if they already took it
+                if (Repository.OfType<RegistrationSurvey>().Queryable.Any(
+                        a => a.RegistrationParticipation == participation))
+                {
+                    participation.ExitSurvey = true;
+                    Repository.OfType<RegistrationParticipation>().EnsurePersistent(participation);
+                    return RedirectToAction("DisplayRegistration", "Student");
+                }
             }
-
-            // check if they already took it
-            if (Repository.OfType<RegistrationSurvey>().Queryable.Any(a => a.RegistrationParticipation == participation))
+            else if(petitionId != null)
             {
-                participation.ExitSurvey = true;
-                Repository.OfType<RegistrationParticipation>().EnsurePersistent(participation);
-                return RedirectToAction("DisplayRegistration", "Student");
+                var petition = Repository.OfType<RegistrationPetition>().GetNullableById(petitionId.Value);
+                if (survey == null || petition == null)
+                {
+                    Message = "Unable to locate survey .";
+                    return RedirectToAction("Index", "Student");
+                }
+
+                if (!petition.Ceremony.CeremonySurveys.Any(a => a.Survey == survey && a.College == petition.MajorCode.MajorCollege))
+                {
+                    return RedirectToAction("DisplayRegistration", "Student");
+                }
+
+                // check if they already took it
+                if (Repository.OfType<RegistrationSurvey>().Queryable.Any(
+                        a => a.RegistrationPetition == petition))
+                {
+                    petition.ExitSurvey = true;
+                    Repository.OfType<RegistrationPetition>().EnsurePersistent(petition);
+                    return RedirectToAction("DisplayRegistration", "Student");
+                }
             }
 
             return View(new SurveyViewModel(){Survey = survey});
@@ -224,24 +256,42 @@ namespace Commencement.Controllers
         
         [StudentsOnly]
         [HttpPost]
-        public ActionResult Student(int id, int participationId, List<AnswerPost> answers )
+        public ActionResult Student(int id, int? participationId, int? petitionId, List<AnswerPost> answers )
         {
             var survey = Repository.OfType<Survey>().GetNullableById(id);
-            var participation = Repository.OfType<RegistrationParticipation>().GetNullableById(participationId);
+            RegistrationParticipation participation = null;
+            RegistrationPetition petition = null;
+            var isParticipation = false;
 
-            if (survey == null || participation == null)
+
+            if (participationId != null)
+            {
+                participation = Repository.OfType<RegistrationParticipation>().GetNullableById(participationId.Value);
+                isParticipation = true;
+            }
+            else if(petitionId != null)
+            {
+                petition = Repository.OfType<RegistrationPetition>().GetNullableById(petitionId.Value);
+            }
+            
+
+            if (survey == null || (participation == null && isParticipation) || (petition == null && !isParticipation))
             {
                 Message = "Unable to locate survey";
                 return RedirectToAction("Index", "Student");
             }
 
-            // need to validate the student is currently eligible to take this survey
-            if (!participation.Ceremony.CeremonySurveys.Any(a => a.Survey == survey))
+            if(isParticipation)
             {
-                return RedirectToAction("DisplayRegistration", "Student");    
+                // need to validate the student is currently eligible to take this survey
+                if (!participation.Ceremony.CeremonySurveys.Any(a => a.Survey == survey && a.College == participation.Major.MajorCollege))
+                {
+                    return RedirectToAction("DisplayRegistration", "Student");
+                }
             }
 
-            var response = new RegistrationSurvey() {Ceremony = participation.Ceremony, RegistrationParticipation = participation, Survey = survey};
+
+            var response = new RegistrationSurvey() {Ceremony = isParticipation ? participation.Ceremony : petition.Ceremony, RegistrationParticipation = isParticipation ? participation: null, RegistrationPetition = !isParticipation ? petition : null, Survey = survey};
             var viewModel = new SurveyViewModel() {Survey = survey, AnswerPosts = answers, Errors = new List<string>()};
 
             foreach (var answer in answers)
@@ -287,9 +337,18 @@ namespace Commencement.Controllers
                 return View(viewModel);
             }
 
-            // save the survey and update the participation
-            participation.ExitSurvey = true;
-            Repository.OfType<RegistrationParticipation>().EnsurePersistent(participation);
+            if(isParticipation)
+            {
+                // save the survey and update the participation
+                participation.ExitSurvey = true;
+                Repository.OfType<RegistrationParticipation>().EnsurePersistent(participation);
+            }
+            else
+            {
+                petition.ExitSurvey = true;
+                Repository.OfType<RegistrationPetition>().EnsurePersistent(petition);
+
+            }
             Repository.OfType<RegistrationSurvey>().EnsurePersistent(response);
 
             Message = "Finished!";
