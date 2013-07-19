@@ -32,6 +32,7 @@ namespace Commencement.Core.Domain
 
             IsPending = true;
             IsApproved = false;
+            ExitSurvey = false;
         }
         #endregion
 
@@ -54,6 +55,8 @@ namespace Commencement.Core.Domain
         public virtual DateTime? DateDecision { get; set; }
         public virtual Ceremony Ceremony { get; set; }
         public virtual int NumberTickets { get; set; }
+
+        public virtual bool ExitSurvey { get; set; }
 
         public virtual TicketDistributionMethod TicketDistributionMethod { get; set; }
 
@@ -91,6 +94,7 @@ namespace Commencement.Core.Domain
             Map(x => x.DateDecision);
             References(x => x.Ceremony);
             Map(x => x.NumberTickets);
+            Map(x => x.ExitSurvey);
 
             References(x => x.TicketDistributionMethod);
         }
