@@ -10,7 +10,7 @@
 
     <div class="content">
 
-    <div class="left_col">
+    <div >
         
     <h2>Commencement Participation</h2>
 
@@ -21,24 +21,6 @@
     <% } else if ((bool)ViewData["Registered"]) { %>
         <span class="reg_btn button"><%: Html.ActionLink<StudentController>(a => a.Index(), "View Registration")%></span>
     <% }%>
-</div>
-
-<div class="right_col">
-<h3>Dates</h3>
-<ul>
-    <li><strong>February 1 - April 12, 2013</strong>
-        File for candidacy period for Spring 2013 graduation with the Office of the <a href="http://registrar.ucdavis.edu/">University Registrar</a>
-    </li>
-    <li><strong>March 1 – TBD</strong>
-        Online pre-order period for <a href="http://bookstore.ucdavis.edu/graduation/">cap and gown</a> rental through the UC Davis Stores
-    </li>
-    <li><strong>Tuesday, March 5th 9am-6pm</strong>
-        Grad Faire in the Griffin Lounge, Memorial Union
-    </li>
-    <li><strong>Friday, April 12th by 5pm</strong>
-        <a href="http://commencement.ucdavis.edu/general_info/index.html#speaker">Student Speaker</a> Applications due
-    </li>
-</ul>
 </div>
 
 <div id="col_ft">
