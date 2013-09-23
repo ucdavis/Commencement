@@ -6,6 +6,7 @@ using Commencement.Controllers.Helpers;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using UCDArch.Core.PersistanceSupport;
+using UCDArch.Core.Utils;
 using UCDArch.Data.NHibernate;
 
 namespace Commencement.Controllers.Services
@@ -57,6 +58,7 @@ namespace Commencement.Controllers.Services
                     {
                         student.AddedBy = currentUser.Identity.Name;
                         _studentRepository.EnsurePersistent(student);
+                        Check.Require(_studentRepository.Queryable.Count(a => a.Login == currentUser.Identity.Name && a.TermCode == TermService.GetCurrent()) == 1, "There were too many students returned.");
                     }
 
                     currentStudent = student;       
