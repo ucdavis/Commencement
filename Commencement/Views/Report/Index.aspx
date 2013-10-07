@@ -83,6 +83,19 @@
         <div class="report">
             
             <div class="title">
+                <div class="col1">Neulion Ticket Reports</div>
+                <div class="col2">
+                    <%= Html.ActionLink<TicketController>(a => a.Index(), "View", new { @class="button" })%>
+                </div>
+            </div>
+            
+            <div class="description">List of excel reports available for Neulion Tickets.</div>
+
+        </div>
+        
+        <div class="report">
+            
+            <div class="title">
                 <div class="col1">Special Needs Request</div>
                 <div class="col2">
                     <% using (Html.BeginForm("GetReport", "Report", FormMethod.Get)) { %>
