@@ -5,7 +5,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    
+    <h2 style="color: red;">Please complete the below exit survey to be given access to request extra tickets.</h2>
     <h2><%: Model.Survey.Name %></h2>
     
     <% using (Html.BeginForm()) { %>
