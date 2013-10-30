@@ -12,9 +12,6 @@
     <li>
         <%= Html.ActionLink<TermCodeController>(a => a.Index() , "Back to List") %>
     </li>
-    <li>
-        
-    </li>
 </ul>
 
 <div class="page_bar">
