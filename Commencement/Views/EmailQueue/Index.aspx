@@ -16,9 +16,10 @@
         <div class="col1"><h2>Email Queue</h2></div>
         <div class="col2">
             <% if (Convert.ToBoolean(Request.QueryString["showAll"])) { %>
-                <%: Html.ActionLink<EmailQueueController>(a => a.Index(false), "Show Pending", new { @class = "button" })%>
+                <%: Html.ActionLink<EmailQueueController>(a => a.Index(false, false), "Show Pending", new { @class = "button" })%>
             <% } else { %>
-                <%: Html.ActionLink<EmailQueueController>(a => a.Index(true), "Show All", new { @class = "button" })%>
+                <%: Html.ActionLink<EmailQueueController>(a => a.Index(true, false), "Show All", new { @class = "button" })%>
+                <%: Html.ActionLink<EmailQueueController>(a => a.Index(true, true), "Show All Current Term", new { @class = "button" })%>
             <% } %>
             <%: Html.ActionLink<EmailQueueController>(a => a.EmailStudents(), "Mass Email", new { @class="button" })%>
         </div>

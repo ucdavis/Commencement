@@ -36,9 +36,10 @@ namespace Commencement.Controllers
         //
         // GET: /EmailQueue/
 
-        public ActionResult Index(bool showAll = false)
+        public ActionResult Index(bool showAll = false, bool showAllCurrentTerm = false)
         {
-            var ceremonies = _ceremonyService.GetCeremonies(CurrentUser.Identity.Name);
+            var ceremonies = showAllCurrentTerm ? _ceremonyService.GetCeremonies(CurrentUser.Identity.Name, TermService.GetCurrent()) : _ceremonyService.GetCeremonies(CurrentUser.Identity.Name);
+            
             var queue = _emailQueueRepository.Queryable.Where(a => (ceremonies.Contains(a.RegistrationParticipation.Ceremony) 
                                                                 || ceremonies.Contains(a.RegistrationPetition.Ceremony)));
 
