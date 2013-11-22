@@ -74,17 +74,17 @@ namespace Commencement.Controllers
 
             Repository.OfType<ExtraTicketPetition>().EnsurePersistent(petition);
 
-            if (petition.IsApproved)
+  
+            try
             {
-                try
-                {
-                    _emailService.QueueExtraTicketPetitionDecision(participation);
-                }
-                catch (Exception ex)
-                {
-                    _errorService.ReportError(ex);
-                }
+                _emailService.QueueExtraTicketPetitionDecision(participation);
             }
+            catch (Exception ex)
+            {
+                _errorService.ReportError(ex);
+            }
+
+
 
             return Json(string.Empty);
         }
