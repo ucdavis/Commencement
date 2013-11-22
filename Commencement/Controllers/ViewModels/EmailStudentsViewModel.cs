@@ -34,7 +34,7 @@ namespace Commencement.Controllers.ViewModels
             return viewModel;
         }
 
-        public enum MassEmailType { Eligible = 1, Registered = 2, AllEligible = 3 };
+        public enum MassEmailType { Eligible = 1, Registered = 2, AllEligible = 3, ExtraTicketDenied };
     }
     
     

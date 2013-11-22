@@ -166,6 +166,24 @@ namespace Commencement.Controllers
                         Repository.OfType<EmailQueue>().EnsurePersistent(eq);
                     }
                 }
+                else if(emailStudents.EmailType == EmailStudentsViewModel.MassEmailType.ExtraTicketDenied)
+                {
+                    foreach (var participation in emailStudents.Ceremony.RegistrationParticipations.Where(a => a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved == false))
+                    {
+                        var bodyText = _letterGenerator.GenerateEmailAllStudents(emailStudents.Ceremony, participation.Registration.Student, emailStudents.Body, templateType, participation.Registration);
+
+                        var eq = new EmailQueue(participation.Registration.Student, null, emailStudents.Subject, bodyText, false);
+                        eq.Registration = participation.Registration;
+                        eq.RegistrationParticipation = participation;
+
+                        if (attachment != null)
+                        {
+                            eq.Attachment = attachment;
+                        }
+
+                        Repository.OfType<EmailQueue>().EnsurePersistent(eq);
+                    }
+                }
                 
                 Message = "Emails have been queued.";
                 return RedirectToAction("Index");    
