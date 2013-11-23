@@ -23,7 +23,7 @@ namespace Commencement.Controllers
         private readonly ICeremonyService _ceremonyService;
         private readonly ILetterGenerator _letterGenerator;
 
-        private readonly List<string> _massEmailTemplates = new List<string>(new string[3]{StaticValues.Template_NotifyOpenTicketPetitions, StaticValues.Template_RemainingTickets, StaticValues.Template_ElectronicTicketDistribution});
+        private readonly List<string> _massEmailTemplates = new List<string>(new string[4] { StaticValues.Template_NotifyOpenTicketPetitions, StaticValues.Template_RemainingTickets, StaticValues.Template_ElectronicTicketDistribution, StaticValues.Template_TicketPetition_Decision });
 
         public EmailQueueController(IRepository<EmailQueue> emailQueueRepository, IRepositoryWithTypedId<Student, Guid> studentRepository , ICeremonyService ceremonyService, ILetterGenerator letterGenerator)
         {
@@ -110,6 +110,8 @@ namespace Commencement.Controllers
                 ModelState.AddModelError("EmailType", "The Student Population must be Registered when using the Electronic Ticket Distribution Template");
             }
 
+            
+
             if (ModelState.IsValid)
             {
                 Attachment attachment = null;
@@ -166,12 +168,16 @@ namespace Commencement.Controllers
                         Repository.OfType<EmailQueue>().EnsurePersistent(eq);
                     }
                 }
+
+                   
                 else if(emailStudents.EmailType == EmailStudentsViewModel.MassEmailType.ExtraTicketDenied)
                 {
+                    var useTemplate = emailStudents.Ceremony.Templates.FirstOrDefault(a => a.TemplateType == templateType && a.IsActive);
                     foreach (var participation in emailStudents.Ceremony.RegistrationParticipations.Where(a => a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved == false))
                     {
-                        var bodyText = _letterGenerator.GenerateEmailAllStudents(emailStudents.Ceremony, participation.Registration.Student, emailStudents.Body, templateType, participation.Registration);
-
+                        //var bodyText = _letterGenerator.GenerateEmailAllStudents(emailStudents.Ceremony, participation.Registration.Student, emailStudents.Body, templateType, participation.Registration);
+                        var bodyText = _letterGenerator.GenerateExtraTicketRequestPetitionDecision(participation, useTemplate);//(emailStudents.Ceremony, participation.Registration.Student, emailStudents.Body, templateType, participation.Registration);
+                        
                         var eq = new EmailQueue(participation.Registration.Student, null, emailStudents.Subject, bodyText, false);
                         eq.Registration = participation.Registration;
                         eq.RegistrationParticipation = participation;
