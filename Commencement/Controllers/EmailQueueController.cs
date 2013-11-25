@@ -176,7 +176,7 @@ namespace Commencement.Controllers
                     foreach (var participation in emailStudents.Ceremony.RegistrationParticipations.Where(a => a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved == false))
                     {
                         //var bodyText = _letterGenerator.GenerateEmailAllStudents(emailStudents.Ceremony, participation.Registration.Student, emailStudents.Body, templateType, participation.Registration);
-                        var bodyText = _letterGenerator.GenerateExtraTicketRequestPetitionDecision(participation, useTemplate);//(emailStudents.Ceremony, participation.Registration.Student, emailStudents.Body, templateType, participation.Registration);
+                        var bodyText = _letterGenerator.GenerateExtraTicketRequestPetitionDecision(participation, useTemplate, emailStudents.Body);//(emailStudents.Ceremony, participation.Registration.Student, emailStudents.Body, templateType, participation.Registration);
                         
                         var eq = new EmailQueue(participation.Registration.Student, null, emailStudents.Subject, bodyText, false);
                         eq.Registration = participation.Registration;

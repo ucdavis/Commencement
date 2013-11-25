@@ -11,7 +11,7 @@ namespace Commencement.Controllers.Helpers
     {
         string GenerateRegistrationConfirmation(RegistrationParticipation registrationParticipation, Template template);
         string GenerateExtraTicketRequestPetitionConfirmation(RegistrationParticipation registrationParticipation, Template template);
-        string GenerateExtraTicketRequestPetitionDecision(RegistrationParticipation registrationParticipation, Template template);
+        string GenerateExtraTicketRequestPetitionDecision(RegistrationParticipation registrationParticipation, Template template, string body = null);
         //string GenerateExtraTicketRequestPetitionDecision(RegistrationParticipation registrationParticipation, Template template);
         //string GenerateAddPermission(Student student, Template template, Ceremony ceremony);
         string GenerateRegistrationPetitionConfirmation(RegistrationPetition registrationPetition, Template template);
@@ -67,7 +67,7 @@ namespace Commencement.Controllers.Helpers
             return HandleBody(template.BodyText);
         }
 
-        public string GenerateExtraTicketRequestPetitionDecision(RegistrationParticipation registrationParticipation, Template template)
+        public string GenerateExtraTicketRequestPetitionDecision(RegistrationParticipation registrationParticipation, Template template, string body = null)
         {
             Check.Require(registrationParticipation != null, "registrationParticipation is required.");
             Check.Require(registrationParticipation.Registration.Student != null, "registrationParticipation.Registration.Student is required.");
@@ -82,8 +82,14 @@ namespace Commencement.Controllers.Helpers
             _registration = registrationParticipation.Registration;
             _template = template;
             _extraTicketPetition = registrationParticipation.ExtraTicketPetition;
-
-            return HandleBody(template.BodyText);            
+            if(string.IsNullOrWhiteSpace(body))
+            {
+                return HandleBody(template.BodyText);
+            }
+            else
+            {
+                return HandleBody(body);
+            }
         }
 
         public string GenerateRegistrationPetitionConfirmation(RegistrationPetition registrationPetition, Template template)
