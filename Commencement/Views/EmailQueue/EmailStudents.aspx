@@ -44,7 +44,8 @@
                 <%: Html.TextArea("EmailStudents.Body", Model.Body) %>
             </li>
             <li><strong>&nbsp;</strong>
-                <input type="submit" value="Send" class="button" /> |
+                <input type="submit" value="Send" class="button" />
+                <input type="button" value="Send Test Email" id="send-test" class="button" /> |
                 <%: Html.ActionLink("Cancel", "Index", "Admin") %>
             </li>
         </ul>
@@ -108,6 +109,19 @@
                 
 
 
+            });
+
+            $("#send-test").click(function() {
+                var url = '<%: Url.Action("SendTestEmail", "Template") %>';
+                var subject = $("#EmailStudents_Subject").val();
+                var txt = tinyMCE.get("EmailStudents_Body").getContent();
+                var antiForgeryToken = $("input[name='__RequestVerificationToken']").val();
+
+                $.post(url, { subject: subject, message: txt, __RequestVerificationToken: antiForgeryToken }, function(result) {
+                    if (result) alert("Message has been mailed to you.");
+                    else alert("there was an error sending test email");
+                }
+                );
             });
 
         });
