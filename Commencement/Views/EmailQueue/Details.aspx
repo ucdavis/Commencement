@@ -57,7 +57,7 @@
         
         <legend>Attachment</legend>
         
-        <div class="content"><%= Html.ActionLink<EmailQueueController>(b => b.AttachmentDetails(Model.Id), "Attachment") %></div>
+        <div class="content"><%= Html.ActionLink<EmailQueueController>(b => b.AttachmentDetails(Model.Id), "Attachment", new {@class="button"}) %></div>
 
     </fieldset>
         
