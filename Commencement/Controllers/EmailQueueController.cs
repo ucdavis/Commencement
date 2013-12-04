@@ -216,5 +216,16 @@ namespace Commencement.Controllers
             return View(emailQueue);
         }
 
+        public ActionResult AttachmentDetails(int id)
+        {
+            var eq = Repository.OfType<EmailQueue>().GetNullableById(id);
+            if (eq == null || eq.Attachment == null)
+            {
+                return null;
+            }
+
+            return File(eq.Attachment.Contents, eq.Attachment.ContentType, "Attachment");
+        }
+
     }
 }

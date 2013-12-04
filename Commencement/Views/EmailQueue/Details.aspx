@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Core.Domain.EmailQueue>" %>
+<%@ Import Namespace="Commencement.Controllers" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
@@ -50,6 +51,17 @@
         <div class="content"><%= Model.Body %></div>
 
     </fieldset>
+    
+    <%if(Model.Attachment != null) {%>
+        <fieldset>
+        
+        <legend>Attachment</legend>
+        
+        <div class="content"><%= Html.ActionLink<EmailQueueController>(b => b.AttachmentDetails(Model.Id), "Attachment") %></div>
+
+    </fieldset>
+        
+    <%}%>
     
 
 </asp:Content>

@@ -40,6 +40,7 @@
                             col.Bound("Subject");
                             col.Bound("Created");
                             col.Bound("Id");
+                            col.Bound(a => a.Attachment.Id).Title("Attachment Id");
                             col.Add(a => { %>
                                 <img class="cancel" src="<%: Url.Content("~/Images/Cancel-1.png") %>" data-id='<%: a.Id %>' />
                             <% });
