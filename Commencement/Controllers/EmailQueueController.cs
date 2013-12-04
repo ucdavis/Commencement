@@ -11,6 +11,7 @@ using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using UCDArch.Core.PersistanceSupport;
+using UCDArch.Web.ActionResults;
 using UCDArch.Web.Controller;
 
 namespace Commencement.Controllers
@@ -225,6 +226,26 @@ namespace Commencement.Controllers
             }
 
             return File(eq.Attachment.Contents, eq.Attachment.ContentType, "Attachment");
+        }
+
+        public JsonNetResult ReSendEmail(int id)
+        {
+
+            try
+            {
+                var eq = Repository.OfType<EmailQueue>().Queryable.Single(a => a.Id == id);
+                eq.Pending = true;
+                eq.Immediate = true;
+
+                Repository.OfType<EmailQueue>().EnsurePersistent(eq);
+            }
+            catch (Exception)
+            {
+                return new JsonNetResult(new { Success = false, Message = "Error Updating Email Queue" });
+            }
+
+            return new JsonNetResult(new { Success = true, Message = "Record updated and set for Immediate Send" });
+
         }
 
     }

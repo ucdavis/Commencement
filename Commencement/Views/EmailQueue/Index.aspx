@@ -33,7 +33,7 @@
            .Columns(col =>
                         {
                             col.Add(a => { %>
-                                        <%: Html.ActionLink("Details", "Details", new {id=a.Id}, new {@class="button"}) %>
+                                        <%: Html.ActionLink("Details", "Details", new {id=a.Id}, new {@class="button"}) %>  <%if(!a.Pending) {%><img class="resend" src="<%: Url.Content("~/Images/resend.png") %>" data-id='<%: a.Id %>' title="Resend Email"  style="padding-top: 0px; margin-top: 1px; border-top-width: 0px; margin-bottom: -11px;"/><%} %>
                                         <% });
                             col.Bound("Student.StudentId");
                             col.Bound("Student.FullName").Title("Name");
@@ -66,6 +66,26 @@
                                 $(that).parents("tr").css("background", "red");
                             }
                         });
+            });
+
+            $(".resend").click(function () {
+                var url = '<%: Url.Action("ReSendEmail", "EmailQueue") %>';
+                var that = this;
+                $.post(url, { id: $(this).data("id"), __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val() },
+                    function (result) {
+                        if (result) {
+                            if (result.Success) {
+                                $(that).parents("tr").css("background", "green");
+                            } else {
+                                alert("Failed: " + result.Message);
+                                $(that).parents("tr").css("background", "red");
+                            }
+
+                        } else {
+                            alert("Error. Email Queue not updated");
+                            $(that).parents("tr").css("background", "red");
+                        }
+                    });
             });
         });
     </script>

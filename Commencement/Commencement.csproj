@@ -323,6 +323,7 @@
     <Content Include="Content\jquery-ui-1.8.19.custom.css" />
     <Content Include="Images\chart.png" />
     <Content Include="Images\clock.png" />
+    <Content Include="Images\resend.png" />
     <Content Include="Images\transfer.png" />
     <Content Include="Images\to-do-list_checked1_small.gif" />
     <Content Include="Content\jquery.bt.css" />
