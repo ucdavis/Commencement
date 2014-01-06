@@ -28,7 +28,7 @@ namespace Commencement.Controllers.ViewModels
             var viewModel = new ReportViewModel()
                                 {
                                     TermCodes = terms,
-                                    TermCode = TermService.GetCurrent(),
+                                    TermCode = terms.First(),
                                 };
 
             return viewModel;
