@@ -125,6 +125,7 @@ namespace Commencement.Controllers
                     attachment = new Attachment();
                     attachment.Contents = data;
                     attachment.ContentType = file.ContentType;
+                    attachment.FileName = file.FileName;
                 }
 
                 // Those registered
@@ -225,7 +226,7 @@ namespace Commencement.Controllers
                 return null;
             }
 
-            return File(eq.Attachment.Contents, eq.Attachment.ContentType, "Attachment");
+            return File(eq.Attachment.Contents, eq.Attachment.ContentType, eq.Attachment.FileName ?? "Attachment");
         }
 
         public JsonNetResult ReSendEmail(int id)

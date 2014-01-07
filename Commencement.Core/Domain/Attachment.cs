@@ -11,6 +11,9 @@ namespace Commencement.Core.Domain
         [Required]
         [StringLength(50)]
         public virtual string ContentType { get; set; }
+
+        [StringLength(250)]
+        public virtual string FileName { get; set; }
     }
 
     public class AttachmentMap : ClassMap<Attachment>
@@ -21,6 +24,7 @@ namespace Commencement.Core.Domain
 
             Map(x => x.Contents).CustomSqlType("BinaryBlob");
             Map(x => x.ContentType);
+            Map(x => x.FileName);
         }
     }
 }
