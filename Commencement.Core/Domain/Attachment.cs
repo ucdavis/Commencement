@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -6,6 +7,11 @@ namespace Commencement.Core.Domain
 {
     public class Attachment : DomainObject
     {
+        public Attachment()
+        {
+            PublicGuid = Guid.NewGuid();
+        }
+
         [Required]
         public virtual byte[] Contents { get; set; }
         [Required]
@@ -14,6 +20,8 @@ namespace Commencement.Core.Domain
 
         [StringLength(250)]
         public virtual string FileName { get; set; }
+
+        public virtual Guid PublicGuid { get; set; }
     }
 
     public class AttachmentMap : ClassMap<Attachment>
@@ -25,6 +33,7 @@ namespace Commencement.Core.Domain
             Map(x => x.Contents).CustomSqlType("BinaryBlob");
             Map(x => x.ContentType);
             Map(x => x.FileName);
+            Map(x => x.PublicGuid);
         }
     }
 }
