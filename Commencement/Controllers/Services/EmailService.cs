@@ -97,7 +97,7 @@ namespace Commencement.Controllers.Services
             if (template != null)
             {
                 var subject = template.Subject;
-                var body = _letterGenerator.GenerateExtraTicketRequestPetitionDecision(participation, template, null);
+                var body = _letterGenerator.GenerateExtraTicketRequestPetitionDecision(participation, template, null,  null, null);
 
                 var emailQueue = new EmailQueue(participation.Registration.Student, template, subject, body, false);
                 emailQueue.Registration = participation.Registration;
