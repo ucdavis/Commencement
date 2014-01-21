@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using UCDArch.Core.Utils;
@@ -11,13 +13,13 @@ namespace Commencement.Controllers.Helpers
     {
         string GenerateRegistrationConfirmation(RegistrationParticipation registrationParticipation, Template template);
         string GenerateExtraTicketRequestPetitionConfirmation(RegistrationParticipation registrationParticipation, Template template);
-        string GenerateExtraTicketRequestPetitionDecision(RegistrationParticipation registrationParticipation, Template template, string body = null);
+        string GenerateExtraTicketRequestPetitionDecision(RegistrationParticipation registrationParticipation, Template template, Attachment attachment, HttpRequestBase request, UrlHelper url, string body = null);
         //string GenerateExtraTicketRequestPetitionDecision(RegistrationParticipation registrationParticipation, Template template);
         //string GenerateAddPermission(Student student, Template template, Ceremony ceremony);
         string GenerateRegistrationPetitionConfirmation(RegistrationPetition registrationPetition, Template template);
         string GenerateRegistrationPetitionApproved(RegistrationPetition registrationPetition, Template template);
         string GenerateMoveMajor(RegistrationParticipation registrationParticipation, Template template);
-        string GenerateEmailAllStudents(Ceremony ceremony, Student student, string body, TemplateType templateType, Registration registration);
+        string GenerateEmailAllStudents(Ceremony ceremony, Student student, string body, TemplateType templateType, Registration registration, Attachment attachment, HttpRequestBase request, UrlHelper url);
         bool ValidateTemplate(Template template, List<string> invalidTokens);
     }
 
@@ -30,6 +32,9 @@ namespace Commencement.Controllers.Helpers
         private ExtraTicketPetition _extraTicketPetition;
         private Registration _registration;
         private Template _template;
+        private Attachment _attachment;
+        private HttpRequestBase _request;
+        private UrlHelper _url;
 
         public string GenerateRegistrationConfirmation(RegistrationParticipation registrationParticipation, Template template)
         {
@@ -67,7 +72,7 @@ namespace Commencement.Controllers.Helpers
             return HandleBody(template.BodyText);
         }
 
-        public string GenerateExtraTicketRequestPetitionDecision(RegistrationParticipation registrationParticipation, Template template, string body = null)
+        public string GenerateExtraTicketRequestPetitionDecision(RegistrationParticipation registrationParticipation, Template template, Attachment attachment, HttpRequestBase request, UrlHelper url, string body = null)
         {
             Check.Require(registrationParticipation != null, "registrationParticipation is required.");
             Check.Require(registrationParticipation.Registration.Student != null, "registrationParticipation.Registration.Student is required.");
@@ -81,6 +86,10 @@ namespace Commencement.Controllers.Helpers
             _registrationParticipation = registrationParticipation;
             _registration = registrationParticipation.Registration;
             _template = template;
+            _attachment = attachment;
+            _request = request;
+            _url = url;
+
             _extraTicketPetition = registrationParticipation.ExtraTicketPetition;
             if(string.IsNullOrWhiteSpace(body))
             {
@@ -139,12 +148,15 @@ namespace Commencement.Controllers.Helpers
             return HandleBody(template.BodyText);
         }
 
-        public string GenerateEmailAllStudents(Ceremony ceremony, Student student, string body, TemplateType templateType, Registration registration)
+        public string GenerateEmailAllStudents(Ceremony ceremony, Student student, string body, TemplateType templateType, Registration registration, Attachment attachment, HttpRequestBase request, UrlHelper url)
         {
             //Check.Require(registrationParticipation != null, "registrationParticipation is required.");
             Check.Require(ceremony != null, "ceremony is required");
             Check.Require(student != null, "student is required");
             Check.Require(!string.IsNullOrWhiteSpace(body), "body is required.");
+
+            _request = request;
+            _url = url;
 
             _ceremony = ceremony;
             _student = student;
@@ -152,6 +164,7 @@ namespace Commencement.Controllers.Helpers
             //_registration = registrationParticipation.Registration;
             _registration = registration ?? new Registration();
             _template = new Template(){TemplateType = templateType};
+            _attachment = attachment;
 
             return HandleBody(body);
         }
@@ -237,6 +250,15 @@ namespace Commencement.Controllers.Helpers
                 case "state":               return _registration.State.Id;
                 case "zip":                 return _registration.Zip;
                 case "specialneeds":        return string.Join(", ", _registration.SpecialNeeds);
+                case "attachmentlink":      
+                    if(_attachment != null)
+                    {
+                        return string.Format("<a href=\"{0}\">{1}</a>", GetAbsoluteUrl(_request, _url, string.Format("~/Download/Attachment/{0}", _attachment.PublicGuid)), _attachment.FileName);
+                    }
+                    else
+                    {
+                        return "Link for Attachment not found.";
+                    }
             }
 
             // the bottom will handle fields that use either participation or petition values
@@ -348,5 +370,10 @@ namespace Commencement.Controllers.Helpers
             return InvalidTokens.Count <= 0;
         }
         #endregion
+
+        private string GetAbsoluteUrl(HttpRequestBase request, UrlHelper url, string relative)
+        {
+            return string.Format("{0}://{1}{2}", request.Url.Scheme, request.Url.Host, url.Content(relative));
+        }
     }
 }

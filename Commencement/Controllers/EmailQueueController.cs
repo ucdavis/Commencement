@@ -125,6 +125,7 @@ namespace Commencement.Controllers
                     attachment = new Attachment();
                     attachment.Contents = data;
                     attachment.ContentType = file.ContentType;
+                    attachment.FileName = file.FileName;
                 }
 
                 // Those registered
@@ -132,7 +133,7 @@ namespace Commencement.Controllers
                 {
                     foreach (var participation in emailStudents.Ceremony.RegistrationParticipations.Where(a => !a.Cancelled))
                     {
-                        var bodyText = _letterGenerator.GenerateEmailAllStudents(emailStudents.Ceremony, participation.Registration.Student, emailStudents.Body, templateType, participation.Registration);
+                        var bodyText = _letterGenerator.GenerateEmailAllStudents(emailStudents.Ceremony, participation.Registration.Student, emailStudents.Body, templateType, participation.Registration, attachment, Request, Url);
 
                         var eq = new EmailQueue(participation.Registration.Student, null, emailStudents.Subject, bodyText, false);
                         eq.Registration = participation.Registration;
@@ -159,7 +160,7 @@ namespace Commencement.Controllers
 
                     foreach (var student in students)
                     {
-                        var bodyText = _letterGenerator.GenerateEmailAllStudents(emailStudents.Ceremony, student, emailStudents.Body, templateType, null);
+                        var bodyText = _letterGenerator.GenerateEmailAllStudents(emailStudents.Ceremony, student, emailStudents.Body, templateType, null, attachment, Request, Url);
 
                         var eq = new EmailQueue(student, null, emailStudents.Subject, bodyText, false);
                         if (attachment != null)
@@ -177,7 +178,7 @@ namespace Commencement.Controllers
                     foreach (var participation in emailStudents.Ceremony.RegistrationParticipations.Where(a => a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved == false))
                     {
                         //var bodyText = _letterGenerator.GenerateEmailAllStudents(emailStudents.Ceremony, participation.Registration.Student, emailStudents.Body, templateType, participation.Registration);
-                        var bodyText = _letterGenerator.GenerateExtraTicketRequestPetitionDecision(participation, useTemplate, emailStudents.Body);//(emailStudents.Ceremony, participation.Registration.Student, emailStudents.Body, templateType, participation.Registration);
+                        var bodyText = _letterGenerator.GenerateExtraTicketRequestPetitionDecision(participation, useTemplate, attachment, Request, Url, emailStudents.Body);//(emailStudents.Ceremony, participation.Registration.Student, emailStudents.Body, templateType, participation.Registration);
                         
                         var eq = new EmailQueue(participation.Registration.Student, null, emailStudents.Subject, bodyText, false);
                         eq.Registration = participation.Registration;
@@ -225,7 +226,7 @@ namespace Commencement.Controllers
                 return null;
             }
 
-            return File(eq.Attachment.Contents, eq.Attachment.ContentType, "Attachment");
+            return File(eq.Attachment.Contents, eq.Attachment.ContentType, eq.Attachment.FileName ?? "Attachment");
         }
 
         public JsonNetResult ReSendEmail(int id)

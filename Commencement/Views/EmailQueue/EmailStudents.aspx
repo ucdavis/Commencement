@@ -54,6 +54,7 @@
                 <ul class="registration_form">
                     <% foreach (var a in Model.TemplateTypes) { %>
                         <div id="<%: a.Code %>" class="tokens" style='<%: Model.TemplateType != null && Model.TemplateType.Code == a.Code ? "display:block;" : "display:none;" %>'>
+                            <li><a href="javascript:;" class="add_token" data-token="<%: @Html.Encode("{AttachmentLink}") %>"><%: @Html.Encode("Attachment Link")  %></a></li>
                             <% foreach (var b in a.TemplateTokens) { %>
                                 <li><a href="javascript:;" class="add_token" data-token="<%: b.Token %>"><%: b.Name %></a></li>
                             <% } %>
@@ -61,6 +62,7 @@
                     <% } %>
                 </ul>
            </div>
+           
 
         <div style="clear: both;"></div>
     <% } %>
