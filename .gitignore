@@ -34,3 +34,5 @@ Commencement.SQL/Commencement.SQL.dbmdl
 Commencement.Db/sandbox/*
 Students.Db/sandbox/*
 Catbert3.Db/sandbox/*
+Commencement.Db/sql/Test/*.dacpac
+Commencement.Db/sql/Test/*.dll
