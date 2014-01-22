@@ -138,11 +138,11 @@
 
         <fieldset>
         
-            <legend>Classic Photography</legend>
+            <legend>GradImages</legend>
 
             <ul class="registration_form">
                 <li><strong>&nbsp;</strong>
-                <%= Html.CheckBox("gradTrack", Model.RegistrationModel.Registration.GradTrack) %><label for="gradTrack">Student has authorized information to be released to Classic Photography</label>
+                <%= Html.CheckBox("gradTrack", Model.RegistrationModel.Registration.GradTrack) %><label for="gradTrack">Student has authorized information to be released to GradImages</label>
                 </li>
             </ul>
         </fieldset>

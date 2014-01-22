@@ -58,10 +58,10 @@
         
         <fieldset>
             
-            <legend>Classic Photography</legend>
+            <legend>GradImages</legend>
             
             <div class="disclaimer">
-                May we provide your information to Classic Photography? Classic Photography will use your information to provide you with your photo proof(s) after the ceremony. There is no obligation to purchase photos and your personal information will be used for the delivery of proofs only. Classic Photography will not provide the information to any other entity, except for if required by law.
+                May we provide your information to GradImages? GradImages will use your information to provide you with your proof(s) after the ceremony. There is no obligation to purchase photos and your personal information will be used for the delivery of proofs only. GradImages will not provide your information to any other entity, except for if required by law.
             </div>
             
             <ul class="registration_form">
