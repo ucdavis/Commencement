@@ -10,5 +10,6 @@
     [RelationshipToStudent] VARCHAR(100) NOT NULL, 
     [RelativeMailingAddress] VARCHAR(500) NOT NULL, 
     [IsApproved] BIT NOT NULL DEFAULT 0, 
-    [DateApproved] DATETIME NULL    
+    [DateApproved] DATETIME NULL, 
+    [IsActive] BIT NOT NULL DEFAULT 1    
 )
