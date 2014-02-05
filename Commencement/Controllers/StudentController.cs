@@ -322,6 +322,14 @@ namespace Commencement.Controllers
                 {
                     Repository.OfType<EmailQueue>().Remove(queue);
                 }
+
+                //Clear out any surveys they answered
+                var registrationSurvey = Repository.OfType<RegistrationSurvey>().Queryable.Where(a => a.RegistrationPetition == regPetition).ToList();
+                foreach (var survey in registrationSurvey)
+                {
+                    Repository.OfType<RegistrationSurvey>().Remove(survey);
+                }
+
                 Repository.OfType<RegistrationPetition>().Remove(regPetition);
 
                 // check if we can delete the registration object
