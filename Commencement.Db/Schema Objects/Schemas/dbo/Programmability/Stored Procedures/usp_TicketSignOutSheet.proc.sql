@@ -12,9 +12,11 @@ AS
 		, rp.NumberTickets RegistrationTickets
 		, ISNULL(etp.NumberTickets, 0) ExtraTickets
 		, ISNULL(etp.NumberTicketsStreaming, 0) ExtraStreamingTickets
+		, Majors.CollegeCode
 	from RegistrationParticipations rp
 		inner join Registrations reg on rp.RegistrationId = reg.id
 		inner join Students on students.Id = reg.Student_Id
+		inner join Majors ON rp.MajorCode = Majors.id
 		left outer join ExtraTicketPetitions etp on etp.id = rp.ExtraTicketPetitionId and etp.IsPending = 1 and etp.IsApproved = 1
 	where students.TermCode = @term
 	  and reg.MailTickets = 0
