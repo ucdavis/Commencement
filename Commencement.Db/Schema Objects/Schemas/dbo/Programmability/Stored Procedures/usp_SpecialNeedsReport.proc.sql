@@ -34,11 +34,13 @@ select students.LastName, students.FirstName, students.StudentId
 	, dbo.udf_GetSpecialNeedsCSV(reg.id) as SpecialNeeds
 	, TermCodes.Name as Term
 	, Ceremonies.id
+	, Majors.CollegeCode
 from Registrations reg
 	inner join Students on students.Id = reg.Student_Id
 	inner join RegistrationParticipations rp on rp.RegistrationId = reg.id
 	inner join Ceremonies on rp.CeremonyId = Ceremonies.id
 	inner join TermCodes on Ceremonies.TermCode = termcodes.id
+	inner join Majors ON rp.MajorCode = Majors.id
 where students.TermCode = @term
   and students.SJABlock = 0
   and rp.Cancelled = 0
