@@ -20,10 +20,11 @@ AS
 --									and TermCode = @term)
 --order by students.lastname
 
-select stud.StudentId, stud.LastName, stud.FirstName, stud.MI, rp.MajorCode
+select stud.StudentId, stud.LastName, stud.FirstName, stud.MI, rp.MajorCode, Majors.CollegeCode
 from RegistrationParticipations rp
 	inner join Registrations reg on rp.RegistrationId = reg.id
 	inner join Students stud on reg.Student_Id = stud.Id
+	inner join Majors ON rp.MajorCode = Majors.id
 where stud.SJABlock = 0
   and rp.Cancelled = 0
   and rp.CeremonyId in ( select CeremonyId from CeremonyEditors 
