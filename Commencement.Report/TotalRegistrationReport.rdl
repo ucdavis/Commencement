@@ -526,6 +526,9 @@
             <TablixColumn>
               <Width>1.40234in</Width>
             </TablixColumn>
+            <TablixColumn>
+              <Width>1in</Width>
+            </TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
@@ -1222,6 +1225,45 @@
                     </Textbox>
                   </CellContents>
                 </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox5">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Grad Images</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>DimGray</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox5</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightSteelBlue</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BottomBorder>
+                          <Width>1.5pt</Width>
+                        </BottomBorder>
+                        <BackgroundColor>AliceBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
               </TablixCells>
             </TablixRow>
             <TablixRow>
@@ -1852,12 +1894,52 @@
                     </Textbox>
                   </CellContents>
                 </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="GradImages">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!GradImages.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>GradImages</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightSteelBlue</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BottomBorder>
+                          <Color>CornflowerBlue</Color>
+                        </BottomBorder>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                        </RightBorder>
+                        <BackgroundColor>AliceBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
               </TablixCells>
             </TablixRow>
           </TablixRows>
         </TablixBody>
         <TablixColumnHierarchy>
           <TablixMembers>
+            <TablixMember />
             <TablixMember />
             <TablixMember />
             <TablixMember />
@@ -1911,7 +1993,7 @@
         </SortExpressions>
         <Top>1.84469in</Top>
         <Height>0.48958in</Height>
-        <Width>22.37164in</Width>
+        <Width>23.37164in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -1923,7 +2005,7 @@
     <Height>3.34409in</Height>
     <Style />
   </Body>
-  <Width>22.37164in</Width>
+  <Width>23.37164in</Width>
   <Page>
     <PageHeader>
       <Height>1.39966in</Height>
@@ -2224,6 +2306,10 @@
         </Field>
         <Field Name="CollegeCode">
           <DataField>CollegeCode</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="GradImages">
+          <DataField>GradImages</DataField>
           <rd:UserDefined>true</rd:UserDefined>
         </Field>
       </Fields>
