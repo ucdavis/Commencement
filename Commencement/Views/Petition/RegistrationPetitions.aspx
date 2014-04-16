@@ -35,6 +35,7 @@
                                          <% });
                              col.Bound(a => a.Registration.Student.LastName);
                              col.Bound(a => a.Registration.Student.FirstName);
+                             col.Bound(a => a.Registration.Student.EarnedUnits).Title("Units");
                              col.Bound(a => a.MajorCode.Name).Title("Major");
                              col.Bound(a => a.MajorCode.College.Id).Title("College");
                              col.Bound(a => a.Ceremony.DateTime).Title("Ceremony");
