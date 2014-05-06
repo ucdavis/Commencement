@@ -199,6 +199,7 @@
     <Compile Include="Controllers\Filters\LoadDisplayDataAttribute.cs" />
     <Compile Include="Controllers\Filters\PageTrackingFilter.cs" />
     <Compile Include="Controllers\Filters\SessionExpirationFilter.cs" />
+    <Compile Include="Controllers\Helpers\CASHelper.cs" />
     <Compile Include="Controllers\Helpers\CeremonyMajorCheck.cs" />
     <Compile Include="Controllers\Helpers\CopyHelper.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
