@@ -53,11 +53,13 @@
             </ul>
         </div>
     
-    
+        <% var count = 1; %>
+        
         <% Html.Grid(Model.RegistrationParticipations)
                .Name("Participations")
                .Columns(col =>
                             {
+                                col.Add(a=>{ %><%: count++ %><%}).Title("Row");
                                 col.Add(a => { %>
                                     <% if (a.ExtraTicketPetition.IsPending) { %>
                                     <img src='<%: Url.Content("~/Images/CheckMark-1.png") %>' class="decision" data-approve="true" data-participationId='<%: a.Id %>' />
