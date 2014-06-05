@@ -224,14 +224,15 @@ namespace Commencement.Controllers
                 {
                     string cell = string.Empty;
 
-                    if (rp.TicketDistributionMethod.Id == StaticIndexes.Td_Mail)
+
+                    if (rp.TicketDistributionMethod != null && rp.TicketDistributionMethod.Id == StaticIndexes.Td_Mail)
                     {
                         var address2 = string.IsNullOrEmpty(rp.Registration.Address2) ? string.Empty : string.Format(Labels.Avergy5160_Mail_Address2, rp.Registration.Address2);
                         cell = string.Format(Labels.Avery5160_MailCell, rp.Registration.Student.FullName, rp.Registration.Address1,
                                                  address2, rp.Registration.City + ", " + rp.Registration.State.Id + " " + rp.Registration.Zip
                                                  , rp.Registration.RegistrationParticipations[0].Ceremony.DateTime.ToString("t") + "-" + ticketString);
                     }
-                    else if(rp.TicketDistributionMethod.Id == StaticIndexes.Td_Pickup)
+                    else if(rp.TicketDistributionMethod != null && rp.TicketDistributionMethod.Id == StaticIndexes.Td_Pickup)
                     {
                         cell = string.Format(Labels.Avery5160_PickupCell, rp.Registration.Student.FullName,
                                              rp.Registration.Student.StudentId, string.Format("{0} ({1})", rp.Registration.RegistrationParticipations[0].Major.Id, rp.Registration.RegistrationParticipations[0].Major.College.Id)
