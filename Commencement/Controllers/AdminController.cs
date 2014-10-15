@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
@@ -7,6 +8,8 @@ using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
+using NHibernate.Mapping;
+using NPOI.SS.Formula.Functions;
 using UCDArch.Core.PersistanceSupport;
 using MvcContrib;
 using UCDArch.Web.Helpers;
@@ -408,5 +411,80 @@ namespace Commencement.Controllers
             var viewModel = AdminMajorsViewModel.Create(Repository, _ceremonyService,_registrationService, CurrentUser);
             return View(viewModel);
         }
+
+        public ActionResult VisaLetters(DateTime? startDate, DateTime? endDate, bool showAll = false)
+        {
+            var visaLetters = Repository.OfType<VisaLetter>().Queryable;
+            if (!showAll)
+            {
+                visaLetters = visaLetters.Where(a => a.IsPending);
+            }
+            if (startDate.HasValue)
+            {
+                visaLetters = visaLetters.Where(a => a.DateCreated >= startDate.Value.Date);
+            }
+            if (endDate.HasValue)
+            {
+                visaLetters = visaLetters.Where(a => a.DateCreated <= endDate.Value.Date.AddDays(1));
+            }
+
+            var model = AdminVisaLetterListViewModel.Create(visaLetters.ToList(), showAll, startDate, endDate);
+
+            return View(model);
+        }
+
+        public ActionResult VisaLetterDecide(int id)
+        {
+            var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id);
+
+            return View(letter);
+        }
+
+        [HttpPost]
+        public ActionResult VisaLetterDecide(int id, VisaLetter model) //TODO: Put in extra parameters for Approve/Deny/Just Edit?
+        {
+            var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id);
+
+            letter.Ceremony = model.Ceremony;
+            letter.CeremonyDateTime = model.CeremonyDateTime;
+            letter.CollegeName = model.CollegeName;
+            letter.Gender = model.Gender;
+            letter.MajorName = model.MajorName;
+            letter.RelationshipToStudent = model.RelationshipToStudent;
+            letter.RelativeFirstName = model.RelativeFirstName;
+            letter.RelativeLastName = model.RelativeLastName;
+            letter.RelativeMailingAddress = model.RelativeMailingAddress;
+            letter.RelativeTitle = model.RelativeTitle;
+
+
+            if (model.IsPending == false) //Just have a check box that says "decide"
+            {
+                letter.DateDecided = DateTime.Now;
+                letter.IsPending = false;
+                letter.IsApproved = model.IsApproved;
+                letter.ApprovedBy = CurrentUser.Identity.Name;
+            }
+
+
+
+            letter.TransferValidationMessagesTo(ModelState);
+
+            //TODO: Extra validation check because admin will have to set things (like ceremony date).
+
+            if (ModelState.IsValid)
+            {
+                Repository.OfType<VisaLetter>().EnsurePersistent(letter);
+                //TODO: Email notification
+                Message = "Letter updated";
+                return this.RedirectToAction("VisaLetters");
+            }
+
+            Message = "Please correct errors and try again.";
+            return View(letter);
+
+
+        }
     }
+
+
 }

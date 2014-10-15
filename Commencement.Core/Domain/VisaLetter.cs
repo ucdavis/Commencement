@@ -62,6 +62,8 @@ namespace Commencement.Core.Domain
         public virtual string MajorName { get; set; } //Drop down list, try to fill out for student
 
         public virtual DateTime? CeremonyDateTime { get; set; } //If ceremony is not created, allow admin to pick date.
+
+        public virtual string ApprovedBy { get; set; } //Or maybe edited by, etc.
     }
 
     public class VisaLetterMap : ClassMap<VisaLetter>
@@ -85,6 +87,7 @@ namespace Commencement.Core.Domain
             Map(x => x.IsPending);
             Map(x => x.CollegeName);
             Map(x => x.CeremonyDateTime);
+            Map(x => x.ApprovedBy);
         }
     }
 }

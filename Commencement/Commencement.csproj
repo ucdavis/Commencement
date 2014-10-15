@@ -241,6 +241,7 @@
     <Compile Include="Controllers\ViewModels\AdminPetitionsViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminRegisterForStudentViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminRegistrationPetitionViewModel.cs" />
+    <Compile Include="Controllers\ViewModels\AdminVisaLetterViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeCeremonyViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeMajorViewModel.cs" />
     <Compile Include="Controllers\ViewModels\EmailStudentsViewModel.cs" />
@@ -659,8 +660,10 @@
     <Content Include="Views\Admin\MoveMajor.aspx" />
     <Content Include="Views\Admin\RegisterForStudent.aspx" />
     <Content Include="Views\Admin\Registrations.aspx" />
+    <Content Include="Views\Admin\VisaLetterDecide.aspx" />
     <Content Include="Views\Admin\StudentDetails.aspx" />
     <Content Include="Views\Admin\Students.aspx" />
+    <Content Include="Views\Admin\VisaLetters.aspx" />
     <Content Include="Views\Ceremony\AddEditor.aspx" />
     <Content Include="Views\Ceremony\CeremonyPartial.ascx" />
     <Content Include="Views\Ceremony\Create.aspx" />

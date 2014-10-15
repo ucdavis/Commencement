@@ -404,6 +404,9 @@ namespace Commencement.Controllers
             visaLetter.TransferValidationMessagesTo(ModelState);
             if (ModelState.IsValid)
             {
+                //TODO: Try and pull to see if student is registered. If so, set values for which ceremony and which date.
+
+
                 Repository.OfType<VisaLetter>().EnsurePersistent(visaLetter);
                 Message = "Visa Letter Request created.";
                 return this.RedirectToAction("VisaLetters");
@@ -411,6 +414,25 @@ namespace Commencement.Controllers
 
             Message = "Please correct errors and try again.";
             return View(visaLetter);
+        }
+
+        public ActionResult VisaLetterPdf(int id)
+        {
+            // validate student is in our DB, otherwise we need to do a lookup
+            var student = GetCurrentStudent();
+
+            // we were just unable to find record
+            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
+
+            var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id && a.Student.StudentId == student.StudentId); //Only allow that student to print it.
+
+            if (!letter.IsApproved || letter.IsPending)
+            {
+                Message = "Approved Letter Not Found";
+                return this.RedirectToAction<ErrorController>(a => a.NotFound());
+            }
+
+            throw new NotImplementedException("Need to write the code to generate the PDF");
         }
 
         #region Helper Methods
