@@ -739,6 +739,7 @@
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_RegistrationNotMatchingCeremonyMajor.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\CeremonySurveys.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Views\vPendingEmail.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\VisaLetters.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Catbert3.Db\Catbert3.Db.sqlproj">

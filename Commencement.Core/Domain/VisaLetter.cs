@@ -51,11 +51,12 @@ namespace Commencement.Core.Domain
 
         public virtual bool IsApproved { get; set; }
 
+
         //TODO: Who approved it so we can get the signature block and other info.
 
-        public virtual DateTime? DateApproved { get; set; }
+        public virtual DateTime? DateDecided { get; set; }
 
-        public virtual bool IsActive { get; set; }
+        public virtual bool IsPending { get; set; }
 
         public virtual string CollegeName { get; set; } //Drop down list for student, try to pick for student
         public virtual string MajorName { get; set; } //Drop down list, try to fill out for student
@@ -80,8 +81,8 @@ namespace Commencement.Core.Domain
             Map(x => x.RelationshipToStudent);
             Map(x => x.RelativeMailingAddress);
             Map(x => x.IsApproved);
-            Map(x => x.DateApproved);
-            Map(x => x.IsActive);
+            Map(x => x.DateDecided);
+            Map(x => x.IsPending);
             Map(x => x.CollegeName);
             Map(x => x.CeremonyDateTime);
         }
