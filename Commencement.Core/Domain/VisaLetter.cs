@@ -17,7 +17,7 @@ namespace Commencement.Core.Domain
 
         private void SetDefaults()
         {
-            IsActive = true;
+            IsPending = true;
             IsApproved = false;
             DateCreated = DateTime.Now;
         }
