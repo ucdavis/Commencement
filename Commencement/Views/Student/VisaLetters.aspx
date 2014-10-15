@@ -8,11 +8,13 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-
+    <ul class="btn">
+        <li><%: Html.ActionLink<HomeController>(a=>a.Index(), "Home") %></li>
+    </ul>
     <div class="page_bar">
         <div class="col1"><h2>Visa Letters</h2></div>
         <div class="col2">
-            <%: Html.ActionLink<StudentController>(a => a.VisaLetters(), "Request New Letter", new { @class = "button" })%>
+            <%: Html.ActionLink<StudentController>(a => a.RequestVisaLetter(), "Request New Letter", new { @class = "button" })%>
         </div>
     </div>
 

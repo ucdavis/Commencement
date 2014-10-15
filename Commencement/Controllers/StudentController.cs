@@ -367,6 +367,28 @@ namespace Commencement.Controllers
             return View(letters);
         }
 
+        public ActionResult RequestVisaLetter()
+        {
+            // validate student is in our DB, otherwise we need to do a lookup
+            var student = GetCurrentStudent();
+
+            // we were just unable to find record
+            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
+
+            var letter = new VisaLetter();
+            letter.Student = student;
+            var major = student.Majors.FirstOrDefault();
+            if (major != null)
+            {
+                letter.MajorName = major.MajorName;
+                letter.CollegeName = major.College.Name;
+            }
+            letter.RelativeTitle = "Dr";
+            
+
+            return View(letter);
+        }
+
         #region Helper Methods
         /// <summary>
         /// Does initial checks so that students are always redirected correctly for first time registration
