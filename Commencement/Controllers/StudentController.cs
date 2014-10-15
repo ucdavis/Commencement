@@ -353,6 +353,20 @@ namespace Commencement.Controllers
             return View();
         }
 
+        [PageTrackingFilter]
+        public ActionResult VisaLetters()
+        {
+            // validate student is in our DB, otherwise we need to do a lookup
+            var student = GetCurrentStudent();
+
+            // we were just unable to find record
+            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
+
+            var letters = Repository.OfType<VisaLetter>().Queryable.Where(a => a.Student.StudentId == student.StudentId).ToList();
+
+            return View(letters);
+        }
+
         #region Helper Methods
         /// <summary>
         /// Does initial checks so that students are always redirected correctly for first time registration

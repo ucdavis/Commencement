@@ -697,6 +697,7 @@
     <Content Include="Views\Student\CancelRegistartionPetitionConfirm.aspx" />
     <Content Include="Views\Student\CancelRegistrationPetition.aspx" />
     <Content Include="Views\Student\DisplayRegistration.aspx" />
+    <Content Include="Views\Student\VisaLetters.aspx" />
     <Content Include="Views\Student\Register.aspx" />
     <Content Include="Views\Shared\RegistrationDisplay.ascx" />
     <Content Include="Views\Survey\Create.aspx" />
