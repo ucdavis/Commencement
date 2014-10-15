@@ -33,7 +33,7 @@
         </li>
         
         <li><strong>College Name:</strong>
-            <%: Html.TextBoxFor(a=>a.CollegeName) %>
+            <%: Html.DropDownListFor(a=>a.CollegeName, SelectLists.CollegeNames) %>
             <%: Html.ValidationMessageFor(a=>a.CollegeName) %>
         </li>
         
@@ -85,38 +85,9 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            $("#AddMajorDropDown").chosen({ no_results_text: "No results matched" });
+            $("#CollegeName").chosen({ no_results_text: "No results matched" }); //TODO: Test this.
 
-            $(".AddMajor").click(function () {
-                var selectedOption = $("#AddMajorDropDown option:selected");
-
-                if (selectedOption.val() != "") {
-                    var tr = $("<tr>");
-                    var cell1 = $("<td>");
-                    var cell2 = $("<td>");
-                    var cell3 = $("<td>");
-
-                    cell1.append($("<button>").attr("type", "button").text("-").attr("name", "RemoveMajor").addClass("RemoveMajor"));
-                    cell1.append($("<input>").attr("type", "hidden").attr("id", "Student_Majors").attr("name", "Student.Majors").val(selectedOption.val()));
-
-                    cell2.html(selectedOption.val());
-                    cell3.html(selectedOption[0].text).addClass("t-last");
-
-                    tr.append(cell1).append(cell2).append(cell3);
-                    if ($("#Majors table tbody tr").length % 2 == 1) tr.addClass("t-alt");
-                    $("#Majors table tbody").append(tr);
-                }
-            });
-            $(".RemoveMajor").live('click', function () {
-                var count = $("#Majors table tbody tr").length;
-
-                if (count > 1) {    // include header row in the count
-                    $(this).parents("tr").remove();
-                }
-                else {
-                    alert("Student must have at least one major.  You cannot remove all majors.");
-                }
-            });
+           
         });
     </script>
 

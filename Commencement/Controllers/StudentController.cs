@@ -367,6 +367,7 @@ namespace Commencement.Controllers
             return View(letters);
         }
 
+        [PageTrackingFilter]
         public ActionResult RequestVisaLetter()
         {
             // validate student is in our DB, otherwise we need to do a lookup
@@ -381,12 +382,35 @@ namespace Commencement.Controllers
             if (major != null)
             {
                 letter.MajorName = major.MajorName;
-                letter.CollegeName = major.College.Name;
+                letter.CollegeName = major.College.Id;
             }
-            letter.RelativeTitle = "Dr";
+            
             
 
             return View(letter);
+        }
+
+        [HttpPost]
+        [PageTrackingFilter]
+        public ActionResult RequestVisaLetter(VisaLetter visaLetter)
+        {
+            // validate student is in our DB, otherwise we need to do a lookup
+            var student = GetCurrentStudent();
+
+            // we were just unable to find record
+            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
+
+            visaLetter.Student = student;
+            visaLetter.TransferValidationMessagesTo(ModelState);
+            if (ModelState.IsValid)
+            {
+                Repository.OfType<VisaLetter>().EnsurePersistent(visaLetter);
+                Message = "Visa Letter Request created.";
+                return this.RedirectToAction("VisaLetters");
+            }
+
+            Message = "Please correct errors and try again.";
+            return View(visaLetter);
         }
 
         #region Helper Methods
