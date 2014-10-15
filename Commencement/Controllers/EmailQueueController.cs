@@ -84,6 +84,7 @@ namespace Commencement.Controllers
         [ValidateInput(false)]
         public ActionResult EmailStudents(EmailStudentsViewModel emailStudents, HttpPostedFileBase file)
         {
+            var studentList = new List<Student>();
             // get the template type
             var templateType = emailStudents.TemplateType;
 
@@ -143,8 +144,14 @@ namespace Commencement.Controllers
                         {
                             eq.Attachment = attachment;
                         }
-
-                        Repository.OfType<EmailQueue>().EnsurePersistent(eq);
+                        if (emailStudents.JustListStudents)
+                        {
+                            studentList.Add(participation.Registration.Student);
+                        }
+                        else
+                        {
+                            Repository.OfType<EmailQueue>().EnsurePersistent(eq);
+                        }
                     }
                 }
                 // Those eligible but not registered
@@ -167,7 +174,14 @@ namespace Commencement.Controllers
                         {
                             eq.Attachment = attachment;
                         }
-                        Repository.OfType<EmailQueue>().EnsurePersistent(eq);
+                        if (emailStudents.JustListStudents)
+                        {
+                            studentList.Add(student);
+                        }
+                        else
+                        {
+                            Repository.OfType<EmailQueue>().EnsurePersistent(eq);
+                        }
                     }
                 }
 
@@ -188,13 +202,26 @@ namespace Commencement.Controllers
                         {
                             eq.Attachment = attachment;
                         }
-
-                        Repository.OfType<EmailQueue>().EnsurePersistent(eq);
+                        if (emailStudents.JustListStudents)
+                        {
+                            studentList.Add(participation.Registration.Student);
+                        }
+                        else
+                        {
+                            Repository.OfType<EmailQueue>().EnsurePersistent(eq);
+                        }
                     }
                 }
-                
-                Message = "Emails have been queued.";
-                return RedirectToAction("Index");    
+                if (emailStudents.JustListStudents)
+                {
+                    Message = "Note: Students Not Emailed, this is just a list";
+                    return View("ListStudents", studentList);
+                }
+                else
+                {
+                    Message = "Emails have been queued.";
+                    return RedirectToAction("Index");
+                }
             }
 
             var viewModel = EmailStudentsViewModel.Create(Repository, _ceremonyService, CurrentUser.Identity.Name, _massEmailTemplates);

@@ -20,6 +20,8 @@ namespace Commencement.Controllers.ViewModels
         public MassEmailType EmailType { get; set; }
         public TemplateType TemplateType { get; set; }
 
+        public bool JustListStudents { get; set; }
+
         public static EmailStudentsViewModel Create(IRepository repository, ICeremonyService ceremonyService, string userId, List<string> templateNames )
         {
             Check.Require(repository != null, "Repository is required.");
@@ -28,7 +30,8 @@ namespace Commencement.Controllers.ViewModels
             var viewModel = new EmailStudentsViewModel()
                                 {
                                     Ceremonies = ceremonyService.GetCeremonies(userId, TermService.GetCurrent()),
-                                    TemplateTypes = repository.OfType<TemplateType>().Queryable.Where(a => templateNames.Contains(a.Name)).ToList()
+                                    TemplateTypes = repository.OfType<TemplateType>().Queryable.Where(a => templateNames.Contains(a.Name)).ToList(),
+                                    JustListStudents = false
                                 };
 
             return viewModel;

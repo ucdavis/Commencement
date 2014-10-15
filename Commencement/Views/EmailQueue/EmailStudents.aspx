@@ -43,6 +43,10 @@
             <li><strong>Body:<%: Html.ValidationMessage("Body", "*") %></strong>
                 <%: Html.TextArea("EmailStudents.Body", Model.Body) %>
             </li>
+            <li>
+                <%: Html.CheckBox("EmailStudents.JustListStudents", Model.JustListStudents)%>
+                <strong>Just List Students. Don't Email</strong>
+            </li>
             <li><strong>&nbsp;</strong>
                 <input type="submit" value="Send" class="button" />
                 <input type="button" value="Send Test Email" id="send-test" class="button" /> |

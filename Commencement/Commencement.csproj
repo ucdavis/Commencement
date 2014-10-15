@@ -666,6 +666,7 @@
     <Content Include="Views\Ceremony\Edit.aspx" />
     <Content Include="Views\Ceremony\EditPermissions.aspx" />
     <Content Include="Views\Ceremony\Index.aspx" />
+    <Content Include="Views\EmailQueue\ListStudents.aspx" />
     <Content Include="Views\EmailQueue\Details.aspx" />
     <Content Include="Views\EmailQueue\EmailStudents.aspx" />
     <Content Include="Views\EmailQueue\Index.aspx" />
