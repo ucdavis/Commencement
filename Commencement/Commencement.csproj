@@ -677,6 +677,7 @@
     <Content Include="Views\Error\NotEligible.aspx" />
     <Content Include="Views\Error\NotFound.aspx" />
     <Content Include="Views\Error\NotOpen.aspx" />
+    <Content Include="Views\Error\CeremonyOver.aspx" />
     <Content Include="Views\Error\PreviouslyWalked.aspx" />
     <Content Include="Views\Error\SJA.aspx" />
     <Content Include="Views\Error\UnauthorizedAccess.aspx" />

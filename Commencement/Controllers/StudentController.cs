@@ -379,6 +379,7 @@ namespace Commencement.Controllers
             // we were just unable to find record
             if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
 
+
             var letter = new VisaLetter();
             letter.Student = student;
             letter.StudentFirstName = student.FirstName;
@@ -389,6 +390,26 @@ namespace Commencement.Controllers
                 letter.MajorName = major.MajorName;
                 letter.CollegeName = major.College.Id;
             }
+
+            var checkStudent = CheckStudentForVisaLetter();
+            switch (checkStudent)
+            {
+                case "NotEligible":
+                    return this.RedirectToAction<ErrorController>(a => a.NotEligible()); //Blocked
+                case "SJA":
+                    return this.RedirectToAction<ErrorController>(a => a.SJA());
+                case "S":
+                    letter.Ceremony = 'S';
+                    break;
+                case "F":
+                    letter.Ceremony = 'F';
+                    break;
+                case "PreviouslyWalked":
+                    return this.RedirectToAction<ErrorController>(a => a.PreviouslyWalked());
+                case "CeremonyOver":
+                    return this.RedirectToAction<ErrorController>(a => a.CeremonyOver());
+
+            }            
 
             
 
@@ -551,6 +572,65 @@ namespace Commencement.Controllers
             {
                 return this.RedirectToAction<ErrorController>(a => a.NotEligible());
             }
+
+            return null;
+        }
+
+        private string CheckStudentForVisaLetter()
+        {
+            var termCode = TermService.GetCurrent();
+            var student = _studentService.GetCurrentStudent(CurrentUser);
+
+            // unable to find record for some reason, either from download or banner lookup
+            if (student == null || student.Blocked)
+            {
+                return "NotEligible";// this.RedirectToAction<ErrorController>(a => a.NotEligible());
+            }
+
+            // student is blocked becuase of sja
+            if (student.SjaBlock)
+            {
+                return "SJA"; // this.RedirectToAction<ErrorController>(a => a.SJA());
+            }
+
+            // check for a current registration, there should only be one
+            var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == student && a.TermCode.Id == termCode.Id);
+
+            // has this student registered yet?
+            if (currentReg != null)
+            {
+                // display previous registration
+                var participation = currentReg.RegistrationParticipations.FirstOrDefault(a => !a.Cancelled && !a.Registration.Student.SjaBlock && !a.Registration.Student.Blocked);
+                if (participation != null)
+                {
+                    if (participation.Ceremony.DateTime < DateTime.Now)
+                    {
+                        return "CeremonyOver";
+                    }
+                    return termCode.Name[0].ToString();
+                }
+                
+            }
+
+            //// no active term, or current term's reg is not open
+            //if (termCode == null || !termCode.CanRegister())
+            //{
+            //    return this.RedirectToAction<ErrorController>(a => a.NotOpen());
+            //}
+
+            // load all part participations that were never cancelled or blocked
+            var participations = _participationRepository.Queryable.Where(a => a.Registration.Student == student && !a.Cancelled && !a.Registration.Student.SjaBlock && !a.Registration.Student.Blocked).ToList();
+
+            // get the list of all colleges for the student, that the student has walked for
+            var pastColleges = participations.Where(a => a.Registration.TermCode.Id != termCode.Id).Select(a => a.Major.College).Distinct().ToList();
+
+            // all current colleges match those of previously walked
+            if (student.Majors.All(a => pastColleges.Contains(a.College)) && pastColleges.Count > 0)
+            {
+                // redirect to past registration message
+                return "PreviouslyWalked"; // this.RedirectToAction<ErrorController>(a => a.PreviouslyWalked());
+            }
+
 
             return null;
         }
