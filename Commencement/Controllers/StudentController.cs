@@ -414,6 +414,7 @@ namespace Commencement.Controllers
             visaLetter.RelativeTitle = model.RelativeTitle;
             visaLetter.StudentFirstName = model.StudentFirstName;
             visaLetter.StudentLastName = model.StudentLastName;
+            visaLetter.Gender = model.Gender;
 
             visaLetter.TransferValidationMessagesTo(ModelState);
             if (ModelState.IsValid)
