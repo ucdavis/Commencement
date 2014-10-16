@@ -20,16 +20,13 @@
             <%: Model.Student.Email %>
         </li>
         <li><strong>First Name:</strong>
-            <%: Html.TextBoxFor(a=>a.Student.FirstName) %>
-            <%: Html.ValidationMessageFor(a=>a.Student.FirstName) %>
+            <%: Html.TextBoxFor(a=>a.StudentFirstName) %>
+            <%: Html.ValidationMessageFor(a=>a.StudentFirstName) %>
         </li>
-        <li><strong>MI:</strong>
-            <%: Html.TextBoxFor(a=>a.Student.MI) %>
-            <%: Html.ValidationMessageFor(a=>a.Student.MI) %>
-        </li>        
+      
         <li><strong>Last Name:</strong>
-            <%: Html.TextBoxFor(a=>a.Student.LastName) %>
-            <%: Html.ValidationMessageFor(a=>a.Student.LastName) %>
+            <%: Html.TextBoxFor(a=>a.StudentLastName) %>
+            <%: Html.ValidationMessageFor(a=>a.StudentLastName) %>
         </li>
         
         <li><strong>College Name:</strong>
@@ -86,7 +83,7 @@
         $(document).ready(function () {
 
             $("#CollegeName").chosen({ no_results_text: "No results matched" }); //TODO: Test this.
-
+            $('#RelativeTitle').chosen({ no_results_text: "No results matched" }); //TODO: Test this.
            
         });
     </script>

@@ -25,6 +25,9 @@ namespace Commencement.Core.Domain
         [NotNull]
         public virtual Student Student { get; set; } //Might want Pidm, or at least to get the latest student where the pidm matches this student
 
+        public virtual string StudentFirstName { get; set; }
+        public virtual string StudentLastName { get; set; }
+
         public virtual DateTime DateCreated { get; set; }
         public virtual char Gender { get; set; }
         public virtual char? Ceremony { get; set; }  // If they are not registered for a ceremony, indicate which one they will apply for. (I think)
@@ -73,6 +76,9 @@ namespace Commencement.Core.Domain
             Id(x => x.Id);
 
             References(x => x.Student).Column("Student_Id").Fetch.Join();
+
+            Map(x => x.StudentFirstName);
+            Map(x => x.StudentLastName);
 
             Map(x => x.DateCreated);
             Map(x => x.Gender);

@@ -7,6 +7,7 @@ using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
+using NHibernate.Validator.Constraints;
 using UCDArch.Core.PersistanceSupport;
 using MvcContrib;
 using UCDArch.Web.Helpers;
@@ -378,13 +379,15 @@ namespace Commencement.Controllers
 
             var letter = new VisaLetter();
             letter.Student = student;
+            letter.StudentFirstName = student.FirstName;
+            letter.StudentLastName = student.LastName;
             var major = student.Majors.FirstOrDefault();
             if (major != null)
             {
                 letter.MajorName = major.MajorName;
                 letter.CollegeName = major.College.Id;
             }
-            
+
             
 
             return View(letter);
@@ -392,7 +395,7 @@ namespace Commencement.Controllers
 
         [HttpPost]
         [PageTrackingFilter]
-        public ActionResult RequestVisaLetter(VisaLetter visaLetter)
+        public ActionResult RequestVisaLetter(VisaLetterPostModel model)
         {
             // validate student is in our DB, otherwise we need to do a lookup
             var student = GetCurrentStudent();
@@ -400,7 +403,18 @@ namespace Commencement.Controllers
             // we were just unable to find record
             if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
 
+            var visaLetter = new VisaLetter();
             visaLetter.Student = student;
+            visaLetter.Ceremony = model.Ceremony;
+            visaLetter.MajorName = model.MajorName;
+            visaLetter.RelationshipToStudent = model.RelationshipToStudent;
+            visaLetter.RelativeFirstName = model.RelativeFirstName;
+            visaLetter.RelativeLastName = model.RelativeLastName;
+            visaLetter.RelativeMailingAddress = model.RelativeMailingAddress;
+            visaLetter.RelativeTitle = model.RelativeTitle;
+            visaLetter.StudentFirstName = model.StudentFirstName;
+            visaLetter.StudentLastName = model.StudentLastName;
+
             visaLetter.TransferValidationMessagesTo(ModelState);
             if (ModelState.IsValid)
             {
@@ -414,6 +428,40 @@ namespace Commencement.Controllers
 
             Message = "Please correct errors and try again.";
             return View(visaLetter);
+        }
+
+        public class VisaLetterPostModel
+        {
+
+            public char Gender { get; set; }
+            public char? Ceremony { get; set; }
+
+            [NotNull]
+            [Length(5)]
+            public string RelativeTitle { get; set; }
+
+            [NotNull]
+            [Length(100)]
+            public string RelativeFirstName { get; set; }
+
+            [NotNull]
+            [Length(100)]
+            public string RelativeLastName { get; set; }
+
+            [NotNull]
+            [Length(100)]
+            public string RelationshipToStudent { get; set; }
+
+            [NotNull]
+            [Length(500)]
+            public string RelativeMailingAddress { get; set; }
+
+            public string CollegeName { get; set; } //Drop down list for student, try to pick for student
+            public string MajorName { get; set; } //Drop down list, try to fill out for student
+
+            public Student Student { get; set; }
+            public string StudentFirstName { get; set; }
+            public string StudentLastName { get; set; }
         }
 
         public ActionResult VisaLetterPdf(int id)

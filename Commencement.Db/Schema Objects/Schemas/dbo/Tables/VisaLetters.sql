@@ -16,6 +16,9 @@
     [CollegeName] VARCHAR(250) NULL, 
     [MajorName] VARCHAR(250) NULL, 
     [CeremonyDateTime] DATETIME NULL, 
+    [ApprovedBy] VARCHAR(50) NULL, 
+    [StudentFirstName] VARCHAR(50) NULL, 
+    [StudentLastName] VARCHAR(50) NULL, 
     CONSTRAINT [PK_VisaLetters] PRIMARY KEY ([Id]), 
     
 )
