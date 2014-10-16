@@ -457,7 +457,7 @@ namespace Commencement.Controllers
         public class VisaLetterPostModel
         {
             [Required]
-            public char Gender { get; set; }
+            public string Gender { get; set; }
             public char? Ceremony { get; set; }
 
             [Required]

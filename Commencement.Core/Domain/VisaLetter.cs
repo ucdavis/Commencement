@@ -37,7 +37,7 @@ namespace Commencement.Core.Domain
         public virtual DateTime DateCreated { get; set; }
 
         [Required]
-        public virtual char Gender { get; set; }
+        public virtual string Gender { get; set; }
         public virtual char? Ceremony { get; set; }  // If they are not registered for a ceremony, indicate which one they will apply for. (I think)
 
         [Required]
