@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using FluentNHibernate.Mapping;
@@ -25,30 +26,37 @@ namespace Commencement.Core.Domain
         [NotNull]
         public virtual Student Student { get; set; } //Might want Pidm, or at least to get the latest student where the pidm matches this student
 
+        [Required]
+        [Length(50)]
         public virtual string StudentFirstName { get; set; }
+
+        [Required]
+        [Length(50)]
         public virtual string StudentLastName { get; set; }
 
         public virtual DateTime DateCreated { get; set; }
+
+        [Required]
         public virtual char Gender { get; set; }
         public virtual char? Ceremony { get; set; }  // If they are not registered for a ceremony, indicate which one they will apply for. (I think)
 
-        [NotNull]
+        [Required]
         [Length(5)]
         public virtual string RelativeTitle { get; set; }
 
-        [NotNull]
+        [Required]
         [Length(100)]
         public virtual string RelativeFirstName { get; set; }
 
-        [NotNull]
+        [Required]
         [Length(100)]
         public virtual string RelativeLastName { get; set; }
 
-        [NotNull]
+        [Required]
         [Length(100)]
         public virtual string RelationshipToStudent { get; set; }
 
-        [NotNull]
+        [Required]
         [Length(500)]
         public virtual string RelativeMailingAddress { get; set; }
 

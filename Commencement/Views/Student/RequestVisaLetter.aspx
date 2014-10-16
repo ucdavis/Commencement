@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Core.Domain.VisaLetter>" %>
 <%@ Import Namespace="Commencement.Controllers" %>
+<%@ Import Namespace="Commencement.Controllers.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Commencement | Request Visa Letter
@@ -11,7 +12,7 @@
         <li><%: Html.ActionLink<StudentController>(a=>a.VisaLetters(), "Back to List of Letter Requests") %></li>
     </ul>
 
-    <h2>Edit <%: Model.Student.FullName %></h2>
+    <h2>Create Visa Letter Request For <%: Model.Student.FullName %></h2>
 
     <% Html.RenderPartial("EditVisaLetterPartial"); %>
 

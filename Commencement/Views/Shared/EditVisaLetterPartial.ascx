@@ -4,7 +4,7 @@
 
 <%--look at Edit Student for examples--%>
 
-    <%: Html.ValidationSummary() %>
+    <%: Html.ValidationSummary(true) %>
 
     <% using (Html.BeginForm()) { %>
     <%: Html.AntiForgeryToken() %>
@@ -21,22 +21,22 @@
         </li>
         <li><strong>First Name:</strong>
             <%: Html.TextBoxFor(a=>a.StudentFirstName) %>
-            <%: Html.ValidationMessageFor(a=>a.StudentFirstName) %>
+            <%= Html.ValidationMessageFor(a=>a.StudentFirstName) %>
         </li>
       
         <li><strong>Last Name:</strong>
             <%: Html.TextBoxFor(a=>a.StudentLastName) %>
-            <%: Html.ValidationMessageFor(a=>a.StudentLastName) %>
+            <%= Html.ValidationMessageFor(a=>a.StudentLastName) %>
         </li>
         
         <li><strong>College Name:</strong>
             <%: Html.DropDownListFor(a=>a.CollegeName, SelectLists.CollegeNames) %>
-            <%: Html.ValidationMessageFor(a=>a.CollegeName) %>
+            <%= Html.ValidationMessageFor(a=>a.CollegeName) %>
         </li>
         
         <li><strong>Major Name:</strong>
             <%: Html.TextBoxFor(a=>a.MajorName) %>
-            <%: Html.ValidationMessageFor(a=>a.MajorName) %>
+            <%= Html.ValidationMessageFor(a=>a.MajorName) %>
         </li>
 
         <li><strong>Your Gender:</strong>
@@ -44,32 +44,40 @@
                 <label><%: Html.RadioButton("Gender", 'M')%> Male</label>
                 <label><%: Html.RadioButton("Gender", 'F')%> Female</label>
             
-            <%: Html.ValidationMessageFor(a=>a.Gender) %>
+            <%= Html.ValidationMessageFor(a=>a.Gender) %>
+        </li>
+        
+                <li><strong>Ceremony:</strong>
+            
+                <label><%: Html.RadioButton("Ceremony", 'S')%> Spring</label>
+                <label><%: Html.RadioButton("Ceremony", 'F')%> Fall</label>
+            
+            <%= Html.ValidationMessageFor(a=>a.Ceremony) %>
         </li>
         
         <li><strong>Relative's Title:</strong>
             <%: Html.DropDownListFor(a=>a.RelativeTitle, SelectLists.PersonPrefixes) %>
-            <%: Html.ValidationMessageFor(a=>a.RelativeTitle) %>
+            <%= Html.ValidationMessageFor(a=>a.RelativeTitle) %>
         </li>
         
         <li><strong>Relative's First Name:</strong>
             <%: Html.TextBoxFor(a=>a.RelativeFirstName) %>
-            <%: Html.ValidationMessageFor(a=>a.RelativeFirstName) %>
+            <%= Html.ValidationMessageFor(a=>a.RelativeFirstName) %>
         </li>
         
         <li><strong>Relative's Last Name:</strong>
             <%: Html.TextBoxFor(a=>a.RelativeLastName) %>
-            <%: Html.ValidationMessageFor(a=>a.RelativeLastName) %>
+            <%= Html.ValidationMessageFor(a=>a.RelativeLastName) %>
         </li>
         
         <li><strong>Relationship To You:</strong>
             <%: Html.TextBoxFor(a=>a.RelationshipToStudent) %>
-            <%: Html.ValidationMessageFor(a=>a.RelationshipToStudent) %>
+            <%= Html.ValidationMessageFor(a=>a.RelationshipToStudent) %>
         </li>
 
         <li><strong>Relative's Mailing Address:</strong>
             <%: Html.TextAreaFor(a=>a.RelativeMailingAddress) %>
-            <%: Html.ValidationMessageFor(a=>a.RelativeMailingAddress) %>
+            <%= Html.ValidationMessageFor(a=>a.RelativeMailingAddress) %>
         </li>
         <li><strong>&nbsp;</strong>
             <%: Html.SubmitButton("Submit", "Save", new { @class="button" })%>

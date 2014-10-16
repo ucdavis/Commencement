@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
@@ -8,6 +9,7 @@ using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using NHibernate.Validator.Constraints;
+using NPOI.SS.Formula.Functions;
 using UCDArch.Core.PersistanceSupport;
 using MvcContrib;
 using UCDArch.Web.Helpers;
@@ -433,35 +435,41 @@ namespace Commencement.Controllers
 
         public class VisaLetterPostModel
         {
-
+            [Required]
             public char Gender { get; set; }
             public char? Ceremony { get; set; }
 
-            [NotNull]
+            [Required]
             [Length(5)]
             public string RelativeTitle { get; set; }
 
-            [NotNull]
+            [Required]
             [Length(100)]
             public string RelativeFirstName { get; set; }
 
-            [NotNull]
+            [Required]
             [Length(100)]
             public string RelativeLastName { get; set; }
 
-            [NotNull]
+            [Required]
             [Length(100)]
             public string RelationshipToStudent { get; set; }
 
-            [NotNull]
+            [Required]
             [Length(500)]
             public string RelativeMailingAddress { get; set; }
 
+            [Required]
             public string CollegeName { get; set; } //Drop down list for student, try to pick for student
+            [Required]
             public string MajorName { get; set; } //Drop down list, try to fill out for student
 
             public Student Student { get; set; }
+            [Required]
+            [Length(50)]
             public string StudentFirstName { get; set; }
+            [Required]
+            [Length(50)]
             public string StudentLastName { get; set; }
         }
 
