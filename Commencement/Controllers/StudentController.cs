@@ -8,6 +8,7 @@ using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
+using Commencement.Resources;
 using NHibernate.Validator.Constraints;
 using NPOI.SS.Formula.Functions;
 using UCDArch.Core.PersistanceSupport;
@@ -388,7 +389,7 @@ namespace Commencement.Controllers
             if (major != null)
             {
                 letter.MajorName = major.MajorName;
-                letter.CollegeName = major.College.Id;
+                letter.CollegeCode = major.College.Id;
             }
 
             var checkStudent = CheckStudentForVisaLetter();
@@ -438,6 +439,23 @@ namespace Commencement.Controllers
             visaLetter.StudentFirstName = model.StudentFirstName;
             visaLetter.StudentLastName = model.StudentLastName;
             visaLetter.Gender = model.Gender;
+            visaLetter.CollegeCode = model.CollegeCode;
+            visaLetter.CollegeName = SelectLists.CollegeNames.Single(a => a.Value == visaLetter.CollegeCode).Text;
+
+            var termCode = TermService.GetCurrent();
+            var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == student && a.TermCode.Id == termCode.Id);
+
+            // has this student registered yet?
+            if (currentReg != null)
+            {
+                // display previous registration
+                var participation = currentReg.RegistrationParticipations.FirstOrDefault(a => !a.Cancelled && !a.Registration.Student.SjaBlock && !a.Registration.Student.Blocked);
+                if (participation != null && participation.Ceremony.Colleges.Any(a => a.Id == visaLetter.CollegeCode))
+                {
+                    visaLetter.CeremonyDateTime = participation.Ceremony.DateTime;
+                }
+
+            }
 
             visaLetter.TransferValidationMessagesTo(ModelState);
             if (ModelState.IsValid)
@@ -481,7 +499,7 @@ namespace Commencement.Controllers
             public string RelativeMailingAddress { get; set; }
 
             [Required]
-            public string CollegeName { get; set; } //Drop down list for student, try to pick for student
+            public string CollegeCode { get; set; } //Drop down list for student, try to pick for student
             [Required]
             public string MajorName { get; set; } //Drop down list, try to fill out for student
 

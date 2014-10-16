@@ -13,12 +13,13 @@
     [IsApproved] BIT NOT NULL DEFAULT ((0)), 
     [IsPending] BIT NOT NULL DEFAULT ((1)), 
     [DateDecided] DATETIME NULL, 
+	[CollegeCode] VARCHAR(5) NOT NULL, 
     [CollegeName] VARCHAR(250) NULL, 
     [MajorName] VARCHAR(250) NULL, 
     [CeremonyDateTime] DATETIME NULL, 
     [ApprovedBy] VARCHAR(50) NULL, 
     [StudentFirstName] VARCHAR(50) NULL, 
-    [StudentLastName] VARCHAR(50) NULL, 
+    [StudentLastName] VARCHAR(50) NULL,     
     CONSTRAINT [PK_VisaLetters] PRIMARY KEY ([Id]), 
     
 )

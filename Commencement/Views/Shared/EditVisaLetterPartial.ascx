@@ -30,8 +30,8 @@
         </li>
         
         <li><strong>College Name:</strong>
-            <%: Html.DropDownListFor(a=>a.CollegeName, SelectLists.CollegeNames) %>
-            <%= Html.ValidationMessageFor(a=>a.CollegeName) %>
+            <%: Html.DropDownListFor(a=>a.CollegeCode, SelectLists.CollegeNames) %>
+            <%= Html.ValidationMessageFor(a=>a.CollegeCode) %>
         </li>
         
         <li><strong>Major Name:</strong>

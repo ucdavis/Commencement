@@ -70,6 +70,8 @@ namespace Commencement.Core.Domain
         public virtual bool IsPending { get; set; }
 
         public virtual string CollegeName { get; set; } //Drop down list for student, try to pick for student
+
+        public virtual string CollegeCode { get; set; } //Drop down list for student, try to pick for student
         public virtual string MajorName { get; set; } //Drop down list, try to fill out for student
 
         public virtual DateTime? CeremonyDateTime { get; set; } //If ceremony is not created, allow admin to pick date.
@@ -100,6 +102,7 @@ namespace Commencement.Core.Domain
             Map(x => x.DateDecided);
             Map(x => x.IsPending);
             Map(x => x.CollegeName);
+            Map(x => x.CollegeCode);
             Map(x => x.CeremonyDateTime);
             Map(x => x.ApprovedBy);
         }
