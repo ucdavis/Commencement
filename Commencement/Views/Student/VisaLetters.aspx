@@ -28,7 +28,9 @@
                 col.Add(a=> {%>
                     <% if (a.IsApproved){ %>
                         <%= Html.ActionLink<StudentController>(b => b.VisaLetterPdf(a.Id), "Print Letter") %>
+                        |
                     <% } %>
+                    <%= Html.ActionLink<StudentController>(b => b.VisaLetterDetails(a.Id), "Details") %>
                     <% });
                 col.Bound(a => a.RelativeFirstName);
                 col.Bound(a => a.RelativeLastName);
