@@ -20,6 +20,8 @@
     [ApprovedBy] VARCHAR(50) NULL, 
     [StudentFirstName] VARCHAR(50) NULL, 
     [StudentLastName] VARCHAR(50) NULL,     
+    [IsDenied] BIT NOT NULL DEFAULT ((0)), 
+    [IsCanceled] BIT NOT NULL DEFAULT ((0)), 
     CONSTRAINT [PK_VisaLetters] PRIMARY KEY ([Id]), 
     
 )

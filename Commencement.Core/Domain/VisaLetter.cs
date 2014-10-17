@@ -20,6 +20,8 @@ namespace Commencement.Core.Domain
         {
             IsPending = true;
             IsApproved = false;
+            IsDenied = false;
+            IsCanceled = false;
             DateCreated = DateTime.Now;
         }
 
@@ -61,6 +63,7 @@ namespace Commencement.Core.Domain
         public virtual string RelativeMailingAddress { get; set; }
 
         public virtual bool IsApproved { get; set; }
+        public virtual bool IsDenied { get; set; }
 
 
         //TODO: Who approved it so we can get the signature block and other info.
@@ -68,6 +71,8 @@ namespace Commencement.Core.Domain
         public virtual DateTime? DateDecided { get; set; }
 
         public virtual bool IsPending { get; set; }
+
+        public virtual bool IsCanceled { get; set; }
 
         public virtual string CollegeName { get; set; } //Drop down list for student, try to pick for student
 
@@ -99,8 +104,10 @@ namespace Commencement.Core.Domain
             Map(x => x.RelationshipToStudent);
             Map(x => x.RelativeMailingAddress);
             Map(x => x.IsApproved);
+            Map(x => x.IsDenied);
             Map(x => x.DateDecided);
             Map(x => x.IsPending);
+            Map(x => x.IsCanceled);
             Map(x => x.CollegeName);
             Map(x => x.CollegeCode);
             Map(x => x.CeremonyDateTime);
