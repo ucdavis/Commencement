@@ -22,6 +22,7 @@
         <li><strong>First Name:</strong>
             <%if (ViewBag.AllowChange != null && ViewBag.AllowChange == false) {%>
                 <%: Html.TextBoxFor(a=>a.StudentFirstName, new{ @disabled = "disabled" }) %>
+                <%: Html.HiddenFor(a => a.StudentFirstName) %>
             <% } else { %>
                 <%: Html.TextBoxFor(a=>a.StudentFirstName) %>
             <% } %>
@@ -31,6 +32,7 @@
         <li><strong>Last Name:</strong>
             <%if (ViewBag.AllowChange != null && ViewBag.AllowChange == false) {%>
                 <%: Html.TextBoxFor(a=>a.StudentLastName, new{ @disabled = "disabled" }) %>
+            <%: Html.HiddenFor(a => a.StudentLastName) %>
             <% } else { %>
                 <%: Html.TextBoxFor(a=>a.StudentLastName) %>
             <% } %>
@@ -51,6 +53,7 @@
         <li><strong>Major Name:</strong>
             <%if (ViewBag.AllowChange != null && ViewBag.AllowChange == false) {%>
                 <%: Html.TextBoxFor(a=>a.MajorName, new{ @disabled = "disabled" }) %>
+                <%: Html.HiddenFor(a => a.MajorName) %>
             <% } else { %>
                 <%: Html.TextBoxFor(a=>a.MajorName) %>
             <% } %>
@@ -61,13 +64,12 @@
             <%if (ViewBag.AllowChange != null && ViewBag.AllowChange == false) {%>
                 <label><%: Html.RadioButton("Gender", 'M', new{ @disabled = "disabled" })%> Male</label>
                 <label><%: Html.RadioButton("Gender", 'F', new{ @disabled = "disabled" })%> Female</label>
+                <%: Html.HiddenFor(a => a.Gender) %>
             <% } else { %>
                 <label><%: Html.RadioButton("Gender", 'M')%> Male</label>
                 <label><%: Html.RadioButton("Gender", 'F')%> Female</label>
             <% } %>
-                        
-
-            
+                       
             <%= Html.ValidationMessageFor(a=>a.Gender) %>
         </li>
         

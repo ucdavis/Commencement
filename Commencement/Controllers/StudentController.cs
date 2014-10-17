@@ -444,6 +444,16 @@ namespace Commencement.Controllers
             // we were just unable to find record
             if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
 
+            var existingLetter = Repository.OfType<VisaLetter>().Queryable.FirstOrDefault(a => a.Student.StudentId == student.StudentId && !a.IsCanceled && !a.IsDenied);
+            if (existingLetter != null)
+            {
+                ViewBag.AllowChange = false;
+            }
+            else
+            {
+                ViewBag.AllowChange = true;
+            }
+
             var visaLetter = new VisaLetter();
             visaLetter.Student = student;
             visaLetter.Ceremony = model.Ceremony;
@@ -489,45 +499,52 @@ namespace Commencement.Controllers
             return View(visaLetter);
         }
 
-        public class VisaLetterPostModel
+        [PageTrackingFilter]
+        public ActionResult CancelVisaLetterRequest(int id)
         {
-            [Required]
-            public string Gender { get; set; }
-            public char? Ceremony { get; set; }
+            var student = GetCurrentStudent();
 
-            [Required]
-            [Length(5)]
-            public string RelativeTitle { get; set; }
+            // we were just unable to find record
+            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
 
-            [Required]
-            [Length(100)]
-            public string RelativeFirstName { get; set; }
+            var letter = Repository.OfType<VisaLetter>().Queryable.SingleOrDefault(a => a.Id == id && a.Student.StudentId == student.StudentId && a.IsPending && !a.IsCanceled); //Only allow that student to print it.
+            if (letter == null)
+            {
+                Message = "Pending Letter Not Found";
+                return this.RedirectToAction<ErrorController>(a => a.NotFound());
+            }
 
-            [Required]
-            [Length(100)]
-            public string RelativeLastName { get; set; }
-
-            [Required]
-            [Length(100)]
-            public string RelationshipToStudent { get; set; }
-
-            [Required]
-            [Length(500)]
-            public string RelativeMailingAddress { get; set; }
-
-            [Required]
-            public string CollegeCode { get; set; } //Drop down list for student, try to pick for student
-            [Required]
-            public string MajorName { get; set; } //Drop down list, try to fill out for student
-
-            public Student Student { get; set; }
-            [Required]
-            [Length(50)]
-            public string StudentFirstName { get; set; }
-            [Required]
-            [Length(50)]
-            public string StudentLastName { get; set; }
+            return View(letter);
         }
+
+        [HttpPost]
+        [PageTrackingFilter]
+        public ActionResult CancelVisaLetterRequest(int id, bool cancel)
+        {
+            if (!cancel)
+            {
+                Message = "Visa Letter Request Not Canceled";
+                return this.RedirectToAction(a => a.VisaLetters());
+            }
+
+            var student = GetCurrentStudent();
+
+            // we were just unable to find record
+            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
+
+            var letter = Repository.OfType<VisaLetter>().Queryable.SingleOrDefault(a => a.Id == id && a.Student.StudentId == student.StudentId && a.IsPending && !a.IsCanceled); //Only allow that student to print it.
+            if (letter == null)
+            {
+                Message = "Pending Letter Not Found";
+                return this.RedirectToAction<ErrorController>(a => a.NotFound());
+            }
+            letter.IsCanceled = true;
+
+            Repository.OfType<VisaLetter>().EnsurePersistent(letter);
+            Message = "Visa Letter Request Canceled";
+            return this.RedirectToAction(a => a.VisaLetters());
+        }
+
 
         public ActionResult VisaLetterPdf(int id)
         {

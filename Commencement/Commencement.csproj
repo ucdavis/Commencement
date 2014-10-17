@@ -262,6 +262,7 @@
     <Compile Include="Controllers\ViewModels\ExtraTicketPetitionModel.cs" />
     <Compile Include="Controllers\ViewModels\RegistrationModel.cs" />
     <Compile Include="Controllers\ViewModels\TermcodeViewModel.cs" />
+    <Compile Include="Controllers\ViewModels\VisaLetterPostModel.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -702,6 +703,7 @@
     <Content Include="Views\SpecialNeeds\Create.aspx" />
     <Content Include="Views\SpecialNeeds\Index.aspx" />
     <Content Include="Views\Student\CancelRegistartionPetitionConfirm.aspx" />
+    <Content Include="Views\Student\CancelVisaLetterRequest.aspx" />
     <Content Include="Views\Student\CancelRegistrationPetition.aspx" />
     <Content Include="Views\Student\DisplayRegistration.aspx" />
     <Content Include="Views\Student\RequestVisaLetter.aspx" />

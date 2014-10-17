@@ -24,12 +24,17 @@
     <% Html.Grid(Model)
            .Name("VisaLetters")
            .Columns(col =>
-                        {
-                            col.Bound(a => a.RelativeFirstName);
-                            col.Bound(a => a.RelativeLastName);
-                            col.Bound(a => a.DateCreated);
-                            col.Bound(a => a.IsApproved);
-                            col.Bound(a => a.IsDenied);
+           {
+                col.Bound(a => a.RelativeFirstName);
+                col.Bound(a => a.RelativeLastName);
+                col.Bound(a => a.DateCreated);
+                col.Bound(a => a.IsApproved);
+                col.Bound(a => a.IsDenied);
+                col.Add(a=> {%>
+                    <% if (a.IsPending){ %>
+                        <%= Html.ActionLink<StudentController>(b => b.CancelVisaLetterRequest(a.Id), "Cancel Request") %>
+                    <% } %>
+                    <% });
                         })
            .Render();
         %>
