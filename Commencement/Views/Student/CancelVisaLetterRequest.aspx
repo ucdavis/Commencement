@@ -6,26 +6,13 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Cancel VisaLetter Request</h2>
+    <h2>Cancel Visa Letter Request</h2>
     
     <% using (Html.BeginForm()) { %>
 
         <%: Html.AntiForgeryToken() %>
 
-        <fieldset>
-            <legend>Details</legend>
-        
-            <ul class="registration_form">
-                <li><strong>Date Submitted:</strong>
-                    <%= Html.Encode(Model.DateCreated.ToString("g")) %></li>
-                <li><strong>Relative First Name:</strong>
-                    <%= Html.Encode(Model.RelativeFirstName) %></li>
-                <li><strong>Relative Last Name:</strong>
-                    <%= Html.Encode(Model.RelativeLastName) %></li>
-                <li><strong>Relative Address:</strong>
-                    <%= Html.Encode(Model.RelativeMailingAddress) %></li>
-            </ul>
-        </fieldset>
+        <% Html.RenderPartial("VisaLetterDetailsPartial"); %>
     
         <fieldset>
             <legend>Confirm Action</legend>

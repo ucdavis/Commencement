@@ -25,6 +25,11 @@
            .Name("VisaLetters")
            .Columns(col =>
            {
+                col.Add(a=> {%>
+                    <% if (a.IsApproved){ %>
+                        <%= Html.ActionLink<StudentController>(b => b.VisaLetterPdf(a.Id), "Print Letter") %>
+                    <% } %>
+                    <% });
                 col.Bound(a => a.RelativeFirstName);
                 col.Bound(a => a.RelativeLastName);
                 col.Bound(a => a.DateCreated);

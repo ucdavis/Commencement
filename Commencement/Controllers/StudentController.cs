@@ -546,6 +546,23 @@ namespace Commencement.Controllers
         }
 
 
+        public ActionResult VisaLetterDetails(int id)
+        {
+            var student = GetCurrentStudent();
+
+            // we were just unable to find record
+            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
+
+            var letter = Repository.OfType<VisaLetter>().Queryable.SingleOrDefault(a => a.Id == id && a.Student.StudentId == student.StudentId); //Only allow that student to print it.
+            if (letter == null)
+            {
+                Message = "Letter Not Found";
+                return this.RedirectToAction<ErrorController>(a => a.NotFound());
+            }
+
+            return View(letter);
+        }
+
         public ActionResult VisaLetterPdf(int id)
         {
             // validate student is in our DB, otherwise we need to do a lookup
