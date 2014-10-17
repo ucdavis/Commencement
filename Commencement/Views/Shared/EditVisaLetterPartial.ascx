@@ -20,29 +20,53 @@
             <%: Model.Student.Email %>
         </li>
         <li><strong>First Name:</strong>
-            <%: Html.TextBoxFor(a=>a.StudentFirstName) %>
+            <%if (ViewBag.AllowChange != null && ViewBag.AllowChange == false) {%>
+                <%: Html.TextBoxFor(a=>a.StudentFirstName, new{ @disabled = "disabled" }) %>
+            <% } else { %>
+                <%: Html.TextBoxFor(a=>a.StudentFirstName) %>
+            <% } %>
             <%= Html.ValidationMessageFor(a=>a.StudentFirstName) %>
         </li>
       
         <li><strong>Last Name:</strong>
-            <%: Html.TextBoxFor(a=>a.StudentLastName) %>
+            <%if (ViewBag.AllowChange != null && ViewBag.AllowChange == false) {%>
+                <%: Html.TextBoxFor(a=>a.StudentLastName, new{ @disabled = "disabled" }) %>
+            <% } else { %>
+                <%: Html.TextBoxFor(a=>a.StudentLastName) %>
+            <% } %>
             <%= Html.ValidationMessageFor(a=>a.StudentLastName) %>
         </li>
         
         <li><strong>College Name:</strong>
-            <%: Html.DropDownListFor(a=>a.CollegeCode, SelectLists.CollegeNames) %>
+            <%if (ViewBag.AllowChange != null && ViewBag.AllowChange == false) {%>
+                <%: Model.CollegeName %>
+                <%: Html.HiddenFor(a => a.CollegeCode, new{id = "doNotChosen"}) %>
+            <% } else { %>
+                <%: Html.DropDownListFor(a=>a.CollegeCode, SelectLists.CollegeNames) %>
+            <% } %>
+            
             <%= Html.ValidationMessageFor(a=>a.CollegeCode) %>
         </li>
         
         <li><strong>Major Name:</strong>
-            <%: Html.TextBoxFor(a=>a.MajorName) %>
+            <%if (ViewBag.AllowChange != null && ViewBag.AllowChange == false) {%>
+                <%: Html.TextBoxFor(a=>a.MajorName, new{ @disabled = "disabled" }) %>
+            <% } else { %>
+                <%: Html.TextBoxFor(a=>a.MajorName) %>
+            <% } %>
             <%= Html.ValidationMessageFor(a=>a.MajorName) %>
         </li>
 
         <li><strong>Your Gender:</strong>
-            
+            <%if (ViewBag.AllowChange != null && ViewBag.AllowChange == false) {%>
+                <label><%: Html.RadioButton("Gender", 'M', new{ @disabled = "disabled" })%> Male</label>
+                <label><%: Html.RadioButton("Gender", 'F', new{ @disabled = "disabled" })%> Female</label>
+            <% } else { %>
                 <label><%: Html.RadioButton("Gender", 'M')%> Male</label>
                 <label><%: Html.RadioButton("Gender", 'F')%> Female</label>
+            <% } %>
+                        
+
             
             <%= Html.ValidationMessageFor(a=>a.Gender) %>
         </li>
@@ -89,8 +113,8 @@
     <script type="text/javascript" src="<%: Url.Content("~/Scripts/jquery.chosen.min.js") %>"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-
-            $("#CollegeName").chosen({ no_results_text: "No results matched" }); //TODO: Test this.
+            
+            $("#CollegeCode").chosen({ no_results_text: "No results matched" }); //TODO: Test this.
             $('#RelativeTitle').chosen({ no_results_text: "No results matched" }); //TODO: Test this.
            
         });

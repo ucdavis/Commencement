@@ -112,6 +112,7 @@ namespace Commencement.Core.Domain
             Map(x => x.CollegeCode);
             Map(x => x.CeremonyDateTime);
             Map(x => x.ApprovedBy);
+            Map(x => x.MajorName);
         }
     }
 }

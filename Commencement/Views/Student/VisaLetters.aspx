@@ -25,13 +25,11 @@
            .Name("VisaLetters")
            .Columns(col =>
                         {
-                            col.Bound(a => a.Student.StudentId); //Remove once testing is done
-                            col.Bound(a => a.Student.FullName).Title("Name");
                             col.Bound(a => a.RelativeFirstName);
                             col.Bound(a => a.RelativeLastName);
                             col.Bound(a => a.DateCreated);
                             col.Bound(a => a.IsApproved);
-                            col.Bound(a => a.IsPending);
+                            col.Bound(a => a.IsDenied);
                         })
            .Render();
         %>

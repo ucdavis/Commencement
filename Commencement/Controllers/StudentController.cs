@@ -366,7 +366,7 @@ namespace Commencement.Controllers
             // we were just unable to find record
             if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
 
-            var letters = Repository.OfType<VisaLetter>().Queryable.Where(a => a.Student.StudentId == student.StudentId).ToList();
+            var letters = Repository.OfType<VisaLetter>().Queryable.Where(a => a.Student.StudentId == student.StudentId && !a.IsCanceled).ToList();
 
             return View(letters);
         }
@@ -380,17 +380,34 @@ namespace Commencement.Controllers
             // we were just unable to find record
             if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
 
+            var existingLetter = Repository.OfType<VisaLetter>().Queryable.FirstOrDefault(a => a.Student.StudentId == student.StudentId && !a.IsCanceled && !a.IsDenied);
+
+            ViewBag.AllowChange = true;
 
             var letter = new VisaLetter();
             letter.Student = student;
-            letter.StudentFirstName = student.FirstName;
-            letter.StudentLastName = student.LastName;
-            var major = student.Majors.FirstOrDefault();
-            if (major != null)
+            if (existingLetter != null)
             {
-                letter.MajorName = major.MajorName;
-                letter.CollegeCode = major.College.Id;
+                letter.StudentFirstName = existingLetter.StudentFirstName;
+                letter.StudentLastName = existingLetter.StudentLastName;
+                letter.MajorName = existingLetter.MajorName;
+                letter.CollegeCode = existingLetter.CollegeCode;
+                letter.Gender = existingLetter.Gender;
+                letter.CollegeName = existingLetter.CollegeName;
+                ViewBag.AllowChange = false;
             }
+            else
+            {
+                letter.StudentFirstName = student.FirstName;
+                letter.StudentLastName = student.LastName;
+                var major = student.Majors.FirstOrDefault();
+                if (major != null)
+                {
+                    letter.MajorName = major.MajorName;
+                    letter.CollegeCode = major.College.Id;
+                }
+            }
+
 
             var checkStudent = CheckStudentForVisaLetter();
             switch (checkStudent)
