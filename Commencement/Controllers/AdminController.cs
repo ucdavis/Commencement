@@ -474,20 +474,27 @@ namespace Commencement.Controllers
         public ActionResult VisaLetterDecide(int id, AdminVisaLetterPostModel model) 
         {
             var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id);
-
-            letter.Ceremony = model.Ceremony;
-            letter.CeremonyDateTime = model.CeremonyDateTime;
-            letter.CollegeCode = model.CollegeCode;
-            letter.CollegeName = SelectLists.CollegeNames.Single(a => a.Value == letter.CollegeCode).Text;
-            letter.Gender = model.Gender;
-            letter.MajorName = model.MajorName;
-            letter.RelationshipToStudent = model.RelationshipToStudent;
-            letter.RelativeFirstName = model.RelativeFirstName;
-            letter.RelativeLastName = model.RelativeLastName;
-            letter.RelativeMailingAddress = model.RelativeMailingAddress;
-            letter.RelativeTitle = model.RelativeTitle;
+            
+            // -- Student
             letter.StudentFirstName = model.StudentFirstName;
             letter.StudentLastName = model.StudentLastName;
+            // -- Date Created
+            letter.Gender = model.Gender;
+            letter.Ceremony = model.Ceremony;
+
+            letter.RelativeTitle = model.RelativeTitle;
+            letter.RelativeFirstName = model.RelativeFirstName;
+            letter.RelativeLastName = model.RelativeLastName;
+            letter.RelationshipToStudent = model.RelationshipToStudent;
+            letter.RelativeMailingAddress = model.RelativeMailingAddress;
+
+            letter.CollegeCode = model.CollegeCode;
+            letter.CollegeName = SelectLists.CollegeNames.Single(a => a.Value == letter.CollegeCode).Text;
+            letter.MajorName = model.MajorName;
+            letter.CeremonyDateTime = model.CeremonyDateTime;
+            
+            //TODO: Text for "Bachelor of Science degree"
+            letter.Degree = model.Degree;
 
 
             if (model.Decide != "N") //Just have a check box that says "decide"
@@ -511,8 +518,6 @@ namespace Commencement.Controllers
             {
                 ModelState.AddModelError("SpecialCheck", "Must Enter Ceremony Date when approving.");
             }
-
-            //TODO: Extra validation check because admin will have to set things (like ceremony date).
 
             if (ModelState.IsValid)
             {

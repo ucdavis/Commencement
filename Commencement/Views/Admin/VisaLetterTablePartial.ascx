@@ -15,6 +15,7 @@
                                 
                             <% });
                             col.Bound(a => a.Student.StudentId); //Remove once testing is done
+                            col.Bound(a => a.Student.TotalUnits);
                             col.Bound(a => a.Student.FullName).Title("Name");
                             col.Bound(a => a.CollegeCode);
                             col.Bound(a => a.ApprovedBy);

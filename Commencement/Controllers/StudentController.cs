@@ -394,6 +394,7 @@ namespace Commencement.Controllers
                 letter.CollegeCode = existingLetter.CollegeCode;
                 letter.Gender = existingLetter.Gender;
                 letter.CollegeName = existingLetter.CollegeName;
+                letter.Degree = existingLetter.Degree;
                 ViewBag.AllowChange = false;
             }
             else
@@ -406,6 +407,7 @@ namespace Commencement.Controllers
                     letter.MajorName = major.MajorName;
                     letter.CollegeCode = major.College.Id;
                 }
+                letter.Degree = "Bachelor of Science degree";
             }
 
 
@@ -468,6 +470,7 @@ namespace Commencement.Controllers
             visaLetter.Gender = model.Gender;
             visaLetter.CollegeCode = model.CollegeCode;
             visaLetter.CollegeName = SelectLists.CollegeNames.Single(a => a.Value == visaLetter.CollegeCode).Text;
+            visaLetter.Degree = model.Degree;
 
             var termCode = TermService.GetCurrent();
             var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == student && a.TermCode.Id == termCode.Id);

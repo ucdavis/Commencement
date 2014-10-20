@@ -46,6 +46,9 @@ namespace Commencement.Controllers.ViewModels
         [Required]
         [Length(50)]
         public string StudentLastName { get; set; }
+
+        [Required]
+        public string Degree { get; set; }
     }
 
     public class AdminVisaLetterPostModel : VisaLetterPostModel
@@ -53,5 +56,6 @@ namespace Commencement.Controllers.ViewModels
         public string Decide { get; set; }
 
         public DateTime? CeremonyDateTime { get; set; }
+        
     }
 }

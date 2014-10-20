@@ -6,8 +6,8 @@
 
 
 
-            <%: Html.HiddenFor(a=>a.Student.StudentId) %>
-            <%: Html.HiddenFor(a=>a.Student.Pidm) %>
+        <%: Html.HiddenFor(a=>a.Student.StudentId) %>
+        <%: Html.HiddenFor(a=>a.Student.Pidm) %>
         <li><strong>Email:</strong>
             <%: Model.Student.Email %>
         </li>
@@ -40,6 +40,16 @@
             <% } %>
             
             <%= Html.ValidationMessageFor(a=>a.CollegeCode) %>
+        </li>
+
+        <li><strong>Degree:</strong>
+            <%if (ViewBag.AllowChange != null && ViewBag.AllowChange == false) {%>
+                <%: Html.TextBoxFor(a=>a.Degree, new{ @disabled = "disabled" }) %>
+                <%: Html.HiddenFor(a => a.Degree) %>
+            <% } else { %>
+                <%: Html.TextBoxFor(a=>a.Degree) %>
+            <% } %>
+            <%= Html.ValidationMessageFor(a=>a.Degree) %>
         </li>
         
         <li><strong>Major Name:</strong>
