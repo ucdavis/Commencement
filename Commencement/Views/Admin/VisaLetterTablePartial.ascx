@@ -8,8 +8,11 @@
            .Columns(col =>
                         {
                             col.Add(a=> {%>
-                                <%= Html.ActionLink<AdminController>(b => b.VisaLetterDetails(a.Id), "Details") %> |
-                                <%= Html.ActionLink<AdminController>(b => b.VisaLetterDecide(a.Id), "Decide") %>
+                                <%= Html.ActionLink<AdminController>(b => b.VisaLetterDetails(a.Id), "Details") %>
+                                <% if (!a.IsCanceled){ %>
+                                    | <%= Html.ActionLink<AdminController>(b => b.VisaLetterDecide(a.Id), "Decide") %>
+                                <% } %>
+                                
                             <% });
                             col.Bound(a => a.Student.StudentId); //Remove once testing is done
                             col.Bound(a => a.Student.FullName).Title("Name");

@@ -4,18 +4,10 @@
 
 <%--look at Edit Student for examples--%>
 
-    <%: Html.ValidationSummary(true) %>
-
-    <% using (Html.BeginForm()) { %>
-    <%: Html.AntiForgeryToken() %>
 
 
-    <ul class="registration_form">
-        <li><strong>Student Id:</strong>
-            <%: Model.Student.StudentId %>
             <%: Html.HiddenFor(a=>a.Student.StudentId) %>
             <%: Html.HiddenFor(a=>a.Student.Pidm) %>
-        </li>
         <li><strong>Email:</strong>
             <%: Model.Student.Email %>
         </li>
@@ -73,7 +65,7 @@
             <%= Html.ValidationMessageFor(a=>a.Gender) %>
         </li>
         
-                <li><strong>Ceremony:</strong>
+        <li><strong>Ceremony:</strong>
             
                 <label><%: Html.RadioButton("Ceremony", 'S')%> Spring</label>
                 <label><%: Html.RadioButton("Ceremony", 'F')%> Fall</label>
@@ -105,11 +97,7 @@
             <%: Html.TextAreaFor(a=>a.RelativeMailingAddress) %>
             <%= Html.ValidationMessageFor(a=>a.RelativeMailingAddress) %>
         </li>
-        <li><strong>&nbsp;</strong>
-            <%: Html.SubmitButton("Submit", "Save", new { @class="button" })%>
-        </li>
-        </ul>   
-    <% } %>
+
     
     <link href="<%: Url.Content("~/Content/chosen.css") %>" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="<%: Url.Content("~/Scripts/jquery.chosen.min.js") %>"></script>

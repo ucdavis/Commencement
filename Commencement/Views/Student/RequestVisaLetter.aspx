@@ -13,9 +13,22 @@
     </ul>
 
     <h2>Create Visa Letter Request For <%: Model.Student.FullName %></h2>
+    
+        <%: Html.ValidationSummary(true) %>
+
+    <% using (Html.BeginForm()) { %>
+    <%: Html.AntiForgeryToken() %>
+
+
+    <ul class="registration_form">
 
     <% Html.RenderPartial("EditVisaLetterPartial"); %>
 
+        <li><strong>&nbsp;</strong>
+            <%: Html.SubmitButton("Submit", "Save", new { @class="button" })%>
+        </li>
+        </ul>   
+    <% } %>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">

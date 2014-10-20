@@ -8,6 +8,7 @@ using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
+using Commencement.Resources;
 using NHibernate.Mapping;
 using NPOI.SS.Formula.Functions;
 using UCDArch.Core.PersistanceSupport;
@@ -446,6 +447,23 @@ namespace Commencement.Controllers
         public ActionResult VisaLetterDecide(int id)
         {
             var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id);
+            if (!letter.CeremonyDateTime.HasValue)
+            {
+                var termCode = TermService.GetCurrent();
+                var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == letter.Student && a.TermCode.Id == termCode.Id);
+
+                // has this student registered yet?
+                if (currentReg != null)
+                {
+                    // display previous registration
+                    var participation = currentReg.RegistrationParticipations.FirstOrDefault(a => !a.Cancelled && !a.Registration.Student.SjaBlock && !a.Registration.Student.Blocked);
+                    if (participation != null && participation.Ceremony.Colleges.Any(a => a.Id == letter.CollegeCode))
+                    {
+                        letter.CeremonyDateTime = participation.Ceremony.DateTime;
+                    }
+
+                }
+            }
 
             return View(letter);
         }
@@ -453,13 +471,14 @@ namespace Commencement.Controllers
 
 
         [HttpPost]
-        public ActionResult VisaLetterDecide(int id, VisaLetter model) //TODO: Put in extra parameters for Approve/Deny/Just Edit?
+        public ActionResult VisaLetterDecide(int id, AdminVisaLetterPostModel model) 
         {
             var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id);
 
             letter.Ceremony = model.Ceremony;
             letter.CeremonyDateTime = model.CeremonyDateTime;
-            letter.CollegeName = model.CollegeName;
+            letter.CollegeCode = model.CollegeCode;
+            letter.CollegeName = SelectLists.CollegeNames.Single(a => a.Value == letter.CollegeCode).Text;
             letter.Gender = model.Gender;
             letter.MajorName = model.MajorName;
             letter.RelationshipToStudent = model.RelationshipToStudent;
@@ -467,19 +486,31 @@ namespace Commencement.Controllers
             letter.RelativeLastName = model.RelativeLastName;
             letter.RelativeMailingAddress = model.RelativeMailingAddress;
             letter.RelativeTitle = model.RelativeTitle;
+            letter.StudentFirstName = model.StudentFirstName;
+            letter.StudentLastName = model.StudentLastName;
 
 
-            if (model.IsPending == false) //Just have a check box that says "decide"
+            if (model.Decide != "N") //Just have a check box that says "decide"
             {
                 letter.DateDecided = DateTime.Now;
-                letter.IsPending = false;
-                letter.IsApproved = model.IsApproved;
-                letter.ApprovedBy = CurrentUser.Identity.Name;
             }
+            else
+            {
+                letter.DateDecided = null;
+            }
+            letter.LastUpdateDateTime = DateTime.Now;
+            letter.IsPending = model.Decide == "N";
+            letter.IsApproved = model.Decide == "A";
+            letter.IsDenied = model.Decide == "D";
+            
 
-
+            letter.ApprovedBy = CurrentUser.Identity.Name;
 
             letter.TransferValidationMessagesTo(ModelState);
+            if (letter.IsApproved && letter.CeremonyDateTime == null)
+            {
+                ModelState.AddModelError("SpecialCheck", "Must Enter Ceremony Date when approving.");
+            }
 
             //TODO: Extra validation check because admin will have to set things (like ceremony date).
 
@@ -488,7 +519,7 @@ namespace Commencement.Controllers
                 Repository.OfType<VisaLetter>().EnsurePersistent(letter);
                 //TODO: Email notification
                 Message = "Letter updated";
-                return this.RedirectToAction("VisaLetters");
+                return this.RedirectToAction("VisaLetterDetails", new {id});
             }
 
             Message = "Please correct errors and try again.";

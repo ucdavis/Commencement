@@ -15,6 +15,22 @@
     
     <% Html.RenderPartial("VisaLetterDetailsPartial", Model.VisaLetter); %>
     <fieldset>
+        <legend>Approval Details</legend>
+            <ul class="registration_form">
+                <li><strong>Ceremony Date:</strong>
+                    <%= Html.Encode(Model.VisaLetter.CeremonyDateTime.HasValue ? Model.VisaLetter.CeremonyDateTime.Value.Date.ToString("d") : string.Empty) %>
+                </li>
+                <li><strong>Last Edited By:</strong>
+                    <%= Html.Encode(Model.VisaLetter.ApprovedBy) %>
+                </li>  
+                <li><strong>Last Edited:</strong>
+                    <%= Html.Encode(Model.VisaLetter.LastUpdateDateTime) %>
+                </li>  
+                             
+            </ul>
+        </fieldset>
+    </fieldset>
+    <fieldset>
         <legend>Related Letters</legend>
         <% Html.RenderPartial("VisaLetterTablePartial", Model.RelatedLetters); %>
     </fieldset>

@@ -48,4 +48,10 @@ namespace Commencement.Controllers.ViewModels
         public string StudentLastName { get; set; }
     }
 
+    public class AdminVisaLetterPostModel : VisaLetterPostModel
+    {
+        public string Decide { get; set; }
+
+        public DateTime? CeremonyDateTime { get; set; }
+    }
 }

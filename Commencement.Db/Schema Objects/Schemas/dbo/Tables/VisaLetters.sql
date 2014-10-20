@@ -22,6 +22,7 @@
     [StudentLastName] VARCHAR(50) NULL,     
     [IsDenied] BIT NOT NULL DEFAULT ((0)), 
     [IsCanceled] BIT NOT NULL DEFAULT ((0)), 
+    [LastUpdateDateTime] DATETIME NULL, 
     CONSTRAINT [PK_VisaLetters] PRIMARY KEY ([Id]), 
     
 )

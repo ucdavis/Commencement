@@ -79,9 +79,27 @@ namespace Commencement.Core.Domain
         public virtual string CollegeCode { get; set; } //Drop down list for student, try to pick for student
         public virtual string MajorName { get; set; } //Drop down list, try to fill out for student
 
-        public virtual DateTime? CeremonyDateTime { get; set; } //If ceremony is not created, allow admin to pick date.
+        public virtual DateTime? CeremonyDateTime { get; set; }
+        public virtual DateTime? LastUpdateDateTime { get; set; } 
 
         public virtual string ApprovedBy { get; set; } //Or maybe edited by, etc.
+
+        public virtual string Decide
+        {
+            get
+            {
+                if (IsApproved)
+                {
+                    return "A";
+                }
+                if (IsDenied)
+                {
+                    return "D";
+                }
+                return "N";
+
+            }
+        } //Not a DB field
     }
 
     public class VisaLetterMap : ClassMap<VisaLetter>
@@ -113,6 +131,7 @@ namespace Commencement.Core.Domain
             Map(x => x.CeremonyDateTime);
             Map(x => x.ApprovedBy);
             Map(x => x.MajorName);
+            Map(x => x.LastUpdateDateTime);
         }
     }
 }
