@@ -15,7 +15,26 @@
         <div class="col1"><h2>Visa Letters</h2></div>
 
     </div>
-
+    
+        <div id="filter_container">
+        <h3><a href="#">Filters</a></h3>
+        <% using (Html.BeginForm("VisaLetters", "Admin", FormMethod.Post)) { %>
+            <%= Html.AntiForgeryToken() %>
+        <ul class="registration_form">
+        
+            <li>
+                <%= Html.CheckBoxFor(a => a.ShowAll) %> <strong>Show All</strong>
+            </li>
+            <li><strong>Start Date:</strong>
+                <%= Html.TextBoxFor(a => a.StartDate) %>
+            </li>
+            <li><strong>End Date:</strong>
+                <%= Html.TextBoxFor(a => a.EndDate) %>
+            </li>
+            <li><strong></strong><%= Html.SubmitButton("Submit", "Filter", new { @class="button" })%></li>
+        </ul>
+        <% } %>
+    </div>
     
     <%: Html.AntiForgeryToken() %>
 
@@ -24,7 +43,11 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
-
+        <script type="text/javascript">
+        $(function() {
+            $("#filter_container").accordion({collapsible:true, autoHeight: false, active: false });
+        });
+    </script>
 
     <style type="text/css">
         .cancel { cursor: pointer;}
