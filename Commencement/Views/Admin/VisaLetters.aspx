@@ -9,7 +9,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <ul class="btn">
-        <li><%: Html.ActionLink<HomeController>(a=>a.Index(), "TODO") %></li>
+        <li><%: Html.ActionLink<AdminController>(a=>a.Index(), "Home") %></li>
     </ul>
     <div class="page_bar">
         <div class="col1"><h2>Visa Letters</h2></div>
@@ -19,20 +19,7 @@
     
     <%: Html.AntiForgeryToken() %>
 
-    <% Html.Grid(Model.VisaLetters)
-           .Name("VisaLetters")
-           .Columns(col =>
-                        {
-                            col.Bound(a => a.Student.StudentId); //Remove once testing is done
-                            col.Bound(a => a.Student.FullName).Title("Name");
-                            col.Bound(a => a.ApprovedBy);
-                            col.Bound(a => a.DateDecided);
-                            col.Bound(a => a.DateCreated);
-                            col.Bound(a => a.IsApproved);
-                            col.Bound(a => a.IsPending);
-                        })
-           .Render();
-        %>
+    <%: Html.Partial("VisaLetterTablePartial", Model.VisaLetters) %>
 
 </asp:Content>
 

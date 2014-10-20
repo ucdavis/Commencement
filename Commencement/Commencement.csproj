@@ -665,6 +665,9 @@
     <Content Include="Views\Admin\VisaLetterDecide.aspx" />
     <Content Include="Views\Admin\StudentDetails.aspx" />
     <Content Include="Views\Admin\Students.aspx" />
+    <Content Include="Views\Admin\VisaLetterDetails.aspx" />
+    <Content Include="Views\Admin\VisaLetterTablePartial.ascx" />
+    <Content Include="Views\Admin\VisaLetterDetailsPartial.ascx" />
     <Content Include="Views\Admin\VisaLetters.aspx" />
     <Content Include="Views\Ceremony\AddEditor.aspx" />
     <Content Include="Views\Ceremony\CeremonyPartial.ascx" />

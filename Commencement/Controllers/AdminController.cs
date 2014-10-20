@@ -417,7 +417,7 @@ namespace Commencement.Controllers
             var visaLetters = Repository.OfType<VisaLetter>().Queryable;
             if (!showAll)
             {
-                visaLetters = visaLetters.Where(a => a.IsPending);
+                visaLetters = visaLetters.Where(a => a.IsPending && !a.IsCanceled);
             }
             if (startDate.HasValue)
             {
@@ -433,12 +433,24 @@ namespace Commencement.Controllers
             return View(model);
         }
 
+        public ActionResult VisaLetterDetails(int id)
+        {
+            var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id);
+            var relatedLetters = Repository.OfType<VisaLetter>().Queryable.Where(a => a.Student.Id == letter.Student.Id && a.Id != id).ToList();
+
+            var model = AdminVisaDetailsModel.Create(letter, relatedLetters);
+
+            return View(model);
+        }
+
         public ActionResult VisaLetterDecide(int id)
         {
             var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id);
 
             return View(letter);
         }
+
+
 
         [HttpPost]
         public ActionResult VisaLetterDecide(int id, VisaLetter model) //TODO: Put in extra parameters for Approve/Deny/Just Edit?

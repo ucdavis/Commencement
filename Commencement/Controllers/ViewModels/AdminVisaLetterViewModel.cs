@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Commencement.Controllers.Helpers;
 using Commencement.Core.Domain;
 
 namespace Commencement.Controllers.ViewModels
@@ -17,6 +18,19 @@ namespace Commencement.Controllers.ViewModels
         {
             var viewModel = new AdminVisaLetterListViewModel() {VisaLetters = visaLetters, ShowAll = showAll, StartDate = startDate, EndDate = endDate};
                 
+            return viewModel;
+        }
+    }
+
+    public class AdminVisaDetailsModel
+    {
+        public VisaLetter VisaLetter { get; set; }
+        public List<VisaLetter> RelatedLetters { get; set; }
+
+        public static AdminVisaDetailsModel Create(VisaLetter visaLetter, List<VisaLetter> relatedLetters)
+        {
+            var viewModel = new AdminVisaDetailsModel() {VisaLetter = visaLetter, RelatedLetters = relatedLetters};
+
             return viewModel;
         }
     }
