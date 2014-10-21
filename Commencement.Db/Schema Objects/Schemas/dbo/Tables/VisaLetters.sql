@@ -24,6 +24,7 @@
     [IsCanceled] BIT NOT NULL DEFAULT ((0)), 
     [LastUpdateDateTime] DATETIME NULL, 
     [Degree] VARCHAR(50) NOT NULL, 
+    [ReferenceGuid] UNIQUEIDENTIFIER NULL, 
     CONSTRAINT [PK_VisaLetters] PRIMARY KEY ([Id]), 
     
 )

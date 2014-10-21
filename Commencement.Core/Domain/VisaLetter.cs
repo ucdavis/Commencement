@@ -23,6 +23,7 @@ namespace Commencement.Core.Domain
             IsDenied = false;
             IsCanceled = false;
             DateCreated = DateTime.Now;
+            ReferenceGuid = Guid.NewGuid();
         }
 
         [NotNull]
@@ -85,6 +86,8 @@ namespace Commencement.Core.Domain
         public virtual DateTime? LastUpdateDateTime { get; set; } 
 
         public virtual string ApprovedBy { get; set; } //Or maybe edited by, etc.
+
+        public virtual Guid ReferenceGuid { get; set; }
 
         //Not a DB field
         public virtual string Decide
@@ -160,6 +163,7 @@ namespace Commencement.Core.Domain
             Map(x => x.MajorName);
             Map(x => x.LastUpdateDateTime);
             Map(x => x.Degree);
+            Map(x => x.ReferenceGuid);
         }
     }
 }
