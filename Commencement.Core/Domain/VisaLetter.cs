@@ -102,7 +102,31 @@ namespace Commencement.Core.Domain
                 return "N";
 
             }
-        } 
+        }
+
+        public virtual string Status
+        {
+            get
+            {
+                if (IsCanceled)
+                {
+                    return "Canceled";
+                }
+                if (IsPending)
+                {
+                    return "Pending";
+                }
+                if (IsApproved)
+                {
+                    return "Approved";
+                }
+                if (IsDenied)
+                {
+                    return "Denied";
+                }
+                return string.Empty;
+            }
+        }
     }
 
     public class VisaLetterMap : ClassMap<VisaLetter>

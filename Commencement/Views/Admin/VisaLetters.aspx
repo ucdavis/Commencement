@@ -26,10 +26,10 @@
                 <%= Html.CheckBoxFor(a => a.ShowAll) %> <strong>Show All</strong>
             </li>
             <li><strong>Start Date:</strong>
-                <%= Html.TextBoxFor(a => a.StartDate) %>
+                <%= Html.TextBoxFor(a => a.StartDate, new{@class="date"}) %>
             </li>
             <li><strong>End Date:</strong>
-                <%= Html.TextBoxFor(a => a.EndDate) %>
+                <%= Html.TextBoxFor(a => a.EndDate, new{@class="date"}) %>
             </li>
             <li><strong></strong><%= Html.SubmitButton("Submit", "Filter", new { @class="button" })%></li>
         </ul>

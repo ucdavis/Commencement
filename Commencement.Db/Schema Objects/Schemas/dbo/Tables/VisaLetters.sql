@@ -23,6 +23,7 @@
     [IsDenied] BIT NOT NULL DEFAULT ((0)), 
     [IsCanceled] BIT NOT NULL DEFAULT ((0)), 
     [LastUpdateDateTime] DATETIME NULL, 
+    [Degree] VARCHAR(50) NOT NULL, 
     CONSTRAINT [PK_VisaLetters] PRIMARY KEY ([Id]), 
     
 )

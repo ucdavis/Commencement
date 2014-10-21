@@ -25,7 +25,10 @@
                 </li>                                                  
                 <li><strong>College:</strong>
                     <%= Html.Encode(Model.CollegeName) %>
-                </li>                                
+                </li>      
+                <li><strong>Degree:</strong>
+                    <%= Html.Encode(Model.Degree) %>
+                </li>                             
                 <li><strong>Major:</strong>
                     <%= Html.Encode(Model.MajorName) %>
                 </li>                    

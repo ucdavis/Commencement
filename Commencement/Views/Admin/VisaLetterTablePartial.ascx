@@ -21,10 +21,7 @@
                             col.Bound(a => a.ApprovedBy);
                             col.Bound(a => a.DateDecided);
                             col.Bound(a => a.DateCreated);
-                            col.Bound(a => a.IsApproved);
-                            col.Bound(a => a.IsDenied);
-                            col.Bound(a => a.IsPending);
-                            col.Bound(a => a.IsCanceled);
+                            col.Bound(a => a.Status);                            
                         })
            .Sortable()
            .Render();
