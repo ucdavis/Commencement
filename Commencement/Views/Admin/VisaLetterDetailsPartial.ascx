@@ -1,21 +1,32 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Core.Domain.VisaLetter>" %>
+<%@ Import Namespace="Commencement.Controllers" %>
+<%@ Import Namespace="NPOI.HSSF.Model" %>
 <%@ Import Namespace="NPOI.SS.Formula.Functions" %>
 
 <fieldset>
-            <legend>Your Information</legend>
+            <legend>Student's Information</legend>
         
             <ul class="registration_form">
                 <li><strong>Student Id:</strong>
-                    <%= Html.Encode(Model.Student.StudentId) %>
+                    <%: Html.ActionLink<AdminController>(a => a.StudentDetails(Model.Student.Id, false), Model.Student.StudentId) %>
                 </li>  
+                <li><strong>Total Units:</strong>
+                    <%: Html.Encode(Model.Student.TotalUnits) %>
+                </li>
+                <li><strong>Current Units:</strong>
+                    <%: Html.Encode(Model.Student.CurrentUnits) %>
+                </li>
+                <li><strong>Earned Units:</strong>
+                    <%: Html.Encode(Model.Student.EarnedUnits) %>
+                </li>
                 <li><strong>Email:</strong>
                     <%= Html.Encode(Model.Student.Email) %>
                 </li>  
                 
-                <li><strong>Your Name On Letter:</strong>
+                <li><strong>Student's Name On Letter:</strong>
                     <%= Html.Encode(Model.StudentFirstName) %> <%= Html.Encode(Model.StudentLastName) %>
                 </li>  
-                <li><strong>Your Gender:</strong>
+                <li><strong>Student's Gender:</strong>
                     <label><%: Html.RadioButton("Gender", 'M', new{ @disabled = "disabled" })%> Male</label>
                     <label><%: Html.RadioButton("Gender", 'F', new{ @disabled = "disabled" })%> Female</label>
                 </li>  
@@ -58,15 +69,19 @@
                         <%= Html.Encode(Model.DateDecided.Value.ToString("g")) %>
                     </li>
                 <%}%>
-                <li><strong>Your Relative's Relationship:</strong>
+                <li><strong>Relative's Relationship:</strong>
                     <%= Html.Encode(Model.RelationshipToStudent) %>
                 </li>
+                
                 <li><strong>Relative Name:</strong>
                     <%= Html.Encode(Model.RelativeTitle) %> <%= Html.Encode(Model.RelativeFirstName) %> <%= Html.Encode(Model.RelativeLastName) %>
 
                 </li>
                 <li><strong>Relative Address:</strong>
-                    <%= Html.Encode(Model.RelativeMailingAddress) %>
+                    <% var address = Html.Encode(Model.RelativeMailingAddress).Replace(System.Environment.NewLine, "<br /><strong></strong>");
+                         %>
+                   <%= address %>
                 </li>
+                
             </ul>
         </fieldset>
