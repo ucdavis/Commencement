@@ -449,26 +449,38 @@ namespace Commencement.Controllers
             var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id);
             if (!letter.CeremonyDateTime.HasValue)
             {
-                var termCode = TermService.GetCurrent();
-                var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == letter.Student && a.TermCode.Id == termCode.Id);
-
-                // has this student registered yet?
-                if (currentReg != null)
+                var ceremony = GetCeremonyForVisaLetter(letter);
+                if (ceremony != null)
                 {
-                    // display previous registration
-                    var participation = currentReg.RegistrationParticipations.FirstOrDefault(a => !a.Cancelled && !a.Registration.Student.SjaBlock && !a.Registration.Student.Blocked);
-                    if (participation != null && participation.Ceremony.Colleges.Any(a => a.Id == letter.CollegeCode))
-                    {
-                        letter.CeremonyDateTime = participation.Ceremony.DateTime;
-                    }
-
+                    letter.CeremonyDateTime = ceremony.DateTime;
                 }
             }
 
             return View(letter);
         }
 
+        private Ceremony GetCeremonyForVisaLetter(VisaLetter letter, bool useDefaultCeremony = false)
+        {
+            var termCode = TermService.GetCurrent();
+            var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == letter.Student && a.TermCode.Id == termCode.Id);
 
+            // has this student registered yet?
+            if (currentReg != null)
+            {
+                // display previous registration
+                var participation = currentReg.RegistrationParticipations.FirstOrDefault(a => !a.Cancelled && !a.Registration.Student.SjaBlock && !a.Registration.Student.Blocked);
+                if (participation != null && participation.Ceremony.Colleges.Any(a => a.Id == letter.CollegeCode))
+                {
+                    return participation.Ceremony;
+                }
+            }
+
+            if (useDefaultCeremony) //So we can grab a template. But we don't want to use this for defaulting the date
+            {
+                return Repository.OfType<Ceremony>().Queryable.FirstOrDefault(a => a.Id == 1); 
+            }
+            return null;
+        }
 
         [HttpPost]
         public ActionResult VisaLetterDecide(int id, AdminVisaLetterPostModel model) 
@@ -523,6 +535,17 @@ namespace Commencement.Controllers
             {
                 Repository.OfType<VisaLetter>().EnsurePersistent(letter);
                 //TODO: Email notification
+                if (model.Decide != "N")
+                {
+                    try
+                    {
+                        _emailService.QueueVisaLetterDecision(letter, GetCeremonyForVisaLetter(letter, true), Request, Url);
+                    }
+                    catch (Exception ex)
+                    {
+                        _errorService.ReportError(ex);
+                    }
+                }
                 Message = "Letter updated";
                 return this.RedirectToAction("VisaLetterDetails", new {id});
             }

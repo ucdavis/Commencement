@@ -21,6 +21,8 @@ namespace Commencement.Controllers.Helpers
         string GenerateMoveMajor(RegistrationParticipation registrationParticipation, Template template);
         string GenerateEmailAllStudents(Ceremony ceremony, Student student, string body, TemplateType templateType, Registration registration, Attachment attachment, HttpRequestBase request, UrlHelper url);
         bool ValidateTemplate(Template template, List<string> invalidTokens);
+
+        string GenerateVisaLetterRequestDecision(VisaLetter visaLetter, Template template, HttpRequestBase request, UrlHelper url);
     }
 
     public class LetterGenerator : ILetterGenerator
@@ -35,6 +37,7 @@ namespace Commencement.Controllers.Helpers
         private Attachment _attachment;
         private HttpRequestBase _request;
         private UrlHelper _url;
+        private VisaLetter _visaLetter;
 
         public string GenerateRegistrationConfirmation(RegistrationParticipation registrationParticipation, Template template)
         {
@@ -172,6 +175,20 @@ namespace Commencement.Controllers.Helpers
         public bool ValidateTemplate(Template template, List<string> invalidTokens)
         {
             return ValidateBody(template.BodyText, template.TemplateType, invalidTokens);
+        }
+
+        public string GenerateVisaLetterRequestDecision(VisaLetter visaLetter, Template template, HttpRequestBase request, UrlHelper url)
+        {
+            _ceremony = new Ceremony(); //Don't care about ceremony
+            _student = visaLetter.Student;
+            _registration = new Registration(); //Don't Need
+            _template = template;
+            _visaLetter = visaLetter;
+
+            _request = request;
+            _url = url;
+
+            return HandleBody(template.BodyText);
         }
 
         #region Main Processing Functions
@@ -316,6 +333,16 @@ namespace Commencement.Controllers.Helpers
                 {
                     case "ticketpassword": return _registration.TicketPassword != null ? _registration.TicketPassword : "Error Password Not Found";
                     case "login": return _student.Email;
+                }
+            }
+            else if(templateName == StaticValues.Template_VisaLetterDecision)
+            {
+                Check.Require(_visaLetter != null, "_visaLetter is required.");
+                switch (parameter.ToLower())
+                {
+                    case "linktoletter": return string.Format("<a href=\"{0}\">{1}</a>", GetAbsoluteUrl(_request, _url, string.Format("~/Student/VisaLetterPdf/{0}", _visaLetter.Id)), "VisaLetterRequest");
+                    case "major": return _visaLetter.MajorName;
+                    case "decision": return _visaLetter.Status;
                 }
             }
 

@@ -10,6 +10,7 @@
     <ul class="btn">
         <li><%: Html.ActionLink<AdminController>(a=>a.VisaLetters(null, null, false), "Back to List of Letter Requests") %></li>
     </ul>
+   
 
     <h2>Visa Letter Request</h2>
     
@@ -29,7 +30,7 @@
                              
             </ul>
         </fieldset>
-    </fieldset>
+
     <fieldset>
         <legend>Related Letters</legend>
         <% Html.RenderPartial("VisaLetterTablePartial", Model.RelatedLetters); %>
