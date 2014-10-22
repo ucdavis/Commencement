@@ -6,6 +6,8 @@ using System.Web;
 using Commencement.Core.Domain;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using UCDArch.Core.PersistanceSupport;
+using UCDArch.Core.Utils;
 
 namespace Commencement.Controllers.Services
 {
@@ -17,6 +19,17 @@ namespace Commencement.Controllers.Services
 
     public class ReportService : IReportService
     {
+        private readonly IRepository _repository;
+
+        public ReportService (IRepository repository)
+        {
+            _repository = repository;
+            //To use a custom font, but it still doesn't look like the berkley font in the sample letter.
+            //string fontpath = HttpContext.Current.Server.MapPath("~/Content/font/BerkeleyUCDavis-Medium.ttf");
+            //BaseFont customfont = BaseFont.CreateFont(fontpath, BaseFont.CP1252, BaseFont.EMBEDDED);
+
+            //_font = new Font(customfont, 12);
+        }
 
         #region Declarations
         // colors
@@ -27,7 +40,9 @@ namespace Commencement.Controllers.Services
         private readonly Font _headerFont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD);
         private readonly Font _summaryFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.GRAY);
 
-        //private readonly Font _font = new Font(Font.FontFamily.TIMES_ROMAN, 10);
+
+
+        private readonly Font _font = new Font(Font.FontFamily.TIMES_ROMAN, 12);
         private readonly Font _boldFont = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLD);
         private readonly Font _italicFont = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.ITALIC);
         private readonly Font _italicFontWhite = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLDITALIC, BaseColor.WHITE);
@@ -54,6 +69,7 @@ namespace Commencement.Controllers.Services
             #region Header Image           
             string url = HttpContext.Current.Server.MapPath("~/Images/visaLetterHeader.png");
             var img = Image.GetInstance(new Uri(url));
+            img.ScaleToFit(_pageWidth, _pageHeight);
             doc.Add(img);
 
             #endregion Header Image
@@ -68,6 +84,10 @@ namespace Commencement.Controllers.Services
 
             table = InitializeTable();
             table.AddCell(InitializeCell(string.Format("RE:  {0} {1} Request for Visa", visaLetter.StudentFirstName, visaLetter.StudentLastName), halignment: Element.ALIGN_LEFT, bottomBorder: false));
+            doc.Add(table);
+
+            table = InitializeTable();
+            table.AddCell(InitializeCell(string.Format("Reference:  {0}", visaLetter.ReferenceGuid), halignment: Element.ALIGN_LEFT, bottomBorder: false));
             doc.Add(table);
 
             table = InitializeTable();
@@ -105,6 +125,51 @@ namespace Commencement.Controllers.Services
                 , visaLetter.RelativeFirstName              //1
                 , visaLetter.RelativeLastName               //2
                 ), halignment: Element.ALIGN_LEFT, bottomBorder: false));
+            doc.Add(table);
+
+            var user = _repository.OfType<vUser>().Queryable.FirstOrDefault(a => a.LoginId == visaLetter.ApprovedBy);
+            Check.Require(user != null, "Approval User is required");
+
+            table = InitializeTable();
+            table.AddCell(InitializeCell(string.Format("Should you need more information, please contact me at {0}"
+                , user.Email), halignment: Element.ALIGN_LEFT, bottomBorder: false));
+            doc.Add(table);
+
+            table = InitializeTable();
+            table.AddCell(InitializeCell("Kind regards.", halignment: Element.ALIGN_RIGHT, bottomBorder: false));
+            doc.Add(table);
+
+            //TODO: What if we can't find the signature?
+            url = HttpContext.Current.Server.MapPath(string.Format("~/Images/vl_{0}_signature.png", user.LoginId.ToLower().Trim()));
+            if (File.Exists(url))
+            {
+                img = Image.GetInstance(new Uri(url));
+            }
+            else
+            {
+                throw new Exception("Image not found " + url);
+            }
+
+            table = InitializeTable();
+            var imageCell = new PdfPCell(img);
+            imageCell.HorizontalAlignment = Element.ALIGN_RIGHT;
+            table.AddCell(imageCell); // (InitializeCell(img, halignment: Element.ALIGN_RIGHT, bottomBorder: false));
+            doc.Add(table);
+
+            table = InitializeTable();
+            table.AddCell(InitializeCell(user.FullName, halignment: Element.ALIGN_RIGHT, bottomBorder: false));
+            doc.Add(table);
+
+            table = InitializeTable();
+            table.AddCell(InitializeCell("Commencement Coordinator", halignment: Element.ALIGN_RIGHT, bottomBorder: false));
+            doc.Add(table);
+
+            table = InitializeTable();
+            table.AddCell(InitializeCell("UC Davis", halignment: Element.ALIGN_RIGHT, bottomBorder: false));
+            doc.Add(table);
+
+            table = InitializeTable();
+            table.AddCell(InitializeCell("TODO: Phone Number", halignment: Element.ALIGN_RIGHT, bottomBorder: false));
             doc.Add(table);
 
             doc.Close();

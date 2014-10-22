@@ -486,6 +486,13 @@ namespace Commencement.Controllers
         public ActionResult VisaLetterDecide(int id, AdminVisaLetterPostModel model) 
         {
             var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id);
+
+            var url = HttpContext.Server.MapPath(string.Format("~/Images/vl_{0}_signature.png", CurrentUser.Identity.Name.ToLower().Trim()));
+            if (!System.IO.File.Exists(url))
+            {
+                Message = "You must set up a signature to be able to decide Visa Letter Requests";
+                return View(letter);
+            }
             
             // -- Student
             letter.StudentFirstName = model.StudentFirstName;

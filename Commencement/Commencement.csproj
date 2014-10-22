@@ -377,6 +377,7 @@
     <Content Include="Images\preferences.png" />
     <Content Include="Images\speechbubble.jpg" />
     <Content Include="Images\to-do-list_checked1_small.gif" />
+    <Content Include="Images\vl_fmross_signature.png" />
     <Content Include="Scripts\dateFormat.js" />
     <Content Include="Scripts\highchart.js" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
@@ -860,6 +861,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Content Include="Content\font\BerkeleyUCDavis-Black.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-BlackIt.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-Bold.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-BoldIt.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-Book.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-BookIt.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-Medium.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-MediumIt.ttf" />
     <None Include="Properties\PublishProfiles\Dev.pubxml" />
     <None Include="Properties\PublishProfiles\Profile.pubxml" />
     <None Include="Properties\PublishProfiles\Release.pubxml" />
