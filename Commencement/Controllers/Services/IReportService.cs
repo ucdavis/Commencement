@@ -27,11 +27,13 @@ namespace Commencement.Controllers.Services
         private readonly Font _headerFont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD);
         private readonly Font _summaryFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.GRAY);
 
-        private readonly Font _font = new Font(Font.FontFamily.TIMES_ROMAN, 10);
+        //private readonly Font _font = new Font(Font.FontFamily.TIMES_ROMAN, 10);
         private readonly Font _boldFont = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLD);
         private readonly Font _italicFont = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.ITALIC);
         private readonly Font _italicFontWhite = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLDITALIC, BaseColor.WHITE);
         private readonly Font _smallPrint = new Font(Font.FontFamily.HELVETICA, 8);
+
+       
 
         // width of the content
         private float _pageWidth;
@@ -49,11 +51,61 @@ namespace Commencement.Controllers.Services
             var writer = PdfWriter.GetInstance(doc, ms); //This binds the memory stream to the doc.
             doc.Open();
 
+            #region Header Image           
+            string url = HttpContext.Current.Server.MapPath("~/Images/visaLetterHeader.png");
+            var img = Image.GetInstance(new Uri(url));
+            doc.Add(img);
+
+            #endregion Header Image
+
             var table = InitializeTable();
             table.AddCell(InitializeCell(visaLetter.DateDecided.Value.Date.ToString("MMMM dd, yyyy"), halignment: Element.ALIGN_RIGHT, bottomBorder: false));
             doc.Add(table);
 
+            table = InitializeTable();
+            table.AddCell(InitializeCell("To Whom It May Concern", halignment: Element.ALIGN_LEFT, bottomBorder: false));
+            doc.Add(table);
 
+            table = InitializeTable();
+            table.AddCell(InitializeCell(string.Format("RE:  {0} {1} Request for Visa", visaLetter.StudentFirstName, visaLetter.StudentLastName), halignment: Element.ALIGN_LEFT, bottomBorder: false));
+            doc.Add(table);
+
+            table = InitializeTable();
+            table.AddCell(InitializeCell(string.Format("{0} {1} is completing {2} requirements for a {3} in {4}.  {5} is participating in the {6}’s commencement ceremony held at the UC Davis campus in Davis, California, United States of America on {7}."
+                , visaLetter.StudentFirstName
+                , visaLetter.StudentLastName
+                , visaLetter.Gender == "M" ? "his" : "her"
+                , visaLetter.Degree, visaLetter.MajorName
+                , visaLetter.Gender == "M" ? "He" : "She"
+                , visaLetter.CollegeName
+                , visaLetter.CeremonyDateTime.Value.Date.ToString("MMMM dd, yyyy"))
+                , halignment: Element.ALIGN_LEFT, bottomBorder: false));
+            doc.Add(table);
+
+            table = InitializeTable();
+            table.AddCell(InitializeCell(string.Format("{0} {1} would be extremely appreciative if {2} {3}, {4} {5} could attend the ceremony.  {6}. {4} {5} resides at:"
+                , visaLetter.Gender == "M" ? "Mr." : "Ms."  //0
+                , visaLetter.StudentLastName                //1
+                , visaLetter.Gender == "M" ? "his" : "her"  //2
+                , visaLetter.RelationshipToStudent          //3
+                , visaLetter.RelativeFirstName              //4
+                , visaLetter.RelativeLastName               //5
+                , visaLetter.RelativeTitle                  //6
+                )
+                , halignment: Element.ALIGN_LEFT, bottomBorder: false));
+            doc.Add(table);
+
+            table = InitializeTable();
+            table.AddCell(InitializeCell(visaLetter.RelativeMailingAddress, halignment: Element.ALIGN_LEFT, bottomBorder: false));
+            doc.Add(table);
+
+            table = InitializeTable();
+            table.AddCell(InitializeCell(string.Format("This is a memorable occasion and we hope that {0}. {1} {2} can attend."
+                , visaLetter.RelativeTitle                  //0
+                , visaLetter.RelativeFirstName              //1
+                , visaLetter.RelativeLastName               //2
+                ), halignment: Element.ALIGN_LEFT, bottomBorder: false));
+            doc.Add(table);
 
             doc.Close();
 
@@ -193,6 +245,8 @@ namespace Commencement.Controllers.Services
             {
                 cell.PaddingRight = overrideRightPadding.Value;
             }
+
+           
 
             return cell;
         }
