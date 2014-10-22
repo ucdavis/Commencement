@@ -226,6 +226,7 @@
     <Compile Include="Controllers\Services\EmailService.cs" />
     <Compile Include="Controllers\Services\ErrorService.cs" />
     <Compile Include="Controllers\Services\ExcelService.cs" />
+    <Compile Include="Controllers\Services\IReportService.cs" />
     <Compile Include="Controllers\Services\MajorService.cs" />
     <Compile Include="Controllers\Services\PetitionService.cs" />
     <Compile Include="Controllers\Services\RegistrationService.cs" />

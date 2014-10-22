@@ -27,6 +27,7 @@ namespace Commencement.Controllers
         private readonly IRepository<Registration> _registrationRepository;
         private readonly IErrorService _errorService;
         private readonly ICeremonyService _ceremonyService;
+        private readonly IReportService _reportService;
         private readonly IRepository<RegistrationPetition> _registrationPetitionRepository;
         private readonly IRepository<RegistrationParticipation> _participationRepository;
         private readonly IRegistrationPopulator _registrationPopulator;
@@ -39,7 +40,9 @@ namespace Commencement.Controllers
             IRepository<Ceremony> ceremonyRepository, 
             IRepository<Registration> registrationRepository,
             IErrorService errorService,
-            ICeremonyService ceremonyService, IRepository<RegistrationPetition> registrationPetitionRepository,
+            ICeremonyService ceremonyService, 
+            IReportService reportService,
+            IRepository<RegistrationPetition> registrationPetitionRepository,
             IRepository<RegistrationParticipation> participationRepository, IRegistrationPopulator registrationPopulator)
         {
             _studentRepository = studentRepository;
@@ -47,6 +50,7 @@ namespace Commencement.Controllers
             _registrationRepository = registrationRepository;
             _errorService = errorService;
             _ceremonyService = ceremonyService;
+            _reportService = reportService;
             _registrationPetitionRepository = registrationPetitionRepository;
             _participationRepository = participationRepository;
             _registrationPopulator = registrationPopulator;
@@ -566,23 +570,25 @@ namespace Commencement.Controllers
             return View(letter);
         }
 
-        public ActionResult VisaLetterPdf(int id)
+        public FileResult VisaLetterPdf(int id)
         {
             // validate student is in our DB, otherwise we need to do a lookup
             var student = GetCurrentStudent();
 
             // we were just unable to find record
-            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
+            if (student == null) return File(_reportService.WritePdfWithErrorMessage("Student Record Not Found"), "application/pdf");
 
             var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id && a.Student.StudentId == student.StudentId); //Only allow that student to print it.
 
             if (!letter.IsApproved || letter.IsPending)
             {
                 Message = "Approved Letter Not Found";
-                return this.RedirectToAction<ErrorController>(a => a.NotFound());
+                return File(_reportService.WritePdfWithErrorMessage(Message), "application/pdf");
+                //return this.RedirectToAction<ErrorController>(a => a.NotFound());
             }
 
-            throw new NotImplementedException("Need to write the code to generate the PDF");
+            return File(_reportService.GenerateLetter(letter), "application/pdf");
+
         }
 
         #region Helper Methods

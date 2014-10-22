@@ -36,6 +36,8 @@ namespace Commencement
 
             container.AddComponent("excelService", typeof (IExcelService), typeof (ExcelService));
 
+            container.AddComponent("reportService", typeof (IReportService), typeof (ReportService));
+
             AddRepositoriesTo(container);
         }
 
