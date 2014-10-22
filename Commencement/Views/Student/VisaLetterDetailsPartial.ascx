@@ -20,8 +20,8 @@
                     <label><%: Html.RadioButton("Gender", 'F', new{ @disabled = "disabled" })%> Female</label>
                 </li>  
                 <li><strong>Ceremony:</strong>
-                    <label><%: Html.RadioButton("Ceremony", 'S')%> Spring</label>
-                    <label><%: Html.RadioButton("Ceremony", 'F')%> Fall</label>
+                    <label><%: Html.RadioButton("Ceremony", 'S',new{ @disabled = "disabled" })%> Spring</label>
+                    <label><%: Html.RadioButton("Ceremony", 'F',new{ @disabled = "disabled" })%> Fall</label>
                 </li>                                                  
                 <li><strong>College:</strong>
                     <%= Html.Encode(Model.CollegeName) %>
