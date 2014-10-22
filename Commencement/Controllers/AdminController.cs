@@ -30,8 +30,9 @@ namespace Commencement.Controllers
         private readonly IRegistrationPopulator _registrationPopulator;
         private readonly IRepository<Registration> _registrationRepository;
         private readonly IErrorService _errorService;
+        private readonly IReportService _reportService;
 
-        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService, IEmailService emailService, IMajorService majorService, ICeremonyService ceremonyService, IRegistrationService registrationService, IRegistrationPopulator registrationPopulator, IRepository<Registration> registrationRepository, IErrorService errorService)
+        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService, IEmailService emailService, IMajorService majorService, ICeremonyService ceremonyService, IRegistrationService registrationService, IRegistrationPopulator registrationPopulator, IRepository<Registration> registrationRepository, IErrorService errorService, IReportService reportService)
         {
             if (emailService == null) throw new ArgumentNullException("emailService");
             _studentRepository = studentRepository;
@@ -44,6 +45,7 @@ namespace Commencement.Controllers
             _registrationPopulator = registrationPopulator;
             _registrationRepository = registrationRepository;
             _errorService = errorService;
+            _reportService = reportService;
         }
 
         /// <summary>
@@ -559,7 +561,23 @@ namespace Commencement.Controllers
 
             Message = "Please correct errors and try again.";
             return View(letter);
+        }
 
+        public FileResult VisaLetterPreviewPdf(int id)
+        {
+
+            var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id);
+            letter.ApprovedBy = CurrentUser.Identity.Name;
+
+            var url = HttpContext.Server.MapPath(string.Format("~/Images/vl_{0}_signature.png", CurrentUser.Identity.Name.ToLower().Trim()));
+            if (!System.IO.File.Exists(url))
+            {
+                Message = "You must set up a signature to be able to decide Visa Letter Requests";
+                return File(_reportService.WritePdfWithErrorMessage(Message), "application/pdf");
+
+            }
+
+            return File(_reportService.GenerateLetter(letter), "application/pdf");
 
         }
     }
