@@ -91,14 +91,15 @@ namespace Commencement.Controllers.Services
 
             table.AddCell(InitializeCell(string.Format("Reference:  {0}", visaLetter.ReferenceGuid), halignment: Element.ALIGN_LEFT, bottomBorder: false));
 
-            table.AddCell(InitializeCell(string.Format("{0} {1} is completing {2} requirements for a {3} in {4}.  {5} is participating in the {6}’s commencement ceremony held at the UC Davis campus in Davis, California, United States of America on {7}."
-                , visaLetter.StudentFirstName
-                , visaLetter.StudentLastName
-                , visaLetter.Gender == "M" ? "his" : "her"
-                , visaLetter.Degree, visaLetter.MajorName
-                , visaLetter.Gender == "M" ? "He" : "She"
-                , visaLetter.CollegeName
-                , visaLetter.CeremonyDateTime.HasValue ? visaLetter.CeremonyDateTime.Value.Date.ToString("MMMM dd, yyyy") : "ERROR")
+            table.AddCell(InitializeCell(string.Format("{0} {1} is completing {2} requirements for a {3} degree in {4}.  {5} is participating in the College of {6}’s commencement ceremony held at the UC Davis campus in Davis, California, United States of America on {7}."
+                , visaLetter.StudentFirstName               //0
+                , visaLetter.StudentLastName                //1
+                , visaLetter.Gender == "M" ? "his" : "her"  //2
+                , visaLetter.Degree                         //3
+                , visaLetter.MajorName                      //4
+                , visaLetter.Gender == "M" ? "He" : "She"   //5
+                , visaLetter.CollegeName                    //6
+                , visaLetter.CeremonyDateTime.HasValue ? visaLetter.CeremonyDateTime.Value.Date.ToString("MMMM dd, yyyy") : "ERROR") //7
                 , halignment: Element.ALIGN_LEFT, bottomBorder: false));
 
             table.AddCell(InitializeCell(string.Format("{0} {1} would be extremely appreciative if {2} {3}, {4} {5} could attend the ceremony.  {6}. {4} {5} resides at:"

@@ -20,8 +20,8 @@ namespace Commencement.Resources
         public static List<SelectListItem> CollegeNames = new List<SelectListItem>()
         { //Use the college name in the database instead? This probably ensures correct text on the letter.
             new SelectListItem() {Text = "", Value = ""},
-            new SelectListItem() {Value = "AE", Text = "Agricultural and Environmental Sciences"},
-            new SelectListItem() {Value = "BI", Text = "Biological Sciences"},
+            new SelectListItem() {Value = "AE", Text = "Agricultural and Environmental Science"},
+            new SelectListItem() {Value = "BI", Text = "Biological Science"},
             new SelectListItem() {Value = "EN", Text = "Engineering"},
             new SelectListItem() {Value = "GS", Text = "Graduate Studies"},
             new SelectListItem() {Value = "LS", Text = "Letters & Science"},
