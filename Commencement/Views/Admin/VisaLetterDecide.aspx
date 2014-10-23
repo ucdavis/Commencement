@@ -10,6 +10,7 @@
     <ul class="btn">
         <li><%: Html.ActionLink<AdminController>(a=>a.Index(), "Home") %></li>
         <li><%: Html.ActionLink<AdminController>(a=>a.VisaLetters(null, null, false), "Back to list of letters") %></li>
+        <li><%: Html.ActionLink<AdminController>(a=>a.VisaLetterPreviewPdf(Model.Id), "Preview (Before Any Changes)", new{target="_blank"}) %></li>
     </ul>
 
     <h2>Edit <%: Model.Student.FullName %></h2>

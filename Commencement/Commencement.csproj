@@ -94,6 +94,9 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\packages\NPOI.1.2.5\lib\net40\Ionic.Zip.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\packages\iTextSharp.5.5.3\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -223,6 +226,7 @@
     <Compile Include="Controllers\Services\EmailService.cs" />
     <Compile Include="Controllers\Services\ErrorService.cs" />
     <Compile Include="Controllers\Services\ExcelService.cs" />
+    <Compile Include="Controllers\Services\IReportService.cs" />
     <Compile Include="Controllers\Services\MajorService.cs" />
     <Compile Include="Controllers\Services\PetitionService.cs" />
     <Compile Include="Controllers\Services\RegistrationService.cs" />
@@ -334,6 +338,7 @@
     <Content Include="Content\images\ui-icons_c83900_256x240.png" />
     <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\images\ui-icons_fffff_256x240.png" />
+    <Content Include="Images\visaLetterHeader.png" />
     <Content Include="Content\jquery-ui-1.8.19.custom.css" />
     <Content Include="Images\chart.png" />
     <Content Include="Images\clock.png" />
@@ -372,6 +377,8 @@
     <Content Include="Images\preferences.png" />
     <Content Include="Images\speechbubble.jpg" />
     <Content Include="Images\to-do-list_checked1_small.gif" />
+    <Content Include="Images\vl_jsylvest_signature.png" />
+    <Content Include="Images\vl_fmross_signature.png" />
     <Content Include="Scripts\dateFormat.js" />
     <Content Include="Scripts\highchart.js" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
@@ -855,6 +862,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Content Include="Content\font\BerkeleyUCDavis-Black.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-BlackIt.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-Bold.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-BoldIt.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-Book.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-BookIt.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-Medium.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-MediumIt.ttf" />
     <None Include="Properties\PublishProfiles\Dev.pubxml" />
     <None Include="Properties\PublishProfiles\Profile.pubxml" />
     <None Include="Properties\PublishProfiles\Release.pubxml" />

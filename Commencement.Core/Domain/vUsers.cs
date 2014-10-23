@@ -14,6 +14,8 @@ namespace Commencement.Core.Domain
         public virtual string LastName { get; set; }
         public virtual string Email { get; set; }
 
+        public virtual string Phone { get; set; }
+
         public virtual string FullName
         {
             get { return FirstName + " " + LastName; }
@@ -33,6 +35,7 @@ namespace Commencement.Core.Domain
             Map(x => x.FirstName);
             Map(x => x.LastName);
             Map(x => x.Email);
+            Map(x => x.Phone);
         }
     }
 }
