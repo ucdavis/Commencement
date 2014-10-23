@@ -75,7 +75,7 @@ namespace Commencement.Controllers.Services
             #endregion Header Image
 
             var table = InitializeTable();
-            table.AddCell(InitializeCell(visaLetter.DateDecided.Value.Date.ToString("MMMM dd, yyyy"), halignment: Element.ALIGN_RIGHT, bottomBorder: false));
+            table.AddCell(InitializeCell(visaLetter.DateDecided.HasValue ? visaLetter.DateDecided.Value.Date.ToString("MMMM dd, yyyy") : DateTime.Now.Date.ToString("MMMM dd, yyyy"), halignment: Element.ALIGN_RIGHT, bottomBorder: false));
             doc.Add(table);
 
             table = InitializeTable();
@@ -98,7 +98,7 @@ namespace Commencement.Controllers.Services
                 , visaLetter.Degree, visaLetter.MajorName
                 , visaLetter.Gender == "M" ? "He" : "She"
                 , visaLetter.CollegeName
-                , visaLetter.CeremonyDateTime.Value.Date.ToString("MMMM dd, yyyy"))
+                , visaLetter.CeremonyDateTime.HasValue ? visaLetter.CeremonyDateTime.Value.Date.ToString("MMMM dd, yyyy") : "ERROR")
                 , halignment: Element.ALIGN_LEFT, bottomBorder: false));
             doc.Add(table);
 
@@ -144,6 +144,7 @@ namespace Commencement.Controllers.Services
             if (File.Exists(url))
             {
                 img = Image.GetInstance(new Uri(url));
+                img.ScaleToFit(80f,140f);
             }
             else
             {
@@ -152,6 +153,10 @@ namespace Commencement.Controllers.Services
 
             table = InitializeTable();
             var imageCell = new PdfPCell(img);
+            imageCell.BorderWidthLeft = 0;
+            imageCell.BorderWidthRight = 0;
+            imageCell.BorderWidthTop = 0;
+            imageCell.BorderWidthBottom = 0;
             imageCell.HorizontalAlignment = Element.ALIGN_RIGHT;
             table.AddCell(imageCell); // (InitializeCell(img, halignment: Element.ALIGN_RIGHT, bottomBorder: false));
             doc.Add(table);
@@ -161,16 +166,12 @@ namespace Commencement.Controllers.Services
             doc.Add(table);
 
             table = InitializeTable();
-            table.AddCell(InitializeCell("Commencement Coordinator", halignment: Element.ALIGN_RIGHT, bottomBorder: false));
+            table.AddCell(InitializeCell("Commencement Coordinator", halignment: Element.ALIGN_RIGHT, bottomBorder: false, padding: false));
+            table.AddCell(InitializeCell("UC Davis", halignment: Element.ALIGN_RIGHT, bottomBorder: false, padding: false));
+            table.AddCell(InitializeCell("TODO: Phone Number", halignment: Element.ALIGN_RIGHT, bottomBorder: false, padding: false));
             doc.Add(table);
 
-            table = InitializeTable();
-            table.AddCell(InitializeCell("UC Davis", halignment: Element.ALIGN_RIGHT, bottomBorder: false));
-            doc.Add(table);
 
-            table = InitializeTable();
-            table.AddCell(InitializeCell("TODO: Phone Number", halignment: Element.ALIGN_RIGHT, bottomBorder: false));
-            doc.Add(table);
 
             doc.Close();
 
