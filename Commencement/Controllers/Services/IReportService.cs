@@ -76,21 +76,13 @@ namespace Commencement.Controllers.Services
 
             var table = InitializeTable();
             table.AddCell(InitializeCell(visaLetter.DateDecided.HasValue ? visaLetter.DateDecided.Value.Date.ToString("MMMM dd, yyyy") : DateTime.Now.Date.ToString("MMMM dd, yyyy"), halignment: Element.ALIGN_RIGHT, bottomBorder: false));
-            doc.Add(table);
 
-            table = InitializeTable();
             table.AddCell(InitializeCell("To Whom It May Concern", halignment: Element.ALIGN_LEFT, bottomBorder: false));
-            doc.Add(table);
 
-            table = InitializeTable();
             table.AddCell(InitializeCell(string.Format("RE:  {0} {1} Request for Visa", visaLetter.StudentFirstName, visaLetter.StudentLastName), halignment: Element.ALIGN_LEFT, bottomBorder: false));
-            doc.Add(table);
 
-            table = InitializeTable();
             table.AddCell(InitializeCell(string.Format("Reference:  {0}", visaLetter.ReferenceGuid), halignment: Element.ALIGN_LEFT, bottomBorder: false));
-            doc.Add(table);
 
-            table = InitializeTable();
             table.AddCell(InitializeCell(string.Format("{0} {1} is completing {2} requirements for a {3} in {4}.  {5} is participating in the {6}’s commencement ceremony held at the UC Davis campus in Davis, California, United States of America on {7}."
                 , visaLetter.StudentFirstName
                 , visaLetter.StudentLastName
@@ -100,9 +92,7 @@ namespace Commencement.Controllers.Services
                 , visaLetter.CollegeName
                 , visaLetter.CeremonyDateTime.HasValue ? visaLetter.CeremonyDateTime.Value.Date.ToString("MMMM dd, yyyy") : "ERROR")
                 , halignment: Element.ALIGN_LEFT, bottomBorder: false));
-            doc.Add(table);
 
-            table = InitializeTable();
             table.AddCell(InitializeCell(string.Format("{0} {1} would be extremely appreciative if {2} {3}, {4} {5} could attend the ceremony.  {6}. {4} {5} resides at:"
                 , visaLetter.Gender == "M" ? "Mr." : "Ms."  //0
                 , visaLetter.StudentLastName                //1
@@ -113,31 +103,23 @@ namespace Commencement.Controllers.Services
                 , visaLetter.RelativeTitle                  //6
                 )
                 , halignment: Element.ALIGN_LEFT, bottomBorder: false));
-            doc.Add(table);
 
-            table = InitializeTable();
             table.AddCell(InitializeCell(visaLetter.RelativeMailingAddress, halignment: Element.ALIGN_LEFT, bottomBorder: false));
-            doc.Add(table);
 
-            table = InitializeTable();
             table.AddCell(InitializeCell(string.Format("This is a memorable occasion and we hope that {0}. {1} {2} can attend."
                 , visaLetter.RelativeTitle                  //0
                 , visaLetter.RelativeFirstName              //1
                 , visaLetter.RelativeLastName               //2
                 ), halignment: Element.ALIGN_LEFT, bottomBorder: false));
-            doc.Add(table);
 
             var user = _repository.OfType<vUser>().Queryable.FirstOrDefault(a => a.LoginId == visaLetter.ApprovedBy);
             Check.Require(user != null, "Approval User is required");
 
-            table = InitializeTable();
             table.AddCell(InitializeCell(string.Format("Should you need more information, please contact me at {0}"
                 , user.Email), halignment: Element.ALIGN_LEFT, bottomBorder: false));
-            doc.Add(table);
 
-            table = InitializeTable();
             table.AddCell(InitializeCell("Kind regards.", halignment: Element.ALIGN_RIGHT, bottomBorder: false));
-            doc.Add(table);
+
 
             //TODO: What if we can't find the signature?
             url = HttpContext.Current.Server.MapPath(string.Format("~/Images/vl_{0}_signature.png", user.LoginId.ToLower().Trim()));
@@ -151,7 +133,6 @@ namespace Commencement.Controllers.Services
                 throw new Exception("Image not found " + url);
             }
 
-            table = InitializeTable();
             var imageCell = new PdfPCell(img);
             imageCell.BorderWidthLeft = 0;
             imageCell.BorderWidthRight = 0;
@@ -159,16 +140,12 @@ namespace Commencement.Controllers.Services
             imageCell.BorderWidthBottom = 0;
             imageCell.HorizontalAlignment = Element.ALIGN_RIGHT;
             table.AddCell(imageCell); // (InitializeCell(img, halignment: Element.ALIGN_RIGHT, bottomBorder: false));
-            doc.Add(table);
 
-            table = InitializeTable();
             table.AddCell(InitializeCell(user.FullName, halignment: Element.ALIGN_RIGHT, bottomBorder: false));
-            doc.Add(table);
 
-            table = InitializeTable();
             table.AddCell(InitializeCell("Commencement Coordinator", halignment: Element.ALIGN_RIGHT, bottomBorder: false, padding: false));
             table.AddCell(InitializeCell("UC Davis", halignment: Element.ALIGN_RIGHT, bottomBorder: false, padding: false));
-            table.AddCell(InitializeCell("TODO: Phone Number", halignment: Element.ALIGN_RIGHT, bottomBorder: false, padding: false));
+            table.AddCell(InitializeCell(user.Phone, halignment: Element.ALIGN_RIGHT, bottomBorder: false, padding: false));
             doc.Add(table);
 
 
