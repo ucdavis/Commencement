@@ -44,13 +44,15 @@
 
         <li><strong>Degree:</strong>
             <%if (ViewBag.AllowChange != null && ViewBag.AllowChange == false) {%>
-                <%: Html.TextBoxFor(a=>a.Degree, new{ @disabled = "disabled" }) %>
-                <%: Html.HiddenFor(a => a.Degree) %>
+                <%: Model.Degree %>
+                <%: Html.HiddenFor(a => a.Degree, new{id = "doNotChosen2"}) %>
             <% } else { %>
-                <%: Html.TextBoxFor(a=>a.Degree) %>
+                <%: Html.DropDownListFor(a=>a.Degree, SelectLists.DegreeType) %>
             <% } %>
+            
             <%= Html.ValidationMessageFor(a=>a.Degree) %>
         </li>
+
         
         <li><strong>Major Name:</strong>
             <%if (ViewBag.AllowChange != null && ViewBag.AllowChange == false) {%>
@@ -114,8 +116,9 @@
     <script type="text/javascript">
         $(document).ready(function () {
             
-            $("#CollegeCode").chosen({ no_results_text: "No results matched" }); //TODO: Test this.
-            $('#RelativeTitle').chosen({ no_results_text: "No results matched" }); //TODO: Test this.
+            $("#CollegeCode").chosen({ no_results_text: "No results matched" }); 
+            $("#Degree").chosen({ no_results_text: "No results matched" });
+            $('#RelativeTitle').chosen({ no_results_text: "No results matched" });
            
         });
     </script>

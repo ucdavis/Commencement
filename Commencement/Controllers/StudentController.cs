@@ -411,7 +411,6 @@ namespace Commencement.Controllers
                     letter.MajorName = major.MajorName;
                     letter.CollegeCode = major.College.Id;
                 }
-                letter.Degree = "Bachelor of Science degree";
             }
 
 

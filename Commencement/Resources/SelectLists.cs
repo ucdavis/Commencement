@@ -30,7 +30,14 @@ namespace Commencement.Resources
             new SelectListItem() {Value = "SM", Text = "School of Management"},
             new SelectListItem() {Value = "UE", Text = "University Extension"},
             new SelectListItem() {Value = "VM", Text = "Veterinary Medicine"},
+        };
 
-        }; 
+        public static List<SelectListItem> DegreeType = new List<SelectListItem>()
+        {
+            new SelectListItem() {Text = "", Value = ""},
+            new SelectListItem() {Text = "Bachelor of Arts", Value = "Bachelor of Arts"},
+            new SelectListItem() {Text = "Bachelor of Science", Value = "Bachelor of Science"},
+            new SelectListItem() {Text = "Bachelor of Arts and Science", Value = "Bachelor of Arts and Science"},
+        };
     }
 }
