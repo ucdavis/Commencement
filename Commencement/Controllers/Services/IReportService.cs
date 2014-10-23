@@ -43,7 +43,7 @@ namespace Commencement.Controllers.Services
 
 
         private readonly Font _font = new Font(Font.FontFamily.TIMES_ROMAN, 12);
-        private readonly Font _boldFont = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLD);
+        private readonly Font _boldFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
         private readonly Font _italicFont = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.ITALIC);
         private readonly Font _italicFontWhite = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLDITALIC, BaseColor.WHITE);
         private readonly Font _smallPrint = new Font(Font.FontFamily.HELVETICA, 8);
@@ -66,15 +66,23 @@ namespace Commencement.Controllers.Services
             var writer = PdfWriter.GetInstance(doc, ms); //This binds the memory stream to the doc.
             doc.Open();
 
+            var table = InitializeTable();
+            table.AddCell(InitializeCell("UNIVERSITY OF CALIFORNIA, DAVIS", halignment: Element.ALIGN_LEFT, bottomBorder: false, font: _boldFont));
+            doc.Add(table);
             #region Header Image           
-            string url = HttpContext.Current.Server.MapPath("~/Images/visaLetterHeader.png");
+            string url = HttpContext.Current.Server.MapPath("~/Images/visaLetterHeader.gif");
             var img = Image.GetInstance(new Uri(url));
             img.ScaleToFit(_pageWidth, _pageHeight);
             doc.Add(img);
 
             #endregion Header Image
 
-            var table = InitializeTable();
+            table = InitializeTable();
+            table.AddCell(InitializeCell("One Shields Avenue", halignment: Element.ALIGN_RIGHT, bottomBorder: false, font: _smallPrint, padding: false));
+            table.AddCell(InitializeCell("Davis, California  95616", halignment: Element.ALIGN_RIGHT, bottomBorder: false, font: _smallPrint, padding: false));
+            doc.Add(table);
+
+            table = InitializeTable();
             table.AddCell(InitializeCell(visaLetter.DateDecided.HasValue ? visaLetter.DateDecided.Value.Date.ToString("MMMM dd, yyyy") : DateTime.Now.Date.ToString("MMMM dd, yyyy"), halignment: Element.ALIGN_RIGHT, bottomBorder: false));
 
             table.AddCell(InitializeCell("To Whom It May Concern", halignment: Element.ALIGN_LEFT, bottomBorder: false));
