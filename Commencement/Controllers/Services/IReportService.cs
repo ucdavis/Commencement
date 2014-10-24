@@ -113,10 +113,10 @@ namespace Commencement.Controllers.Services
                 , visaLetter.RelativeLastName               //2
                 ), halignment: Element.ALIGN_LEFT, bottomBorder: false));
 
-            WriteSignature(visaLetter, table);
+            WriteSignature(visaLetter, table, doc);
 
 
-            doc.Add(table);
+           // doc.Add(table);
 
 
 
@@ -145,7 +145,7 @@ namespace Commencement.Controllers.Services
             doc.Add(table);
         }
 
-        private void WriteSignature(VisaLetter visaLetter, PdfPTable table)
+        private void WriteSignature(VisaLetter visaLetter, PdfPTable table, Document doc)
         {
             string url;
             Image img;
@@ -160,10 +160,14 @@ namespace Commencement.Controllers.Services
 
             table.AddCell(cell);
 
+            doc.Add(table);
 
+            table = InitializeTable(2);
+            table.SetWidths(new float[]{40,60});
+            table.AddCell(InitializeCell("", halignment: Element.ALIGN_LEFT, bottomBorder: false, overridePaddingTop: 20));
 
-            table.AddCell(InitializeCell("Kind regards.", halignment: Element.ALIGN_RIGHT, bottomBorder: false, overridePaddingTop:20));
-
+            table.AddCell(InitializeCell("Kind regards.", halignment: Element.ALIGN_LEFT, bottomBorder: false, padding: false, overridePaddingTop: 20));
+            
 
             url = HttpContext.Current.Server.MapPath(string.Format("~/Images/vl_{0}_signature.png", user.LoginId.ToLower().Trim()));
             if (File.Exists(url))
@@ -181,14 +185,25 @@ namespace Commencement.Controllers.Services
             imageCell.BorderWidthRight = 0;
             imageCell.BorderWidthTop = 0;
             imageCell.BorderWidthBottom = 0;
-            imageCell.HorizontalAlignment = Element.ALIGN_RIGHT;
+            imageCell.HorizontalAlignment = Element.ALIGN_LEFT;
+
+            table.AddCell(InitializeCell("", halignment: Element.ALIGN_LEFT, bottomBorder: false, padding: false));
             table.AddCell(imageCell); // (InitializeCell(img, halignment: Element.ALIGN_RIGHT, bottomBorder: false));
 
-            table.AddCell(InitializeCell(user.FullName, halignment: Element.ALIGN_RIGHT, bottomBorder: false));
 
-            table.AddCell(InitializeCell("Commencement Coordinator", halignment: Element.ALIGN_RIGHT, bottomBorder: false, padding: false));
-            table.AddCell(InitializeCell("UC Davis", halignment: Element.ALIGN_RIGHT, bottomBorder: false, padding: false));
-            table.AddCell(InitializeCell(user.Phone, halignment: Element.ALIGN_RIGHT, bottomBorder: false, padding: false));
+            table.AddCell(InitializeCell("", halignment: Element.ALIGN_LEFT, bottomBorder: false, padding: false));
+            table.AddCell(InitializeCell(user.FullName, halignment: Element.ALIGN_LEFT, bottomBorder: false, padding: false));
+
+            table.AddCell(InitializeCell("", halignment: Element.ALIGN_LEFT, bottomBorder: false, padding: false, overridePaddingTop: 0));
+            table.AddCell(InitializeCell("Commencement Coordinator", halignment: Element.ALIGN_LEFT, bottomBorder: false, padding: false, overridePaddingTop: 0));
+
+            table.AddCell(InitializeCell("", halignment: Element.ALIGN_LEFT, bottomBorder: false, padding: false, overridePaddingTop: 0));
+            table.AddCell(InitializeCell("UC Davis", halignment: Element.ALIGN_LEFT, bottomBorder: false, padding: false, overridePaddingTop: 0));
+
+            table.AddCell(InitializeCell("", halignment: Element.ALIGN_LEFT, bottomBorder: false, padding: false, overridePaddingTop: 0));
+            table.AddCell(InitializeCell(user.Phone, halignment: Element.ALIGN_LEFT, bottomBorder: false, padding: false, overridePaddingTop: 0));
+
+            doc.Add(table);
         }
 
         private void WriteFooter(VisaLetter visaLetter, PdfWriter writer)
