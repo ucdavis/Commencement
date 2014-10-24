@@ -14,9 +14,11 @@ namespace Commencement.Controllers.ViewModels
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
-        public static AdminVisaLetterListViewModel Create(List<VisaLetter> visaLetters, bool showAll, DateTime? startDate, DateTime? endDate )
+        public string CollegeCode { get; set; }
+
+        public static AdminVisaLetterListViewModel Create(List<VisaLetter> visaLetters, bool showAll, DateTime? startDate, DateTime? endDate, string collegeCode )
         {
-            var viewModel = new AdminVisaLetterListViewModel() {VisaLetters = visaLetters, ShowAll = showAll, StartDate = startDate, EndDate = endDate};
+            var viewModel = new AdminVisaLetterListViewModel() {VisaLetters = visaLetters, ShowAll = showAll, StartDate = startDate, EndDate = endDate, CollegeCode = collegeCode};
                 
             return viewModel;
         }

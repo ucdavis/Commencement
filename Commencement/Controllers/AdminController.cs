@@ -415,7 +415,7 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
-        public ActionResult VisaLetters(DateTime? startDate, DateTime? endDate, bool showAll = false)
+        public ActionResult VisaLetters(DateTime? startDate, DateTime? endDate, string collegeCode ,bool showAll = false)
         {
             var visaLetters = Repository.OfType<VisaLetter>().Queryable;
             if (!showAll)
@@ -430,8 +430,12 @@ namespace Commencement.Controllers
             {
                 visaLetters = visaLetters.Where(a => a.DateCreated <= endDate.Value.Date.AddDays(1));
             }
+            if (!string.IsNullOrWhiteSpace(collegeCode))
+            {
+                visaLetters = visaLetters.Where(a => a.CollegeCode == collegeCode);
+            }
 
-            var model = AdminVisaLetterListViewModel.Create(visaLetters.ToList(), showAll, startDate, endDate);
+            var model = AdminVisaLetterListViewModel.Create(visaLetters.ToList(), showAll, startDate, endDate, collegeCode);
 
             return View(model);
         }

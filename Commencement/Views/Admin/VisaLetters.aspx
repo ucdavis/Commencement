@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.AdminVisaLetterListViewModel>" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 <%@ Import Namespace="Commencement.Controllers" %>
+<%@ Import Namespace="Commencement.Resources" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Visa Letters
@@ -31,6 +32,9 @@
             <li><strong>End Date:</strong>
                 <%= Html.TextBoxFor(a => a.EndDate, new{@class="date"}) %>
             </li>
+            <li><strong>CollegeCode</strong>
+                <%: Html.DropDownListFor(a=>a.CollegeCode, SelectLists.CollegeNames) %>
+            </li>
             <li><strong></strong><%= Html.SubmitButton("Submit", "Filter", new { @class="button" })%></li>
         </ul>
         <% } %>
@@ -45,7 +49,7 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
         <script type="text/javascript">
         $(function() {
-            $("#filter_container").accordion({collapsible:true, autoHeight: false, active: false });
+            $("#filter_container").accordion({ collapsible: true, autoHeight: false, active: false });
         });
     </script>
 
