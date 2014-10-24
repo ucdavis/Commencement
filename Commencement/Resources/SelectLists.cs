@@ -23,13 +23,13 @@ namespace Commencement.Resources
             new SelectListItem() {Value = "AE", Text = "Agricultural and Environmental Science"},
             new SelectListItem() {Value = "BI", Text = "Biological Science"},
             new SelectListItem() {Value = "EN", Text = "Engineering"},
-            new SelectListItem() {Value = "GS", Text = "Graduate Studies"},
+            //new SelectListItem() {Value = "GS", Text = "Graduate Studies"},
             new SelectListItem() {Value = "LS", Text = "Letters & Science"},
-            new SelectListItem() {Value = "LW", Text = "Law"},
-            new SelectListItem() {Value = "MD", Text = "Medicine"},
-            new SelectListItem() {Value = "SM", Text = "School of Management"},
-            new SelectListItem() {Value = "UE", Text = "University Extension"},
-            new SelectListItem() {Value = "VM", Text = "Veterinary Medicine"},
+            //new SelectListItem() {Value = "LW", Text = "Law"},
+            //new SelectListItem() {Value = "MD", Text = "Medicine"},
+            //new SelectListItem() {Value = "SM", Text = "School of Management"},
+            //new SelectListItem() {Value = "UE", Text = "University Extension"},
+            //new SelectListItem() {Value = "VM", Text = "Veterinary Medicine"},
         };
 
         public static List<SelectListItem> DegreeType = new List<SelectListItem>()
