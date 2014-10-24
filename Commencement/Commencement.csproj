@@ -378,7 +378,7 @@
     <Content Include="Images\to-do-list_checked1_small.gif" />
     <Content Include="Images\visaLetterHeader.gif" />
     <Content Include="Images\vl_jsylvest_signature.png" />
-    <Content Include="Images\vl_fmross_signature.png" />
+    <Content Include="Images\vl_frmartin_signature.png" />
     <Content Include="Images\vl_jvoight_signature.png" />
     <Content Include="Scripts\dateFormat.js" />
     <Content Include="Scripts\highchart.js" />

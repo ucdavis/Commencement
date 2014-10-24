@@ -76,7 +76,7 @@ namespace Commencement.Controllers.Services
 
             #region Date Approved
             table = InitializeTable();
-            table.AddCell(InitializeCell(visaLetter.DateDecided.HasValue ? visaLetter.DateDecided.Value.Date.ToString("MMMM dd, yyyy") : DateTime.Now.Date.ToString("MMMM dd, yyyy"), halignment: Element.ALIGN_RIGHT, bottomBorder: false, overridePaddingTop:30, overridePaddingBottom:20));
+            table.AddCell(InitializeCell(visaLetter.DateDecided.HasValue ? visaLetter.DateDecided.Value.Date.ToString("MMMM dd, yyyy") : DateTime.Now.Date.ToString("MMMM dd, yyyy"), halignment: Element.ALIGN_RIGHT, bottomBorder: false, overridePaddingTop:10, overridePaddingBottom:20));
             #endregion Date Approved
 
             table.AddCell(InitializeCell("To Whom It May Concern", halignment: Element.ALIGN_LEFT, bottomBorder: false, overridePaddingBottom:25));
@@ -162,7 +162,7 @@ namespace Commencement.Controllers.Services
 
 
 
-            table.AddCell(InitializeCell("Kind regards.", halignment: Element.ALIGN_RIGHT, bottomBorder: false));
+            table.AddCell(InitializeCell("Kind regards.", halignment: Element.ALIGN_RIGHT, bottomBorder: false, overridePaddingTop:20));
 
 
             url = HttpContext.Current.Server.MapPath(string.Format("~/Images/vl_{0}_signature.png", user.LoginId.ToLower().Trim()));

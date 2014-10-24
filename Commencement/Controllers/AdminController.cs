@@ -570,13 +570,16 @@ namespace Commencement.Controllers
             return View(letter);
         }
 
-        public FileResult VisaLetterPreviewPdf(int id)
+        public ActionResult VisaLetterPreviewPdf(int id)
         {
 
             var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id);
-            letter.ApprovedBy = CurrentUser.Identity.Name;
+            if (string.IsNullOrWhiteSpace(letter.ApprovedBy))
+            {
+                letter.ApprovedBy = CurrentUser.Identity.Name;
+            }
 
-            var url = HttpContext.Server.MapPath(string.Format("~/Images/vl_{0}_signature.png", CurrentUser.Identity.Name.ToLower().Trim()));
+            var url = HttpContext.Server.MapPath(string.Format("~/Images/vl_{0}_signature.png", letter.ApprovedBy.ToLower().Trim()));
             if (!System.IO.File.Exists(url))
             {
                 Message = "You must set up a signature to be able to decide Visa Letter Requests";
@@ -584,7 +587,7 @@ namespace Commencement.Controllers
 
             }
 
-            return File(_reportService.GenerateLetter(letter), "application/pdf");
+            return File(_reportService.GenerateLetter(letter), "application/pdf");//, string.Format("{0}.pdf", letter.ReferenceGuid));
 
         }
     }
