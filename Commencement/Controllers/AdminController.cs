@@ -508,6 +508,7 @@ namespace Commencement.Controllers
             // -- Date Created
             letter.Gender = model.Gender;
             letter.Ceremony = model.Ceremony;
+            letter.HardCopy = model.HardCopy;
 
             letter.RelativeTitle = model.RelativeTitle;
             letter.RelativeFirstName = model.RelativeFirstName;

@@ -399,6 +399,7 @@ namespace Commencement.Controllers
                 letter.Gender = existingLetter.Gender;
                 letter.CollegeName = existingLetter.CollegeName;
                 letter.Degree = existingLetter.Degree;
+                letter.HardCopy = existingLetter.HardCopy;
                 ViewBag.AllowChange = false;
             }
             else
@@ -474,6 +475,7 @@ namespace Commencement.Controllers
             visaLetter.CollegeCode = model.CollegeCode;
             visaLetter.CollegeName = SelectLists.CollegeNames.Single(a => a.Value == visaLetter.CollegeCode).Text;
             visaLetter.Degree = model.Degree;
+            visaLetter.HardCopy = model.HardCopy;
 
             var termCode = TermService.GetCurrent();
             var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == student && a.TermCode.Id == termCode.Id);

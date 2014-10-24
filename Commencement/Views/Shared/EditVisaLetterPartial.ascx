@@ -84,6 +84,14 @@
             
             <%= Html.ValidationMessageFor(a=>a.Ceremony) %>
         </li>
+
+        <li><strong>Need Hard Copy:</strong>
+            
+                <label><%: Html.RadioButton("HardCopy", 'Y')%> Yes</label>
+                <label><%: Html.RadioButton("HardCopy", 'N')%> No</label>
+            
+            <%= Html.ValidationMessageFor(a=>a.HardCopy) %>
+        </li>
         
         <li><strong>Relative's Title:</strong>
             <%: Html.DropDownListFor(a=>a.RelativeTitle, SelectLists.PersonPrefixes) %>

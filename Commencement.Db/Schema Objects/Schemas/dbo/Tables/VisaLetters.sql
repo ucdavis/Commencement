@@ -25,6 +25,7 @@
     [LastUpdateDateTime] DATETIME NULL, 
     [Degree] VARCHAR(50) NOT NULL, 
     [ReferenceGuid] UNIQUEIDENTIFIER NULL, 
+    [HardCopy] VARCHAR NOT NULL DEFAULT (('N')), 
     CONSTRAINT [PK_VisaLetters] PRIMARY KEY ([Id]), 
     
 )

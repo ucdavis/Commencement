@@ -9,6 +9,7 @@
     
     <ul class="btn">
         <li><%: Html.ActionLink<AdminController>(a=>a.VisaLetters(null, null, null ,false), "Back to List of Letter Requests") %></li>
+        <li><%: Html.ActionLink<AdminController>(a=>a.VisaLetterDecide(Model.VisaLetter.Id), "Edit") %></li>
     </ul>
    
 

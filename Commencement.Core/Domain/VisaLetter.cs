@@ -24,6 +24,7 @@ namespace Commencement.Core.Domain
             IsCanceled = false;
             DateCreated = DateTime.Now;
             ReferenceGuid = Guid.NewGuid();
+            HardCopy = "N";
         }
 
         [NotNull]
@@ -88,6 +89,9 @@ namespace Commencement.Core.Domain
         public virtual string ApprovedBy { get; set; } //Or maybe edited by, etc.
 
         public virtual Guid ReferenceGuid { get; set; }
+
+        [Required]
+        public virtual string HardCopy { get; set; }
 
         //Not a DB field
         public virtual string Decide
@@ -164,6 +168,7 @@ namespace Commencement.Core.Domain
             Map(x => x.LastUpdateDateTime);
             Map(x => x.Degree);
             Map(x => x.ReferenceGuid);
+            Map(x => x.HardCopy);
         }
     }
 }

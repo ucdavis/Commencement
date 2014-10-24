@@ -53,6 +53,16 @@
                 <li><strong>Date Submitted:</strong>
                     <%= Html.Encode(Model.DateCreated.ToString("g")) %>
                 </li>
+                <li><strong>Need Hard Copy:</strong>
+                    <label><%: Html.RadioButton("HardCopy", 'Y', new{ @disabled = "disabled" })%> Yes</label>
+                    <label><%: Html.RadioButton("HardCopy", 'N', new{ @disabled = "disabled" })%> No</label>
+                    <%if(Model.HardCopy == "Y" && Model.IsApproved) {%>
+                        <span><%: Html.ActionLink<AdminController>(a=>a.VisaLetterPreviewPdf(Model.Id), "Hard Copy", new{@class="button", target="_blank"}) %></span>
+                    <%}%>
+                </li>  
+                <li><strong>Letter Id:</strong>
+                    <%= Html.Encode(Model.ReferenceGuid) %>
+                </li>
                 <li><strong>Status Of Request:</strong>
                     <%if(Model.IsPending && !Model.IsCanceled) {%>
                         <%= Html.Encode("Pending") %>

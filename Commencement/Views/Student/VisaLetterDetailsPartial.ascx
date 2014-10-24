@@ -53,6 +53,10 @@
                         <%= Html.Encode("Canceled") %>
                     <%}%>
                 </li>
+                <li><strong>Need Hard Copy:</strong>
+                    <label><%: Html.RadioButton("HardCopy", 'Y', new{ @disabled = "disabled" })%> Yes</label>
+                    <label><%: Html.RadioButton("HardCopy", 'N', new{ @disabled = "disabled" })%> No</label>
+                </li>  
                 <%if(Model.DateDecided.HasValue) {%>
                     <li><strong>Decision Date:</strong>
                         <%= Html.Encode(Model.DateDecided.Value.ToString("g")) %>
