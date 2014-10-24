@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,8 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
+using Font = iTextSharp.text.Font;
+using Image = iTextSharp.text.Image;
 
 namespace Commencement.Controllers.Services
 {
@@ -43,6 +46,7 @@ namespace Commencement.Controllers.Services
 
 
         private readonly Font _font = new Font(Font.FontFamily.TIMES_ROMAN, 12);
+        private readonly Font _linkFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.UNDERLINE, new BaseColor(0,0,255));
         private readonly Font _boldFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
         private readonly Font _italicFont = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.ITALIC);
         private readonly Font _italicFontWhite = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLDITALIC, BaseColor.WHITE);
@@ -67,29 +71,18 @@ namespace Commencement.Controllers.Services
             doc.Open();
 
             var table = InitializeTable();
-            table.AddCell(InitializeCell("UNIVERSITY OF CALIFORNIA, DAVIS", halignment: Element.ALIGN_LEFT, bottomBorder: false, font: _boldFont));
-            doc.Add(table);
-            #region Header Image           
-            string url = HttpContext.Current.Server.MapPath("~/Images/visaLetterHeader.gif");
-            var img = Image.GetInstance(new Uri(url));
-            img.ScaleToFit(_pageWidth, _pageHeight);
-            doc.Add(img);
 
-            #endregion Header Image
+            WriteHeader(table, doc);
+            var cell = new PdfPCell();
 
+            #region Date Approved
             table = InitializeTable();
-            table.AddCell(InitializeCell("One Shields Avenue", halignment: Element.ALIGN_RIGHT, bottomBorder: false, font: _smallPrint, padding: false));
-            table.AddCell(InitializeCell("Davis, California  95616", halignment: Element.ALIGN_RIGHT, bottomBorder: false, font: _smallPrint, padding: false));
-            doc.Add(table);
+            table.AddCell(InitializeCell(visaLetter.DateDecided.HasValue ? visaLetter.DateDecided.Value.Date.ToString("MMMM dd, yyyy") : DateTime.Now.Date.ToString("MMMM dd, yyyy"), halignment: Element.ALIGN_RIGHT, bottomBorder: false, overridePaddingTop:30, overridePaddingBottom:20));
+            #endregion Date Approved
 
-            table = InitializeTable();
-            table.AddCell(InitializeCell(visaLetter.DateDecided.HasValue ? visaLetter.DateDecided.Value.Date.ToString("MMMM dd, yyyy") : DateTime.Now.Date.ToString("MMMM dd, yyyy"), halignment: Element.ALIGN_RIGHT, bottomBorder: false));
+            table.AddCell(InitializeCell("To Whom It May Concern", halignment: Element.ALIGN_LEFT, bottomBorder: false, overridePaddingBottom:25));
 
-            table.AddCell(InitializeCell("To Whom It May Concern", halignment: Element.ALIGN_LEFT, bottomBorder: false));
-
-            table.AddCell(InitializeCell(string.Format("RE:  {0} {1} Request for Visa", visaLetter.StudentFirstName, visaLetter.StudentLastName), halignment: Element.ALIGN_LEFT, bottomBorder: false));
-
-            table.AddCell(InitializeCell(string.Format("Reference:  {0}", visaLetter.ReferenceGuid), halignment: Element.ALIGN_LEFT, bottomBorder: false));
+            table.AddCell(InitializeCell(string.Format("RE:  {0} {1} Request for Visa", visaLetter.StudentFirstName, visaLetter.StudentLastName), halignment: Element.ALIGN_LEFT, bottomBorder: false, overridePaddingBottom:10));
 
             table.AddCell(InitializeCell(string.Format("{0} {1} is completing {2} requirements for a {3} degree in {4}.  {5} is participating in the College of {6}’s commencement ceremony held at the UC Davis campus in Davis, California, United States of America on {7}."
                 , visaLetter.StudentFirstName               //0
@@ -113,7 +106,7 @@ namespace Commencement.Controllers.Services
                 )
                 , halignment: Element.ALIGN_LEFT, bottomBorder: false));
 
-            table.AddCell(InitializeCell(visaLetter.RelativeMailingAddress, halignment: Element.ALIGN_LEFT, bottomBorder: false));
+            table.AddCell(InitializeCell(visaLetter.RelativeMailingAddress, halignment: Element.ALIGN_LEFT, bottomBorder: false, overridePaddingBottom: 10));
 
             table.AddCell(InitializeCell(string.Format("This is a memorable occasion and we hope that {0}. {1} {2} can attend."
                 , visaLetter.RelativeTitle                  //0
@@ -121,21 +114,58 @@ namespace Commencement.Controllers.Services
                 , visaLetter.RelativeLastName               //2
                 ), halignment: Element.ALIGN_LEFT, bottomBorder: false));
 
+            WriteSignature(visaLetter, table);
+
+
+            doc.Add(table);
+
+
+
+
+            WriteFooter(visaLetter, writer);
+
+            doc.Close();
+
+            return ms.ToArray();
+        }
+
+        private void WriteHeader(PdfPTable table, Document doc)
+        {
+            table.AddCell(InitializeCell("UNIVERSITY OF CALIFORNIA, DAVIS", halignment: Element.ALIGN_LEFT, bottomBorder: false, font: _boldFont));
+            doc.Add(table);
+
+            string url = HttpContext.Current.Server.MapPath("~/Images/visaLetterHeader.gif");
+            var img = Image.GetInstance(new Uri(url));
+            img.ScaleToFit(_pageWidth, _pageHeight);
+            doc.Add(img);
+
+
+            table = InitializeTable();
+            table.AddCell(InitializeCell("One Shields Avenue", halignment: Element.ALIGN_RIGHT, bottomBorder: false, font: _smallPrint, padding: false));
+            table.AddCell(InitializeCell("Davis, California  95616", halignment: Element.ALIGN_RIGHT, bottomBorder: false, font: _smallPrint, padding: false));
+            doc.Add(table);
+        }
+
+        private void WriteSignature(VisaLetter visaLetter, PdfPTable table)
+        {
+            string url;
+            Image img;
             var user = _repository.OfType<vUser>().Queryable.FirstOrDefault(a => a.LoginId == visaLetter.ApprovedBy);
             Check.Require(user != null, "Approval User is required");
 
             table.AddCell(InitializeCell(string.Format("Should you need more information, please contact me at {0}"
                 , user.Email), halignment: Element.ALIGN_LEFT, bottomBorder: false));
 
+
+
             table.AddCell(InitializeCell("Kind regards.", halignment: Element.ALIGN_RIGHT, bottomBorder: false));
 
 
-            //TODO: What if we can't find the signature?
             url = HttpContext.Current.Server.MapPath(string.Format("~/Images/vl_{0}_signature.png", user.LoginId.ToLower().Trim()));
             if (File.Exists(url))
             {
                 img = Image.GetInstance(new Uri(url));
-                img.ScaleToFit(80f,140f);
+                img.ScaleToFit(80f, 140f);
             }
             else
             {
@@ -155,13 +185,14 @@ namespace Commencement.Controllers.Services
             table.AddCell(InitializeCell("Commencement Coordinator", halignment: Element.ALIGN_RIGHT, bottomBorder: false, padding: false));
             table.AddCell(InitializeCell("UC Davis", halignment: Element.ALIGN_RIGHT, bottomBorder: false, padding: false));
             table.AddCell(InitializeCell(user.Phone, halignment: Element.ALIGN_RIGHT, bottomBorder: false, padding: false));
-            doc.Add(table);
+        }
 
-
-
-            doc.Close();
-
-            return ms.ToArray();
+        private void WriteFooter(VisaLetter visaLetter, PdfWriter writer)
+        {
+            var ct = new ColumnText(writer.DirectContent);
+            Phrase myText = new Phrase(string.Format("Letter Id:  {0}", visaLetter.ReferenceGuid), _smallPrint);
+            ct.SetSimpleColumn(myText, 0, 50, _pageWidth + 40, 0, 0, Element.ALIGN_RIGHT);
+            ct.Go();
         }
 
         public byte[] WritePdfWithErrorMessage(string message)
@@ -223,7 +254,9 @@ namespace Commencement.Controllers.Services
           , bool leftBoarder = false
           , bool rightBoarder = false
           , int? overrideLeftPadding = null
-          , int? overrideRightPadding = null)
+          , int? overrideRightPadding = null
+          , int? overridePaddingTop = null
+          , int? overridePaddingBottom = null)
         {
             var cell = new PdfPCell();
             if (!string.IsNullOrEmpty(text)) cell = new PdfPCell(new Phrase(text, font ?? _font));
@@ -297,8 +330,14 @@ namespace Commencement.Controllers.Services
             {
                 cell.PaddingRight = overrideRightPadding.Value;
             }
-
-           
+            if (overridePaddingTop.HasValue)
+            {
+                cell.PaddingTop = overridePaddingTop.Value;
+            }
+            if (overridePaddingBottom.HasValue)
+            {
+                cell.PaddingBottom = overridePaddingBottom.Value;
+            }
 
             return cell;
         }
