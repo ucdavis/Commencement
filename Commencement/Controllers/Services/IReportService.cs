@@ -73,7 +73,6 @@ namespace Commencement.Controllers.Services
             var table = InitializeTable();
 
             WriteHeader(table, doc);
-            var cell = new PdfPCell();
 
             #region Date Approved
             table = InitializeTable();
@@ -153,8 +152,13 @@ namespace Commencement.Controllers.Services
             var user = _repository.OfType<vUser>().Queryable.FirstOrDefault(a => a.LoginId == visaLetter.ApprovedBy);
             Check.Require(user != null, "Approval User is required");
 
-            table.AddCell(InitializeCell(string.Format("Should you need more information, please contact me at {0}"
-                , user.Email), halignment: Element.ALIGN_LEFT, bottomBorder: false));
+            var cell = InitializeCell("Should you need more information, please contact me at ", halignment: Element.ALIGN_LEFT, bottomBorder: false);
+            var anchor = new Anchor(user.Email, _linkFont);
+            anchor.Reference = string.Format("mailto:{0}", user.Email);
+
+            cell.Phrase.Add(anchor);
+
+            table.AddCell(cell);
 
 
 
