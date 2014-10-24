@@ -489,6 +489,8 @@ namespace Commencement.Controllers
         {
             var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id);
 
+            var saveStatus = letter.Status;
+
             var url = HttpContext.Server.MapPath(string.Format("~/Images/vl_{0}_signature.png", CurrentUser.Identity.Name.ToLower().Trim()));
             if (!System.IO.File.Exists(url))
             {
@@ -544,7 +546,7 @@ namespace Commencement.Controllers
             {
                 Repository.OfType<VisaLetter>().EnsurePersistent(letter);
                 //TODO: Email notification
-                if (model.Decide != "N")
+                if (saveStatus != letter.Status)
                 {
                     try
                     {
