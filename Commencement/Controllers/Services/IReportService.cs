@@ -85,7 +85,7 @@ namespace Commencement.Controllers.Services
 
             #region Date Approved
             table = InitializeTable();
-            table.AddCell(InitializeCell(visaLetter.DateDecided.HasValue ? visaLetter.DateDecided.Value.Date.ToString("MMMM dd, yyyy") : DateTime.Now.Date.ToString("MMMM dd, yyyy"), halignment: Element.ALIGN_RIGHT, bottomBorder: false, overridePaddingTop:10, overridePaddingBottom:20));
+            table.AddCell(InitializeCell(visaLetter.DateDecided.HasValue ? visaLetter.DateDecided.Value.Date.ToString("MMMM dd, yyyy") : DateTime.Now.Date.ToString("MMMM dd, yyyy"), halignment: Element.ALIGN_RIGHT, bottomBorder: false, overridePaddingTop:5, overridePaddingBottom:20));
             #endregion Date Approved
 
             table.AddCell(InitializeCell("To Whom It May Concern", halignment: Element.ALIGN_LEFT, bottomBorder: false, overridePaddingBottom:25));
