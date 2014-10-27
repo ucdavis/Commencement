@@ -45,7 +45,9 @@ namespace Commencement.Controllers.Services
 
 
 
-        private readonly Font _font = new Font(Font.FontFamily.TIMES_ROMAN, 12);
+        //private readonly Font _font = new Font(Font.FontFamily.TIMES_ROMAN, 12);
+        private readonly Font _font = GetUcdavisFont();
+
         private readonly Font _linkFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.UNDERLINE, new BaseColor(0,0,255));
         private readonly Font _boldFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
         private readonly Font _italicFont = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.ITALIC);
@@ -60,7 +62,14 @@ namespace Commencement.Controllers.Services
         #endregion Declarations
 
 
+        public static Font GetUcdavisFont()
+        {
+            string fontpath = HttpContext.Current.Server.MapPath("~/Content/font/BerkeleyUCDavis-Medium.ttf");
 
+            var customfont = BaseFont.CreateFont(fontpath, BaseFont.CP1252, BaseFont.EMBEDDED);
+            var font = new Font(customfont, 12);
+            return font;
+        }
 
 
         public byte[] GenerateLetter(VisaLetter visaLetter)
