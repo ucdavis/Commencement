@@ -76,14 +76,20 @@
                        
             <%= Html.ValidationMessageFor(a=>a.Gender) %>
         </li>
-        
+
         <li><strong>Ceremony:</strong>
-            
+            <%if (ViewBag.AllowCeremonyChange != null && ViewBag.AllowCeremonyChange == false) {%>
+                <label><%: Html.RadioButton("Ceremony", 'S', new{ @disabled = "disabled" })%> Spring</label>
+                <label><%: Html.RadioButton("Ceremony", 'F', new{ @disabled = "disabled" })%> Fall</label>
+                <%: Html.HiddenFor(a => a.Ceremony) %>
+            <% } else { %>
                 <label><%: Html.RadioButton("Ceremony", 'S')%> Spring</label>
                 <label><%: Html.RadioButton("Ceremony", 'F')%> Fall</label>
-            
+            <% } %>
+                       
             <%= Html.ValidationMessageFor(a=>a.Ceremony) %>
         </li>
+        
 
         <li><strong>Need Hard Copy:</strong>
             

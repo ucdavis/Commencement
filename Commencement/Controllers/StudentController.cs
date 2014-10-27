@@ -400,7 +400,9 @@ namespace Commencement.Controllers
                 letter.CollegeName = existingLetter.CollegeName;
                 letter.Degree = existingLetter.Degree;
                 letter.HardCopy = existingLetter.HardCopy;
+                letter.Ceremony = existingLetter.Ceremony;
                 ViewBag.AllowChange = false;
+                ViewBag.AllowCeremonyChange = false;
             }
             else
             {
@@ -424,9 +426,11 @@ namespace Commencement.Controllers
                     return this.RedirectToAction<ErrorController>(a => a.SJA());
                 case "S":
                     letter.Ceremony = 'S';
+                    ViewBag.AllowCeremonyChange = false;
                     break;
                 case "F":
                     letter.Ceremony = 'F';
+                    ViewBag.AllowCeremonyChange = false;
                     break;
                 case "PreviouslyWalked":
                     return this.RedirectToAction<ErrorController>(a => a.PreviouslyWalked());
