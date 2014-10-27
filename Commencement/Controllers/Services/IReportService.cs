@@ -173,7 +173,7 @@ namespace Commencement.Controllers.Services
             if (File.Exists(url))
             {
                 img = Image.GetInstance(new Uri(url));
-                img.ScaleToFit(80f, 140f);
+                img.ScaleToFit(140f, 40f);
             }
             else
             {
