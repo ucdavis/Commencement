@@ -84,10 +84,15 @@ namespace Commencement.Controllers.Services
             WriteHeader(table, doc);
 
             #region Date Approved
-            table = InitializeTable();
-            table.AddCell(InitializeCell(visaLetter.DateDecided.HasValue ? visaLetter.DateDecided.Value.Date.ToString("MMMM dd, yyyy") : DateTime.Now.Date.ToString("MMMM dd, yyyy"), halignment: Element.ALIGN_RIGHT, bottomBorder: false, overridePaddingTop:5, overridePaddingBottom:20));
+            table = InitializeTable(2);
+            table.SetWidths(new float[] { 61, 39 });
+            //table.AddCell(InitializeCell(halignment: Element.ALIGN_RIGHT, bottomBorder: false, overridePaddingTop: 5, overridePaddingBottom: 20));
+            table.AddCell(InitializeCell(bottomBorder: false, font: _smallPrint, padding: false));
+            table.AddCell(InitializeCell(visaLetter.DateDecided.HasValue ? visaLetter.DateDecided.Value.Date.ToString("MMMM dd, yyyy") : DateTime.Now.Date.ToString("MMMM dd, yyyy"), halignment: Element.ALIGN_LEFT, bottomBorder: false, overridePaddingTop:5, overridePaddingBottom:20, padding:false));
+            doc.Add(table);
             #endregion Date Approved
 
+            table = InitializeTable();
             table.AddCell(InitializeCell("To Whom It May Concern", halignment: Element.ALIGN_LEFT, bottomBorder: false, overridePaddingBottom:25));
 
             table.AddCell(InitializeCell(string.Format("RE:  {0} {1} Request for Visa", visaLetter.StudentFirstName, visaLetter.StudentLastName), halignment: Element.ALIGN_LEFT, bottomBorder: false, overridePaddingBottom:10));
@@ -148,9 +153,13 @@ namespace Commencement.Controllers.Services
             doc.Add(img);
 
 
-            table = InitializeTable();
-            table.AddCell(InitializeCell("One Shields Avenue", halignment: Element.ALIGN_RIGHT, bottomBorder: false, font: _smallPrint, padding: false));
-            table.AddCell(InitializeCell("Davis, California  95616", halignment: Element.ALIGN_RIGHT, bottomBorder: false, font: _smallPrint, padding: false));
+            table = InitializeTable(2);
+            table.SetWidths(new float[] { 61, 39  });
+
+            table.AddCell(InitializeCell(bottomBorder: false, font: _smallPrint, padding: false));
+            table.AddCell(InitializeCell("One Shields Avenue", halignment: Element.ALIGN_LEFT, bottomBorder: false, font: _smallPrint, padding: false));
+            table.AddCell(InitializeCell(bottomBorder: false, font: _smallPrint, padding: false));
+            table.AddCell(InitializeCell("Davis, California  95616", halignment: Element.ALIGN_LEFT, bottomBorder: false, font: _smallPrint, padding: false));
             doc.Add(table);
         }
 

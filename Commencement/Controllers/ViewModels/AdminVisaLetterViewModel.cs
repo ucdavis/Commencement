@@ -19,6 +19,10 @@ namespace Commencement.Controllers.ViewModels
         public static AdminVisaLetterListViewModel Create(List<VisaLetter> visaLetters, bool showAll, DateTime? startDate, DateTime? endDate, string collegeCode )
         {
             var viewModel = new AdminVisaLetterListViewModel() {VisaLetters = visaLetters, ShowAll = showAll, StartDate = startDate, EndDate = endDate, CollegeCode = collegeCode};
+            if (collegeCode == null)
+            {
+                collegeCode = string.Empty;
+            }
                 
             return viewModel;
         }
