@@ -504,7 +504,7 @@ namespace Commencement.Controllers
 
                 Repository.OfType<VisaLetter>().EnsurePersistent(visaLetter);
                 Message = "Visa Letter Request created.";
-                return this.RedirectToAction("VisaLetters");
+                return this.RedirectToAction("VisaLetterReceipt");
             }
 
             Message = "Please correct errors and try again.";
@@ -573,6 +573,11 @@ namespace Commencement.Controllers
             }
 
             return View(letter);
+        }
+
+        public ActionResult VisaLetterReceipt()
+        {
+            return View();
         }
 
         public FileResult VisaLetterPdf(int id)
