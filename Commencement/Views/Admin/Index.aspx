@@ -59,7 +59,12 @@
             <a href="<%= Url.Action("AdminLanding", "Admin") %>"><img src="<%= Url.Content("~/Images/preferences.png") %>" /><br />Administration</a>
         </li>
         <li class="left">
-            <a href="<%= Url.Action("VisaLetters", "Admin") %>"><img src="<%= Url.Content("~/Images/pending_petition.png") %>" /><br />Visa Letter Requests</a>
+            <% if (ViewBag.PendingLetters == true) { %>
+                <a style="background-color: yellow" href="<%= Url.Action("VisaLetters", "Admin") %>"><img src="<%= Url.Content("~/Images/pending_petition.png") %>" /><br />Visa Letter Requests</a>
+            <%} else{ %> 
+                <a href="<%= Url.Action("VisaLetters", "Admin") %>"><img src="<%= Url.Content("~/Images/pending_petition.png") %>" /><br />Visa Letter Requests</a>
+            <%}%>
+            
         </li>
         <% } %>
 
