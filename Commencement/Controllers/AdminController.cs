@@ -123,7 +123,11 @@ namespace Commencement.Controllers
 
             var viewModel = RegistrationModel.Create(Repository, _ceremonyService.GetCeremonies(CurrentUser.Identity.Name), student);
             viewModel.Registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student).FirstOrDefault();
-
+            var temp = Repository.OfType<VisaLetter>().Queryable.FirstOrDefault(a => a.Student == student);
+            if (temp != null)
+            {
+                viewModel.FirstVisaLetterRequest = temp.Id;
+            }
             ViewData["IsAdmin"] = true;
 
             return View(viewModel);

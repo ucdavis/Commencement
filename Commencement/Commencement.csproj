@@ -145,10 +145,10 @@
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
@@ -723,6 +723,7 @@
     <Content Include="Views\Student\CancelRegistrationPetition.aspx" />
     <Content Include="Views\Student\DisplayRegistration.aspx" />
     <Content Include="Views\Student\RequestVisaLetter.aspx" />
+    <Content Include="Views\Student\VisaLetterReceipt.aspx" />
     <Content Include="Views\Student\VisaLetters.aspx" />
     <Content Include="Views\Student\Register.aspx" />
     <Content Include="Views\Shared\RegistrationDisplay.ascx" />
