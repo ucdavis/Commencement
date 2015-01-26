@@ -24,6 +24,9 @@
         <span><%= Html.Encode(Model.Email)%></span>
     </li>
     <% } %>
+    <li><strong>How To Say Your Name Phonetically:</strong>
+        <span><%= Html.Encode(Model.Phonetic)%></span>
+    </li>
     <li>
         <strong>Special Needs: </strong>
         <%: string.Join(", ", Model.SpecialNeeds.Select(a=>a.Name)) %>
