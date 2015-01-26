@@ -23,9 +23,10 @@
     <li><strong>Secondary Email Address:</strong>
         <span><%= Html.Encode(Model.Email)%></span>
     </li>
+    <% } %>
     <li>
         <strong>Special Needs: </strong>
         <%: string.Join(", ", Model.SpecialNeeds.Select(a=>a.Name)) %>
     </li>
-    <% } %>
+    
 </ul>
