@@ -55,6 +55,8 @@ namespace Commencement.Core.Domain
         public virtual IList<RegistrationParticipation> RegistrationParticipations { get; set; }
         public virtual IList<RegistrationPetition> RegistrationPetitions { get; set; }
         public virtual IList<SpecialNeed> SpecialNeeds { get; set; }
+        [Length(150)]
+        public virtual string Phonetic { get; set; }
         #endregion
 
         #region Fields to Remove
@@ -141,6 +143,7 @@ namespace Commencement.Core.Domain
             References(x => x.TermCode).Column("TermCode");
             Map(x => x.GradTrack);
             Map(x => x.TicketPassword);
+            Map(x => x.Phonetic);
 
             HasMany(a => a.RegistrationParticipations).Inverse().Cascade.AllDeleteOrphan();
             HasMany(a => a.RegistrationPetitions).Inverse().Cascade.AllDeleteOrphan();
