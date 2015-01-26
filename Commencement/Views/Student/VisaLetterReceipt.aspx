@@ -11,9 +11,12 @@
             <li><%: Html.ActionLink<StudentController>(a=>a.VisaLetters(), "Visa Letters") %></li>
         </ul>
 <h2>Visa Letter Receipt</h2>
+
     <div>
-        Thank you for requesting a Visa Letter. Once your request has been decided upon, you will be notified by email.
-        You may also check back <%: Html.ActionLink<StudentController>(a=>a.VisaLetters(), "here") %> to see the status of your requests.
+        Thank you for submitting your request for a visa letter of support. You will receive an email within a week if your letter is approved. The email will include the link to download and print your letter.
+For information regarding the Commencement ceremony please visit commencement.ucdavis.edu
+To view the history of letters you have requested please <%: Html.ActionLink<StudentController>(a=>a.VisaLetters(), "click Visa Letter") %> Home button. 
+
     </div>
 
 </asp:Content>

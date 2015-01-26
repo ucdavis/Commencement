@@ -11,12 +11,22 @@
     <ul class="btn">
         <li><%: Html.ActionLink<HomeController>(a=>a.Index(), "Home") %></li>
     </ul>
+
+    <div>
+
+            <strong>
+                Welcome to the student visa letter support system. To submit requests click the Request New Letter button. Remember you must submit a new request for each individual person you need a letter for. The history and status of your past requests can be found in the table below. Thank you.
+            </strong> 
+
+    </div>
+
     <div class="page_bar">
         <div class="col1"><h2>Visa Letters</h2></div>
         <div class="col2">
             <%: Html.ActionLink<StudentController>(a => a.RequestVisaLetter(), "Request New Letter", new { @class = "button" })%>
         </div>
     </div>
+    
 
     
     <%: Html.AntiForgeryToken() %>
