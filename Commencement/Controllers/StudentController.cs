@@ -503,7 +503,7 @@ namespace Commencement.Controllers
 
 
                 Repository.OfType<VisaLetter>().EnsurePersistent(visaLetter);
-                Message = "Visa Letter Request created.";
+              
                 return this.RedirectToAction("VisaLetterReceipt");
             }
 
