@@ -186,9 +186,11 @@ namespace Commencement.Controllers
             var columns = survey.SurveyFields.OrderBy(a => a.Order).Select(a => a.Prompt).ToList();
 
             var registrationSurveys = survey.RegistrationSurveys.Where(a => a.Ceremony.Id == ceremonyId).ToList();
-            var rows = registrationSurveys.Select(rs => rs.SurveyAnswers.OrderBy(a => a.SurveyField.Order).Select(response => response.Answer).ToList()).ToList();
+            //Old way of doing it. Keeping here in a commented out code section in case there are problems.
+            //var rows = registrationSurveys.Select(rs => rs.SurveyAnswers.OrderBy(a => a.SurveyField.Order).Select(response => response.Answer).ToList()).ToList();
+            //var file = _excelService.Create(columns, rows, Server); 
 
-            var file = _excelService.Create(columns, rows, Server);
+            var file = _excelService.CreateExtra(columns, registrationSurveys);
             var filename = ceremony.CeremonyName + ".xls";
             return File(file, "application/vnd.ms-excel", filename);
         }
