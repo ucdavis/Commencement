@@ -37,8 +37,14 @@ namespace Commencement.Controllers
         //
         // GET: /EmailQueue/
 
-        public ActionResult Index(bool showAll = false, bool showAllCurrentTerm = false)
+        public ActionResult Index(bool showAll = false, bool showAllCurrentTerm = false, bool showAllWithoutRegistration = false)
         {
+            if (showAllWithoutRegistration)
+            {
+                var last6Months = DateTime.Now.AddMonths(-6);
+                var visaLettersEmailsWithoutReg = _emailQueueRepository.Queryable.Where(a => a.Registration == null && a.RegistrationParticipation == null && a.RegistrationPetition == null && a.Created >= last6Months);
+                return View(visaLettersEmailsWithoutReg);
+            }
             var ceremonies = showAllCurrentTerm ? _ceremonyService.GetCeremonies(CurrentUser.Identity.Name, TermService.GetCurrent()) : _ceremonyService.GetCeremonies(CurrentUser.Identity.Name);
             
             var queue = _emailQueueRepository.Queryable.Where(a => (ceremonies.Contains(a.RegistrationParticipation.Ceremony) 
