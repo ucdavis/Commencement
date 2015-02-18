@@ -96,6 +96,8 @@ namespace Commencement.Controllers.Helpers
         {
             registration.Address2 = registration.Address2.IsNullOrEmpty(true) ? null : registration.Address2;
             registration.Email = registration.Email.IsNullOrEmpty(true) ? null : registration.Email;
+            registration.CellNumberForText = registration.CellNumberForText.IsNullOrEmpty(true) ? null : registration.CellNumberForText;
+            registration.CellCarrier = registration.CellCarrier.IsNullOrEmpty(true) ? null : registration.CellCarrier;
             registration.Phonetic = registration.Phonetic.IsNullOrEmpty(true) ? null : registration.Phonetic; //Not sure if needed, but these other fields have it.
         }
 

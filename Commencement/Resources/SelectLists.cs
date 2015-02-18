@@ -39,5 +39,18 @@ namespace Commencement.Resources
             new SelectListItem() {Text = "Bachelor of Science", Value = "Bachelor of Science"},
             new SelectListItem() {Text = "Bachelor of Arts and Science", Value = "Bachelor of Arts and Science"},
         };
+
+        public static List<SelectListItem> CellCarrier = new List<SelectListItem>()
+        {
+            new SelectListItem() {Value = "", Text = ""},
+            new SelectListItem() {Value = "alltel"               , Text = "Alltel"},
+            new SelectListItem() {Value = "att"                  , Text = "AT&T"},
+            new SelectListItem() {Value = "boostmobile"          , Text = "Boost Mobile"},
+            new SelectListItem() {Value = "sprint"               , Text = "Sprint"},
+            new SelectListItem() {Value = "tmobile"              , Text = "T-Mobile"},
+            new SelectListItem() {Value = "uscellular"           , Text = "US Cellular"},
+            new SelectListItem() {Value = "verizon"              , Text = "Verizon"},
+            new SelectListItem() {Value = "virginmobile"         , Text = "Virgin Mobile"},
+        };
     }
 }

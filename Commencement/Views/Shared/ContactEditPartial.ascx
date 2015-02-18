@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.ViewModels.RegistrationModel>" %>
+<%@ Import Namespace="Commencement.Resources" %>
 
-    <script type="text/javascript">
+<script type="text/javascript">
         $(function () {
 
             // list of davis zip codes
@@ -56,6 +57,15 @@
             <%= Html.TextBoxFor(x=>x.Registration.Email, new { maxlength = 100}) %>
             <%= Html.ValidationMessageFor(x=>x.Registration.Email) %>
             <span>You can list a family member or others email address to receive copies of all your commencement email notifications.</span>
+        </li>
+        <li><strong>Cell Phone for Texts:</strong>
+            <%= Html.TextBoxFor(x=>x.Registration.CellNumberForText, new { maxlength = 10}) %>
+            <%= Html.ValidationMessageFor(x=>x.Registration.CellNumberForText) %>
+            <span>Optional 10 digit number for some text notifications. Note! cell phone regular text message fees may apply.</span>
+        </li>
+        <li><strong>Cell Phone Carrier:</strong>
+            <%: Html.DropDownListFor(a=>a.Registration.CellCarrier, SelectLists.CellCarrier) %>
+            <%= Html.ValidationMessageFor(a=>a.Registration.CellCarrier) %>
         </li>
         <li><strong>How To Say Your Name Phonetically:</strong>
             <%= Html.TextBoxFor(x=>x.Registration.Phonetic, new { maxlength = 150}) %>

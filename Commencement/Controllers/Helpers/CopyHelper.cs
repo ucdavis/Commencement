@@ -13,6 +13,8 @@ namespace Commencement.Controllers.Helpers
             registrationTo.Zip = registrationFrom.Zip;
             
             registrationTo.Email = registrationFrom.Email;
+            registrationTo.CellNumberForText = registrationFrom.CellNumberForText;
+            registrationTo.CellCarrier = registrationFrom.CellCarrier;
             
             registrationTo.MailTickets = registrationFrom.MailTickets;
             registrationTo.GradTrack = registrationFrom.GradTrack; //It is on the screen
