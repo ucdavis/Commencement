@@ -11,6 +11,8 @@
     [TermCode]    VARCHAR (6)      NOT NULL,
     [GradTrack]   BIT              NOT NULL, 
     [TicketPassword] VARCHAR(50) NULL, 
-    [Phonetic] VARCHAR(150) NULL
+    [Phonetic] VARCHAR(150) NULL, 
+    [CellNumberForText] VARCHAR(10) NULL, 
+    [CellCarrier] VARCHAR(25) NULL
 );
 
