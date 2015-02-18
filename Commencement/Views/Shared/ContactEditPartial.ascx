@@ -52,8 +52,13 @@
         <li class="prefilled"><strong>Email:</strong>
             <span><%= Html.Encode(Model.Student.Email) %></span>
         </li>
-        <li><strong>Alternate Email:</strong>
+        <li><strong>Additional Recipients Email:</strong>
             <%= Html.TextBoxFor(x=>x.Registration.Email, new { maxlength = 100}) %>
             <%= Html.ValidationMessageFor(x=>x.Registration.Email) %>
+            <span>You can list a family member or others email address to receive copies of all your commencement email notifications.</span>
+        </li>
+        <li><strong>How To Say Your Name Phonetically:</strong>
+            <%= Html.TextBoxFor(x=>x.Registration.Phonetic, new { maxlength = 150}) %>
+            <%= Html.ValidationMessageFor(x=>x.Registration.Phonetic) %>
         </li>
     </ul>

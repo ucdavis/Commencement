@@ -44,7 +44,7 @@
     
     <% if (TermService.GetCurrent().RegistrationDeadline.Date < DateTime.Now.Date) { %>
         <div id="late-reg">
-            <p>The registration deadline has passed.  You can petition but may not receieve as many tickets.</p>
+            <p>The registration deadline has passed.  You can petition but may not receive as many tickets.</p>
         </div>
     <% } %>
 

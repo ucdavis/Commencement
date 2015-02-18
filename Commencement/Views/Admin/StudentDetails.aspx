@@ -28,6 +28,10 @@
             <% if (User.IsInRole(RoleNames.RoleEmulationUser)) { %>
                 <%= Html.ActionLink<AccountController>(a => a.Emulate(Model.Student.Login), "Emulate", new { @class = "button" })%>
             <% } %>
+            <% if (Model.FirstVisaLetterRequest.HasValue) { %> 
+                <%= Html.ActionLink<AdminController>(a => a.VisaLetterDetails(Model.FirstVisaLetterRequest.Value), "Visa Letters", new { @class = "button"})%>
+            <%} %>
+            
         </div>
     </div>
 

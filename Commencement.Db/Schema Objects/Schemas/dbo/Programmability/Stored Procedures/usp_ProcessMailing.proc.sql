@@ -14,7 +14,7 @@ AS
 				end as emails
 		from emailqueue
 			inner join Students on students.Id = EmailQueue.Student_Id
-			inner join Registrations on registrations.id = EmailQueue.RegistrationId
+			LEFT OUTER JOIN Registrations on registrations.id = EmailQueue.RegistrationId
 		where Pending = 1
 		  and [immediate] = @immediate
 	

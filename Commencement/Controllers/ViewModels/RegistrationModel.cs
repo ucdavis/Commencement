@@ -23,6 +23,8 @@ namespace Commencement.Controllers.ViewModels
         public Student Student { get; private set; }
         public IEnumerable<CeremonyParticipation> Participations { get; set; }
 
+        public int? FirstVisaLetterRequest { get; set; }
+
         // not sure if these are even used
         //public IEnumerable<Ceremony> Ceremonies { get; private set; }
         

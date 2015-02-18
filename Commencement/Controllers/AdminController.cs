@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
@@ -7,6 +8,9 @@ using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
+using Commencement.Resources;
+using NHibernate.Mapping;
+using NPOI.SS.Formula.Functions;
 using UCDArch.Core.PersistanceSupport;
 using MvcContrib;
 using UCDArch.Web.Helpers;
@@ -26,8 +30,9 @@ namespace Commencement.Controllers
         private readonly IRegistrationPopulator _registrationPopulator;
         private readonly IRepository<Registration> _registrationRepository;
         private readonly IErrorService _errorService;
+        private readonly IReportService _reportService;
 
-        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService, IEmailService emailService, IMajorService majorService, ICeremonyService ceremonyService, IRegistrationService registrationService, IRegistrationPopulator registrationPopulator, IRepository<Registration> registrationRepository, IErrorService errorService)
+        public AdminController(IRepositoryWithTypedId<Student, Guid> studentRepository, IRepositoryWithTypedId<MajorCode, string> majorRepository, IStudentService studentService, IEmailService emailService, IMajorService majorService, ICeremonyService ceremonyService, IRegistrationService registrationService, IRegistrationPopulator registrationPopulator, IRepository<Registration> registrationRepository, IErrorService errorService, IReportService reportService)
         {
             if (emailService == null) throw new ArgumentNullException("emailService");
             _studentRepository = studentRepository;
@@ -40,6 +45,7 @@ namespace Commencement.Controllers
             _registrationPopulator = registrationPopulator;
             _registrationRepository = registrationRepository;
             _errorService = errorService;
+            _reportService = reportService;
         }
 
         /// <summary>
@@ -50,6 +56,8 @@ namespace Commencement.Controllers
         public ActionResult Index()
         {
             //var ceremonies = Repository.OfType<Ceremony>().GetAll(); //Was not being used.
+
+            ViewBag.PendingLetters = Repository.OfType<VisaLetter>().Queryable.Any(a => a.IsPending);
 
             return View();
         }
@@ -115,7 +123,11 @@ namespace Commencement.Controllers
 
             var viewModel = RegistrationModel.Create(Repository, _ceremonyService.GetCeremonies(CurrentUser.Identity.Name), student);
             viewModel.Registration = Repository.OfType<Registration>().Queryable.Where(a => a.Student == student).FirstOrDefault();
-
+            var temp = Repository.OfType<VisaLetter>().Queryable.FirstOrDefault(a => a.Student == student);
+            if (temp != null)
+            {
+                viewModel.FirstVisaLetterRequest = temp.Id;
+            }
             ViewData["IsAdmin"] = true;
 
             return View(viewModel);
@@ -408,5 +420,183 @@ namespace Commencement.Controllers
             var viewModel = AdminMajorsViewModel.Create(Repository, _ceremonyService,_registrationService, CurrentUser);
             return View(viewModel);
         }
+
+        public ActionResult VisaLetters(DateTime? startDate, DateTime? endDate, string collegeCode ,bool showAll = false)
+        {
+            var visaLetters = Repository.OfType<VisaLetter>().Queryable;
+            if (!showAll)
+            {
+                visaLetters = visaLetters.Where(a => a.IsPending && !a.IsCanceled);
+            }
+            if (startDate.HasValue)
+            {
+                visaLetters = visaLetters.Where(a => a.DateCreated >= startDate.Value.Date);
+            }
+            if (endDate.HasValue)
+            {
+                visaLetters = visaLetters.Where(a => a.DateCreated <= endDate.Value.Date.AddDays(1));
+            }
+            if (!string.IsNullOrWhiteSpace(collegeCode))
+            {
+                visaLetters = visaLetters.Where(a => a.CollegeCode == collegeCode);
+            }
+
+            var model = AdminVisaLetterListViewModel.Create(visaLetters.ToList(), showAll, startDate, endDate, collegeCode);
+
+            return View(model);
+        }
+
+        public ActionResult VisaLetterDetails(int id)
+        {
+            var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id);
+            var relatedLetters = Repository.OfType<VisaLetter>().Queryable.Where(a => a.Student.Id == letter.Student.Id && a.Id != id).ToList();
+
+            var model = AdminVisaDetailsModel.Create(letter, relatedLetters);
+
+            return View(model);
+        }
+
+        public ActionResult VisaLetterDecide(int id)
+        {
+            var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id);
+            if (!letter.CeremonyDateTime.HasValue)
+            {
+                var ceremony = GetCeremonyForVisaLetter(letter);
+                if (ceremony != null)
+                {
+                    letter.CeremonyDateTime = ceremony.DateTime;
+                }
+            }
+
+            return View(letter);
+        }
+
+        private Ceremony GetCeremonyForVisaLetter(VisaLetter letter, bool useDefaultCeremony = false)
+        {
+            var termCode = TermService.GetCurrent();
+            var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == letter.Student && a.TermCode.Id == termCode.Id);
+
+            // has this student registered yet?
+            if (currentReg != null)
+            {
+                // display previous registration
+                var participation = currentReg.RegistrationParticipations.FirstOrDefault(a => !a.Cancelled && !a.Registration.Student.SjaBlock && !a.Registration.Student.Blocked);
+                if (participation != null && participation.Ceremony.Colleges.Any(a => a.Id == letter.CollegeCode))
+                {
+                    return participation.Ceremony;
+                }
+            }
+
+            if (useDefaultCeremony) //So we can grab a template. But we don't want to use this for defaulting the date
+            {
+                return Repository.OfType<Ceremony>().Queryable.FirstOrDefault(a => a.Id == 1); 
+            }
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult VisaLetterDecide(int id, AdminVisaLetterPostModel model) 
+        {
+            var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id);
+
+            var saveStatus = letter.Status;
+
+            var url = HttpContext.Server.MapPath(string.Format("~/Images/vl_{0}_signature.png", CurrentUser.Identity.Name.ToLower().Trim()));
+            if (!System.IO.File.Exists(url))
+            {
+                Message = "You must set up a signature to be able to decide Visa Letter Requests";
+                return View(letter);
+            }
+            
+            // -- Student
+            letter.StudentFirstName = model.StudentFirstName;
+            letter.StudentLastName = model.StudentLastName;
+            // -- Date Created
+            letter.Gender = model.Gender;
+            letter.Ceremony = model.Ceremony;
+            letter.HardCopy = model.HardCopy;
+
+            letter.RelativeTitle = model.RelativeTitle;
+            letter.RelativeFirstName = model.RelativeFirstName;
+            letter.RelativeLastName = model.RelativeLastName;
+            letter.RelationshipToStudent = model.RelationshipToStudent;
+            letter.RelativeMailingAddress = model.RelativeMailingAddress;
+
+            letter.CollegeCode = model.CollegeCode;
+            letter.CollegeName = SelectLists.CollegeNames.Single(a => a.Value == letter.CollegeCode).Text;
+            letter.MajorName = model.MajorName;
+            letter.CeremonyDateTime = model.CeremonyDateTime;
+            
+            //TODO: Text for "Bachelor of Science degree"
+            letter.Degree = model.Degree;
+
+
+            if (model.Decide != "N") //Just have a check box that says "decide"
+            {
+                letter.DateDecided = DateTime.Now;
+            }
+            else
+            {
+                letter.DateDecided = null;
+            }
+            letter.LastUpdateDateTime = DateTime.Now;
+            letter.IsPending = model.Decide == "N";
+            letter.IsApproved = model.Decide == "A";
+            letter.IsDenied = model.Decide == "D";
+            
+
+            letter.ApprovedBy = CurrentUser.Identity.Name;
+
+            letter.TransferValidationMessagesTo(ModelState);
+            if (letter.IsApproved && letter.CeremonyDateTime == null)
+            {
+                ModelState.AddModelError("SpecialCheck", "Must Enter Ceremony Date when approving.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                Repository.OfType<VisaLetter>().EnsurePersistent(letter);
+                //TODO: Email notification
+                if (saveStatus != letter.Status)
+                {
+                    try
+                    {
+                        _emailService.QueueVisaLetterDecision(letter, GetCeremonyForVisaLetter(letter, true), Request, Url);
+                    }
+                    catch (Exception ex)
+                    {
+                        _errorService.ReportError(ex);
+                    }
+                }
+                Message = "Letter updated";
+                return this.RedirectToAction("VisaLetterDetails", new {id});
+            }
+
+            Message = "Please correct errors and try again.";
+            return View(letter);
+        }
+
+        public ActionResult VisaLetterPreviewPdf(int id)
+        {
+
+            var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id);
+            if (string.IsNullOrWhiteSpace(letter.ApprovedBy))
+            {
+                letter.ApprovedBy = CurrentUser.Identity.Name;
+            }
+
+            var url = HttpContext.Server.MapPath(string.Format("~/Images/vl_{0}_signature.png", letter.ApprovedBy.ToLower().Trim()));
+            if (!System.IO.File.Exists(url))
+            {
+                Message = "You must set up a signature to be able to decide Visa Letter Requests";
+                return File(_reportService.WritePdfWithErrorMessage(Message), "application/pdf");
+
+            }
+
+            return File(_reportService.GenerateLetter(letter), "application/pdf");//, string.Format("{0}.pdf", letter.ReferenceGuid));
+
+        }
     }
+
+
 }

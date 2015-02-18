@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
@@ -7,6 +8,9 @@ using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
+using Commencement.Resources;
+using NHibernate.Validator.Constraints;
+using NPOI.SS.Formula.Functions;
 using UCDArch.Core.PersistanceSupport;
 using MvcContrib;
 using UCDArch.Web.Helpers;
@@ -23,6 +27,7 @@ namespace Commencement.Controllers
         private readonly IRepository<Registration> _registrationRepository;
         private readonly IErrorService _errorService;
         private readonly ICeremonyService _ceremonyService;
+        private readonly IReportService _reportService;
         private readonly IRepository<RegistrationPetition> _registrationPetitionRepository;
         private readonly IRepository<RegistrationParticipation> _participationRepository;
         private readonly IRegistrationPopulator _registrationPopulator;
@@ -35,7 +40,9 @@ namespace Commencement.Controllers
             IRepository<Ceremony> ceremonyRepository, 
             IRepository<Registration> registrationRepository,
             IErrorService errorService,
-            ICeremonyService ceremonyService, IRepository<RegistrationPetition> registrationPetitionRepository,
+            ICeremonyService ceremonyService, 
+            IReportService reportService,
+            IRepository<RegistrationPetition> registrationPetitionRepository,
             IRepository<RegistrationParticipation> participationRepository, IRegistrationPopulator registrationPopulator)
         {
             _studentRepository = studentRepository;
@@ -43,6 +50,7 @@ namespace Commencement.Controllers
             _registrationRepository = registrationRepository;
             _errorService = errorService;
             _ceremonyService = ceremonyService;
+            _reportService = reportService;
             _registrationPetitionRepository = registrationPetitionRepository;
             _participationRepository = participationRepository;
             _registrationPopulator = registrationPopulator;
@@ -353,6 +361,246 @@ namespace Commencement.Controllers
             return View();
         }
 
+        [PageTrackingFilter]
+        public ActionResult VisaLetters()
+        {
+            // validate student is in our DB, otherwise we need to do a lookup
+            var student = GetCurrentStudent();
+
+            // we were just unable to find record
+            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
+
+            var letters = Repository.OfType<VisaLetter>().Queryable.Where(a => a.Student.StudentId == student.StudentId && !a.IsCanceled).ToList();
+
+            return View(letters);
+        }
+
+        [PageTrackingFilter]
+        public ActionResult RequestVisaLetter()
+        {
+            // validate student is in our DB, otherwise we need to do a lookup
+            var student = GetCurrentStudent();
+
+            // we were just unable to find record
+            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
+
+            var existingLetter = Repository.OfType<VisaLetter>().Queryable.FirstOrDefault(a => a.Student.StudentId == student.StudentId && !a.IsCanceled && !a.IsDenied);
+
+            ViewBag.AllowChange = true;
+
+            var letter = new VisaLetter();
+            letter.Student = student;
+            if (existingLetter != null)
+            {
+                letter.StudentFirstName = existingLetter.StudentFirstName;
+                letter.StudentLastName = existingLetter.StudentLastName;
+                letter.MajorName = existingLetter.MajorName;
+                letter.CollegeCode = existingLetter.CollegeCode;
+                letter.Gender = existingLetter.Gender;
+                letter.CollegeName = existingLetter.CollegeName;
+                letter.Degree = existingLetter.Degree;
+                letter.HardCopy = existingLetter.HardCopy;
+                letter.Ceremony = existingLetter.Ceremony;
+                ViewBag.AllowChange = false;
+                ViewBag.AllowCeremonyChange = false;
+            }
+            else
+            {
+                letter.StudentFirstName = student.FirstName;
+                letter.StudentLastName = student.LastName;
+                var major = student.Majors.FirstOrDefault();
+                if (major != null)
+                {
+                    letter.MajorName = major.MajorName;
+                    letter.CollegeCode = major.College.Id;
+                }
+            }
+
+
+            var checkStudent = CheckStudentForVisaLetter();
+            switch (checkStudent)
+            {
+                case "NotEligible":
+                    return this.RedirectToAction<ErrorController>(a => a.NotEligible()); //Blocked
+                case "SJA":
+                    return this.RedirectToAction<ErrorController>(a => a.SJA());
+                case "S":
+                    letter.Ceremony = 'S';
+                    ViewBag.AllowCeremonyChange = false;
+                    break;
+                case "F":
+                    letter.Ceremony = 'F';
+                    ViewBag.AllowCeremonyChange = false;
+                    break;
+                case "PreviouslyWalked":
+                    return this.RedirectToAction<ErrorController>(a => a.PreviouslyWalked());
+                case "CeremonyOver":
+                    return this.RedirectToAction<ErrorController>(a => a.CeremonyOver());
+
+            }            
+
+            
+
+            return View(letter);
+        }
+
+        [HttpPost]
+        [PageTrackingFilter]
+        public ActionResult RequestVisaLetter(VisaLetterPostModel model)
+        {
+            // validate student is in our DB, otherwise we need to do a lookup
+            var student = GetCurrentStudent();
+
+            // we were just unable to find record
+            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
+
+            var existingLetter = Repository.OfType<VisaLetter>().Queryable.FirstOrDefault(a => a.Student.StudentId == student.StudentId && !a.IsCanceled && !a.IsDenied);
+            if (existingLetter != null)
+            {
+                ViewBag.AllowChange = false;
+            }
+            else
+            {
+                ViewBag.AllowChange = true;
+            }
+
+            var visaLetter = new VisaLetter();
+            visaLetter.Student = student;
+            visaLetter.Ceremony = model.Ceremony;
+            visaLetter.MajorName = model.MajorName;
+            visaLetter.RelationshipToStudent = model.RelationshipToStudent;
+            visaLetter.RelativeFirstName = model.RelativeFirstName;
+            visaLetter.RelativeLastName = model.RelativeLastName;
+            visaLetter.RelativeMailingAddress = model.RelativeMailingAddress;
+            visaLetter.RelativeTitle = model.RelativeTitle;
+            visaLetter.StudentFirstName = model.StudentFirstName;
+            visaLetter.StudentLastName = model.StudentLastName;
+            visaLetter.Gender = model.Gender;
+            visaLetter.CollegeCode = model.CollegeCode;
+            visaLetter.CollegeName = SelectLists.CollegeNames.Single(a => a.Value == visaLetter.CollegeCode).Text;
+            visaLetter.Degree = model.Degree;
+            visaLetter.HardCopy = model.HardCopy;
+
+            var termCode = TermService.GetCurrent();
+            var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == student && a.TermCode.Id == termCode.Id);
+
+            // has this student registered yet?
+            if (currentReg != null)
+            {
+                // display previous registration
+                var participation = currentReg.RegistrationParticipations.FirstOrDefault(a => !a.Cancelled && !a.Registration.Student.SjaBlock && !a.Registration.Student.Blocked);
+                if (participation != null && participation.Ceremony.Colleges.Any(a => a.Id == visaLetter.CollegeCode))
+                {
+                    visaLetter.CeremonyDateTime = participation.Ceremony.DateTime;
+                }
+
+            }
+
+            visaLetter.TransferValidationMessagesTo(ModelState);
+            if (ModelState.IsValid)
+            {
+                //TODO: Try and pull to see if student is registered. If so, set values for which ceremony and which date.
+
+
+                Repository.OfType<VisaLetter>().EnsurePersistent(visaLetter);
+              
+                return this.RedirectToAction("VisaLetterReceipt");
+            }
+
+            Message = "Please correct errors and try again.";
+            return View(visaLetter);
+        }
+
+        [PageTrackingFilter]
+        public ActionResult CancelVisaLetterRequest(int id)
+        {
+            var student = GetCurrentStudent();
+
+            // we were just unable to find record
+            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
+
+            var letter = Repository.OfType<VisaLetter>().Queryable.SingleOrDefault(a => a.Id == id && a.Student.StudentId == student.StudentId && a.IsPending && !a.IsCanceled); //Only allow that student to print it.
+            if (letter == null)
+            {
+                Message = "Pending Letter Not Found";
+                return this.RedirectToAction<ErrorController>(a => a.NotFound());
+            }
+
+            return View(letter);
+        }
+
+        [HttpPost]
+        [PageTrackingFilter]
+        public ActionResult CancelVisaLetterRequest(int id, bool cancel)
+        {
+            if (!cancel)
+            {
+                Message = "Visa Letter Request Not Canceled";
+                return this.RedirectToAction(a => a.VisaLetters());
+            }
+
+            var student = GetCurrentStudent();
+
+            // we were just unable to find record
+            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
+
+            var letter = Repository.OfType<VisaLetter>().Queryable.SingleOrDefault(a => a.Id == id && a.Student.StudentId == student.StudentId && a.IsPending && !a.IsCanceled); //Only allow that student to print it.
+            if (letter == null)
+            {
+                Message = "Pending Letter Not Found";
+                return this.RedirectToAction<ErrorController>(a => a.NotFound());
+            }
+            letter.IsCanceled = true;
+
+            Repository.OfType<VisaLetter>().EnsurePersistent(letter);
+            Message = "Visa Letter Request Canceled";
+            return this.RedirectToAction(a => a.VisaLetters());
+        }
+
+
+        public ActionResult VisaLetterDetails(int id)
+        {
+            var student = GetCurrentStudent();
+
+            // we were just unable to find record
+            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
+
+            var letter = Repository.OfType<VisaLetter>().Queryable.SingleOrDefault(a => a.Id == id && a.Student.StudentId == student.StudentId); //Only allow that student to print it.
+            if (letter == null)
+            {
+                Message = "Letter Not Found";
+                return this.RedirectToAction<ErrorController>(a => a.NotFound());
+            }
+
+            return View(letter);
+        }
+
+        public ActionResult VisaLetterReceipt()
+        {
+            return View();
+        }
+
+        public FileResult VisaLetterPdf(int id)
+        {
+            // validate student is in our DB, otherwise we need to do a lookup
+            var student = GetCurrentStudent();
+
+            // we were just unable to find record
+            if (student == null) return File(_reportService.WritePdfWithErrorMessage("Student Record Not Found"), "application/pdf");
+
+            var letter = Repository.OfType<VisaLetter>().Queryable.Single(a => a.Id == id && a.Student.StudentId == student.StudentId); //Only allow that student to print it.
+
+            if (!letter.IsApproved || letter.IsPending)
+            {
+                Message = "Approved Letter Not Found";
+                return File(_reportService.WritePdfWithErrorMessage(Message), "application/pdf");
+                //return this.RedirectToAction<ErrorController>(a => a.NotFound());
+            }
+
+            return File(_reportService.GenerateLetter(letter), "application/pdf");
+
+        }
+
         #region Helper Methods
         /// <summary>
         /// Does initial checks so that students are always redirected correctly for first time registration
@@ -412,6 +660,65 @@ namespace Commencement.Controllers
             {
                 return this.RedirectToAction<ErrorController>(a => a.NotEligible());
             }
+
+            return null;
+        }
+
+        private string CheckStudentForVisaLetter()
+        {
+            var termCode = TermService.GetCurrent();
+            var student = _studentService.GetCurrentStudent(CurrentUser);
+
+            // unable to find record for some reason, either from download or banner lookup
+            if (student == null || student.Blocked)
+            {
+                return "NotEligible";// this.RedirectToAction<ErrorController>(a => a.NotEligible());
+            }
+
+            // student is blocked becuase of sja
+            if (student.SjaBlock)
+            {
+                return "SJA"; // this.RedirectToAction<ErrorController>(a => a.SJA());
+            }
+
+            // check for a current registration, there should only be one
+            var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == student && a.TermCode.Id == termCode.Id);
+
+            // has this student registered yet?
+            if (currentReg != null)
+            {
+                // display previous registration
+                var participation = currentReg.RegistrationParticipations.FirstOrDefault(a => !a.Cancelled && !a.Registration.Student.SjaBlock && !a.Registration.Student.Blocked);
+                if (participation != null)
+                {
+                    if (participation.Ceremony.DateTime < DateTime.Now)
+                    {
+                        return "CeremonyOver";
+                    }
+                    return termCode.Name[0].ToString();
+                }
+                
+            }
+
+            //// no active term, or current term's reg is not open
+            //if (termCode == null || !termCode.CanRegister())
+            //{
+            //    return this.RedirectToAction<ErrorController>(a => a.NotOpen());
+            //}
+
+            // load all part participations that were never cancelled or blocked
+            var participations = _participationRepository.Queryable.Where(a => a.Registration.Student == student && !a.Cancelled && !a.Registration.Student.SjaBlock && !a.Registration.Student.Blocked).ToList();
+
+            // get the list of all colleges for the student, that the student has walked for
+            var pastColleges = participations.Where(a => a.Registration.TermCode.Id != termCode.Id).Select(a => a.Major.College).Distinct().ToList();
+
+            // all current colleges match those of previously walked
+            if (student.Majors.All(a => pastColleges.Contains(a.College)) && pastColleges.Count > 0)
+            {
+                // redirect to past registration message
+                return "PreviouslyWalked"; // this.RedirectToAction<ErrorController>(a => a.PreviouslyWalked());
+            }
+
 
             return null;
         }

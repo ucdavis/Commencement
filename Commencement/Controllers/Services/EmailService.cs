@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Mail;
+using System.Runtime.ConstrainedExecution;
+using System.Web;
+using System.Web.Mvc;
 using Commencement.Controllers.Helpers;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
+using UCDArch.Data.NHibernate;
 using Queryable = System.Linq.Queryable;
 
 namespace Commencement.Controllers.Services
@@ -18,6 +22,7 @@ namespace Commencement.Controllers.Services
         void QueueRegistrationPetition(Registration registration);
         void QueueRegistrationPetitionDecision(RegistrationPetition registration);
         void QueueMajorMove(Registration registration, RegistrationParticipation participation);
+        void QueueVisaLetterDecision(VisaLetter visaLetter, Ceremony ceremony, HttpRequestBase request, UrlHelper url);
     }
 
     public class EmailService : IEmailService
@@ -192,6 +197,21 @@ namespace Commencement.Controllers.Services
                 _emailQueueRepository.EnsurePersistent(emailQueue);
             }
         }
+
+        public void QueueVisaLetterDecision(VisaLetter visaLetter, Ceremony ceremony, HttpRequestBase request, UrlHelper url)
+        {
+            Check.Require(visaLetter != null, "Visa Letter Request Required.");
+            var template = ceremony.Templates.FirstOrDefault(a => a.TemplateType.Name == StaticValues.Template_VisaLetterDecision && a.IsActive);
+            if (template != null)
+            {
+                var subject = template.Subject;
+                var body = _letterGenerator.GenerateVisaLetterRequestDecision(visaLetter, template, request, url);
+                var emailQueue = new EmailQueue(visaLetter.Student, template, subject, body);
+                _emailQueueRepository.EnsurePersistent(emailQueue);
+            }
+        }
+
+
     }
 
     //public class DevEmailService : IEmailService

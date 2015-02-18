@@ -94,6 +94,10 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\packages\NPOI.1.2.5\lib\net40\Ionic.Zip.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\packages\iTextSharp.5.5.3\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -141,10 +145,12 @@
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
@@ -222,6 +228,7 @@
     <Compile Include="Controllers\Services\EmailService.cs" />
     <Compile Include="Controllers\Services\ErrorService.cs" />
     <Compile Include="Controllers\Services\ExcelService.cs" />
+    <Compile Include="Controllers\Services\IReportService.cs" />
     <Compile Include="Controllers\Services\MajorService.cs" />
     <Compile Include="Controllers\Services\PetitionService.cs" />
     <Compile Include="Controllers\Services\RegistrationService.cs" />
@@ -241,6 +248,7 @@
     <Compile Include="Controllers\ViewModels\AdminPetitionsViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminRegisterForStudentViewModel.cs" />
     <Compile Include="Controllers\ViewModels\AdminRegistrationPetitionViewModel.cs" />
+    <Compile Include="Controllers\ViewModels\AdminVisaLetterViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeCeremonyViewModel.cs" />
     <Compile Include="Controllers\ViewModels\ChangeMajorViewModel.cs" />
     <Compile Include="Controllers\ViewModels\EmailStudentsViewModel.cs" />
@@ -260,6 +268,7 @@
     <Compile Include="Controllers\ViewModels\ExtraTicketPetitionModel.cs" />
     <Compile Include="Controllers\ViewModels\RegistrationModel.cs" />
     <Compile Include="Controllers\ViewModels\TermcodeViewModel.cs" />
+    <Compile Include="Controllers\ViewModels\VisaLetterPostModel.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -269,6 +278,7 @@
     </Compile>
     <Compile Include="Controllers\ViewModels\TransferRequestViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\SelectLists.cs" />
     <Compile Include="RouteConfigurator.asax.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -368,6 +378,13 @@
     <Content Include="Images\preferences.png" />
     <Content Include="Images\speechbubble.jpg" />
     <Content Include="Images\to-do-list_checked1_small.gif" />
+    <Content Include="Images\visaLetterHeader.gif" />
+    <Content Include="Images\vl_cjjo_signature.png" />
+    <Content Include="Images\vl_gastroup_signature.png" />
+    <Content Include="Images\vl_jsylvest_signature.png" />
+    <Content Include="Images\vl_frmartin_signature.png" />
+    <Content Include="Images\vl_jvoight_signature.png" />
+    <Content Include="Images\vl_jwiggles_signature.png" />
     <Content Include="Scripts\dateFormat.js" />
     <Content Include="Scripts\highchart.js" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
@@ -658,8 +675,13 @@
     <Content Include="Views\Admin\MoveMajor.aspx" />
     <Content Include="Views\Admin\RegisterForStudent.aspx" />
     <Content Include="Views\Admin\Registrations.aspx" />
+    <Content Include="Views\Admin\VisaLetterDecide.aspx" />
     <Content Include="Views\Admin\StudentDetails.aspx" />
     <Content Include="Views\Admin\Students.aspx" />
+    <Content Include="Views\Admin\VisaLetterDetails.aspx" />
+    <Content Include="Views\Admin\VisaLetterTablePartial.ascx" />
+    <Content Include="Views\Admin\VisaLetterDetailsPartial.ascx" />
+    <Content Include="Views\Admin\VisaLetters.aspx" />
     <Content Include="Views\Ceremony\AddEditor.aspx" />
     <Content Include="Views\Ceremony\CeremonyPartial.ascx" />
     <Content Include="Views\Ceremony\Create.aspx" />
@@ -673,6 +695,7 @@
     <Content Include="Views\Error\NotEligible.aspx" />
     <Content Include="Views\Error\NotFound.aspx" />
     <Content Include="Views\Error\NotOpen.aspx" />
+    <Content Include="Views\Error\CeremonyOver.aspx" />
     <Content Include="Views\Error\PreviouslyWalked.aspx" />
     <Content Include="Views\Error\SJA.aspx" />
     <Content Include="Views\Error\UnauthorizedAccess.aspx" />
@@ -687,6 +710,7 @@
     <Content Include="Views\Retroactive\Index.aspx" />
     <Content Include="Views\Shared\CeremonyEditPartial.ascx" />
     <Content Include="Views\Shared\ContactEditPartial.ascx" />
+    <Content Include="Views\Shared\EditVisaLetterPartial.ascx" />
     <Content Include="Views\Shared\RegistrationPetitionDisplay.ascx" />
     <Content Include="Views\Shared\SpecialNeedsPartial.ascx" />
     <Content Include="Views\Shared\StudentInformationPartial.ascx" />
@@ -695,8 +719,14 @@
     <Content Include="Views\SpecialNeeds\Create.aspx" />
     <Content Include="Views\SpecialNeeds\Index.aspx" />
     <Content Include="Views\Student\CancelRegistartionPetitionConfirm.aspx" />
+    <Content Include="Views\Student\VisaLetterDetailsPartial.ascx" />
+    <Content Include="Views\Student\VisaLetterDetails.aspx" />
+    <Content Include="Views\Student\CancelVisaLetterRequest.aspx" />
     <Content Include="Views\Student\CancelRegistrationPetition.aspx" />
     <Content Include="Views\Student\DisplayRegistration.aspx" />
+    <Content Include="Views\Student\RequestVisaLetter.aspx" />
+    <Content Include="Views\Student\VisaLetterReceipt.aspx" />
+    <Content Include="Views\Student\VisaLetters.aspx" />
     <Content Include="Views\Student\Register.aspx" />
     <Content Include="Views\Shared\RegistrationDisplay.ascx" />
     <Content Include="Views\Survey\Create.aspx" />
@@ -839,6 +869,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Content Include="Content\font\BerkeleyUCDavis-Black.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-BlackIt.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-Bold.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-BoldIt.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-Book.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-BookIt.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-Medium.ttf" />
+    <Content Include="Content\font\BerkeleyUCDavis-MediumIt.ttf" />
     <None Include="Properties\PublishProfiles\Dev.pubxml" />
     <None Include="Properties\PublishProfiles\Profile.pubxml" />
     <None Include="Properties\PublishProfiles\Release.pubxml" />

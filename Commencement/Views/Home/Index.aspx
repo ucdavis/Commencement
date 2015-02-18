@@ -7,6 +7,10 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    
+    <ul class="btny">
+        <li><%: Html.ActionLink<StudentController>(a=>a.VisaLetters(), "Visa Letters") %></li>
+    </ul>
 
     <div class="content">
 

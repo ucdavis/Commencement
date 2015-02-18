@@ -10,6 +10,7 @@
     [MailTickets] BIT              NOT NULL,
     [TermCode]    VARCHAR (6)      NOT NULL,
     [GradTrack]   BIT              NOT NULL, 
-    [TicketPassword] VARCHAR(50) NULL
+    [TicketPassword] VARCHAR(50) NULL, 
+    [Phonetic] VARCHAR(150) NULL
 );
 

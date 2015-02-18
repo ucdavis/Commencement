@@ -125,6 +125,12 @@ textarea { padding: .5em;}
 .btn li:hover {background-color:#FFF; color:#000; border:1px solid #00497b;}
 .btn li:hover a {color:#000;}
 
+.btny {position:absolute; top:40px; z-index:1;}
+.btny li {font: 16px/26px 'CicleSemi', Arial, sans-serif;letter-spacing: 0; -moz-border-radius: 5px; -webkit-border-radius: 5px; background-color:yellow; color:#fff; border:1px solid #000; display:inline-block; margin-right:10px;}
+.btny a {color:black; text-decoration:none; padding:5px 10px; display:block;}
+.btny li:hover {background-color:#FFF; color:#000; border:1px solid yellow;}
+.btny li:hover a {color:#000;}
+
 .front_menu {margin:0 auto; width:910px;}
 .front_menu li a{background-color:#efefef;display:inline-block;height:150px;width:200px;margin-bottom:30px;-moz-border-radius: 10px; -webkit-border-radius: 10px; text-align:center; text-decoration:none;}
 .front_menu .left {margin-right:30px;}
