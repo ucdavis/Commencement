@@ -59,7 +59,7 @@ namespace Commencement.Core.Domain
         public virtual string Phonetic { get; set; }
 
         [Length(10)]
-        public virtual string CellNumberForText { get; set; }
+        public virtual string CellNumberForText { get; set; } //TODO: Add Validation... (10 numbers, plus must select CellCarrier)
 
         [Length(25)]
         public virtual string CellCarrier { get; set; }
