@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
@@ -221,6 +222,23 @@ namespace Commencement.Controllers
             }
 
             registration.TransferValidationMessagesTo(ModelState);
+
+            if (string.IsNullOrWhiteSpace(registration.CellCarrier) && !string.IsNullOrWhiteSpace(registration.CellNumberForText)) //TODO: Need to do on student side too
+            {
+                ModelState.AddModelError("Registration.CellCarrier", "You must select a Cell Phone Carrier if you enter a cell number.");
+            }
+            if (!string.IsNullOrWhiteSpace(registration.CellCarrier) && string.IsNullOrWhiteSpace(registration.CellNumberForText))
+            {
+                ModelState.AddModelError("Registration.CellNumberForText", "You must enter a cell number if you select a Cell Phone Carrier.");
+            }
+            if (!string.IsNullOrWhiteSpace(registration.CellNumberForText))
+            {
+
+                if (registration.CellNumberForText.Length != 10 || !Regex.Match(registration.CellNumberForText, @"^\d{10}$").Success)
+                {
+                    ModelState.AddModelError("Registration.CellNumberForText", "Cell Number must be empty or a 10 digit number, no spaces.");
+                }
+            }
 
             if (ModelState.IsValid)
             {

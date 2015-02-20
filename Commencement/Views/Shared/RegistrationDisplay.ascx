@@ -24,6 +24,12 @@
         <span><%= Html.Encode(Model.Email)%></span>
     </li>
     <% } %>
+        <% if (!string.IsNullOrEmpty(Model.CellNumberForText))
+       { %>
+    <li><strong>Cell Number For Texting:</strong>
+        <span><%= Html.Encode(Model.CellNumberForText)%></span> <span><%=Html.Encode(Model.CellCarrier) %></span><%-- //TODO: Nicer Display--%>
+    </li>
+    <% } %>
     <li><strong>How To Say Your Name Phonetically:</strong>
         <span><%= Html.Encode(Model.Phonetic)%></span>
     </li>
