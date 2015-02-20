@@ -43,14 +43,14 @@ namespace Commencement.Resources
         public static List<SelectListItem> CellCarrier = new List<SelectListItem>()
         {
             new SelectListItem() {Value = "", Text = ""},
-            new SelectListItem() {Value = "alltel"               , Text = "Alltel"},
-            new SelectListItem() {Value = "att"                  , Text = "AT&T"},
-            new SelectListItem() {Value = "boostmobile"          , Text = "Boost Mobile"},
-            new SelectListItem() {Value = "sprint"               , Text = "Sprint"},
-            new SelectListItem() {Value = "tmobile"              , Text = "T-Mobile"},
-            new SelectListItem() {Value = "uscellular"           , Text = "US Cellular"},
-            new SelectListItem() {Value = "verizon"              , Text = "Verizon"},
-            new SelectListItem() {Value = "virginmobile"         , Text = "Virgin Mobile"},
+            new SelectListItem() {Value = "Alltel"               , Text = "Alltel"},
+            new SelectListItem() {Value = "AT&T"                  , Text = "AT&T"},
+            new SelectListItem() {Value = "Boost Mobile"          , Text = "Boost Mobile"},
+            new SelectListItem() {Value = "Sprint"               , Text = "Sprint"},
+            new SelectListItem() {Value = "T-Mobile"              , Text = "T-Mobile"},
+            new SelectListItem() {Value = "US Cellular"           , Text = "US Cellular"},
+            new SelectListItem() {Value = "Verizon"              , Text = "Verizon"},
+            new SelectListItem() {Value = "Virgin Mobile"         , Text = "Virgin Mobile"},
         };
     }
 }
