@@ -43,14 +43,14 @@ namespace Commencement.Resources
         public static List<SelectListItem> CellCarrier = new List<SelectListItem>()
         {
             new SelectListItem() {Value = "", Text = ""},
-            new SelectListItem() {Value = "Alltel"               , Text = "Alltel"},
-            new SelectListItem() {Value = "AT&T"                  , Text = "AT&T"},
-            new SelectListItem() {Value = "Boost Mobile"          , Text = "Boost Mobile"},
-            new SelectListItem() {Value = "Sprint"               , Text = "Sprint"},
-            new SelectListItem() {Value = "T-Mobile"              , Text = "T-Mobile"},
-            new SelectListItem() {Value = "US Cellular"           , Text = "US Cellular"},
-            new SelectListItem() {Value = "Verizon"              , Text = "Verizon"},
-            new SelectListItem() {Value = "Virgin Mobile"         , Text = "Virgin Mobile"},
+            new SelectListItem() {Value = "@message.alltel.com"               , Text = "Alltel"},
+            new SelectListItem() {Value = "@txt.att.net"                  , Text = "AT&T"},
+            new SelectListItem() {Value = "@myboostmobile.com"          , Text = "Boost Mobile"},
+            new SelectListItem() {Value = "@messaging.sprintpcs.com"               , Text = "Sprint"},
+            new SelectListItem() {Value = "@tmomail.net"              , Text = "T-Mobile"},
+            new SelectListItem() {Value = "@email.uscc.net"           , Text = "US Cellular"},
+            new SelectListItem() {Value = "@vtext.com"              , Text = "Verizon"},
+            new SelectListItem() {Value = "@vmobl.com"         , Text = "Virgin Mobile"},
         };
     }
 }
