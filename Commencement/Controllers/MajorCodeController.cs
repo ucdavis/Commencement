@@ -95,6 +95,10 @@ namespace Commencement.Controllers
             {
                 ModelState.AddModelError("Major", "Invalid major code or missing information.");
             }
+            if (major != null && !string.IsNullOrWhiteSpace(majorName))
+            {
+                major.Name = majorName;
+            }
 
             //ModelState.AddModelError("Testing", "Always fail validation.");
 
