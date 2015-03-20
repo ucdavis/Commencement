@@ -307,9 +307,10 @@ namespace Commencement.Controllers
         [HttpPost]
         public ActionResult AddStudent(string studentId, Student student)
         {
+            
             if (_studentService.CheckExisting(student.Login, TermService.GetCurrent()))
             {
-                ModelState.AddModelError("Exists", "Student already exists in the system.");
+                ModelState.AddModelError("Exists", "Student already exists in the system or login is missing.");
                 Message = string.Format("{0} already exists, you can edit the student record or registration by going through the student details page.", student.FullName);
             }
 
