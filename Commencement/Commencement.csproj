@@ -385,6 +385,7 @@
     <Content Include="Images\vl_frmartin_signature.png" />
     <Content Include="Images\vl_jvoight_signature.png" />
     <Content Include="Images\vl_jwiggles_signature.png" />
+    <Content Include="Images\vl_tkshin_signature.png" />
     <Content Include="Scripts\dateFormat.js" />
     <Content Include="Scripts\highchart.js" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
