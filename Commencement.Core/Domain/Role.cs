@@ -15,6 +15,7 @@ namespace Commencement.Core.Domain
     public class Role : DomainObjectWithTypedId<string>
     {
         public virtual string Name { get; set; }
+        public virtual IList<User> Users { get; set; }
     }
 
     public class RoleMap : ClassMap<Role>
@@ -23,7 +24,7 @@ namespace Commencement.Core.Domain
         {
             Id(x => x.Id).GeneratedBy.Assigned();
             Map(x => x.Name);
-
+            HasManyToMany(x => x.Users).Table("Permissions").ParentKeyColumn("RoleID").ChildKeyColumn("UserID");
         }
     }
 }
