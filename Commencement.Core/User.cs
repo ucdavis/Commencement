@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using Commencement.Core.Domain;
 using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
@@ -20,6 +21,8 @@ namespace Commencement.Core
         public virtual string LastName { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual int? CatbertUserId { get; set; } //Maybe don't use. We just need to link this to the Ceremony Editors
+
+        public virtual IList<Role> Roles { get; set; }
     }
     public class UserMap : ClassMap<User>
     {
@@ -35,6 +38,7 @@ namespace Commencement.Core
             Map(x => x.LastName);
             Map(x => x.IsActive);
             Map(x => x.CatbertUserId);
+            HasManyToMany(x => x.Roles).Table("Permissions").ChildKeyColumn("RoleID").ParentKeyColumn("UserID");
         }
     }
 }
