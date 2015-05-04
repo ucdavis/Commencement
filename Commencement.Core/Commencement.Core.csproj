@@ -123,6 +123,7 @@
     <Compile Include="Domain\RegistrationParticipation.cs" />
     <Compile Include="Domain\RegistrationPetition.cs" />
     <Compile Include="Domain\College.cs" />
+    <Compile Include="Domain\Role.cs" />
     <Compile Include="Domain\SearchStudent.cs" />
     <Compile Include="Domain\SpecialNeed.cs" />
     <Compile Include="Domain\State.cs" />
@@ -154,6 +155,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StaticValues.resx</DependentUpon>
     </Compile>
+    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Domain\Student.hbm.xml" />
