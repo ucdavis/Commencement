@@ -10,10 +10,20 @@ using UCDArch.Core.DomainModel;
 
 namespace Commencement.Core
 {
-    public class User : DomainObject
+    public class User : DomainObjectWithTypedId<string>
     {
+        public User()
+        {
+            Roles = new List<Role>();
+        }
+        public User(string id) : this()
+        {
+            Id = id == null ? null : id.ToLower();
+            IsActive = true;
+        }
 
-        public virtual string LoginID { get; set; }
+        public override string Id { get; protected set; }
+
         public virtual string Email { get; set; }
         public virtual string UserEmail { get; set; } //Actual user's email. We have changed the Email above for a couple people in catbert to a generic Account.
         public virtual string Phone { get; set; }
@@ -28,9 +38,8 @@ namespace Commencement.Core
     {
         public UserMap()
         {
-            Id(x => x.Id);
+            Id(x => x.Id).GeneratedBy.Assigned();
             
-            Map(x => x.LoginID);
             Map(x => x.Email);
             Map(x => x.UserEmail);
             Map(x => x.Phone);
