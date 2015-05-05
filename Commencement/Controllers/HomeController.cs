@@ -24,7 +24,7 @@ namespace Commencement.Controllers
         public ActionResult Index()
         {
             // authorized user
-            if (User.IsInRole(RoleNames.RoleAdmin) || User.IsInRole(RoleNames.RoleUser)) return this.RedirectToAction<AdminController>(a => a.Index());
+            if (User.IsInRole(Role.Codes.Admin) || User.IsInRole(Role.Codes.User)) return this.RedirectToAction<AdminController>(a => a.Index());
 
             ViewData["Registered"] = false;
 
