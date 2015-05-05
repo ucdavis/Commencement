@@ -25,15 +25,6 @@ namespace Commencement.Controllers.Filters
         }
     }
 
-    //[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    //public class AnyoneWithRoleAttribute : AuthorizeAttribute
-    //{
-    //    public AnyoneWithRoleAttribute()
-    //    {
-    //        Roles = RoleNames.RoleAdmin + "," + RoleNames.RoleUser;    //Set the roles prop to a comma delimited string of allowed roles
-    //    }
-    //}
-
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AnyoneWithRoleAttribute : AuthorizeAttribute
     {
@@ -61,6 +52,7 @@ namespace Commencement.Controllers.Filters
         }
     }
 
+    [Obsolete]
     public static class RoleNames
     {
         public static readonly string RoleAdmin = "Admin";
