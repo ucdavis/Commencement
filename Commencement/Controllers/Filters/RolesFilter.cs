@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Web.Mvc;
+using Commencement.Core.Domain;
 using UCDArch.Data.NHibernate;
 
 namespace Commencement.Controllers.Filters
@@ -11,7 +12,7 @@ namespace Commencement.Controllers.Filters
     {
         public AdminOnlyAttribute()
         {
-            Roles = RoleNames.RoleAdmin;    //Set the roles prop to a comma delimited string of allowed roles
+            Roles = Role.Codes.Admin;    //Set the roles prop to a comma delimited string of allowed roles
         }
     }
 
@@ -24,12 +25,21 @@ namespace Commencement.Controllers.Filters
         }
     }
 
+    //[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    //public class AnyoneWithRoleAttribute : AuthorizeAttribute
+    //{
+    //    public AnyoneWithRoleAttribute()
+    //    {
+    //        Roles = RoleNames.RoleAdmin + "," + RoleNames.RoleUser;    //Set the roles prop to a comma delimited string of allowed roles
+    //    }
+    //}
+
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AnyoneWithRoleAttribute : AuthorizeAttribute
     {
         public AnyoneWithRoleAttribute()
         {
-            Roles = RoleNames.RoleAdmin + "," + RoleNames.RoleUser;    //Set the roles prop to a comma delimited string of allowed roles
+            Roles = Role.Codes.Admin + "," + Role.Codes.User; //Set the roles prop to a comma delimited string of allowed roles
         }
     }
 

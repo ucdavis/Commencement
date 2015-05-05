@@ -16,7 +16,7 @@ namespace Commencement.Core.Services
             //If connection string is null, use the default sql ce connection
             if (connectionString == null)
             {
-                connectionString = ConfigurationManager.ConnectionStrings["MainDb"].ConnectionString;
+                connectionString = ConfigurationManager.ConnectionStrings["MainDB"].ConnectionString;
             }
 
             var connection = new SqlConnection(connectionString);

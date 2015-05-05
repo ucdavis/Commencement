@@ -14,6 +14,12 @@ namespace Commencement.Providers
     {
         protected IDbService DbService { get; set; }
 
+        public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config)
+        {
+            DbService = ServiceLocator.Current.GetInstance<IDbService>();
+            base.Initialize(name, config);
+        }
+
         public override bool IsUserInRole(string username, string roleName)
         {
             using (var conn = DbService.GetConnection())
