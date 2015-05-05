@@ -21,7 +21,7 @@ namespace Commencement.Controllers.Filters
     {
         public UserOnlyAttribute()
         {
-            Roles = RoleNames.RoleUser;    //Set the roles prop to a comma delimited string of allowed roles
+            Roles = Role.Codes.User;    //Set the roles prop to a comma delimited string of allowed roles
         }
     }
 
@@ -48,7 +48,7 @@ namespace Commencement.Controllers.Filters
     {
         public TicketingAttribute()
         {
-            Roles = RoleNames.RoleTicketing;
+            Roles = Role.Codes.Ticketing;
         }
     }
 
@@ -57,7 +57,7 @@ namespace Commencement.Controllers.Filters
     {
         public EmulationUserOnlyAttribute()
         {
-            Roles = RoleNames.RoleEmulationUser;
+            Roles = Role.Codes.Emulation;
         }
     }
 
