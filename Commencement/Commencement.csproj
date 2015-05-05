@@ -80,6 +80,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="Dapper">
+      <HintPath>..\packages\Dapper.1.40\lib\net40\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="Elmah, Version=1.0.11211.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\Elmah.dll</HintPath>
@@ -278,6 +281,7 @@
     </Compile>
     <Compile Include="Controllers\ViewModels\TransferRequestViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\CommencementRoleProvider.cs" />
     <Compile Include="Resources\SelectLists.cs" />
     <Compile Include="RouteConfigurator.asax.cs" />
   </ItemGroup>

@@ -16,6 +16,15 @@ namespace Commencement.Core.Domain
     {
         public virtual string Name { get; set; }
         public virtual IList<User> Users { get; set; }
+
+        public class Codes
+        {
+
+            public const string Admin = "AD";
+            public const string User = "US";
+            public const string Emulation = "EM";
+            public const string Ticketing = "TK";
+        }
     }
 
     public class RoleMap : ClassMap<Role>
