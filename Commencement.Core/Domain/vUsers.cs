@@ -26,7 +26,7 @@ namespace Commencement.Core.Domain
     {
         public vUserMap()
         {
-            Table("vUsers");
+            Table("vUsers2");
             ReadOnly();
 
             Id(x => x.Id);
