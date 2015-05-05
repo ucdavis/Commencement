@@ -2,6 +2,7 @@
 <%@ Import Namespace="Commencement.Controllers" %>
 <%@ Import Namespace="Commencement.Controllers.Filters" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
+<%@ Import Namespace="Commencement.Core.Domain" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Commencement | Student Details
@@ -25,7 +26,7 @@
             <%: Html.ActionLink<AdminController>(a => a.EditStudent(Model.Student.Id), "Edit Student", new { @class="button" })%>
             <%: Html.ActionLink<AdminController>(a => a.RegisterForStudent(Model.Student.Id), "Edit Registration", new { @class = "button" })%>
             <%: Html.ActionLink<AdminController>(a => a.Block(Model.Student.Id), "Block from Registration", new { @class = "button" })%>
-            <% if (User.IsInRole(RoleNames.RoleEmulationUser)) { %>
+            <% if (User.IsInRole(Role.Codes.Emulation)) { %>
                 <%= Html.ActionLink<AccountController>(a => a.Emulate(Model.Student.Login), "Emulate", new { @class = "button" })%>
             <% } %>
             <% if (Model.FirstVisaLetterRequest.HasValue) { %> 
