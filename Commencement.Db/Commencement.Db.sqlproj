@@ -747,15 +747,6 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\AllTermCodes.sql" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Students.Db\Students.Db.sqlproj">
-      <Name>Students.Db</Name>
-      <Project>{7dfa519c-a273-4633-be04-38b0df0d519e}</Project>
-      <Private>True</Private>
-      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
-      <DatabaseSqlCmdVariable>Students</DatabaseSqlCmdVariable>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Debug.publish.xml" />
     <None Include="Release.publish.xml" />
   </ItemGroup>
