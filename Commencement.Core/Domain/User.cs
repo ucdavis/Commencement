@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using Commencement.Core.Domain;
+﻿using System.Collections.Generic;
 using FluentNHibernate.Mapping;
-using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 
-namespace Commencement.Core
+namespace Commencement.Core.Domain
 {
     public class User : DomainObjectWithTypedId<string>
     {

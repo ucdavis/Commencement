@@ -157,7 +157,7 @@
       <DependentUpon>StaticValues.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\DbService.cs" />
-    <Compile Include="User.cs" />
+    <Compile Include="Domain\User.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Domain\Student.hbm.xml" />
