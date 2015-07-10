@@ -107,11 +107,21 @@ namespace Commencement.Controllers.Services
                 rowCount++;
                 dataRow = sheet.CreateRow(rowCount);
 
-                var student = registrationSurvey.RegistrationParticipation.Registration.Student;
-                dataRow.CreateCell(0).SetCellValue(student.FullName);
-                dataRow.CreateCell(1).SetCellValue(student.StudentId);
-                dataRow.CreateCell(2).SetCellValue(student.TotalUnits.ToString()); 
-                dataRow.CreateCell(3).SetCellValue(student.ActualStrMajors);
+                if (registrationSurvey.RegistrationParticipation != null)
+                {
+                    var student = registrationSurvey.RegistrationParticipation.Registration.Student;
+                    dataRow.CreateCell(0).SetCellValue(student.FullName);
+                    dataRow.CreateCell(1).SetCellValue(student.StudentId);
+                    dataRow.CreateCell(2).SetCellValue(student.TotalUnits.ToString());
+                    dataRow.CreateCell(3).SetCellValue(student.ActualStrMajors);
+                }
+                else
+                {
+                    dataRow.CreateCell(0).SetCellValue("???");
+                    dataRow.CreateCell(1).SetCellValue("???");
+                    dataRow.CreateCell(2).SetCellValue("???");
+                    dataRow.CreateCell(3).SetCellValue("???");
+                }
 
                 var rows = registrationSurvey.SurveyAnswers.OrderBy(o => o.SurveyField.Order).Select(s => s.Answer).ToList();
                 for (int i = 0; i < rows.Count; i++)
