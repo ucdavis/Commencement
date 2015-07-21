@@ -10,7 +10,7 @@ select s.lastname, s.firstname, s.studentid
 		else rp.MajorCode
 		end major
 		, majors.CollegeCode
-	, r.address1, r.address2, r.city, r.[state], r.zip, s.email as PrimaryEmail
+	, r.address1, r.address2, r.city, r.[state], r.zip, s.email as PrimaryEmail, r.Phonetic
 	, r.email as SecondaryEmail, rp.numbertickets
 	, etp.numbertickets as ExtraTickets, etp.numberticketsstreaming as ExtraStreamingTickets
 	, case
