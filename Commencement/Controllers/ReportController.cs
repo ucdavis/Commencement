@@ -147,7 +147,6 @@ namespace Commencement.Controllers
             var query = from a in _registrationParticipationRepository.Queryable
                         where _ceremonyService.GetCeremonies(CurrentUser.Identity.Name, term).Contains(a.Ceremony)
                               && !a.Registration.Student.SjaBlock && a.Registration.MailTickets == printMailing
-                        orderby a.Registration.Student.LastName
                         select a;
 
             if (!printAll)
@@ -157,8 +156,11 @@ namespace Commencement.Controllers
                         a =>
                         !a.LabelPrinted ||
                         (a.ExtraTicketPetition != null && a.ExtraTicketPetition.IsApproved && !a.ExtraTicketPetition.IsPending &&
-                         !a.ExtraTicketPetition.LabelPrinted)).OrderBy(a => a.Registration.Student.LastName);
+                         !a.ExtraTicketPetition.LabelPrinted));
             }
+
+            query = (IOrderedQueryable<RegistrationParticipation>)
+                query.OrderBy(a => a.Registration.Student.LastName);
 
             var registrations = query.ToList();
             var doc = GenerateLabelDoc(registrations, printAll);

@@ -3,4 +3,4 @@ AS
 
 
 SELECT id, [Description], [StartDate], [EndDate], [TypeCode]
-FROM [$(Students)].[dbo].[TermCodes]
+FROM [dbo].[AllTermCodes]

@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.Security;
 using Castle.Windsor;
 using Commencement.Controllers.Services;
+using Commencement.Core.Services;
 using UCDArch.Core.CommonValidator;
 using UCDArch.Core.NHibernateValidator.CommonValidatorAdapter;
 using UCDArch.Core.PersistanceSupport;
@@ -37,6 +38,8 @@ namespace Commencement
             container.AddComponent("excelService", typeof (IExcelService), typeof (ExcelService));
 
             container.AddComponent("reportService", typeof (IReportService), typeof (ReportService));
+
+            container.AddComponent("dbService", typeof(IDbService), typeof(DbService));
 
             AddRepositoriesTo(container);
         }
