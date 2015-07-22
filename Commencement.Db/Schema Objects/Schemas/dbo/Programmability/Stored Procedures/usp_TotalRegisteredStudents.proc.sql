@@ -21,6 +21,8 @@ select s.lastname, s.firstname, s.studentid
 		, case when r.mailtickets = 1 then 'Mail' else 'Pickup' end as DistributionMethod
 	, rp.dateregistered
 	, c.datetime as CeremonyTime
+	, CASE
+		WHEN r.GradTrack = 1 THEN 'Yes' ELSE 'No' end AS GradImages
 from registrationparticipations rp
 	inner join registrations r on rp.registrationid = r.id
 	inner join Students s on r.student_id = s.id
