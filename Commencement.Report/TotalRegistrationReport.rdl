@@ -488,6 +488,9 @@
               <Width>1in</Width>
             </TablixColumn>
             <TablixColumn>
+              <Width>1in</Width>
+            </TablixColumn>
+            <TablixColumn>
               <Width>2.41926in</Width>
             </TablixColumn>
             <TablixColumn>
@@ -647,6 +650,52 @@
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox12</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>None</Style>
+                          <Width>1.5pt</Width>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </RightBorder>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox10">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Phonetic</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox10</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>DimGray</Color>
@@ -1385,6 +1434,42 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
+                    <Textbox Name="Phonetic">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Phonetic.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Phonetic</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                        </RightBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
                     <Textbox Name="MajorCode4">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -1956,6 +2041,7 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
+            <TablixMember />
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
@@ -1993,7 +2079,7 @@
         </SortExpressions>
         <Top>1.84469in</Top>
         <Height>0.48958in</Height>
-        <Width>23.37164in</Width>
+        <Width>24.37164in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -2005,7 +2091,7 @@
     <Height>3.34409in</Height>
     <Style />
   </Body>
-  <Width>23.37164in</Width>
+  <Width>25.09039in</Width>
   <Page>
     <PageHeader>
       <Height>1.39966in</Height>
@@ -2310,6 +2396,10 @@
         </Field>
         <Field Name="GradImages">
           <DataField>GradImages</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Phonetic">
+          <DataField>Phonetic</DataField>
           <rd:UserDefined>true</rd:UserDefined>
         </Field>
       </Fields>

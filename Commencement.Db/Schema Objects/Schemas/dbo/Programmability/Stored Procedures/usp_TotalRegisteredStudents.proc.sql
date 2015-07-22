@@ -10,7 +10,7 @@ select s.lastname, s.firstname, s.studentid
 		else rp.MajorCode
 		end major
 		, majors.CollegeCode
-	, r.address1, r.address2, r.city, r.[state], r.zip, s.email as PrimaryEmail
+	, r.address1, r.address2, r.city, r.[state], r.zip, s.email as PrimaryEmail, r.Phonetic
 	, r.email as SecondaryEmail, rp.numbertickets
 	, etp.numbertickets as ExtraTickets, etp.numberticketsstreaming as ExtraStreamingTickets
 	, case
@@ -21,6 +21,8 @@ select s.lastname, s.firstname, s.studentid
 		, case when r.mailtickets = 1 then 'Mail' else 'Pickup' end as DistributionMethod
 	, rp.dateregistered
 	, c.datetime as CeremonyTime
+	, CASE
+		WHEN r.GradTrack = 1 THEN 'Yes' ELSE 'No' end AS GradImages
 from registrationparticipations rp
 	inner join registrations r on rp.registrationid = r.id
 	inner join Students s on r.student_id = s.id
