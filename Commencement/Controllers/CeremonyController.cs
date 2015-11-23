@@ -157,6 +157,21 @@ namespace Commencement.Controllers
 
             return View(viewModel);
         }
+
+        public ActionResult CanceledRegistrations(int id)
+        {
+            var model = new CanceledRegistrationsViewModel();
+            model.Ceremony = Repository.OfType<Ceremony>().GetNullableById(id);
+            if (model.Ceremony == null)
+            {
+                Message = "Unable to find ceremony.";
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            model.CancelledRegistrations = Repository.OfType<vCancelledRegistrations>().Queryable.Where(a => a.CeremonyId == id).ToList();
+
+            return View(model);
+        }
         
         public ActionResult EditPermissions(int id)
         {

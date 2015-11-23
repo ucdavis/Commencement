@@ -135,6 +135,7 @@
     <Compile Include="Domain\TermCode.cs" />
     <Compile Include="Domain\TicketDistributionMethod.cs" />
     <Compile Include="Domain\TransferRequest.cs" />
+    <Compile Include="Domain\vCancelledRegistrations.cs" />
     <Compile Include="Domain\VisaLetter.cs" />
     <Compile Include="Domain\vTermCode.cs" />
     <Compile Include="Domain\vUsers.cs" />

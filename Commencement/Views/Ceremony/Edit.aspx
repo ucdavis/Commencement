@@ -16,6 +16,7 @@
     <div class="page_bar">
         <div class="col1"><h2>Edit Ceremony</h2></div>
         <div class="col2">
+            <%: Html.ActionLink<CeremonyController>(a => a.CanceledRegistrations(Model.Ceremony.Id), "Canceled", new { @class="button" })%>
             <%: Html.ActionLink<CeremonyController>(a => a.EditPermissions(Model.Ceremony.Id), "Permissions", new { @class="button" })%>
             <%= Html.ActionLink<TemplateController>(a => a.Index(Model.Ceremony.Id), "Email Templates", new { @class = "button" })%>
         </div>
