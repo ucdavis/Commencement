@@ -390,6 +390,7 @@
     <Build Include="Schema Objects\Database Level Objects\Service Broker\Routes\AutoCreatedLocal.route.sql">
       <SubType>Code</SubType>
     </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Views\vCancelledRegistrations.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Debug.publish.xml" />
