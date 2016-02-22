@@ -19,7 +19,7 @@
         <div class="col1" style="width: 55%;"><h2>Your commencement registration for <%= Html.Encode(Model.Registration.TermCode.Name) %></h2></div>
         <div class="col2" style="width: 45%;">
         <% if (Model.CanEditRegistration) { %>
-            <%= Html.ActionLink<StudentController>(a=>a.EditRegistration(Model.Registration.Id), "Edit Registation", new {@class="button"}) %>
+            <%= Html.ActionLink<StudentController>(a=>a.EditRegistration(Model.Registration.Id), "Edit Registration", new {@class="button"}) %>
         <% } %>
         <% if (Model.CanPetitionForExtraTickets) { %>
             <%= Html.ActionLink<PetitionController>(a=>a.ExtraTicketPetition(Model.Registration.Id), "Extra Ticket Petition", new {@class="button"}) %>
