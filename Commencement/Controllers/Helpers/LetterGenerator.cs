@@ -278,6 +278,11 @@ namespace Commencement.Controllers.Helpers
                     }
             }
 
+            if (_template == null || _template.TemplateType == null)
+            {
+                throw new ArgumentException(string.Format("Invalid parameter was passed. -- {0}", parameter));
+            }
+
             // the bottom will handle fields that use either participation or petition values
             var templateName = _template.TemplateType.Name;
             if (templateName == StaticValues.Template_RegistrationConfirmation)
@@ -346,7 +351,7 @@ namespace Commencement.Controllers.Helpers
                 }
             }
 
-            throw new ArgumentException("Invalid parameter was passed.");
+            throw new ArgumentException(string.Format("Invalid parameter was passed. -- {0}", parameter));
         }
 
         /// <summary>
