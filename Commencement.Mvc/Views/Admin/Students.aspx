@@ -52,7 +52,7 @@
            .Name("Students")
            .CellAction(cell =>
                       {
-                          if (cell.Column.Name == "Registration")
+                          if (cell.Column.Member == "Registration")
                           {
                               cell.Text = cell.DataItem.Registration ? "Yes" : "No";
                           }

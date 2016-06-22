@@ -62,6 +62,7 @@ namespace Commencement.Controllers.Services
 
             var ceremonyIds = ceremonies.Select(a => a.Id).ToList();
 
+            //used to be a.Major.Major.Id.Contains on line 75, but that's not valid.  Changed to check for either major or consolidation major
             var query = _registrationParticipationRepository.Queryable.Where(a =>
                     a.Registration.TermCode == termCode
                     && !a.Cancelled && !a.Registration.Student.SjaBlock && !a.Registration.Student.Blocked
@@ -71,7 +72,7 @@ namespace Commencement.Controllers.Services
                     && (a.Registration.Student.StudentId.Contains(string.IsNullOrEmpty(studentid) ? string.Empty : studentid))
                     && (a.Registration.Student.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName))
                     && (a.Registration.Student.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName))
-                    && a.Major.Major.Id.Contains(string.IsNullOrEmpty(majorCode) ? string.Empty : majorCode)
+                    && (a.Major.ConsolidationMajor.Id.Contains(string.IsNullOrEmpty(majorCode) ? string.Empty : majorCode) || a.Major.Id.Contains(string.IsNullOrEmpty(majorCode) ? string.Empty : majorCode))
                 );
 
             if (ceremonyId.HasValue && ceremonyId.Value > 0) query = query.Where(a => a.Ceremony.Id == ceremonyId.Value);

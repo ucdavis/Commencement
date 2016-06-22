@@ -20,7 +20,7 @@
             .Sortable()
             .CellAction(cell=>
                             {
-                                if (cell.Column.Name == "Ceremony.DateTime")
+                                if (cell.Column.Member == "Ceremony.DateTime")
                                 {
                                     cell.Text = cell.DataItem.Ceremony.DateTime.ToString("g");
                                 }

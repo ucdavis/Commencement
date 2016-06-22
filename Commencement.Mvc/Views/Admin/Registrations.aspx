@@ -65,7 +65,7 @@
                    .Name("Registrations")
                    .CellAction(cell =>
                                    {
-                                       if (cell.Column.Name == "Registration.DateRegistered")
+                                       if (cell.Column.Member == "Registration.DateRegistered")
                                        {
                                            cell.Text = cell.DataItem.DateRegistered.ToString("g");
                                        }
