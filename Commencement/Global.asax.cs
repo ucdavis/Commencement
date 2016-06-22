@@ -39,18 +39,18 @@ namespace Commencement
             //NHibernateSessionManager.Instance.RegisterInterceptor(container.Resolve<IInterceptor>());
         }
 
-        private static IWindsorContainer InitializeServiceLocator()
-        {
-            //IWindsorContainer container = new WindsorContainer();
-            //ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
+        //private static IWindsorContainer InitializeServiceLocator()
+        //{
+        //    //IWindsorContainer container = new WindsorContainer();
+        //    //ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
 
-            //container.RegisterControllers(typeof(HomeController).Assembly);
-            //ComponentRegistrar.AddComponentsTo(container);
+        //    //container.RegisterControllers(typeof(HomeController).Assembly);
+        //    //ComponentRegistrar.AddComponentsTo(container);
 
-            //ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
+        //    //ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
 
-            //return container;
-        }
+        //    //return container;
+        //}
 
         /// <summary>
         /// ELMAH filtering for the mail log

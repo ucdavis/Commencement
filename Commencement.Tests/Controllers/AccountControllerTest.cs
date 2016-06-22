@@ -2,7 +2,6 @@
 using System.Linq;
 using Commencement.Controllers;
 using Commencement.Controllers.Filters;
-using Commencement.Core.Domain;
 using Commencement.Tests.Core.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;
