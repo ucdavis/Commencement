@@ -30,6 +30,7 @@ _ReSharper*/
 Commencement.SQL/Commencement.SQL.dbmdl
 *.dbmdl
 *.docstates
+packages/
 
 Commencement.Db/sandbox/*
 Students.Db/sandbox/*
