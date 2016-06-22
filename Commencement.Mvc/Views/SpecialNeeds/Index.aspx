@@ -21,10 +21,10 @@
         <div>
         <% Html.Grid(Model)
                .Transactional()
-               .Name("Special Needs")
+               .Name("SpecialNeeds")
                 .CellAction(cell =>
                 {
-                    if (cell.Column.Name == "IsActive")
+                    if (cell.Column.Member == "IsActive")
                     {
                         cell.Text = cell.DataItem.IsActive ? "Yes" : "No";
                     }

@@ -27,7 +27,7 @@
 		.Name("Editors")
 		.CellAction(cell =>
 		                {
-                            if (cell.Column.Name == "Owner")
+                            if (cell.Column.Member == "Owner")
                             {
                                 cell.Text = cell.DataItem.Owner ? "Yes" : "No";
                             }

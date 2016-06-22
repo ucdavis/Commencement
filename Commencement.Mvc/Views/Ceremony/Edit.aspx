@@ -23,7 +23,6 @@
     </div>
 
     <%= Html.ValidationSummary("Please correct all errors below") %>
-    <%= Html.ClientSideValidation<Commencement.Core.Domain.Ceremony>("Ceremony") %>
 
     <% using (Html.BeginForm("Edit", "Ceremony", FormMethod.Post)) { %>
         <%= Html.AntiForgeryToken() %>

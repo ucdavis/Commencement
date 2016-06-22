@@ -17,22 +17,22 @@
     <div>
         <% Html.Grid(Model)
                .Transactional()
-               .Name("Term Codes")
+               .Name("TermCodes")
                .CellAction(cell =>
                       {
-                          if (cell.Column.Name == "IsActive")
+                          if (cell.Column.Member == "IsActive")
                           {
                               cell.Text = cell.DataItem.IsActive ? "Yes" : "No";
                           }
-                          if (cell.Column.Name == "IsInTermCode")
+                          if (cell.Column.Member == "IsInTermCode")
                           {
                               cell.Text = cell.DataItem.IsInTermCode ? "Yes" : "No";
                           }
-                          if (cell.Column.Name == "RegistrationBegin")
+                          if (cell.Column.Member == "RegistrationBegin")
                           {
                               cell.Text = cell.DataItem.RegistrationBegin.ToString("d");
                           }
-                          if (cell.Column.Name == "RegistrationDeadline")
+                          if (cell.Column.Member == "RegistrationDeadline")
                           {
                               cell.Text = cell.DataItem.RegistrationDeadline.ToString("d");
                           }
