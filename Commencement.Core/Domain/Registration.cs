@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
-using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
-using UCDArch.Core.NHibernateValidator.Extensions;
 using System.Linq;
+using DataAnnotationsExtensions;
 
 namespace Commencement.Core.Domain
 {
@@ -23,39 +23,39 @@ namespace Commencement.Core.Domain
         }
 
         #region Mapped Fields
-        [NotNull]
+        [Required]
         public virtual Student Student { get; set; }
         [Required]
-        [Length(200)]
+        [StringLength(200)]
         public virtual string Address1 { get; set; }
-        [Length(200)]
+        [StringLength(200)]
         public virtual string Address2 { get; set; }
         [Required]
-        [Length(100)]
+        [StringLength(100)]
         public virtual string City { get; set; }
-        [NotNull]
+        [Required]
         public virtual State State { get; set; }
         [Required]
-        [Length(15)]
+        [StringLength(15)]
         public virtual string Zip { get; set; }
         /// <summary>
         /// Secondary email
         /// </summary>
-        [Length(100)]
+        [StringLength(100)]
         [Email]
         public virtual string Email { get; set; }
         public virtual bool MailTickets { get; set; }
-        [NotNull]
+        [Required]
         public virtual TermCode TermCode { get; set; }
         public virtual bool GradTrack { get; set; }
 
-        [Length(50)]
+        [StringLength(50)]
         public virtual string TicketPassword { get; set; }
 
         public virtual IList<RegistrationParticipation> RegistrationParticipations { get; set; }
         public virtual IList<RegistrationPetition> RegistrationPetitions { get; set; }
         public virtual IList<SpecialNeed> SpecialNeeds { get; set; }
-        [Length(150)]
+        [StringLength(150)]
         public virtual string Phonetic { get; set; }
         #endregion
 

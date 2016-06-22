@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using Commencement.Core.Domain;
-using NHibernate.Validator.Constraints;
 
 namespace Commencement.Controllers.ViewModels
 {
@@ -15,23 +11,23 @@ namespace Commencement.Controllers.ViewModels
         public char? Ceremony { get; set; }
 
         [Required]
-        [Length(5)]
+        [StringLength(5)]
         public string RelativeTitle { get; set; }
 
         [Required]
-        [Length(100)]
+        [StringLength(100)]
         public string RelativeFirstName { get; set; }
 
         [Required]
-        [Length(100)]
+        [StringLength(100)]
         public string RelativeLastName { get; set; }
 
         [Required]
-        [Length(100)]
+        [StringLength(100)]
         public string RelationshipToStudent { get; set; }
 
         [Required]
-        [Length(500)]
+        [StringLength(500)]
         public string RelativeMailingAddress { get; set; }
 
         [Required]
@@ -41,10 +37,10 @@ namespace Commencement.Controllers.ViewModels
 
         public Student Student { get; set; }
         [Required]
-        [Length(50)]
+        [StringLength(50)]
         public string StudentFirstName { get; set; }
         [Required]
-        [Length(50)]
+        [StringLength(50)]
         public string StudentLastName { get; set; }
 
         [Required]

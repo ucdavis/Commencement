@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
-using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
-using UCDArch.Core.NHibernateValidator.Extensions;
 
 namespace Commencement.Core.Domain
 {
@@ -35,7 +34,7 @@ namespace Commencement.Core.Domain
         }
 
         [Required]
-        [Length(50)]
+        [StringLength(50)]
         public virtual string Name { get; set; }
         public virtual bool IsActive { get; set; }
 
@@ -44,7 +43,7 @@ namespace Commencement.Core.Domain
 
         public virtual DateTime CapAndGownDeadline { get; set; }
         public virtual DateTime FileToGraduateDeadline { get; set; }
-        [NotNull]
+        [Required]
         public virtual IList<Ceremony> Ceremonies { get; set; }
 
         public virtual DateTime RegistrationBegin { get; set; }

@@ -1,14 +1,13 @@
-﻿using FluentNHibernate.Mapping;
-using NHibernate.Validator.Constraints;
+﻿using System.ComponentModel.DataAnnotations;
+using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
-using UCDArch.Core.NHibernateValidator.Extensions;
 
 namespace Commencement.Core.Domain
 {
     public class SpecialNeed : DomainObject
     {
         [Required]
-        [Length(100)]
+        [StringLength(100)]
         public virtual string Name { get; set; }
         public virtual string Tip { get; set; }
         public virtual bool IsActive { get; set; }

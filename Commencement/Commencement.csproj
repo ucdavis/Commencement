@@ -33,6 +33,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -196,80 +197,6 @@
   <ItemGroup>
     <Compile Include="AuditInterceptor.cs" />
     <Compile Include="ComponentRegistrar.asax.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\ApplicationController.cs" />
-    <Compile Include="Controllers\CeremonyController.cs" />
-    <Compile Include="Controllers\DownloadController.cs" />
-    <Compile Include="Controllers\EmailQueueController.cs" />
-    <Compile Include="Controllers\Filters\LoadDisplayDataAttribute.cs" />
-    <Compile Include="Controllers\Filters\PageTrackingFilter.cs" />
-    <Compile Include="Controllers\Filters\SessionExpirationFilter.cs" />
-    <Compile Include="Controllers\Helpers\CASHelper.cs" />
-    <Compile Include="Controllers\Helpers\CeremonyMajorCheck.cs" />
-    <Compile Include="Controllers\Helpers\CopyHelper.cs" />
-    <Compile Include="Controllers\ErrorController.cs" />
-    <Compile Include="Controllers\Filters\RolesFilter.cs" />
-    <Compile Include="Controllers\Filters\StudentsOnlyFilter.cs" />
-    <Compile Include="Controllers\Helpers\CustomGridBuilder.cs" />
-    <Compile Include="Controllers\Helpers\HtmlHelperExtensions.cs" />
-    <Compile Include="Controllers\Helpers\LabelExtensions.cs" />
-    <Compile Include="Controllers\Helpers\LetterGenerator.cs" />
-    <Compile Include="Controllers\Helpers\RegistrationPetitionHelper.cs" />
-    <Compile Include="Controllers\Helpers\RegistrationPopulator.cs" />
-    <Compile Include="Controllers\Helpers\ReportRequestHandler.cs" />
-    <Compile Include="Controllers\Helpers\StringExtension.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\MajorCodeController.cs" />
-    <Compile Include="Controllers\PetitionController.cs" />
-    <Compile Include="Controllers\ReportController.cs" />
-    <Compile Include="Controllers\RetroactiveController.cs" />
-    <Compile Include="Controllers\Services\CeremonyService.cs" />
-    <Compile Include="Controllers\Services\EmailService.cs" />
-    <Compile Include="Controllers\Services\ErrorService.cs" />
-    <Compile Include="Controllers\Services\ExcelService.cs" />
-    <Compile Include="Controllers\Services\IReportService.cs" />
-    <Compile Include="Controllers\Services\MajorService.cs" />
-    <Compile Include="Controllers\Services\PetitionService.cs" />
-    <Compile Include="Controllers\Services\RegistrationService.cs" />
-    <Compile Include="Controllers\Services\StudentService.cs" />
-    <Compile Include="Controllers\Services\TermService.cs" />
-    <Compile Include="Controllers\Services\UserService.cs" />
-    <Compile Include="Controllers\SpecialNeedsController.cs" />
-    <Compile Include="Controllers\SurveyController.cs" />
-    <Compile Include="Controllers\TermCodeController.cs" />
-    <Compile Include="Controllers\TicketController.cs" />
-    <Compile Include="Controllers\TransferRequestController.cs" />
-    <Compile Include="Controllers\ViewModels\AddEditorViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\AddMajorCodeViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\AdminEditStudentViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\AdminExtraTicketPetitionViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\AdminMajorsViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\AdminPetitionsViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\AdminRegisterForStudentViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\AdminRegistrationPetitionViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\AdminVisaLetterViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\CanceledRegistrationsViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\ChangeCeremonyViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\ChangeMajorViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\EmailStudentsViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\MajorCodeViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\MoveMajorViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\RegistrationDataViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\ReportViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\SearchStudentViewModel.cs" />
-    <Compile Include="Controllers\StudentController.cs" />
-    <Compile Include="Controllers\TemplateController.cs" />
-    <Compile Include="Controllers\ViewModels\StudentDisplayRegistrationViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\TemplateViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\AdminRegistrationViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\AdminStudentViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\CeremonyViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\CommencementViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\ExtraTicketPetitionModel.cs" />
-    <Compile Include="Controllers\ViewModels\RegistrationModel.cs" />
-    <Compile Include="Controllers\ViewModels\TermcodeViewModel.cs" />
-    <Compile Include="Controllers\ViewModels\VisaLetterPostModel.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -277,9 +204,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\ViewModels\TransferRequestViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\SelectLists.cs" />
     <Compile Include="RouteConfigurator.asax.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -342,11 +267,6 @@
     <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\images\ui-icons_fffff_256x240.png" />
     <Content Include="Content\jquery-ui-1.8.19.custom.css" />
-    <Content Include="Images\chart.png" />
-    <Content Include="Images\clock.png" />
-    <Content Include="Images\resend.png" />
-    <Content Include="Images\transfer.png" />
-    <Content Include="Images\to-do-list_checked1_small.gif" />
     <Content Include="Content\jquery.bt.css" />
     <Content Include="Content\main.css" />
     <Content Include="Content\telerik.common.css" />
@@ -360,39 +280,6 @@
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Images\ajax-loader.gif" />
-    <Content Include="Images\branding.jpg" />
-    <Content Include="Images\Cancel-1.png" />
-    <Content Include="Images\Cancel.png" />
-    <Content Include="Images\CheckMark-1.png" />
-    <Content Include="Images\CheckMark.png" />
-    <Content Include="Images\move.png" />
-    <Content Include="Images\loading.gif" />
-    <Content Include="Images\logo-caes.png" />
-    <Content Include="Images\logo-cbs.png" />
-    <Content Include="Images\logo-coe.png" />
-    <Content Include="Images\logo-gs.png" />
-    <Content Include="Images\logo-ls.png" />
-    <Content Include="Images\logo-ucdavis.png" />
-    <Content Include="Images\logo.jpg" />
-    <Content Include="Images\mail_queue.png" />
-    <Content Include="Images\preferences.png" />
-    <Content Include="Images\speechbubble.jpg" />
-    <Content Include="Images\to-do-list_checked1_small.gif" />
-    <Content Include="Images\visaLetterHeader.gif" />
-    <Content Include="Images\vl_carhodes_signature.png" />
-    <Content Include="Images\vl_cjjo_signature.png" />
-    <Content Include="Images\vl_gastroup_signature.png" />
-    <Content Include="Images\vl_jmhtori_signature.png" />
-    <Content Include="Images\vl_jsylvest_signature.png" />
-    <Content Include="Images\vl_jdehn_signature.png" />
-    <Content Include="Images\vl_frmartin_signature.png" />
-    <Content Include="Images\vl_cnlowe_signature.png" />
-    <Content Include="Images\vl_jvoight_signature.png" />
-    <Content Include="Images\vl_jwiggles_signature.png" />
-    <Content Include="Images\vl_korjean_signature.png" />
-    <Content Include="Images\vl_tkshin_signature.png" />
-    <Content Include="Images\vl_vrutledg_signature.png" />
     <Content Include="Scripts\dateFormat.js" />
     <Content Include="Scripts\highchart.js" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
@@ -814,7 +701,6 @@
     <Content Include="appSettings-Test.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Forms\alcohol_policy.pdf" />
     <Content Include="Content\font\Cicle_Fina-webfont.eot" />
     <Content Include="Content\font\Cicle_Fina-webfont.svg" />
     <Content Include="Content\font\Cicle_Fina-webfont.ttf" />
@@ -843,8 +729,6 @@
     <Content Include="Content\font\Cicle_Shadow-webfont.svg" />
     <Content Include="Content\font\Cicle_Shadow-webfont.ttf" />
     <Content Include="Content\font\Cicle_Shadow-webfont.woff" />
-    <Content Include="Forms\extra_ticket_request.pdf" />
-    <Content Include="Forms\registration_petition.pdf" />
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -855,12 +739,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app_offline2.htm" />
-    <Content Include="Images\ceremony.png" />
-    <Content Include="Images\email_template.png" />
-    <Content Include="Images\pending_petition.png" />
-    <Content Include="Images\registrations.png" />
-    <Content Include="Images\report.png" />
-    <Content Include="Images\students.png" />
     <Content Include="Views\Petition\Index.aspx" />
     <Content Include="Views\Report\Index.aspx" />
     <Content Include="Views\Report\RegistrationData.aspx" />
@@ -869,6 +747,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

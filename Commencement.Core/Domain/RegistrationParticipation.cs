@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
-using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 
 namespace Commencement.Core.Domain
@@ -18,11 +18,11 @@ namespace Commencement.Core.Domain
 
             TransferRequests = new List<TransferRequest>();
         }
-        [NotNull]
+        [Required]
         public virtual Registration Registration { get; set; }
-        [NotNull]
+        [Required]
         public virtual MajorCode Major { get; set; }
-        [NotNull]
+        [Required]
         public virtual Ceremony Ceremony { get; set; }
         public virtual ExtraTicketPetition ExtraTicketPetition { get; set; }
 

@@ -1,8 +1,7 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
-using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
-using UCDArch.Core.NHibernateValidator.Extensions;
 
 namespace Commencement.Core.Domain
 {
@@ -15,11 +14,11 @@ namespace Commencement.Core.Domain
 
         public virtual byte[] Contents { get; set; }
         public virtual DateTime DateRequested { get; set; }
-        [NotNull]
+        [Required]
         public virtual vUser User { get; set; }
         [Required]
         public virtual string TermCode { get; set; }
-        [NotNull]
+        [Required]
         public virtual College College { get; set; }
 
         public virtual decimal Honors4590 { get; set; }

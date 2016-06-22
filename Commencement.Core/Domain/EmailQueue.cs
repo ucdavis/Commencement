@@ -1,8 +1,7 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
-using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
-using UCDArch.Core.NHibernateValidator.Extensions;
 
 namespace Commencement.Core.Domain
 {
@@ -31,13 +30,13 @@ namespace Commencement.Core.Domain
             Immediate = false;
         }
 
-        [NotNull]
+        [Required]
         public virtual Student Student { get; set; }
         public virtual DateTime Created { get; set; }
         public virtual bool Pending { get; set; }
         public virtual DateTime? SentDateTime { get; set; }
         public virtual Template Template { get; set; }
-        [Length(100)]
+        [StringLength(100)]
         [Required]
         public virtual string Subject { get; set; }
         [Required]

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
-using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
-using UCDArch.Core.NHibernateValidator.Extensions;
 
 namespace Commencement.Core.Domain
 {
@@ -30,15 +29,15 @@ namespace Commencement.Core.Domain
         [Required]
         public virtual string BodyText { get; set; }
 
-        [NotNull]
+        [Required]
         public virtual TemplateType TemplateType { get; set; }
 
-        [NotNull]
+        [Required]
         public virtual Ceremony Ceremony { get; set; }
 
         public virtual bool IsActive { get; set; }
 
-        [Length(100)]
+        [StringLength(100)]
         public virtual string Subject { get; set; }       
     }
 
