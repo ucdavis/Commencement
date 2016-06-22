@@ -24,7 +24,7 @@ namespace Commencement.Mvc
             container.AddComponent("letterGenerator", typeof(ILetterGenerator), typeof(LetterGenerator));
 
             container.AddComponent("majorService", typeof(IMajorService), typeof(MajorService));
-            //container.AddComponent("auditInterceptor", typeof(NHibernate.IInterceptor), typeof(AuditInterceptor));
+            container.AddComponent("auditInterceptor", typeof(NHibernate.IInterceptor), typeof(AuditInterceptor));
             container.AddComponent("principal", typeof(IPrincipal), typeof(WebPrincipal));
             container.AddComponent("ceremonyService", typeof(ICeremonyService), typeof(CeremonyService));
             container.AddComponent("userService", typeof(IUserService), typeof(UserService));
