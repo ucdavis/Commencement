@@ -9,45 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commencement.Tests", "Comme
 EndProject
 Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "Commencement.Report", "Commencement.Report\Commencement.Report.rptproj", "{194A3973-CC14-4CFC-96B0-E3915A1B0E49}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{F4BF011B-6B71-431C-8628-CFC75E88FCFB}"
-	ProjectSection(SolutionItems) = preProject
-		Bin\AutoMapper.dll = Bin\AutoMapper.dll
-		Bin\Castle.Core.dll = Bin\Castle.Core.dll
-		Bin\Castle.DynamicProxy2.dll = Bin\Castle.DynamicProxy2.dll
-		Bin\Castle.MicroKernel.dll = Bin\Castle.MicroKernel.dll
-		Bin\Castle.Windsor.dll = Bin\Castle.Windsor.dll
-		Bin\Common.Logging.dll = Bin\Common.Logging.dll
-		Bin\Elmah.dll = Bin\Elmah.dll
-		Bin\FluentNHibernate.dll = Bin\FluentNHibernate.dll
-		Bin\HibernatingRhinos.Profiler.Appender.dll = Bin\HibernatingRhinos.Profiler.Appender.dll
-		Bin\Iesi.Collections.dll = Bin\Iesi.Collections.dll
-		Bin\log4net.dll = Bin\log4net.dll
-		Bin\Microsoft.Practices.ServiceLocation.dll = Bin\Microsoft.Practices.ServiceLocation.dll
-		Bin\Microsoft.Web.Mvc.dll = Bin\Microsoft.Web.Mvc.dll
-		Bin\MvcContrib.Castle.dll = Bin\MvcContrib.Castle.dll
-		Bin\MvcContrib.dll = Bin\MvcContrib.dll
-		Bin\MvcContrib.FluentHtml.dll = Bin\MvcContrib.FluentHtml.dll
-		Bin\MvcContrib.TestHelper.dll = Bin\MvcContrib.TestHelper.dll
-		Bin\Newtonsoft.Json.dll = Bin\Newtonsoft.Json.dll
-		Bin\NHibernate.ByteCode.Spring.dll = Bin\NHibernate.ByteCode.Spring.dll
-		Bin\NHibernate.dll = Bin\NHibernate.dll
-		Bin\NHibernate.Linq.dll = Bin\NHibernate.Linq.dll
-		Bin\NHibernate.Validator.dll = Bin\NHibernate.Validator.dll
-		Bin\Rhino.Mocks.dll = Bin\Rhino.Mocks.dll
-		Bin\Spring.Aop.dll = Bin\Spring.Aop.dll
-		Bin\Spring.Core.dll = Bin\Spring.Core.dll
-		Bin\System.Data.SQLite.dll = Bin\System.Data.SQLite.dll
-		Bin\Telerik.Web.Mvc.dll = Bin\Telerik.Web.Mvc.dll
-		Bin\UCDArch.Core.dll = Bin\UCDArch.Core.dll
-		Bin\UCDArch.Core.NHibernateValidator.dll = Bin\UCDArch.Core.NHibernateValidator.dll
-		Bin\UCDArch.Data.dll = Bin\UCDArch.Data.dll
-		Bin\UCDArch.ReferenceLinker.dll = Bin\UCDArch.ReferenceLinker.dll
-		Bin\UCDArch.Testing.dll = Bin\UCDArch.Testing.dll
-		Bin\UCDArch.Web.dll = Bin\UCDArch.Web.dll
-		Bin\UCDArch.Web.Providers.dll = Bin\UCDArch.Web.Providers.dll
-		Bin\xVal.dll = Bin\xVal.dll
-	EndProjectSection
-EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Commencement.Db", "Commencement.Db\Commencement.Db.sqlproj", "{C3A43B28-6B8B-41C1-9006-71F9E826A9C7}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Catbert3.Db", "Catbert3.Db\Catbert3.Db.sqlproj", "{59DDC8A6-84F3-450A-97B0-02F37B848A72}"
