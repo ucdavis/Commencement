@@ -31,7 +31,6 @@
     </ul>
 
     <%= Html.ValidationSummary("Please correct all errors below") %>
-    <%= Html.ClientSideValidation<Commencement.Core.Domain.ExtraTicketPetition>("ExtraTicketPetition") %>
     
     <fieldset>
         

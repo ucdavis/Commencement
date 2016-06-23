@@ -16,7 +16,6 @@
     <h2>Create</h2>
 
     <%= Html.ValidationSummary("Please correct all errors below") %>
-    <%= Html.ClientSideValidation<Commencement.Core.Domain.Ceremony>("Ceremony") %>
 
     <% using (Html.BeginForm("Create", "Ceremony", FormMethod.Post)) { %>
 

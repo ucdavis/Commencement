@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <%= Html.ValidationSummary(true, "Please correct all errors below") %>
+    <%= Html.ValidationSummary("Please correct all errors below") %>
 
 
     <% using (Html.BeginForm("Edit", "Ceremony", FormMethod.Post)) { %>

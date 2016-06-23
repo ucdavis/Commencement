@@ -30,7 +30,6 @@
     </p>
     
     <%= Html.ValidationSummary("Please correct all errors below") %>
-    <%= Html.ClientSideValidation<Commencement.Core.Domain.Registration>("Registration") %>
     
     <% using (Html.BeginForm()) { %>
         <%= Html.AntiForgeryToken() %>

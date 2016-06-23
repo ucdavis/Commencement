@@ -200,6 +200,8 @@ namespace Commencement.Controllers
         [HttpPost]
         public ActionResult RegisterForStudent(Guid id, RegistrationPostModel registrationPostModel, bool supressEmail)
         {
+            ModelState.Clear();
+
             // load the student
             var student = _studentRepository.GetNullableById(id);
             if (student == null)
