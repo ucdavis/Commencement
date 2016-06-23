@@ -143,6 +143,8 @@ namespace Commencement.Controllers
             // copy all the fields
             CopyCeremony(destCeremony, ceremonyEditModel.Ceremony, ceremonyEditModel.CeremonyMajors, ceremonyEditModel.Colleges, ceremonyEditModel.TicketDistributionMethods);
 
+            ModelState.Clear();
+
             // validate the ceremony
             destCeremony.TransferValidationMessagesTo(ModelState);
 
