@@ -1,16 +1,15 @@
-﻿using FluentNHibernate.Mapping;
-using NHibernate.Validator.Constraints;
+﻿using System.ComponentModel.DataAnnotations;
+using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
-using UCDArch.Core.NHibernateValidator.Extensions;
 
 namespace Commencement.Core.Domain
 {
     public class TemplateToken : DomainObject
     {
-        [NotNull]
+        [Required]
         public virtual TemplateType TemplateType { get; set; }
         [Required]
-        [Length(50)]
+        [StringLength(50)]
         public virtual string Name { get; set; }
 
         // grabs the name and removes the spaces

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using FluentNHibernate.Mapping;
-using UCDArch.Core.NHibernateValidator.Extensions;
-using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 using System.Linq;
+using DataAnnotationsExtensions;
 
 namespace Commencement.Core.Domain
 {
@@ -52,37 +52,36 @@ namespace Commencement.Core.Domain
 
         #region Mapped Fields
 
-        [Length(100)]
+        [StringLength(100)]
         public virtual string Name { get; set; }
 
         [Required]
-        [Length(200)]
+        [StringLength(200)]
         public virtual string Location { get; set; }
-        
-        [NotNull]
-        [Future]
+
+        //TODO: need to require that this is a future date
+        [Required]
         [DisplayName("Date/Time of Ceremony")]
         public virtual DateTime DateTime { get; set; }
 
-        [NotNull]
+
         [Min(1)]
         public virtual int TicketsPerStudent { get; set; }
-
-        [NotNull]
+        
         [Min(1)]
         public virtual int TotalTickets { get; set; }
 
         [DisplayName("Streaming Tickets")]
         public virtual int? TotalStreamingTickets { get; set; }
 
-        [NotNull]
+        [Required]
         public virtual TermCode TermCode { get; set; }
 
-        [NotNull]
+        [Required]
         public virtual DateTime PrintingDeadline { get; set; }
-        [NotNull]
+        [Required]
         public virtual DateTime ExtraTicketBegin { get; set; }
-        [NotNull]
+        [Required]
         public virtual DateTime ExtraTicketDeadline { get; set; }
 
         [DisplayName("Extra Tickets/Student")]
@@ -97,19 +96,19 @@ namespace Commencement.Core.Domain
         //[NotNull]
         //public virtual IList<Registration> Registrations { get; set; }
 
-        [NotNull]
+        [Required]
         public virtual IList<RegistrationParticipation> RegistrationParticipations { get; set; }
-        [NotNull]
+        [Required]
         public virtual IList<MajorCode> Majors { get; set; }
-        [NotNull]
+        [Required]
         public virtual IList<RegistrationPetition> RegistrationPetitions { get; set; }
-        [NotNull]
+        [Required]
         public virtual IList<College> Colleges { get; set; }
-        [NotNull]
+        [Required]
         public virtual IList<CeremonyEditor> Editors { get; set; }
-        [NotNull]
+        [Required]
         public virtual IList<Template> Templates { get; set; }
-        [NotNull]
+        [Required]
         public virtual IList<TicketDistributionMethod> TicketDistributionMethods { get; set; }
 
         public virtual IList<RegistrationSurvey> RegistrationSurveys { get; set; }

@@ -1,6 +1,5 @@
-﻿using FluentNHibernate.Mapping;
-using NHibernate.Validator.Constraints;
-using UCDArch.Core.NHibernateValidator.Extensions;
+﻿using System.ComponentModel.DataAnnotations;
+using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
 namespace Commencement.Core.Domain
@@ -19,9 +18,9 @@ namespace Commencement.Core.Domain
         }
 
         public virtual bool Owner { get; set; }
-        [NotNull]
+        [Required]
         public virtual Ceremony Ceremony { get; set; }
-        [NotNull]
+        [Required]
         public virtual vUser User { get; set; }
     }
 

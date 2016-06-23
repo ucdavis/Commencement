@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 using FluentNHibernate.Mapping;
-using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 
 namespace Commencement.Core.Domain
@@ -27,15 +23,15 @@ namespace Commencement.Core.Domain
             HardCopy = "N";
         }
 
-        [NotNull]
+        [Required]
         public virtual Student Student { get; set; } //Might want Pidm, or at least to get the latest student where the pidm matches this student
 
         [Required]
-        [Length(50)]
+        [StringLength(50)]
         public virtual string StudentFirstName { get; set; }
 
         [Required]
-        [Length(50)]
+        [StringLength(50)]
         public virtual string StudentLastName { get; set; }
 
         public virtual DateTime DateCreated { get; set; }
@@ -45,23 +41,23 @@ namespace Commencement.Core.Domain
         public virtual char? Ceremony { get; set; }  // If they are not registered for a ceremony, indicate which one they will apply for. (I think)
 
         [Required]
-        [Length(5)]
+        [StringLength(5)]
         public virtual string RelativeTitle { get; set; }
 
         [Required]
-        [Length(100)]
+        [StringLength(100)]
         public virtual string RelativeFirstName { get; set; }
 
         [Required]
-        [Length(100)]
+        [StringLength(100)]
         public virtual string RelativeLastName { get; set; }
 
         [Required]
-        [Length(100)]
+        [StringLength(100)]
         public virtual string RelationshipToStudent { get; set; }
 
         [Required]
-        [Length(500)]
+        [StringLength(500)]
         public virtual string RelativeMailingAddress { get; set; }
 
         public virtual bool IsApproved { get; set; }

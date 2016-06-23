@@ -1,25 +1,24 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
-using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
-using UCDArch.Core.NHibernateValidator.Extensions;
 
 namespace Commencement.Core.Domain
 {
     public class Audit : DomainObjectWithTypedId<Guid>
     {
-        [Length(50)]
+        [StringLength(50)]
         [Required]
         public virtual string ObjectName { get; set; }
 
-        [Length(50)]
+        [StringLength(50)]
         public virtual string ObjectId { get; set; }
 
-        [Length(1)]
+        [StringLength(1)]
         [Required]
         public virtual string AuditActionTypeId { get; set; }
 
-        [Length(256)]
+        [StringLength(256)]
         [Required]
         public virtual string Username { get; set; }
 

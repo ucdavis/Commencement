@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using FluentNHibernate.Mapping;
-using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
-using UCDArch.Core.NHibernateValidator.Extensions;
 
 namespace Commencement.Core.Domain
 {
@@ -46,23 +45,23 @@ namespace Commencement.Core.Domain
         #endregion
 
         #region Mapped Fields
-        [Length(8)]
+        [StringLength(8)]
         [Required]
         public virtual string Pidm { get; set; }
-        [Length(9)]
+        [StringLength(9)]
         [Required]
         public virtual string StudentId { get; set; }
-        [Length(50)]
+        [StringLength(50)]
         public virtual string FirstName { get; set; }
-        [Length(50)]
+        [StringLength(50)]
         public virtual string MI { get; set; }
-        [Length(50)]
+        [StringLength(50)]
         public virtual string LastName { get; set; }
         public virtual decimal EarnedUnits { get; set; }
         public virtual decimal CurrentUnits { get; set; }
-        [Length(100)]
+        [StringLength(100)]
         public virtual string Email { get; set; }
-        [Length(50)]
+        [StringLength(50)]
         public virtual string Login { get; set; }
 
         public virtual DateTime DateAdded { get; set; }

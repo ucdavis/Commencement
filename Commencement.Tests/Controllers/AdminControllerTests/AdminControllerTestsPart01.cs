@@ -33,7 +33,7 @@ namespace Commencement.Tests.Controllers.AdminControllerTests
         [TestMethod]
         public void TestStudentsMapping()
         {
-            "~/Admin/Students/".ShouldMapTo<AdminController>(a => a.Students("1", null, null, null), true);
+            "~/Admin/Students/".ShouldMapTo<AdminController>(a => a.Students("1", null, null, null, null), true);
         }
 
         [TestMethod]

@@ -1,8 +1,7 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
-using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
-using UCDArch.Core.NHibernateValidator.Extensions;
 
 namespace Commencement.Core.Domain
 {
@@ -37,17 +36,17 @@ namespace Commencement.Core.Domain
         #endregion
 
         #region Mapped Fields
-        [NotNull]
+        [Required]
         public virtual Registration Registration { get; set; }
-        [NotNull]
+        [Required]
         public virtual MajorCode MajorCode { get; set; }
         [Required]
-        [Length(500)]
+        [StringLength(500)]
         public virtual string ExceptionReason { get; set; }
         //public virtual vTermCode TermCodeComplete{ get; set; }
-        [Length(100)]
+        [StringLength(100)]
         public virtual string TransferUnitsFrom { get; set; }
-        [Length(5)]
+        [StringLength(5)]
         public virtual string TransferUnits { get; set; }
         public virtual bool IsPending { get; set; }
         public virtual bool IsApproved { get; set; }

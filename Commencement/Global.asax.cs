@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Web;
 using System.Web.Mvc;
-using Commencement.Controllers;
 using Commencement.Core.Domain;
 using Elmah;
 using Microsoft.Practices.ServiceLocation;
@@ -22,36 +21,36 @@ namespace Commencement
     {
         protected void Application_Start()
         {
-            #if DEBUG
-            HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
-            #endif
+            //#if DEBUG
+            //HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
+            //#endif
 
-            xVal.ActiveRuleProviders.Providers.Add(new ValidatorRulesProvider());
+            //xVal.ActiveRuleProviders.Providers.Add(new ValidatorRulesProvider());
 
-            //RegisterRoutes(RouteTable.Routes);
-            new RouteConfigurator().RegisterRoutes();
+            ////RegisterRoutes(RouteTable.Routes);
+            //new RouteConfigurator().RegisterRoutes();
 
-            ModelBinders.Binders.DefaultBinder = new UCDArchModelBinder();
+            //ModelBinders.Binders.DefaultBinder = new UCDArchModelBinder();
 
-            IWindsorContainer container = InitializeServiceLocator();
+            //IWindsorContainer container = InitializeServiceLocator();
 
-            NHibernateSessionConfiguration.Mappings.UseFluentMappings(typeof(StudentMap).Assembly);
+            //NHibernateSessionConfiguration.Mappings.UseFluentMappings(typeof(StudentMap).Assembly);
 
-            NHibernateSessionManager.Instance.RegisterInterceptor(container.Resolve<IInterceptor>());
+            //NHibernateSessionManager.Instance.RegisterInterceptor(container.Resolve<IInterceptor>());
         }
 
-        private static IWindsorContainer InitializeServiceLocator()
-        {
-            IWindsorContainer container = new WindsorContainer();
-            ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
+        //private static IWindsorContainer InitializeServiceLocator()
+        //{
+        //    //IWindsorContainer container = new WindsorContainer();
+        //    //ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
 
-            container.RegisterControllers(typeof(HomeController).Assembly);
-            ComponentRegistrar.AddComponentsTo(container);
+        //    //container.RegisterControllers(typeof(HomeController).Assembly);
+        //    //ComponentRegistrar.AddComponentsTo(container);
 
-            ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
+        //    //ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
 
-            return container;
-        }
+        //    //return container;
+        //}
 
         /// <summary>
         /// ELMAH filtering for the mail log
