@@ -225,7 +225,7 @@
         <legend>Ticket Distribution Method(s)</legend>
 
         <% if (Model.TicketDistributionMethods != null) { %>
-            <%= this.CheckBoxList("TicketDistributionMethods").Options(Model.TicketDistributionMethods).Class("radio_list") %>
+            <%= this.CheckBoxList("TicketDistributionMethods").Options(Model.TicketDistributionMethods,a=>a.Value, a=>a.Text).Selected(Model.TicketDistributionMethods.SelectedValues).Class("radio_list") %>
         <% } else { %>
             <select id="TicketDistributionMethods" style="width: 200px;" name="TicketDistributionMethods" multiple="multiple"></select>
         <% } %>

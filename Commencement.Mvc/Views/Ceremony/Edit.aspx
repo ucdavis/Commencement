@@ -22,7 +22,8 @@
         </div>
     </div>
 
-    <%= Html.ValidationSummary("Please correct all errors below") %>
+    <%= Html.ValidationSummary(true, "Please correct all errors below") %>
+
 
     <% using (Html.BeginForm("Edit", "Ceremony", FormMethod.Post)) { %>
         <%= Html.AntiForgeryToken() %>
