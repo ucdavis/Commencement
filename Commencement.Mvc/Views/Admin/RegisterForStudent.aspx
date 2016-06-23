@@ -14,9 +14,8 @@
     </ul>
 
     <h2>Register for Student</h2>
-
+    
     <%= Html.ValidationSummary("Please correct all errors below") %>
-    <%= Html.ClientSideValidation<Commencement.Core.Domain.Registration>("Registration") %>
     
     <% using (Html.BeginForm()) { %>
         <%= Html.AntiForgeryToken() %>

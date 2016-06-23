@@ -9,7 +9,6 @@
     <h2>Create Transfer Request</h2>
     
     <%= Html.ValidationSummary("Please correct all errors below") %>
-    <%= Html.ClientSideValidation<Commencement.Core.Domain.TransferRequest>("TransferRequest")%>
 
     <% using(Html.BeginForm()) { %>
     
