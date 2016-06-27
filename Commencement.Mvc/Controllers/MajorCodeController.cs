@@ -5,6 +5,7 @@ using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Controller;
 using MvcContrib;
+using UCDArch.Web.Helpers;
 
 namespace Commencement.Controllers
 {
@@ -84,6 +85,7 @@ namespace Commencement.Controllers
         [HttpPost]
         public ActionResult Add(string majorId, string majorCode, string majorName)
         {
+            ModelState.Clear();
             var major = _majorRepository.GetNullableById(!string.IsNullOrEmpty(majorId) ? majorId : majorCode);
 
             if (major == null && !string.IsNullOrEmpty(majorCode) && !string.IsNullOrEmpty(majorName))
@@ -104,6 +106,15 @@ namespace Commencement.Controllers
 
             if (ModelState.IsValid)
             {
+                major.TransferValidationMessagesTo(ModelState);
+                if (major.Id.Trim().Length > 4)
+                {
+                    ModelState.AddModelError("MajorCode.Id", "Major Code has a max length of 4 characters.");
+                }
+            }
+
+            if (ModelState.IsValid)
+            {
                 major.IsActive = true;
                 _majorRepository.EnsurePersistent(major);
                 Message = "Major has been added/activated";
@@ -111,7 +122,11 @@ namespace Commencement.Controllers
             }
 
             var viewModel = AddMajorCodeViewModel.Create(_majorRepository, major);
-            viewModel.NewMajor = string.IsNullOrEmpty(majorId);
+            viewModel.NewMajor = string.IsNullOrEmpty(majorId) && !string.IsNullOrWhiteSpace(majorCode);
+            if (viewModel.NewMajor && viewModel.MajorCode == null)
+            {
+                viewModel.MajorCode = new MajorCode(majorCode, majorName);
+            }
             return View(viewModel);
         }
 
