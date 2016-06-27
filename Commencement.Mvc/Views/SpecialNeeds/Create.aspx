@@ -17,7 +17,7 @@
     <h2>Create</h2>
 
     <% using (Html.BeginForm()) {%>
-        <%: Html.ValidationSummary() %>
+        <%: Html.ValidationSummary(true,"Please correct all errors below") %>
         <%=Html.AntiForgeryToken() %>
 
         <ul class="registration_form">
@@ -26,14 +26,14 @@
                 <strong><%:Html.LabelFor(a => a.Name, DisplayOptions.HumanizeAndColon) %></strong>
                 <%--<%: Html.TextBoxFor(model => model.Name) %>--%>
                 <%: Html.TextBox("specialNeed.Name", Model.Name) %>
-                <%: Html.ValidationMessageFor(model => model.Name) %>
+                <%: Html.ValidationMessage("SpecialNeed.Name") %>
             </li>
             
             <li>
                 <strong><%:Html.LabelFor(a => a.IsActive, DisplayOptions.HumanizeAndColon)%></strong>
                 <%--<%: Html.CheckBoxFor(model => model.IsActive) %>--%>
                 <%: Html.CheckBox("specialNeed.IsActive", Model.IsActive) %>
-                <%: Html.ValidationMessageFor(model => model.IsActive) %>
+                <%: Html.ValidationMessage("specialNeed.IsActive") %>
             </li>
          
             <li><strong>&nbsp;</strong>
