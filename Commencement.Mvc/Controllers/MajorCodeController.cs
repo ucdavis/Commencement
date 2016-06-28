@@ -97,21 +97,21 @@ namespace Commencement.Controllers
             {
                 ModelState.AddModelError("Major", "Invalid major code or missing information.");
             }
-            if (major != null && !string.IsNullOrWhiteSpace(majorName))
+            else
             {
-                major.Name = majorName;
-            }
-
-            //ModelState.AddModelError("Testing", "Always fail validation.");
-
-            if (ModelState.IsValid)
-            {
+                if (!string.IsNullOrWhiteSpace(majorName))
+                {
+                    major.Name = majorName;
+                }
                 major.TransferValidationMessagesTo(ModelState);
                 if (major.Id.Trim().Length > 4)
                 {
                     ModelState.AddModelError("MajorCode.Id", "Major Code has a max length of 4 characters.");
                 }
             }
+
+
+            //ModelState.AddModelError("Testing", "Always fail validation.");
 
             if (ModelState.IsValid)
             {
