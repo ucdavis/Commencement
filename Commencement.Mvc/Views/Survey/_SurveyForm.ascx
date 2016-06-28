@@ -29,6 +29,7 @@
                 <td>
                     <input type="hidden" data-bind="value:id, attr: {'name': 'questions[' + $index() + '].Id'}"/>
                     <textarea data-bind="value: prompt, attr: {'name': 'questions[' + $index() + '].Prompt'}" class="required" style="width: 575px; height: 80px;"></textarea>
+                    <span class="field-validation-valid" data-bind="attr: { 'data-valmsg-for': 'questions[' + $index() + '].Prompt' }" data-valmsg-replace="true"></span>
                 </td>
                 <td align="center">
                     <span data-bind="text: fieldType().name"></span>
