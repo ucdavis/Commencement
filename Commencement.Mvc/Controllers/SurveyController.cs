@@ -86,7 +86,7 @@ namespace Commencement.Controllers
 
             if (survey.RegistrationSurveys.Any())
             {
-                Message = "Cannot edit this survey becuase there are already responses.";
+                Message = "Cannot edit this survey because there are already responses.";
                 return RedirectToAction("Index");
             }
             
@@ -102,7 +102,7 @@ namespace Commencement.Controllers
 
             if (survey.RegistrationSurveys.Any())
             {
-                Message = "Cannot edit this survey becuase there are already responses.";
+                Message = "Cannot edit this survey because there are already responses.";
                 return RedirectToAction("Index");
             }
 
