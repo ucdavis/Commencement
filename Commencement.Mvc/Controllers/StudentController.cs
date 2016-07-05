@@ -616,7 +616,7 @@ namespace Commencement.Controllers
                 return this.RedirectToAction<ErrorController>(a => a.NotEligible());
             }
 
-            // student is blocked becuase of sja
+            // student is blocked because of sja
             if (student.SjaBlock)
             {
                 return this.RedirectToAction<ErrorController>(a => a.SJA());
