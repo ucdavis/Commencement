@@ -427,6 +427,10 @@ namespace Commencement.Controllers
         }
         #endregion
 
+        /// <summary>
+        /// I don't see that this is called from anywhere, not sure if it is needed or usefull... -JCS 2016/07/05
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Majors()
         {
             var viewModel = AdminMajorsViewModel.Create(Repository, _ceremonyService,_registrationService, CurrentUser);
