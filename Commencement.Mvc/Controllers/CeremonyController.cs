@@ -52,6 +52,8 @@ namespace Commencement.Controllers
         [ValidateInput(false)]
         public ActionResult Create(CeremonyEditModel ceremonyEditModel)
         {
+            ModelState.Clear();
+
             if (string.IsNullOrEmpty(ceremonyEditModel.Term))
             {
                 ModelState.AddModelError("Term Code", "Term code must be selected.");
