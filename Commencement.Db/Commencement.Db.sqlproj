@@ -741,6 +741,26 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\CeremonySurveys.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Views\vPendingEmail.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\VisaLetters.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Views\CancelledRegistrations.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Views\TotalWithPhoneticTermAndUserHardCoded.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Views\vCancelledRegistrations.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Views\vDuplicateRegistrations.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Views\vDuplicateStudents.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Catbert3.Db\Catbert3.Db.sqlproj">
