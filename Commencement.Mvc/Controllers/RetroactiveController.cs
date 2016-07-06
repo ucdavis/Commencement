@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Commencement.Controllers.Filters;
 using Commencement.Core.Domain;
+using Commencement.Mvc.Controllers.Filters;
 
-namespace Commencement.Controllers
+namespace Commencement.Mvc.Controllers
 {
     [AnyoneWithRole]
     public class RetroactiveController : ApplicationController

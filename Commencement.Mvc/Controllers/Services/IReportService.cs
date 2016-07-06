@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -12,7 +10,7 @@ using UCDArch.Core.Utils;
 using Font = iTextSharp.text.Font;
 using Image = iTextSharp.text.Image;
 
-namespace Commencement.Controllers.Services
+namespace Commencement.Mvc.Controllers.Services
 {
     public interface IReportService
     {

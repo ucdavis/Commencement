@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
 
-namespace Commencement.Controllers.ViewModels
+namespace Commencement.Mvc.Controllers.ViewModels
 {
     public class StudentDisplayRegistrationViewModel
     {

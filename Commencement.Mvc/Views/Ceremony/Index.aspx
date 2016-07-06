@@ -1,7 +1,7 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.CommencementViewModel>" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
-<%@ Import Namespace="Commencement.Controllers" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Mvc.Controllers.ViewModels.CommencementViewModel>" %>
 <%@ Import Namespace="Telerik.Web.Mvc.UI" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Commencement | Ceremonies
@@ -19,7 +19,7 @@
     <div class="col2"><%= Html.ActionLink<CeremonyController>(a => a.Create(), "Create New", new { @class="button" })%></div>
     </div>
 
-    <% Html.Grid(Model.Ceremonies)
+    <% Html.Grid<Ceremony>(Model.Ceremonies)
            .Name("Ceremonies")
            .Columns(col =>
                         {

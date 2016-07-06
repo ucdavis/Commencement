@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Commencement.Controllers.Filters;
-using Commencement.Controllers.Services;
 using Commencement.Core.Domain;
+using Commencement.Mvc.Controllers.Filters;
+using Commencement.Mvc.Controllers.Services;
 using Microsoft.Reporting.WebForms;
-using UCDArch.Core.Utils;
 
-namespace Commencement.Controllers
+namespace Commencement.Mvc.Controllers
 {
     [Ticketing]
     public class TicketController : ApplicationController

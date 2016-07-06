@@ -1,5 +1,5 @@
 ﻿using System;
-using Commencement.Controllers;
+using Commencement.Mvc.Controllers;
 using Commencement.Tests.Core.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Web;
 
-namespace Commencement.Controllers.Helpers
+namespace Commencement.Mvc.Controllers.Helpers
 {
     public static class StringExtension
     {

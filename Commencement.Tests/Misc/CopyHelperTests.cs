@@ -1,5 +1,4 @@
 ﻿using System;
-using Commencement.Controllers.Helpers;
 using Commencement.Core.Domain;
 using Commencement.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

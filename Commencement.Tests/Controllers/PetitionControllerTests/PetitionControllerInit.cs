@@ -1,8 +1,8 @@
 ﻿using System;
 using Castle.Windsor;
-using Commencement.Controllers;
-using Commencement.Controllers.Services;
 using Commencement.Core.Domain;
+using Commencement.Mvc.Controllers;
+using Commencement.Mvc.Controllers.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;
 using Rhino.Mocks;

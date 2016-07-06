@@ -1,8 +1,8 @@
-<%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.RegistrationModel>"
+<%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Mvc.Controllers.ViewModels.RegistrationModel>"
     MasterPageFile="~/Views/Shared/Site.Master" %>
-<%@ Import Namespace="Commencement.Controllers.Services" %>
 <%@ Import Namespace="Commencement.Core.Resources" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Services" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Helpers" %>
 
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">
     Commencement Registration</asp:Content>

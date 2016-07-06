@@ -1,6 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.AdminPetitionsViewModel>" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
-<%@ Import Namespace="Commencement.Controllers" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Mvc.Controllers.ViewModels.AdminPetitionsViewModel>" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Commencement | Registration Petitions
@@ -15,7 +15,7 @@
     <h2>Registration Petitions</h2>
 
     <%
-        Html.Grid(Model.PendingRegistrationPetitions.OrderByDescending(a=>a.DateSubmitted))
+        Html.Grid<RegistrationPetition>(Model.PendingRegistrationPetitions.OrderByDescending(a=>a.DateSubmitted))
             .Name("Petitions")
             .Sortable()
             .CellAction(cell=>

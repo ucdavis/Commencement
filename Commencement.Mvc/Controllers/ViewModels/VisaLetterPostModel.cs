@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Commencement.Core.Domain;
 
-namespace Commencement.Controllers.ViewModels
+namespace Commencement.Mvc.Controllers.ViewModels
 {
     public class VisaLetterPostModel
     {

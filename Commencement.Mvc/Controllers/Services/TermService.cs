@@ -3,9 +3,8 @@ using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using UCDArch.Core;
 using UCDArch.Core.PersistanceSupport;
-using UCDArch.Core.Utils;
 
-namespace Commencement.Controllers.Services
+namespace Commencement.Mvc.Controllers.Services
 {     
     public static class TermService
     {

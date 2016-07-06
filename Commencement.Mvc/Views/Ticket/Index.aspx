@@ -1,7 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.TicketViewModel>" %>
-<%@ Import Namespace="Commencement.Controllers" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Mvc.Controllers.TicketViewModel>" %>
 <%@ Import Namespace="Telerik.Web.Mvc.UI" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Ticketing Export
@@ -14,7 +14,7 @@
     <div class="col2"><%= Html.ActionLink<TicketController>(a => a.GetReport(null), "Export All", new { @class="button" })%></div>
     </div>
 
-    <% Html.Grid(Model.Ceremonies)
+    <% Html.Grid<Ceremony>(Model.Ceremonies)
         .Name("Ceremonies")
         .Columns(col =>
                     {

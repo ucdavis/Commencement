@@ -1,6 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.MajorCodeViewModel>" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
-<%@ Import Namespace="Commencement.Controllers" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Mvc.Controllers.ViewModels.MajorCodeViewModel>" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Commencement | Major Codes Maintenance
@@ -21,7 +21,7 @@
     <%: Html.AntiForgeryToken() %>
 
     <%
-        Html.Grid(Model.MajorCodes.Where(a=>a.IsActive))
+        Html.Grid<MajorCode>(Model.MajorCodes.Where(a=>a.IsActive))
             .Name("Majors")
             .Columns(col=>
                          {

@@ -1,4 +1,4 @@
-﻿using Commencement.Controllers.Filters;
+﻿using Commencement.Mvc.Controllers.Filters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Commencement.Tests.Misc

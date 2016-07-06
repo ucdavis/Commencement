@@ -1,11 +1,10 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using UCDArch.Core;
 using UCDArch.Core.PersistanceSupport;
 
-namespace Commencement.Controllers.Filters
+namespace Commencement.Mvc.Controllers.Filters
 {
     public class PageTrackingFilter : ActionFilterAttribute
     {

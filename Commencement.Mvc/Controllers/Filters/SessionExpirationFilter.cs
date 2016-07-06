@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 
-namespace Commencement.Controllers.Filters
+namespace Commencement.Mvc.Controllers.Filters
 {
     public class SessionExpirationFilterAttribute : ActionFilterAttribute
     {

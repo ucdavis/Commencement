@@ -1,6 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Core.Domain.VisaLetter>" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
-<%@ Import Namespace="Commencement.Resources" %>
+<%@ Import Namespace="Commencement.Mvc.Resources" %>
 
 <%--look at Edit Student for examples--%>
 

@@ -1,11 +1,11 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
-using Commencement.Controllers.Filters;
-using Commencement.Controllers.Helpers;
-using UCDArch.Web.Attributes;
+using Commencement.Mvc.Controllers.Filters;
+using Commencement.Mvc.Controllers.Helpers;
 using MvcContrib;
+using UCDArch.Web.Attributes;
 
-namespace Commencement.Controllers
+namespace Commencement.Mvc.Controllers
 {
     [HandleTransactionsManually]
     public class AccountController : ApplicationController

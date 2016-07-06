@@ -4,7 +4,7 @@ using System.Net;
 using System.Web;
 using System.Web.Security;
 
-namespace Commencement.Controllers.Helpers
+namespace Commencement.Mvc.Controllers.Helpers
 {
     public static class CASHelper
     {

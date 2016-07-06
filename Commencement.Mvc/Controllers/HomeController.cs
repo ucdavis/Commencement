@@ -1,13 +1,12 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
-using Commencement.Controllers.Filters;
-using Commencement.Controllers.Services;
 using Commencement.Core.Domain;
+using Commencement.Mvc.Controllers.Filters;
+using Commencement.Mvc.Controllers.Services;
 using Microsoft.Web.Mvc;
 using UCDArch.Core.PersistanceSupport;
 
-namespace Commencement.Controllers
+namespace Commencement.Mvc.Controllers
 {
     public class HomeController : ApplicationController
     {

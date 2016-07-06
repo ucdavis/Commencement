@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Web.Mvc;
-using Commencement.Controllers.Services;
-using Commencement.Core.Domain;
 using System.Collections.Generic;
-using UCDArch.Core.PersistanceSupport;
 using System.Linq;
+using System.Web.Mvc;
+using Commencement.Core.Domain;
+using Commencement.Mvc.Controllers.Services;
+using UCDArch.Core.PersistanceSupport;
 
-namespace Commencement.Controllers.ViewModels
+namespace Commencement.Mvc.Controllers.ViewModels
 {
     public class RegistrationModel
     {

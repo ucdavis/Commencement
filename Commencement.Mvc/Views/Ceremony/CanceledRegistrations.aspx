@@ -1,6 +1,6 @@
-﻿<%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.CanceledRegistrationsViewModel>" MasterPageFile="~/Views/Shared/Site.Master" %>
-<%@ Import Namespace="Commencement.Controllers" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
+﻿<%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Mvc.Controllers.ViewModels.CanceledRegistrationsViewModel>" MasterPageFile="~/Views/Shared/Site.Master" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Canceled Registrations
@@ -18,7 +18,7 @@
     <div class="col1"><h2>Canceled Registrations for <%: Model.Ceremony.CeremonyName %></h2></div>    
     </div>
 
-         <% Html.Grid(Model.CancelledRegistrations)
+         <% Html.Grid<vCancelledRegistrations>(Model.CancelledRegistrations)
            .Name("CanceledRegs")
            .Columns(col =>
            {

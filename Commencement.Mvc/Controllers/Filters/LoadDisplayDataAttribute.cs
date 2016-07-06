@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 
-namespace Commencement.Controllers.Filters
+namespace Commencement.Mvc.Controllers.Filters
 {
     public class LoadDisplayDataAttribute : ActionFilterAttribute
     {
