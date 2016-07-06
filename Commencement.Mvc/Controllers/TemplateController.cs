@@ -99,7 +99,7 @@ namespace Commencement.Controllers
             mail.Body = message;
 
             mail.IsBodyHtml = true;
-            var client = new SmtpClient();
+            var client = new SmtpClient("smtp.ucdavis.edu");
             client.Send(mail);
 
             return Json(true, JsonRequestBehavior.AllowGet);

@@ -24,29 +24,31 @@
         
             <li><strong>Ceremony:</strong>
                 <%= this.Select("EmailStudents.Ceremony").Options(Model.Ceremonies, x=>x.Id, x=> string.Format("{0} ({1})", x.CeremonyName, x.DateTime)).FirstOption("--Select Ceremony--").Selected(Model.Ceremony != null ? Model.Ceremony.Id : 0).Class("hastip").Title("Required") %>
-                <%: Html.ValidationMessage("Ceremony", "*") %>
+                <%: Html.ValidationMessageFor(a => a.Ceremony) %>
             </li>
             <li><strong>Template:</strong>
                 <%: Html.DropDownList("EmailStudents.TemplateType", new SelectList(Model.TemplateTypes, "Id", "Name"), "--Select Template--", new { @class = "hastip", title = "Optional" })%>
             </li>
             <li><strong>Student Population:</strong>
                 <%: Html.DropDownList("EmailStudents.EmailType", new SelectList(Enum.GetValues(typeof(EmailStudentsViewModel.MassEmailType)), Model.EmailType), "--Select Population--", new {@class="hastip", title="Required"})%>
-                <%: Html.ValidationMessage("EmailType", "*")%>
+                <%: Html.ValidationMessageFor(a => a.EmailType)%>
             </li>
             <li><strong>Attachment</strong>
                 <input type="file" name="file"/>
             </li>
             <li><strong>Subject:</strong>
                 <%: Html.TextBox("EmailStudents.Subject", Model.Subject) %>
-                <%: Html.ValidationMessage("Subject", "*") %>
+                <%: Html.ValidationMessageFor(a => a.Subject) %>
             </li>
-            <li><strong>Body:<%: Html.ValidationMessage("Body", "*") %></strong>
+            <li><strong>Body:</strong>
                 <%: Html.TextArea("EmailStudents.Body", Model.Body) %>
+                <%: Html.ValidationMessageFor(a => a.Body) %>
             </li>
             <li><strong>&nbsp;</strong>
                 <input type="submit" value="Send" class="button" />
                 <input type="button" value="Send Test Email" id="send-test" class="button" /> |
                 <%: Html.ActionLink("Cancel", "Index", "Admin") %>
+                
             </li>
         </ul>
 
