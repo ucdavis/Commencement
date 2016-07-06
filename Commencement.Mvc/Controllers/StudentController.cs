@@ -243,6 +243,7 @@ namespace Commencement.Controllers
         [HttpPost]
         public ActionResult EditRegistration(int id /* Registration Id */, RegistrationPostModel registrationPostModel)
         {
+            ModelState.Clear();
             var registrationToEdit = _registrationRepository.GetNullableById(id);
             var student = GetCurrentStudent();
 
