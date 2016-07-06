@@ -1,8 +1,8 @@
-﻿using Commencement.Controllers.Filters;
-using Commencement.Core.Resources;
+﻿using Commencement.Core.Resources;
+using Commencement.Mvc.Controllers.Filters;
 using UCDArch.Web.Controller;
 
-namespace Commencement.Controllers
+namespace Commencement.Mvc.Controllers
 {
     [LoadDisplayData]
     public class ApplicationController : SuperController {

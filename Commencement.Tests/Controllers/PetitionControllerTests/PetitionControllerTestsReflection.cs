@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using Commencement.Controllers.Filters;
+using Commencement.Mvc.Controllers.Filters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UCDArch.Web.Attributes;
 

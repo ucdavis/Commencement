@@ -1,6 +1,6 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<System.Collections.Generic.IList<Commencement.Core.Domain.VisaLetter>>" %>
-<%@ Import Namespace="Commencement.Controllers" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Helpers" %>
 <%@ Import Namespace="NPOI.SS.Formula.Functions" %>
 
     <% Html.Grid(Model)

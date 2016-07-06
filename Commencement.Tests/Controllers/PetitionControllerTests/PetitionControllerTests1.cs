@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Commencement.Controllers.Filters;
-using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
+using Commencement.Mvc.Controllers.Filters;
+using Commencement.Mvc.Controllers.ViewModels;
 using Commencement.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;

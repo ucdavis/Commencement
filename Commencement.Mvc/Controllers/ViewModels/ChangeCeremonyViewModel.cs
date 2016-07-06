@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Commencement.Controllers.Helpers;
-using Commencement.Controllers.Services;
 using Commencement.Core.Domain;
+using Commencement.Mvc.Controllers.Services;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
 
-namespace Commencement.Controllers.ViewModels
+namespace Commencement.Mvc.Controllers.ViewModels
 {
     public class ChangeCeremonyViewModel
     {

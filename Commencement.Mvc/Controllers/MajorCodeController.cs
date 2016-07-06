@@ -1,13 +1,13 @@
 ﻿using System.Web.Mvc;
-using Commencement.Controllers.Filters;
-using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
+using Commencement.Mvc.Controllers.Filters;
+using Commencement.Mvc.Controllers.ViewModels;
+using MvcContrib;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Controller;
-using MvcContrib;
 using UCDArch.Web.Helpers;
 
-namespace Commencement.Controllers
+namespace Commencement.Mvc.Controllers
 {
     [AdminOnly]
     public class MajorCodeController : SuperController

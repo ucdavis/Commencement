@@ -1,6 +1,6 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.ReportViewModel>" %>
-<%@ Import Namespace="Commencement.Controllers" %>
-<%@ Import Namespace="Commencement.Controllers.Services" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Mvc.Controllers.ViewModels.ReportViewModel>" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Services" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Commencement | Reports

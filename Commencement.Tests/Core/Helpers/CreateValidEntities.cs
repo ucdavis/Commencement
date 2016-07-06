@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Commencement.Controllers.Helpers;
-using Commencement.Controllers.Services;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Testing;
 using Commencement.Core.Domain;
+using Commencement.Mvc.Controllers.Services;
 
 namespace Commencement.Tests.Core.Helpers
 {

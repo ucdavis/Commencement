@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using Commencement.Core.Domain;
 
-namespace Commencement.Controllers.ViewModels
+namespace Commencement.Mvc.Controllers.ViewModels
 {
     public class CanceledRegistrationsViewModel
     {

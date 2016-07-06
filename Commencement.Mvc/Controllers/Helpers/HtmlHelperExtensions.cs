@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using Commencement.Core.Resources;
-using Commencement.Helpers;
 using Telerik.Web.Mvc.UI;
 
-namespace Commencement.Controllers.Helpers
+namespace Commencement.Mvc.Controllers.Helpers
 {
     public static class HtmlHelperExtensions
     {

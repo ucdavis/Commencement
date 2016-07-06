@@ -1,6 +1,6 @@
 ﻿using Commencement.Core.Domain;
 
-namespace Commencement.Controllers.Helpers
+namespace Commencement.Mvc.Controllers.Helpers
 {
     public static class CopyHelper
     {

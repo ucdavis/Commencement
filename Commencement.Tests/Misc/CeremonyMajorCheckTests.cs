@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Commencement.Controllers.Helpers;
 using Commencement.Core.Domain;
+using Commencement.Mvc.Controllers.Helpers;
 using Commencement.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UCDArch.Core.DomainModel;

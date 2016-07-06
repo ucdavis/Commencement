@@ -1,21 +1,18 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Commencement.Controllers.Filters;
-using Commencement.Controllers.Helpers;
-using Commencement.Controllers.Services;
-using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
-using Commencement.Resources;
-using NHibernate.Mapping;
-using NPOI.SS.Formula.Functions;
-using UCDArch.Core.PersistanceSupport;
+using Commencement.Mvc.Controllers.Filters;
+using Commencement.Mvc.Controllers.Helpers;
+using Commencement.Mvc.Controllers.Services;
+using Commencement.Mvc.Controllers.ViewModels;
+using Commencement.Mvc.Resources;
 using MvcContrib;
+using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Helpers;
 
-namespace Commencement.Controllers
+namespace Commencement.Mvc.Controllers
 {
     [AnyoneWithRole]
     public class AdminController : ApplicationController

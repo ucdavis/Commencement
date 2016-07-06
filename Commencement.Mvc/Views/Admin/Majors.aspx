@@ -1,5 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.AdminMajorsViewModel>" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Mvc.Controllers.ViewModels.AdminMajorsViewModel>" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.ViewModels" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Commencement | Major Counts
@@ -15,7 +16,7 @@
             <%: a.Ceremony.DateTime.ToString("g") %>
         </div>
 
-        <% Html.Grid(a.MajorCounts.OrderBy(b=>b.Major.Name))
+        <% Html.Grid<MajorCount>(a.MajorCounts.OrderBy(b=>b.Major.Name))
                .Name(a.Ceremony.Id.ToString())
                .Columns(col =>
                             {

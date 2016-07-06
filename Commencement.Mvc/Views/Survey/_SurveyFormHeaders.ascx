@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.SurveyCreateViewModel>" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Mvc.Controllers.SurveyCreateViewModel>" %>
 
 <style type="text/css">
     .buttons { padding: .5em 1em;}

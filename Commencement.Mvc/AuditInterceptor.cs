@@ -4,7 +4,7 @@ using Commencement.Core.Domain;
 using NHibernate;
 using UCDArch.Core.PersistanceSupport;
 
-namespace Commencement
+namespace Commencement.Mvc
 {
     public class AuditInterceptor : EmptyInterceptor
     {

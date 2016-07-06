@@ -1,7 +1,8 @@
-<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.ViewModels.CeremonyViewModel>" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
+<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Mvc.Controllers.ViewModels.CeremonyViewModel>" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Helpers" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.ViewModels" %>
 
-    <link href="<%= Url.Content("~/Content/ui.multiselect.css") %>" type="text/css" rel="Stylesheet" />
+<link href="<%= Url.Content("~/Content/ui.multiselect.css") %>" type="text/css" rel="Stylesheet" />
     
     <script src="<%= Url.Content("~/Scripts/ui.multiselect.js") %>" type="text/javascript"></script>
     <script src="<%= Url.Content("~/Scripts/jquery.livequery.js") %>" type="text/javascript"></script>
@@ -93,16 +94,16 @@
 
         <ul class="registration_form">
             <li>
-                <strong><%: Html.LabelFor(a => a.Ceremony.TermCode, DisplayOptions.HumanizeAndColon)%></strong> 
+                <strong><%: Html.LabelFor<CeremonyViewModel, TermCode>(a => a.Ceremony.TermCode, DisplayOptions.HumanizeAndColon)%></strong> 
                 <%: Html.Hidden("Term", Model.TermCode.Id) %>
                 <%: Model.TermCode.Name %>
             </li>
-            <li><strong><%: Html.LabelFor(a => a.Ceremony.Name, DisplayOptions.HumanizeAndColon) %></strong>
+            <li><strong><%: Html.LabelFor<CeremonyViewModel, string>(a => a.Ceremony.Name, DisplayOptions.HumanizeAndColon) %></strong>
                 <%: Html.TextBoxFor(a => a.Ceremony.Name, new {@class="hastip", title="Name to be displayed, if this is left blank will display 'Commencement for MajorName'"}) %>
                 <%: Html.ValidationMessageFor(x => x.Ceremony.Name) %>
             </li>
             <li>
-                <strong><%: Html.LabelFor(a => a.Ceremony.DateTime, DisplayOptions.HumanizeAndColon) %><span>*</span></strong>
+                <strong><%: Html.LabelFor<CeremonyViewModel, DateTime>(a => a.Ceremony.DateTime, DisplayOptions.HumanizeAndColon) %><span>*</span></strong>
                 <%= Html.TextBox("CeremonyDate", Model.Ceremony.DateTime.ToString("d"), new {@class="ceremony_time date"}) %>
             
                 <%= this.Select("CeremonyHour").Class("ceremony_time").Options(Model.Hours,x=>x,x=>x).Selected(Model.Ceremony.DateTime.Hour > 12 ? Model.Ceremony.DateTime.Hour - 12 : Model.Ceremony.DateTime.Hour)%>
@@ -115,17 +116,17 @@
                 <%= Html.ValidationMessageFor(x=>x.Ceremony.DateTime) %>
             </li>
             <li>
-                <strong><%: Html.LabelFor(a => a.Ceremony.Location, DisplayOptions.HumanizeAndColon) %><span>*</span></strong>
+                <strong><%: Html.LabelFor<CeremonyViewModel, string>(a => a.Ceremony.Location, DisplayOptions.HumanizeAndColon) %><span>*</span></strong>
                 <%= Html.TextBoxFor(x=>x.Ceremony.Location) %>
                 <%= Html.ValidationMessageFor(x=>x.Ceremony.Location) %>
             </li>
             <li>
-                <strong><%: Html.LabelFor(a => a.Ceremony.MinUnits, DisplayOptions.HumanizeAndColon) %><span>*</span></strong>
+                <strong><%: Html.LabelFor<CeremonyViewModel, int>(a => a.Ceremony.MinUnits, DisplayOptions.HumanizeAndColon) %><span>*</span></strong>
                 <%: Html.TextBoxFor(x => x.Ceremony.MinUnits, new { @class = "hastip", @title = "Minimum number of units required to register." })%>
                 <%: Html.ValidationMessageFor(x=>x.Ceremony.MinUnits) %>
             </li>
             <li>
-                <strong><%: Html.LabelFor(a => a.Ceremony.PetitionThreshold, DisplayOptions.HumanizeAndColon) %><span>*</span></strong>
+                <strong><%: Html.LabelFor<CeremonyViewModel, int>(a => a.Ceremony.PetitionThreshold, DisplayOptions.HumanizeAndColon) %><span>*</span></strong>
                 <%: Html.TextBoxFor(x => x.Ceremony.PetitionThreshold, new { @class = "hastip", @title = "Minimum number of units to be allowed to submit registration petition" })%>
                 <%: Html.ValidationMessageFor(x=>x.Ceremony.PetitionThreshold) %>
             </li>
@@ -138,7 +139,7 @@
         <legend>Website Links</legend>
         
         <ul class="registration_form">
-            <li><strong><%: Html.LabelFor(a => a.Ceremony.WebsiteUrl, DisplayOptions.HumanizeAndColon) %></strong>
+            <li><strong><%: Html.LabelFor<CeremonyViewModel, string>(a => a.Ceremony.WebsiteUrl, DisplayOptions.HumanizeAndColon) %></strong>
                 <%: Html.TextBoxFor(a => a.Ceremony.WebsiteUrl, new {@class="hastip", title="Url to an informational web page for Commencement."}) %>                
                 <%: Html.ValidationMessageFor(a => a.Ceremony.WebsiteUrl) %>
             </li>
@@ -154,7 +155,7 @@
                 <%: Html.HiddenFor(a => a.Ceremony.CeremonySurveys[Model.Ceremony.CeremonySurveys.IndexOf(ceremonySurvey)].College.Id)%>
               <fieldset>
                 <legend><%=ceremonySurvey.College.Name%></legend>                
-                    <li><strong><%: Html.LabelFor(a => a.Ceremony.CeremonySurveys[Model.Ceremony.CeremonySurveys.IndexOf(ceremonySurvey)].SurveyUrl, DisplayOptions.HumanizeAndColon)%></strong>
+                    <li><strong><%: Commencement.Mvc.Controllers.Helpers.LabelExtensions.LabelFor<CeremonyViewModel, string>(Html, a => a.Ceremony.CeremonySurveys[Model.Ceremony.CeremonySurveys.IndexOf(ceremonySurvey)].SurveyUrl, DisplayOptions.HumanizeAndColon)%></strong>
                         <%: Html.TextBoxFor(a => a.Ceremony.CeremonySurveys[Model.Ceremony.CeremonySurveys.IndexOf(ceremonySurvey)].SurveyUrl, new {@class="hastip", title="Url to a survey, that will redirect students to fill out."}) %>
                         <%: Html.ValidationMessageFor(a => a.Ceremony.CeremonySurveys[Model.Ceremony.CeremonySurveys.IndexOf(ceremonySurvey)].SurveyUrl)%>
                     </li>
@@ -176,22 +177,22 @@
 
         <ul class="registration_form">
             <li>
-                <strong><%: Html.LabelFor(a => a.Ceremony.TicketsPerStudent, DisplayOptions.HumanizeAndColon) %><span>*</span></strong>
+                <strong><%: Html.LabelFor<CeremonyViewModel, int>(a => a.Ceremony.TicketsPerStudent, DisplayOptions.HumanizeAndColon) %><span>*</span></strong>
                 <%= Html.TextBoxFor(x => x.Ceremony.TicketsPerStudent, new { @class="hastip", @title = "Maximum # of tickets a student can request." })%>
                 <%= Html.ValidationMessageFor(x=>x.Ceremony.TicketsPerStudent) %>
             </li>
             <li>
-                <strong><%: Html.LabelFor(a => a.Ceremony.ExtraTicketPerStudent, DisplayOptions.HumanizeAndColon) %><span>*</span></strong>
+                <strong><%: Html.LabelFor<CeremonyViewModel, int>(a => a.Ceremony.ExtraTicketPerStudent, DisplayOptions.HumanizeAndColon) %><span>*</span></strong>
                 <%= Html.TextBoxFor(x => x.Ceremony.ExtraTicketPerStudent, new { @class="hastip", @title = "Maximum # of extra tickets a student can petition for." })%>
                 <%= Html.ValidationMessageFor(x=>x.Ceremony.ExtraTicketPerStudent) %>
             </li>
             <li>
-                <strong><%: Html.LabelFor(a => a.Ceremony.TotalTickets, DisplayOptions.HumanizeAndColon) %><span>*</span></strong>
+                <strong><%: Html.LabelFor<CeremonyViewModel, int>(a => a.Ceremony.TotalTickets, DisplayOptions.HumanizeAndColon) %><span>*</span></strong>
                 <%= Html.TextBoxFor(x => x.Ceremony.TotalTickets, new { @class = "hastip", @title = "Total number of tickets available to everyone." })%>
                 <%= Html.ValidationMessageFor(x=>x.Ceremony.TotalTickets) %>            
             </li>
             <li>
-                <strong><%: Html.LabelFor(a => a.Ceremony.TotalStreamingTickets, DisplayOptions.HumanizeAndColon) %></strong>
+                <strong><%: Html.LabelFor<CeremonyViewModel, int?>(a => a.Ceremony.TotalStreamingTickets, DisplayOptions.HumanizeAndColon) %></strong>
                 <%: Html.TextBoxFor(x => x.Ceremony.TotalStreamingTickets, new { @class = "hastip", @title = "Total number of tickets for streaming tickets" })%>
                 <%: Html.ValidationMessageFor(x=>x.Ceremony.TotalStreamingTickets) %>
             </li>        
@@ -234,7 +235,7 @@
 
     <fieldset id="confirmation-text">
     
-        <legend><%: Html.LabelFor(a => a.Ceremony.ConfirmationText, DisplayOptions.HumanizeAndColon) %><span class="required">*</span></legend>
+        <legend><%: Html.LabelFor<CeremonyViewModel, string>(a => a.Ceremony.ConfirmationText, DisplayOptions.HumanizeAndColon) %><span class="required">*</span></legend>
 
         <%: Html.TextAreaFor(a => a.Ceremony.ConfirmationText, new {@style="width:900px;"}) %>
         <%= Html.ValidationMessageFor(a => a.Ceremony.ConfirmationText) %>

@@ -1,7 +1,7 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.ViewModels.AdminEditStudentViewModel>" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Mvc.Controllers.ViewModels.AdminEditStudentViewModel>" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Helpers" %>
 
-    <%: Html.ValidationSummary() %>
+<%: Html.ValidationSummary() %>
 
     <% using (Html.BeginForm()) { %>
     <%: Html.AntiForgeryToken() %>
@@ -53,7 +53,7 @@
         </li>
     
         <li><strong>&nbsp;</strong>
-            <% Html.Grid(Model.Student.Majors)
+            <% Html.Grid<MajorCode>(Model.Student.Majors)
                    .Name("Majors")
                    .Columns(col=>
                                 {

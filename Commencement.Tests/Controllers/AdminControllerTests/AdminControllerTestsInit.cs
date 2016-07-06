@@ -8,11 +8,6 @@ using System.Text;
 using System.Threading;
 using System.Web;
 using Castle.Windsor;
-using Commencement.Controllers;
-using Commencement.Controllers.Filters;
-using Commencement.Controllers.Helpers;
-using Commencement.Controllers.Services;
-using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Tests.Core.Extensions;
 using Commencement.Tests.Core.Helpers;
@@ -24,6 +19,10 @@ using UCDArch.Core.PersistanceSupport;
 using UCDArch.Testing;
 using UCDArch.Web.Attributes;
 using System.Web.Mvc;
+using Commencement.Mvc.Controllers;
+using Commencement.Mvc.Controllers.Filters;
+using Commencement.Mvc.Controllers.Helpers;
+using Commencement.Mvc.Controllers.Services;
 
 //using Microsoft.Practices.ServiceLocation;
 

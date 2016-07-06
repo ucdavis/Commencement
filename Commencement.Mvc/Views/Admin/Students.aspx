@@ -1,6 +1,7 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.AdminStudentViewModel>" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
-<%@ Import Namespace="Commencement.Controllers" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Mvc.Controllers.ViewModels.AdminStudentViewModel>" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Helpers" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.ViewModels" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Commencement | Students
@@ -47,7 +48,7 @@
         <% } %>
     </div>
 
-    <% Html.Grid(Model.StudentRegistrationModels)
+    <% Html.Grid<StudentRegistrationModel>(Model.StudentRegistrationModels)
            .Transactional()
            .Name("Students")
            .CellAction(cell =>

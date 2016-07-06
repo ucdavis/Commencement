@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
-using Commencement.Controllers;
 using Commencement.Core.Domain;
+using Commencement.Mvc.Controllers;
 using Commencement.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;

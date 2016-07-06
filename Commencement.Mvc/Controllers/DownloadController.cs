@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 
-namespace Commencement.Controllers
+namespace Commencement.Mvc.Controllers
 {
     public class DownloadController : ApplicationController
     {

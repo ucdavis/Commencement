@@ -1,7 +1,7 @@
-<%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.ExtraTicketPetitionModel>"
+<%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Mvc.Controllers.ViewModels.ExtraTicketPetitionModel>"
     MasterPageFile="~/Views/Shared/Site.Master" %>
 <%@ Import Namespace="Commencement.Core.Resources" %>
-<%@ Import Namespace="Commencement.Controllers" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers" %>
 
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">
     Commencement | Extra Ticket Petition

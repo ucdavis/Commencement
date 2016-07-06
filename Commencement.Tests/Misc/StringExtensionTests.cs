@@ -1,4 +1,4 @@
-﻿using Commencement.Controllers.Helpers;
+﻿using Commencement.Mvc.Controllers.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Commencement.Tests.Misc

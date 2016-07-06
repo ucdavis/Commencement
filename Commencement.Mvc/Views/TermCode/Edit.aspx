@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Core.Domain.TermCode>" %>
-<%@ Import Namespace="Commencement.Controllers" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
 <%@ Import Namespace="Commencement.Core.Domain" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Helpers" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">

@@ -1,6 +1,6 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.TemplateViewModel>" %>
-<%@ Import Namespace="Commencement.Controllers"%>
-<%@ Import Namespace="Commencement.Controllers.Helpers"%>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Mvc.Controllers.ViewModels.TemplateViewModel>" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Commencement | Email Templates

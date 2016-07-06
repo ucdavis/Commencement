@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Commencement.Controllers.Helpers;
-using Commencement.Controllers.Services;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
+using Commencement.Mvc.Controllers.Helpers;
+using Commencement.Mvc.Controllers.Services;
 using Commencement.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;

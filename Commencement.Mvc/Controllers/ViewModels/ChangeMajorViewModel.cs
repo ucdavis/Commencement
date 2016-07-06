@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using Commencement.Controllers.Helpers;
-using Commencement.Controllers.Services;
 using Commencement.Core.Domain;
+using Commencement.Mvc.Controllers.Services;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
-using System.Linq;
 
-namespace Commencement.Controllers.ViewModels
+namespace Commencement.Mvc.Controllers.ViewModels
 {
     public class ChangeMajorViewModel
     {

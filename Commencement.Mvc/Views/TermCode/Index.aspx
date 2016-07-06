@@ -1,6 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<Commencement.Controllers.ViewModels.TermCodeUnion>>" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
-<%@ Import Namespace="Commencement.Controllers" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<Commencement.Mvc.Controllers.ViewModels.TermCodeUnion>>" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Helpers" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.ViewModels" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Commencement | Term Codes
@@ -15,7 +16,7 @@
     <h2>Index</h2>
 
     <div>
-        <% Html.Grid(Model)
+        <% Html.Grid<TermCodeUnion>(Model)
                .Transactional()
                .Name("TermCodes")
                .CellAction(cell =>

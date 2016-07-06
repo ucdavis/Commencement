@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using Commencement.Controllers.Services;
-using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
-using MvcContrib;
+using Commencement.Mvc.Controllers.Services;
+using Commencement.Mvc.Controllers.ViewModels;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
-using UCDArch.Data.NHibernate;
 
-namespace Commencement.Controllers.Helpers
+namespace Commencement.Mvc.Controllers.Helpers
 {
     public interface IRegistrationPopulator
     {

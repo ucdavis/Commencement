@@ -7,7 +7,7 @@ using Commencement.Core.Domain;
 using Microsoft.Reporting.WebForms;
 using UCDArch.Core.PersistanceSupport;
 
-namespace Commencement.Controllers.Helpers
+namespace Commencement.Mvc.Controllers.Helpers
 {
     public class ReportRequestHandler
     {

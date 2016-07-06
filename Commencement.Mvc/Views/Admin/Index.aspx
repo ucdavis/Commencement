@@ -1,6 +1,6 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
-<%@ Import Namespace="Commencement.Controllers.Filters" %>
-<%@ Import Namespace="Commencement.Controllers.Services" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Services" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Filters" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Commencement | Admin Home

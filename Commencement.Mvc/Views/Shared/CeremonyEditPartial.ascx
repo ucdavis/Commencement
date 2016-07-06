@@ -1,5 +1,5 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.ViewModels.RegistrationModel>" %>
-<%@ Import Namespace="Commencement.Controllers.Services" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Mvc.Controllers.ViewModels.RegistrationModel>" %>
+<%@ Import Namespace="Commencement.Mvc.Controllers.Services" %>
 
 <script type="text/javascript" src="<%: Url.Content("~/Scripts/jquery.jqEasyCharCounter.min.js") %>"></script>
 <script>

@@ -1,15 +1,15 @@
 using System.Web.Mvc;
 using Castle.Windsor;
-using Commencement.Controllers;
 using Commencement.Core.Domain;
+using Commencement.Mvc;
+using Commencement.Mvc.Controllers;
 using Microsoft.Practices.ServiceLocation;
-using Commencement.Mvc.App_Start;
 using UCDArch.Data.NHibernate;
 using UCDArch.Web.IoC;
 using UCDArch.Web.ModelBinder;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(UCDArchBootstrapper), "PreStart")]
-namespace Commencement.Mvc.App_Start
+namespace Commencement.Mvc
 {
     public class UCDArchBootstrapper
     {
