@@ -354,11 +354,11 @@ namespace Commencement.Controllers
                 }
                 else if (string.IsNullOrEmpty(a.Reason))
                 {
-                    ModelState.AddModelError("Reason", string.Format("Reason cannot be blank for petition {0}", a.Ceremony.CeremonyName));
+                    ModelState.AddModelError(string.Format("Reason{0}", a.Ceremony.Id), string.Format("Reason cannot be blank for petition {0}", a.Ceremony.CeremonyName));
                 }
                 else if (a.Reason.Length > 100)
                 {
-                    ModelState.AddModelError("Reason", string.Format("Reason must be 100 characters or less for petition {0}", a.Ceremony.CeremonyName));
+                    ModelState.AddModelError(string.Format("Reason{0}", a.Ceremony.Id), string.Format("Reason must be 100 characters or less for petition {0}", a.Ceremony.CeremonyName));
                 }
                 // validate the deadline before creating valid request, and no previous
                 else
