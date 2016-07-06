@@ -214,10 +214,16 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        public ActionResult AddEditor(int id, int userId)
+        public ActionResult AddEditor(int id, int? userId)
         {
+
             var ceremony = Repository.OfType<Ceremony>().GetNullableById(id);
-            var user = Repository.OfType<vUser>().GetNullableById(userId);
+            if (!userId.HasValue)
+            {
+                Message = "User is required.";
+                return View(AddEditorViewModel.Create(Repository, ceremony));
+            }
+            var user = Repository.OfType<vUser>().GetNullableById(userId.Value);
             
             if (ceremony == null) return this.RedirectToAction(a => a.Index());
 
