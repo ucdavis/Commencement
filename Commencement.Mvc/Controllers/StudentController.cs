@@ -127,7 +127,7 @@ namespace Commencement.Controllers
             registration.TransferValidationMessagesTo(ModelState);
 
             if (!registrationModel.AgreeToDisclaimer) ModelState.AddModelError("agreeToDisclaimer", StaticValues.Student_agree_to_disclaimer);
-            if (registration.RegistrationPetitions.Any(a=>string.IsNullOrWhiteSpace(a.ExceptionReason))) ModelState.AddModelError("Exception Reason", "Exception reason is required.");
+            if (registration.RegistrationPetitions.Any(a=>string.IsNullOrWhiteSpace(a.ExceptionReason))) ModelState.AddModelError("Exception Reason", "Exception/Petition reason is required.");
 
             if (ModelState.IsValid)
             {
@@ -257,6 +257,8 @@ namespace Commencement.Controllers
                 return this.RedirectToAction<ErrorController>(a => a.NotOpen());
             }
 
+            //TODO: Should probably check if this is changed to a petition and if so, required fields are completed (Look at Register above)
+
             _registrationPopulator.UpdateRegistration(registrationToEdit, registrationPostModel, student, ModelState);
             
             registrationToEdit.TransferValidationMessagesTo(ModelState);
@@ -306,7 +308,7 @@ namespace Commencement.Controllers
         }
 
         [HttpPost]
-        public ActionResult CancelRegistrationPetition(int id, bool cancel)
+        public ActionResult CancelRegistrationPetition(int id, bool? cancel)
         {
             var regPetition = Repository.OfType<RegistrationPetition>().GetNullableById(id);
 
@@ -321,7 +323,7 @@ namespace Commencement.Controllers
                 return RedirectToAction("UnauthorizedAccess", "Error");
             }
 
-            if (cancel)
+            if (cancel.HasValue && cancel.Value)
             {
                 var emailQueue = Repository.OfType<EmailQueue>().Queryable.Where(a => a.RegistrationPetition == regPetition).ToList();
                 foreach (var queue in emailQueue)
