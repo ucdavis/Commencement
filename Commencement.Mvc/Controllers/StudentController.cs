@@ -531,9 +531,9 @@ namespace Commencement.Controllers
 
         [HttpPost]
         [PageTrackingFilter]
-        public ActionResult CancelVisaLetterRequest(int id, bool cancel)
+        public ActionResult CancelVisaLetterRequest(int id, bool? cancel)
         {
-            if (!cancel)
+            if (!cancel.HasValue || !cancel.Value)
             {
                 Message = "Visa Letter Request Not Canceled";
                 return this.RedirectToAction(a => a.VisaLetters());
