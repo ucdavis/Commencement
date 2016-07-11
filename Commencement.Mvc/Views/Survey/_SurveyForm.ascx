@@ -7,6 +7,7 @@
     <ul class="registration_form">
         <li><strong>Name<span>*</span></strong>
             <input type="text" id="name" name="name" class="required" maxlength="50" value="<%: Model.Survey.Name %>"/>
+            <%: Html.ValidationMessage("name") %>
         </li>
     </ul>
             
