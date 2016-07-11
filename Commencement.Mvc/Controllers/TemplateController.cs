@@ -54,14 +54,16 @@ namespace Commencement.Controllers
         [ValidateInput(false)]
         public ActionResult Create(Template template)
         {
+            ModelState.Clear();
+
             var newTemplate = new Template(template.BodyText, template.TemplateType, template.Ceremony);
             newTemplate.Subject = template.Subject;
 
             newTemplate.TransferValidationMessagesTo(ModelState);
 
             // validate the tokens
-            var tokenValidation = ValidateBody(newTemplate);
-            if (!string.IsNullOrEmpty(tokenValidation)) ModelState.AddModelError("Tokens", tokenValidation);
+            var tokenValidation = template.BodyText != null ? ValidateBody(newTemplate) : null;
+            if (!string.IsNullOrEmpty(tokenValidation)) ModelState.AddModelError("template.BodyText", tokenValidation);
 
             // get any existing ones
             var oldTemplates = template.Ceremony.Templates.Where(a => a.TemplateType == template.TemplateType && a.IsActive);
@@ -119,7 +121,7 @@ namespace Commencement.Controllers
             var templates = Repository.OfType<Template>().Queryable
                                       .Where(a => a.TemplateType.Id == templateTypeId && ceremonies.Contains(a.Ceremony.Id));
 
-            var result = templates.Select(a => new {Id = a.Id, Name = a.Ceremony.DateTime}).ToList();
+            var result = templates.Select(a => new {Id = a.Id, Name = string.Format("{0} {1}", a.Ceremony.Name, a.Ceremony.DateTime)}).ToList();
 
             return new JsonNetResult(result);
         }
