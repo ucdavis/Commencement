@@ -121,7 +121,7 @@ namespace Commencement.Controllers
             var templates = Repository.OfType<Template>().Queryable
                                       .Where(a => a.TemplateType.Id == templateTypeId && ceremonies.Contains(a.Ceremony.Id));
 
-            var result = templates.Select(a => new {Id = a.Id, Name = string.Format("{0} {1}", a.Ceremony.Name, a.Ceremony.DateTime)}).ToList();
+            var result = templates.Select(a => new {Id = a.Id, Name = string.Format("{0} {1} {2}", a.Ceremony.Name, a.Ceremony.DateTime, !a.IsActive ? "(Inactive)" : string.Empty)}).ToList();
 
             return new JsonNetResult(result);
         }
