@@ -21,6 +21,7 @@ namespace Commencement.Controllers
         public ActionResult Index()
         {
             var term = TermService.GetCurrent();
+            //var xxx = term.Ceremonies.ToList(); //Scott, this is generating a Lazy Load error
             var ceremonies = term.Ceremonies;
 
             return View(new TicketViewModel(){Ceremonies = ceremonies});
