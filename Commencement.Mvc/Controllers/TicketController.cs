@@ -22,7 +22,8 @@ namespace Commencement.Controllers
         {
             var term = TermService.GetCurrent();
             //var xxx = term.Ceremonies.ToList(); //Scott, this is generating a Lazy Load error
-            var ceremonies = term.Ceremonies;
+            var ceremonies = Repository.OfType<Ceremony>().Queryable.Where(a => a.TermCode.Id == term.Id).ToList();
+            //var ceremonies = term.Ceremonies;
 
             return View(new TicketViewModel(){Ceremonies = ceremonies});
         }
