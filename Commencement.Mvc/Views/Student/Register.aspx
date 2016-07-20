@@ -81,8 +81,9 @@
             
             <ul class="registration_form">
                 <li><strong>&nbsp;</strong>
-                    <%= Html.CheckBox("agreeToDisclaimer", new { @class = "required" }) %><label for="agreeToDisclaimer">I Agree</label>
+                    <%= Html.CheckBox("agreeToDisclaimer", new { @class = "required" }) %><label for="agreeToDisclaimer">I Agree</label>                    
                     <span style="color: red; font-weight: bold;">*</span>
+                    <%: Html.ValidationMessage("agreeToDisclaimer") %>
                 </li>
             </ul>
 

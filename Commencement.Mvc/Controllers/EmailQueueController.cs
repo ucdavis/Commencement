@@ -90,6 +90,7 @@ namespace Commencement.Controllers
         [ValidateInput(false)]
         public ActionResult EmailStudents(EmailStudentsViewModel emailStudents, HttpPostedFileBase file)
         {
+            ModelState.Clear();
             // get the template type
             var templateType = emailStudents.TemplateType;
 

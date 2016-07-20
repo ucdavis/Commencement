@@ -28,7 +28,7 @@ namespace Commencement.Controllers
         [AnyoneWithRole]
         public ActionResult Index()
         {
-            Message += "  Please contact Francesca before using any features in this section.  It is currently experimental and being tested by CA&ES.";
+            Message += "  Please contact Application Requests (AppRequests@caes.ucdavis.edu) before creating or editing any surveys in this section.  It is still experimental.";
 
             var surveys = Repository.OfType<Survey>().GetAll();
             return View(surveys);
@@ -86,7 +86,7 @@ namespace Commencement.Controllers
 
             if (survey.RegistrationSurveys.Any())
             {
-                Message = "Cannot edit this survey becuase there are already responses.";
+                Message = "Cannot edit this survey because there are already responses.";
                 return RedirectToAction("Index");
             }
             
@@ -102,7 +102,7 @@ namespace Commencement.Controllers
 
             if (survey.RegistrationSurveys.Any())
             {
-                Message = "Cannot edit this survey becuase there are already responses.";
+                Message = "Cannot edit this survey because there are already responses.";
                 return RedirectToAction("Index");
             }
 

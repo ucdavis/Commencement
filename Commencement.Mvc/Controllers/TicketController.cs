@@ -16,12 +16,18 @@ namespace Commencement.Controllers
     [Ticketing]
     public class TicketController : ApplicationController
     {
+        private readonly ICeremonyService _ceremonyService;
         private readonly string _serverLocation = ConfigurationManager.AppSettings["ReportServer"];
+
+        public TicketController(ICeremonyService ceremonyService)
+        {
+            _ceremonyService = ceremonyService;
+        }
 
         public ActionResult Index()
         {
-            var term = TermService.GetCurrent();
-            var ceremonies = term.Ceremonies;
+            //var xxx = term.Ceremonies.ToList(); //Scott, this is generating a Lazy Load error
+            var ceremonies = _ceremonyService.GetCeremonies(User.Identity.Name, TermService.GetCurrent()); //This is the correct way
 
             return View(new TicketViewModel(){Ceremonies = ceremonies});
         }

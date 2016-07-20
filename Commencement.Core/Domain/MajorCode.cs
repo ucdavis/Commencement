@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -14,7 +15,7 @@ namespace Commencement.Core.Domain
             Name = name;
             IsActive = true;
         }
-
+        [StringLength(30)]
         public virtual string Name { get; set; }
         public virtual string DisciplineCode { get; set; }
         

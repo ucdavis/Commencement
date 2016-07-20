@@ -340,10 +340,16 @@ namespace Commencement.Controllers
         }
 
         [HttpPost]
-        public ActionResult MoveMajor(string majorCode, int ceremonyId)
+        public ActionResult MoveMajor(string majorCode, int? ceremonyId)
         {
+            if (string.IsNullOrWhiteSpace(majorCode) || ceremonyId.HasValue == false)
+            {
+                Message = "Required values not entered";
+                var viewModel = MoveMajorViewModel.Create(Repository, CurrentUser, _ceremonyService);
+                return View(viewModel);
+            }
             var major = _majorRepository.GetNullableById(majorCode);
-            var ceremony = Repository.OfType<Ceremony>().GetNullableById(ceremonyId);
+            var ceremony = Repository.OfType<Ceremony>().GetNullableById(ceremonyId.Value);
             
             var origCeremony = Repository.OfType<Ceremony>().Queryable.Where(a => a.Majors.Contains(major) && a.TermCode == TermService.GetCurrent()).FirstOrDefault();
 
@@ -352,6 +358,9 @@ namespace Commencement.Controllers
             {
                 // not valid
                 ModelState.AddModelError("Validation", message);
+                var viewModel = MoveMajorViewModel.Create(Repository, CurrentUser, _ceremonyService);
+                Message = message;
+                return View(viewModel);
             }
             
             // move is valid, let's go
@@ -418,6 +427,10 @@ namespace Commencement.Controllers
         }
         #endregion
 
+        /// <summary>
+        /// I don't see that this is called from anywhere, not sure if it is needed or usefull... -JCS 2016/07/05
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Majors()
         {
             var viewModel = AdminMajorsViewModel.Create(Repository, _ceremonyService,_registrationService, CurrentUser);

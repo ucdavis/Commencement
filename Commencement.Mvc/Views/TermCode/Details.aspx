@@ -52,7 +52,7 @@
     <legend>Landing Text</legend>
     
     <div class="content">
-        <%: Html.HtmlEncode(Model.LandingText) %>    
+        <%= Model.LandingText %>
     </div>
     
 </fieldset>

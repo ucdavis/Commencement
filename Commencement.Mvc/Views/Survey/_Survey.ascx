@@ -52,6 +52,7 @@
         <% switch (question.SurveyFieldType.Name.ToLower()) { %>
             <% case "text box" : %>
                 <input type="text" value="<%: answer %>" name="<%: string.Format(name, i) %>" class="<%: question.ValidationClasses %>" />
+                <%: Html.ValidationMessage(string.Format(name, i)) %>
             <% break;
                 case "text area" : %>
                 <textarea rows="3" cols="50" name="<%: string.Format(name, i) %>" ><%: answer %></textarea>
@@ -87,11 +88,13 @@
                         <option value="<%: o.Name %>" <%: answer == o.Name ? "selected" : string.Empty %>><%: o.Name %></option>
                     <% } %>
                 </select>
+                <%: Html.ValidationMessage(string.Format(name, i)) %>
 
             <% break;
                 case "date" : %>
                    
                 <input type="text" class="date" name="<%: string.Format(name, i) %>" value="<%: answer %>"/>
+                <%: Html.ValidationMessage(string.Format(name, i)) %>
 
             <% break;
                 case "boolean/other" : %>

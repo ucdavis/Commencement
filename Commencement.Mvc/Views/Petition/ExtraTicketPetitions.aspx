@@ -27,8 +27,7 @@
         
                     <%= Html.AntiForgeryToken() %>
                     <%: Html.Hidden("id", Model.Ceremony.Id) %>
-                    <%: Html.SubmitButton("ApproveAll", "Approve All", new { @class="button" })%>
-
+                    <%: Html.SubmitButton("ApproveAll", "Approve All", new { @class="button", onclick="return confirm('Are you REALLY sure you want to approve all?')"})%>
                 <% } %>
             <% } %>
         </div>

@@ -85,6 +85,7 @@ namespace Commencement.Controllers
         [ValidateInput(false)]
         public ActionResult Edit(string id, TermCode termCode)
         {
+            ModelState.Clear();
             var termCodeToUpdate = Repository.OfType<TermCode>().Queryable.Single(a => a.Id == id);
 
             termCodeToUpdate.LandingText = termCode.LandingText;

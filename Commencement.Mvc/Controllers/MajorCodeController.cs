@@ -5,6 +5,7 @@ using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Controller;
 using MvcContrib;
+using UCDArch.Web.Helpers;
 
 namespace Commencement.Controllers
 {
@@ -84,6 +85,7 @@ namespace Commencement.Controllers
         [HttpPost]
         public ActionResult Add(string majorId, string majorCode, string majorName)
         {
+            ModelState.Clear();
             var major = _majorRepository.GetNullableById(!string.IsNullOrEmpty(majorId) ? majorId : majorCode);
 
             if (major == null && !string.IsNullOrEmpty(majorCode) && !string.IsNullOrEmpty(majorName))
@@ -95,10 +97,19 @@ namespace Commencement.Controllers
             {
                 ModelState.AddModelError("Major", "Invalid major code or missing information.");
             }
-            if (major != null && !string.IsNullOrWhiteSpace(majorName))
+            else
             {
-                major.Name = majorName;
+                if (!string.IsNullOrWhiteSpace(majorName))
+                {
+                    major.Name = majorName;
+                }
+                major.TransferValidationMessagesTo(ModelState);
+                if (major.Id.Trim().Length > 4)
+                {
+                    ModelState.AddModelError("MajorCode.Id", "Major Code has a max length of 4 characters.");
+                }
             }
+
 
             //ModelState.AddModelError("Testing", "Always fail validation.");
 
@@ -111,7 +122,11 @@ namespace Commencement.Controllers
             }
 
             var viewModel = AddMajorCodeViewModel.Create(_majorRepository, major);
-            viewModel.NewMajor = string.IsNullOrEmpty(majorId);
+            viewModel.NewMajor = string.IsNullOrEmpty(majorId) && !string.IsNullOrWhiteSpace(majorCode);
+            if (viewModel.NewMajor && viewModel.MajorCode == null)
+            {
+                viewModel.MajorCode = new MajorCode(majorCode, majorName);
+            }
             return View(viewModel);
         }
 

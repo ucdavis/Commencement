@@ -127,7 +127,7 @@ namespace Commencement.Controllers
             registration.TransferValidationMessagesTo(ModelState);
 
             if (!registrationModel.AgreeToDisclaimer) ModelState.AddModelError("agreeToDisclaimer", StaticValues.Student_agree_to_disclaimer);
-            if (registration.RegistrationPetitions.Any(a=>string.IsNullOrWhiteSpace(a.ExceptionReason))) ModelState.AddModelError("Exception Reason", "Exception reason is required.");
+            if (registration.RegistrationPetitions.Any(a=>string.IsNullOrWhiteSpace(a.ExceptionReason))) ModelState.AddModelError("Exception Reason", "Exception/Petition reason is required.");
 
             if (ModelState.IsValid)
             {
@@ -243,6 +243,7 @@ namespace Commencement.Controllers
         [HttpPost]
         public ActionResult EditRegistration(int id /* Registration Id */, RegistrationPostModel registrationPostModel)
         {
+            ModelState.Clear();
             var registrationToEdit = _registrationRepository.GetNullableById(id);
             var student = GetCurrentStudent();
 
@@ -255,6 +256,8 @@ namespace Commencement.Controllers
             {
                 return this.RedirectToAction<ErrorController>(a => a.NotOpen());
             }
+
+            //TODO: Should probably check if this is changed to a petition and if so, required fields are completed (Look at Register above)
 
             _registrationPopulator.UpdateRegistration(registrationToEdit, registrationPostModel, student, ModelState);
             
@@ -305,7 +308,7 @@ namespace Commencement.Controllers
         }
 
         [HttpPost]
-        public ActionResult CancelRegistrationPetition(int id, bool cancel)
+        public ActionResult CancelRegistrationPetition(int id, bool? cancel)
         {
             var regPetition = Repository.OfType<RegistrationPetition>().GetNullableById(id);
 
@@ -320,7 +323,7 @@ namespace Commencement.Controllers
                 return RedirectToAction("UnauthorizedAccess", "Error");
             }
 
-            if (cancel)
+            if (cancel.HasValue && cancel.Value)
             {
                 var emailQueue = Repository.OfType<EmailQueue>().Queryable.Where(a => a.RegistrationPetition == regPetition).ToList();
                 foreach (var queue in emailQueue)
@@ -528,9 +531,9 @@ namespace Commencement.Controllers
 
         [HttpPost]
         [PageTrackingFilter]
-        public ActionResult CancelVisaLetterRequest(int id, bool cancel)
+        public ActionResult CancelVisaLetterRequest(int id, bool? cancel)
         {
-            if (!cancel)
+            if (!cancel.HasValue || !cancel.Value)
             {
                 Message = "Visa Letter Request Not Canceled";
                 return this.RedirectToAction(a => a.VisaLetters());
@@ -616,7 +619,7 @@ namespace Commencement.Controllers
                 return this.RedirectToAction<ErrorController>(a => a.NotEligible());
             }
 
-            // student is blocked becuase of sja
+            // student is blocked because of sja
             if (student.SjaBlock)
             {
                 return this.RedirectToAction<ErrorController>(a => a.SJA());

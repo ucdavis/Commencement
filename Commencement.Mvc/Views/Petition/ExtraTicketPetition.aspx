@@ -140,6 +140,7 @@
                         <li>
                             <strong>Reason:</strong>
                             <%: Html.TextArea(string.Format("extraTicketPetitions[{0}].Reason", counter), participation.ExtraTicketPetition != null ? participation.ExtraTicketPetition.Reason : string.Empty, new { @style = "width:400px;", @class = "petition-reason" })%>
+                            <%: Html.ValidationMessage("Reason" + participation.Ceremony.Id) %>
                         </li>
                         <% } %>
                     

@@ -28,10 +28,12 @@
 
         <ul class="registration_form">
             <li><strong>Major Code:</strong>
-                <%: Html.TextBox("MajorCode", Model.NewMajor ? Model.MajorCode.Id : string.Empty) %>
+                <%: Html.TextBox("MajorCode", Model.NewMajor ? Model.MajorCode.Id : string.Empty) %>   
+                <%: Html.ValidationMessageFor(a=>a.MajorCode.Id) %>             
             </li>
             <li><strong>Major Name:</strong>
                 <%: Html.TextBox("MajorName", Model.NewMajor ? Model.MajorCode.Name : string.Empty) %>
+                <%: Html.ValidationMessageFor(a=>a.MajorCode.Name) %>
             </li>
         </ul>
 

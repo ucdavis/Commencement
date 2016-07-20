@@ -9,7 +9,7 @@ namespace Commencement.Controllers.Filters
 
         public LoadDisplayDataAttribute()
         {
-            MajorVersion = 1;
+            MajorVersion = 2;
         }
 
         private string VersionKey = "VersionKey";

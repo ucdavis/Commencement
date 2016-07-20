@@ -29,13 +29,15 @@
                 <%= this.Select("TemplateType")
                         .Options(Model.TemplateTypes, x=>x.Id, x=>x.Name)
                         .FirstOption("--Select a Template Type--")
-                        .Selected(Model.Template != null ? Model.Template.TemplateType.Id.ToString() : string.Empty) %>
+                        .Selected(Model.Template != null && Model.Template.TemplateType != null ? Model.Template.TemplateType.Id.ToString() : string.Empty) %>
 
                 <input type="button" id="copy-template" value="Copy" class="button" />
+                <%: Html.ValidationMessageFor(a => a.Template.TemplateType) %>
             </li>
             <li>
                 <strong>Subject: </strong>
                 <%: Html.TextBox("Subject", Model.Template != null ? Model.Template.Subject : string.Empty, new { @style="width:20em;"})%>
+                <%= Html.ValidationMessageFor(a=>a.Template.Subject) %> 
             </li>
             <li>
                 <strong>BodyText:</strong>
@@ -53,7 +55,7 @@
            <div id="right_bar">
                 <ul class="registration_form">
                     <% foreach (var a in Model.TemplateTypes) { %>
-                        <div id="<%: a.Code %>" class="tokens" style='<%: Model.Template != null && Model.Template.TemplateType.Code == a.Code ? "display:block;" : "display:none;" %>'>
+                        <div id="<%: a.Code %>" class="tokens" style='<%: Model.Template != null && Model.Template.TemplateType != null && Model.Template.TemplateType.Code == a.Code ? "display:block;" : "display:none;" %>'>
                             <% foreach (var b in a.TemplateTokens) { %>
                                 <li><a href="javascript:;" class="add_token" data-token="<%: b.Token %>"><%: b.Name %></a></li>
                             <% } %>
@@ -165,12 +167,12 @@
 
                    $.each(result, function (index, item) {
 
-                       var date = new Date(parseInt(item.Name.substr(6)));
+                       //var date = new Date(parseInt(item.Name.substr(6)));
 
                        var row = $("<tr>");
                        var button = $("<input>").attr("type", "button").val("Select").data("id", item.Id).addClass("select-template button");
                        var col1 = $("<td>").append(button);
-                       var col2 = $("<td>").html(dateFormat(date, "m/dd/yy h:MM TT"));
+                       var col2 = $("<td>").html(item.Name);
 
                        button.button();
 

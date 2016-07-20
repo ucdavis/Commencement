@@ -32,6 +32,7 @@ namespace Commencement.Controllers
         [HttpPost]
         public ActionResult Create(SpecialNeed specialNeed)
         {
+            ModelState.Clear();
             MvcValidationAdapter.TransferValidationMessagesTo(ModelState, specialNeed.ValidationResults());
 
             if (ModelState.IsValid)
