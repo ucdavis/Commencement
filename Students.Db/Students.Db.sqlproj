@@ -91,10 +91,16 @@
     <SuppressTSqlWarnings />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>.\sql\debug\</OutputPath>
     <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
     <TargetDatabase>
     </TargetDatabase>
+    <TreatTSqlWarningsAsErrors>False</TreatTSqlWarningsAsErrors>
+    <SuppressTSqlWarnings />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
+    <OutputPath>.\sql\debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TargetDatabase />
     <TreatTSqlWarningsAsErrors>False</TreatTSqlWarningsAsErrors>
     <SuppressTSqlWarnings />
   </PropertyGroup>
