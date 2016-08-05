@@ -57,7 +57,7 @@ namespace Commencement.Controllers
         {
             //var ceremonies = Repository.OfType<Ceremony>().GetAll(); //Was not being used.
 
-            ViewBag.PendingLetters = Repository.OfType<VisaLetter>().Queryable.Any(a => a.IsPending);
+            ViewBag.PendingLetters = Repository.OfType<VisaLetter>().Queryable.Any(a => a.IsPending && !a.IsCanceled);
 
             return View();
         }
