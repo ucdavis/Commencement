@@ -825,6 +825,7 @@
     <Content Include="Images\vl_korjean_signature.png" />
     <Content Include="Images\vl_tkshin_signature.png" />
     <Content Include="Images\vl_vrutledg_signature.png" />
+    <Content Include="Images\vl_vstanton_signature.png" />
     <Content Include="Scripts\2013.2.611\jquery-1.7.1.min.js" />
     <Content Include="Scripts\2013.2.611\jquery.validate.min.js" />
     <Content Include="Scripts\2013.2.611\telerik.all.min.js" />
