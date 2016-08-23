@@ -713,6 +713,8 @@
     <Content Include="Content\Common\orm-comparison.png" />
     <Content Include="Content\Common\sprite.png" />
     <Content Include="Content\Common\validation-error-message.png" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\font.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -777,6 +779,7 @@
     <Content Include="Content\Windows7\loading.gif" />
     <Content Include="Content\Windows7\sprite.png" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css">
@@ -890,6 +893,11 @@
     <Content Include="Content\font\Cicle_Shadow-webfont.eot" />
     <Content Include="Content\font\Cicle_Shadow-webfont.ttf" />
     <Content Include="Content\font\Cicle_Shadow-webfont.woff" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
     <None Include="Properties\PublishProfiles\Production Glurmo.pubxml" />
     <None Include="Properties\PublishProfiles\Test Hughman.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
