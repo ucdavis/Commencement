@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Commencement</title>
     @Styles.Render("~/Content/css")
+    @RenderSection("AdditionalStyles", required: false)
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
@@ -29,29 +30,30 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
+<div class="container body-content">
+    @RenderBody()
+
+    <footer id="footer">
         <hr />
-        <footer>
-            <p>
-                @Html.ActionLink("Home", "Index", "Admin", null, htmlAttributes: new { style = "color:white; text-decoration:none;" })
-                @if (Context.User.IsInRole("Admin") || Context.User.IsInRole("User"))
-                {
-                    <span> | </span>
-                    <a href="https://secure.caes.ucdavis.edu/help/ticket/submit?appName=Commencement" target="_blank" style="color: white; text-decoration: none;">Questions or Comments</a> <span> | </span>
-                    <a href="https://secure.caes.ucdavis.edu/help/Help?appName=Commencement" target="_blank" style="color: white; text-decoration: none;">FAQ</a>
-                }
+        <p>
+            @Html.ActionLink("Home", "Index", "Admin", null, htmlAttributes: new { style = "color:white; text-decoration:none;" })
+            @if (Context.User.IsInRole("Admin") || Context.User.IsInRole("User"))
+            {
+                <span> | </span>
+                <a href="https://secure.caes.ucdavis.edu/help/ticket/submit?appName=Commencement" target="_blank" style="color: white; text-decoration: none;">Questions or Comments</a> <span> | </span>
+                <a href="https://secure.caes.ucdavis.edu/help/Help?appName=Commencement" target="_blank" style="color: white; text-decoration: none;">FAQ</a>
+            }
                 
-                <br/>
-                <span id="ByLine">Developed By The College Of Agricultural And Environmental Science Dean's Office</span><br/>
-                Copyright The Regents of the University of California, Davis campus, 2005-16. All Rights Reserved.
-            </p>
-            <p id="VersionNumber">Version: @ViewData["VersionKey"]</p>
-        </footer>
-    </div>
+            <br/>
+            <span id="ByLine">Developed By The College Of Agricultural And Environmental Science Dean's Office</span><br/>
+            Copyright The Regents of the University of California, Davis campus, 2005-16. All Rights Reserved.
+        </p>
+        <p id="VersionNumber">Version: @ViewData["VersionKey"]</p>
+    </footer>
+</div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    @RenderSection("AdditionalScripts", required: false)
 </body>
 </html>

@@ -1313,6 +1313,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Shared\_StudentLayout.cshtml" />
+    <Content Include="Views\Home\IndexNew.cshtml" />
     <None Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

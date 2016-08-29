@@ -1,0 +1,52 @@
+﻿@model Commencement.Core.Domain.TermCode
+@{
+    ViewBag.Title = "UC Davis Commencement";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+@section AdditionalStyles
+{
+<style type="text/css">
+    #footer {
+        display: none;
+        height: 0;
+        margin-top: 0;
+    }
+
+    .main {
+        padding-bottom: 0;
+    }
+</style>
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div>
+    <ul >
+        <li>@Html.ActionLink("Visa Letters", "VisaLetters", "Student")</li>
+    </ul>
+</div>
+
+<h2>Commencement Participation</h2>
+
+<div>@Html.Raw(Model.LandingText)</div>
+@if (Model.CanRegister())
+{
+    @Html.ActionLink("Continue", "Index", "Student",null, htmlAttributes: new {@class = "btn btn-primary" })
+}
+else if ((bool)ViewData["Registered"])
+{
+    <span class="reg_btn button btn btn-primary">>@Html.ActionLink("View Registration", "Index", "Student")</span>
+}
+<hr />
+
+<div id="col_ft">
+    <p><i>After @Model.RegistrationDeadline.ToString("MMMM d") we will accept late registrations but due to printing deadlines we cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets allotted per person </i></p>
+</div>
+
