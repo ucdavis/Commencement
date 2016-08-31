@@ -761,6 +761,10 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\AllTermCodes.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Permissions.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Roles.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Users.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Catbert3.Db\Catbert3.Db.sqlproj">

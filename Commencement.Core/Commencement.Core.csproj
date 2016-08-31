@@ -139,6 +139,7 @@
     <Compile Include="Domain\RegistrationParticipation.cs" />
     <Compile Include="Domain\RegistrationPetition.cs" />
     <Compile Include="Domain\College.cs" />
+    <Compile Include="Domain\Role.cs" />
     <Compile Include="Domain\SearchStudent.cs" />
     <Compile Include="Domain\SpecialNeed.cs" />
     <Compile Include="Domain\State.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Domain\TermCode.cs" />
     <Compile Include="Domain\TicketDistributionMethod.cs" />
     <Compile Include="Domain\TransferRequest.cs" />
+    <Compile Include="Domain\User.cs" />
     <Compile Include="Domain\vCancelledRegistrations.cs" />
     <Compile Include="Domain\VisaLetter.cs" />
     <Compile Include="Domain\vTermCode.cs" />
