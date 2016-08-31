@@ -109,6 +109,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -171,6 +172,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StaticValues.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\DbService.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Domain\Student.hbm.xml" />
