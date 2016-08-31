@@ -1,5 +1,6 @@
 ﻿CREATE TABLE [dbo].[Permissions]
 (
-	[RoleId] CHAR(2) NOT NULL PRIMARY KEY, 
-    [UserId] VARCHAR(10) NOT NULL
+	[RoleId] CHAR(2) NOT NULL , 
+    [UserId] VARCHAR(10) NOT NULL, 
+    PRIMARY KEY ([UserId], [RoleId])
 )
