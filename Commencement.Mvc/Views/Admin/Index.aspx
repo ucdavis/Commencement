@@ -7,7 +7,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    
+    <%="" %>
     <h4 style="margin-left: 15px; display:inline;" >
         Search Student
     </h4>

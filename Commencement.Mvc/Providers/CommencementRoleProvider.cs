@@ -6,7 +6,6 @@ using System.Web.Security;
 using Commencement.Core.Services;
 using Dapper;
 using Microsoft.Practices.ServiceLocation;
-using System.Web.Security;
 
 namespace Commencement.Providers
 {
