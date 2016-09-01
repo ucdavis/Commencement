@@ -214,6 +214,10 @@
       <SubType>NotInBuild</SubType>
     </None>
     <None Include="Scripts\Misc\SurveyBase.sql" />
+    <None Include="Scripts\Misc\PopulateAllTermCodes.sql" />
+    <None Include="Scripts\Misc\PopulateUsers.sql" />
+    <None Include="Scripts\Misc\PopulateRoles.sql" />
+    <None Include="Scripts\Misc\PopulatePermissions.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Permissions.sql" />
