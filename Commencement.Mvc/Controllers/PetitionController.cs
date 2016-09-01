@@ -352,7 +352,7 @@ namespace Commencement.Controllers
                 {
                     ModelState.AddModelError("ExtraTicketPetition", string.Format("Our records indicate that you have already submitted a petition for {0}", a.Ceremony.CeremonyName));
                 }
-                else if (string.IsNullOrEmpty(a.Reason))
+                else if (string.IsNullOrWhiteSpace(a.Reason))
                 {
                     ModelState.AddModelError(string.Format("Reason{0}", a.Ceremony.Id), string.Format("Reason cannot be blank for petition {0}", a.Ceremony.CeremonyName));
                 }
