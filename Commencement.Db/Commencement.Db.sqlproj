@@ -214,6 +214,10 @@
       <SubType>NotInBuild</SubType>
     </None>
     <None Include="Scripts\Misc\SurveyBase.sql" />
+    <None Include="Scripts\Misc\PopulateAllTermCodes.sql" />
+    <None Include="Scripts\Misc\PopulateUsers.sql" />
+    <None Include="Scripts\Misc\PopulateRoles.sql" />
+    <None Include="Scripts\Misc\PopulatePermissions.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Permissions.sql" />
@@ -761,22 +765,10 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Catbert3.Db\Catbert3.Db.sqlproj">
-      <Name>Catbert3.Db</Name>
-      <Project>{59ddc8a6-84f3-450a-97b0-02f37b848a72}</Project>
-      <Private>True</Private>
-      <DatabaseVariableLiteralValue>Catbert3</DatabaseVariableLiteralValue>
-      <SuppressMissingDependenciesErrors>True</SuppressMissingDependenciesErrors>
-    </ProjectReference>
-    <ProjectReference Include="..\Students.Db\Students.Db.sqlproj">
-      <Name>Students.Db</Name>
-      <Project>{7dfa519c-a273-4633-be04-38b0df0d519e}</Project>
-      <Private>True</Private>
-      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
-      <DatabaseSqlCmdVariable>Students</DatabaseSqlCmdVariable>
-    </ProjectReference>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\AllTermCodes.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Permissions.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Roles.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Users.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Debug.publish.xml" />

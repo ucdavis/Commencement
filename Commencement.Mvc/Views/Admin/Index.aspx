@@ -7,7 +7,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    
+    <%="" %>
     <h4 style="margin-left: 15px; display:inline;" >
         Search Student
     </h4>
@@ -54,7 +54,7 @@
         <li class="left">
             <a href="<%= Url.Action("Index", "Retroactive") %>"><img src="<%= Url.Content("~/Images/clock.png") %>"/><br/>Retroactive Changes</a>
         </li>
-        <% if (User.IsInRole(RoleNames.RoleAdmin)) { %>
+        <% if (User.IsInRole(Role.Codes.Admin)) { %>
         <li class="left">
             <a href="<%= Url.Action("AdminLanding", "Admin") %>"><img src="<%= Url.Content("~/Images/preferences.png") %>" /><br />Administration</a>
         </li>
