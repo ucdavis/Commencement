@@ -7,6 +7,7 @@ using Commencement.Core.Services;
 using Microsoft.Azure.WebJobs;
 using Microsoft.WindowsAzure;
 using Dapper;
+using SparkPost;
 
 namespace Commencement.Jobs.NotificationsCommon
 {
@@ -18,6 +19,7 @@ namespace Commencement.Jobs.NotificationsCommon
         {
             var sendEmail = CloudConfigurationManager.GetSetting("send-email");
             var testEmail = CloudConfigurationManager.GetSetting("send-test-emails");
+            var errorCount = 0;
 
             //Don't execute unless email is turned on
             if (!string.Equals(sendEmail, "Yes", StringComparison.InvariantCultureIgnoreCase))
@@ -29,20 +31,75 @@ namespace Commencement.Jobs.NotificationsCommon
             using (var connection = dbService.GetConnection())
             {
                 List<dynamic> pending = connection.Query(@"
-                    select emailqueue.id, [subject], [body]
-                        ,case 
-				            when registrations.email is null then students.email
-				            else students.email + ';' + registrations.email
-				        end as emails
+                    select emailqueue.id as id, [subject], [body], students.email as sEmail, registrations.email as rEmail
 		            from emailqueue
 			            inner join Students on students.Id = EmailQueue.Student_Id
 			            LEFT OUTER JOIN Registrations on registrations.id = EmailQueue.RegistrationId
 		            where Pending = 1 and [immediate] = @immediate").ToList();
 
+
                 foreach (var email in pending)
                 {
-                    var subject = email.subject;
+                    var emailTransmission = new Transmission
+                    {
+                        Content = new Content
+                        {
+                            From =
+                                new Address
+                                {
+                                    Email = "commencement-notify.ucdavis.edu",
+                                    Name = "commencement-notify"
+                                },
+                            Subject = email.subject ,
+                            Html = email.body
+                        }
+                    };
 
+                    if (!string.IsNullOrWhiteSpace(testEmail))
+                    {
+                        emailTransmission.Recipients.Add(new Recipient { Address = new Address { Email = testEmail } });
+                    }
+                    else
+                    {
+                        emailTransmission.Recipients.Add(new Recipient { Address = new Address { Email = email.sEmail } });
+                        if (!string.IsNullOrWhiteSpace(email.rEmail))
+                        {
+                            emailTransmission.Recipients.Add(new Recipient { Address = new Address { Email = email.rEmail } });
+                        }
+                    }
+                    var client = new Client(SparkPostApiKey);
+                    DateTime? sentDateTime = null;
+                    try
+                    {
+                        client.Transmissions.Send(emailTransmission).Wait();
+                        sentDateTime = DateTime.UtcNow; //TODO: Pacific time it?
+                    }
+                    catch (Exception ex)
+                    {
+                        //TODO: Logging.
+                       // Log.Error(ex, "There was a problem emailing {email}", email.sEmail);
+                       //I don't think we care if there are a few problems...
+                        errorCount++;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(testEmail))
+                    {
+                        //Update the db
+                        connection.Execute(@"
+                            UPDATE EmailQueue
+                            SET 
+                                [Pending] = 0
+                                ,[SentDateTime] = @sentDateTime      
+                            WHERE id = @email.id");
+                    }
+
+
+
+                }
+
+                if (errorCount > 20)
+                {
+                    //Send us a notification?
                 }
             }
         }
