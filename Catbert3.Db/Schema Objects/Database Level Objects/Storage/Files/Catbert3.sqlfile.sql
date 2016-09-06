@@ -1,3 +1,0 @@
-﻿ALTER DATABASE [$(DatabaseName)]
-    ADD FILE (NAME = [Catbert3], FILENAME = 'E:\DB\Catbert3.mdf', SIZE = 3072 KB, FILEGROWTH = 1024 KB) TO FILEGROUP [PRIMARY];
-
