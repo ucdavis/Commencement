@@ -35,7 +35,7 @@ namespace Commencement.Jobs.NotificationsCommon
 		            from emailqueue
 			            inner join Students on students.Id = EmailQueue.Student_Id
 			            LEFT OUTER JOIN Registrations on registrations.id = EmailQueue.RegistrationId
-		            where Pending = 1 and [immediate] = @immediate").ToList();
+		            where Pending = 1 and [immediate] = @immediate", new { immediate }).ToList();
 
 
                 foreach (var email in pending)
@@ -84,13 +84,18 @@ namespace Commencement.Jobs.NotificationsCommon
 
                     if (string.IsNullOrWhiteSpace(testEmail))
                     {
-                        //Update the db
-                        connection.Execute(@"
+                        using (var ts = connection.BeginTransaction())
+                        {
+                            //Update the db
+                            connection.Execute(@"
                             UPDATE EmailQueue
                             SET 
-                                [Pending] = 0
+                                 [Pending] = 0
                                 ,[SentDateTime] = @sentDateTime      
-                            WHERE id = @email.id");
+                            WHERE id = @id", new { sentDateTime, id = email.id }, ts);
+
+                            ts.Commit();
+                        }
                     }
 
 
