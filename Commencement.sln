@@ -19,12 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commencement.Jobs.Common", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commencement.Jobs.NotificationsCommon", "Commencement.Jobs.NotificationsCommon\Commencement.Jobs.NotificationsCommon.csproj", "{D5A0E968-6C48-4627-BC65-C0D46E4D28FF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Jobs", "Jobs", "{7CE9CA7A-BE20-4F5C-9433-22FBD2DFAD16}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commencement.Jobs.Common", "Commencement.Jobs.Common\Commencement.Jobs.Common.csproj", "{7B58D13E-2558-4E96-89D1-21F7C9C1AC39}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commencement.Jobs.NotificationsCommon", "Commencement.Jobs.NotificationsCommon\Commencement.Jobs.NotificationsCommon.csproj", "{D5A0E968-6C48-4627-BC65-C0D46E4D28FF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
