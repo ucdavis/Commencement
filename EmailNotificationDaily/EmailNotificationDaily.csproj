@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D5A0E968-6C48-4627-BC65-C0D46E4D28FF}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{DD08216C-2D67-4059-AADB-5BEBD9E4228B}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Commencement.Jobs.NotificationsCommon</RootNamespace>
-    <AssemblyName>Commencement.Jobs.NotificationsCommon</AssemblyName>
+    <RootNamespace>EmailNotificationDaily</RootNamespace>
+    <AssemblyName>EmailNotificationDaily</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,16 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SparkPost, Version=1.9.1.25082, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SparkPost.1.9.1\lib\net45\SparkPost.dll</HintPath>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -83,7 +76,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ProcessNotifications.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Functions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -95,6 +88,14 @@
     <ProjectReference Include="..\Commencement.Core\Commencement.Core.csproj">
       <Project>{0BB21F7B-8340-4B6E-A168-7929B0AB8C75}</Project>
       <Name>Commencement.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Commencement.Jobs.Common\Commencement.Jobs.Common.csproj">
+      <Project>{7B58D13E-2558-4E96-89D1-21F7C9C1AC39}</Project>
+      <Name>Commencement.Jobs.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Commencement.Jobs.NotificationsCommon\Commencement.Jobs.NotificationsCommon.csproj">
+      <Project>{D5A0E968-6C48-4627-BC65-C0D46E4D28FF}</Project>
+      <Name>Commencement.Jobs.NotificationsCommon</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
