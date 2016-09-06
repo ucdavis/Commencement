@@ -45,5 +45,6 @@ namespace Commencement.Jobs.NotificationsCommon
 
                 }
             }
+        }
     }
 }
