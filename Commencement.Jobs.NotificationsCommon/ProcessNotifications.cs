@@ -48,7 +48,7 @@ namespace Commencement.Jobs.NotificationsCommon
                                 new Address
                                 {
                                     Email = "commencement-notify.ucdavis.edu",
-                                    Name = "commencement-notify"
+                                    Name = "UCD Commencement Notification"
                                 },
                             Subject = email.subject ,
                             Html = email.body
