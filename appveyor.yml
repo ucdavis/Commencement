@@ -1,0 +1,17 @@
+version: 1.0.{build}
+image: Visual Studio 2015
+cache: packages
+build_script:
+- cmd: >-
+    nuget restore
+
+
+    echo %APPVEYOR_REPO_COMMIT_MESSAGE% > commit.txt
+
+    type commit.txt
+
+
+    msbuild Commencement.sln /t:build /p:Configuration=Release;RunOctoPack=true;OctoPackReleaseNotesFile=..\commit.txt
+artifacts:
+- path: '**/octopacked/*.nupkg'
+  name: Nuget
