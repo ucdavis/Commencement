@@ -9,7 +9,7 @@ using Commencement.Jobs.NotificationsCommon;
 using Microsoft.Azure.WebJobs;
 using Ninject;
 
-namespace Commencement.Jobs.EmailNotificationContinuous
+namespace Commencement.Jobs.EmailNotificationImmediate
 {
     // To learn more about Microsoft Azure WebJobs SDK, please see http://go.microsoft.com/fwlink/?LinkID=320976
     public class Program : WebJobBase

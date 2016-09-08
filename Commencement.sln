@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commencement.Jobs.Common", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commencement.Jobs.NotificationsCommon", "Commencement.Jobs.NotificationsCommon\Commencement.Jobs.NotificationsCommon.csproj", "{D5A0E968-6C48-4627-BC65-C0D46E4D28FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commencement.Jobs.EmailNotificationContinuous", "Commencement.Jobs.EmailNotificationContinuous\Commencement.Jobs.EmailNotificationContinuous.csproj", "{755DE75E-4544-4603-B81F-3241A5E3B4DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commencement.Jobs.EmailNotificationImmediate", "Commencement.Jobs.EmailNotificationContinuous\Commencement.Jobs.EmailNotificationImmediate.csproj", "{755DE75E-4544-4603-B81F-3241A5E3B4DF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commencement.Jobs.EmailNotificationDaily", "Commencement.Jobs.EmailNotificationDaily\Commencement.Jobs.EmailNotificationDaily.csproj", "{65B928D4-4102-446D-BBE2-3FC9A3C1D96C}"
 EndProject
