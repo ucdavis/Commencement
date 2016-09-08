@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using Commencement.Core.Domain;
+using Commencement.Core.Helpers;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using UCDArch.Core.PersistanceSupport;
@@ -92,7 +93,7 @@ namespace Commencement.Controllers.Services
             #endregion Date Approved
 
             table = InitializeTable();
-            table.AddCell(InitializeCell(visaLetter.DateDecided.HasValue ? visaLetter.DateDecided.Value.Date.ToString("MMMM dd, yyyy") : DateTime.Now.Date.ToString("MMMM dd, yyyy"), halignment: Element.ALIGN_LEFT, bottomBorder: false, overridePaddingTop: 5, overridePaddingBottom: 20));
+            table.AddCell(InitializeCell(visaLetter.DateDecided.HasValue ? visaLetter.DateDecided.Value.Date.ToString("MMMM dd, yyyy") : DateTime.UtcNow.ToPacificTime().Date.ToString("MMMM dd, yyyy"), halignment: Element.ALIGN_LEFT, bottomBorder: false, overridePaddingTop: 5, overridePaddingBottom: 20));
             table.AddCell(InitializeCell("To Whom It May Concern", halignment: Element.ALIGN_LEFT, bottomBorder: false, overridePaddingBottom:25));
 
             table.AddCell(InitializeCell(string.Format("RE:  {0} {1} Request for Visa", visaLetter.StudentFirstName, visaLetter.StudentLastName), halignment: Element.ALIGN_LEFT, bottomBorder: false, overridePaddingBottom:10));

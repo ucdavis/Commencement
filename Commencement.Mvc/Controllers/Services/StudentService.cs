@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Principal;
 using Commencement.Controllers.Helpers;
 using Commencement.Core.Domain;
+using Commencement.Core.Helpers;
 using Commencement.Core.Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -255,7 +256,7 @@ namespace Commencement.Controllers.Services
         {
             var student = new Student("1234567", "123456789", "Philip", "J", "Fry", 15.0m, 140.0m, "pjfry@planex.com", "pjfry", TermService.GetCurrent());
             student.Majors.Add(_majorRepository.GetNullableById("ABIT"));
-            if (DateTime.Now.Second % 2 == 0) student.Majors.Add(_majorRepository.GetNullableById("AMGE")); // "randomly" add a second major
+            if (DateTime.UtcNow.ToPacificTime().Second % 2 == 0) student.Majors.Add(_majorRepository.GetNullableById("AMGE")); // "randomly" add a second major
 
             return student;
         }

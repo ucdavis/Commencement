@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Commencement.Core.Domain;
+using Commencement.Core.Helpers;
 using UCDArch.Core.PersistanceSupport;
 
 namespace Commencement.Controllers.ViewModels
@@ -18,7 +19,7 @@ namespace Commencement.Controllers.ViewModels
             var termCodes = Repository.OfType<TermCode>().Queryable.OrderByDescending(a => a.IsActive).ThenBy(a => a.Id);
             viewModel.AllTermCodes = termCodes.Select(a => new TermCodeUnion {IsActive = a.IsActive, IsInTermCode = true, Name = a.Name, TermCodeId = a.Id, RegistrationBegin = a.RegistrationBegin, RegistrationDeadline = a.RegistrationDeadline}).ToList();
 
-            viewModel.VTermCodes = Repository.OfType<vTermCode>().Queryable.Where(a => a.StartDate >= DateTime.Now) .ToList();
+            viewModel.VTermCodes = Repository.OfType<vTermCode>().Queryable.Where(a => a.StartDate >= DateTime.UtcNow.ToPacificTime()) .ToList();
             var count = 0;
             foreach (var vTermCode in viewModel.VTermCodes.Where(vTermCode => !viewModel.AllTermCodes.AsQueryable().Where(a => a.TermCodeId == vTermCode.Id).Any()))
             {

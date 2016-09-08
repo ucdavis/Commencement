@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Commencement.Core.Helpers;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -39,8 +40,8 @@ namespace Commencement.Core.Domain
 
             Majors = new List<MajorCode>();
 
-            DateAdded = DateTime.Now;
-            DateUpdated = DateTime.Now;
+            DateAdded = DateTime.UtcNow.ToPacificTime();
+            DateUpdated = DateTime.UtcNow.ToPacificTime();
         }
         #endregion
 

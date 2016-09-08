@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Commencement.Core.Helpers;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -12,8 +13,8 @@ namespace Commencement.Core.Domain
         {
             Cancelled = false;
             LabelPrinted = false;
-            DateRegistered = DateTime.Now;
-            DateUpdated = DateTime.Now;
+            DateRegistered = DateTime.UtcNow.ToPacificTime();
+            DateUpdated = DateTime.UtcNow.ToPacificTime();
             ExitSurvey = false;
 
             TransferRequests = new List<TransferRequest>();

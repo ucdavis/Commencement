@@ -7,6 +7,7 @@ using Commencement.Controllers.Helpers;
 using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
+using Commencement.Core.Helpers;
 using Commencement.Core.Resources;
 using Commencement.Resources;
 using NHibernate.Mapping;
@@ -549,13 +550,13 @@ namespace Commencement.Controllers
 
             if (model.Decide != "N") //Just have a check box that says "decide"
             {
-                letter.DateDecided = DateTime.Now;
+                letter.DateDecided = DateTime.UtcNow.ToPacificTime();
             }
             else
             {
                 letter.DateDecided = null;
             }
-            letter.LastUpdateDateTime = DateTime.Now;
+            letter.LastUpdateDateTime = DateTime.UtcNow.ToPacificTime();
             letter.IsPending = model.Decide == "N";
             letter.IsApproved = model.Decide == "A";
             letter.IsDenied = model.Decide == "D";

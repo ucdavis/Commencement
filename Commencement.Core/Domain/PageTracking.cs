@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Commencement.Core.Helpers;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -26,7 +27,7 @@ namespace Commencement.Core.Domain
 
         private void SetDefaults()
         {
-            DateTime = DateTime.Now;
+            DateTime = DateTime.UtcNow.ToPacificTime();
         }
 
         public virtual string LoginId { get; set; }
