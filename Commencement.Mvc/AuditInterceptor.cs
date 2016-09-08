@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Principal;
 using Commencement.Core.Domain;
+using Commencement.Core.Helpers;
 using NHibernate;
 using UCDArch.Core.PersistanceSupport;
 
@@ -44,7 +45,7 @@ namespace Commencement
 
             var audit = new Audit
             {
-                AuditDate = DateTime.Now,
+                AuditDate = DateTime.UtcNow.ToPacificTime(),
                 ObjectName = entity.GetType().Name,
                 ObjectId = id == null ? null : id.ToString()
             };

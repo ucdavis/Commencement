@@ -8,6 +8,7 @@ using System.Web.Security;
 using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
+using Commencement.Core.Helpers;
 using MvcContrib;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -141,7 +142,7 @@ namespace Commencement.Controllers.Helpers
                     else if (rp != null)
                     {
                         rp.Cancelled = a.Participate && !a.Cancel ? !a.Participate : a.Cancel;
-                        rp.DateUpdated = DateTime.Now;
+                        rp.DateUpdated = DateTime.UtcNow.ToPacificTime();
                         rp.NumberTickets = a.Tickets;
                         rp.TicketDistributionMethod = a.TicketDistributionMethod;
                         rp.Major = a.Major;

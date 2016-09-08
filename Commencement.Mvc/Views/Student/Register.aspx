@@ -3,6 +3,7 @@
 <%@ Import Namespace="Commencement.Controllers.Services" %>
 <%@ Import Namespace="Commencement.Core.Resources" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
+<%@ Import Namespace="Commencement.Core.Helpers" %>
 
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">
     Commencement Registration</asp:Content>
@@ -42,7 +43,7 @@
         </div>
     <% } %>
     
-    <% if (TermService.GetCurrent().RegistrationDeadline.Date < DateTime.Now.Date) { %>
+    <% if (TermService.GetCurrent().RegistrationDeadline.Date < DateTime.UtcNow.ToPacificTime().Date) { %>
         <div id="late-reg">
             <p>The registration deadline has passed.  You can petition but may not receive as many tickets.</p>
         </div>

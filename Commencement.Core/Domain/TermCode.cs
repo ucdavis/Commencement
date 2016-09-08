@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Commencement.Core.Helpers;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -26,11 +27,11 @@ namespace Commencement.Core.Domain
             IsActive = true;
             Ceremonies = new List<Ceremony>();
 
-            CapAndGownDeadline = DateTime.Now;
-            FileToGraduateDeadline = DateTime.Now;
+            CapAndGownDeadline = DateTime.UtcNow.ToPacificTime();
+            FileToGraduateDeadline = DateTime.UtcNow.ToPacificTime();
 
-            RegistrationBegin = DateTime.Now;
-            RegistrationDeadline = DateTime.Now;
+            RegistrationBegin = DateTime.UtcNow.ToPacificTime();
+            RegistrationDeadline = DateTime.UtcNow.ToPacificTime();
         }
 
         [Required]
@@ -60,11 +61,11 @@ namespace Commencement.Core.Domain
             // registration petition deadline is after the registration deadline
             if (!regular && RegistrationPetitionDeadline.HasValue && RegistrationPetitionDeadline.Value.Date > RegistrationDeadline.Date)
             {
-                return DateTime.Now.Date >= RegistrationBegin.Date && DateTime.Now.Date <= RegistrationPetitionDeadline.Value.Date;
+                return DateTime.UtcNow.ToPacificTime().Date >= RegistrationBegin.Date && DateTime.UtcNow.ToPacificTime().Date <= RegistrationPetitionDeadline.Value.Date;
             }
 
             // no registration petition deadline, default to the standard deadlines
-            return DateTime.Now.Date >= RegistrationBegin.Date && DateTime.Now.Date <= RegistrationDeadline.Date;
+            return DateTime.UtcNow.ToPacificTime().Date >= RegistrationBegin.Date && DateTime.UtcNow.ToPacificTime().Date <= RegistrationDeadline.Date;
         }
     }
 

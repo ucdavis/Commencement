@@ -1,6 +1,7 @@
 <%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.StudentDisplayRegistrationViewModel>" MasterPageFile="~/Views/Shared/Site.Master" %>
 <%@ Import Namespace="Commencement.Controllers" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
+<%@ Import Namespace="Commencement.Core.Helpers" %>
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">Display Registration</asp:Content>
 <asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent">
 
@@ -51,7 +52,7 @@
             
             <% foreach(var a in Model.Registration.RegistrationParticipations) { %>
                 <!-- only display this message if it loads within 2 minutes of the registartion date -->
-                <% if (DateTime.Now.Subtract(a.DateRegistered).TotalMinutes <= 2) { %>
+                <% if (DateTime.UtcNow.ToPacificTime().Subtract(a.DateRegistered).TotalMinutes <= 2) { %>
                 <div class="confirmation-container ui-corner-all ui-state-highlight">
                     <%= a.Ceremony.ConfirmationText %>
                 </div>
@@ -80,7 +81,7 @@
 <%--    <!-- Open up exit survey for each valid ceremony -->
     <% if (Model.Registration.RegistrationParticipations.Any()) { %>
         <% foreach (var a in Model.Registration.RegistrationParticipations.Where(a => !string.IsNullOrEmpty(a.Ceremony.SurveyUrl))) { %>
-            <% if (DateTime.Now.Subtract(a.DateRegistered).TotalMinutes <= 2) { %>
+            <% if (DateTime.UtcNow.ToPacificTime().Subtract(a.DateRegistered).TotalMinutes <= 2) { %>
             <script type="text/javascript">
                 window.open('<%: a.Ceremony.SurveyUrl %>', '_<%: a.Ceremony.Id %>');
             </script>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Commencement.Core.Helpers;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -10,7 +11,7 @@ namespace Commencement.Core.Domain
     {
         public Survey()
         {
-            Created = DateTime.Now;
+            Created = DateTime.UtcNow.ToPacificTime();
             SurveyFields = new List<SurveyField>();
             Ceremonies = new List<Ceremony>();
             RegistrationSurveys = new List<RegistrationSurvey>();
@@ -52,7 +53,7 @@ namespace Commencement.Core.Domain
     {
         public RegistrationSurvey()
         {
-            Completed = DateTime.Now;
+            Completed = DateTime.UtcNow.ToPacificTime();
             SurveyAnswers = new List<SurveyAnswer>();
         }
 

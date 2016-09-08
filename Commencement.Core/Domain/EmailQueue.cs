@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Commencement.Core.Helpers;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -25,7 +26,7 @@ namespace Commencement.Core.Domain
 
         private void SetDefault()
         {
-            Created = DateTime.Now;
+            Created = DateTime.UtcNow.ToPacificTime();
             Pending = true;
             Immediate = false;
         }

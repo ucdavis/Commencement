@@ -6,6 +6,7 @@ using Commencement.Controllers.Filters;
 using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
+using Commencement.Core.Helpers;
 using Commencement.Core.Resources;
 using MvcContrib;
 
@@ -299,13 +300,13 @@ namespace Commencement.Controllers
             var maxEndDate = ceremonies.Max(a => a.ExtraTicketDeadline);
 
             // extra ticket deadline has passed 
-            if (DateTime.Now > maxEndDate.AddDays(1))
+            if (DateTime.UtcNow.ToPacificTime() > maxEndDate.AddDays(1))
             {
                 Message = "Deadline for all extra ticket requests has passed.";
                 return this.RedirectToAction<StudentController>(a => a.DisplayRegistration());
             }
 
-            if (DateTime.Now < minBeginDate)
+            if (DateTime.UtcNow.ToPacificTime() < minBeginDate)
             {
                 Message = string.Format("You cannot petition for extra tickets until at least {0}", minBeginDate.ToString("d"));
                 return this.RedirectToAction<StudentController>(a => a.DisplayRegistration());
@@ -344,7 +345,7 @@ namespace Commencement.Controllers
                 {
                     ModelState.AddModelError("# Tickets", string.Format("Petition for {0} has too many tickets selected.  The max is {1} for this ceremony.", a.Ceremony.CeremonyName, a.Ceremony.ExtraTicketPerStudent));
                 }
-                else if (DateTime.Now > a.Ceremony.ExtraTicketDeadline.AddDays(1))
+                else if (DateTime.UtcNow.ToPacificTime() > a.Ceremony.ExtraTicketDeadline.AddDays(1))
                 {
                     ModelState.AddModelError("Deadline", string.Format("Petition for {0} has past the deadline.", a.Ceremony.CeremonyName));
                 }
