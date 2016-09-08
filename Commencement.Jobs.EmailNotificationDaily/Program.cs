@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Commencement.Core.Services;
 using Commencement.Jobs.Common;
@@ -6,7 +9,7 @@ using Commencement.Jobs.NotificationsCommon;
 using Microsoft.Azure.WebJobs;
 using Ninject;
 
-namespace EmailNotificationContinuous
+namespace Commencement.Jobs.EmailNotificationDaily
 {
     // To learn more about Microsoft Azure WebJobs SDK, please see http://go.microsoft.com/fwlink/?LinkID=320976
     public class Program : WebJobBase
@@ -25,7 +28,7 @@ namespace EmailNotificationContinuous
 
         public static void EmailNotificationDaily()
         {
-            ProcessNotifications.ProcessEmails(_dbService, true);
+            ProcessNotifications.ProcessEmails(_dbService, false);
         }
     }
 }
