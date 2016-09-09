@@ -77,8 +77,9 @@ namespace Commencement.Jobs.NotificationsCommon
                     catch (Exception ex)
                     {
                         //TODO: Logging.
-                       // Log.Error(ex, "There was a problem emailing {email}", email.sEmail);
-                       //I don't think we care if there are a few problems...
+                        Console.WriteLine(string.Format("Exception Detected: {0}", ex.Message));
+                        // Log.Error(ex, "There was a problem emailing {email}", email.sEmail);
+                        //I don't think we care if there are a few problems...
                         errorCount++;
                     }
 
