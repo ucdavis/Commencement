@@ -26,6 +26,7 @@ namespace Commencement.Jobs.EmailNotificationDaily
             jobHost.Call(typeof(Program).GetMethod("EmailNotificationDaily"));
         }
 
+        [NoAutomaticTrigger]
         public static void EmailNotificationDaily()
         {
             ProcessNotifications.ProcessEmails(_dbService, false);
