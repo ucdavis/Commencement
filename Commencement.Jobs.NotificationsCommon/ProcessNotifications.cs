@@ -20,6 +20,7 @@ namespace Commencement.Jobs.NotificationsCommon
             var sendEmail = CloudConfigurationManager.GetSetting("send-email");
             var testEmail = CloudConfigurationManager.GetSetting("send-test-emails");
             var errorCount = 0;
+            var successCount = 0;
 
             //Don't execute unless email is turned on
             if (!string.Equals(sendEmail, "Yes", StringComparison.InvariantCultureIgnoreCase))
@@ -73,11 +74,12 @@ namespace Commencement.Jobs.NotificationsCommon
                     {
                         client.Transmissions.Send(emailTransmission).Wait();
                         sentDateTime = DateTime.UtcNow; //TODO: Pacific time it?
+                        successCount++;
                     }
                     catch (Exception ex)
                     {
                         //TODO: Logging.
-                        Console.WriteLine(string.Format("Exception Detected: {0}", ex.Message));
+                        Console.WriteLine(string.Format("Exception Detected: {0}", ex.GetBaseException()));
                         // Log.Error(ex, "There was a problem emailing {email}", email.sEmail);
                         //I don't think we care if there are a few problems...
                         errorCount++;
@@ -102,6 +104,8 @@ namespace Commencement.Jobs.NotificationsCommon
 
 
                 }
+
+                Console.WriteLine(string.Format("Sent: {0} Errors: {1}", successCount, errorCount));
 
                 if (errorCount > 20)
                 {
