@@ -23,10 +23,10 @@ namespace Commencement.Jobs.EmailNotificationImmediate
             var kernel = ConfigureServices();
             _dbService = kernel.Get<IDbService>();
             var jobHost = new JobHost();
-            jobHost.Call(typeof(Program).GetMethod("EmailNotificationDaily"));
+            jobHost.Call(typeof(Program).GetMethod("EmailNotificationImmediate"));
         }
 
-        public static void EmailNotificationDaily()
+        public static void EmailNotificationImmediate()
         {
             ProcessNotifications.ProcessEmails(_dbService, true);
         }
