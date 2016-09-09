@@ -26,6 +26,7 @@ namespace Commencement.Jobs.EmailNotificationImmediate
             jobHost.Call(typeof(Program).GetMethod("EmailNotificationImmediate"));
         }
 
+        [NoAutomaticTrigger]
         public static void EmailNotificationImmediate()
         {
             ProcessNotifications.ProcessEmails(_dbService, true);
