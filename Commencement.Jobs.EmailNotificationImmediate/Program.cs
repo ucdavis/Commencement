@@ -18,7 +18,7 @@ namespace Commencement.Jobs.EmailNotificationImmediate
 
         // Please set the following connection strings in app.config for this WebJob to run:
         // AzureWebJobsDashboard and AzureWebJobsStorage
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var kernel = ConfigureServices();
             _dbService = kernel.Get<IDbService>();
