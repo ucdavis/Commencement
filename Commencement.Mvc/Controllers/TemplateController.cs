@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
@@ -89,28 +90,35 @@ namespace Commencement.Controllers
 
         [ValidateInput(false)]
         [HttpPost]
-        public JsonResult SendTestEmail(string subject, string message)
+        public async Task<JsonResult> SendTestEmail(string subject, string message)
         {
             var user = Repository.OfType<vUser>().Queryable.FirstOrDefault(a => a.LoginId == CurrentUser.Identity.Name);
-            
-            var emailTransmission = new Transmission
-            {
-                Content = new Content
-                {
-                    From =
-            new Address
-            {
-                Email = "noreply@commencement-notify.ucdavis.edu",
-                Name = "UCD Commencement Notification"
-            },
-                    Subject = subject,
-                    Html = message
-                }
-            };
-            emailTransmission.Recipients.Add(new Recipient { Address = new Address { Email = user.Email } });
 
-            var client = new Client(CloudConfigurationManager.GetSetting("SparkPostApiKey"));
-            client.Transmissions.Send(emailTransmission).Wait();
+            try
+            {
+                var emailTransmission = new Transmission
+                {
+                    Content = new Content
+                    {
+                        From =
+                            new Address
+                            {
+                                Email = "noreply@commencement-notify.ucdavis.edu",
+                                Name = "UCD Commencement Notification"
+                            },
+                        Subject = subject,
+                        Html = message
+                    }
+                };
+                emailTransmission.Recipients.Add(new Recipient {Address = new Address {Email = user.Email}});
+
+                var client = new Client(CloudConfigurationManager.GetSetting("SparkPostApiKey"));
+                await client.Transmissions.Send(emailTransmission);
+            }
+            catch (Exception ex)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
 
             return Json(true, JsonRequestBehavior.AllowGet);
         }
