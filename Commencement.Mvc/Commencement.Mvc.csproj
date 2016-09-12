@@ -108,6 +108,10 @@
     <Reference Include="NPOI">
       <HintPath>..\packages\NPOI.1.2.5\lib\net40\NPOI.dll</HintPath>
     </Reference>
+    <Reference Include="SparkPost, Version=1.9.1.25082, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SparkPost.1.9.1\lib\net45\SparkPost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
