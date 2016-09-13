@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using Commencement.Core.Domain;
 using Microsoft.Reporting.WebForms;
 using Microsoft.WindowsAzure;
@@ -95,7 +96,7 @@ namespace Commencement.Controllers.Helpers
                     emailTransmission.Recipients.Add(new Recipient {Address = new Address {Email = hr.User.Email} });
 
                     var client = new Client(CloudConfigurationManager.GetSetting("SparkPostApiKey"));
-                    client.Transmissions.Send(emailTransmission).Wait(); //I think the wait is ok here...
+                    Task.Run(() => client.Transmissions.Send(emailTransmission)); 
                 }
                 catch (Exception ex)
                 {
