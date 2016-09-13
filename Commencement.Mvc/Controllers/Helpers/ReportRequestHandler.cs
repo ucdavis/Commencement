@@ -6,6 +6,7 @@ using System.Net.Mail;
 using Commencement.Core.Domain;
 using Microsoft.Reporting.WebForms;
 using Microsoft.WindowsAzure;
+using SparkPost;
 using UCDArch.Core.PersistanceSupport;
 
 namespace Commencement.Controllers.Helpers
@@ -73,16 +74,33 @@ namespace Commencement.Controllers.Helpers
                 repository.OfType<HonorsReport>().EnsurePersistent(hr);
                 ts.CommitTransaction();
 
-                // email the user
-                var message = new MailMessage();
-                message.To.Add(hr.User.Email);
-                message.Subject = "Commencement - Honors Report Completed";
-                message.Body = "Your honors report request has completed.";
-                message.IsBodyHtml = true;
 
-                // settings are set in the web.config
-                var client = new SmtpClient();
-                client.Send(message);
+                // email the user
+                try
+                {
+                    var emailTransmission = new Transmission
+                    {
+                        Content = new Content
+                        {
+                            From =
+                                new Address
+                                {
+                                    Email = "noreply@commencement-notify.ucdavis.edu",
+                                    Name = "UCD Commencement Notification"
+                                },
+                            Subject = "Commencement - Honors Report Completed",
+                            Html = "Your honors report request has completed."
+                        }
+                    };
+                    emailTransmission.Recipients.Add(new Recipient {Address = new Address {Email = hr.User.Email} });
+
+                    var client = new Client(CloudConfigurationManager.GetSetting("SparkPostApiKey"));
+                    client.Transmissions.Send(emailTransmission).Wait(); //I think the wait is ok here...
+                }
+                catch (Exception ex)
+                {
+                    //Nothing...
+                }
             }
         }
 
