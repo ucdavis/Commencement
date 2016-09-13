@@ -53,7 +53,7 @@ namespace Commencement.Controllers.Services
                 var client = new Client(CloudConfigurationManager.GetSetting("SparkPostApiKey"));
                 client.Transmissions.Send(emailTransmission).Wait(); //I think this is ok here...
             }
-            catch (Exception ex)
+            catch (Exception exs)
             {
                 //Meh
             }
