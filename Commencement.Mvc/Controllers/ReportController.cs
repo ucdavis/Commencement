@@ -11,6 +11,7 @@ using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using Microsoft.Reporting.WebForms;
+using Microsoft.WindowsAzure;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
 using UCDArch.Web.ActionResults;
@@ -25,7 +26,7 @@ namespace Commencement.Controllers
         private readonly ICeremonyService _ceremonyService;
         private readonly IMajorService _majorService;
         private readonly IRepository<RegistrationParticipation> _registrationParticipationRepository;
-        private readonly string _serverLocation = ConfigurationManager.AppSettings["ReportServer"];
+        private readonly string _serverLocation = CloudConfigurationManager.GetSetting("ReportServer");
 
         public ReportController(IRepositoryWithTypedId<TermCode, string> termRepository, IUserService userService, ICeremonyService ceremonyService, IMajorService majorService, IRepository<RegistrationParticipation> registrationParticipationRepository)
         {

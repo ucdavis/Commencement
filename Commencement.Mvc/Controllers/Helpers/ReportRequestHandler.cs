@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Mail;
 using Commencement.Core.Domain;
 using Microsoft.Reporting.WebForms;
+using Microsoft.WindowsAzure;
 using UCDArch.Core.PersistanceSupport;
 
 namespace Commencement.Controllers.Helpers
@@ -98,7 +99,7 @@ namespace Commencement.Controllers.Helpers
         /// <returns></returns>
         public static byte[] Get(string ReportName, Dictionary<string, string> parameters)
         {
-            string reportServer = ConfigurationManager.AppSettings["ReportServer"];
+            string reportServer = CloudConfigurationManager.GetSetting("ReportServer");
 
             var rview = new ReportViewer();
             rview.ServerReport.ReportServerUrl = new Uri(reportServer);
