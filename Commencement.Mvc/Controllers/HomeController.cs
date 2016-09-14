@@ -20,8 +20,9 @@ namespace Commencement.Controllers
             _registrationRepository = registrationRepository;
         }
 
+        //TODO: Remove this
         [Authorize]
-        public ActionResult Index()
+        public ActionResult IndexOld()
         {
             // authorized user
             if (User.IsInRole(Role.Codes.Admin) || User.IsInRole(Role.Codes.User)) return this.RedirectToAction<AdminController>(a => a.Index());
@@ -44,37 +45,13 @@ namespace Commencement.Controllers
             return View(TermService.GetCurrent());
         }
 
-        //TODO: Remove this
+        
+
         [Authorize]
-        public ActionResult IndexNew()
-        {       
-            // authorized user
-            if (User.IsInRole(RoleNames.RoleAdmin) || User.IsInRole(RoleNames.RoleUser)) return this.RedirectToAction<AdminController>(a => a.Index());
-
-            ViewData["Registered"] = false;
-
-            // is student registered for the current term, if term not open?
-            var term = TermService.GetCurrent();
-
-            if (!term.CanRegister())
-            {
-                var student = GetCurrentStudent();
-
-                // check for a current registration, there should only be one
-                var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == student && a.TermCode.Id == term.Id);
-                ViewData["Registered"] = currentReg != null;
-            }
-
-            // display a landing page
-            return View(TermService.GetCurrent());
-        }
-
-        //TODO: Remove this
-        [Authorize]
-        public ActionResult IndexCal()
+        public ActionResult Index()
         {
             // authorized user
-            if (User.IsInRole(RoleNames.RoleAdmin) || User.IsInRole(RoleNames.RoleUser)) return this.RedirectToAction<AdminController>(a => a.Index());
+            if (User.IsInRole(Role.Codes.Admin) || User.IsInRole(Role.Codes.User)) return this.RedirectToAction<AdminController>(a => a.Index());
 
             ViewBag.Registered = false;
 
