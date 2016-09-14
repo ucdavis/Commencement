@@ -495,12 +495,12 @@ input[type="button"].button-primary:focus {
 .banner {
   background-color: #DDB307;
   padding: 2% 0;
-  background-image: url("Images/Media/commence_blur.jpg");
+  background-image: url("../Images/Media/commence_blur.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   height: 160px; }
   .banner.banner--register {
-    background-image: url("Images/Media/register_bg.jpg"); }
+    background-image: url("../Images/Media/register_bg.jpg"); }
   .banner .banner_contents {
     width: 80%;
     margin: 0 auto;
