@@ -18,16 +18,17 @@
     }
 </style>
 }
+<div class="pull-right">
+    @Html.ActionLink("Visa Letters", "VisaLetters", "Student", null, htmlAttributes: new { @class = "btn btn-18 btn-yellow" })
+    @Html.Partial("_LogonPartial")
+</div>
 
 <div class="banner">
     <div class="banner_contents">
         <img src="@Url.Content("~/Images/Media/commencement_welcome.svg")" alt="">
     </div>    
 </div>
-<div class="pull-right">
-    @Html.Partial("_LogonPartial")
-    @Html.ActionLink("Visa Letters", "VisaLetters", "Student", null, htmlAttributes: new { @class = "btn btn-18 btn-yellow" })
-</div>
+
 
 
 @if (Model.CanRegister() || (bool) ViewBag.Registered)
