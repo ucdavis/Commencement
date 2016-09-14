@@ -36,7 +36,7 @@ namespace Commencement.Controllers.ViewModels
             var viewModel = new CeremonyViewModel()
                                 {
                                     TermCode = TermService.GetCurrent(),
-                                    IsAdmin = user.IsInRole(RoleNames.RoleAdmin),
+                                    IsAdmin = user.IsInRole(Role.Codes.Admin),
                                     Ceremony = ceremony,
                                     Surveys = repository.OfType<Survey>().GetAll().ToList()
                                 };

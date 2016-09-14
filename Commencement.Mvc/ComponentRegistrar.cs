@@ -9,6 +9,7 @@ using UCDArch.Data.NHibernate;
 using Castle.MicroKernel.Registration;
 using Commencement.Controllers.Helpers;
 using Commencement.Controllers.Services;
+using Commencement.Core.Services;
 
 namespace Commencement.Mvc
 {
@@ -36,6 +37,8 @@ namespace Commencement.Mvc
             container.AddComponent("excelService", typeof(IExcelService), typeof(ExcelService));
 
             container.AddComponent("reportService", typeof(IReportService), typeof(ReportService));
+
+            container.AddComponent("dbService", typeof(IDbService), typeof(DbService));
 
 
             container.Register(Component.For<IValidator>().ImplementedBy<Validator>().Named("validator"));

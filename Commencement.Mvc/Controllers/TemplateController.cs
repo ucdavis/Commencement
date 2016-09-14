@@ -2,15 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
 using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
+using Microsoft.WindowsAzure;
 using MvcContrib;
+using SparkPost;
 using UCDArch.Web.ActionResults;
 using UCDArch.Web.Helpers;
+using Template = Commencement.Core.Domain.Template;
 
 namespace Commencement.Controllers
 {
@@ -86,23 +90,35 @@ namespace Commencement.Controllers
 
         [ValidateInput(false)]
         [HttpPost]
-        public JsonResult SendTestEmail(string subject, string message)
+        public async Task<JsonResult> SendTestEmail(string subject, string message)
         {
             var user = Repository.OfType<vUser>().Queryable.FirstOrDefault(a => a.LoginId == CurrentUser.Identity.Name);
-            
-            //var mail = new MailMessage("undergradcommencement@ucdavis.edu", user.Email, subject, message);
-            //var mail = new MailMessage(, user.Email, subject, message);
 
-            var fromAddress = new MailAddress("undergradcommencement@ucdavis.edu", "Commencement (Do Not Reply)");
-            var toAddress = new MailAddress(user.Email);
-            var mail = new MailMessage(fromAddress, toAddress);
+            try
+            {
+                var emailTransmission = new Transmission
+                {
+                    Content = new Content
+                    {
+                        From =
+                            new Address
+                            {
+                                Email = "noreply@commencement-notify.ucdavis.edu",
+                                Name = "UCD Commencement Notification"
+                            },
+                        Subject = subject,
+                        Html = message
+                    }
+                };
+                emailTransmission.Recipients.Add(new Recipient {Address = new Address {Email = user.Email}});
 
-            mail.Subject = subject;
-            mail.Body = message;
-
-            mail.IsBodyHtml = true;
-            var client = new SmtpClient("smtp.ucdavis.edu");
-            client.Send(mail);
+                var client = new Client(CloudConfigurationManager.GetSetting("SparkPostApiKey"));
+                await client.Transmissions.Send(emailTransmission);
+            }
+            catch (Exception ex)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
 
             return Json(true, JsonRequestBehavior.AllowGet);
         }

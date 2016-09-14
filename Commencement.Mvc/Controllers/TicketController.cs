@@ -9,6 +9,7 @@ using Commencement.Controllers.Filters;
 using Commencement.Controllers.Services;
 using Commencement.Core.Domain;
 using Microsoft.Reporting.WebForms;
+using Microsoft.WindowsAzure;
 using UCDArch.Core.Utils;
 
 namespace Commencement.Controllers
@@ -17,7 +18,7 @@ namespace Commencement.Controllers
     public class TicketController : ApplicationController
     {
         private readonly ICeremonyService _ceremonyService;
-        private readonly string _serverLocation = ConfigurationManager.AppSettings["ReportServer"];
+        private readonly string _serverLocation = CloudConfigurationManager.GetSetting("ReportServer");
 
         public TicketController(ICeremonyService ceremonyService)
         {

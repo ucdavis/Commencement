@@ -1,0 +1,31 @@
+version: 2.0.{build}
+image: Visual Studio 2015
+configuration: Release
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+cache: packages
+build_script:
+- cmd: >-
+    nuget restore
+
+
+    echo %APPVEYOR_REPO_COMMIT_MESSAGE% > commit.txt
+
+    type commit.txt
+
+
+    msbuild Commencement.sln /t:build /p:Configuration=Release;RunOctoPack=true;OctoPackReleaseNotesFile=..\commit.txt
+artifacts:
+- path: '**/octopacked/*.nupkg'
+  name: Nuget
+deploy:
+- provider: NuGet
+  server: https://scruffy.caes.ucdavis.edu/nuget/packages
+  api_key:
+    secure: 0bPmdZ5IVKjvNHKPjW4pNSmM223U0YV/oQKJ/NdN/CE=
+  on:
+    branch: /master|release/
