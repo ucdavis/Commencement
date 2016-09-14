@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -49,6 +50,12 @@ namespace Commencement.Core.Domain
         public virtual DateTime RegistrationBegin { get; set; }
         public virtual DateTime RegistrationDeadline { get; set; }
         public virtual DateTime? RegistrationPetitionDeadline { get; set; }
+
+        public virtual string GetNiceTermName()
+        {
+            var split = this.Name.Split(' ');
+            return string.Format("{0} {1}", split.FirstOrDefault(), split.LastOrDefault());
+        }
 
         /// <summary>
         /// Determines if the system should be open for registration
