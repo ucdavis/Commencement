@@ -38,7 +38,7 @@
             </h3>
             @if (!(bool)ViewBag.Registered)
             {
-                <p>Our records show that you are <span class="sunny-grass"><b>eligible</b></span> for the @Model.GetNiceTermName() Commencement Ceremony.</p>                
+                <p>Our records show that you may be <span class="sunny-grass"><b>eligible</b></span> for the @Model.GetNiceTermName() Commencement Ceremony.</p>                
                 @Html.ActionLink("Register Now", "Index", "Student", null, htmlAttributes: new { @class = "btn btn-18 btn-green" })
             }
             else 
