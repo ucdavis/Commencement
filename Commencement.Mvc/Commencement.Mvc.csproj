@@ -1340,6 +1340,7 @@
     <Content Include="Views\Home\IndexNew.cshtml" />
     <Content Include="Views\Home\IndexCal.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LogonPartial.cshtml" />
     <None Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

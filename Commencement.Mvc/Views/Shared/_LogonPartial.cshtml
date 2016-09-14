@@ -1,0 +1,15 @@
+﻿@if (Request.IsAuthenticated)
+{
+    if ((bool?) HttpContext.Current.Session["Emulation"] == null || (bool?) HttpContext.Current.Session["Emulation"] == false)
+    {
+        @Html.ActionLink("Log Off", "LogOut", "Account", null, htmlAttributes: new { @class = "btn btn-18 btn-blue" })
+    }
+    else
+    {
+        @Html.ActionLink("End Emulation", "EndEmulate", "Account", null, htmlAttributes: new { @class = "btn btn-18 btn-red" })
+    }
+}
+else
+{
+    @Html.ActionLink("Log On", "LogOn", "Account", null, htmlAttributes: new { @class = "btn btn-18 btn-blue" })
+}

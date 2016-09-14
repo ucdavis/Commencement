@@ -22,17 +22,27 @@
 <div class="banner">
     <div class="banner_contents">
         <img src="@Url.Content("~/Images/Media/commencement_welcome.svg")" alt="">
-    </div>
+    </div>    
 </div>
-@if (Model.CanRegister() || (bool)ViewBag.Registered)
+<div class="pull-right">@Html.Partial("_LogonPartial")</div>
+
+
+@if (Model.CanRegister() || (bool) ViewBag.Registered)
 {
     <div class="lead">
         <div class="lead_contents">
             <h3>Hi <b>@ViewBag.StudentName</b>
             </h3>
-            <p>Our records show that you are <span class="sunny-grass"><b>eligible</b></span> for the Spring 2016 Commencement Ceremony.
-            </p>
-            <a href="/register" class="btn btn-18 btn-green">Register Now</a>
+            @if (!(bool)ViewBag.Registered)
+            {
+                <p>Our records show that you are <span class="sunny-grass"><b>eligible</b></span> for the @Model.GetNiceTermName() Commencement Ceremony.</p>                
+                @Html.ActionLink("Register Now", "Index", "Student", null, htmlAttributes: new { @class = "btn btn-18 btn-green" })
+            }
+            else 
+            {
+                <p>Our records show that you have <span class="sunny-grass"><b>registered</b></span> for the Commencement Ceremony.</p>
+                @Html.ActionLink("Continue", "Index", "Student", null, htmlAttributes: new { @class = "btn btn-18 btn-green" })
+            }
         </div>
     </div>
 }
@@ -41,7 +51,13 @@
         <h1>Information</h1>
         <div class="instructions">
             @Html.Raw(Model.LandingText)
+            
+            
         </div>
-    </div>
+        <div class="instructions"></div>
+        <hr />
+        <p><i>After @Model.RegistrationDeadline.ToString("MMMM d") we will accept late registrations but due to printing deadlines we cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets allotted per person </i></p>
+        </div>
 </div>
+
 
