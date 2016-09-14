@@ -26,6 +26,9 @@ namespace Commencement.Mvc
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/Content/csscal").Include(
+                      "~/Content/bootstrap.css",
+                      "~/Content/maincal.css"));
         }
     }
 }

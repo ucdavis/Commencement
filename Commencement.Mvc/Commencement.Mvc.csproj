@@ -759,6 +759,7 @@
     <Content Include="Content\main.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\mainCal.css" />
     <Content Include="Content\telerik.common.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -805,6 +806,12 @@
     <Content Include="Images\CheckMark-1.png" />
     <Content Include="Images\CheckMark.png" />
     <Content Include="Images\clock.png" />
+    <Content Include="Images\Media\120-icon.jpg" />
+    <Content Include="Images\Media\152-icon.jpg" />
+    <Content Include="Images\Media\404.gif" />
+    <Content Include="Images\Media\76-icon.jpg" />
+    <Content Include="Images\Media\commencement_welcome.svg" />
+    <Content Include="Images\Media\commence_blur.jpg" />
     <Content Include="Images\email_template.png" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\logo-caes.png" />
@@ -815,6 +822,10 @@
     <Content Include="Images\logo-ucdavis.png" />
     <Content Include="Images\logo.jpg" />
     <Content Include="Images\mail_queue.png" />
+    <Content Include="Images\Media\favicon.ico" />
+    <Content Include="Images\Media\register_bg.jpg" />
+    <Content Include="Images\Media\thumbnail.jpg" />
+    <Content Include="Images\Media\ucdavislogo.svg" />
     <Content Include="Images\move.png" />
     <Content Include="Images\pending_petition.png" />
     <Content Include="Images\preferences.png" />
@@ -1327,6 +1338,7 @@
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Shared\_StudentLayout.cshtml" />
     <Content Include="Views\Home\IndexNew.cshtml" />
+    <Content Include="Views\Home\IndexCal.cshtml" />
     <None Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
