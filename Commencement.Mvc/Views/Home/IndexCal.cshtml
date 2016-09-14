@@ -24,20 +24,23 @@
         <img src="@Url.Content("~/Images/Media/commencement_welcome.svg")" alt="">
     </div>
 </div>
-<div class="lead">
-    <div class="lead_contents">
-        <h3>Hi <b>Scott</b></h3>
-        <p>Our records show that you are <span class="sunny-grass"><b>eligible</b></span> for the Spring 2016 Commencement Ceremony. </p>
-        <a href="/register" class="btn btn-18 btn-green">Register Now</a>
+@if (Model.CanRegister() || (bool)ViewBag.Registered)
+{
+    <div class="lead">
+        <div class="lead_contents">
+            <h3>Hi <b>@ViewBag.StudentName</b>
+            </h3>
+            <p>Our records show that you are <span class="sunny-grass"><b>eligible</b></span> for the Spring 2016 Commencement Ceremony.
+            </p>
+            <a href="/register" class="btn btn-18 btn-green">Register Now</a>
+        </div>
     </div>
-</div>
+}
 <div class="main">
     <div class="main_contents">
         <h1>Information</h1>
         <div class="instructions">
-            <p><b>Registration for the Spring 2013 Commencement Ceremony begins February 1, 2013 and will be open through April 12, 2013.</b></p>
-            <p>Any student who has completed the 160 units required, and who has not already participated in a past undergraduate commencement ceremony, is eligible and welcome to participate in the Spring 2013 Commencement ceremony.</p>
-            <p>Any student who expects to receive a degree in September or December is encouraged to participate in the Fall 2013 commencement which is held closer to the completion of your studies. Typically the Fall is a smaller ceremony and allows for students to invite more guests. The FALL CEREMONY will be on Saturday, December 14th 2013.</p>
+            @Html.Raw(Model.LandingText)
         </div>
     </div>
 </div>
