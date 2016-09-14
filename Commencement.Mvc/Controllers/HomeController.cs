@@ -76,7 +76,6 @@ namespace Commencement.Controllers
             // authorized user
             if (User.IsInRole(RoleNames.RoleAdmin) || User.IsInRole(RoleNames.RoleUser)) return this.RedirectToAction<AdminController>(a => a.Index());
 
-            ViewData["Registered"] = false;
             ViewBag.Registered = false;
 
 
@@ -85,14 +84,10 @@ namespace Commencement.Controllers
             var student = GetCurrentStudent();
             ViewBag.StudentName = student.FirstName;
 
-            if (!term.CanRegister())
-            {
-                // check for a current registration, there should only be one
-                var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == student && a.TermCode.Id == term.Id);
-                ViewData["Registered"] = currentReg != null;
-                ViewBag.Registered = currentReg != null;                
-            }
-
+            // check for a current registration, there should only be one
+            var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == student && a.TermCode.Id == term.Id);
+            ViewBag.Registered = currentReg != null;                
+  
             // display a landing page
             return View(TermService.GetCurrent());
         }
