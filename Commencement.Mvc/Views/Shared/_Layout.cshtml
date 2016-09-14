@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Commencement.Core.Domain
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -18,7 +19,7 @@
         <hr />
         <p>
             @Html.ActionLink("Home", "Index", "Admin", null, htmlAttributes: new { style = "color:white; text-decoration:none;" })
-            @if (Context.User.IsInRole("Admin") || Context.User.IsInRole("User"))
+            @if (Context.User.IsInRole(Role.Codes.Admin) || Context.User.IsInRole(Role.Codes.User))
             {
                 <span> | </span>
                 <a href="https://secure.caes.ucdavis.edu/help/ticket/submit?appName=Commencement" target="_blank" style="color: white; text-decoration: none;">Questions or Comments</a> <span> | </span>
