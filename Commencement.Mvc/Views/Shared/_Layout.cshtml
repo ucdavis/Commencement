@@ -1,0 +1,41 @@
+﻿@using Commencement.Core.Domain
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Commencement</title>
+    @Styles.Render("~/Content/css")
+    @RenderSection("AdditionalStyles", required: false)
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+
+<div class="container body-content">
+    @RenderBody()
+
+    <footer id="footer">
+        <hr />
+        <p>
+            @Html.ActionLink("Home", "Index", "Admin", null, htmlAttributes: new { style = "color:white; text-decoration:none;" })
+            @if (Context.User.IsInRole(Role.Codes.Admin) || Context.User.IsInRole(Role.Codes.User))
+            {
+                <span> | </span>
+                <a href="https://secure.caes.ucdavis.edu/help/ticket/submit?appName=Commencement" target="_blank" style="color: white; text-decoration: none;">Questions or Comments</a> <span> | </span>
+                <a href="https://secure.caes.ucdavis.edu/help/Help?appName=Commencement" target="_blank" style="color: white; text-decoration: none;">FAQ</a>
+            }
+                
+            <br/>
+            <span id="ByLine">Developed By The College Of Agricultural And Environmental Science Dean's Office</span><br/>
+            Copyright The Regents of the University of California, Davis campus, 2005-16. All Rights Reserved.
+        </p>
+        <p id="VersionNumber">Version: @ViewData["VersionKey"]</p>
+    </footer>
+</div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("AdditionalScripts", required: false)
+</body>
+</html>

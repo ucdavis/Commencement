@@ -20,8 +20,9 @@ namespace Commencement.Controllers
             _registrationRepository = registrationRepository;
         }
 
+        //TODO: Remove this
         [Authorize]
-        public ActionResult Index()
+        public ActionResult IndexOld()
         {
             // authorized user
             if (User.IsInRole(Role.Codes.Admin) || User.IsInRole(Role.Codes.User)) return this.RedirectToAction<AdminController>(a => a.Index());
@@ -40,6 +41,30 @@ namespace Commencement.Controllers
                 ViewData["Registered"] = currentReg != null;
             }
 
+            // display a landing page
+            return View(TermService.GetCurrent());
+        }
+
+        
+
+        [Authorize]
+        public ActionResult Index()
+        {
+            // authorized user
+            if (User.IsInRole(Role.Codes.Admin) || User.IsInRole(Role.Codes.User)) return this.RedirectToAction<AdminController>(a => a.Index());
+
+            ViewBag.Registered = false;
+
+
+            // is student registered for the current term, if term not open?
+            var term = TermService.GetCurrent();
+            var student = GetCurrentStudent();
+            ViewBag.StudentName = student.FirstName;
+
+            // check for a current registration, there should only be one
+            var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == student && a.TermCode.Id == term.Id);
+            ViewBag.Registered = currentReg != null;                
+  
             // display a landing page
             return View(TermService.GetCurrent());
         }

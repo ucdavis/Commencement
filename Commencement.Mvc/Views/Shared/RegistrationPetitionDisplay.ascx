@@ -5,7 +5,7 @@
     <div class="title ui-corner-top">
         <%: string.Format("{0} ({1})", Model.Ceremony.CeremonyName, Model.Ceremony.DateTime) %>
         
-        <% if (!Context.User.IsInRole("User") && !Context.User.IsInRole("Admin")) { %>
+        <% if (!(Context.User.IsInRole(Role.Codes.User) || Context.User.IsInRole(Role.Codes.Admin))) { %>
             <%: Html.ActionLink("Cancel Petition", "CancelRegistrationPetition", "Student", new { id = Model.Id }, new { @class = "button cancel-btn", style = "float:right;" })%>
             <div style="clear:both;"></div>
         <% } %>
