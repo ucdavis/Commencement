@@ -1,0 +1,68 @@
+﻿@using System.Web.UI.WebControls
+@model Commencement.Controllers.ViewModels.RegistrationModel
+
+<div class="register__section">
+    <h2>Contact Information</h2>
+    <div class="form__wrapper">
+        <form action="">
+            <div class="input__group">
+                <label>Address Line 1</label>
+                @Html.TextBoxFor(a => a.Registration.Address1, new {PlaceHolder = "Address Line 1" })
+                <input type="text" placeholder="Address Line 1">
+            </div>
+            <div class="input__group">
+                <label>Address Line 2</label>
+                <input type="text" placeholder="Address Line 2">
+            </div>
+            <div class="input__group">
+                <label>City</label>
+                <input type="text" placeholder="City">
+            </div>
+            <div class="input__group">
+                <label>State</label>
+                <select>
+                    <option value="volvo">Volvo</option>
+                    <option value="saab">Saab</option>
+                    <option value="mercedes">Mercedes</option>
+                    <option value="audi">Audi</option>
+                </select>
+                <div class="input__group">
+                    <label>Zip Code</label>
+                    <input type="text" placeholder="Zip Code">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section AdditionalScripts
+{
+    <script type="text/javascript">
+        $(function () {
+
+            // list of davis zip codes
+            var zips = ['95616', '95617', '95618'];
+
+            $('#Registration_City, #Registration_Zip').blur(function () {
+                var city = $('#Registration_City').val().toLowerCase();
+                var zip = $('#Registration_Zip').val();
+
+                if (city == "" || zip == "") return false;
+
+                var isdavisZip = $.inArray(zip, zips) >= 0;
+                var isdavisCity = city == 'davis';
+
+                // davis zip is entered, ask if they want the city to be updated to davis
+                if (isdavisZip && !isdavisCity) {
+                    if (confirm("Would you like to update the city to davis?")) {
+                        $("#Registration_City").val("Davis");
+                    }
+                }
+                if (isdavisCity && !isdavisZip) {
+                    alert("Your zip code does not appear to be a davis zip code.");
+                }
+            });
+
+        });
+</script>
+}

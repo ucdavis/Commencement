@@ -104,6 +104,17 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
+        public ActionResult RegisterTest()
+        {
+            var student = _studentService.GetCurrentStudent(CurrentUser);
+
+            var redirect = CheckStudentForRegistration();
+            if (redirect != null) return redirect;
+
+            var viewModel = RegistrationModel.Create(Repository, GetEligibleCeremonies(student), student);
+            return View(viewModel);
+        }
+
         /// <summary>
         /// #4
         /// </summary>

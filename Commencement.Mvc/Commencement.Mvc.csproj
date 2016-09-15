@@ -1339,6 +1339,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_LogonPartial.cshtml" />
+    <Content Include="Views\Student\RegisterTest.cshtml" />
+    <Content Include="Views\Shared\_StudentContactEdit.cshtml" />
     <None Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
