@@ -667,3 +667,17 @@ input[type="button"].button-primary:focus {
 
 .stepbar li.active + li:after {
   background-color: #78be20; }
+
+.validation-summary-valid { display:none; }
+.validation-summary-errors { color: red; }
+fieldset { padding: 1em;margin: 1em 0;}
+fieldset legend {border: 1px solid black; padding: .25em 1em;background-color: #00497b;color: white;font-weight: bold;}
+fieldset legend a { color: white;}
+
+.registration_form li{list-style:none; margin-left:1em; margin-top:0.25em;min-height: 32px;}
+.prefilled span {color:#333;}
+.registration_form input {}
+.registration_form li strong {width:200px; display:inline-block;}
+.registration_form li strong span, span.required { color: red;margin-left: 5px}
+.field-validation-error { color: red;margin-left: 1em;}
+.input-validation-error { border: 1px solid red; }
