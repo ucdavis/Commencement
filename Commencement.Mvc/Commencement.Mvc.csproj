@@ -1265,7 +1265,6 @@
     <Content Include="Views\Error\PreviouslyWalked.aspx" />
     <Content Include="Views\Error\SJA.aspx" />
     <Content Include="Views\Error\UnauthorizedAccess.aspx" />
-    <Content Include="Views\Home\IndexOld.aspx" />
     <Content Include="Views\MajorCode\Add.aspx" />
     <Content Include="Views\MajorCode\Index.aspx" />
     <Content Include="Views\Petition\ExtraTicketPetition.aspx" />
@@ -1337,7 +1336,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Shared\_StudentLayout.cshtml" />
-    <Content Include="Views\Home\IndexNew.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_LogonPartial.cshtml" />

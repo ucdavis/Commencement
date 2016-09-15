@@ -21,29 +21,29 @@ namespace Commencement.Controllers
         }
 
         //TODO: Remove this
-        [Authorize]
-        public ActionResult IndexOld()
-        {
-            // authorized user
-            if (User.IsInRole(Role.Codes.Admin) || User.IsInRole(Role.Codes.User)) return this.RedirectToAction<AdminController>(a => a.Index());
+        //[Authorize]
+        //public ActionResult IndexOld()
+        //{
+        //    // authorized user
+        //    if (User.IsInRole(Role.Codes.Admin) || User.IsInRole(Role.Codes.User)) return this.RedirectToAction<AdminController>(a => a.Index());
 
-            ViewData["Registered"] = false;
+        //    ViewData["Registered"] = false;
 
-            // is student registered for the current term, if term not open?
-            var term = TermService.GetCurrent();
+        //    // is student registered for the current term, if term not open?
+        //    var term = TermService.GetCurrent();
 
-            if (!term.CanRegister())
-            {
-                var student = GetCurrentStudent();
+        //    if (!term.CanRegister())
+        //    {
+        //        var student = GetCurrentStudent();
 
-                // check for a current registration, there should only be one
-                var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == student && a.TermCode.Id == term.Id);
-                ViewData["Registered"] = currentReg != null;
-            }
+        //        // check for a current registration, there should only be one
+        //        var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == student && a.TermCode.Id == term.Id);
+        //        ViewData["Registered"] = currentReg != null;
+        //    }
 
-            // display a landing page
-            return View(TermService.GetCurrent());
-        }
+        //    // display a landing page
+        //    return View(TermService.GetCurrent());
+        //}
 
         
 
