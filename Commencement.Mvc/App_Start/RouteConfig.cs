@@ -9,9 +9,14 @@ namespace Commencement.Mvc
 {
     public class RouteConfig
     {
+        /// <summary>
+        /// Just getting this to rebuild
+        /// </summary>
+        /// <param name="routes"></param>
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
 
             routes.MapRoute(
                 name: "Default",
