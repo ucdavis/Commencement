@@ -32,12 +32,12 @@ namespace Commencement.Jobs.UpdateStudents
         public static void UpdateStudentsFromDatamart()
         {
 
-            var runSproc = CloudConfigurationManager.GetSetting("run-sprocs");
+            var runSproc = CloudConfigurationManager.GetSetting("RunUpdateStudentJob");
 
             //Don't execute unless email is turned on
             if (!string.Equals(runSproc, "Yes", StringComparison.InvariantCultureIgnoreCase))
             {
-                Console.WriteLine("Sproc Not run because run-sprocs is not set to 'Yes'");
+                Console.WriteLine("Sproc Not run because RunUpdateStudentJob is not set to 'Yes'");
                 return;
             }
             using (var connection = _dbService.GetConnection())
