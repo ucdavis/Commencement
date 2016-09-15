@@ -19,6 +19,9 @@
             <p><b>Name:</b> @Model.Student.FullName</p>
         </div>
         <div class="studentbar--item">
+            <p><b>Email:</b> @Model.Student.Email</p>
+        </div>
+        <div class="studentbar--item">
             <p><b>Student ID:</b> @Model.Student.StudentId</p>
         </div>
         <div class="studentbar--item">
@@ -56,120 +59,150 @@
 <!-- </div>
 </div> -->
 <div class="main">
-    <div class="main_contents">
-        <div class="register">
-            @Html.Partial("_StudentContactEdit")
-            <div class="register__section">
-                <h2>Ceremony</h2>
-                <div class="ceremony">
-                    <h2>L&S Spring 2017 Commencement (AM)</h2>
-                    <div class="ceremony__wrapper">
-                        <form action="">
-                            <div class="checkbox__wrapper">
-                                <input type="checkbox"> I would like to participate in this ceremony
+<div class="main_contents">    
+    <div class="register">
+        @Html.ValidationSummary("Please correct all errors below")
 
-                            </div>
-
-                            <table cellspacing="10">
-                                <tbody>
-                                    <tr>
-                                        <td><b>Date and Time:</b></td>
-                                        <td>6/10/2017 <span class="discreet">*the time of your ceremony is not guaranteed</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Ticket Distribution:</b></td>
-                                        <td>Electronic print</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Major:</b></td>
-                                        <td>
-                                            <select>
-                                                <option value="volvo">Volvo</option>
-                                                <option value="saab">Saab</option>
-                                                <option value="mercedes">Mercedes</option>
-                                                <option value="audi">Audi</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Tickets requested:</b></td>
-                                        <td>
-                                            <select>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
-
-                </div>
-            </div>
-            <div class="register__section">
-                <h2>Special Needs</h2>
-                <p>Please indicate any special needs you (personally) have that will affect your ability to participate in the ceremony (lining up, sitting, crossing the stage, etc.). For guest accomondations, please refer back to the <a href="#">UC Davis Commencement site.</a></p>
-                <div class="form__wrapper">
-                    <form action="">
-                        <div class="input__group">
-                            <select>
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="mercedes">Mercedes</option>
-                                <option value="audi">Audi</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="register__section">
-                <h2>Grad Images</h2>
-                <p>
-                    May we provide your information to GradImages? GradImages will use your information to provide you with your proof(s) after the ceremony. There is no obligation to purchase photos and your personal information will be used for the
-                    delivery of proofs only. GradImages will not provide your information to any other entity, except for if required by law.
-                </p>
-                <div class="form__wrapper">
+        @Html.Partial("_StudentContactEdit")
+        <div class="register__section">
+            <h2>Ceremony</h2>
+            <div class="ceremony">
+                <h2>L&S Spring 2017 Commencement (AM)</h2>
+                <div class="ceremony__wrapper">
                     <form action="">
                         <div class="checkbox__wrapper">
-                            <input type="checkbox"> I Authorize my information be provided to GradImages
+                            <input type="checkbox"> I would like to participate in this ceremony
 
                         </div>
+
+                        <table cellspacing="10">
+                            <tbody>
+                            <tr>
+                                <td><b>Date and Time:</b></td>
+                                <td>6/10/2017 <span class="discreet">*the time of your ceremony is not guaranteed</span></td>
+                            </tr>
+                            <tr>
+                                <td><b>Ticket Distribution:</b></td>
+                                <td>Electronic print</td>
+                            </tr>
+                            <tr>
+                                <td><b>Major:</b></td>
+                                <td>
+                                    <select>
+                                        <option value="volvo">Volvo</option>
+                                        <option value="saab">Saab</option>
+                                        <option value="mercedes">Mercedes</option>
+                                        <option value="audi">Audi</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Tickets requested:</b></td>
+                                <td>
+                                    <select>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </form>
                 </div>
-            </div>
-            <div class="register__section">
-                <h2>Legal Disclaimer</h2>
-                <p>
-                    I agree to adhere to the University policy which prohibits the unlawful use, sale, distribution, dispensing, or possession of alcohol or of controlled substances by students on University premises and official University functions.
-                    Students shall not use illegal substances or abuse legal substances in a manner that impairs scholarly activities or student life. (Adapted from UCDP&P Manual Chapter 380, Section 18) Students violating this policy may be excluded
-                    from privileges and activities when there is reasonable cause to believe that their conduct 1) threatens the safety of themselves and others on University property or at University functions; and/or 2) disrupts the orderly operation
-                    of the campus (Adapted from UC Board of Regents Policy on Student Conduct & Discipline).
-                </p>
-                <p>
-                    Any student who is found selling tickets or in possession of counterfeit tickets will be dismissed from commencement and reported to Student Judicial Affairs.
-                </p>
-                <p>*Please share these policies with your family & friends attending.</p>
-                <div class="form__wrapper">
-                    <form action="">
-                        <div class="checkbox__wrapper">
-                            <input type="checkbox"> I Agree
 
-                        </div>
-                    </form>
-                </div>
             </div>
-            <a href="" class="btn btn-18 btn-green">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i> Register for Commencement
-            </a>
-
         </div>
+        <div class="register__section">
+            <h2>Special Needs</h2>
+            <p>Please indicate any special needs you (personally) have that will affect your ability to participate in the ceremony (lining up, sitting, crossing the stage, etc.). For guest accomondations, please refer back to the <a href="#">UC Davis Commencement site.</a>
+            </p>
+            <div class="form__wrapper">
+                <form action="">
+                    <div class="input__group">
+                        <select>
+                            <option value="volvo">Volvo</option>
+                            <option value="saab">Saab</option>
+                            <option value="mercedes">Mercedes</option>
+                            <option value="audi">Audi</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="register__section">
+            <h2>Grad Images</h2>
+            <p>
+                May we provide your information to GradImages? GradImages will use your information to provide you with your proof(s) after the ceremony. There is no obligation to purchase photos and your personal information will be used for the
+                delivery of proofs only. GradImages will not provide your information to any other entity, except for if required by law.
+            </p>
+            <div class="form__wrapper">
+                <form action="">
+                    <div class="checkbox__wrapper">
+                        <input type="checkbox"> I Authorize my information be provided to GradImages
+
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="register__section">
+            <h2>Legal Disclaimer</h2>
+            <p>
+                I agree to adhere to the University policy which prohibits the unlawful use, sale, distribution, dispensing, or possession of alcohol or of controlled substances by students on University premises and official University functions.
+                Students shall not use illegal substances or abuse legal substances in a manner that impairs scholarly activities or student life. (Adapted from UCDP&P Manual Chapter 380, Section 18) Students violating this policy may be excluded
+                from privileges and activities when there is reasonable cause to believe that their conduct 1) threatens the safety of themselves and others on University property or at University functions; and/or 2) disrupts the orderly operation
+                of the campus (Adapted from UC Board of Regents Policy on Student Conduct & Discipline).
+            </p>
+            <p>
+                Any student who is found selling tickets or in possession of counterfeit tickets will be dismissed from commencement and reported to Student Judicial Affairs.
+            </p>
+            <p>*Please share these policies with your family & friends attending.</p>
+            <div class="form__wrapper">
+                <form action="">
+                    <div class="checkbox__wrapper">
+                        <input type="checkbox"> I Agree
+
+                    </div>
+                </form>
+            </div>
+        </div>
+        <a href="" class="btn btn-18 btn-green">
+            <i class="fa fa-graduation-cap" aria-hidden="true"></i> Register for Commencement
+        </a>
+
     </div>
+</div>
     
 
 @section AdditionalScripts
 {
-    
+    <script type="text/javascript">
+        $(function () {
+
+            // list of davis zip codes
+            var zips = ['95616', '95617', '95618'];
+
+            $('#Registration_City, #Registration_Zip').blur(function () {
+                var city = $('#Registration_City').val().toLowerCase();
+                var zip = $('#Registration_Zip').val();
+
+                if (city == "" || zip == "") return false;
+
+                var isdavisZip = $.inArray(zip, zips) >= 0;
+                var isdavisCity = city == 'davis';
+
+                // davis zip is entered, ask if they want the city to be updated to davis
+                if (isdavisZip && !isdavisCity) {
+                    if (confirm("Would you like to update the city to davis?")) {
+                        $("#Registration_City").val("Davis");
+                    }
+                }
+                if (isdavisCity && !isdavisZip) {
+                    alert("Your zip code does not appear to be a davis zip code.");
+                }
+            });
+
+        });
+    </script>
 }

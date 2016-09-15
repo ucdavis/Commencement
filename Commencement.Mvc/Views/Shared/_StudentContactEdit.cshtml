@@ -1,4 +1,5 @@
 ﻿@using System.Web.UI.WebControls
+@using MvcContrib.EnumerableExtensions
 @model Commencement.Controllers.ViewModels.RegistrationModel
 
 <div class="register__section">
@@ -7,62 +8,43 @@
         <form action="">
             <div class="input__group">
                 <label>Address Line 1</label>
-                @Html.TextBoxFor(a => a.Registration.Address1, new {PlaceHolder = "Address Line 1" })
-                <input type="text" placeholder="Address Line 1">
+                @Html.TextBoxFor(a => a.Registration.Address1, new {PlaceHolder = "Address Line 1", maxlength = 200 })
+                @Html.ValidationMessageFor(x=>x.Registration.Address1)
             </div>
             <div class="input__group">
                 <label>Address Line 2</label>
-                <input type="text" placeholder="Address Line 2">
+                @Html.TextBoxFor(a => a.Registration.Address2, new { PlaceHolder = "Address Line 2", maxlength = 200 })
+                @Html.ValidationMessageFor(x => x.Registration.Address2)
             </div>
             <div class="input__group">
                 <label>City</label>
-                <input type="text" placeholder="City">
+                @Html.TextBoxFor(a => a.Registration.City, new { PlaceHolder = "City", maxlength = 100 })
+                @Html.ValidationMessageFor(x => x.Registration.City)
             </div>
             <div class="input__group">
                 <label>State</label>
-                <select>
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="mercedes">Mercedes</option>
-                    <option value="audi">Audi</option>
-                </select>
-                <div class="input__group">
-                    <label>Zip Code</label>
-                    <input type="text" placeholder="Zip Code">
-                </div>
+                @Html.DropDownListFor(a => a.Registration.State, new SelectList(Model.States, "id", "name", "CA"))
+
             </div>
+            <div class="input__group">
+                <label>Zip Code</label>
+                @Html.TextBoxFor(x => x.Registration.Zip, new { placeholder = "Zip Code", maxlength = 15, size = 5 })
+                @Html.ValidationMessageFor(x => x.Registration.Zip)
+            </div>
+            <div class="input__group">
+                <label>Additional Recipients Email</label>
+                @Html.TextBoxFor(x => x.Registration.Email, new { placeholder = "Additional Recipients Email", maxlength = 100 })
+                @Html.ValidationMessageFor(x => x.Registration.Email)
+                <div>You can list a family member or others email address to receive copies of all your commencement email notifications.</div>
+            </div>
+            <div class="input__group">
+                <label>How To Say Your Name Phonetically</label>
+                @Html.TextBoxFor(x => x.Registration.Phonetic, new { placeholder = "Phonetic Pronunciation", maxlength = 150 })
+                @Html.ValidationMessageFor(x => x.Registration.Phonetic)
+            </div>
+
         </form>
     </div>
 </div>
 
-@section AdditionalScripts
-{
-    <script type="text/javascript">
-        $(function () {
 
-            // list of davis zip codes
-            var zips = ['95616', '95617', '95618'];
-
-            $('#Registration_City, #Registration_Zip').blur(function () {
-                var city = $('#Registration_City').val().toLowerCase();
-                var zip = $('#Registration_Zip').val();
-
-                if (city == "" || zip == "") return false;
-
-                var isdavisZip = $.inArray(zip, zips) >= 0;
-                var isdavisCity = city == 'davis';
-
-                // davis zip is entered, ask if they want the city to be updated to davis
-                if (isdavisZip && !isdavisCity) {
-                    if (confirm("Would you like to update the city to davis?")) {
-                        $("#Registration_City").val("Davis");
-                    }
-                }
-                if (isdavisCity && !isdavisZip) {
-                    alert("Your zip code does not appear to be a davis zip code.");
-                }
-            });
-
-        });
-</script>
-}
