@@ -537,7 +537,9 @@ input[type="button"].button-primary:focus {
 
 .studentbar {
   background-color: #002855;
-  padding: 10px 0px; }
+  padding: 10px 0px;
+    margin-bottom: 20px;
+}
   .studentbar .studentbar__contents {
     display: flex;
     justify-content: space-between;
