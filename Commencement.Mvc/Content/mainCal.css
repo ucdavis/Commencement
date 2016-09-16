@@ -668,6 +668,8 @@ input[type="button"].button-primary:focus {
 .stepbar li.active + li:after {
   background-color: #78be20; }
 
+
+/* Validation styles copied from main.css */
 .validation-summary-valid { display:none; }
 .validation-summary-errors { color: red; }
 fieldset { padding: 1em;margin: 1em 0;}

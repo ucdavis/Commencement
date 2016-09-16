@@ -1325,7 +1325,9 @@
     <Content Include="Views\TransferRequest\Index.aspx" />
     <Content Include="Views\TransferRequest\MajorList.aspx" />
     <Content Include="Views\TransferRequest\Review.aspx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -1340,7 +1342,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_LogonPartial.cshtml" />
     <Content Include="Views\Student\RegisterTest.cshtml" />
-    <Content Include="Views\Shared\_StudentContactEdit.cshtml" />
+    <Content Include="Views\Student\_StudentContactEdit.cshtml" />
+    <Content Include="Views\Student\_StudentCeremonyEdit.cshtml" />
     <None Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

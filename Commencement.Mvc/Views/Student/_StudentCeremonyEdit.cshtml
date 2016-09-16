@@ -1,0 +1,128 @@
+﻿@using Commencement.Controllers.Services
+@using Microsoft.WindowsAzure
+@model Commencement.Controllers.ViewModels.RegistrationModel
+    
+@foreach (var a in Model.Participations)
+{
+    @Html.Hidden(string.Format("ceremonyParticipations[{0}].Ceremony", a.Index), a.Ceremony.Id)
+    @Html.Hidden(string.Format("ceremonyParticipations[{0}].NeedsPetition", a.Index), a.NeedsPetition)
+
+    <div class="ceremony">
+        <h2>@a.Ceremony.CeremonyName</h2>
+        
+        @if (a.NeedsPetition)
+        {
+            <div class="alert alert-danger">
+
+                @if (TermService.GetCurrent().RegistrationDeadline.Date >= DateTime.Now.Date)
+                {
+                    //Registration deadline hasn't passed yet, just unit requirement
+                    <span>You are required to petition for this ceremony because you do not meet the <a href="@CloudConfigurationManager.GetSetting("StaticCommencementUrl")">minimum unit requirements</a> and are required to complete the below petition.</span>
+
+                }
+                else
+                {
+                    //Registration deadline has passed, could be past reg or unit requirement
+                    <span>You are required to petition for this ceremony because you either do not meet the<br/>[1] minimum unit requirements or are past the<br/>[2] registration deadline.<br/></span>
+                }
+
+                @if (a.Ceremony.TermCode.Id.EndsWith("03"))
+                {
+                    <span> If you will have enough units at the end of the Winter quarter and do not wish to petition, please come back after the end of Winter term.  You will have until <strong>@a.Ceremony.TermCode.RegistrationDeadline.ToString("d")</strong> to complete your registration.</span>
+                }
+            </div>
+        }
+
+        <div class="ceremony__wrapper">
+            <form action="">
+                <div class="alert alert-danger">TODO!!! The other parts of the if...</div>
+                @if (a.NeedsPetition)
+                {
+                    <div class="checkbox__wrapper">
+                        <input id="@string.Format("ceremonyParticipations[{0}]_Petition", a.Index)" name="@string.Format("ceremonyParticipations[{0}].Petition", a.Index)" type="checkbox" value="true" @(a.Petition ? "checked" : string.Empty)> I would like to petition for this ceremony
+                    </div>
+                    @*<div class="input__group">*@
+                    <div class="checkbox__wrapper">
+                        <label>Petition Reason</label>
+                        <textarea style="width: 100%" type="text" id="@string.Format("ceremonyParticipations[{0}]_PetitionReason", a.Index)" name="@string.Format("ceremonyParticipations[{0}].PetitionReason", a.Index)"  rows="4" class="petition">@a.PetitionReason</textarea>
+                    </div>
+                    @*<li>
+                        <input type="checkbox" id="<%: string.Format(" ceremonyParticipations[{0}]_Petition", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Petition", a.Index) %>" value="true" <%: a.Petition ? "checked" : string.Empty %> />
+                        I would like to petition for this ceremony.
+                    </li>
+                    <li>
+                        <strong>Petition Reason:</strong>
+                        <textarea type="text" id="<%: string.Format(" ceremonyParticipations[{0}]_PetitionReason", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].PetitionReason", a.Index) %>" cols="60" rows="4" class="petition" ><%: a.PetitionReason %></textarea>
+                    </li>
+                    <li>
+                        <strong>Transfer College:</strong>
+                        <input type="text" id="<%: string.Format(" ceremonyParticipations[{0}]_TransferCollege", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].TransferCollege", a.Index) %>" style="width:200px;" value="<%: a.TransferCollege %>" maxlength="100" />
+                    </li>
+                    <li>
+                        <strong>Transfer Units:</strong>
+                        <input type="text" id="<%: string.Format(" ceremonyParticipations[{0}]_TransferUnits", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].TransferUnits", a.Index) %>" value="<%: a.TransferUnits %>" maxlength="5" />
+                    </li>*@
+                }
+                else if (!a.Edit)
+                {
+                    <div class="checkbox__wrapper">
+                        <input id="@string.Format("ceremonyParticipations[{0}]_Participate", a.Index)" name="@string.Format("ceremonyParticipations[{0}].Participate", a.Index)" type="checkbox" value="true" @(a.Participate ? "checked" : string.Empty)> I would like to participate in this ceremony
+
+                    </div>
+                }
+                else
+                {
+                    @*<li>
+                        <input type="radio" id="<%: string.Format(" ceremonyParticipations[{0}]_Participate", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Participate", a.Index) %>" value="true" <%: a.Participate ? "checked" : string.Empty %> />
+                        I would like to participate in this ceremony.
+                    </li><li>
+                        <input type="radio" id="<%: string.Format(" ceremonyParticipations[{0}]_Cancel", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Cancel", a.Index) %>" value="true" <%: a.Cancel ? "checked" : string.Empty %> />
+                        I would like to cancel this registration.  I understand that this will forfeit my tickets and if I change my mind I may not be able to receive the same amount of tickets.
+
+                        <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].ParticipationId", a.Index), a.ParticipationId) %>
+                    </li>*@
+                }
+                <div class="checkbox__wrapper">
+                    <input type="checkbox"> I would like to participate in this ceremony
+
+                </div>
+
+                <table cellspacing="10">
+                    <tbody>
+                    <tr>
+                        <td><b>Date and Time:</b></td>
+                        <td>6/10/2017 <span class="discreet">*the time of your ceremony is not guaranteed</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Ticket Distribution:</b></td>
+                        <td>Electronic print</td>
+                    </tr>
+                    <tr>
+                        <td><b>Major:</b></td>
+                        <td>
+                            <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Tickets requested:</b></td>
+                        <td>
+                            <select>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+
+    </div>
+}

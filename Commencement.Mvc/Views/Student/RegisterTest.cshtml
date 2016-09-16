@@ -64,55 +64,10 @@
         @Html.ValidationSummary("Please correct all errors below")
 
         @Html.Partial("_StudentContactEdit")
-        <div class="register__section">
+        <div class="register__section">            
             <h2>Ceremony</h2>
-            <div class="ceremony">
-                <h2>L&S Spring 2017 Commencement (AM)</h2>
-                <div class="ceremony__wrapper">
-                    <form action="">
-                        <div class="checkbox__wrapper">
-                            <input type="checkbox"> I would like to participate in this ceremony
+            @Html.Partial("_StudentCeremonyEdit")
 
-                        </div>
-
-                        <table cellspacing="10">
-                            <tbody>
-                            <tr>
-                                <td><b>Date and Time:</b></td>
-                                <td>6/10/2017 <span class="discreet">*the time of your ceremony is not guaranteed</span></td>
-                            </tr>
-                            <tr>
-                                <td><b>Ticket Distribution:</b></td>
-                                <td>Electronic print</td>
-                            </tr>
-                            <tr>
-                                <td><b>Major:</b></td>
-                                <td>
-                                    <select>
-                                        <option value="volvo">Volvo</option>
-                                        <option value="saab">Saab</option>
-                                        <option value="mercedes">Mercedes</option>
-                                        <option value="audi">Audi</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><b>Tickets requested:</b></td>
-                                <td>
-                                    <select>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </form>
-                </div>
-
-            </div>
         </div>
         <div class="register__section">
             <h2>Special Needs</h2>
@@ -177,6 +132,20 @@
 
 @section AdditionalScripts
 {
+    @Scripts.Render("~/bundles/easycounter")
+    <script>
+        $(function () {
+            $("textarea.petition").jqEasyCounter({ 'maxChars': 500, 'maxCharsWarning': 550, msgTextAlign: 'left' });
+        });
+    </script>
+
+    <style type="text/css">
+        .time_disclaimer {
+            font-style: italic;
+            color: grey;
+            margin-left: 20px;
+        }
+    </style>
     <script type="text/javascript">
         $(function () {
 
