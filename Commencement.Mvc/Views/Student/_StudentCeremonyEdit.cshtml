@@ -1,4 +1,5 @@
 ﻿@using Commencement.Controllers.Services
+@using Microsoft.Web.Mvc
 @using Microsoft.WindowsAzure
 @model Commencement.Controllers.ViewModels.RegistrationModel
     
@@ -63,19 +64,23 @@
                 }
                 else
                 {
-                    <li>
+                    @*<li>
                         <input type="radio" id="<%: string.Format(" ceremonyParticipations[{0}]_Participate", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Participate", a.Index) %>" value="true" <%: a.Participate ? "checked" : string.Empty %> />
                         I would like to participate in this ceremony.
                     </li><li>
                         <input type="radio" id="<%: string.Format(" ceremonyParticipations[{0}]_Cancel", a.Index) %>" name="<%: string.Format("ceremonyParticipations[{0}].Cancel", a.Index) %>" value="true" <%: a.Cancel ? "checked" : string.Empty %> />
                         I would like to cancel this registration.  I understand that this will forfeit my tickets and if I change my mind I may not be able to receive the same amount of tickets.
-
-                        <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].ParticipationId", a.Index), a.ParticipationId) %>
-                    </li>
-                    <div class="checkbox__wrapper">
-                        <input type="checkbox"> I would like to participate in this ceremony
-
-                    </div>
+                        
+                    </li>*@
+                    <span class="registration_form">
+                        <div class="checkbox__wrapper">
+                            <input type="radio" id="@string.Format(" ceremonyParticipations[{0}]_Participate", a.Index)" name="@string.Format("ceremonyParticipations[{0}].Participate", a.Index)" value="true" @(a.Participate ? "checked" : string.Empty)> I would like to participate in this ceremony
+                        </div>
+                        <div class="checkbox__wrapper">
+                            <input type="radio" id="@string.Format(" ceremonyParticipations[{0}]_Cancel", a.Index)" name="@string.Format("ceremonyParticipations[{0}].Cancel", a.Index)" value="true" @(a.Cancel ? "checked" : string.Empty)> I would like to cancel this registration.  I understand that this will forfeit my tickets and if I change my mind I may not be able to receive the same amount of tickets.
+                        </div>
+                    </span>
+                    @Html.Hidden(string.Format("ceremonyParticipations[{0}].ParticipationId", a.Index), a.ParticipationId)
                 }
 
 
@@ -83,31 +88,44 @@
                     <tbody>
                     <tr>
                         <td><b>Date and Time:</b></td>
-                        <td>6/10/2017 <span class="discreet">*the time of your ceremony is not guaranteed</span></td>
+                        <td>@a.Ceremony.DateTime.ToString("g")<span class="discreet"> *the time of your ceremony is not guaranteed</span></td>
                     </tr>
                     <tr>
+                        @*<strong>Ticket Distribution:</strong>
+                        <% if (a.Ceremony.TicketDistributionMethods.Count > 0) { %>
+                        <%= this.RadioSet(string.Format("ceremonyParticipations[{0}].TicketDistributionMethod", a.Index)).Options(a.Ceremony.TicketDistributionMethods, x=>x.Id, x=>x.Name).Selected(a.TicketDistributionMethod != null ? a.TicketDistributionMethod.Id : (a.Ceremony.TicketDistributionMethods.Count == 1 ? a.Ceremony.TicketDistributionMethods.First().Id : string.Empty )).Class("radio_list") %>
+                        <% } else { %>
+                        Please consult the Dean's Office FAQ
+                        <% } %>*@
                         <td><b>Ticket Distribution:</b></td>
-                        <td>Electronic print</td>
+                        <td>
+                            @if (a.Ceremony.TicketDistributionMethods.Count > 0)
+                            {
+                                @Html.DropDownList(string.Format("ceremonyParticipations[{0}].TicketDistributionMethod", a.Index), new SelectList(a.Ceremony.TicketDistributionMethods, "id", "name", a.TicketDistributionMethod != null ? a.TicketDistributionMethod.Id : (a.Ceremony.TicketDistributionMethods.Count == 1 ? a.Ceremony.TicketDistributionMethods.First().Id : string.Empty)), "-- Select Ticket Type --")
+                            }
+                            else
+                            {
+                                <span>Please consult the Dean's Office FAQ</span>
+                            }
+
+                        </td>
                     </tr>
                     <tr>
                         <td><b>Major:</b></td>
-                        <td>
-                            <select>
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="mercedes">Mercedes</option>
-                                <option value="audi">Audi</option>
-                            </select>
+                        <td>                            
+                            @Html.DropDownList(string.Format("ceremonyParticipations[{0}].Major", a.Index), new SelectList(a.MajorCodes, "id", "MajorName", a.Major.MajorId))
                         </td>
                     </tr>
                     <tr>
                         <td><b>Tickets requested:</b></td>
                         <td>
-                            <select>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
+                            <select id="@string.Format(" ceremonyParticipations[{0}]_Tickets", a.Index)" name="@string.Format("ceremonyParticipations[{0}].Tickets", a.Index)" class="long" >
+
+                                <option value="">--Select # of Tickets--</option>
+
+                                @for (int i = 1; i <= a.Ceremony.TicketsPerStudent; i++) { 
+                                    <option value="@i" @( i == a.Tickets ? "selected=\"selected\"" : string.Empty)>@string.Format("{0:00}", i)</option>
+                                } 
                             </select>
                         </td>
                     </tr>

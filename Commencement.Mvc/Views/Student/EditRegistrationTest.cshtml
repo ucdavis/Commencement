@@ -66,10 +66,11 @@
         </div>
   
         <a href="" class="btn btn-18 btn-green">
-            <i class="fa fa-graduation-cap" aria-hidden="true"></i> Register for Commencement
+            <i class="fa fa-graduation-cap" aria-hidden="true"></i> Update Registration
         </a>
+        <a href="@Url.Action("DisplayRegistration")" class="btn btn-18 btn-blue">Cancel</a>       
 
-    </div>
+</div>
 </div>
     
 
@@ -81,14 +82,20 @@
             $("textarea.petition").jqEasyCounter({ 'maxChars': 500, 'maxCharsWarning': 550, 'msgAppendMethod': 'insertBefore', 'msgTextAlign': 'right' });
         });
     </script>
+    
+    <script type="text/javascript">
+        $(function () {
 
-    <style type="text/css">
-        .time_disclaimer {
-            font-style: italic;
-            color: grey;
-            margin-left: 20px;
-        }
-    </style>
+            $('input[type="radio"]').click(function () {
+                //$(this).parents("span.registration_form").find('input[type="radio"]').removeAttr("checked");
+                //$(this).attr("checked", "checked");
+                $(this).parents("span.registration_form").find('input[type="radio"]').prop("checked", false);
+                $(this).prop("checked", true);
+            });
+
+        });
+    </script>
+
     <script type="text/javascript">
         $(function () {
 
