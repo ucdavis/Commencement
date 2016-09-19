@@ -13,7 +13,7 @@ namespace Commencement.Controllers.ViewModels
         // Values for dropdowns
         public IEnumerable<State> States { get; set; }
         //public IEnumerable<CollegeCeremonyInfo> CollegeCeremonyInfos { get; set; }
-        public MultiSelectList SpecialNeeds { get; set; }
+        public MultiSelectList SpecialNeedsOld { get; set; }
         public IQueryable<vTermCode> FutureTerms { get; set; }
 
         public List<SpecialNeed> FullSpecialNeeds { get; set; }
@@ -46,11 +46,11 @@ namespace Commencement.Controllers.ViewModels
             viewModel.FullSpecialNeeds = specialNeeds;
             if (viewModel.Registration.Id != 0 && viewModel.Registration.SpecialNeeds != null)
             {
-                viewModel.SpecialNeeds = new MultiSelectList(specialNeeds, "Id", "Name", registration.SpecialNeeds.Select(a=>a.Id).ToList());
+                viewModel.SpecialNeedsOld = new MultiSelectList(specialNeeds, "Id", "Name", registration.SpecialNeeds.Select(a=>a.Id).ToList());
             }
             else
             {
-                viewModel.SpecialNeeds = new MultiSelectList(specialNeeds, "Id", "Name");
+                viewModel.SpecialNeedsOld = new MultiSelectList(specialNeeds, "Id", "Name");
             }
 
             var participations = new List<CeremonyParticipation>();

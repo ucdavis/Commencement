@@ -1,0 +1,22 @@
+﻿@using NHibernate.Util
+@model Commencement.Controllers.ViewModels.RegistrationModel
+    
+<div class="form__wrapper">
+    <form action="">
+        <div class="input__group">
+            @Html.DropDownList("SpecialNeeds", new SelectList(Model.FullSpecialNeeds, "Id", "Name", Model.Registration != null && Model.Registration.SpecialNeeds.FirstOrDefault() != null ? Model.Registration.SpecialNeeds.FirstOrDefault().Id.ToString() : string.Empty))
+        </div>
+    </form>
+</div>
+
+@foreach (var sn in Model.SpecialNeedsOld)
+{
+    var tip = Model.FullSpecialNeeds.FirstOrDefault(a => a.Id.ToString() == sn.Value);
+    var showTip = tip != null && Model.Registration != null && Model.Registration.SpecialNeeds.FirstOrDefault() != null && Model.Registration.SpecialNeeds.FirstOrDefault().Id == tip.Id ? string.Empty : "display: none";
+    <div id="special-needs-tip">        
+        @if (tip != null)
+        {
+            <div id="@(string.Format("SpecialNeed{0}", sn.Value))" class="alert alert-danger" style="@showTip">@tip.Tip</div>
+        }
+    </div>
+}

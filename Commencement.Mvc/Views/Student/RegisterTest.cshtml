@@ -71,20 +71,9 @@
         </div>
         <div class="register__section">
             <h2>Special Needs</h2>
-            <p>Please indicate any special needs you (personally) have that will affect your ability to participate in the ceremony (lining up, sitting, crossing the stage, etc.). For guest accomondations, please refer back to the <a href="#">UC Davis Commencement site.</a>
-            </p>
-            <div class="form__wrapper">
-                <form action="">
-                    <div class="input__group">
-                        <select>
-                            <option value="volvo">Volvo</option>
-                            <option value="saab">Saab</option>
-                            <option value="mercedes">Mercedes</option>
-                            <option value="audi">Audi</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
+            <p>Please indicate any special needs you (personally) have that will affect your ability to participate in the ceremony (lining up, sitting, crossing the stage, etc.). For guest accomondations, please refer back to the <a href="#">UC Davis Commencement site.</a></p>
+            @Html.Partial("_SpecialNeeds")
+            
         </div>
         <div class="register__section">
             <h2>Grad Images</h2>
@@ -165,6 +154,18 @@
                 }
             });
 
+        });
+    </script>
+    
+    <script type="text/javascript">
+        $(function () {
+            $("#SpecialNeeds").change(function () {
+                // hide all
+                $("#special-needs-tip div").hide();
+
+                var id = $(this).val();
+                $("#special-needs-tip div#SpecialNeed" + id).show();
+            });
         });
     </script>
 }
