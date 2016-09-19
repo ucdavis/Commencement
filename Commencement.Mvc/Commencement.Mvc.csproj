@@ -1344,6 +1344,7 @@
     <Content Include="Views\Student\RegisterTest.cshtml" />
     <Content Include="Views\Student\_StudentContactEdit.cshtml" />
     <Content Include="Views\Student\_StudentCeremonyEdit.cshtml" />
+    <Content Include="Views\Student\EditRegistrationTest.cshtml" />
     <None Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

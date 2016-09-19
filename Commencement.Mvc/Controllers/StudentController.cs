@@ -245,6 +245,29 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
+        [PageTrackingFilter]
+        public ActionResult EditRegistrationTest(int id)
+        {
+            var registration = _registrationRepository.GetNullableById(id);
+
+            var student = GetCurrentStudent();
+
+            if (registration == null || registration.Student != student)
+            {
+                Message = StaticValues.Student_No_Registration_Found;
+                return this.RedirectToAction(a => a.Index());
+            }
+            if (!registration.RegistrationParticipations.Any(a => a.Ceremony.CanRegister()))
+            {
+                return this.RedirectToAction<ErrorController>(a => a.NotOpen());
+            }
+
+            //Get student info and create registration model
+            var viewModel = RegistrationModel.Create(repository: Repository, ceremonies: GetEligibleCeremonies(student), student: student, registration: registration, edit: true);
+
+            return View(viewModel);
+        }
+
         /// <summary>
         /// #7
         /// </summary>

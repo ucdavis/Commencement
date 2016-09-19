@@ -32,29 +32,7 @@
         </div>
     </div>
 </div>
-<!-- <div class="progressbar">
-  <div class="progressbar__contents"> -->
-@*<ul class="stepbar">
-    <li class="active">Contact</li>
-    <li class="active">Ceremony</li>
-    <li>Special Needs</li>
-    <li>GradImages</li>
-    <li>Disclaimer</li>
-</ul>*@
 
-@if (Model.Participations.Any(a => a.Ceremony.IsPastPrintingDeadline()))
-{
-    <div class="alert alert-danger">
-        <p>Due to the late registration and printing deadlines we cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets allotted per person.</p>
-    </div>
-}
-
-@if (TermService.GetCurrent().RegistrationDeadline.Date < DateTime.Now.Date)
-{
-    <div class="alert alert-danger">
-        <p>The registration deadline has passed. You can petition but may not receive as many tickets.</p>
-    </div>
-}
 
 <!-- </div>
 </div> -->
@@ -86,42 +64,7 @@
                 </form>
             </div>
         </div>
-        <div class="register__section">
-            <h2>Grad Images</h2>
-            <p>
-                May we provide your information to GradImages? GradImages will use your information to provide you with your proof(s) after the ceremony. There is no obligation to purchase photos and your personal information will be used for the
-                delivery of proofs only. GradImages will not provide your information to any other entity, except for if required by law.
-            </p>
-            <div class="form__wrapper">
-                <form action="">
-                    <div class="checkbox__wrapper">
-                        <input type="checkbox"> I Authorize my information be provided to GradImages
-
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="register__section">
-            <h2>Legal Disclaimer</h2>
-            <p>
-                I agree to adhere to the University policy which prohibits the unlawful use, sale, distribution, dispensing, or possession of alcohol or of controlled substances by students on University premises and official University functions.
-                Students shall not use illegal substances or abuse legal substances in a manner that impairs scholarly activities or student life. (Adapted from UCDP&P Manual Chapter 380, Section 18) Students violating this policy may be excluded
-                from privileges and activities when there is reasonable cause to believe that their conduct 1) threatens the safety of themselves and others on University property or at University functions; and/or 2) disrupts the orderly operation
-                of the campus (Adapted from UC Board of Regents Policy on Student Conduct & Discipline).
-            </p>
-            <p>
-                Any student who is found selling tickets or in possession of counterfeit tickets will be dismissed from commencement and reported to Student Judicial Affairs.
-            </p>
-            <p>*Please share these policies with your family & friends attending.</p>
-            <div class="form__wrapper">
-                <form action="">
-                    <div class="checkbox__wrapper">
-                        <input type="checkbox"> I Agree
-
-                    </div>
-                </form>
-            </div>
-        </div>
+  
         <a href="" class="btn btn-18 btn-green">
             <i class="fa fa-graduation-cap" aria-hidden="true"></i> Register for Commencement
         </a>

@@ -570,6 +570,7 @@ input[type="button"].button-primary:focus {
       .progressbar .progressbar__contents {
         width: 90%; } }
 
+
 .register {
   margin-top: 40px; }
   .register .register__section {
@@ -577,7 +578,7 @@ input[type="button"].button-primary:focus {
     padding-bottom: 75px;
     margin-bottom: 45px;
     border-bottom: 1px solid #C8C7CC;
-    width: 60%; }
+    width: 80%; }
     @media (max-width: 750px) {
       .register .register__section {
         width: 100%; } }
@@ -585,7 +586,9 @@ input[type="button"].button-primary:focus {
       border-bottom: 0px solid #C8C7CC; }
 
 .ceremony {
-  border: 1px solid #C8C7CC; }
+  border: 1px solid #C8C7CC;
+    margin-bottom: 5px;
+}
   .ceremony h2 {
     color: #fff;
     font-weight: 600;
@@ -597,13 +600,22 @@ input[type="button"].button-primary:focus {
     padding-bottom: 4px;
     margin: -1px; }
   .ceremony table tr td {
-    font-size: 1.6rem; }
+    font-size: 1.6rem;
+      padding: 10px;
+  }
     .ceremony table tr td:first-child {
-      padding-right: 30px; }
+      padding-right: 30px; 
+    }
   .ceremony .ceremony__wrapper {
     padding: 15px; }
 
 .checkbox__wrapper {
+  background-color: #F0F0F0;
+  padding: 15px;
+  font-size: 1.6rem;
+  font-family: "proxima-nova", arial, sans-serif; }
+
+.petition__wrapper {
   background-color: #F0F0F0;
   padding: 15px;
   font-size: 1.6rem;
@@ -667,6 +679,10 @@ input[type="button"].button-primary:focus {
 
 .stepbar li.active + li:after {
   background-color: #78be20; }
+
+.jqEasyCounterMsg {
+    width: inherit !important;
+}
 
 
 /* Validation styles copied from main.css */
