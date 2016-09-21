@@ -14,148 +14,155 @@
         <img src="@Url.Content("~/Images/Media/commencement_welcome.svg")"alt="">
     </div>
 </div>
-<div class="studentbar">
-    <div class="studentbar__contents">
-        <div class="studentbar--item">
-            <p><b>Name:</b> @Model.Student.FullName</p>
-        </div>
-        <div class="studentbar--item">
-            <p><b>Email:</b> @Model.Student.Email</p>
-        </div>
-        <div class="studentbar--item">
-            <p><b>Student ID:</b> @Model.Student.StudentId</p>
-        </div>
-        <div class="studentbar--item">
-            <p><b>Units:</b> @Model.Student.TotalUnits</p>
-        </div>
-        <div class="studentbar--item">
-            <p><b>Major(s):</b> @Model.Student.ActualStrMajors</p>
+
+@using (Html.BeginForm("RegisterTest", "Student"))
+{
+    @Html.AntiForgeryToken()
+    <div class="studentbar">
+        <div class="studentbar__contents">
+            <div class="studentbar--item">
+                <p><b>Name:</b> @Model.Student.FullName</p>
+            </div>
+            <div class="studentbar--item">
+                <p><b>Email:</b> @Model.Student.Email</p>
+            </div>
+            <div class="studentbar--item">
+                <p><b>Student ID:</b> @Model.Student.StudentId</p>
+            </div>
+            <div class="studentbar--item">
+                <p><b>Units:</b> @Model.Student.TotalUnits</p>
+            </div>
+            <div class="studentbar--item">
+                <p><b>Major(s):</b> @Model.Student.ActualStrMajors</p>
+            </div>
         </div>
     </div>
-</div>
-<!-- <div class="progressbar">
-  <div class="progressbar__contents"> -->
-@*<ul class="stepbar">
-    <li class="active">Contact</li>
-    <li class="active">Ceremony</li>
-    <li>Special Needs</li>
-    <li>GradImages</li>
-    <li>Disclaimer</li>
-</ul>*@
 
-@if (Model.Participations.Any(a => a.Ceremony.IsPastPrintingDeadline()))
-{
-    <div class="alert alert-danger">
-        <p>Due to the late registration and printing deadlines we cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets allotted per person.</p>
+
+    if (Model.Participations.Any(a => a.Ceremony.IsPastPrintingDeadline()))
+    {
+        <div class="alert alert-danger">
+            <p>Due to the late registration and printing deadlines we cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets allotted per person.</p>
+        </div>
+    }
+
+    if (TermService.GetCurrent().RegistrationDeadline.Date < DateTime.Now.Date)
+    {
+        <div class="alert alert-danger">
+            <p>The registration deadline has passed. You can petition but may not receive as many tickets.</p>
+        </div>
+    }
+
+    <div class="main">
+        <div class="main_contents">
+            <div class="register">
+                @Html.ValidationSummary("Please correct all errors below")
+
+                @Html.Partial("_StudentContactEdit")
+                <div class="register__section">
+                    <h2>Ceremony</h2>
+                    @Html.Partial("_StudentCeremonyEdit")
+
+                </div>
+                <div class="register__section">
+                    <h2>Special Needs</h2>
+                    @Html.Partial("_SpecialNeeds")
+
+                </div>
+                <div class="register__section">
+                    <h2>Grad Images</h2>
+                    <p>
+                        May we provide your information to GradImages? GradImages will use your information to provide you with your proof(s) after the ceremony. There is no obligation to purchase photos and your personal information will be used for the
+                        delivery of proofs only. GradImages will not provide your information to any other entity, except for if required by law.
+                    </p>
+                    <div class="form__wrapper">
+                        <form action="">
+                            <div class="checkbox__wrapper">
+                                <input id="gradTrack" name="gradTrack" type="checkbox" value="true"> I Authorize my information be provided to GradImages
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="register__section">
+                    <h2>Legal Disclaimer</h2>
+                    @Html.Raw(string.Format(StaticValues.Txt_Disclaimer))
+                    <div class="form__wrapper">
+                        <form action="">
+                            <div class="checkbox__wrapper">
+                                <input class="required" id="agreeToDisclaimer" name="agreeToDisclaimer" type="checkbox" value="true"> I Agree
+                                @Html.ValidationMessage("agreeToDisclaimer")
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-18 btn-green"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Register for Commencement </button>
+            </div>
+        </div>
     </div>
 }
 
-@if (TermService.GetCurrent().RegistrationDeadline.Date < DateTime.Now.Date)
-{
-    <div class="alert alert-danger">
-        <p>The registration deadline has passed. You can petition but may not receive as many tickets.</p>
-    </div>
-}
+        
 
-<!-- </div>
-</div> -->
-<div class="main">
-<div class="main_contents">    
-    <div class="register">
-        @Html.ValidationSummary("Please correct all errors below")
-
-        @Html.Partial("_StudentContactEdit")
-        <div class="register__section">            
-            <h2>Ceremony</h2>
-            @Html.Partial("_StudentCeremonyEdit")
-
-        </div>
-        <div class="register__section">
-            <h2>Special Needs</h2>            
-            @Html.Partial("_SpecialNeeds")
-            
-        </div>
-        <div class="register__section">
-            <h2>Grad Images</h2>
-            <p>
-                May we provide your information to GradImages? GradImages will use your information to provide you with your proof(s) after the ceremony. There is no obligation to purchase photos and your personal information will be used for the
-                delivery of proofs only. GradImages will not provide your information to any other entity, except for if required by law.
-            </p>
-            <div class="form__wrapper">
-                <form action="">
-                    <div class="checkbox__wrapper">
-                        <input id="gradTrack" name="gradTrack" type="checkbox" value="true"> I Authorize my information be provided to GradImages
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="register__section">
-            <h2>Legal Disclaimer</h2>
-                @Html.Raw(string.Format(StaticValues.Txt_Disclaimer))
-            <div class="form__wrapper">
-                <form action="">
-                    <div class="checkbox__wrapper">
-                        <input id="agreeToDisclaimer" name="agreeToDisclaimer" type="checkbox" value="true"> I Agree
-
-                    </div>
-                </form>
-            </div>
-        </div>
-        <a href="" class="btn btn-18 btn-green">
-            <i class="fa fa-graduation-cap" aria-hidden="true"></i> Register for Commencement
-        </a>
-
-    </div>
-</div>
-    
 
 @section AdditionalScripts
 {
     @Scripts.Render("~/bundles/easycounter")
+    @Scripts.Render("~/bundles/jqueryval")   
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/mvc/4.0/jquery.validate.unobtrusive.min.js"></script>
+    
+    @*TODO: Fix jquery multiple loads. page validate isn't working would these*@
     <script>
-        $(function () {
-            $("textarea.petition").jqEasyCounter({ 'maxChars': 500, 'maxCharsWarning': 550, 'msgAppendMethod': 'insertBefore', 'msgTextAlign': 'right' });
+        $(function() {
+            $("textarea.petition")
+                .jqEasyCounter({
+                    'maxChars': 500,
+                    'maxCharsWarning': 550,
+                    'msgAppendMethod': 'insertBefore',
+                    'msgTextAlign': 'right'
+                });
         });
     </script>
 
     <script type="text/javascript">
-        $(function () {
+        $(function() {
 
             // list of davis zip codes
             var zips = ['95616', '95617', '95618'];
 
-            $('#Registration_City, #Registration_Zip').blur(function () {
-                var city = $('#Registration_City').val().toLowerCase();
-                var zip = $('#Registration_Zip').val();
+            $('#Registration_City, #Registration_Zip')
+                .blur(function() {
+                    var city = $('#Registration_City').val().toLowerCase();
+                    var zip = $('#Registration_Zip').val();
 
-                if (city == "" || zip == "") return false;
+                    if (city == "" || zip == "") return false;
 
-                var isdavisZip = $.inArray(zip, zips) >= 0;
-                var isdavisCity = city == 'davis';
+                    var isdavisZip = $.inArray(zip, zips) >= 0;
+                    var isdavisCity = city == 'davis';
 
-                // davis zip is entered, ask if they want the city to be updated to davis
-                if (isdavisZip && !isdavisCity) {
-                    if (confirm("Would you like to update the city to davis?")) {
-                        $("#Registration_City").val("Davis");
+                    // davis zip is entered, ask if they want the city to be updated to davis
+                    if (isdavisZip && !isdavisCity) {
+                        if (confirm("Would you like to update the city to davis?")) {
+                            $("#Registration_City").val("Davis");
+                        }
                     }
-                }
-                if (isdavisCity && !isdavisZip) {
-                    alert("Your zip code does not appear to be a davis zip code.");
-                }
-            });
+                    if (isdavisCity && !isdavisZip) {
+                        alert("Your zip code does not appear to be a davis zip code.");
+                    }
+                });
 
         });
     </script>
-    
-    <script type="text/javascript">
-        $(function () {
-            $("#SpecialNeeds").change(function () {
-                // hide all
-                $("#special-needs-tip div").hide();
 
-                var id = $(this).val();
-                $("#special-needs-tip div#SpecialNeed" + id).show();
-            });
+    <script type="text/javascript">
+        $(function() {
+            $("#SpecialNeeds")
+                .change(function() {
+                    // hide all
+                    $("#special-needs-tip div").hide();
+
+                    var id = $(this).val();
+                    $("#special-needs-tip div#SpecialNeed" + id).show();
+                });
         });
     </script>
 }

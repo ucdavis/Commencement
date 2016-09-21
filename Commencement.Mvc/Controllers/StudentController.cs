@@ -115,6 +115,75 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        public ActionResult RegisterTest(RegistrationPostModel registrationModel)
+        {
+            ModelState.Clear();
+
+            var student = GetCurrentStudent();
+
+            if (student == null) return this.RedirectToAction<AdminController>(a => a.Students(null, null, null, null, null));
+
+            // validate they can register, also checks for duplicate registrations
+            var redirect = CheckStudentForRegistration();
+            if (redirect != null) return redirect;
+
+            var registration = _registrationPopulator.PopulateRegistration(registrationModel, student, ModelState);
+
+            registration.TransferValidationMessagesTo(ModelState);
+
+            if (!registrationModel.AgreeToDisclaimer) ModelState.AddModelError("agreeToDisclaimer", StaticValues.Student_agree_to_disclaimer);
+            if (registration.RegistrationPetitions.Any(a => string.IsNullOrWhiteSpace(a.ExceptionReason))) ModelState.AddModelError("Exception Reason", "Exception/Petition reason is required.");
+
+            if (ModelState.IsValid)
+            {
+                if (registration.RegistrationParticipations.Count > 0 || registration.RegistrationPetitions.Count > 0)
+                {
+                    // save registration
+                    //_registrationRepository.EnsurePersistent(registration);
+
+                    if (registration.RegistrationParticipations.Count > 0)
+                    {
+                        try
+                        {
+                            // add email for registration into queue
+                            //_emailService.QueueRegistrationConfirmation(registration);
+                        }
+                        catch (Exception ex)
+                        {
+                            _errorService.ReportError(ex);
+                            Message += StaticValues.Student_Email_Problem;
+                        }
+                        Message += StaticValues.Student_Register_Successful;
+                    }
+
+                    if (registration.RegistrationPetitions.Count > 0)
+                    {
+                        try
+                        {
+                            //_emailService.QueueRegistrationPetition(registration);
+                        }
+                        catch (Exception ex)
+                        {
+                            _errorService.ReportError(ex);
+                            Message += StaticValues.Student_Email_Problem;
+                        }
+                        Message += StaticValues.Student_RegistrationPetition_Successful;
+                    }
+
+                    // redirect to exit survey if needed
+                    var surveyRedirect = SurveyRedirector(registration);
+                    if (surveyRedirect != null) return surveyRedirect;
+                }
+
+                // exit survey not specified, just display the registration
+                return this.RedirectToAction(a => a.DisplayRegistration());
+            }
+
+            var viewModel = RegistrationModel.Create(repository: Repository, ceremonies: GetEligibleCeremonies(student), student: student, ceremonyParticipations: registrationModel.CeremonyParticipations, registration: registration);
+            return View(viewModel);
+        }
+
         /// <summary>
         /// #4
         /// </summary>
@@ -267,6 +336,53 @@ namespace Commencement.Controllers
 
             return View(viewModel);
         }
+        //[HttpPost]
+        //public ActionResult EditRegistrationTest(int id /* Registration Id */, RegistrationPostModel registrationPostModel)
+        //{
+        //    ModelState.Clear();
+        //    var registrationToEdit = _registrationRepository.GetNullableById(id);
+        //    var student = GetCurrentStudent();
+
+        //    if (registrationToEdit == null || registrationToEdit.Student != student)
+        //    {
+        //        Message = StaticValues.Student_No_Registration_Found;
+        //        return this.RedirectToAction(a => a.Index());
+        //    }
+        //    if (!registrationToEdit.RegistrationParticipations.Any(a => a.Ceremony.CanRegister()))
+        //    {
+        //        return this.RedirectToAction<ErrorController>(a => a.NotOpen());
+        //    }
+
+        //    //TODO: Should probably check if this is changed to a petition and if so, required fields are completed (Look at Register above)
+
+        //    _registrationPopulator.UpdateRegistration(registrationToEdit, registrationPostModel, student, ModelState);
+
+        //    registrationToEdit.TransferValidationMessagesTo(ModelState);
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        //Save the registration
+        //        //_registrationRepository.EnsurePersistent(registrationToEdit); //DEBUG, don't save
+
+        //        Message = StaticValues.Student_Register_Edit_Successful;
+
+        //        try
+        //        {
+        //            _emailService.QueueRegistrationConfirmation(registrationToEdit);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            _errorService.ReportError(ex);
+        //            Message += StaticValues.Student_Email_Problem;
+        //        }
+
+        //        //return this.RedirectToAction(x => x.RegistrationConfirmation(registrationToEdit.Id, null));
+        //        return this.RedirectToAction(a => a.DisplayRegistration());
+        //    }
+
+        //    var viewModel = RegistrationModel.Create(repository: Repository, ceremonies: GetEligibleCeremonies(student), student: student, registration: registrationToEdit, edit: true);
+        //    return View(viewModel);
+        //}
 
         /// <summary>
         /// #7
