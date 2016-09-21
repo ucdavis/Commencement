@@ -1,4 +1,5 @@
 ﻿@using Commencement.Controllers.Services
+@using Commencement.Core.Resources
 @model Commencement.Controllers.ViewModels.RegistrationModel
 @{
     ViewBag.Title = "RegisterTest";
@@ -90,20 +91,11 @@
         </div>
         <div class="register__section">
             <h2>Legal Disclaimer</h2>
-            <p>
-                I agree to adhere to the University policy which prohibits the unlawful use, sale, distribution, dispensing, or possession of alcohol or of controlled substances by students on University premises and official University functions.
-                Students shall not use illegal substances or abuse legal substances in a manner that impairs scholarly activities or student life. (Adapted from UCDP&P Manual Chapter 380, Section 18) Students violating this policy may be excluded
-                from privileges and activities when there is reasonable cause to believe that their conduct 1) threatens the safety of themselves and others on University property or at University functions; and/or 2) disrupts the orderly operation
-                of the campus (Adapted from UC Board of Regents Policy on Student Conduct & Discipline).
-            </p>
-            <p>
-                Any student who is found selling tickets or in possession of counterfeit tickets will be dismissed from commencement and reported to Student Judicial Affairs.
-            </p>
-            <p>*Please share these policies with your family & friends attending.</p>
+                @Html.Raw(string.Format(StaticValues.Txt_Disclaimer))
             <div class="form__wrapper">
                 <form action="">
                     <div class="checkbox__wrapper">
-                        <input type="checkbox"> I Agree
+                        <input id="agreeToDisclaimer" name="agreeToDisclaimer" type="checkbox" value="true"> I Agree
 
                     </div>
                 </form>
