@@ -40,26 +40,26 @@
                 {
                     <div class="petition__wrapper">
                         <div class="">
-                            <input id="@string.Format("ceremonyParticipations[{0}]_Petition", a.Index)" name="@string.Format("ceremonyParticipations[{0}].Petition", a.Index)" type="checkbox" value="true" @(a.Petition ? "checked" : string.Empty)> I would like to petition for this ceremony
+                            <input id="@string.Format("CeremonyParticipations[{0}]_Petition", a.Index)" name="@string.Format("CeremonyParticipations[{0}].Petition", a.Index)" type="checkbox" value="true" @(a.Petition ? "checked" : string.Empty)> I would like to petition for this ceremony
                         </div>
                         <div class="input__group">
                             <label class="pull-left">Petition Reason</label>
-                            <textarea style="width: 100%" type="text" id="@string.Format("ceremonyParticipations[{0}]_PetitionReason", a.Index)" name="@string.Format("ceremonyParticipations[{0}].PetitionReason", a.Index)" rows="4" class="petition">@a.PetitionReason</textarea>
+                            <textarea style="width: 100%" type="text" id="@string.Format("CeremonyParticipations[{0}]_PetitionReason", a.Index)" name="@string.Format("CeremonyParticipations[{0}].PetitionReason", a.Index)" rows="4" class="petition">@a.PetitionReason</textarea>
                         </div>
                         <div class="input__group">
                             <label>Transfer College</label>
-                            <input type="text" id="@string.Format(" ceremonyParticipations[{0}]_TransferCollege", a.Index)" name="@string.Format("ceremonyParticipations[{0}].TransferCollege", a.Index)" value="@a.TransferCollege" maxlength="100" />
+                            <input type="text" id="@string.Format("CeremonyParticipations[{0}]_TransferCollege", a.Index)" name="@string.Format("CeremonyParticipations[{0}].TransferCollege", a.Index)" value="@a.TransferCollege" maxlength="100" />
                         </div>
                         <div class="input__group">
                             <label>Transfer Units</label>
-                            <input type="text" id="@string.Format(" ceremonyParticipations[{0}]_TransferUnits", a.Index)" name="@string.Format("ceremonyParticipations[{0}].TransferUnits", a.Index)" value="@a.TransferUnits" maxlength="5" />
+                            <input type="text" id="@string.Format("CeremonyParticipations[{0}]_TransferUnits", a.Index)" name="@string.Format("CeremonyParticipations[{0}].TransferUnits", a.Index)" value="@a.TransferUnits" maxlength="5" />
                         </div>
                     </div>
                 }
                 else if (!a.Edit)
                 {
                     <div class="checkbox__wrapper">
-                        <input id="@string.Format("ceremonyParticipations[{0}]_Participate", a.Index)" name="@string.Format("ceremonyParticipations[{0}].Participate", a.Index)" type="checkbox" value="true" @(a.Participate ? "checked" : string.Empty)> I would like to participate in this ceremony
+                        <input id="@string.Format("CeremonyParticipations[{0}]_Participate", a.Index)" name="@string.Format("CeremonyParticipations[{0}].Participate", a.Index)" type="checkbox" value="true" @(a.Participate ? "checked" : string.Empty)> I would like to participate in this ceremony
                     </div>
                 }
                 else
@@ -74,13 +74,13 @@
                     </li>*@
                     <span class="registration_form">
                         <div class="checkbox__wrapper">
-                            <input type="radio" id="@string.Format(" ceremonyParticipations[{0}]_Participate", a.Index)" name="@string.Format("ceremonyParticipations[{0}].Participate", a.Index)" value="true" @(a.Participate ? "checked" : string.Empty)> I would like to participate in this ceremony
+                            <input type="radio" id="@string.Format("CeremonyParticipations[{0}]_Participate", a.Index)" name="@string.Format("CeremonyParticipations[{0}].Participate", a.Index)" value="true" @(a.Participate ? "checked" : string.Empty)> I would like to participate in this ceremony
                         </div>
                         <div class="checkbox__wrapper">
-                            <input type="radio" id="@string.Format(" ceremonyParticipations[{0}]_Cancel", a.Index)" name="@string.Format("ceremonyParticipations[{0}].Cancel", a.Index)" value="true" @(a.Cancel ? "checked" : string.Empty)> I would like to cancel this registration.  I understand that this will forfeit my tickets and if I change my mind I may not be able to receive the same amount of tickets.
+                            <input type="radio" id="@string.Format("CeremonyParticipations[{0}]_Cancel", a.Index)" name="@string.Format("CeremonyParticipations[{0}].Cancel", a.Index)" value="true" @(a.Cancel ? "checked" : string.Empty)> I would like to cancel this registration.  I understand that this will forfeit my tickets and if I change my mind I may not be able to receive the same amount of tickets.
                         </div>
                     </span>
-                    @Html.Hidden(string.Format("ceremonyParticipations[{0}].ParticipationId", a.Index), a.ParticipationId)
+                    @Html.Hidden(string.Format("CeremonyParticipations[{0}].ParticipationId", a.Index), a.ParticipationId)
                 }
 
 

@@ -15,7 +15,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm("RegisterTest", "Student"))
+@using (Html.BeginForm("RegisterTest", "Student", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     <div class="studentbar">
@@ -90,7 +90,7 @@
                         <form action="">
                             <div class="checkbox__wrapper">
                                 <input class="required" id="agreeToDisclaimer" name="agreeToDisclaimer" type="checkbox" value="true"> I Agree
-                                @Html.ValidationMessage("agreeToDisclaimer")
+                                @Html.ValidationMessage("AgreeToDisclaimer")
                             </div>
                         </form>
                     </div>
