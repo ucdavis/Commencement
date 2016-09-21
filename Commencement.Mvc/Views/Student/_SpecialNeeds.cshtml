@@ -5,7 +5,7 @@
 <div class="form__wrapper">
     <form action="">
         <div class="input__group">
-            @Html.DropDownList("SpecialNeeds", new SelectList(Model.FullSpecialNeeds, "Id", "Name", Model.Registration != null && Model.Registration.SpecialNeeds.FirstOrDefault() != null ? Model.Registration.SpecialNeeds.FirstOrDefault().Id.ToString() : string.Empty))
+            @Html.DropDownList("SpecialNeeds", new SelectList(Model.FullSpecialNeeds, "Id", "Name", Model.Registration != null && Model.Registration.SpecialNeeds.FirstOrDefault() != null ? Model.Registration.SpecialNeeds.FirstOrDefault().Id.ToString() : string.Empty), "--Special Needs Request--")
         </div>
     </form>
 </div>
