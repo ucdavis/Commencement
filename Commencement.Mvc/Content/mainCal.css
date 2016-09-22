@@ -319,7 +319,7 @@ img {
     margin-left: 52%; } }
 /* Buttons
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-.button,
+/*.button,
 button,
 input[type="submit"],
 input[type="reset"],
@@ -340,7 +340,7 @@ input[type="button"] {
   border-radius: 4px;
   border: 1px solid #bbb;
   cursor: pointer;
-  box-sizing: border-box; }
+  box-sizing: border-box; }*/
 
 .button:hover,
 button:hover,
@@ -537,7 +537,9 @@ input[type="button"].button-primary:focus {
 
 .studentbar {
   background-color: #002855;
-  padding: 10px 0px; }
+  padding: 10px 0px;
+    margin-bottom: 20px;
+}
   .studentbar .studentbar__contents {
     display: flex;
     justify-content: space-between;
@@ -568,6 +570,7 @@ input[type="button"].button-primary:focus {
       .progressbar .progressbar__contents {
         width: 90%; } }
 
+
 .register {
   margin-top: 40px; }
   .register .register__section {
@@ -575,7 +578,7 @@ input[type="button"].button-primary:focus {
     padding-bottom: 75px;
     margin-bottom: 45px;
     border-bottom: 1px solid #C8C7CC;
-    width: 60%; }
+    width: 80%; }
     @media (max-width: 750px) {
       .register .register__section {
         width: 100%; } }
@@ -583,7 +586,9 @@ input[type="button"].button-primary:focus {
       border-bottom: 0px solid #C8C7CC; }
 
 .ceremony {
-  border: 1px solid #C8C7CC; }
+  border: 1px solid #C8C7CC;
+    margin-bottom: 5px;
+}
   .ceremony h2 {
     color: #fff;
     font-weight: 600;
@@ -595,13 +600,22 @@ input[type="button"].button-primary:focus {
     padding-bottom: 4px;
     margin: -1px; }
   .ceremony table tr td {
-    font-size: 1.6rem; }
+    font-size: 1.6rem;
+      padding: 10px;
+  }
     .ceremony table tr td:first-child {
-      padding-right: 30px; }
+      padding-right: 30px; 
+    }
   .ceremony .ceremony__wrapper {
     padding: 15px; }
 
 .checkbox__wrapper {
+  background-color: #F0F0F0;
+  padding: 15px;
+  font-size: 1.6rem;
+  font-family: "proxima-nova", arial, sans-serif; }
+
+.petition__wrapper {
   background-color: #F0F0F0;
   padding: 15px;
   font-size: 1.6rem;
@@ -665,3 +679,24 @@ input[type="button"].button-primary:focus {
 
 .stepbar li.active + li:after {
   background-color: #78be20; }
+
+.jqEasyCounterMsg {
+    width: inherit !important;
+}
+
+
+/* Validation styles copied from main.css */
+.validation-summary-valid { display:none; }
+.validation-summary-errors { color: red; }
+.validation-summary-errors ul li { color: red; }
+fieldset { padding: 1em;margin: 1em 0;}
+fieldset legend {border: 1px solid black; padding: .25em 1em;background-color: #00497b;color: white;font-weight: bold;}
+fieldset legend a { color: white;}
+
+.registration_form li{list-style:none; margin-left:1em; margin-top:0.25em;min-height: 32px;}
+.prefilled span {color:#333;}
+.registration_form input {}
+.registration_form li strong {width:200px; display:inline-block;}
+.registration_form li strong span, span.required { color: red;margin-left: 5px}
+.field-validation-error { color: red;margin-left: 1em;}
+.input-validation-error { border: 1px solid red; }

@@ -2,12 +2,12 @@
 
 <ul class="registration_form">
     <li><strong>&nbsp;</strong>
-        <%= this.Select("SpecialNeeds").Options(Model.SpecialNeeds).FirstOption("--Special Needs Request--") %>    
+        <%= this.Select("SpecialNeeds").Options(Model.SpecialNeedsOld).FirstOption("--Special Needs Request--") %>    
     </li>
 </ul>
 
 <div id="sn-disclaimers" style="margin: 1em; color: red;">
-    <% foreach (var sn in Model.SpecialNeeds)
+    <% foreach (var sn in Model.SpecialNeedsOld)
        { var tip = Model.FullSpecialNeeds.FirstOrDefault(a => a.Id.ToString() == sn.Value);
           
            if (tip != null)

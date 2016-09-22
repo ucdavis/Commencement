@@ -1257,14 +1257,12 @@
     <Content Include="Views\EmailQueue\Details.aspx" />
     <Content Include="Views\EmailQueue\EmailStudents.aspx" />
     <Content Include="Views\EmailQueue\Index.aspx" />
-    <Content Include="Views\Error\CeremonyOver.aspx" />
-    <Content Include="Views\Error\Index.aspx" />
-    <Content Include="Views\Error\NotEligible.aspx" />
-    <Content Include="Views\Error\NotFound.aspx" />
-    <Content Include="Views\Error\NotOpen.aspx" />
-    <Content Include="Views\Error\PreviouslyWalked.aspx" />
-    <Content Include="Views\Error\SJA.aspx" />
-    <Content Include="Views\Error\UnauthorizedAccess.aspx" />
+    <None Include="Views\Error\CeremonyOver.cshtml" />
+    <None Include="Views\Error\Index.cshtml" />
+    <None Include="Views\Error\NotFound.cshtml" />
+    <None Include="Views\Error\NotOpen.cshtml" />
+    <None Include="Views\Error\PreviouslyWalked.cshtml" />
+    <None Include="Views\Error\UnauthorizedAccess.cshtml" />
     <Content Include="Views\MajorCode\Add.aspx" />
     <Content Include="Views\MajorCode\Index.aspx" />
     <Content Include="Views\Petition\ExtraTicketPetition.aspx" />
@@ -1295,8 +1293,8 @@
     <Content Include="Views\Student\CancelRegistrationPetition.aspx" />
     <Content Include="Views\Student\CancelVisaLetterRequest.aspx" />
     <Content Include="Views\Student\DisplayRegistration.aspx" />
-    <Content Include="Views\Student\EditRegistration.aspx" />
-    <Content Include="Views\Student\Register.aspx" />
+    <Content Include="Views\Student\EditRegistrationOld.aspx" />
+    <Content Include="Views\Student\RegisterOld.aspx" />
     <Content Include="Views\Student\RequestVisaLetter.aspx" />
     <Content Include="Views\Student\VisaLetterDetails.aspx" />
     <Content Include="Views\Student\VisaLetterDetailsPartial.ascx" />
@@ -1325,7 +1323,9 @@
     <Content Include="Views\TransferRequest\Index.aspx" />
     <Content Include="Views\TransferRequest\MajorList.aspx" />
     <Content Include="Views\TransferRequest\Review.aspx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -1339,6 +1339,13 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_LogonPartial.cshtml" />
+    <Content Include="Views\Student\Register.cshtml" />
+    <Content Include="Views\Student\_StudentContactEdit.cshtml" />
+    <Content Include="Views\Student\_StudentCeremonyEdit.cshtml" />
+    <Content Include="Views\Student\EditRegistration.cshtml" />
+    <Content Include="Views\Student\_SpecialNeeds.cshtml" />
+    <Content Include="Views\Error\SJA.cshtml" />
+    <Content Include="Views\Error\NotEligible.cshtml" />
     <None Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
