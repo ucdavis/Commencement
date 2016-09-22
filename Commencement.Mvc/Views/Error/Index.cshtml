@@ -1,0 +1,23 @@
+@{
+    ViewBag.Title = "Unknown Error";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="pull-right">
+    @Html.Partial("_LogonPartial")
+</div>
+
+<div class="banner banner--register">
+    <div class="banner_contents">
+        <img src="@Url.Content("~/Images/Media/commencement_welcome.svg")" alt="">
+    </div>
+</div>
+
+<div class="main">
+    <div class="main_contents">
+        <h2>Unknown Error</h2>
+
+        <p>An unknown error has occurred. IT has been notified of the issue.</p>
+    </div>
+</div>
+

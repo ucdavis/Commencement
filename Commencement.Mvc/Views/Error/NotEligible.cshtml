@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Not Eligible";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="pull-right">
+    @Html.Partial("_LogonPartial")
+</div>
+
+<div class="banner banner--register">
+    <div class="banner_contents">
+        <img src="@Url.Content("~/Images/Media/commencement_welcome.svg")" alt="">
+    </div>
+</div>
+
+<div class="main">
+    <div class="main_contents">
+        <h2>Error - Not Eligible</h2>
+
+        <p>According to our records you are not eligible for registration for commencement with this system. Please refer to <a href="http://commencement.ucdavis.edu">http://commencement.ucdavis.edu</a> for more information.</p>
+
+    </div>
+</div>
