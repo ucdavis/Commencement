@@ -5,45 +5,42 @@
 <div class="register__section">
     <h2>Contact Information</h2>
     <div class="form__wrapper">
-        <form action="">
-            <div class="input__group">
-                <label>Address Line 1</label>
-                @Html.TextBoxFor(a => a.Registration.Address1, new {PlaceHolder = "Address Line 1", maxlength = 200 })
-                @Html.ValidationMessageFor(x=>x.Registration.Address1)
-            </div>
-            <div class="input__group">
-                <label>Address Line 2</label>
-                @Html.TextBoxFor(a => a.Registration.Address2, new { PlaceHolder = "Address Line 2", maxlength = 200 })
-                @Html.ValidationMessageFor(x => x.Registration.Address2)
-            </div>
-            <div class="input__group">
-                <label>City</label>
-                @Html.TextBoxFor(a => a.Registration.City, new { PlaceHolder = "City", maxlength = 100 })
-                @Html.ValidationMessageFor(x => x.Registration.City)
-            </div>
-            <div class="input__group">
-                <label>State</label>
-                @Html.DropDownListFor(a => a.Registration.State, new SelectList(Model.States, "id", "name", "CA"))
+        <div class="input__group">
+            <label>Address Line 1</label>
+            @Html.TextBoxFor(a => a.Registration.Address1, new {PlaceHolder = "Address Line 1", maxlength = 200 })
+            @Html.ValidationMessageFor(x=>x.Registration.Address1)
+        </div>
+        <div class="input__group">
+            <label>Address Line 2</label>
+            @Html.TextBoxFor(a => a.Registration.Address2, new { PlaceHolder = "Address Line 2", maxlength = 200 })
+            @Html.ValidationMessageFor(x => x.Registration.Address2)
+        </div>
+        <div class="input__group">
+            <label>City</label>
+            @Html.TextBoxFor(a => a.Registration.City, new { PlaceHolder = "City", maxlength = 100 })
+            @Html.ValidationMessageFor(x => x.Registration.City)
+        </div>
+        <div class="input__group">
+            <label>State</label>
+            @Html.DropDownListFor(a => a.Registration.State, new SelectList(Model.States, "id", "name", "CA"))
 
-            </div>
-            <div class="input__group">
-                <label>Zip Code</label>
-                @Html.TextBoxFor(x => x.Registration.Zip, new { placeholder = "Zip Code", maxlength = 15, size = 5 })
-                @Html.ValidationMessageFor(x => x.Registration.Zip)
-            </div>
-            <div class="input__group">
-                <label>Additional Recipients Email</label>
-                @Html.TextBoxFor(x => x.Registration.Email, new { placeholder = "Additional Recipients Email", maxlength = 100 })
-                @Html.ValidationMessageFor(x => x.Registration.Email)
-                <div>You can list a family member or others email address to receive copies of all your commencement email notifications.</div>
-            </div>
-            <div class="input__group">
-                <label>How To Say Your Name Phonetically</label>
-                @Html.TextBoxFor(x => x.Registration.Phonetic, new { placeholder = "Phonetic Pronunciation", maxlength = 150 })
-                @Html.ValidationMessageFor(x => x.Registration.Phonetic)
-            </div>
-
-        </form>
+        </div>
+        <div class="input__group">
+            <label>Zip Code</label>
+            @Html.TextBoxFor(x => x.Registration.Zip, new { placeholder = "Zip Code", maxlength = 15, size = 5 })
+            @Html.ValidationMessageFor(x => x.Registration.Zip)
+        </div>
+        <div class="input__group">
+            <label>Additional Recipients Email</label>
+            @Html.TextBoxFor(x => x.Registration.Email, new { placeholder = "Additional Recipients Email", maxlength = 100 })
+            @Html.ValidationMessageFor(x => x.Registration.Email)
+            <div>You can list a family member or others email address to receive copies of all your commencement email notifications.</div>
+        </div>
+        <div class="input__group">
+            <label>How To Say Your Name Phonetically</label>
+            @Html.TextBoxFor(x => x.Registration.Phonetic, new { placeholder = "Phonetic Pronunciation", maxlength = 150 })
+            @Html.ValidationMessageFor(x => x.Registration.Phonetic)
+        </div>
     </div>
 </div>
 

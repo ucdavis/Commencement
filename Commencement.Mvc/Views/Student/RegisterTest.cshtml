@@ -15,48 +15,49 @@
     </div>
 </div>
 
+
+<div class="studentbar">
+    <div class="studentbar__contents">
+        <div class="studentbar--item">
+            <p><b>Name:</b> @Model.Student.FullName</p>
+        </div>
+        <div class="studentbar--item">
+            <p><b>Email:</b> @Model.Student.Email</p>
+        </div>
+        <div class="studentbar--item">
+            <p><b>Student ID:</b> @Model.Student.StudentId</p>
+        </div>
+        <div class="studentbar--item">
+            <p><b>Units:</b> @Model.Student.TotalUnits</p>
+        </div>
+        <div class="studentbar--item">
+            <p><b>Major(s):</b> @Model.Student.ActualStrMajors</p>
+        </div>
+    </div>
+</div>
+
+
+@if (Model.Participations.Any(a => a.Ceremony.IsPastPrintingDeadline()))
+{
+    <div class="alert alert-danger">
+        <p>Due to the late registration and printing deadlines we cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets allotted per person.</p>
+    </div>
+}
+
+@if (TermService.GetCurrent().RegistrationDeadline.Date < DateTime.Now.Date)
+{
+    <div class="alert alert-danger">
+        <p>The registration deadline has passed. You can petition but may not receive as many tickets.</p>
+    </div>
+}
 @using (Html.BeginForm("RegisterTest", "Student", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    <div class="studentbar">
-        <div class="studentbar__contents">
-            <div class="studentbar--item">
-                <p><b>Name:</b> @Model.Student.FullName</p>
-            </div>
-            <div class="studentbar--item">
-                <p><b>Email:</b> @Model.Student.Email</p>
-            </div>
-            <div class="studentbar--item">
-                <p><b>Student ID:</b> @Model.Student.StudentId</p>
-            </div>
-            <div class="studentbar--item">
-                <p><b>Units:</b> @Model.Student.TotalUnits</p>
-            </div>
-            <div class="studentbar--item">
-                <p><b>Major(s):</b> @Model.Student.ActualStrMajors</p>
-            </div>
-        </div>
-    </div>
-
-
-    if (Model.Participations.Any(a => a.Ceremony.IsPastPrintingDeadline()))
-    {
-        <div class="alert alert-danger">
-            <p>Due to the late registration and printing deadlines we cannot guarantee your name will appear in the program or that you will receive the maximum number of tickets allotted per person.</p>
-        </div>
-    }
-
-    if (TermService.GetCurrent().RegistrationDeadline.Date < DateTime.Now.Date)
-    {
-        <div class="alert alert-danger">
-            <p>The registration deadline has passed. You can petition but may not receive as many tickets.</p>
-        </div>
-    }
-
     <div class="main">
         <div class="main_contents">
             <div class="register">
                 @Html.ValidationSummary("Please correct all errors below")
+                
 
                 @Html.Partial("_StudentContactEdit")
                 <div class="register__section">
@@ -76,23 +77,19 @@
                         delivery of proofs only. GradImages will not provide your information to any other entity, except for if required by law.
                     </p>
                     <div class="form__wrapper">
-                        <form action="">
-                            <div class="checkbox__wrapper">
-                                <input id="gradTrack" name="gradTrack" type="checkbox" value="true"> I Authorize my information be provided to GradImages
-                            </div>
-                        </form>
+                        <div class="checkbox__wrapper">
+                            <input id="gradTrack" name="gradTrack" type="checkbox" value="true"> I Authorize my information be provided to GradImages
+                        </div>
                     </div>
                 </div>
                 <div class="register__section">
                     <h2>Legal Disclaimer</h2>
                     @Html.Raw(string.Format(StaticValues.Txt_Disclaimer))
                     <div class="form__wrapper">
-                        <form action="">
-                            <div class="checkbox__wrapper">
-                                <input class="required" id="agreeToDisclaimer" name="agreeToDisclaimer" type="checkbox" value="true"> I Agree
-                                @Html.ValidationMessage("AgreeToDisclaimer")
-                            </div>
-                        </form>
+                        <div class="checkbox__wrapper">
+                            <input class="required" id="agreeToDisclaimer" name="agreeToDisclaimer" type="checkbox" value="true"> I Agree
+                            @Html.ValidationMessage("AgreeToDisclaimer")
+                        </div>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-18 btn-green"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Register for Commencement </button>
