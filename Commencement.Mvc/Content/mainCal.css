@@ -688,6 +688,7 @@ input[type="button"].button-primary:focus {
 /* Validation styles copied from main.css */
 .validation-summary-valid { display:none; }
 .validation-summary-errors { color: red; }
+.validation-summary-errors ul li { color: red; }
 fieldset { padding: 1em;margin: 1em 0;}
 fieldset legend {border: 1px solid black; padding: .25em 1em;background-color: #00497b;color: white;font-weight: bold;}
 fieldset legend a { color: white;}
