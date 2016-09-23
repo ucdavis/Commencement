@@ -7,6 +7,14 @@
 
 <div class="pull-right">
     @Html.Partial("_LogonPartial")
+    @if (Model.CanEditRegistration)
+    {
+        @Html.ActionLink("Edit Registration", "EditRegistration", "Student", new {Model.Registration.Id}, htmlAttributes: new { @class = "btn btn-18 btn-blue" })
+    }
+    @if (Model.CanPetitionForExtraTickets)
+    {
+        @Html.ActionLink("Extra Ticket Petition", "ExtraTicketPetition", "Petition", new { Model.Registration.Id }, htmlAttributes: new { @class = "btn btn-18 btn-blue" })
+    }
 </div>
 
 <div class="banner banner--register">
@@ -84,5 +92,37 @@
                 </div>
             </div>
         </div>
+        
+        @if (Model.Registration.RegistrationParticipations.Count > 0)
+        {
+            <div class="register__section">
+                <h2>Registered @(Model.Registration.RegistrationParticipations.Count == 1 ? "Ceremony" : "Ceremonies")</h2>
+                @foreach (var a in Model.Registration.RegistrationParticipations)
+                {
+                    if (DateTime.Now.Subtract(a.DateRegistered).TotalDays <= 2) //TODO: UTC this. Plus prior to the cloud this was 2 minutes which might not be good if the survey takes longer.
+                    {
+                        //TODO style this div?
+                        <div>
+                            @Html.Raw(a.Ceremony.ConfirmationText)
+                        </div>
+                    }
+                    @Html.Partial("_RegisteredCeremonyDisplay", a)
+                }
+            </div>
+        }
+        
+        
+        @if (Model.Registration.RegistrationPetitions.Count > 0)
+        {
+            <div class="register__section">
+                <h2>Petitioned @(Model.Registration.RegistrationPetitions.Count == 1 ? "Ceremony" : "Ceremonies")</h2>
+            </div>
+            foreach (var a in Model.Registration.RegistrationPetitions)
+            {
+                @Html.Partial("_RegistrationPetitionDisplay", a)
+            }
+        }
+                
+
     </div>
 </div>
