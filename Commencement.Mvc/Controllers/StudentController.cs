@@ -207,6 +207,29 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
+        public ActionResult DisplayRegistrationNew()
+        {
+            var student = GetCurrentStudent();
+            if (student == null)
+            {
+                Message = StaticValues.Error_StudentNotFound;
+                return this.RedirectToAction(a => a.Index());
+            }
+            var registration = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == student);
+            //var petitions = _registrationPetitionRepository.Queryable.Where(a => a.Registration.Student == GetCurrentStudent()).ToList();
+
+            // must have either registration or at least one petition
+            if (registration == null) return this.RedirectToAction(a => a.Index());
+
+            // redirect to exit survey if outstanding
+            var surveyRedirect = SurveyRedirector(registration);
+            if (surveyRedirect != null) return surveyRedirect;
+
+            var viewModel = StudentDisplayRegistrationViewModel.Create(Repository, registration);
+
+            return View(viewModel);
+        }
+
         /// <summary>
         /// #6
         /// </summary>

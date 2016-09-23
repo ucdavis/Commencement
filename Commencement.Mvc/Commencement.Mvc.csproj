@@ -1346,6 +1346,7 @@
     <Content Include="Views\Student\_SpecialNeeds.cshtml" />
     <Content Include="Views\Error\SJA.cshtml" />
     <Content Include="Views\Error\NotEligible.cshtml" />
+    <Content Include="Views\Student\DisplayRegistrationNew.cshtml" />
     <None Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

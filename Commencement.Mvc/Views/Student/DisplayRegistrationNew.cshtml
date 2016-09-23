@@ -1,0 +1,88 @@
+﻿@model Commencement.Controllers.ViewModels.StudentDisplayRegistrationViewModel
+
+@{
+    ViewBag.Title = "DisplayRegistrationNew";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="pull-right">
+    @Html.Partial("_LogonPartial")
+</div>
+
+<div class="banner banner--register">
+    <div class="banner_contents">
+        <img src="@Url.Content("~/Images/Media/commencement_welcome.svg")" alt="">
+    </div>
+</div>
+
+<div class="studentbar">
+    <div class="studentbar__contents">
+        <div class="studentbar--item">
+            <p><b>Name:</b> @Model.Registration.Student.FullName</p>
+        </div>
+        @*<div class="studentbar--item">
+            <p><b>Email:</b> @Model.Registration.Student.Email</p>
+        </div>*@
+        <div class="studentbar--item">
+            <p><b>Student ID:</b> @Model.Registration.Student.StudentId</p>
+        </div>
+        <div class="studentbar--item">
+            <p><b>Units:</b> @Model.Registration.Student.TotalUnits</p>
+        </div>
+        <div class="studentbar--item">
+            <p><b>Major(s):</b> @Model.Registration.Student.ActualStrMajors</p>
+        </div>
+    </div>
+</div>
+
+<div class="main">
+    <div class="main_contents">
+        <div class="register__section">
+            <h2>Contact Information</h2>
+            <div class="form__wrapper">
+                <div class="input__group">
+                    <label>Address Line 1</label>
+                    
+                    @Html.DisplayFor(a => a.Registration.Address1)
+                </div>
+                <div class="input__group">
+                    <label>Address Line 2</label>
+                    @Html.DisplayFor(a => a.Registration.Address2)
+
+                </div>
+                <div class="input__group">
+                    <label>City</label>
+                    @Html.DisplayFor(a => a.Registration.City)
+                </div>
+                <div class="input__group">
+                    <label>State</label>
+                    @Html.DisplayFor(a => a.Registration.State.Name)
+                </div>
+                <div class="input__group">
+                    <label>Zip Code</label>
+                    @Html.DisplayFor(x => x.Registration.Zip)
+                </div>
+                <div class="input__group">
+                    <label>Email Address</label>
+                    @Html.DisplayFor(x => x.Registration.Student.Email)
+                </div>
+                <div class="input__group">
+                    <label>Ticket Password</label>
+                    @Html.DisplayFor(x => x.Registration.TicketPassword)
+                </div>
+                <div class="input__group">
+                    <label>Additional Recipients Email</label>
+                    @Html.DisplayFor(x => x.Registration.Email)
+                </div>
+                <div class="input__group">
+                    <label>How To Say Your Name Phonetically</label>
+                    @Html.DisplayFor(x => x.Registration.Phonetic)
+                </div>
+                <div class="input__group">
+                    <label>Special Needs</label>
+                    @string.Join(", ", Model.Registration.SpecialNeeds.Select(a => a.Name))
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
