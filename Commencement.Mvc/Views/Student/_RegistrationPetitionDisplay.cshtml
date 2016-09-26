@@ -1,2 +1,36 @@
 ﻿@model Commencement.Core.Domain.RegistrationPetition
 
+<div class="ceremony">
+    <h2>@(string.Format("{0} ({1})", Model.Ceremony.CeremonyName, Model.Ceremony.DateTime))</h2>
+    
+    <div class="ceremony__wrapper">
+        <div class="input__group pull-right">
+            @Html.ActionLink("Cancel Petition", "CancelRegistrationPetition", "Student", new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-18 btn-red" })
+        </div>
+        <div class="input__group">
+            <label>Date Submitted</label>
+            @(Model.DateSubmitted.ToString("g"))
+        </div>
+        <div class="input__group">
+            <label>Date Decision</label>
+            @(Model.DateDecision != null ? Model.DateDecision.ToString() : string.Empty)
+        </div>
+        <div class="input__group">
+            <label>Approved</label>
+            @Model.Status
+        </div>
+        <div class="input__group">
+            <label>Reason for Petition</label>
+            @Model.ExceptionReason
+        </div>
+        <div class="input__group">
+            <label>Transfer Units From</label>
+            @Model.TransferUnitsFrom
+        </div>
+        <div class="input__group">
+            <label>Transfer Units</label>
+            @Model.TransferUnits
+        </div>
+    </div>
+    <h2>Submitted: @string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateSubmitted) -- Last Update: @string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateDecision)</h2>
+</div>
