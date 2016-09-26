@@ -102,7 +102,7 @@
                     if (DateTime.Now.Subtract(a.DateRegistered).TotalDays <= 2) //TODO: UTC this. Plus prior to the cloud this was 2 minutes which might not be good if the survey takes longer.
                     {
                         //TODO style this div?
-                        <div>
+                        <div class="alert alert-success">
                             @Html.Raw(a.Ceremony.ConfirmationText)
                         </div>
                     }
