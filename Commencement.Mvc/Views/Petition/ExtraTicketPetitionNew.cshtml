@@ -44,11 +44,12 @@
     <div class="main">
         <div class="main_contents">
             <div class="register">
-                @Html.ValidationSummary("Please correct all errors below")
-                @for(int j = 0; j < registrations.Count; j++)
-                {
-                    var participation = registrations[j];
-                    <div class="register__section">
+                <div class="register__section">
+                    @Html.ValidationSummary("Please correct all errors below")
+                    @for (int j = 0; j < registrations.Count; j++)
+                    {
+                        var participation = registrations[j];
+
                         <div class="ceremony">
                             <h2>@participation.Ceremony.CeremonyName</h2>
                             @if (!Model.AvailableParticipationIds.Contains(participation.Id))
@@ -57,10 +58,12 @@
                                 if (participation.ExtraTicketPetition != null)
                                 {
                                     theAlertMessage = "This ceremony is not available for extra ticket petition because you have previously submitted a petition.";
-                                } else if(DateTime.Now < participation.Ceremony.ExtraTicketBegin) //TODO: Fix Date for UTC
+                                }
+                                else if (DateTime.Now < participation.Ceremony.ExtraTicketBegin) //TODO: Fix Date for UTC
                                 {
                                     theAlertMessage = string.Format("This ceremony is not available for extra ticket petition.  Please return on {0:d} to submit a petition.", participation.Ceremony.ExtraTicketBegin);
-                                } else if (DateTime.Now > participation.Ceremony.ExtraTicketDeadline.AddDays(1)) //TODO: Fix date for UTC
+                                }
+                                else if (DateTime.Now > participation.Ceremony.ExtraTicketDeadline.AddDays(1)) //TODO: Fix date for UTC
                                 {
                                     theAlertMessage = string.Format("This ceremony is not available for extra ticket petitions.  The deadline was on {0:d} ", participation.Ceremony.ExtraTicketDeadline);
                                 }
@@ -68,84 +71,96 @@
                                     <span>@theAlertMessage</span>
                                 </div>
                             }
-                            
-                            <div class="result__group">
-                                <p><strong>Major:</strong>
-                                    @Html.DisplayFor(x => participation.Major.Name) </p>
-                            </div>
-                            <div class="result__group">
-                                <p>
-                                    <strong>Ceremony Time:</strong>
-                                    @Html.DisplayFor(x => participation.Ceremony.DateTime)
-                                </p>
-                            </div>
-                            <div class="result__group">
-                                <p>
-                                    <strong>Delivery Method:</strong>
-                                    @Html.DisplayFor(x => participation.TicketDistributionMethod.Name)
-                                </p>
-                            </div>
-                            <div class="result__group" title="# tickets originally requested when registering.">
-                                <p>
-                                    <strong># Tickets Requested:</strong>
-                                    @Html.DisplayFor(x => participation.NumberTickets)
-                                </p>
-                            </div>
-                            
+
+                            <table cellspacing="10">
+                                <tbody>
+                                <tr>
+                                    <td><b>Major:</b></td>
+                                    <td>@Html.DisplayFor(x => participation.Major.Name)</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Ceremony Time:</b></td>
+                                    <td>@Html.DisplayFor(x => participation.Ceremony.DateTime)</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Delivery Method:</b></td>
+                                    <td>@Html.DisplayFor(x => participation.TicketDistributionMethod.Name)</td>
+                                </tr>
+                                <tr>
+                                    <td><b># Tickets Requested:</b></td>
+                                    <td>@Html.DisplayFor(x => participation.NumberTickets)</td>
+                                </tr>
+                                @if (Model.AvailableParticipationIds.Contains(participation.Id))
+                                {
+                                    var postModel = Model.ExtraTicketPetitionPostModels.Where(a => a.RegistrationParticipation == participation).FirstOrDefault();
+
+                                    @Html.Hidden(string.Format("extraTicketPetitions[{0}].Ceremony", counter), participation.Ceremony.Id)
+                                    @Html.Hidden(string.Format("extraTicketPetitions[{0}].RegistrationParticipation", counter), participation.Id)
+
+                                    <tr>
+                                        <td><b>Extra Tickets:</b></td>
+                                        <td>
+                                            <select id="@string.Format("extraTicketPetitions[{0}]_NumberTickets", counter)" name="@string.Format("extraTicketPetitions[{0}].NumberTickets", counter)" class="long">
+
+                                                <option value="">--Select # of Tickets--</option>
+
+                                                @for (int i = 1; i <= participation.Ceremony.ExtraTicketPerStudent; i++)
+                                                {
+                                                    <option value="@i" @(postModel != null && i == postModel.NumberTickets ? "selected=\"selected\"" : string.Empty)>@string.Format("{0:00}", i)</option>
+                                                }
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    if (participation.Ceremony.HasStreamingTickets)
+                                    {
+                                        <tr>
+                                            <td><b>Streaming Tickets:</b></td>
+                                            <td>
+                                                <select id="@string.Format("extraTicketPetitions[{0}]_NumberStreamingTickets", counter)" name="@string.Format("extraTicketPetitions[{0}].NumberStreamingTickets", counter)" class="long">
+
+                                                    <option value="">--Select # of Tickets--</option>
+
+                                                    @for (int i = 1; i <= participation.Ceremony.ExtraTicketPerStudent; i++)
+                                                    {
+                                                        <option value="@i" @(postModel != null && i == postModel.NumberStreamingTickets ? "selected=\"selected\"" : string.Empty)>@string.Format("{0:00}", i)</option>
+                                                    }
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        @Html.Hidden(string.Format("extraTicketPetitions[{0}]_NumberStreamingTickets", counter), 0)
+                                    }
+
+                                }
+
+
+                                </tbody>
+                            </table>
                             @if (Model.AvailableParticipationIds.Contains(participation.Id))
                             {
-                                var postModel = Model.ExtraTicketPetitionPostModels.Where(a => a.RegistrationParticipation == participation).FirstOrDefault();
-
-                                @Html.Hidden(string.Format("extraTicketPetitions[{0}].Ceremony", counter), participation.Ceremony.Id)
-                                @Html.Hidden(string.Format("extraTicketPetitions[{0}].RegistrationParticipation", counter), participation.Id)
-
                                 <div class="input__group">
-                                    <label>Extra Tickets</label>
-                                    <select id="@string.Format("extraTicketPetitions[{0}]_NumberTickets", counter)" name="@string.Format("extraTicketPetitions[{0}].NumberTickets", counter)" class="long">
-
-                                        <option value="">--Select # of Tickets--</option>
-
-                                        @for (int i = 1; i <= participation.Ceremony.ExtraTicketPerStudent; i++)
-                                        {
-                                            <option value="@i" @(postModel != null && i == postModel.NumberTickets ? "selected=\"selected\"" : string.Empty)>@string.Format("{0:00}", i)</option>
-                                        }
-                                    </select>
-                                </div>
-                                if (participation.Ceremony.HasStreamingTickets)
-                                {
-                                    <div class="input__group">
-                                        <label>Streaming Tickets</label>
-                                        <select id="@string.Format("extraTicketPetitions[{0}]_NumberStreamingTickets", counter)" name="@string.Format("extraTicketPetitions[{0}].NumberStreamingTickets", counter)" class="long">
-
-                                            <option value="">--Select # of Tickets--</option>
-
-                                            @for (int i = 1; i <= participation.Ceremony.ExtraTicketPerStudent; i++)
-                                            {
-                                                <option value="@i" @(postModel != null && i == postModel.NumberStreamingTickets ? "selected=\"selected\"" : string.Empty)>@string.Format("{0:00}", i)</option>
-                                            }
-                                        </select>
-                                    </div>
-                                }
-                                else
-                                {
-                                    @Html.Hidden(string.Format("extraTicketPetitions[{0}]_NumberStreamingTickets", counter), 0)
-                                }
-
-
-                                <div class="input__group">
-                                    <label class="pull-left">Reason</label>                                    
+                                    <label class="pull-left">Reason</label>
                                     <textarea style="width: 100%" type="text" id="@string.Format("extraTicketPetitions[{0}].Reason", counter)" name="@string.Format("extraTicketPetitions[{0}].Reason", counter)" rows="4" class="petition-reason">@(participation.ExtraTicketPetition != null ? participation.ExtraTicketPetition.Reason : string.Empty)</textarea>
                                     @Html.ValidationMessage("Reason" + participation.Ceremony.Id)
                                 </div>
-
                             }
                         </div>
-                    </div>
-                }
+
+                    }
+                    <button type="submit" class="btn btn-18 btn-green"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Submit </button>
+                    <a href="@Url.Action("DisplayRegistration", "Student")" class="btn btn-18 btn-blue">Cancel</a>
+                </div>
+
 
             </div>
+
         </div>
+
     </div>
+
+
 }
 
 
