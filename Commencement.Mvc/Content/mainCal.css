@@ -421,6 +421,8 @@ input[type="button"].button-primary:focus {
   .btn:hover {
     opacity: .85;
     color: #fff; }
+    .btn.btn-14 {
+    font-size: 1.4rem; }
   .btn.btn-16 {
     font-size: 1.6rem; }
   .btn.btn-18 {
@@ -435,6 +437,13 @@ input[type="button"].button-primary:focus {
     background-color: #78be20; }
   .btn.btn-newsletter {
     background-color: #78be20; }
+    .btn.btn-log {
+        background-color: #fff;
+        color: #333;
+    }
+.btn-sm {
+    padding: 6px 15px;
+}
   .btn.btn-logout {
     background-color: #fff;
     border: 1px solid #646464;
@@ -545,7 +554,9 @@ input[type="button"].button-primary:focus {
     justify-content: space-between;
     width: 80%;
     margin: 0 auto;
-    min-width: 300px; }
+    min-width: 300px; 
+    flex-wrap: wrap;
+  }
     @media (max-width: 850px) {
       .studentbar .studentbar__contents {
         width: 85%; } }
@@ -700,3 +711,12 @@ fieldset legend a { color: white;}
 .registration_form li strong span, span.required { color: red;margin-left: 5px}
 .field-validation-error { color: red;margin-left: 1em;}
 .input-validation-error { border: 1px solid red; }
+
+
+.result__group p {
+    color: #333 !important;
+
+}
+.ceremony h2.d-blue {
+    background-color: #c79900;
+}
