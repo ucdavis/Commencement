@@ -1,0 +1,119 @@
+﻿@model Commencement.Controllers.ViewModels.ExtraTicketPetitionModel
+
+@{
+    ViewBag.Title = "ExtraTicketPetitionNew";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+
+    var registrations = Model.Registration.RegistrationParticipations.Where(x => !x.Cancelled).ToList();
+}
+
+<div class="pull-right">
+    @Html.Partial("_LogonPartial")
+</div>
+
+<div class="banner banner--register">
+    <div class="banner_contents">
+        <img src="@Url.Content("~/Images/Media/commencement_welcome.svg")" alt="">
+    </div>
+</div>
+
+<div class="studentbar">
+    <div class="studentbar__contents">
+        <div class="studentbar--item">
+            <p><b>Name:</b> @Model.Registration.Student.FullName</p>
+        </div>
+        <div class="studentbar--item">
+            <p><b>Email:</b> @Model.Registration.Student.Email</p>
+        </div>
+        <div class="studentbar--item">
+            <p><b>Student ID:</b> @Model.Registration.Student.StudentId</p>
+        </div>
+        <div class="studentbar--item">
+            <p><b>Units:</b> @Model.Registration.Student.TotalUnits</p>
+        </div>
+        <div class="studentbar--item">
+            <p><b>Major(s):</b> @Model.Registration.Student.ActualStrMajors</p>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("ExtraTicketPetitionNew", "Petition", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="main">
+        <div class="main_contents">
+            <div class="register">
+                @Html.ValidationSummary("Please correct all errors below")
+
+                @foreach (var participation in registrations)
+                {
+                    <div class="register__section">
+                        <div class="ceremony">
+                            <h2>@participation.Ceremony.CeremonyName</h2>
+                            @if (!Model.AvailableParticipationIds.Contains(participation.Id))
+                            {
+                                var theAlertMessage = string.Empty;
+                                if (participation.ExtraTicketPetition != null)
+                                {
+                                    theAlertMessage = "This ceremony is not available for extra ticket petition because you have previously submitted a petition.";
+                                } else if(DateTime.Now < participation.Ceremony.ExtraTicketBegin) //TODO: Fix Date for UTC
+                                {
+                                    theAlertMessage = string.Format("This ceremony is not available for extra ticket petition.  Please return on {0:d} to submit a petition.", participation.Ceremony.ExtraTicketBegin);
+                                } else if (DateTime.Now > participation.Ceremony.ExtraTicketDeadline.AddDays(1)) //TODO: Fix date for UTC
+                                {
+                                    theAlertMessage = string.Format("This ceremony is not available for extra ticket petitions.  The deadline was on {0:d} ", participation.Ceremony.ExtraTicketDeadline);
+                                }
+                                <div class="alert alert-danger">
+                                    <span>@theAlertMessage</span>
+                                </div>
+                            }
+                            
+                            <div class="input__group">
+                                <label>Major</label>
+                                @Html.DisplayFor(x => participation.Major.Name)
+                            </div>
+                            <div class="input__group">
+                                <label>Ceremony Time</label>
+                                @Html.DisplayFor(x => participation.Ceremony.DateTime)
+                            </div>
+                            <div class="input__group">
+                                <label>Delivery Method</label>
+                                @Html.DisplayFor(x => participation.TicketDistributionMethod.Name)
+                            </div>
+                            <div class="input__group hastip" title="# tickets originally requested when registering.">
+                                <label># Tickets Requested</label>
+                                @Html.DisplayFor(x => participation.NumberTickets)
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+}
+
+
+@section AdditionalScripts
+{
+    @Scripts.Render("~/bundles/easycounter")
+    @Scripts.Render("~/bundles/jqueryval")   
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/mvc/4.0/jquery.validate.unobtrusive.min.js"></script>
+
+    @*TODO: Fix jquery multiple loads. page validate isn't working would these*@
+    <script>
+        $(function () {
+            $("textarea.petition")
+                .jqEasyCounter({
+                    'maxChars': 100,
+                    'maxCharsWarning': 80,
+                    'msgAppendMethod': 'insertBefore',
+                    'msgTextAlign': 'right'
+                });
+        });
+    </script>
+    
+
+
+}
+

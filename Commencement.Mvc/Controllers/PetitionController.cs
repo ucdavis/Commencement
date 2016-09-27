@@ -322,6 +322,46 @@ namespace Commencement.Controllers
             return View(viewModel);
          }
 
+        [PageTrackingFilter]
+        [StudentsOnly]
+        public ActionResult ExtraTicketPetitionNew(int id)
+        {
+            var registration = Repository.OfType<Registration>().GetNullableById(id);
+            if (registration == null                                        // requires registration
+                || registration.Student.Login != CurrentUser.Identity.Name  // validate the user
+                )
+            {
+                return this.RedirectToAction<StudentController>(a => a.Index());
+            }
+
+            var ceremonies = registration.RegistrationParticipations.Select(a => a.Ceremony).ToList();
+            var minBeginDate = ceremonies.Min(a => a.ExtraTicketBegin);
+            var maxEndDate = ceremonies.Max(a => a.ExtraTicketDeadline);
+
+            // extra ticket deadline has passed 
+            if (DateTime.Now > maxEndDate.AddDays(1))
+            {
+                Message = "Deadline for all extra ticket requests has passed.";
+                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration());
+            }
+
+            if (DateTime.Now < minBeginDate)
+            {
+                Message = string.Format("You cannot petition for extra tickets until at least {0}", minBeginDate.ToString("d"));
+                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration());
+            }
+
+            if (registration.RegistrationParticipations.All(a => a.ExtraTicketPetition != null))
+            {
+                Message = string.Format("You have already submitted your extra ticket request(s).");
+                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration());
+            }
+
+            var viewModel = ExtraTicketPetitionModel.Create(Repository, registration);
+
+            return View(viewModel);
+        }
+
         [HttpPost]
         [StudentsOnly]
         public ActionResult ExtraTicketPetition(int id, List<ExtraTicketPetitionPostModel> extraTicketPetitions)

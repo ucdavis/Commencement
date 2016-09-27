@@ -1349,6 +1349,7 @@
     <Content Include="Views\Student\DisplayRegistrationNew.cshtml" />
     <Content Include="Views\Student\_RegisteredCeremonyDisplay.cshtml" />
     <Content Include="Views\Student\_RegistrationPetitionDisplay.cshtml" />
+    <Content Include="Views\Petition\ExtraTicketPetitionNew.cshtml" />
     <None Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
