@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_StudentLayout.cshtml";
 
     var registrations = Model.Registration.RegistrationParticipations.Where(x => !x.Cancelled).ToList();
+    var counter = 0;
 }
 
 <div class="pull-right">
@@ -44,9 +45,9 @@
         <div class="main_contents">
             <div class="register">
                 @Html.ValidationSummary("Please correct all errors below")
-
-                @foreach (var participation in registrations)
+                @for(int j = 0; j < registrations.Count; j++)
                 {
+                    var participation = registrations[j];
                     <div class="register__section">
                         <div class="ceremony">
                             <h2>@participation.Ceremony.CeremonyName</h2>
@@ -84,6 +85,15 @@
                                 <label># Tickets Requested</label>
                                 @Html.DisplayFor(x => participation.NumberTickets)
                             </div>
+                            
+                            @if (Model.AvailableParticipationIds.Contains(participation.Id))
+                            {
+                                var postModel = Model.ExtraTicketPetitionPostModels.Where(a => a.RegistrationParticipation == participation).FirstOrDefault();
+
+                                @Html.Hidden(string.Format("extraTicketPetitions[{0}].Ceremony", counter), participation.Ceremony.Id)
+                                @Html.Hidden(string.Format("extraTicketPetitions[{0}].RegistrationParticipation", counter), participation.Id)
+
+                            }
                         </div>
                     </div>
                 }
