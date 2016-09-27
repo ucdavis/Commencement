@@ -69,21 +69,27 @@
                                 </div>
                             }
                             
-                            <div class="input__group">
-                                <label>Major</label>
-                                @Html.DisplayFor(x => participation.Major.Name)
+                            <div class="result__group">
+                                <p><strong>Major:</strong>
+                                    @Html.DisplayFor(x => participation.Major.Name) </p>
                             </div>
-                            <div class="input__group">
-                                <label>Ceremony Time</label>
-                                @Html.DisplayFor(x => participation.Ceremony.DateTime)
+                            <div class="result__group">
+                                <p>
+                                    <strong>Ceremony Time:</strong>
+                                    @Html.DisplayFor(x => participation.Ceremony.DateTime)
+                                </p>
                             </div>
-                            <div class="input__group">
-                                <label>Delivery Method</label>
-                                @Html.DisplayFor(x => participation.TicketDistributionMethod.Name)
+                            <div class="result__group">
+                                <p>
+                                    <strong>Delivery Method:</strong>
+                                    @Html.DisplayFor(x => participation.TicketDistributionMethod.Name)
+                                </p>
                             </div>
-                            <div class="input__group hastip" title="# tickets originally requested when registering.">
-                                <label># Tickets Requested</label>
-                                @Html.DisplayFor(x => participation.NumberTickets)
+                            <div class="result__group" title="# tickets originally requested when registering.">
+                                <p>
+                                    <strong># Tickets Requested:</strong>
+                                    @Html.DisplayFor(x => participation.NumberTickets)
+                                </p>
                             </div>
                             
                             @if (Model.AvailableParticipationIds.Contains(participation.Id))
