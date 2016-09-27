@@ -17,22 +17,24 @@
 <div class="body-content">
     @RenderBody()
 
-    <footer id="footer">
-        <hr />
-        <p>
-            @Html.ActionLink("Home", "Index", "Admin", null, htmlAttributes: new { style = "color:white; text-decoration:none;" })
-            @if (Context.User.IsInRole(Role.Codes.Admin) || Context.User.IsInRole(Role.Codes.User))
+    <footer id="footer"><div class="footer_contents">
+    <hr />
+    <p>
+        @Html.ActionLink("Home", "Index", "Admin", null, htmlAttributes: new { style = "color:white; text-decoration:none;" })
+        @if (Context.User.IsInRole(Role.Codes.Admin) || Context.User.IsInRole(Role.Codes.User))
             {
-                <span> | </span>
+            <span> | </span>
                 <a href="https://secure.caes.ucdavis.edu/help/ticket/submit?appName=Commencement" target="_blank" style="color: white; text-decoration: none;">Questions or Comments</a> <span> | </span>
                 <a href="https://secure.caes.ucdavis.edu/help/Help?appName=Commencement" target="_blank" style="color: white; text-decoration: none;">FAQ</a>
-            }
-                
-            <br/>
-            <span id="ByLine">Developed By The College Of Agricultural And Environmental Science Dean's Office</span><br/>
-            Copyright The Regents of the University of California, Davis campus, 2005-16. All Rights Reserved.
-        </p>
-        <p id="VersionNumber">Version: @ViewData["VersionKey"]</p>
+        }
+
+        <br />
+        <span id="ByLine">Developed By The College Of Agricultural And Environmental Science Dean's Office</span><br />
+        Copyright The Regents of the University of California, Davis campus, 2005-16. All Rights Reserved.
+    </p>
+    <p id="VersionNumber">Version: @ViewData["VersionKey"]</p>
+</div>
+
     </footer>
 </div>
 
