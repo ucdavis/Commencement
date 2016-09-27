@@ -52,13 +52,16 @@
                     
                     <p><strong>Address Line 1:</strong> @Html.DisplayFor(a => a.Registration.Address1)</p>
                 </div>
-                <div class="result__group">
-                    <p>
-                        <strong>Address Line 2:</strong>
-                        @Html.DisplayFor(a => a.Registration.Address2)
-                    </p>
+                @if (!string.IsNullOrWhiteSpace(Model.Registration.Address2))
+                {
+                    <div class="result__group">
+                        <p>
+                            <strong>Address Line 2:</strong>
+                            @Html.DisplayFor(a => a.Registration.Address2)
+                        </p>
 
-                </div>
+                    </div>
+                }
                 <div class="result__group">
                     <p>
                         <strong>City:</strong>
