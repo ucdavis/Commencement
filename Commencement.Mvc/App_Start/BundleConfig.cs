@@ -32,9 +32,9 @@ namespace Commencement.Mvc
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
-            bundles.Add(new StyleBundle("~/Content/csscal").Include(
+            bundles.Add(new StyleBundle("~/Content/student-css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/maincal.css"));
+                      "~/Content/student.css"));
         }
     }
 }

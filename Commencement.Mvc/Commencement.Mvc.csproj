@@ -759,7 +759,7 @@
     <Content Include="Content\main.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\mainCal.css" />
+    <Content Include="Content\student.css" />
     <Content Include="Content\telerik.common.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
