@@ -364,6 +364,81 @@ namespace Commencement.Controllers
 
         [HttpPost]
         [StudentsOnly]
+        public ActionResult ExtraTicketPetitionNew(int id, List<ExtraTicketPetitionPostModel> extraTicketPetitions)
+        {
+            ModelState.Clear();
+            var registration = Repository.OfType<Registration>().GetNullableById(id);
+            if (registration == null                                        // requires registration
+                || registration.Student.Login != CurrentUser.Identity.Name  // validate the user
+                )
+            {
+                return this.RedirectToAction<StudentController>(a => a.Index());
+            }
+
+            var ceremonyParticipations = new List<RegistrationParticipation>();
+
+            foreach (var a in extraTicketPetitions.Where(b => b.NumberTickets > 0 || b.NumberStreamingTickets > 0))
+            {
+                var tickets = a.Ceremony.HasStreamingTickets ? a.NumberTickets + a.NumberStreamingTickets : a.NumberTickets;
+
+                if (tickets > a.Ceremony.ExtraTicketPerStudent)
+                {
+                    ModelState.AddModelError("# Tickets", string.Format("Petition for {0} has too many tickets selected.  The max is {1} for this ceremony.", a.Ceremony.CeremonyName, a.Ceremony.ExtraTicketPerStudent));
+                }
+                else if (DateTime.Now > a.Ceremony.ExtraTicketDeadline.AddDays(1))
+                {
+                    ModelState.AddModelError("Deadline", string.Format("Petition for {0} has past the deadline.", a.Ceremony.CeremonyName));
+                }
+                else if (a.RegistrationParticipation.ExtraTicketPetition != null)
+                {
+                    ModelState.AddModelError("ExtraTicketPetition", string.Format("Our records indicate that you have already submitted a petition for {0}", a.Ceremony.CeremonyName));
+                }
+                else if (string.IsNullOrWhiteSpace(a.Reason))
+                {
+                    ModelState.AddModelError(string.Format("Reason{0}", a.Ceremony.Id), string.Format("Reason cannot be blank for petition {0}", a.Ceremony.CeremonyName));
+                }
+                else if (a.Reason.Length > 100)
+                {
+                    ModelState.AddModelError(string.Format("Reason{0}", a.Ceremony.Id), string.Format("Reason must be 100 characters or less for petition {0}", a.Ceremony.CeremonyName));
+                }
+                // validate the deadline before creating valid request, and no previous
+                else
+                {
+                    var etp = new ExtraTicketPetition(a.NumberTickets, a.Reason, a.Ceremony.HasStreamingTickets ? a.NumberStreamingTickets : 0);
+                    a.RegistrationParticipation.ExtraTicketPetition = etp;
+                    ceremonyParticipations.Add(a.RegistrationParticipation);
+                }
+
+            }
+
+            if (ModelState.IsValid)
+            {
+                foreach (var registrationParticipation in ceremonyParticipations)
+                {
+                    Repository.OfType<RegistrationParticipation>().EnsurePersistent(registrationParticipation);
+
+                    try
+                    {
+                        _emailService.QueueExtraTicketPetition(registrationParticipation);
+                    }
+                    catch (Exception ex)
+                    {
+                        _errorService.ReportError(ex);
+                        Message += StaticValues.Student_Email_Problem;
+                    }
+                }
+
+                Message = "Successfully submitted extra ticket petition(s).";
+                return this.RedirectToAction<StudentController>(a => a.DisplayRegistration());
+            }
+
+            var viewModel = ExtraTicketPetitionModel.Create(Repository, registration);
+            viewModel.ExtraTicketPetitionPostModels = extraTicketPetitions;
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [StudentsOnly]
         public ActionResult ExtraTicketPetition(int id, List<ExtraTicketPetitionPostModel> extraTicketPetitions)
         {
             var registration = Repository.OfType<Registration>().GetNullableById(id);

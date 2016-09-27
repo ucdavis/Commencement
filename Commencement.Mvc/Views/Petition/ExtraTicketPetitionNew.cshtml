@@ -92,7 +92,7 @@
                                 </tr>
                                 @if (Model.AvailableParticipationIds.Contains(participation.Id))
                                 {
-                                    var postModel = Model.ExtraTicketPetitionPostModels.Where(a => a.RegistrationParticipation == participation).FirstOrDefault();
+                                    var postModel = Model.ExtraTicketPetitionPostModels.Where(a => a.RegistrationParticipation == participation).FirstOrDefault();                                    
 
                                     @Html.Hidden(string.Format("extraTicketPetitions[{0}].Ceremony", counter), participation.Ceremony.Id)
                                     @Html.Hidden(string.Format("extraTicketPetitions[{0}].RegistrationParticipation", counter), participation.Id)
@@ -145,6 +145,7 @@
                                     <textarea style="width: 100%" type="text" id="@string.Format("extraTicketPetitions[{0}].Reason", counter)" name="@string.Format("extraTicketPetitions[{0}].Reason", counter)" rows="4" class="petition-reason">@(participation.ExtraTicketPetition != null ? participation.ExtraTicketPetition.Reason : string.Empty)</textarea>
                                     @Html.ValidationMessage("Reason" + participation.Ceremony.Id)
                                 </div>
+                                counter++;
                             }
                         </div>
 
