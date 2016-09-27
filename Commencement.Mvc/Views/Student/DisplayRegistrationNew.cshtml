@@ -9,11 +9,11 @@
     @Html.Partial("_LogonPartial")
     @if (Model.CanEditRegistration)
     {
-        @Html.ActionLink("Edit Registration", "EditRegistration", "Student", new {Model.Registration.Id}, htmlAttributes: new { @class = "btn btn-18 btn-blue" })
+        @Html.ActionLink("Edit Registration", "EditRegistration", "Student", new {Model.Registration.Id}, htmlAttributes: new { @class = "btn btn-14 btn-blue btn-sm" })
     }
     @if (Model.CanPetitionForExtraTickets)
     {
-        @Html.ActionLink("Extra Ticket Petition", "ExtraTicketPetition", "Petition", new { Model.Registration.Id }, htmlAttributes: new { @class = "btn btn-18 btn-blue" })
+        @Html.ActionLink("Extra Ticket Petition", "ExtraTicketPetition", "Petition", new { Model.Registration.Id }, htmlAttributes: new { @class = "btn btn-14 btn-blue btn-sm" })
     }
 </div>
 
@@ -48,47 +48,64 @@
         <div class="register__section">
             <h2>Contact Information</h2>
             <div class="form__wrapper">
-                <div class="input__group">
-                    <label>Address Line 1</label>
+                <div class="result__group">
                     
-                    @Html.DisplayFor(a => a.Registration.Address1)
+                    <p><strong>Address Line 1:</strong> @Html.DisplayFor(a => a.Registration.Address1)</p>
                 </div>
-                <div class="input__group">
-                    <label>Address Line 2</label>
-                    @Html.DisplayFor(a => a.Registration.Address2)
+                <div class="result__group">
+                    <p>
+                        <strong>Address Line 2:</strong>
+                        @Html.DisplayFor(a => a.Registration.Address2)
+                    </p>
 
                 </div>
-                <div class="input__group">
-                    <label>City</label>
-                    @Html.DisplayFor(a => a.Registration.City)
+                <div class="result__group">
+                    <p>
+                        <strong>City:</strong>
+                        @Html.DisplayFor(a => a.Registration.City)
+                    </p>
                 </div>
-                <div class="input__group">
-                    <label>State</label>
-                    @Html.DisplayFor(a => a.Registration.State.Name)
+                <div class="result__group">
+                    <p>
+                        <strong>State:</strong>
+                        @Html.DisplayFor(a => a.Registration.State.Name)
+                    </p>
                 </div>
-                <div class="input__group">
-                    <label>Zip Code</label>
-                    @Html.DisplayFor(x => x.Registration.Zip)
+                <div class="result__group">
+                    <p>
+                        <strong>Zip Code:</strong>
+                        @Html.DisplayFor(x => x.Registration.Zip)
+                    </p>
                 </div>
-                <div class="input__group">
-                    <label>Email Address</label>
-                    @Html.DisplayFor(x => x.Registration.Student.Email)
+                <div class="result__group">
+                    <p>
+                        <strong>Email Address:</strong>
+                        @Html.DisplayFor(x => x.Registration.Student.Email)
+                    </p>
                 </div>
-                <div class="input__group">
-                    <label>Ticket Password</label>
-                    @Html.DisplayFor(x => x.Registration.TicketPassword)
+                <div class="result__group">
+                    <p>
+                        <strong>Ticket Password:</strong>
+                        @Html.DisplayFor(x => x.Registration.TicketPassword)
+                    </p>
                 </div>
-                <div class="input__group">
-                    <label>Additional Recipients Email</label>
-                    @Html.DisplayFor(x => x.Registration.Email)
+                <div class="result__group">
+                    <p>
+                        <strong>Additional Recipients Email:</strong>
+                        @Html.DisplayFor(x => x.Registration.Email)
+                    </p>
                 </div>
-                <div class="input__group">
-                    <label>How To Say Your Name Phonetically</label>
-                    @Html.DisplayFor(x => x.Registration.Phonetic)
+                <div class="result__group">
+                    <p>
+                        <strong>How To Say Your Name Phonetically:</strong>
+                        @Html.DisplayFor(x => x.Registration.Phonetic)
+                    </p>
                 </div>
-                <div class="input__group">
-                    <label>Special Needs</label>
-                    @string.Join(", ", Model.Registration.SpecialNeeds.Select(a => a.Name))
+                <div class="result__group">
+                    <p>
+                        <strong>Special Needs:</strong>
+                        @string.Join(", ", Model.Registration.SpecialNeeds.Select(a => a.Name))
+                    </p>
                 </div>
             </div>
         </div>
