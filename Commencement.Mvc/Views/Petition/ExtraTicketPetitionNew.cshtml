@@ -129,6 +129,7 @@
                                 <div class="input__group">
                                     <label class="pull-left">Reason</label>                                    
                                     <textarea style="width: 100%" type="text" id="@string.Format("extraTicketPetitions[{0}].Reason", counter)" name="@string.Format("extraTicketPetitions[{0}].Reason", counter)" rows="4" class="petition-reason">@(participation.ExtraTicketPetition != null ? participation.ExtraTicketPetition.Reason : string.Empty)</textarea>
+                                    @Html.ValidationMessage("Reason" + participation.Ceremony.Id)
                                 </div>
 
                             }
