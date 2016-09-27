@@ -1,0 +1,47 @@
+﻿@model Commencement.Core.Domain.RegistrationPetition
+
+<div class="ceremony">
+    <h2>@(string.Format("{0} ({1})", Model.Ceremony.CeremonyName, Model.Ceremony.DateTime))</h2>
+    
+    <div class="ceremony__wrapper">
+        <div class="result__group pull-right">
+            @Html.ActionLink("Cancel Petition", "CancelRegistrationPetition", "Student", new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-18 btn-red" })
+        </div>
+        <div class="result__group">
+            <p><strong>Date Submitted:</strong>
+            @(Model.DateSubmitted.ToString("g"))
+            </p>
+        </div>
+        <div class="result__group">
+            <p>
+                <strong>Date Decision:</strong>
+                @(Model.DateDecision != null ? Model.DateDecision.ToString() : string.Empty)
+            </p>
+        </div>
+        <div class="result__group">
+            <p>
+                <strong>Approved:</strong>
+                @Model.Status
+            </p>
+        </div>
+        <div class="result__group">
+            <p>
+                <strong>Reason for Petition:</strong>
+                @Model.ExceptionReason
+            </p>
+        </div>
+        <div class="result__group">
+            <p>
+                <strong>Transfer Units From:</strong>
+                @Model.TransferUnitsFrom
+            </p>
+        </div>
+        <div class="result__group">
+            <p>
+                <strong>Transfer Units:</strong>
+                @Model.TransferUnits
+            </p>
+        </div>
+    </div>
+    <h2 class="d-blue">Submitted: @string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateSubmitted) -- Last Update: @string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateDecision)</h2>
+</div>

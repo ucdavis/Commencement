@@ -1,0 +1,67 @@
+﻿@model Commencement.Core.Domain.RegistrationParticipation
+    
+
+<div class="ceremony">
+    <h2>@(string.Format("{0} ({1})", Model.Ceremony.CeremonyName, Model.Ceremony.DateTime))</h2>
+    <div class="ceremony__wrapper">
+        <div class="result__group">
+            <p>
+                <strong>Status:</strong>
+                @(Model.Cancelled ? "Cancelled" : "Registered")
+            </p>
+        </div>
+        <div class="result__group">
+            <p>
+                <strong>Major:</strong>
+                @Model.Major.MajorName
+            </p>
+        </div>
+        <div class="result__group">
+            <p><strong>Tickets Requested:</strong>
+            @Model.NumberTickets</p>
+        </div>
+        <div class="result__group">
+            <p>
+                <strong>Ticket Distribution:</strong>
+                @(Model.TicketDistributionMethod != null ? Model.TicketDistributionMethod.Name : "n/a")
+            </p>
+        </div>
+        @if (Model.ExtraTicketPetition != null)
+        {
+            if (!Model.ExtraTicketPetition.IsPending && Model.ExtraTicketPetition.IsApproved)
+            {
+                <div class="result__group">
+                    <p>
+                        <strong># Extra Tickets Approved:</strong>
+                        @Model.ExtraTicketPetition.NumberTickets
+                    </p>
+                </div>
+            }
+            else
+            {
+                <div class="result__group">
+                    <p>
+                        <strong># Extra Tickets Requested:</strong>
+                        @Model.ExtraTicketPetition.TotalTicketsRequested
+                    </p>
+                </div>
+            }
+            <div class="result__group">
+                <p>
+                    <strong>Reason:</strong>
+                    @Model.ExtraTicketPetition.Reason
+                </p>
+            </div>
+        }
+        else
+        {
+            <div class="result__group">
+                <p>
+                    <strong>Extra Tickets:</strong>
+                    No extra ticket petition has been submitted for this registration.
+                </p>
+            </div>
+        }
+    </div>
+    <h2 class="d-blue">Registered: @string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateRegistered) -- Last Update: @string.Format("{0:MM/dd/yyyy hh:mm tt}", Model.DateUpdated)</h2>
+</div>

@@ -759,7 +759,7 @@
     <Content Include="Content\main.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\mainCal.css" />
+    <Content Include="Content\student.css" />
     <Content Include="Content\telerik.common.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1265,7 +1265,7 @@
     <None Include="Views\Error\UnauthorizedAccess.cshtml" />
     <Content Include="Views\MajorCode\Add.aspx" />
     <Content Include="Views\MajorCode\Index.aspx" />
-    <Content Include="Views\Petition\ExtraTicketPetition.aspx" />
+    <Content Include="Views\Petition\ExtraTicketPetitionOld.aspx" />
     <Content Include="Views\Petition\ExtraTicketPetitions.aspx" />
     <Content Include="Views\Petition\Index.aspx" />
     <Content Include="Views\Petition\RegistrationPetition.aspx" />
@@ -1292,7 +1292,7 @@
     <Content Include="Views\Student\CancelRegistartionPetitionConfirm.aspx" />
     <Content Include="Views\Student\CancelRegistrationPetition.aspx" />
     <Content Include="Views\Student\CancelVisaLetterRequest.aspx" />
-    <Content Include="Views\Student\DisplayRegistration.aspx" />
+    <Content Include="Views\Student\DisplayRegistrationOld.aspx" />
     <Content Include="Views\Student\EditRegistrationOld.aspx" />
     <Content Include="Views\Student\RegisterOld.aspx" />
     <Content Include="Views\Student\RequestVisaLetter.aspx" />
@@ -1346,6 +1346,10 @@
     <Content Include="Views\Student\_SpecialNeeds.cshtml" />
     <Content Include="Views\Error\SJA.cshtml" />
     <Content Include="Views\Error\NotEligible.cshtml" />
+    <Content Include="Views\Student\DisplayRegistration.cshtml" />
+    <Content Include="Views\Student\_RegisteredCeremonyDisplay.cshtml" />
+    <Content Include="Views\Student\_RegistrationPetitionDisplay.cshtml" />
+    <Content Include="Views\Petition\ExtraTicketPetition.cshtml" />
     <None Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

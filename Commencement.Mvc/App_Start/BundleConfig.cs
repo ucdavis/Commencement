@@ -22,6 +22,9 @@ namespace Commencement.Mvc
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/qtip").Include(
+                        "~/Scripts/jquery.qtip-1.0.0-rc3.min.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
@@ -29,9 +32,9 @@ namespace Commencement.Mvc
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
-            bundles.Add(new StyleBundle("~/Content/csscal").Include(
+            bundles.Add(new StyleBundle("~/Content/student-css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/maincal.css"));
+                      "~/Content/student.css"));
         }
     }
 }
