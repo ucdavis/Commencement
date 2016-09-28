@@ -9,6 +9,7 @@ using Commencement.Controllers.Helpers;
 using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
+using Commencement.Core.Helpers;
 using Commencement.Core.Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.ActionResults;
@@ -41,7 +42,7 @@ namespace Commencement.Controllers
         {
             if (showAllWithoutRegistration)
             {
-                var last6Months = DateTime.Now.AddMonths(-6);
+                var last6Months = DateTime.UtcNow.ToPacificTime().AddMonths(-6);
                 var visaLettersEmailsWithoutReg = _emailQueueRepository.Queryable.Where(a => a.Registration == null && a.RegistrationParticipation == null && a.RegistrationPetition == null && a.Created >= last6Months);
                 return View(visaLettersEmailsWithoutReg);
             }

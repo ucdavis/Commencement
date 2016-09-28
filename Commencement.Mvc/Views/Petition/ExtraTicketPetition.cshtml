@@ -1,4 +1,5 @@
-﻿@model Commencement.Controllers.ViewModels.ExtraTicketPetitionModel
+﻿@using Commencement.Core.Helpers
+@model Commencement.Controllers.ViewModels.ExtraTicketPetitionModel
 
 @{
     ViewBag.Title = "ExtraTicketPetitionNew";
@@ -59,11 +60,11 @@
                                 {
                                     theAlertMessage = "This ceremony is not available for extra ticket petition because you have previously submitted a petition.";
                                 }
-                                else if (DateTime.Now < participation.Ceremony.ExtraTicketBegin) //TODO: Fix Date for UTC
+                                else if (DateTime.UtcNow.ToPacificTime() < participation.Ceremony.ExtraTicketBegin) //TODO: Fix Date for UTC
                                 {
                                     theAlertMessage = string.Format("This ceremony is not available for extra ticket petition.  Please return on {0:d} to submit a petition.", participation.Ceremony.ExtraTicketBegin);
                                 }
-                                else if (DateTime.Now > participation.Ceremony.ExtraTicketDeadline.AddDays(1)) //TODO: Fix date for UTC
+                                else if (DateTime.UtcNow.ToPacificTime() > participation.Ceremony.ExtraTicketDeadline.AddDays(1)) //TODO: Fix date for UTC
                                 {
                                     theAlertMessage = string.Format("This ceremony is not available for extra ticket petitions.  The deadline was on {0:d} ", participation.Ceremony.ExtraTicketDeadline);
                                 }

@@ -1,4 +1,5 @@
 ﻿@using Commencement.Controllers.Services
+@using Commencement.Core.Helpers
 @using Microsoft.Web.Mvc
 @using Microsoft.WindowsAzure
 @model Commencement.Controllers.ViewModels.RegistrationModel
@@ -15,7 +16,7 @@
         {
             <div class="alert alert-danger">
 
-                @if (TermService.GetCurrent().RegistrationDeadline.Date >= DateTime.Now.Date)
+                @if (TermService.GetCurrent().RegistrationDeadline.Date >= DateTime.UtcNow.ToPacificTime().Date)
                 {
                     //Registration deadline hasn't passed yet, just unit requirement
                     <span>You are required to petition for this ceremony because you do not meet the <a href="@CloudConfigurationManager.GetSetting("StaticCommencementUrl")">minimum unit requirements</a> and are required to complete the below petition.</span>

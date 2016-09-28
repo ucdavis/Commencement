@@ -2,6 +2,7 @@
     MasterPageFile="~/Views/Shared/Site.Master" %>
 <%@ Import Namespace="Commencement.Core.Resources" %>
 <%@ Import Namespace="Commencement.Controllers" %>
+<%@ Import Namespace="Commencement.Core.Helpers" %>
 
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">
     Commencement | Extra Ticket Petition
@@ -67,9 +68,9 @@
                         <div class="ui-state-error message">
                         <% if (participation.ExtraTicketPetition != null) { %>
                                 This ceremony is not available for extra ticket petition because you have previously submitted a petition.
-                        <% } else if (DateTime.Now < participation.Ceremony.ExtraTicketBegin) { %>
+                        <% } else if (DateTime.UtcNow.ToPacificTime() < participation.Ceremony.ExtraTicketBegin) { %>
                                 This ceremony is not available for extra ticket petition.  Please return on <%: participation.Ceremony.ExtraTicketBegin.ToString("d") %> to submit a petition.
-                        <% } else if (DateTime.Now > participation.Ceremony.ExtraTicketDeadline.AddDays(1)) { %>
+                        <% } else if (DateTime.UtcNow.ToPacificTime() > participation.Ceremony.ExtraTicketDeadline.AddDays(1)) { %>
                                 This ceremony is not available for extra ticket petitions.  The deadline was on <%: participation.Ceremony.ExtraTicketDeadline.ToString("d") %>.
                         <% } %>
                         </div>

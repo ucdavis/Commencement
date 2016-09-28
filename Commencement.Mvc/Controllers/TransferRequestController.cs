@@ -5,6 +5,7 @@ using Commencement.Controllers.Filters;
 using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
+using Commencement.Core.Helpers;
 using Commencement.Core.Resources;
 using FluentNHibernate.Conventions.Inspections;
 using UCDArch.Web.ActionResults;
@@ -85,7 +86,7 @@ namespace Commencement.Controllers
                     if (rp.NumberTickets != numberTickets) additionalMessage += "<br/><strong>Please note that the # of tickets you have requested has changed.</strong>";
                     rp.NumberTickets = numberTickets;
                     rp.Major = request.MajorCode;
-                    rp.DateUpdated = DateTime.Now;
+                    rp.DateUpdated = DateTime.UtcNow.ToPacificTime();
 
                     if (rp.ExtraTicketPetition != null)
                     {

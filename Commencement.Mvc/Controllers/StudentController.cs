@@ -11,6 +11,7 @@ using Commencement.Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Helpers;
 using Commencement.Controllers.Helpers;
+using Commencement.Core.Helpers;
 using MvcContrib;
 
 namespace Commencement.Controllers
@@ -693,7 +694,7 @@ namespace Commencement.Controllers
                 var participation = currentReg.RegistrationParticipations.FirstOrDefault(a => !a.Cancelled && !a.Registration.Student.SjaBlock && !a.Registration.Student.Blocked);
                 if (participation != null)
                 {
-                    if (participation.Ceremony.DateTime < DateTime.Now)
+                    if (participation.Ceremony.DateTime < DateTime.UtcNow.ToPacificTime())
                     {
                         return "CeremonyOver";
                     }

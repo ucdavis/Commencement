@@ -5,6 +5,7 @@ using Commencement.Core.Domain;
 using System.Collections.Generic;
 using UCDArch.Core.PersistanceSupport;
 using System.Linq;
+using Commencement.Core.Helpers;
 
 namespace Commencement.Controllers.ViewModels
 {
@@ -38,7 +39,7 @@ namespace Commencement.Controllers.ViewModels
                                     Registration = registration ?? new Registration() {Student = student},
                                     Student = student,
                                     //Ceremonies = ceremonies,
-                                    FutureTerms = repository.OfType<vTermCode>().Queryable.Where(a=>a.EndDate > DateTime.Now)
+                                    FutureTerms = repository.OfType<vTermCode>().Queryable.Where(a=>a.EndDate > DateTime.UtcNow.ToPacificTime())
                                 };
 
             // since the change to using a drop down, this is somewhat unnecessary, but should we move back to checkboxes, it would be a simple change

@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.ViewModels.RegistrationModel>" %>
 <%@ Import Namespace="Commencement.Controllers.Services" %>
+<%@ Import Namespace="Commencement.Core.Helpers" %>
 
 <script type="text/javascript" src="<%: Url.Content("~/Scripts/jquery.jqEasyCharCounter.min.js") %>"></script>
 <script>
@@ -25,7 +26,7 @@
                 <div style="border: 1px solid #eed3d7; margin: 1em; padding: 1em; line-height: 17px; background-color: #f2dede; color: #b94a48; font-weight: bold;">
                     
                     <%--Registration deadline hasn't passed yet, just unit requirement--%>
-                    <% if (TermService.GetCurrent().RegistrationDeadline.Date >= DateTime.Now.Date) { %>
+                    <% if (TermService.GetCurrent().RegistrationDeadline.Date >= DateTime.UtcNow.ToPacificTime().Date) { %>
                         You are required to petition for this ceremony because you do not meet the <a href="http://commencement.ucdavis.edu/registration.html">minimum unit requirements</a> and are required to complete the below petition. 
                     <%--Registration deadline has passed, could be past reg or unit requirement--%>
                     <% } else { %>
