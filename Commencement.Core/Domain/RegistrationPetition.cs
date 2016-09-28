@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Commencement.Core.Helpers;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -27,7 +28,7 @@ namespace Commencement.Core.Domain
 
         private void SetDefaults()
         {
-            DateSubmitted = DateTime.Now;
+            DateSubmitted = DateTime.UtcNow.ToPacificTime();
 
             IsPending = true;
             IsApproved = false;
@@ -66,7 +67,7 @@ namespace Commencement.Core.Domain
         {
             IsPending = false;
             IsApproved = isApproved;
-            DateDecision = DateTime.Now;
+            DateDecision = DateTime.UtcNow.ToPacificTime();
         }
 
         public virtual string Status

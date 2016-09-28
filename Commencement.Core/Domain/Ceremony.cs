@@ -6,6 +6,7 @@ using System.Text;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 using System.Linq;
+using Commencement.Core.Helpers;
 using DataAnnotationsExtensions;
 
 namespace Commencement.Core.Domain
@@ -43,10 +44,10 @@ namespace Commencement.Core.Domain
 
             CeremonySurveys = new List<CeremonySurvey>();
 
-            DateTime = DateTime.Now;
-            ExtraTicketBegin = DateTime.Now;
-            ExtraTicketDeadline = DateTime.Now;
-            PrintingDeadline = DateTime.Now;
+            DateTime = DateTime.UtcNow.ToPacificTime();
+            ExtraTicketBegin = DateTime.UtcNow.ToPacificTime();
+            ExtraTicketDeadline = DateTime.UtcNow.ToPacificTime();
+            PrintingDeadline = DateTime.UtcNow.ToPacificTime();
         }
         #endregion
 
@@ -261,12 +262,12 @@ namespace Commencement.Core.Domain
 
         public virtual bool CanSubmitExtraTicket()
         {
-            return (DateTime.Now.Date >= ExtraTicketBegin.Date && DateTime.Now.Date <= ExtraTicketDeadline.Date);
+            return (DateTime.UtcNow.ToPacificTime().Date >= ExtraTicketBegin.Date && DateTime.UtcNow.ToPacificTime().Date <= ExtraTicketDeadline.Date);
         }
 
         public virtual bool IsPastPrintingDeadline()
         {
-            return DateTime.Now.Date > PrintingDeadline.Date;
+            return DateTime.UtcNow.ToPacificTime().Date > PrintingDeadline.Date;
         }
 
         #endregion
