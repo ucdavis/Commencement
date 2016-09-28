@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
@@ -10,6 +11,7 @@ using Commencement.Controllers.Services;
 using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
+using Commencement.Mvc;
 using Microsoft.Reporting.WebForms;
 using Microsoft.WindowsAzure;
 using UCDArch.Core.PersistanceSupport;
@@ -74,6 +76,7 @@ namespace Commencement.Controllers
                     break;
                 case Report.SumOfAllTickets:
                     name = "SummaryReport";
+                    return File(GetLocalReport(string.Format("/commencement/{0}", name), parameters), "application/excel", string.Format("{0}.xls", name));
                     break;
                 case Report.SpecialNeedsRequest:
                     name = "SpecialNeedsRequest";
@@ -95,6 +98,42 @@ namespace Commencement.Controllers
             };
 
             return File(GetReport(string.Format("/commencement/{0}", name), parameters), "application/excel", string.Format("{0}.xls", name));
+        }
+
+        private byte[] GetLocalReport(string ReportName, Dictionary<string, string> parameters)
+        {
+            DataSet ds = new CommencementDataSet_SummaryReport();
+            var rs = new ReportDataSource("SumOfAllTickets", ds.Tables[0]);
+
+            var rview = new ReportViewer();
+            rview.LocalReport.ReportPath = @"C:\GitProjects\Commencement\Commencement.Mvc\Reports\SummaryReport.rdlc";
+            rview.ProcessingMode = ProcessingMode.Local;
+            rview.LocalReport.DataSources.Clear();
+            rview.LocalReport.DataSources.Add(rs);
+
+            var paramList = new List<ReportParameter>();
+
+            if (parameters.Count > 0)
+            {
+                foreach (KeyValuePair<string, string> kvp in parameters)
+                {
+                    paramList.Add(new ReportParameter(kvp.Key, kvp.Value));
+                }
+            }
+
+            rview.LocalReport.SetParameters(paramList);
+
+            string mimeType, encoding, extension;
+            string[] streamids;
+            Warning[] warnings;
+
+            string format = "Excel";
+
+
+
+            byte[] bytes = rview.LocalReport.Render(format, null, out mimeType, out encoding, out extension, out streamids, out warnings);
+
+            return bytes;
         }
 
         private byte[] GetReport(string ReportName, Dictionary<string, string> parameters)
