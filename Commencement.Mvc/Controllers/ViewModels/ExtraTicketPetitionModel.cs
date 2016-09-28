@@ -2,6 +2,7 @@
 using System.Linq;
 using Commencement.Core.Domain;
 using System.Collections.Generic;
+using Commencement.Core.Helpers;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
 
@@ -25,7 +26,7 @@ namespace Commencement.Controllers.ViewModels
                                     ExtraTicketPetitionPostModels = new List<ExtraTicketPetitionPostModel>(),
                                     AvailableParticipationIds = registration.RegistrationParticipations.Where(
                                                                     a =>
-                                                                    DateTime.Now >= a.Ceremony.ExtraTicketBegin && DateTime.Now < a.Ceremony.ExtraTicketDeadline.AddDays(1) &&
+                                                                    DateTime.UtcNow.ToPacificTime() >= a.Ceremony.ExtraTicketBegin && DateTime.UtcNow.ToPacificTime() < a.Ceremony.ExtraTicketDeadline.AddDays(1) &&
                                                                     a.ExtraTicketPetition == null && !a.Cancelled).Select(a => a.Id).ToList()
                                 };
             return viewModel;

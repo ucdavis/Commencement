@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Commencement.Core.Helpers;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -18,7 +19,7 @@ namespace Commencement.Core.Domain
             IsApproved = false;
             IsDenied = false;
             IsCanceled = false;
-            DateCreated = DateTime.Now;
+            DateCreated = DateTime.UtcNow.ToPacificTime();
             ReferenceGuid = Guid.NewGuid();
             HardCopy = "N";
         }

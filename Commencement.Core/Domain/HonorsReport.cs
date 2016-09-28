@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Commencement.Core.Helpers;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -9,7 +10,7 @@ namespace Commencement.Core.Domain
     {
         public HonorsReport()
         {
-            DateRequested = DateTime.Now;
+            DateRequested = DateTime.UtcNow.ToPacificTime();
         }
 
         public virtual byte[] Contents { get; set; }

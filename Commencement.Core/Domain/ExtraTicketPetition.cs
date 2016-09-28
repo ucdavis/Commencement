@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Commencement.Core.Helpers;
 using DataAnnotationsExtensions;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
@@ -29,7 +30,7 @@ namespace Commencement.Core.Domain
             IsApproved = false;
             LabelPrinted = false;
 
-            DateSubmitted = DateTime.Now;
+            DateSubmitted = DateTime.UtcNow.ToPacificTime();
             DateDecision = null;
         }
         #endregion
@@ -87,7 +88,7 @@ namespace Commencement.Core.Domain
             IsPending = false;
             LabelPrinted = false;
             IsApproved = isApproved;
-            DateDecision = DateTime.Now;
+            DateDecision = DateTime.UtcNow.ToPacificTime();
 
             if (!NumberTickets.HasValue) NumberTickets = NumberTicketsRequested;
             if (!NumberTicketsStreaming.HasValue) NumberTicketsStreaming = NumberTicketsRequestedStreaming;

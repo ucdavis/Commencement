@@ -1,4 +1,5 @@
-﻿@model Commencement.Controllers.ViewModels.StudentDisplayRegistrationViewModel
+﻿@using Commencement.Core.Helpers
+@model Commencement.Controllers.ViewModels.StudentDisplayRegistrationViewModel
 
 @{
     ViewBag.Title = "DisplayRegistrationNew";
@@ -119,7 +120,7 @@
                 <h2>Registered @(Model.Registration.RegistrationParticipations.Count == 1 ? "Ceremony" : "Ceremonies")</h2>
                 @foreach (var a in Model.Registration.RegistrationParticipations)
                 {
-                    if (DateTime.Now.Subtract(a.DateRegistered).TotalDays <= 2) //TODO: UTC this. Plus prior to the cloud this was 2 minutes which might not be good if the survey takes longer.
+                    if (DateTime.UtcNow.ToPacificTime().Subtract(a.DateRegistered).TotalDays <= 2) //TODO: Prior to the cloud this was 2 minutes which might not be good if the survey takes longer.
                     {
                         //TODO style this div?
                         <div class="alert alert-success">
