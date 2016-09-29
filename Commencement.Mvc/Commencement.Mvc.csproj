@@ -391,6 +391,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CommencementDataSet_SummaryReport.xsd</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="ComponentRegistrar.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -935,14 +936,17 @@
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="CommencementDataSet_SummaryReport.xsc">
       <DependentUpon>CommencementDataSet_SummaryReport.xsd</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="CommencementDataSet_SummaryReport.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CommencementDataSet_SummaryReport.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="CommencementDataSet_SummaryReport.xss">
       <DependentUpon>CommencementDataSet_SummaryReport.xsd</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\PublishProfiles\Production Glurmo.pubxml" />
     <None Include="Properties\PublishProfiles\Test Hughman.pubxml" />
