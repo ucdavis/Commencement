@@ -387,6 +387,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UCDArchBootstrapper.cs" />
     <Compile Include="AuditInterceptor.cs" />
+    <Compile Include="CommencementDataSet_SummaryReport.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommencementDataSet_SummaryReport.xsd</DependentUpon>
+    </Compile>
     <Compile Include="ComponentRegistrar.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -928,8 +933,22 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="CommencementDataSet_SummaryReport.xsc">
+      <DependentUpon>CommencementDataSet_SummaryReport.xsd</DependentUpon>
+    </Content>
+    <None Include="CommencementDataSet_SummaryReport.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CommencementDataSet_SummaryReport.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="CommencementDataSet_SummaryReport.xss">
+      <DependentUpon>CommencementDataSet_SummaryReport.xsd</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\Production Glurmo.pubxml" />
     <None Include="Properties\PublishProfiles\Test Hughman.pubxml" />
+    <EmbeddedResource Include="Reports\SummaryReport.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\dateFormat.js" />
     <Content Include="Scripts\highchart.js" />
