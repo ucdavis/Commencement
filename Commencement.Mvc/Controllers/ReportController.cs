@@ -13,7 +13,7 @@ using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using Commencement.Mvc;
-using Commencement.Mvc.CommencementDataSet_SummaryReportTableAdapters;
+using Commencement.Mvc.ReportDataSets.CommencementDataSet_SummaryReportTableAdapters;
 using Microsoft.Reporting.WebForms;
 using Microsoft.WindowsAzure;
 using UCDArch.Core.PersistanceSupport;
@@ -78,7 +78,9 @@ namespace Commencement.Controllers
                     break;
                 case Report.SumOfAllTickets:
                     name = "SummaryReport";
-                    return File(GetLocalReport(string.Format("/commencement/{0}", name), parameters), "application/excel", string.Format("{0}.xls", name));
+                    DataTable data = new usp_SummaryReportTableAdapter().GetData(parameters["term"], Convert.ToInt32(parameters["userId"]));
+                    var rs = new ReportDataSource("SumOfAllTickets", data);
+                    return File(GetLocalReport(rs, name, parameters), "application/excel", string.Format("{0}.xls", name));
                     break;
                 case Report.SpecialNeedsRequest:
                     name = "SpecialNeedsRequest";
@@ -102,18 +104,15 @@ namespace Commencement.Controllers
             return File(GetReport(string.Format("/commencement/{0}", name), parameters), "application/excel", string.Format("{0}.xls", name));
         }
 
-        private byte[] GetLocalReport(string ReportName, Dictionary<string, string> parameters)
+
+        private byte[] GetLocalReport(ReportDataSource rs, string reportName, Dictionary<string, string> parameters)
         {
-
-            DataTable data = new usp_SummaryReportTableAdapter().GetData(parameters["term"], Convert.ToInt32(parameters["userId"]));
-
-            var rs = new ReportDataSource("SumOfAllTickets", data);
 
 
             var rview = new ReportViewer();
             
-            rview.LocalReport.ReportPath = string.Format("{0}{1}", HostingEnvironment.MapPath("~/Reports/"),"SummaryReport.rdlc");
-            //rview.LocalReport.ReportPath = HttpContext.Server.MapPath(string.Format("~/Reports/{0}", "SummaryReport.rdlc"));
+            rview.LocalReport.ReportPath = string.Format("{0}{1}.rdlc", HostingEnvironment.MapPath("~/Reports/"),reportName);
+            
             rview.ProcessingMode = ProcessingMode.Local;
             rview.LocalReport.DataSources.Clear();
             rview.LocalReport.DataSources.Add(rs);

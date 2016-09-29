@@ -398,7 +398,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UCDArchBootstrapper.cs" />
     <Compile Include="AuditInterceptor.cs" />
-    <Compile Include="CommencementDataSet_SummaryReport.Designer.cs">
+    <Compile Include="ReportDataSets\CommencementDataSet_SummaryReport.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CommencementDataSet_SummaryReport.xsd</DependentUpon>
@@ -945,17 +945,17 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
-    <Content Include="CommencementDataSet_SummaryReport.xsc">
+    <Content Include="ReportDataSets\CommencementDataSet_SummaryReport.xsc">
       <DependentUpon>CommencementDataSet_SummaryReport.xsd</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="CommencementDataSet_SummaryReport.xsd">
+    <None Include="ReportDataSets\CommencementDataSet_SummaryReport.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CommencementDataSet_SummaryReport.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="CommencementDataSet_SummaryReport.xss">
+    <Content Include="ReportDataSets\CommencementDataSet_SummaryReport.xss">
       <DependentUpon>CommencementDataSet_SummaryReport.xsd</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

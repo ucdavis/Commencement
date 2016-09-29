@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace Commencement.Mvc {
+namespace Commencement.Mvc.ReportDataSets {
     
     
     /// <summary>
@@ -936,7 +936,7 @@ namespace Commencement.Mvc {
         }
     }
 }
-namespace Commencement.Mvc.CommencementDataSet_SummaryReportTableAdapters {
+namespace Commencement.Mvc.ReportDataSets.CommencementDataSet_SummaryReportTableAdapters {
     
     
     /// <summary>
