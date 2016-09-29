@@ -113,6 +113,7 @@ namespace Commencement.Controllers
             var rview = new ReportViewer();
             
             rview.LocalReport.ReportPath = string.Format("{0}{1}", HostingEnvironment.MapPath("~/Reports/"),"SummaryReport.rdlc");
+            //rview.LocalReport.ReportPath = HttpContext.Server.MapPath(string.Format("~/Reports/{0}", "SummaryReport.rdlc"));
             rview.ProcessingMode = ProcessingMode.Local;
             rview.LocalReport.DataSources.Clear();
             rview.LocalReport.DataSources.Add(rs);
