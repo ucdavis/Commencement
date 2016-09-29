@@ -12,6 +12,7 @@ using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using Commencement.Mvc;
+using Commencement.Mvc.CommencementDataSet_SummaryReportTableAdapters;
 using Microsoft.Reporting.WebForms;
 using Microsoft.WindowsAzure;
 using UCDArch.Core.PersistanceSupport;
@@ -102,8 +103,11 @@ namespace Commencement.Controllers
 
         private byte[] GetLocalReport(string ReportName, Dictionary<string, string> parameters)
         {
-            DataSet ds = new CommencementDataSet_SummaryReport();
-            var rs = new ReportDataSource("SumOfAllTickets", ds.Tables[0]);
+
+            DataTable data = new usp_SummaryReportTableAdapter().GetData("201010", 123);
+
+            var rs = new ReportDataSource("SumOfAllTickets", data);
+
 
             var rview = new ReportViewer();
             rview.LocalReport.ReportPath = @"C:\GitProjects\Commencement\Commencement.Mvc\Reports\SummaryReport.rdlc";
