@@ -946,7 +946,9 @@
     </Content>
     <None Include="Properties\PublishProfiles\Production Glurmo.pubxml" />
     <None Include="Properties\PublishProfiles\Test Hughman.pubxml" />
-    <EmbeddedResource Include="Reports\SummaryReport.rdlc" />
+    <EmbeddedResource Include="Reports\SummaryReport.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\dateFormat.js" />
     <Content Include="Scripts\highchart.js" />

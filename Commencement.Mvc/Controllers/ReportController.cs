@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
@@ -104,13 +105,14 @@ namespace Commencement.Controllers
         private byte[] GetLocalReport(string ReportName, Dictionary<string, string> parameters)
         {
 
-            DataTable data = new usp_SummaryReportTableAdapter().GetData("201010", 123);
+            DataTable data = new usp_SummaryReportTableAdapter().GetData(parameters["term"], Convert.ToInt32(parameters["userId"]));
 
             var rs = new ReportDataSource("SumOfAllTickets", data);
 
 
             var rview = new ReportViewer();
-            rview.LocalReport.ReportPath = @"C:\GitProjects\Commencement\Commencement.Mvc\Reports\SummaryReport.rdlc";
+            
+            rview.LocalReport.ReportPath = string.Format("{0}{1}", HostingEnvironment.MapPath("~/Reports/"),"SummaryReport.rdlc");
             rview.ProcessingMode = ProcessingMode.Local;
             rview.LocalReport.DataSources.Clear();
             rview.LocalReport.DataSources.Add(rs);
