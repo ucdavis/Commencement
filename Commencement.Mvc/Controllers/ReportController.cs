@@ -15,6 +15,7 @@ using Commencement.Core.Resources;
 using Commencement.Mvc;
 using Commencement.Mvc.ReportDataSets;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_SummaryReportTableAdapters;
+using Commencement.Mvc.ReportDataSets.CommencementDataSet_TotalRegisteredByMajorReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_TotalRegistrationReportTableAdapters;
 using Microsoft.Reporting.WebForms;
 using Microsoft.WindowsAzure;
@@ -78,10 +79,13 @@ namespace Commencement.Controllers
                 case Report.TotalRegisteredByMajor:
                     name = "TotalRegistrationByMajorReport";
                     parameters.Add("major", majorCode);
+                    data = new usp_TotalRegisteredByMajorTableAdapter().GetData(parameters["term"], Convert.ToInt32(parameters["userId"]), parameters["major"]);
+                    rs = new ReportDataSource("TotalByMajorReport", data);
+                    return File(GetLocalReport(rs, name, parameters), "application/excel", string.Format("{0}.xls", name));
                     break;
-                case Report.TotalRegistrationPetitions:
-                    name = "TotalRegistrationPetitions";
-                    break;
+                //case Report.TotalRegistrationPetitions:
+                //    name = "TotalRegistrationPetitions";
+                //    break;
                 case Report.SumOfAllTickets:
                     name = "SummaryReport";
                     data = new usp_SummaryReportTableAdapter().GetData(parameters["term"], Convert.ToInt32(parameters["userId"]));
