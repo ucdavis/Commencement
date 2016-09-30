@@ -13,7 +13,9 @@ using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using Commencement.Mvc;
+using Commencement.Mvc.ReportDataSets;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_SummaryReportTableAdapters;
+using Commencement.Mvc.ReportDataSets.CommencementDataSet_TotalRegistrationReportTableAdapters;
 using Microsoft.Reporting.WebForms;
 using Microsoft.WindowsAzure;
 using UCDArch.Core.PersistanceSupport;
@@ -63,11 +65,15 @@ namespace Commencement.Controllers
 
             parameters.Add("term", termCode);
             parameters.Add("userId", _userService.GetCurrentUser(CurrentUser).Id.ToString());
-
-            switch(report)
+            DataTable data = null;
+            ReportDataSource rs = null;
+            switch (report)
             {
                 case Report.TotalRegisteredStudents:
                     name = "TotalRegistrationReport";
+                    data = new usp_TotalRegisteredStudentsTableAdapter().GetData(parameters["term"], Convert.ToInt32(parameters["userId"]));
+                    rs = new ReportDataSource("TotalRegisteredStudents", data);
+                    return File(GetLocalReport(rs, name, parameters), "application/excel", string.Format("{0}.xls", name));
                     break;
                 case Report.TotalRegisteredByMajor:
                     name = "TotalRegistrationByMajorReport";
@@ -78,8 +84,8 @@ namespace Commencement.Controllers
                     break;
                 case Report.SumOfAllTickets:
                     name = "SummaryReport";
-                    DataTable data = new usp_SummaryReportTableAdapter().GetData(parameters["term"], Convert.ToInt32(parameters["userId"]));
-                    var rs = new ReportDataSource("SumOfAllTickets", data);
+                    data = new usp_SummaryReportTableAdapter().GetData(parameters["term"], Convert.ToInt32(parameters["userId"]));
+                    rs = new ReportDataSource("SumOfAllTickets", data);
                     return File(GetLocalReport(rs, name, parameters), "application/excel", string.Format("{0}.xls", name));
                     break;
                 case Report.SpecialNeedsRequest:

@@ -398,6 +398,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UCDArchBootstrapper.cs" />
     <Compile Include="AuditInterceptor.cs" />
+    <Compile Include="ReportDataSets\CommencementDataSet_TotalRegistrationReport.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommencementDataSet_TotalRegistrationReport.xsd</DependentUpon>
+    </Compile>
     <Compile Include="ReportDataSets\CommencementDataSet_SummaryReport.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -949,6 +954,17 @@
       <DependentUpon>CommencementDataSet_SummaryReport.xsd</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="ReportDataSets\CommencementDataSet_TotalRegistrationReport.xsc">
+      <DependentUpon>CommencementDataSet_TotalRegistrationReport.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataSets\CommencementDataSet_TotalRegistrationReport.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CommencementDataSet_TotalRegistrationReport.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="ReportDataSets\CommencementDataSet_TotalRegistrationReport.xss">
+      <DependentUpon>CommencementDataSet_TotalRegistrationReport.xsd</DependentUpon>
+    </Content>
     <None Include="ReportDataSets\CommencementDataSet_SummaryReport.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CommencementDataSet_SummaryReport.Designer.cs</LastGenOutput>
@@ -964,6 +980,7 @@
     <Content Include="Reports\SummaryReport.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Reports\TotalRegistrationReport.rdlc" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\dateFormat.js" />
     <Content Include="Scripts\highchart.js" />
