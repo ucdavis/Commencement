@@ -4,7 +4,7 @@ CREATE PROCEDURE [dbo].[usp_TotalRegisteredStudents]
 	@userId int
 AS
 
-select s.lastname, s.firstname, s.studentid
+select s.lastname, s.firstname, s.studentid, s.MI
 	, case 
 		when majors.ConsolidationCode is not null then majors.ConsolidationCode
 		else rp.MajorCode
