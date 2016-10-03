@@ -26,14 +26,14 @@ AS
 --							where UserId = @userid
 --								and TermCode = @term)
 
-select students.LastName, students.FirstName, students.StudentId
+select ROW_NUMBER() OVER(order by Ceremonies.DateTime, students.LastName) as id, students.LastName, students.FirstName, students.StudentId
 	, rp.MajorCode as Major
 	, students.Email as PrimaryEmail
 	, reg.Email as SecondaryEmail
 	, ceremonies.DateTime as CeremonyTime
 	, dbo.udf_GetSpecialNeedsCSV(reg.id) as SpecialNeeds
 	, TermCodes.Name as Term
-	, Ceremonies.id
+	, Ceremonies.id as cid
 	, Majors.CollegeCode
 from Registrations reg
 	inner join Students on students.Id = reg.Student_Id
