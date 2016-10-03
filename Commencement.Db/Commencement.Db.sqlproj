@@ -774,6 +774,7 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\DatamartStudentMajors.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\DatamartStudents.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_TicketingByCeremony.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_TicketingByTerm.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Debug.publish.xml" />
