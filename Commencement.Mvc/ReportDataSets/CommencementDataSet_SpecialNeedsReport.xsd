@@ -46,7 +46,7 @@
   <xs:element name="CommencementDataSet_SpecialNeedsReport" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="CommencementDataSet_SpecialNeedsReport" msprop:Generator_UserDSName="CommencementDataSet_SpecialNeedsReport">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="usp_SpecialNeedsReport" msprop:Generator_TableClassName="usp_SpecialNeedsReportDataTable" msprop:Generator_TableVarName="tableusp_SpecialNeedsReport" msprop:Generator_RowChangedName="usp_SpecialNeedsReportRowChanged" msprop:Generator_TablePropName="usp_SpecialNeedsReport" msprop:Generator_RowDeletingName="usp_SpecialNeedsReportRowDeleting" msprop:Generator_RowChangingName="usp_SpecialNeedsReportRowChanging" msprop:Generator_RowEvHandlerName="usp_SpecialNeedsReportRowChangeEventHandler" msprop:Generator_RowDeletedName="usp_SpecialNeedsReportRowDeleted" msprop:Generator_RowClassName="usp_SpecialNeedsReportRow" msprop:Generator_UserTableName="usp_SpecialNeedsReport" msprop:Generator_RowEvArgName="usp_SpecialNeedsReportRowChangeEvent">
+        <xs:element name="usp_SpecialNeedsReport" msprop:Generator_TableClassName="usp_SpecialNeedsReportDataTable" msprop:Generator_TableVarName="tableusp_SpecialNeedsReport" msprop:Generator_TablePropName="usp_SpecialNeedsReport" msprop:Generator_RowDeletingName="usp_SpecialNeedsReportRowDeleting" msprop:Generator_RowChangingName="usp_SpecialNeedsReportRowChanging" msprop:Generator_RowEvHandlerName="usp_SpecialNeedsReportRowChangeEventHandler" msprop:Generator_RowDeletedName="usp_SpecialNeedsReportRowDeleted" msprop:Generator_UserTableName="usp_SpecialNeedsReport" msprop:Generator_RowChangedName="usp_SpecialNeedsReportRowChanged" msprop:Generator_RowEvArgName="usp_SpecialNeedsReportRowChangeEvent" msprop:Generator_RowClassName="usp_SpecialNeedsReportRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="id" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnid" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_ColumnPropNameInTable="idColumn" msprop:Generator_UserColumnName="id" type="xs:long" />
@@ -120,9 +120,5 @@
         </xs:element>
       </xs:choice>
     </xs:complexType>
-    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
-      <xs:selector xpath=".//mstns:usp_SpecialNeedsReport" />
-      <xs:field xpath="mstns:id" />
-    </xs:unique>
   </xs:element>
 </xs:schema>

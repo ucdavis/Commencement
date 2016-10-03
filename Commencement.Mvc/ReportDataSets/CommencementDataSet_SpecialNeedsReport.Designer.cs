@@ -491,13 +491,6 @@ namespace Commencement.Mvc.ReportDataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public usp_SpecialNeedsReportRow FindByid(long id) {
-                return ((usp_SpecialNeedsReportRow)(this.Rows.Find(new object[] {
-                            id})));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public override global::System.Data.DataTable Clone() {
                 usp_SpecialNeedsReportDataTable cln = ((usp_SpecialNeedsReportDataTable)(base.Clone()));
                 cln.InitVars();
@@ -554,11 +547,8 @@ namespace Commencement.Mvc.ReportDataSets {
                 base.Columns.Add(this.columncid);
                 this.columnCollegeCode = new global::System.Data.DataColumn("CollegeCode", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCollegeCode);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnid}, true));
                 this.columnid.AllowDBNull = false;
                 this.columnid.ReadOnly = true;
-                this.columnid.Unique = true;
                 this.columnLastName.MaxLength = 50;
                 this.columnFirstName.MaxLength = 50;
                 this.columnStudentId.AllowDBNull = false;

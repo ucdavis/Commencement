@@ -44,7 +44,7 @@
   <xs:element name="CommencementDataSet_SummaryReport" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="CommencementDataSet_SummaryReport" msprop:Generator_UserDSName="CommencementDataSet_SummaryReport">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="usp_SummaryReport" msprop:Generator_TableClassName="usp_SummaryReportDataTable" msprop:Generator_TableVarName="tableusp_SummaryReport" msprop:Generator_TablePropName="usp_SummaryReport" msprop:Generator_RowDeletingName="usp_SummaryReportRowDeleting" msprop:Generator_RowChangingName="usp_SummaryReportRowChanging" msprop:Generator_RowEvHandlerName="usp_SummaryReportRowChangeEventHandler" msprop:Generator_RowDeletedName="usp_SummaryReportRowDeleted" msprop:Generator_UserTableName="usp_SummaryReport" msprop:Generator_RowChangedName="usp_SummaryReportRowChanged" msprop:Generator_RowEvArgName="usp_SummaryReportRowChangeEvent" msprop:Generator_RowClassName="usp_SummaryReportRow">
+        <xs:element name="usp_SummaryReport" msprop:Generator_TableClassName="usp_SummaryReportDataTable" msprop:Generator_TableVarName="tableusp_SummaryReport" msprop:Generator_RowChangedName="usp_SummaryReportRowChanged" msprop:Generator_TablePropName="usp_SummaryReport" msprop:Generator_RowDeletingName="usp_SummaryReportRowDeleting" msprop:Generator_RowChangingName="usp_SummaryReportRowChanging" msprop:Generator_RowEvHandlerName="usp_SummaryReportRowChangeEventHandler" msprop:Generator_RowDeletedName="usp_SummaryReportRowDeleted" msprop:Generator_RowClassName="usp_SummaryReportRow" msprop:Generator_UserTableName="usp_SummaryReport" msprop:Generator_RowEvArgName="usp_SummaryReportRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="id" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_ColumnVarNameInTable="columnid" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_ColumnPropNameInTable="idColumn" msprop:Generator_UserColumnName="id" type="xs:int" />
@@ -68,9 +68,5 @@
         </xs:element>
       </xs:choice>
     </xs:complexType>
-    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
-      <xs:selector xpath=".//mstns:usp_SummaryReport" />
-      <xs:field xpath="mstns:id" />
-    </xs:unique>
   </xs:element>
 </xs:schema>
