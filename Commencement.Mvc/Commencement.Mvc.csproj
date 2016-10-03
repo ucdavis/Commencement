@@ -398,6 +398,16 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UCDArchBootstrapper.cs" />
     <Compile Include="AuditInterceptor.cs" />
+    <Compile Include="ReportDataSets\CommencementDataSet_TicketingByTermReport.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommencementDataSet_TicketingByTermReport.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataSets\CommencementDataSet_TicketingByCeremonyReport.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommencementDataSet_TicketingByCeremonyReport.xsd</DependentUpon>
+    </Compile>
     <Compile Include="ReportDataSets\CommencementDataSet_TotalRegisteredByMajorReport.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -965,6 +975,28 @@
     <Content Include="ReportDataSets\CommencementDataSet_TotalRegisteredByMajorReport.xsc">
       <DependentUpon>CommencementDataSet_TotalRegisteredByMajorReport.xsd</DependentUpon>
     </Content>
+    <Content Include="ReportDataSets\CommencementDataSet_TicketingByCeremonyReport.xsc">
+      <DependentUpon>CommencementDataSet_TicketingByCeremonyReport.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataSets\CommencementDataSet_TicketingByTermReport.xsc">
+      <DependentUpon>CommencementDataSet_TicketingByTermReport.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataSets\CommencementDataSet_TicketingByTermReport.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CommencementDataSet_TicketingByTermReport.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="ReportDataSets\CommencementDataSet_TicketingByTermReport.xss">
+      <DependentUpon>CommencementDataSet_TicketingByTermReport.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataSets\CommencementDataSet_TicketingByCeremonyReport.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CommencementDataSet_TicketingByCeremonyReport.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="ReportDataSets\CommencementDataSet_TicketingByCeremonyReport.xss">
+      <DependentUpon>CommencementDataSet_TicketingByCeremonyReport.xsd</DependentUpon>
+    </Content>
     <None Include="ReportDataSets\CommencementDataSet_TotalRegisteredByMajorReport.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CommencementDataSet_TotalRegisteredByMajorReport.Designer.cs</LastGenOutput>
@@ -1000,6 +1032,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Reports\TotalRegistrationByMajorReport.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reports\TicketingByCeremony.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reports\TicketingByTerm.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

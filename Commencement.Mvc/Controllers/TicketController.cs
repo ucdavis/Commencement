@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Services;
 using Commencement.Core.Domain;
+using Commencement.Mvc.ReportDataSets.CommencementDataSet_TicketingByCeremonyReportTableAdapters;
+using Commencement.Mvc.ReportDataSets.CommencementDataSet_TicketingByTermReportTableAdapters;
 using Microsoft.Reporting.WebForms;
 using Microsoft.WindowsAzure;
 using UCDArch.Core.Utils;
@@ -37,21 +41,72 @@ namespace Commencement.Controllers
         {
             var name = string.Empty;
             var parameters = new Dictionary<string, string>();
+            DataTable data = null;
+            ReportDataSource rs = null;
 
             if (ceremonyId.HasValue)
             {
-                name = "TicketingByCeremony";
                 parameters.Add("cid", ceremonyId.Value.ToString(CultureInfo.InvariantCulture));
+
+                name = "TicketingByCeremony";
+                data = new usp_TicketingByCeremonyTableAdapter().GetData(Convert.ToInt32(parameters["cid"]));
+                rs = new ReportDataSource("TicketingByCeremony", data);
+                
             }
-            else
+            else 
             {
-                name = "TicketingAllCeremonies";
+
+                name = "TicketingByTerm";
                 parameters.Add("term", TermService.GetCurrent().Id);
+                data = new usp_TicketingByTermTableAdapter().GetData(parameters["term"]);
+                rs = new ReportDataSource("TicketingByTerm", data);
+
+                
             }
 
-            return File(GetReport(string.Format("/commencement/{0}", name), parameters), "application/excel", string.Format("{0}.xls", name));
+            return File(GetLocalReport(rs, name, parameters), "application/excel", string.Format("{0}.xls", name));
+
+            //return File(GetReport(string.Format("/commencement/{0}", name), parameters), "application/excel", string.Format("{0}.xls", name));
         }
 
+        private byte[] GetLocalReport(ReportDataSource rs, string reportName, Dictionary<string, string> parameters)
+        {
+
+
+            var rview = new ReportViewer();
+
+            rview.LocalReport.ReportPath = string.Format("{0}{1}.rdlc", HostingEnvironment.MapPath("~/Reports/"), reportName);
+
+            rview.ProcessingMode = ProcessingMode.Local;
+            rview.LocalReport.DataSources.Clear();
+            rview.LocalReport.DataSources.Add(rs);
+
+            var paramList = new List<ReportParameter>();
+
+            if (parameters.Count > 0)
+            {
+                foreach (KeyValuePair<string, string> kvp in parameters)
+                {
+                    paramList.Add(new ReportParameter(kvp.Key, kvp.Value));
+                }
+            }
+
+            rview.LocalReport.SetParameters(paramList);
+
+            string mimeType, encoding, extension;
+            string[] streamids;
+            Warning[] warnings;
+
+            string format = "Excel";
+
+
+
+            byte[] bytes = rview.LocalReport.Render(format, null, out mimeType, out encoding, out extension, out streamids, out warnings);
+
+            return bytes;
+        }
+
+        [Obsolete]
         private byte[] GetReport(string ReportName, Dictionary<string, string> parameters)
         {
             string reportServer = _serverLocation;
