@@ -1018,7 +1018,9 @@
     <Content Include="Reports\TotalRegistrationByMajorReport.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Reports\TicketingByCeremony.rdlc" />
+    <Content Include="Reports\TicketingByCeremony.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\dateFormat.js" />
     <Content Include="Scripts\highchart.js" />
