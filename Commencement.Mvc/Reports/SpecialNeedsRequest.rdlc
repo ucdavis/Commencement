@@ -9,21 +9,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>College of Agricultural &amp; Environmental Sciences Dean's Office</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                  <Color>Navy</Color>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Left</TextAlign>
-            </Style>
-          </Paragraph>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Computing Resources Unit</Value>
+                <Value>College of Agricultural &amp; Environmental Sciences Dean's Office Computing Resources Unit</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                   <Color>Navy</Color>
@@ -37,7 +23,7 @@
         </Paragraphs>
         <rd:DefaultName>Name1</rd:DefaultName>
         <Height>0.39965in</Height>
-        <Width>4.22605in</Width>
+        <Width>6.44857in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1284,15 +1270,18 @@
   </Page>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="Commencement">
-      <DataSourceReference>Commencement</DataSourceReference>
-      <rd:DataSourceID>6cffa795-c3fb-491b-ae65-fe7eb84ce593</rd:DataSourceID>
+    <DataSource Name="CommencementDataSet_SpecialNeedsReport">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>e576e051-cfae-4625-b086-8ba964856648</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="SpecialNeeds">
       <Query>
-        <DataSourceName>Commencement</DataSourceName>
+        <DataSourceName>CommencementDataSet_SpecialNeedsReport</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@term">
             <Value>=Parameters!term.Value</Value>
@@ -1305,6 +1294,10 @@
         <CommandText>usp_SpecialNeedsReport</CommandText>
       </Query>
       <Fields>
+        <Field Name="id">
+          <DataField>id</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
         <Field Name="LastName">
           <DataField>LastName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -1341,15 +1334,23 @@
           <DataField>Term</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="id">
-          <DataField>id</DataField>
+        <Field Name="cid">
+          <DataField>cid</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="CollegeCode">
           <DataField>CollegeCode</DataField>
-          <rd:UserDefined>true</rd:UserDefined>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>CommencementDataSet_SpecialNeedsReport</rd:DataSetName>
+        <rd:SchemaPath>C:\GitProjects\Commencement\Commencement.Mvc\CommencementDataSet_SpecialNeedsReport.xsd</rd:SchemaPath>
+        <rd:TableName>usp_SpecialNeedsReport</rd:TableName>
+        <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
+        <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
+        <rd:TableAdapterName>usp_SpecialNeedsReportTableAdapter</rd:TableAdapterName>
+      </rd:DataSetInfo>
     </DataSet>
   </DataSets>
   <ReportParameters>

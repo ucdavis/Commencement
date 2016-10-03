@@ -14,6 +14,7 @@ using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using Commencement.Mvc;
 using Commencement.Mvc.ReportDataSets;
+using Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_SummaryReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_TotalRegisteredByMajorReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_TotalRegistrationReportTableAdapters;
@@ -94,6 +95,9 @@ namespace Commencement.Controllers
                     break;
                 case Report.SpecialNeedsRequest:
                     name = "SpecialNeedsRequest";
+                    data = new usp_SpecialNeedsReportTableAdapter().GetData(parameters["term"], Convert.ToInt32(parameters["userId"]));
+                    rs = new ReportDataSource("SpecialNeeds", data);
+                    return File(GetLocalReport(rs, name, parameters), "application/excel", string.Format("{0}.xls", name));
                     break;
                 case Report.RegistrarsReport:
                     name = "RegistrarReport";
