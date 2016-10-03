@@ -206,7 +206,7 @@
 
     </fieldset>
     
-    <fieldset>
+    <%--<fieldset>
         
         <legend>Labels</legend>
         
@@ -272,7 +272,7 @@
 
         </div>        
 
-    </fieldset>
+    </fieldset>--%>
 
 </asp:Content>
 
