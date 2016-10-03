@@ -50,7 +50,7 @@
                 <div class="col2">
                     <% using (Html.BeginForm("GetReport", "Report", FormMethod.Get)) { %>
                         <img src="<%: Url.Content("~/Images/ajax-loader.gif") %>" id="totalreg-loader" style="display: none;"/>
-                        <%= this.Select("majorCode").Options(Model.MajorCodes,x=>x.Id,x=>x.Name).FirstOption("--Select a Major") %>
+                        <%= this.Select("majorCode").Options(Model.MajorCodes,x=>x.Id,x=>string.Format("{0} ({1})", x.Name, x.Id)).FirstOption("--Select a Major") %>
                         <a href="#" class="submit_anchor button"><span class="ui-icon ui-icon-disk"></span>Download</a>
                         <%= Html.Hidden("Report", ReportController.Report.TotalRegisteredByMajor) %>
                         <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class="term_value"}) %>
@@ -83,13 +83,13 @@
         <div class="report">
             
             <div class="title">
-                <div class="col1">Neulion Ticket Reports</div>
+                <div class="col1">Electronic Ticket Reports</div>
                 <div class="col2">
                     <%= Html.ActionLink<TicketController>(a => a.Index(), "View", new { @class="button" })%>
                 </div>
             </div>
             
-            <div class="description">List of excel reports available for Neulion Tickets.</div>
+            <div class="description">List of excel reports available for Tickets.</div>
 
         </div>
         
@@ -206,7 +206,7 @@
 
     </fieldset>
     
-    <fieldset>
+    <%--<fieldset>
         
         <legend>Labels</legend>
         
@@ -272,7 +272,7 @@
 
         </div>        
 
-    </fieldset>
+    </fieldset>--%>
 
 </asp:Content>
 

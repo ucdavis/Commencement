@@ -14,6 +14,7 @@ using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using Commencement.Mvc;
 using Commencement.Mvc.ReportDataSets;
+using Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_SummaryReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_TotalRegisteredByMajorReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_TotalRegistrationReportTableAdapters;
@@ -74,14 +75,14 @@ namespace Commencement.Controllers
                     name = "TotalRegistrationReport";
                     data = new usp_TotalRegisteredStudentsTableAdapter().GetData(parameters["term"], Convert.ToInt32(parameters["userId"]));
                     rs = new ReportDataSource("TotalRegisteredStudents", data);
-                    return File(GetLocalReport(rs, name, parameters), "application/excel", string.Format("{0}.xls", name));
+                    
                     break;
                 case Report.TotalRegisteredByMajor:
                     name = "TotalRegistrationByMajorReport";
                     parameters.Add("major", majorCode);
                     data = new usp_TotalRegisteredByMajorTableAdapter().GetData(parameters["term"], Convert.ToInt32(parameters["userId"]), parameters["major"]);
                     rs = new ReportDataSource("TotalByMajorReport", data);
-                    return File(GetLocalReport(rs, name, parameters), "application/excel", string.Format("{0}.xls", name));
+                    
                     break;
                 //case Report.TotalRegistrationPetitions:
                 //    name = "TotalRegistrationPetitions";
@@ -90,10 +91,13 @@ namespace Commencement.Controllers
                     name = "SummaryReport";
                     data = new usp_SummaryReportTableAdapter().GetData(parameters["term"], Convert.ToInt32(parameters["userId"]));
                     rs = new ReportDataSource("SumOfAllTickets", data);
-                    return File(GetLocalReport(rs, name, parameters), "application/excel", string.Format("{0}.xls", name));
+                    
                     break;
                 case Report.SpecialNeedsRequest:
                     name = "SpecialNeedsRequest";
+                    data = new usp_SpecialNeedsReportTableAdapter().GetData(parameters["term"], Convert.ToInt32(parameters["userId"]));
+                    rs = new ReportDataSource("SpecialNeeds", data);
+                    
                     break;
                 case Report.RegistrarsReport:
                     name = "RegistrarReport";
@@ -111,7 +115,8 @@ namespace Commencement.Controllers
                     break;
             };
 
-            return File(GetReport(string.Format("/commencement/{0}", name), parameters), "application/excel", string.Format("{0}.xls", name));
+            return File(GetLocalReport(rs, name, parameters), "application/excel", string.Format("{0}.xls", name));
+            //return File(GetReport(string.Format("/commencement/{0}", name), parameters), "application/excel", string.Format("{0}.xls", name));
         }
 
 
@@ -151,7 +156,7 @@ namespace Commencement.Controllers
 
             return bytes;
         }
-
+        [Obsolete]
         private byte[] GetReport(string ReportName, Dictionary<string, string> parameters)
         {
             string reportServer = _serverLocation;
