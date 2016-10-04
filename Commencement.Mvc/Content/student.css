@@ -537,12 +537,28 @@ input[type="button"].button-primary:focus {
       font-size: 1.8rem; }
 
 .instructions {
-  -webkit-columns: 2;
-  -moz-columns: 2;
-  columns: 2;
-  -webkit-column-gap: 40px;
-  -moz-column-gap: 40px;
-  column-gap: 40px; }
+    -webkit-columns: 2;
+    -moz-columns: 2;
+    columns: 2;
+    -webkit-column-gap: 40px;
+    -moz-column-gap: 40px;
+    column-gap: 40px;
+}
+@media (max-width: 640px) {
+    .instructions {
+        -webkit-columns: inherit;
+        -moz-columns: inherit;
+        columns: inherit;
+    }
+}
+
+@media (max-width: 640px) {
+    .dropdown-width {
+        width: 100%;
+    }
+}
+
+
 
 .studentbar {
   background-color: #002855;
