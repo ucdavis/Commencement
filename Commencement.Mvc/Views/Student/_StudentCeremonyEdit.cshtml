@@ -92,15 +92,16 @@
                 </tr>
                 <tr>
                     <td>
-                        @if (a.Ceremony.TicketDistributionMethods.Count > 0)
-                        {
-                            @Html.DropDownList(string.Format("ceremonyParticipations[{0}].TicketDistributionMethod", a.Index), new SelectList(a.Ceremony.TicketDistributionMethods, "id", "name", a.TicketDistributionMethod != null ? a.TicketDistributionMethod.Id : (a.Ceremony.TicketDistributionMethods.Count == 1 ? a.Ceremony.TicketDistributionMethods.First().Id : string.Empty)), "-- Select Ticket Type --")
-                        }
-                        else
-                        {
-                            <span>Please consult the Dean's Office FAQ</span>
-                        }
-
+                        <div class="input__group">
+                            @if (a.Ceremony.TicketDistributionMethods.Count > 0)
+                            {
+                                @Html.DropDownList(string.Format("ceremonyParticipations[{0}].TicketDistributionMethod", a.Index), new SelectList(a.Ceremony.TicketDistributionMethods, "id", "name", a.TicketDistributionMethod != null ? a.TicketDistributionMethod.Id : (a.Ceremony.TicketDistributionMethods.Count == 1 ? a.Ceremony.TicketDistributionMethods.First().Id : string.Empty)), "-- Select Ticket Type --", new { @class = "dropdown-width" })
+                            }
+                            else
+                            {
+                                <span>Please consult the Dean's Office FAQ</span>
+                            }
+                        </div>  
                     </td>
                 </tr>
                 <tr>
@@ -108,7 +109,9 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.DropDownList(string.Format("ceremonyParticipations[{0}].Major", a.Index), new SelectList(a.MajorCodes, "id", "MajorName", a.Major.MajorId))
+                        <div class="input__group">
+                            @Html.DropDownList(string.Format("ceremonyParticipations[{0}].Major", a.Index), new SelectList(a.MajorCodes, "id", "MajorName", a.Major.MajorId), new { @class = "dropdown-width" })
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -116,15 +119,17 @@
                 </tr>
                 <tr>
                     <td>
-                        <select id="@string.Format(" ceremonyParticipations[{0}]_Tickets", a.Index)" name="@string.Format("ceremonyParticipations[{0}].Tickets", a.Index)" class="long">
+                        <div class="input__group">
+                            <select id="@string.Format(" ceremonyParticipations[{0}]_Tickets", a.Index)" name="@string.Format("ceremonyParticipations[{0}].Tickets", a.Index)" class="long dropdown-width">
 
-                            <option value="">--Select # of Tickets--</option>
+                                <option value="">--Select # of Tickets--</option>
 
-                            @for (int i = 1; i <= a.Ceremony.TicketsPerStudent; i++)
-                            {
-                                <option value="@i" @(i == a.Tickets ? "selected=\"selected\"" : string.Empty)>@string.Format("{0:00}", i)</option>
-                            }
-                        </select>
+                                @for (int i = 1; i <= a.Ceremony.TicketsPerStudent; i++)
+                                {
+                                    <option value="@i" @(i == a.Tickets ? "selected=\"selected\"" : string.Empty)>@string.Format("{0:00}", i)</option>
+                                }
+                            </select>
+                        </div>
                     </td>
                 </tr>
                 </tbody>

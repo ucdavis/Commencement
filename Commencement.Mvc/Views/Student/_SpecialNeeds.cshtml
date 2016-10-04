@@ -4,7 +4,7 @@
 <p>Please indicate any special needs you (personally) have that will affect your ability to participate in the ceremony (lining up, sitting, crossing the stage, etc.). For guest accommodations, please refer back to the <a href="http://commencement.ucdavis.edu">UC Davis Commencement site.</a></p>
 <div class="form__wrapper">
     <div class="input__group">
-        @Html.DropDownList("SpecialNeeds", new SelectList(Model.FullSpecialNeeds, "Id", "Name", Model.Registration != null && Model.Registration.SpecialNeeds.FirstOrDefault() != null ? Model.Registration.SpecialNeeds.FirstOrDefault().Id.ToString() : string.Empty), "--Special Needs Request--")
+        @Html.DropDownList("SpecialNeeds", new SelectList(Model.FullSpecialNeeds, "Id", "Name", Model.Registration != null && Model.Registration.SpecialNeeds.FirstOrDefault() != null ? Model.Registration.SpecialNeeds.FirstOrDefault().Id.ToString() : string.Empty), "--Special Needs Request--", new {@class = "dropdown-width"})
     </div>
 </div>
 

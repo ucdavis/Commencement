@@ -469,13 +469,6 @@ namespace Commencement.Mvc.ReportDataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public usp_SummaryReportRow FindByid(int id) {
-                return ((usp_SummaryReportRow)(this.Rows.Find(new object[] {
-                            id})));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public override global::System.Data.DataTable Clone() {
                 usp_SummaryReportDataTable cln = ((usp_SummaryReportDataTable)(base.Clone()));
                 cln.InitVars();
@@ -526,12 +519,9 @@ namespace Commencement.Mvc.ReportDataSets {
                 base.Columns.Add(this.columnApprovedExtraTickets);
                 this.columnApprovedStreamingExtraTickets = new global::System.Data.DataColumn("ApprovedStreamingExtraTickets", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnApprovedStreamingExtraTickets);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnid}, true));
                 this.columnid.AutoIncrement = true;
                 this.columnid.AllowDBNull = false;
                 this.columnid.ReadOnly = true;
-                this.columnid.Unique = true;
                 this.columnDateTime.AllowDBNull = false;
                 this.columnTermCode.AllowDBNull = false;
                 this.columnTermCode.MaxLength = 6;

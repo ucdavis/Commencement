@@ -20,17 +20,17 @@ namespace Commencement.Mvc.ReportDataSets {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("CommencementDataSet_SpecialNeedsReport")]
+    [global::System.Xml.Serialization.XmlRootAttribute("CommencementDataSet_RegistrarsReport")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class CommencementDataSet_SpecialNeedsReport : global::System.Data.DataSet {
+    public partial class CommencementDataSet_RegistrarsReport : global::System.Data.DataSet {
         
-        private usp_SpecialNeedsReportDataTable tableusp_SpecialNeedsReport;
+        private usp_RegistrarReportDataTable tableusp_RegistrarReport;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public CommencementDataSet_SpecialNeedsReport() {
+        public CommencementDataSet_RegistrarsReport() {
             this.BeginInit();
             this.InitClass();
             global::System.ComponentModel.CollectionChangeEventHandler schemaChangedHandler = new global::System.ComponentModel.CollectionChangeEventHandler(this.SchemaChanged);
@@ -41,7 +41,7 @@ namespace Commencement.Mvc.ReportDataSets {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected CommencementDataSet_SpecialNeedsReport(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+        protected CommencementDataSet_RegistrarsReport(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
                 this.InitVars(false);
@@ -54,8 +54,8 @@ namespace Commencement.Mvc.ReportDataSets {
             if ((this.DetermineSchemaSerializationMode(info, context) == global::System.Data.SchemaSerializationMode.IncludeSchema)) {
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXmlSchema(new global::System.Xml.XmlTextReader(new global::System.IO.StringReader(strSchema)));
-                if ((ds.Tables["usp_SpecialNeedsReport"] != null)) {
-                    base.Tables.Add(new usp_SpecialNeedsReportDataTable(ds.Tables["usp_SpecialNeedsReport"]));
+                if ((ds.Tables["usp_RegistrarReport"] != null)) {
+                    base.Tables.Add(new usp_RegistrarReportDataTable(ds.Tables["usp_RegistrarReport"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -79,9 +79,9 @@ namespace Commencement.Mvc.ReportDataSets {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public usp_SpecialNeedsReportDataTable usp_SpecialNeedsReport {
+        public usp_RegistrarReportDataTable usp_RegistrarReport {
             get {
-                return this.tableusp_SpecialNeedsReport;
+                return this.tableusp_RegistrarReport;
             }
         }
         
@@ -127,7 +127,7 @@ namespace Commencement.Mvc.ReportDataSets {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            CommencementDataSet_SpecialNeedsReport cln = ((CommencementDataSet_SpecialNeedsReport)(base.Clone()));
+            CommencementDataSet_RegistrarsReport cln = ((CommencementDataSet_RegistrarsReport)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
             return cln;
@@ -152,8 +152,8 @@ namespace Commencement.Mvc.ReportDataSets {
                 this.Reset();
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXml(reader);
-                if ((ds.Tables["usp_SpecialNeedsReport"] != null)) {
-                    base.Tables.Add(new usp_SpecialNeedsReportDataTable(ds.Tables["usp_SpecialNeedsReport"]));
+                if ((ds.Tables["usp_RegistrarReport"] != null)) {
+                    base.Tables.Add(new usp_RegistrarReportDataTable(ds.Tables["usp_RegistrarReport"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -188,10 +188,10 @@ namespace Commencement.Mvc.ReportDataSets {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         internal void InitVars(bool initTable) {
-            this.tableusp_SpecialNeedsReport = ((usp_SpecialNeedsReportDataTable)(base.Tables["usp_SpecialNeedsReport"]));
+            this.tableusp_RegistrarReport = ((usp_RegistrarReportDataTable)(base.Tables["usp_RegistrarReport"]));
             if ((initTable == true)) {
-                if ((this.tableusp_SpecialNeedsReport != null)) {
-                    this.tableusp_SpecialNeedsReport.InitVars();
+                if ((this.tableusp_RegistrarReport != null)) {
+                    this.tableusp_RegistrarReport.InitVars();
                 }
             }
         }
@@ -199,18 +199,18 @@ namespace Commencement.Mvc.ReportDataSets {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "CommencementDataSet_SpecialNeedsReport";
+            this.DataSetName = "CommencementDataSet_RegistrarsReport";
             this.Prefix = "";
-            this.Namespace = "http://tempuri.org/CommencementDataSet_SpecialNeedsReport.xsd";
+            this.Namespace = "http://tempuri.org/CommencementDataSet_RegistrarsReport.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
-            this.tableusp_SpecialNeedsReport = new usp_SpecialNeedsReportDataTable();
-            base.Tables.Add(this.tableusp_SpecialNeedsReport);
+            this.tableusp_RegistrarReport = new usp_RegistrarReportDataTable();
+            base.Tables.Add(this.tableusp_RegistrarReport);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeusp_SpecialNeedsReport() {
+        private bool ShouldSerializeusp_RegistrarReport() {
             return false;
         }
         
@@ -225,7 +225,7 @@ namespace Commencement.Mvc.ReportDataSets {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            CommencementDataSet_SpecialNeedsReport ds = new CommencementDataSet_SpecialNeedsReport();
+            CommencementDataSet_RegistrarsReport ds = new CommencementDataSet_RegistrarsReport();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
@@ -270,43 +270,31 @@ namespace Commencement.Mvc.ReportDataSets {
         }
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void usp_SpecialNeedsReportRowChangeEventHandler(object sender, usp_SpecialNeedsReportRowChangeEvent e);
+        public delegate void usp_RegistrarReportRowChangeEventHandler(object sender, usp_RegistrarReportRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class usp_SpecialNeedsReportDataTable : global::System.Data.TypedTableBase<usp_SpecialNeedsReportRow> {
+        public partial class usp_RegistrarReportDataTable : global::System.Data.TypedTableBase<usp_RegistrarReportRow> {
             
-            private global::System.Data.DataColumn columnid;
+            private global::System.Data.DataColumn columnStudentId;
             
             private global::System.Data.DataColumn columnLastName;
             
             private global::System.Data.DataColumn columnFirstName;
             
-            private global::System.Data.DataColumn columnStudentId;
+            private global::System.Data.DataColumn columnMI;
             
-            private global::System.Data.DataColumn columnMajor;
-            
-            private global::System.Data.DataColumn columnPrimaryEmail;
-            
-            private global::System.Data.DataColumn columnSecondaryEmail;
-            
-            private global::System.Data.DataColumn columnCeremonyTime;
-            
-            private global::System.Data.DataColumn columnSpecialNeeds;
-            
-            private global::System.Data.DataColumn columnTerm;
-            
-            private global::System.Data.DataColumn columncid;
+            private global::System.Data.DataColumn columnMajorCode;
             
             private global::System.Data.DataColumn columnCollegeCode;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public usp_SpecialNeedsReportDataTable() {
-                this.TableName = "usp_SpecialNeedsReport";
+            public usp_RegistrarReportDataTable() {
+                this.TableName = "usp_RegistrarReport";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -314,7 +302,7 @@ namespace Commencement.Mvc.ReportDataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal usp_SpecialNeedsReportDataTable(global::System.Data.DataTable table) {
+            internal usp_RegistrarReportDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -331,16 +319,16 @@ namespace Commencement.Mvc.ReportDataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected usp_SpecialNeedsReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected usp_RegistrarReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn idColumn {
+            public global::System.Data.DataColumn StudentIdColumn {
                 get {
-                    return this.columnid;
+                    return this.columnStudentId;
                 }
             }
             
@@ -362,65 +350,17 @@ namespace Commencement.Mvc.ReportDataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn StudentIdColumn {
+            public global::System.Data.DataColumn MIColumn {
                 get {
-                    return this.columnStudentId;
+                    return this.columnMI;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn MajorColumn {
+            public global::System.Data.DataColumn MajorCodeColumn {
                 get {
-                    return this.columnMajor;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn PrimaryEmailColumn {
-                get {
-                    return this.columnPrimaryEmail;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn SecondaryEmailColumn {
-                get {
-                    return this.columnSecondaryEmail;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn CeremonyTimeColumn {
-                get {
-                    return this.columnCeremonyTime;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn SpecialNeedsColumn {
-                get {
-                    return this.columnSpecialNeeds;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn TermColumn {
-                get {
-                    return this.columnTerm;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn cidColumn {
-                get {
-                    return this.columncid;
+                    return this.columnMajorCode;
                 }
             }
             
@@ -443,56 +383,50 @@ namespace Commencement.Mvc.ReportDataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public usp_SpecialNeedsReportRow this[int index] {
+            public usp_RegistrarReportRow this[int index] {
                 get {
-                    return ((usp_SpecialNeedsReportRow)(this.Rows[index]));
+                    return ((usp_RegistrarReportRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event usp_SpecialNeedsReportRowChangeEventHandler usp_SpecialNeedsReportRowChanging;
+            public event usp_RegistrarReportRowChangeEventHandler usp_RegistrarReportRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event usp_SpecialNeedsReportRowChangeEventHandler usp_SpecialNeedsReportRowChanged;
+            public event usp_RegistrarReportRowChangeEventHandler usp_RegistrarReportRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event usp_SpecialNeedsReportRowChangeEventHandler usp_SpecialNeedsReportRowDeleting;
+            public event usp_RegistrarReportRowChangeEventHandler usp_RegistrarReportRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event usp_SpecialNeedsReportRowChangeEventHandler usp_SpecialNeedsReportRowDeleted;
+            public event usp_RegistrarReportRowChangeEventHandler usp_RegistrarReportRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void Addusp_SpecialNeedsReportRow(usp_SpecialNeedsReportRow row) {
+            public void Addusp_RegistrarReportRow(usp_RegistrarReportRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public usp_SpecialNeedsReportRow Addusp_SpecialNeedsReportRow(long id, string LastName, string FirstName, string StudentId, string Major, string PrimaryEmail, string SecondaryEmail, System.DateTime CeremonyTime, string SpecialNeeds, string Term, string CollegeCode) {
-                usp_SpecialNeedsReportRow rowusp_SpecialNeedsReportRow = ((usp_SpecialNeedsReportRow)(this.NewRow()));
+            public usp_RegistrarReportRow Addusp_RegistrarReportRow(string StudentId, string LastName, string FirstName, string MI, string MajorCode, string CollegeCode) {
+                usp_RegistrarReportRow rowusp_RegistrarReportRow = ((usp_RegistrarReportRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        id,
+                        StudentId,
                         LastName,
                         FirstName,
-                        StudentId,
-                        Major,
-                        PrimaryEmail,
-                        SecondaryEmail,
-                        CeremonyTime,
-                        SpecialNeeds,
-                        Term,
-                        null,
+                        MI,
+                        MajorCode,
                         CollegeCode};
-                rowusp_SpecialNeedsReportRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowusp_SpecialNeedsReportRow);
-                return rowusp_SpecialNeedsReportRow;
+                rowusp_RegistrarReportRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowusp_RegistrarReportRow);
+                return rowusp_RegistrarReportRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                usp_SpecialNeedsReportDataTable cln = ((usp_SpecialNeedsReportDataTable)(base.Clone()));
+                usp_RegistrarReportDataTable cln = ((usp_RegistrarReportDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -500,98 +434,69 @@ namespace Commencement.Mvc.ReportDataSets {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new usp_SpecialNeedsReportDataTable();
+                return new usp_RegistrarReportDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
-                this.columnid = base.Columns["id"];
+                this.columnStudentId = base.Columns["StudentId"];
                 this.columnLastName = base.Columns["LastName"];
                 this.columnFirstName = base.Columns["FirstName"];
-                this.columnStudentId = base.Columns["StudentId"];
-                this.columnMajor = base.Columns["Major"];
-                this.columnPrimaryEmail = base.Columns["PrimaryEmail"];
-                this.columnSecondaryEmail = base.Columns["SecondaryEmail"];
-                this.columnCeremonyTime = base.Columns["CeremonyTime"];
-                this.columnSpecialNeeds = base.Columns["SpecialNeeds"];
-                this.columnTerm = base.Columns["Term"];
-                this.columncid = base.Columns["cid"];
+                this.columnMI = base.Columns["MI"];
+                this.columnMajorCode = base.Columns["MajorCode"];
                 this.columnCollegeCode = base.Columns["CollegeCode"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             private void InitClass() {
-                this.columnid = new global::System.Data.DataColumn("id", typeof(long), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnid);
+                this.columnStudentId = new global::System.Data.DataColumn("StudentId", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnStudentId);
                 this.columnLastName = new global::System.Data.DataColumn("LastName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnLastName);
                 this.columnFirstName = new global::System.Data.DataColumn("FirstName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnFirstName);
-                this.columnStudentId = new global::System.Data.DataColumn("StudentId", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnStudentId);
-                this.columnMajor = new global::System.Data.DataColumn("Major", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnMajor);
-                this.columnPrimaryEmail = new global::System.Data.DataColumn("PrimaryEmail", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnPrimaryEmail);
-                this.columnSecondaryEmail = new global::System.Data.DataColumn("SecondaryEmail", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnSecondaryEmail);
-                this.columnCeremonyTime = new global::System.Data.DataColumn("CeremonyTime", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCeremonyTime);
-                this.columnSpecialNeeds = new global::System.Data.DataColumn("SpecialNeeds", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnSpecialNeeds);
-                this.columnTerm = new global::System.Data.DataColumn("Term", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTerm);
-                this.columncid = new global::System.Data.DataColumn("cid", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columncid);
+                this.columnMI = new global::System.Data.DataColumn("MI", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMI);
+                this.columnMajorCode = new global::System.Data.DataColumn("MajorCode", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMajorCode);
                 this.columnCollegeCode = new global::System.Data.DataColumn("CollegeCode", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCollegeCode);
-                this.columnid.AllowDBNull = false;
-                this.columnid.ReadOnly = true;
-                this.columnLastName.MaxLength = 50;
-                this.columnFirstName.MaxLength = 50;
                 this.columnStudentId.AllowDBNull = false;
                 this.columnStudentId.MaxLength = 9;
-                this.columnMajor.AllowDBNull = false;
-                this.columnMajor.MaxLength = 4;
-                this.columnPrimaryEmail.MaxLength = 100;
-                this.columnSecondaryEmail.MaxLength = 100;
-                this.columnCeremonyTime.AllowDBNull = false;
-                this.columnSpecialNeeds.ReadOnly = true;
-                this.columnSpecialNeeds.MaxLength = 2147483647;
-                this.columnTerm.AllowDBNull = false;
-                this.columnTerm.MaxLength = 50;
-                this.columncid.AutoIncrement = true;
-                this.columncid.AllowDBNull = false;
-                this.columncid.ReadOnly = true;
+                this.columnLastName.MaxLength = 50;
+                this.columnFirstName.MaxLength = 50;
+                this.columnMI.MaxLength = 50;
+                this.columnMajorCode.AllowDBNull = false;
+                this.columnMajorCode.MaxLength = 4;
                 this.columnCollegeCode.MaxLength = 2;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public usp_SpecialNeedsReportRow Newusp_SpecialNeedsReportRow() {
-                return ((usp_SpecialNeedsReportRow)(this.NewRow()));
+            public usp_RegistrarReportRow Newusp_RegistrarReportRow() {
+                return ((usp_RegistrarReportRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new usp_SpecialNeedsReportRow(builder);
+                return new usp_RegistrarReportRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(usp_SpecialNeedsReportRow);
+                return typeof(usp_RegistrarReportRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.usp_SpecialNeedsReportRowChanged != null)) {
-                    this.usp_SpecialNeedsReportRowChanged(this, new usp_SpecialNeedsReportRowChangeEvent(((usp_SpecialNeedsReportRow)(e.Row)), e.Action));
+                if ((this.usp_RegistrarReportRowChanged != null)) {
+                    this.usp_RegistrarReportRowChanged(this, new usp_RegistrarReportRowChangeEvent(((usp_RegistrarReportRow)(e.Row)), e.Action));
                 }
             }
             
@@ -599,8 +504,8 @@ namespace Commencement.Mvc.ReportDataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.usp_SpecialNeedsReportRowChanging != null)) {
-                    this.usp_SpecialNeedsReportRowChanging(this, new usp_SpecialNeedsReportRowChangeEvent(((usp_SpecialNeedsReportRow)(e.Row)), e.Action));
+                if ((this.usp_RegistrarReportRowChanging != null)) {
+                    this.usp_RegistrarReportRowChanging(this, new usp_RegistrarReportRowChangeEvent(((usp_RegistrarReportRow)(e.Row)), e.Action));
                 }
             }
             
@@ -608,8 +513,8 @@ namespace Commencement.Mvc.ReportDataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.usp_SpecialNeedsReportRowDeleted != null)) {
-                    this.usp_SpecialNeedsReportRowDeleted(this, new usp_SpecialNeedsReportRowChangeEvent(((usp_SpecialNeedsReportRow)(e.Row)), e.Action));
+                if ((this.usp_RegistrarReportRowDeleted != null)) {
+                    this.usp_RegistrarReportRowDeleted(this, new usp_RegistrarReportRowChangeEvent(((usp_RegistrarReportRow)(e.Row)), e.Action));
                 }
             }
             
@@ -617,14 +522,14 @@ namespace Commencement.Mvc.ReportDataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.usp_SpecialNeedsReportRowDeleting != null)) {
-                    this.usp_SpecialNeedsReportRowDeleting(this, new usp_SpecialNeedsReportRowChangeEvent(((usp_SpecialNeedsReportRow)(e.Row)), e.Action));
+                if ((this.usp_RegistrarReportRowDeleting != null)) {
+                    this.usp_RegistrarReportRowDeleting(this, new usp_RegistrarReportRowChangeEvent(((usp_RegistrarReportRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void Removeusp_SpecialNeedsReportRow(usp_SpecialNeedsReportRow row) {
+            public void Removeusp_RegistrarReportRow(usp_RegistrarReportRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -633,7 +538,7 @@ namespace Commencement.Mvc.ReportDataSets {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                CommencementDataSet_SpecialNeedsReport ds = new CommencementDataSet_SpecialNeedsReport();
+                CommencementDataSet_RegistrarsReport ds = new CommencementDataSet_RegistrarsReport();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -651,7 +556,7 @@ namespace Commencement.Mvc.ReportDataSets {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "usp_SpecialNeedsReportDataTable";
+                attribute2.FixedValue = "usp_RegistrarReportDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -695,25 +600,25 @@ namespace Commencement.Mvc.ReportDataSets {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class usp_SpecialNeedsReportRow : global::System.Data.DataRow {
+        public partial class usp_RegistrarReportRow : global::System.Data.DataRow {
             
-            private usp_SpecialNeedsReportDataTable tableusp_SpecialNeedsReport;
+            private usp_RegistrarReportDataTable tableusp_RegistrarReport;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal usp_SpecialNeedsReportRow(global::System.Data.DataRowBuilder rb) : 
+            internal usp_RegistrarReportRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableusp_SpecialNeedsReport = ((usp_SpecialNeedsReportDataTable)(this.Table));
+                this.tableusp_RegistrarReport = ((usp_RegistrarReportDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public long id {
+            public string StudentId {
                 get {
-                    return ((long)(this[this.tableusp_SpecialNeedsReport.idColumn]));
+                    return ((string)(this[this.tableusp_RegistrarReport.StudentIdColumn]));
                 }
                 set {
-                    this[this.tableusp_SpecialNeedsReport.idColumn] = value;
+                    this[this.tableusp_RegistrarReport.StudentIdColumn] = value;
                 }
             }
             
@@ -722,14 +627,14 @@ namespace Commencement.Mvc.ReportDataSets {
             public string LastName {
                 get {
                     try {
-                        return ((string)(this[this.tableusp_SpecialNeedsReport.LastNameColumn]));
+                        return ((string)(this[this.tableusp_RegistrarReport.LastNameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'LastName\' in table \'usp_SpecialNeedsReport\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'LastName\' in table \'usp_RegistrarReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableusp_SpecialNeedsReport.LastNameColumn] = value;
+                    this[this.tableusp_RegistrarReport.LastNameColumn] = value;
                 }
             }
             
@@ -738,118 +643,41 @@ namespace Commencement.Mvc.ReportDataSets {
             public string FirstName {
                 get {
                     try {
-                        return ((string)(this[this.tableusp_SpecialNeedsReport.FirstNameColumn]));
+                        return ((string)(this[this.tableusp_RegistrarReport.FirstNameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'FirstName\' in table \'usp_SpecialNeedsReport\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'FirstName\' in table \'usp_RegistrarReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableusp_SpecialNeedsReport.FirstNameColumn] = value;
+                    this[this.tableusp_RegistrarReport.FirstNameColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string StudentId {
-                get {
-                    return ((string)(this[this.tableusp_SpecialNeedsReport.StudentIdColumn]));
-                }
-                set {
-                    this[this.tableusp_SpecialNeedsReport.StudentIdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Major {
-                get {
-                    return ((string)(this[this.tableusp_SpecialNeedsReport.MajorColumn]));
-                }
-                set {
-                    this[this.tableusp_SpecialNeedsReport.MajorColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string PrimaryEmail {
+            public string MI {
                 get {
                     try {
-                        return ((string)(this[this.tableusp_SpecialNeedsReport.PrimaryEmailColumn]));
+                        return ((string)(this[this.tableusp_RegistrarReport.MIColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'PrimaryEmail\' in table \'usp_SpecialNeedsReport\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'MI\' in table \'usp_RegistrarReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableusp_SpecialNeedsReport.PrimaryEmailColumn] = value;
+                    this[this.tableusp_RegistrarReport.MIColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string SecondaryEmail {
+            public string MajorCode {
                 get {
-                    try {
-                        return ((string)(this[this.tableusp_SpecialNeedsReport.SecondaryEmailColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'SecondaryEmail\' in table \'usp_SpecialNeedsReport\' is DBNull" +
-                                ".", e);
-                    }
+                    return ((string)(this[this.tableusp_RegistrarReport.MajorCodeColumn]));
                 }
                 set {
-                    this[this.tableusp_SpecialNeedsReport.SecondaryEmailColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public System.DateTime CeremonyTime {
-                get {
-                    return ((global::System.DateTime)(this[this.tableusp_SpecialNeedsReport.CeremonyTimeColumn]));
-                }
-                set {
-                    this[this.tableusp_SpecialNeedsReport.CeremonyTimeColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string SpecialNeeds {
-                get {
-                    try {
-                        return ((string)(this[this.tableusp_SpecialNeedsReport.SpecialNeedsColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'SpecialNeeds\' in table \'usp_SpecialNeedsReport\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableusp_SpecialNeedsReport.SpecialNeedsColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Term {
-                get {
-                    return ((string)(this[this.tableusp_SpecialNeedsReport.TermColumn]));
-                }
-                set {
-                    this[this.tableusp_SpecialNeedsReport.TermColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int cid {
-                get {
-                    return ((int)(this[this.tableusp_SpecialNeedsReport.cidColumn]));
-                }
-                set {
-                    this[this.tableusp_SpecialNeedsReport.cidColumn] = value;
+                    this[this.tableusp_RegistrarReport.MajorCodeColumn] = value;
                 }
             }
             
@@ -858,87 +686,63 @@ namespace Commencement.Mvc.ReportDataSets {
             public string CollegeCode {
                 get {
                     try {
-                        return ((string)(this[this.tableusp_SpecialNeedsReport.CollegeCodeColumn]));
+                        return ((string)(this[this.tableusp_RegistrarReport.CollegeCodeColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CollegeCode\' in table \'usp_SpecialNeedsReport\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'CollegeCode\' in table \'usp_RegistrarReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableusp_SpecialNeedsReport.CollegeCodeColumn] = value;
+                    this[this.tableusp_RegistrarReport.CollegeCodeColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsLastNameNull() {
-                return this.IsNull(this.tableusp_SpecialNeedsReport.LastNameColumn);
+                return this.IsNull(this.tableusp_RegistrarReport.LastNameColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetLastNameNull() {
-                this[this.tableusp_SpecialNeedsReport.LastNameColumn] = global::System.Convert.DBNull;
+                this[this.tableusp_RegistrarReport.LastNameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsFirstNameNull() {
-                return this.IsNull(this.tableusp_SpecialNeedsReport.FirstNameColumn);
+                return this.IsNull(this.tableusp_RegistrarReport.FirstNameColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetFirstNameNull() {
-                this[this.tableusp_SpecialNeedsReport.FirstNameColumn] = global::System.Convert.DBNull;
+                this[this.tableusp_RegistrarReport.FirstNameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsPrimaryEmailNull() {
-                return this.IsNull(this.tableusp_SpecialNeedsReport.PrimaryEmailColumn);
+            public bool IsMINull() {
+                return this.IsNull(this.tableusp_RegistrarReport.MIColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetPrimaryEmailNull() {
-                this[this.tableusp_SpecialNeedsReport.PrimaryEmailColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsSecondaryEmailNull() {
-                return this.IsNull(this.tableusp_SpecialNeedsReport.SecondaryEmailColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetSecondaryEmailNull() {
-                this[this.tableusp_SpecialNeedsReport.SecondaryEmailColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsSpecialNeedsNull() {
-                return this.IsNull(this.tableusp_SpecialNeedsReport.SpecialNeedsColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetSpecialNeedsNull() {
-                this[this.tableusp_SpecialNeedsReport.SpecialNeedsColumn] = global::System.Convert.DBNull;
+            public void SetMINull() {
+                this[this.tableusp_RegistrarReport.MIColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsCollegeCodeNull() {
-                return this.IsNull(this.tableusp_SpecialNeedsReport.CollegeCodeColumn);
+                return this.IsNull(this.tableusp_RegistrarReport.CollegeCodeColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetCollegeCodeNull() {
-                this[this.tableusp_SpecialNeedsReport.CollegeCodeColumn] = global::System.Convert.DBNull;
+                this[this.tableusp_RegistrarReport.CollegeCodeColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -946,22 +750,22 @@ namespace Commencement.Mvc.ReportDataSets {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class usp_SpecialNeedsReportRowChangeEvent : global::System.EventArgs {
+        public class usp_RegistrarReportRowChangeEvent : global::System.EventArgs {
             
-            private usp_SpecialNeedsReportRow eventRow;
+            private usp_RegistrarReportRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public usp_SpecialNeedsReportRowChangeEvent(usp_SpecialNeedsReportRow row, global::System.Data.DataRowAction action) {
+            public usp_RegistrarReportRowChangeEvent(usp_RegistrarReportRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public usp_SpecialNeedsReportRow Row {
+            public usp_RegistrarReportRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -977,7 +781,7 @@ namespace Commencement.Mvc.ReportDataSets {
         }
     }
 }
-namespace Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReportTableAdapters {
+namespace Commencement.Mvc.ReportDataSets.CommencementDataSet_RegistrarsReportTableAdapters {
     
     
     /// <summary>
@@ -989,7 +793,7 @@ namespace Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReport
     [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class usp_SpecialNeedsReportTableAdapter : global::System.ComponentModel.Component {
+    public partial class usp_RegistrarReportTableAdapter : global::System.ComponentModel.Component {
         
         private global::System.Data.SqlClient.SqlDataAdapter _adapter;
         
@@ -1003,7 +807,7 @@ namespace Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReport
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public usp_SpecialNeedsReportTableAdapter() {
+        public usp_RegistrarReportTableAdapter() {
             this.ClearBeforeFill = true;
         }
         
@@ -1100,18 +904,12 @@ namespace Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReport
             this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "usp_SpecialNeedsReport";
-            tableMapping.ColumnMappings.Add("id", "id");
+            tableMapping.DataSetTable = "usp_RegistrarReport";
+            tableMapping.ColumnMappings.Add("StudentId", "StudentId");
             tableMapping.ColumnMappings.Add("LastName", "LastName");
             tableMapping.ColumnMappings.Add("FirstName", "FirstName");
-            tableMapping.ColumnMappings.Add("StudentId", "StudentId");
-            tableMapping.ColumnMappings.Add("Major", "Major");
-            tableMapping.ColumnMappings.Add("PrimaryEmail", "PrimaryEmail");
-            tableMapping.ColumnMappings.Add("SecondaryEmail", "SecondaryEmail");
-            tableMapping.ColumnMappings.Add("CeremonyTime", "CeremonyTime");
-            tableMapping.ColumnMappings.Add("SpecialNeeds", "SpecialNeeds");
-            tableMapping.ColumnMappings.Add("Term", "Term");
-            tableMapping.ColumnMappings.Add("cid", "cid");
+            tableMapping.ColumnMappings.Add("MI", "MI");
+            tableMapping.ColumnMappings.Add("MajorCode", "MajorCode");
             tableMapping.ColumnMappings.Add("CollegeCode", "CollegeCode");
             this._adapter.TableMappings.Add(tableMapping);
         }
@@ -1129,18 +927,18 @@ namespace Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReport
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "dbo.usp_SpecialNeedsReport";
+            this._commandCollection[0].CommandText = "dbo.usp_RegistrarReport";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.StoredProcedure;
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@RETURN_VALUE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.ReturnValue, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@term", global::System.Data.SqlDbType.VarChar, 6, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@userid", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@userId", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(CommencementDataSet_SpecialNeedsReport.usp_SpecialNeedsReportDataTable dataTable, string term, global::System.Nullable<int> userid) {
+        public virtual int Fill(CommencementDataSet_RegistrarsReport.usp_RegistrarReportDataTable dataTable, string term, global::System.Nullable<int> userId) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((term == null)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
@@ -1148,8 +946,8 @@ namespace Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReport
             else {
                 this.Adapter.SelectCommand.Parameters[1].Value = ((string)(term));
             }
-            if ((userid.HasValue == true)) {
-                this.Adapter.SelectCommand.Parameters[2].Value = ((int)(userid.Value));
+            if ((userId.HasValue == true)) {
+                this.Adapter.SelectCommand.Parameters[2].Value = ((int)(userId.Value));
             }
             else {
                 this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
@@ -1165,7 +963,7 @@ namespace Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReport
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual CommencementDataSet_SpecialNeedsReport.usp_SpecialNeedsReportDataTable GetData(string term, global::System.Nullable<int> userid) {
+        public virtual CommencementDataSet_RegistrarsReport.usp_RegistrarReportDataTable GetData(string term, global::System.Nullable<int> userId) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((term == null)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
@@ -1173,13 +971,13 @@ namespace Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReport
             else {
                 this.Adapter.SelectCommand.Parameters[1].Value = ((string)(term));
             }
-            if ((userid.HasValue == true)) {
-                this.Adapter.SelectCommand.Parameters[2].Value = ((int)(userid.Value));
+            if ((userId.HasValue == true)) {
+                this.Adapter.SelectCommand.Parameters[2].Value = ((int)(userId.Value));
             }
             else {
                 this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
-            CommencementDataSet_SpecialNeedsReport.usp_SpecialNeedsReportDataTable dataTable = new CommencementDataSet_SpecialNeedsReport.usp_SpecialNeedsReportDataTable();
+            CommencementDataSet_RegistrarsReport.usp_RegistrarReportDataTable dataTable = new CommencementDataSet_RegistrarsReport.usp_RegistrarReportDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
@@ -1253,7 +1051,7 @@ namespace Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReport
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private int UpdateUpdatedRows(CommencementDataSet_SpecialNeedsReport dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateUpdatedRows(CommencementDataSet_RegistrarsReport dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             return result;
         }
@@ -1263,7 +1061,7 @@ namespace Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReport
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private int UpdateInsertedRows(CommencementDataSet_SpecialNeedsReport dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateInsertedRows(CommencementDataSet_RegistrarsReport dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             return result;
         }
@@ -1273,7 +1071,7 @@ namespace Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReport
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private int UpdateDeletedRows(CommencementDataSet_SpecialNeedsReport dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
+        private int UpdateDeletedRows(CommencementDataSet_RegistrarsReport dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
             return result;
         }
@@ -1307,7 +1105,7 @@ namespace Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReport
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public virtual int UpdateAll(CommencementDataSet_SpecialNeedsReport dataSet) {
+        public virtual int UpdateAll(CommencementDataSet_RegistrarsReport dataSet) {
             if ((dataSet == null)) {
                 throw new global::System.ArgumentNullException("dataSet");
             }

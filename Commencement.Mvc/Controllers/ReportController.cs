@@ -14,6 +14,7 @@ using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using Commencement.Mvc;
 using Commencement.Mvc.ReportDataSets;
+using Commencement.Mvc.ReportDataSets.CommencementDataSet_RegistrarsReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_SummaryReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_TotalRegisteredByMajorReportTableAdapters;
@@ -101,6 +102,8 @@ namespace Commencement.Controllers
                     break;
                 case Report.RegistrarsReport:
                     name = "RegistrarReport";
+                    data = new usp_RegistrarReportTableAdapter().GetData(parameters["term"], Convert.ToInt32(parameters["userId"]));
+                    rs = new ReportDataSource("RegistrarsReport", data);
                     break;
                 case Report.TicketSignOutSheet:
                     name = "TicketSignOutSheet";
