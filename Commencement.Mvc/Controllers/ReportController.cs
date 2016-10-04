@@ -107,6 +107,7 @@ namespace Commencement.Controllers
                     rs = new ReportDataSource("RegistrarsReport", data);
                     break;
                 case Report.TicketSignOutSheet:
+                    throw new NotImplementedException();
                     name = "TicketSignOutSheet";
                     break;
                 case Report.MajorCountByCeremony:
