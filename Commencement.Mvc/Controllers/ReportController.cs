@@ -14,6 +14,7 @@ using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using Commencement.Mvc;
 using Commencement.Mvc.ReportDataSets;
+using Commencement.Mvc.ReportDataSets.CommencementDataSet_MajorCountByCeremonyReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_RegistrarsReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_SummaryReportTableAdapters;
@@ -112,6 +113,8 @@ namespace Commencement.Controllers
                     name = "MajorCountByCeremony";
                     parameters.Remove("term");
                     parameters.Add("ceremonyId", ceremony);
+                    data = new usp_MajorCountByCeremonyTableAdapter().GetData(Convert.ToInt32(parameters["ceremonyId"]), Convert.ToInt32(parameters["userId"]));
+                    rs = new ReportDataSource("MajorCountByCeremony", data);
                     break;
                 case Report.RegistartionMajorMismatch:
                     name = "RegistrationMajorMismatch";
