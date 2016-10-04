@@ -16,6 +16,7 @@ using Commencement.Mvc;
 using Commencement.Mvc.ReportDataSets;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_MajorCountByCeremonyReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_RegistrarsReportTableAdapters;
+using Commencement.Mvc.ReportDataSets.CommencementDataSet_RegistrationMajorMismatchReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_SummaryReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_TotalRegisteredByMajorReportTableAdapters;
@@ -119,6 +120,8 @@ namespace Commencement.Controllers
                     break;
                 case Report.RegistartionMajorMismatch:
                     name = "RegistrationMajorMismatch";
+                    data = new usp_RegistrationMajorMismatchTableAdapter().GetData(parameters["term"], Convert.ToInt32(parameters["userId"]));
+                    rs = new ReportDataSource("RegistrationMajorMismatch", data);
                     break;
             };
 
