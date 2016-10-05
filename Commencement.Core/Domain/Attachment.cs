@@ -30,7 +30,7 @@ namespace Commencement.Core.Domain
         {
             Id(x => x.Id);
 
-            Map(x => x.Contents).CustomSqlType("BinaryBlob");
+            Map(x => x.Contents).Length(Int32.MaxValue);
             Map(x => x.ContentType);
             Map(x => x.FileName);
             Map(x => x.PublicGuid);
