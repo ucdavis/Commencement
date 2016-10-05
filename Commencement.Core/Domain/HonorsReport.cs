@@ -39,7 +39,7 @@ namespace Commencement.Core.Domain
         {
             Id(x => x.Id);
 
-            Map(x => x.Contents);
+            Map(x => x.Contents).Length(int.MaxValue);
             Map(x => x.DateRequested);
             References(x => x.User).Column("UserId");
             Map(x => x.TermCode);
