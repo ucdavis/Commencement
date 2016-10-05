@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web;
+using Microsoft.WindowsAzure;
+using SparkPost;
 
 namespace Commencement.Controllers.Services
 {
@@ -22,20 +25,39 @@ namespace Commencement.Controllers.Services
 
             //deligate.BeginInvoke(ex, callback, null);
 
-            var client = new SmtpClient("smtp.ucdavis.edu");
-
-            var message = new MailMessage("automatedemail@caes.ucdavis.edu", "jsylvestre@ucdavis.edu");
-            message.Subject = "Commencement Error";
-            message.Body = ex.Message;
-            message.IsBodyHtml = true;
-
-            if (ex.InnerException != null)
+            try
             {
-                message.Body += "<br/><hr><br/>";
-                message.Body += ex.InnerException.Message;
-            }
+                var body = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    body = string.Format("{0}{1}{2}", body, "<br/><hr><br/>", ex.InnerException.Message);
+                }
+                var emailTransmission = new Transmission
+                {
+                    Content = new Content
+                    {
+                        From =
+                            new Address
+                            {
+                                Email = "noreply@commencement-notify.ucdavis.edu",
+                                Name = "UCD Commencement Notification"
+                            },
+                        Subject = "Commencement Error",
+                        Html = body
+                    }
+                };
+                emailTransmission.Recipients.Add(new Recipient
+                {
+                    Address = new Address {Email = "jsylvestre@ucdavis.edu"}
+                });
 
-            client.Send(message);
+                var client = new Client(CloudConfigurationManager.GetSetting("SparkPostApiKey"));
+                Task.Run(() => client.Transmissions.Send(emailTransmission));
+            }
+            catch (Exception exs)
+            {
+                //Meh
+            }
         }
 
         public static void BeginReportErrorHandler(Exception ex)
