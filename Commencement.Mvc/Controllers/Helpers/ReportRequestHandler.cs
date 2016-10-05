@@ -44,28 +44,17 @@ namespace Commencement.Controllers.Helpers
             var parameters = new Dictionary<string, string>();
             var reportName = "/Commencement/Honors";
 
-            // set the shared parameters
-            parameters.Add("term", honorsModel.TermCode);
-            parameters.Add("honors_4590", honorsModel.Honors4590.ToString());
-            parameters.Add("honors_90135", honorsModel.Honors90135.ToString());
-            parameters.Add("honors_135", honorsModel.Honors135.ToString());
-
-            if (honorsModel.College.Id == "LS")
-            {
-                reportName = "/Commencement/HonorsLS";
-            }
-            else
-            {
-                parameters.Add("coll", honorsModel.College.Id);
-
-                parameters.Add("highhonors_4590", honorsModel.HighHonors4590.ToString());
-                parameters.Add("highhonors_90135", honorsModel.HighHonors90135.ToString());
-                parameters.Add("highhonors_135", honorsModel.HighHonors135.ToString());
-
-                parameters.Add("highesthonors_4590", honorsModel.HighestHonors4590.ToString());
-                parameters.Add("highesthonors_90135", honorsModel.HighestHonors90135.ToString());
-                parameters.Add("highesthonors_135", honorsModel.HighestHonors135.ToString());
-            }
+            parameters.Add("CollegeId", honorsModel.College.Id);
+            parameters.Add("TermCode", honorsModel.TermCode);
+            parameters.Add("Honors4590", honorsModel.Honors4590.ToString());
+            parameters.Add("HighHonors4590", honorsModel.HighHonors4590.ToString());
+            parameters.Add("HighestHonors4590", honorsModel.HighestHonors4590.ToString());
+            parameters.Add("Honors90135", honorsModel.Honors90135.ToString());
+            parameters.Add("HighHonors90135", honorsModel.HighHonors90135.ToString());
+            parameters.Add("HighestHonors90135", honorsModel.HighestHonors90135.ToString());
+            parameters.Add("Honors135", honorsModel.Honors135.ToString());
+            parameters.Add("HighHonors135", honorsModel.HighHonors135.ToString());
+            parameters.Add("HighestHonors135", honorsModel.HighestHonors135.ToString());
 
             var hr = honorsModel.Convert();
             hr.User = repository.OfType<vUser>().Queryable.FirstOrDefault(a => a.LoginId == userId);
@@ -82,22 +71,22 @@ namespace Commencement.Controllers.Helpers
             using (var ts = new TransactionScope())
             {
                 // get the actual report itself
-                hr.Contents = Get(reportName, parameters);
+                hr.Contents = GetHonorsReport(parameters); //Get(reportName, parameters);
 
                 // persist the object
                 repository.OfType<HonorsReport>().EnsurePersistent(hr);
                 ts.CommitTransaction();
 
                 // email the user
-                var message = new MailMessage();
-                message.To.Add(hr.User.Email);
-                message.Subject = "Commencement - Honors Report Completed";
-                message.Body = "Your honors report request has completed.";
-                message.IsBodyHtml = true;
+                //var message = new MailMessage();
+                //message.To.Add(hr.User.Email);
+                //message.Subject = "Commencement - Honors Report Completed";
+                //message.Body = "Your honors report request has completed.";
+                //message.IsBodyHtml = true;
 
-                // settings are set in the web.config
-                var client = new SmtpClient();
-                client.Send(message);
+                //// settings are set in the web.config
+                //var client = new SmtpClient();
+                //client.Send(message);
             }
         }
 
@@ -106,49 +95,6 @@ namespace Commencement.Controllers.Helpers
             // completed don't really need to do anything
         }
 
-        /// <summary>
-        /// Calls the sql report server and gets the byte array
-        /// </summary>
-        /// <param name="ReportName"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        public static byte[] Get(string ReportName, Dictionary<string, string> parameters)
-        {
-            string reportServer = CloudConfigurationManager.GetSetting("ReportServer");
-
-            var rview = new ReportViewer();
-            rview.ServerReport.ReportServerUrl = new Uri(reportServer);
-            rview.ServerReport.ReportPath = ReportName;
-
-            var paramList = new List<ReportParameter>();
-
-            if (parameters.Count > 0)
-            {
-                foreach (KeyValuePair<string, string> kvp in parameters)
-                {
-                    paramList.Add(new ReportParameter(kvp.Key, kvp.Value));
-                }
-            }
-
-            rview.ServerReport.SetParameters(paramList);
-
-            string mimeType, encoding, extension, deviceInfo;
-            string[] streamids;
-            Warning[] warnings;
-
-            string format;
-
-            format = "EXCEL";
-
-            deviceInfo =
-            "<DeviceInfo>" +
-            "<SimplePageHeaders>True</SimplePageHeaders>" +
-            "<HumanReadablePDF>True</HumanReadablePDF>" +   // this line disables the compression done by SSRS 2008 so that it can be merged.
-            "</DeviceInfo>";
-
-            byte[] bytes = rview.ServerReport.Render(format, deviceInfo, out mimeType, out encoding, out extension, out streamids, out warnings);
-
-            return bytes;
-        }
+       
     }
 }
