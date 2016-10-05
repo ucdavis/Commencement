@@ -345,7 +345,8 @@ namespace Commencement.Controllers
             {
                 ReportRequestHandler.ExecuteReportRequest(Repository, honorsPostModel, User.Identity.Name);
 
-                Message = "Request has been submitted, you will receive an email when it is ready.";
+                //Message = "Request has been submitted, you will receive an email when it is ready.";
+                Message = "Request has been submitted, Check back in a few minutes to see if it is ready.";
             }
 
             honorsPostModel.Colleges = Repository.OfType<College>().Queryable.Where(a => a.Display).ToList();
