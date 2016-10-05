@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Mail;
+using System.Text;
 using Commencement.Core.Domain;
 using Microsoft.Reporting.WebForms;
 using Microsoft.WindowsAzure;
+using Newtonsoft.Json;
 using UCDArch.Core.PersistanceSupport;
 
 namespace Commencement.Controllers.Helpers
@@ -22,6 +25,18 @@ namespace Commencement.Controllers.Helpers
 
             // begin the async call
             deligate.BeginInvoke(repository, honorsModel, userId, callback, null);
+        }
+
+        public static byte[] GetHonorsReport(Dictionary<string, string> parameters)
+        {
+            var token = CloudConfigurationManager.GetSetting("ReportToken");
+            var reportUrl = CloudConfigurationManager.GetSetting("ReportApiUrl");
+            var data = JsonConvert.SerializeObject(parameters);
+            var client = new HttpClient();
+            var result = client.PostAsync(string.Format("{0}?token={1}", reportUrl, token), new StringContent(data, Encoding.UTF8, "application/json")).Result;
+            var contents = result.Content.ReadAsByteArrayAsync();
+
+            return contents.Result;
         }
 
         public static void BeginReportRequest(IRepository repository, HonorsPostModel honorsModel, string userId)
