@@ -4,6 +4,11 @@
     Layout = "~/Views/Shared/_StudentLayout.cshtml";
 }
 
+@section AdditionalStyles
+{
+    @Styles.Render("~/Content/DataTables/css/dataTables")
+}
+
 <div class="pull-right">
     @Html.ActionLink("Back", "Index", "Home", null, htmlAttributes: new { @class = "btn btn-14 btn-blue btn-sm" })
     @Html.ActionLink("Request New Letter", "RequestVisaLetter", "Student", null, htmlAttributes: new { @class = "btn btn-14 btn-green btn-sm" })
@@ -24,3 +29,48 @@
         <p>Welcome to the student visa letter support system. To submit requests click the Request New Letter button. Remember you must submit a new request for each individual person you need a letter for. The history and status of your past requests can be found in the table below. Thank you.</p>
     </div>
 </div>
+
+<table class="table table-striped one-btn-first-row">
+    <thead>
+    <tr>
+        <td></td>
+        <td>Relative First Name</td>
+        <td>Relative Last Name</td>
+        <td>Date Created</td>
+        <td>Is Approved</td>
+        <td>Is Denied</td>
+        <td></td>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var letter in Model)
+    {
+        <tr>
+            <td>
+                @if (letter.IsApproved)
+                {
+                    @Html.ActionLink("Print Letter", "VisaLetterPdf", "Student", null, htmlAttributes: new { @class = "btn btn-10 btn-green btn-sm" }) <br/>
+                    @Html.ActionLink("Details", "VisaLetterDetails", "Student", null, htmlAttributes: new { @class = "btn btn-10 btn-blue btn-sm" })
+                }
+            </td>
+            <td>@letter.RelativeFirstName</td>
+            <td>@letter.RelativeLastName</td>
+            <td>@letter.DateCreated</td>
+            <td>@letter.IsApproved</td>
+            <td>@letter.IsDenied</td>
+            <td>
+                @if (letter.IsPending)
+                {
+                    @Html.ActionLink("Cancel Request", "CancelVisaLetterRequest", "Student", null, htmlAttributes: new {@class = "btn btn-10 btn-red btn-sm"})
+                }
+            </td>
+        </tr>
+    }
+
+    </tbody>
+</table>
+
+@section AdditionalScripts
+{
+    @Scripts.Render("~/bundles/datatables")
+}

@@ -29,12 +29,22 @@ namespace Commencement.Mvc
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/datatables")
+                .Include("~/Scripts/DataTables/jquery.dataTables.js")
+                .Include("~/Scripts/DataTables/dataTables.bootstrap.js"));
+
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
             bundles.Add(new StyleBundle("~/Content/student-css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/student.css"));
+
+            bundles.Add(
+                new StyleBundle("~/Content/DataTables/css/datatables")
+                    .Include("~/Content/DataTables/css/buttons.bootstrap.css")
+                    .Include("~/Content/DataTables/css/dataTables.bootstrap.css"));
         }
     }
 }
