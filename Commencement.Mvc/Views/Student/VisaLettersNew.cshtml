@@ -1,0 +1,26 @@
+﻿@model IList<Commencement.Core.Domain.VisaLetter>
+@{
+    ViewBag.Title = "VisaLetters";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="pull-right">
+    @Html.ActionLink("Back", "Index", "Home", null, htmlAttributes: new { @class = "btn btn-14 btn-blue btn-sm" })
+    @Html.ActionLink("Request New Letter", "RequestVisaLetter", "Student", null, htmlAttributes: new { @class = "btn btn-14 btn-green btn-sm" })
+    @Html.Partial("_LogonPartial")
+</div>
+
+<div class="banner">
+    <div class="banner_contents">
+        <img src="@Url.Content("~/Images/Media/commencement_welcome.svg")" alt="">
+    </div>
+</div>
+
+<div class="lead">
+    <div class="lead_contents">
+        <h3>
+            Hi <b>@ViewBag.StudentName</b>
+        </h3>
+        <p>Welcome to the student visa letter support system. To submit requests click the Request New Letter button. Remember you must submit a new request for each individual person you need a letter for. The history and status of your past requests can be found in the table below. Thank you.</p>
+    </div>
+</div>
