@@ -6,17 +6,21 @@
     Layout = "~/Views/Shared/_StudentLayout.cshtml";
 }
 
+@section NavButtons
+{
 <div class="pull-right">
     @Html.Partial("_LogonPartial")
     @if (Model.CanEditRegistration)
     {
-        @Html.ActionLink("Edit Registration", "EditRegistration", "Student", new {Model.Registration.Id}, htmlAttributes: new { @class = "btn btn-14 btn-blue btn-sm" })
+        @Html.ActionLink("Edit Registration", "EditRegistration", "Student", new { Model.Registration.Id }, htmlAttributes: new { @class = "btn btn-14 btn-blue btn-sm" })
     }
     @if (Model.CanPetitionForExtraTickets)
     {
         @Html.ActionLink("Extra Ticket Petition", "ExtraTicketPetition", "Petition", new { Model.Registration.Id }, htmlAttributes: new { @class = "btn btn-14 btn-blue btn-sm" })
     }
 </div>
+}
+
 
 <div class="banner banner--register">
     <div class="banner_contents">

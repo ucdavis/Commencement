@@ -43,8 +43,9 @@ namespace Commencement.Mvc
 
             bundles.Add(
                 new StyleBundle("~/Content/DataTables/css/datatables")
-                    .Include("~/Content/DataTables/css/buttons.bootstrap.css")
-                    .Include("~/Content/DataTables/css/dataTables.bootstrap.css"));
+                    .Include("~/Content/DataTables/css/buttons.bootstrap.css")                    
+                    .Include("~/Content/DataTables/css/dataTables.bootstrap.css")
+                    .Include("~/Content/font-awesome.css"));
         }
     }
 }

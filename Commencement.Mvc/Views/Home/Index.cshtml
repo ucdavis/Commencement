@@ -18,10 +18,15 @@
     }
 </style>
 }
-<div class="pull-right">
-    @Html.ActionLink("Visa Letters", "VisaLetters", "Student", null, htmlAttributes: new { @class = "btn btn-14 btn-yellow btn-sm" })
-    @Html.Partial("_LogonPartial")
-</div>
+
+@section NavButtons
+{
+    <div class="pull-right">
+        @Html.ActionLink("Visa Letters", "VisaLetters", "Student", null, htmlAttributes: new { @class = "btn btn-14 btn-yellow btn-sm" })
+        @Html.Partial("_LogonPartial")
+    </div>
+}
+
 
 <div class="banner">
     <div class="banner_contents">

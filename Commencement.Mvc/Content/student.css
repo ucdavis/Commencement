@@ -124,7 +124,7 @@ h4,
 
 header {
   height: auto;
-  padding: 1.5% 0%; }
+  padding: 0.5% 0%; }
   header .header_contents {
     width: 80%;
     margin: 0 auto;
@@ -507,7 +507,7 @@ input[type="button"].button-primary:focus {
   background-image: url("../Images/Media/commence_blur.jpg");
   background-size: cover;
   background-repeat: no-repeat;
-  height: 160px; }
+  height: 200px; }
   .banner.banner--register {
     background-image: url("../Images/Media/register_bg.jpg"); }
   .banner .banner_contents {
@@ -515,7 +515,7 @@ input[type="button"].button-primary:focus {
     margin: 0 auto;
     min-width: 300px;
     text-align: center;
-    padding-top: 3%; }
+    padding-top: 2%; }
     @media (max-width: 850px) {
       .banner .banner_contents {
         width: 85%; } }
