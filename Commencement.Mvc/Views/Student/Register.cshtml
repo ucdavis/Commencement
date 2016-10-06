@@ -6,9 +6,15 @@
     ViewBag.Title = "RegisterTest";
     Layout = "~/Views/Shared/_StudentLayout.cshtml";
 }
-<div class="pull-right">    
-    @Html.Partial("_LogonPartial")
-</div>
+@section NavButtons
+{
+    <div class="pull-right">
+        @Html.Partial("_LogonPartial")
+    </div>
+}
+
+
+
 
 <div class="banner banner--register">
     <div class="banner_contents">

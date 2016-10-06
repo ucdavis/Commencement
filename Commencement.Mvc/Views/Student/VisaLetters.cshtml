@@ -1,0 +1,115 @@
+﻿@model IList<Commencement.Core.Domain.VisaLetter>
+@{
+    ViewBag.Title = "VisaLetters";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+@section AdditionalStyles
+{
+    @Styles.Render("~/Content/DataTables/css/dataTables")
+}
+@section NavButtons
+{
+<div class="pull-right">
+    @Html.ActionLink("Back", "Index", "Home", null, htmlAttributes: new { @class = "btn btn-14 btn-blue btn-sm" })
+    @Html.ActionLink("Request New Letter", "RequestVisaLetter", "Student", null, htmlAttributes: new { @class = "btn btn-14 btn-green btn-sm" })
+    @Html.Partial("_LogonPartial")
+</div>
+}
+
+<style>
+    .table .btn + .btn {
+        margin-left: 5px;
+    }
+</style>
+
+
+
+<div class="banner">
+    <div class="banner_contents">
+        <img src="@Url.Content("~/Images/Media/commencement_welcome.svg")" alt="">
+    </div>
+</div>
+
+<div class="lead">
+    <div class="lead_contents">
+        <h3>
+            Hi <b>@ViewBag.StudentName</b>
+        </h3>
+        <p>Welcome to the student visa letter support system. To submit requests click the Request New Letter button. Remember you must submit a new request for each individual person you need a letter for. The history and status of your past requests can be found in the table below. Thank you.</p>
+    </div>
+</div>
+
+<div class="main">
+    <div class="main_contents">
+
+        <table class="table table-striped one-btn-first-row">
+            <thead>
+                <tr>
+                    <td></td>
+                    <td>Relative First Name</td>
+                    <td>Relative Last Name</td>
+                    <td>Date Created</td>
+                    <td>Status</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var letter in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (letter.IsApproved)
+                            {
+                                @Html.ActionLink("Print Letter", "VisaLetterPdf", "Student", new {id=letter.Id}, htmlAttributes: new { @class = "btn btn-10 btn-green btn-sm" }) 
+                                @Html.ActionLink("Details", "VisaLetterDetails", "Student", new { id = letter.Id }, htmlAttributes: new { @class = "btn btn-10 btn-blue btn-sm" })
+                            }
+                        </td>
+                        <td>@letter.RelativeFirstName</td>
+                        <td>@letter.RelativeLastName</td>
+                        <td>@letter.DateCreated</td>
+                        <td>
+                            @if (letter.IsApproved)
+                            {
+                                <span><i class="fa fa-check-square" style="color: green"></i> Approved</span>
+                            }
+                            else if (letter.IsDenied)
+                            {
+                                <span><i class="fa fa-check-square" style="color: red"></i> Denied</span>
+                            }
+                            else
+                            {
+                                <span><i class="fa fa-question"></i> Pending</span>
+                            }
+                        </td>
+                        <td>
+                            @if (letter.IsPending)
+                            {
+                                @Html.ActionLink("Cancel Request", "CancelVisaLetterRequest", "Student", new { id = letter.Id }, htmlAttributes: new { @class = "btn btn-10 btn-red btn-sm pull-right" })
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section AdditionalScripts
+{
+    @Scripts.Render("~/bundles/datatables")
+    <script>
+        $('.table').dataTable({
+            Paginate: true,
+            filter: true,
+            sort: true,
+            order: [3, 'asc'],
+            columnDefs: [
+                { targets: [0,-1], sortable: false }
+            ],
+            "sScrollY": "200px",
+            "bScrollCollapse": true,
+        });
+    </script>
+}

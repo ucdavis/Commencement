@@ -13,7 +13,17 @@
 
 </head>
 <body>
-
+    
+<header>
+    <div class="header_contents">
+        <div class="logo_wrapper">
+            <a href="/"><img src="@Url.Content("~/Images/Media/ucdavislogo.svg")" alt=""></a>
+        </div>
+        <div class="login_contents">
+            @RenderSection("NavButtons", required: false)
+        </div>
+    </div>
+</header>
 <div class="body-content">
     @RenderBody()
 

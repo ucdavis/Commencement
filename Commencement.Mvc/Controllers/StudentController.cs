@@ -374,6 +374,7 @@ namespace Commencement.Controllers
             if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
 
             var letters = Repository.OfType<VisaLetter>().Queryable.Where(a => a.Student.StudentId == student.StudentId && !a.IsCanceled).ToList();
+            ViewBag.StudentName = student.FirstName;
 
             return View(letters);
         }
