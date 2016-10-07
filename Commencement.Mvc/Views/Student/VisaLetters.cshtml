@@ -62,7 +62,10 @@
                         <td>
                             @if (letter.IsApproved)
                             {
-                                @Html.ActionLink("Print Letter", "VisaLetterPdf", "Student", new {id=letter.Id}, htmlAttributes: new { @class = "btn btn-10 btn-green btn-sm" }) 
+                                @Html.ActionLink("Print Letter", "VisaLetterPdf", "Student", new {id=letter.Id}, htmlAttributes: new { @class = "btn btn-10 btn-green btn-sm" })                                 
+                            }
+                            @if (!letter.IsDenied)
+                            {
                                 @Html.ActionLink("Details", "VisaLetterDetails", "Student", new { id = letter.Id }, htmlAttributes: new { @class = "btn btn-10 btn-blue btn-sm" })
                             }
                         </td>
