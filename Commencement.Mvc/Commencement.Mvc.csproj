@@ -1699,14 +1699,14 @@
     <Content Include="Views\SpecialNeeds\Index.aspx" />
     <Content Include="Views\Student\CancelRegistartionPetitionConfirm.aspx" />
     <Content Include="Views\Student\CancelRegistrationPetition.aspx" />
-    <Content Include="Views\Student\CancelVisaLetterRequest.aspx" />
+    <Content Include="Views\Student\CancelVisaLetterRequestOld.aspx" />
     <Content Include="Views\Student\DisplayRegistrationOld.aspx" />
     <Content Include="Views\Student\EditRegistrationOld.aspx" />
     <Content Include="Views\Student\RegisterOld.aspx" />
-    <Content Include="Views\Student\RequestVisaLetter.aspx" />
-    <Content Include="Views\Student\VisaLetterDetails.aspx" />
+    <Content Include="Views\Student\RequestVisaLetterOld.aspx" />
+    <Content Include="Views\Student\VisaLetterDetailsOld.aspx" />
     <Content Include="Views\Student\VisaLetterDetailsPartial.ascx" />
-    <Content Include="Views\Student\VisaLetterReceipt.aspx" />
+    <Content Include="Views\Student\VisaLetterReceiptOld.aspx" />
     <Content Include="Views\Student\VisaLettersOld.aspx" />
     <Content Include="Views\Survey\Create.aspx" />
     <Content Include="Views\Survey\Edit.aspx" />
@@ -1759,6 +1759,11 @@
     <Content Include="Views\Student\_RegistrationPetitionDisplay.cshtml" />
     <Content Include="Views\Petition\ExtraTicketPetition.cshtml" />
     <Content Include="Views\Student\VisaLetters.cshtml" />
+    <Content Include="Views\Student\RequestVisaLetter.cshtml" />
+    <Content Include="Views\Student\VisaLetterReceipt.cshtml" />
+    <Content Include="Views\Student\VisaLetterDetails.cshtml" />
+    <Content Include="Views\Student\_VisaLetterDetails.cshtml" />
+    <Content Include="Views\Student\CancelVisaLetterRequest.cshtml" />
     <None Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

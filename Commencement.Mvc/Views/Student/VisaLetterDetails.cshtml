@@ -1,0 +1,34 @@
+﻿@model Commencement.Core.Domain.VisaLetter
+
+@{
+    ViewBag.Title = "VisaLetterDetailsNew";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+@section NavButtons
+{
+    <div class="pull-right">
+        @Html.ActionLink("Visa Letters", "VisaLetters", "Student", null, htmlAttributes: new { @class = "btn btn-14 btn-yellow btn-sm" })
+        @if (Model.IsApproved)
+        {
+           @Html.ActionLink("Print Letter", "VisaLetterPdf", "Student", new {id=Model.Id}, htmlAttributes: new { @class = "btn btn-14 btn-green btn-sm" })
+        }
+        @Html.ActionLink("Ceremony", "Index", "Home", null, htmlAttributes: new { @class = "btn btn-14 btn-blue btn-sm" })
+        @Html.Partial("_LogonPartial")
+    </div>
+}
+
+
+<div class="banner">
+    <div class="banner_contents">
+        <img src="@Url.Content("~/Images/Media/commencement_welcome.svg")" alt="">
+    </div>
+</div>
+
+<div class="main">
+    <div class="main_contents">
+        <div class="register__section">
+            @Html.Partial("_VisaLetterDetails")
+        </div>
+    </div>
+</div>

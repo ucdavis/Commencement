@@ -447,7 +447,7 @@ namespace Commencement.Controllers
 
             return View(letter);
         }
-
+        
         [HttpPost]
         [PageTrackingFilter]
         public ActionResult RequestVisaLetter(VisaLetterPostModel model)
@@ -481,7 +481,10 @@ namespace Commencement.Controllers
             visaLetter.StudentLastName = model.StudentLastName;
             visaLetter.Gender = model.Gender;
             visaLetter.CollegeCode = model.CollegeCode;
-            visaLetter.CollegeName = SelectLists.CollegeNames.Single(a => a.Value == visaLetter.CollegeCode).Text;
+            if (!string.IsNullOrWhiteSpace(visaLetter.CollegeCode))
+            {
+                visaLetter.CollegeName = SelectLists.CollegeNames.Single(a => a.Value == visaLetter.CollegeCode).Text;
+            }            
             visaLetter.Degree = model.Degree;
             visaLetter.HardCopy = model.HardCopy;
 
@@ -507,6 +510,7 @@ namespace Commencement.Controllers
 
 
                 Repository.OfType<VisaLetter>().EnsurePersistent(visaLetter);
+                Message = "Request Created";
               
                 return this.RedirectToAction("VisaLetterReceipt");
             }

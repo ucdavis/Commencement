@@ -1,0 +1,91 @@
+﻿@model Commencement.Core.Domain.VisaLetter
+<h2>Your Information</h2>
+<div class="form__wrapper">
+    <div class="result__group">
+        <p><strong>Student Id:</strong> @Html.DisplayFor(a => a.Student.StudentId)</p>
+    </div>
+    <div class="result__group">
+        <p><strong>Email:</strong> @Html.DisplayFor(a => a.Student.Email)</p>
+    </div>
+    <div class="result__group">
+        <p><strong>Your Name On Letter:</strong> @Html.DisplayFor(a => a.StudentLastName)</p>
+    </div>
+    <div class="result__group">
+        <p>
+            <strong>Your Gender:</strong>
+            <span>@Html.RadioButton("Gender", 'M', new { @disabled = "disabled" }) Male</span>
+            <span>@Html.RadioButton("Gender", 'F', new { @disabled = "disabled" }) Female</span>
+        </p>
+    </div>
+    <div class="result__group">
+        <p>
+            <strong>Ceremony:</strong>
+            <span>@Html.RadioButton("Ceremony", 'S', new { @disabled = "disabled" }) Spring</span>
+            <span>@Html.RadioButton("Ceremony", 'F', new { @disabled = "disabled" }) Fall</span>
+        </p>
+    </div>
+    <div class="result__group">
+        <p><strong>College:</strong> @Html.DisplayFor(a => a.CollegeName)</p>
+    </div>
+    <div class="result__group">
+        <p><strong>Degree:</strong> @Html.DisplayFor(a => a.Degree)</p>
+    </div>
+    <div class="result__group">
+        <p><strong>Major:</strong> @Html.DisplayFor(a => a.MajorName)</p>
+    </div>
+</div>
+<h2>Letter Request Details</h2>
+<div class="form__wrapper">
+    <div class="result__group">
+        <p><strong>Date Submitted:</strong> @Model.DateCreated.ToString("g")</p>
+    </div>
+    <div class="result__group">
+        <p>
+            <strong>Status Of Request:</strong>
+            @if (Model.IsApproved)
+            {
+                <span><i class="fa fa-check-square" style="color: green"></i> Approved</span>
+            }
+            else if (Model.IsDenied)
+            {
+                <span><i class="fa fa-check-square" style="color: red"></i> Denied</span>
+            }
+            else if (Model.IsCanceled)
+            {
+                <span><i class="fa fa-check-square" style="color: red"></i> Canceled</span>
+            }
+            else
+            {
+                <span><i class="fa fa-question"></i> Pending</span>
+            }
+        </p>
+    </div>
+    <div class="result__group">
+        <p>
+            <strong>Need Hard Copy:</strong>
+            <span>@Html.RadioButton("HardCopy", 'Y', new { @disabled = "disabled" }) Yes</span>
+            <span>@Html.RadioButton("HardCopy", 'N', new { @disabled = "disabled" }) No</span>
+        </p>
+    </div>
+    @if (Model.DateDecided.HasValue)
+    {
+        <div class="result__group">
+            <p><strong>Decision Date:</strong> @Model.DateDecided.Value.ToString("g")</p>
+        </div>
+    }
+    <div class="result__group">
+        <p><strong>Your Relative's Relationship:</strong> @Model.RelationshipToStudent</p>
+    </div>
+    <div class="result__group">
+        <p><strong>Relative Name:</strong> @Model.RelativeTitle @Model.RelativeFirstName @Model.RelativeLastName</p>
+    </div>
+    <div class="result__group">
+        @{
+            var address = Html.Encode(Model.RelativeMailingAddress).Replace(System.Environment.NewLine, "<br />");
+        }
+        <p><strong>Relative Address:</strong><br />@Html.Raw(address)</p>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,203 @@
+﻿@using Commencement.Resources
+@model Commencement.Core.Domain.VisaLetter
+
+@{
+    ViewBag.Title = "RequestVisaLetter";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+@section AdditionalStyles
+{
+    <style>
+        input[disabled] {
+            background-color: lightgrey;
+        }
+    </style>
+}
+
+@section NavButtons
+{
+    <div class="pull-right">
+        @Html.Partial("_LogonPartial")
+    </div>
+}
+
+
+<div class="banner">
+    <div class="banner_contents">
+        <img src="@Url.Content("~/Images/Media/commencement_welcome.svg")" alt="">
+    </div>
+</div>
+<div class="lead">
+    <div class="lead_contents">
+        <h3>
+            Hi <b>@Model.Student.FirstName</b>
+        </h3>
+        <p>You can create your Visa Letter Request here. Please fill out the fields below.</p>
+    </div>
+</div>
+
+
+@using (Html.BeginForm("RequestVisaLetter", "Student", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="main">
+        <div class="main_contents">
+            <div class="register">
+                @Html.ValidationSummary(true,"Please correct all errors below")
+                @Html.HiddenFor(a=>a.Student.StudentId)
+                @Html.HiddenFor(a=>a.Student.Pidm) 
+                
+                <div class="result__group">
+                    <p>
+                        <strong>Email:</strong>
+                        @Model.Student.Email
+                    </p>
+                </div>
+
+                <div class="input__group">
+                    <label>First Name</label>
+                    @if (ViewBag.AllowChange != null && ViewBag.AllowChange == false)
+                    {
+                        @Html.TextBoxFor(a => a.StudentFirstName, new {@disabled = "disabled"})
+                        @Html.HiddenFor(a => a.StudentFirstName)
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(a => a.StudentFirstName)
+                    }
+                    @Html.ValidationMessage("VisaLetter.StudentFirstName")                    
+                </div>
+                <div class="input__group">
+                    <label>Last Name</label>
+                    @if (ViewBag.AllowChange != null && ViewBag.AllowChange == false)
+                    {
+                        @Html.TextBoxFor(a => a.StudentLastName, new { @disabled = "disabled" })
+                        @Html.HiddenFor(a => a.StudentLastName)
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(a => a.StudentLastName)
+                    }
+                    @Html.ValidationMessage("VisaLetter.StudentLastName")
+                </div>
+                @if (ViewBag.AllowChange != null && ViewBag.AllowChange == false)
+                {
+                    <div class="result__group">
+                        <p>
+                            <strong>College Name:</strong>
+                            @Model.CollegeName
+                            @Html.HiddenFor(a => a.CollegeCode, new {id = "doNotChosen"})
+                        </p>
+                        @Html.ValidationMessage("VisaLetter.CollegeCode")
+                    </div>
+                }
+                else
+                {
+                    <div class="input__group">
+                        <label>College Name</label>
+                        @Html.DropDownListFor(a => a.CollegeCode, SelectLists.CollegeNames)
+
+                        @Html.ValidationMessage("VisaLetter.CollegeCode")
+                    </div>
+                }
+                @if (ViewBag.AllowChange != null && ViewBag.AllowChange == false)
+                {
+                    <div class="result__group">
+                        <p>
+                            <strong>Degree:</strong>
+                            @Model.Degree
+                            @Html.HiddenFor(a => a.Degree, new {id = "doNotChosen2"})
+                        </p>
+                        @Html.ValidationMessage("VisaLetter.Degree")
+                    </div>
+                }
+                else
+                {
+                    <div class="input__group">
+                        <label>Degree</label>
+                        @Html.DropDownListFor(a => a.Degree, SelectLists.DegreeType)
+                        @Html.ValidationMessage("VisaLetter.Degree")
+                    </div>
+                }
+                <div class="input__group">
+                    <label>Major Name</label>
+                    @if (ViewBag.AllowChange != null && ViewBag.AllowChange == false)
+                    {
+                        @Html.TextBoxFor(a => a.MajorName, new { @disabled = "disabled" })
+                        @Html.HiddenFor(a => a.MajorName)
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(a => a.MajorName)
+                    }
+                    @Html.ValidationMessage("VisaLetter.MajorName")
+                </div>
+                <div class="input__group">
+                    <label>Your Gender</label>
+                    @if (ViewBag.AllowChange != null && ViewBag.AllowChange == false) {
+                        <label>@Html.RadioButton("Gender", 'M', new{ @disabled = "disabled" }) Male</label>
+                        <label>@Html.RadioButton("Gender", 'F', new{ @disabled = "disabled" }) Female</label>
+                        @Html.HiddenFor(a => a.Gender)
+                    } else {
+                        <label>@Html.RadioButton("Gender", 'M') Male</label>
+                        <label>@Html.RadioButton("Gender", 'F') Female</label>
+                    }
+
+                    @Html.ValidationMessage("VisaLetter.Gender")
+                </div>
+                <div class="input__group">
+                    <label>Ceremony</label>
+                    @if (ViewBag.AllowCeremonyChange != null && ViewBag.AllowCeremonyChange == false) {
+                        <label>@Html.RadioButton("Ceremony", 'S', new{ @disabled = "disabled" }) Spring</label>
+                        <label>@Html.RadioButton("Ceremony", 'F', new{ @disabled = "disabled" }) Fall</label>
+                        @Html.HiddenFor(a => a.Ceremony) 
+                    } else { 
+                        <label>@Html.RadioButton("Ceremony", 'S') Spring</label>
+                        <label>@Html.RadioButton("Ceremony", 'F') Fall</label>
+                    } 
+
+                    @Html.ValidationMessage("VisaLetter.Ceremony") 
+                </div>
+                <div class="input__group">
+                    <label>Need Hard Copy</label>
+                    <label>@Html.RadioButton("HardCopy", 'Y') Yes</label>
+                    <label>@Html.RadioButton("HardCopy", 'N') No</label>
+
+                    @Html.ValidationMessage("VisaLetter.HardCopy")
+                </div>
+
+                
+                <div class="input__group">
+                    <label>Relative's Title:</label>
+                    @Html.DropDownListFor(a=>a.RelativeTitle, SelectLists.PersonPrefixes) 
+                    @Html.ValidationMessage("VisaLetter.RelativeTitle") 
+                </div>
+
+                <div class="input__group">
+                    <label>Relative's First Name:</label>
+                    @Html.TextBoxFor(a=>a.RelativeFirstName) 
+                    @Html.ValidationMessage("VisaLetter.RelativeFirstName") 
+                </div>
+
+                <div class="input__group">
+                    <label>Relative's Last Name:</label>
+                    @Html.TextBoxFor(a=>a.RelativeLastName) 
+                    @Html.ValidationMessage("VisaLetter.RelativeLastName") 
+                </div>
+
+                <div class="input__group">
+                    <label>Relationship To You:</label>
+                    @Html.TextBoxFor(a=>a.RelationshipToStudent) 
+                    @Html.ValidationMessage("VisaLetter.RelationshipToStudent") 
+                </div>
+
+                <div class="input__group">
+                    <label>Relative's Mailing Address:</label>
+                    @Html.TextAreaFor(a=>a.RelativeMailingAddress) 
+                    @Html.ValidationMessage("VisaLetter.RelativeMailingAddress") 
+                </div>
+            </div>
+            <button type="submit" class="btn btn-18 btn-green"><i class="fa fa-ticket" aria-hidden="true"></i> Save </button>
+        </div>
+    </div>
+}

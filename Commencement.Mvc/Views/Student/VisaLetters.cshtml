@@ -7,13 +7,13 @@
 @section AdditionalStyles
 {
     @Styles.Render("~/Content/DataTables/css/dataTables")
-    @Styles.Render("~/Content/fontawesome");
+    
 }
 @section NavButtons
 {
 <div class="pull-right">
-    @Html.ActionLink("Back", "Index", "Home", null, htmlAttributes: new { @class = "btn btn-14 btn-blue btn-sm" })
     @Html.ActionLink("Request New Letter", "RequestVisaLetter", "Student", null, htmlAttributes: new { @class = "btn btn-14 btn-green btn-sm" })
+    @Html.ActionLink("Ceremony", "Index", "Home", null, htmlAttributes: new { @class = "btn btn-14 btn-blue btn-sm" })
     @Html.Partial("_LogonPartial")
 </div>
 }
@@ -62,7 +62,10 @@
                         <td>
                             @if (letter.IsApproved)
                             {
-                                @Html.ActionLink("Print Letter", "VisaLetterPdf", "Student", new {id=letter.Id}, htmlAttributes: new { @class = "btn btn-10 btn-green btn-sm" }) 
+                                @Html.ActionLink("Print Letter", "VisaLetterPdf", "Student", new {id=letter.Id}, htmlAttributes: new { @class = "btn btn-10 btn-green btn-sm" })                                 
+                            }
+                            @if (!letter.IsDenied)
+                            {
                                 @Html.ActionLink("Details", "VisaLetterDetails", "Student", new { id = letter.Id }, htmlAttributes: new { @class = "btn btn-10 btn-blue btn-sm" })
                             }
                         </td>
@@ -109,7 +112,7 @@
             columnDefs: [
                 { targets: [0,-1], sortable: false }
             ],
-            "sScrollY": "200px",
+            "sScrollY": "600px",
             "bScrollCollapse": true,
         });
     </script>

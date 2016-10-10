@@ -1,0 +1,47 @@
+﻿@model Commencement.Core.Domain.VisaLetter
+
+@{
+    ViewBag.Title = "CancelVisaLetterRequest";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+
+
+@section NavButtons
+{
+    <div class="pull-right">
+        @Html.Partial("_LogonPartial")
+    </div>
+}
+
+
+<div class="banner">
+    <div class="banner_contents">
+        <img src="@Url.Content("~/Images/Media/commencement_welcome.svg")" alt="">
+    </div>
+</div>
+
+<div class="main">
+    <div class="main_contents">
+        <div class="register__section">
+            @using (Html.BeginForm())
+            {
+
+                @Html.AntiForgeryToken()
+                <h2>Confirm Action</h2>
+                <div class="form__wrapper">
+                    <div class="result__group">
+                        <p><strong>Are you sure you want to cancel your Visa Letter Request?</strong>
+                            <label>@Html.RadioButton("Cancel", true) Yes</label>
+                            <label>@Html.RadioButton("Cancel", false) No</label>
+                        </p>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-18 btn-red"><i class="fa fa-gavel" aria-hidden="true"></i> Confirm </button>
+            }
+            @Html.Partial("_VisaLetterDetails")
+
+        </div>
+    </div>
+</div>
