@@ -447,147 +447,7 @@ namespace Commencement.Controllers
 
             return View(letter);
         }
-
-        [PageTrackingFilter]
-        public ActionResult RequestVisaLetterNew()
-        {
-            // validate student is in our DB, otherwise we need to do a lookup
-            var student = GetCurrentStudent();
-
-            // we were just unable to find record
-            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
-
-            var existingLetter = Repository.OfType<VisaLetter>().Queryable.FirstOrDefault(a => a.Student.StudentId == student.StudentId && !a.IsCanceled && !a.IsDenied);
-
-            ViewBag.AllowChange = true;
-
-            var letter = new VisaLetter();
-            letter.Student = student;
-            if (existingLetter != null)
-            {
-                letter.StudentFirstName = existingLetter.StudentFirstName;
-                letter.StudentLastName = existingLetter.StudentLastName;
-                letter.MajorName = existingLetter.MajorName;
-                letter.CollegeCode = existingLetter.CollegeCode;
-                letter.Gender = existingLetter.Gender;
-                letter.CollegeName = existingLetter.CollegeName;
-                letter.Degree = existingLetter.Degree;
-                letter.HardCopy = existingLetter.HardCopy;
-                letter.Ceremony = existingLetter.Ceremony;
-                ViewBag.AllowChange = false;
-                ViewBag.AllowCeremonyChange = false;
-            }
-            else
-            {
-                letter.StudentFirstName = student.FirstName;
-                letter.StudentLastName = student.LastName;
-                var major = student.Majors.FirstOrDefault();
-                if (major != null)
-                {
-                    letter.MajorName = major.MajorName;
-                    letter.CollegeCode = major.College.Id;
-                }
-            }
-
-
-            var checkStudent = CheckStudentForVisaLetter();
-            switch (checkStudent)
-            {
-                case "NotEligible":
-                    return this.RedirectToAction<ErrorController>(a => a.NotEligible()); //Blocked
-                case "SJA":
-                    return this.RedirectToAction<ErrorController>(a => a.SJA());
-                case "S":
-                    letter.Ceremony = 'S';
-                    ViewBag.AllowCeremonyChange = false;
-                    break;
-                case "F":
-                    letter.Ceremony = 'F';
-                    ViewBag.AllowCeremonyChange = false;
-                    break;
-                case "PreviouslyWalked":
-                    return this.RedirectToAction<ErrorController>(a => a.PreviouslyWalked());
-                case "CeremonyOver":
-                    return this.RedirectToAction<ErrorController>(a => a.CeremonyOver());
-
-            }
-
-
-
-            return View(letter);
-        }
-
-        [HttpPost]
-        [PageTrackingFilter]
-        public ActionResult RequestVisaLetterNew(VisaLetterPostModel model)
-        {
-            //ModelState.Clear();
-            // validate student is in our DB, otherwise we need to do a lookup
-            var student = GetCurrentStudent();
-
-            // we were just unable to find record
-            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
-
-            var existingLetter = Repository.OfType<VisaLetter>().Queryable.FirstOrDefault(a => a.Student.StudentId == student.StudentId && !a.IsCanceled && !a.IsDenied);
-            if (existingLetter != null)
-            {
-                ViewBag.AllowChange = false;
-            }
-            else
-            {
-                ViewBag.AllowChange = true;
-            }
-
-            var visaLetter = new VisaLetter();
-            visaLetter.Student = student;
-            visaLetter.Ceremony = model.Ceremony;
-            visaLetter.MajorName = model.MajorName;
-            visaLetter.RelationshipToStudent = model.RelationshipToStudent;
-            visaLetter.RelativeFirstName = model.RelativeFirstName;
-            visaLetter.RelativeLastName = model.RelativeLastName;
-            visaLetter.RelativeMailingAddress = model.RelativeMailingAddress;
-            visaLetter.RelativeTitle = model.RelativeTitle;
-            visaLetter.StudentFirstName = model.StudentFirstName;
-            visaLetter.StudentLastName = model.StudentLastName;
-            visaLetter.Gender = model.Gender;
-            visaLetter.CollegeCode = model.CollegeCode;
-            if (!string.IsNullOrWhiteSpace(visaLetter.CollegeCode))
-            {
-                visaLetter.CollegeName = SelectLists.CollegeNames.Single(a => a.Value == visaLetter.CollegeCode).Text;
-            }
-            visaLetter.Degree = model.Degree;
-            visaLetter.HardCopy = model.HardCopy;
-
-            var termCode = TermService.GetCurrent();
-            var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == student && a.TermCode.Id == termCode.Id);
-
-            // has this student registered yet?
-            if (currentReg != null)
-            {
-                // display previous registration
-                var participation = currentReg.RegistrationParticipations.FirstOrDefault(a => !a.Cancelled && !a.Registration.Student.SjaBlock && !a.Registration.Student.Blocked);
-                if (participation != null && participation.Ceremony.Colleges.Any(a => a.Id == visaLetter.CollegeCode))
-                {
-                    visaLetter.CeremonyDateTime = participation.Ceremony.DateTime;
-                }
-
-            }
-
-            visaLetter.TransferValidationMessagesTo(ModelState);
-            if (ModelState.IsValid)
-            {
-                //TODO: Try and pull to see if student is registered. If so, set values for which ceremony and which date.
-
-
-                //Repository.OfType<VisaLetter>().EnsurePersistent(visaLetter);
-
-                return this.RedirectToAction("VisaLetterReceipt");
-            }
-
-            Message = "Please correct errors and try again.";
-            return View(visaLetter);
-        }
-
+        
         [HttpPost]
         [PageTrackingFilter]
         public ActionResult RequestVisaLetter(VisaLetterPostModel model)
@@ -621,7 +481,10 @@ namespace Commencement.Controllers
             visaLetter.StudentLastName = model.StudentLastName;
             visaLetter.Gender = model.Gender;
             visaLetter.CollegeCode = model.CollegeCode;
-            visaLetter.CollegeName = SelectLists.CollegeNames.Single(a => a.Value == visaLetter.CollegeCode).Text;
+            if (!string.IsNullOrWhiteSpace(visaLetter.CollegeCode))
+            {
+                visaLetter.CollegeName = SelectLists.CollegeNames.Single(a => a.Value == visaLetter.CollegeCode).Text;
+            }            
             visaLetter.Degree = model.Degree;
             visaLetter.HardCopy = model.HardCopy;
 
@@ -647,6 +510,7 @@ namespace Commencement.Controllers
 
 
                 Repository.OfType<VisaLetter>().EnsurePersistent(visaLetter);
+                Message = "Request Created";
               
                 return this.RedirectToAction("VisaLetterReceipt");
             }
