@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "CancelRegistartionPetitionConfirm";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+@section NavButtons
+{
+    <div class="pull-right">
+        @Html.Partial("_LogonPartial")
+    </div>
+}
+
+
+<div class="banner banner--register">
+    <div class="banner_contents">
+        <img src="@Url.Content("~/Images/Media/commencement_welcome.svg")" alt="">
+    </div>
+</div>
+
+<div class="lead">
+    <div class="lead_contents">
+        <h3>
+            Registration Petition Canceled
+        </h3>
+        <p>
+            Your registration petition has been successfully canceled.  You can come back to this site at a later date to re-petition or register for a Commencement ceremony.
+        </p>
+    </div>
+</div>
+

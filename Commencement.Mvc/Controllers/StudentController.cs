@@ -309,7 +309,7 @@ namespace Commencement.Controllers
 
             return View(regPetition);
         }
-
+   
         [HttpPost]
         public ActionResult CancelRegistrationPetition(int id, bool? cancel)
         {
@@ -351,7 +351,7 @@ namespace Commencement.Controllers
                 }
 
                 Message = "Petition was successfully deleted.";
-                return RedirectToAction("CancelRegistartionPetitionConfirm");
+                return RedirectToAction("CancelRegistrationPetitionConfirm");
             }
 
             Message = "Petition was not deleted.";
@@ -359,7 +359,7 @@ namespace Commencement.Controllers
         }
 
         [PageTrackingFilter]
-        public ActionResult CancelRegistartionPetitionConfirm()
+        public ActionResult CancelRegistrationPetitionConfirm()
         {
             return View();
         }
