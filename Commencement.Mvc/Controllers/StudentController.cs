@@ -583,6 +583,23 @@ namespace Commencement.Controllers
             return View(letter);
         }
 
+        public ActionResult VisaLetterDetailsNew(int id)
+        {
+            var student = GetCurrentStudent();
+
+            // we were just unable to find record
+            if (student == null) return this.RedirectToAction<ErrorController>(a => a.NotFound());
+
+            var letter = Repository.OfType<VisaLetter>().Queryable.SingleOrDefault(a => a.Id == id && a.Student.StudentId == student.StudentId); //Only allow that student to print it.
+            if (letter == null)
+            {
+                Message = "Letter Not Found";
+                return this.RedirectToAction<ErrorController>(a => a.NotFound());
+            }
+
+            return View(letter);
+        }
+
         public ActionResult VisaLetterReceipt()
         {
             return View();

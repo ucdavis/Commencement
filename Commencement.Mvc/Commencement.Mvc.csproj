@@ -1761,6 +1761,7 @@
     <Content Include="Views\Student\VisaLetters.cshtml" />
     <Content Include="Views\Student\RequestVisaLetter.cshtml" />
     <Content Include="Views\Student\VisaLetterReceipt.cshtml" />
+    <Content Include="Views\Student\VisaLetterDetailsNew.cshtml" />
     <None Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
