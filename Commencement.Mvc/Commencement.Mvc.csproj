@@ -1699,7 +1699,7 @@
     <Content Include="Views\SpecialNeeds\Index.aspx" />
     <Content Include="Views\Student\CancelRegistartionPetitionConfirm.aspx" />
     <Content Include="Views\Student\CancelRegistrationPetition.aspx" />
-    <Content Include="Views\Student\CancelVisaLetterRequest.aspx" />
+    <Content Include="Views\Student\CancelVisaLetterRequestOld.aspx" />
     <Content Include="Views\Student\DisplayRegistrationOld.aspx" />
     <Content Include="Views\Student\EditRegistrationOld.aspx" />
     <Content Include="Views\Student\RegisterOld.aspx" />
@@ -1762,6 +1762,8 @@
     <Content Include="Views\Student\RequestVisaLetter.cshtml" />
     <Content Include="Views\Student\VisaLetterReceipt.cshtml" />
     <Content Include="Views\Student\VisaLetterDetails.cshtml" />
+    <Content Include="Views\Student\_VisaLetterDetails.cshtml" />
+    <Content Include="Views\Student\CancelVisaLetterRequest.cshtml" />
     <None Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
