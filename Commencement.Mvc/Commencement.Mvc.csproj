@@ -1764,6 +1764,7 @@
     <Content Include="Views\Student\VisaLetterDetails.cshtml" />
     <Content Include="Views\Student\_VisaLetterDetails.cshtml" />
     <Content Include="Views\Student\CancelVisaLetterRequest.cshtml" />
+    <Content Include="Views\Student\CancelRegistrationPetitionNew.cshtml" />
     <None Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

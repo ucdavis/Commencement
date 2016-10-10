@@ -310,6 +310,25 @@ namespace Commencement.Controllers
             return View(regPetition);
         }
 
+        [PageTrackingFilter]
+        public ActionResult CancelRegistrationPetitionNew(int id)
+        {
+            var regPetition = Repository.OfType<RegistrationPetition>().GetNullableById(id);
+
+            if (regPetition == null)
+            {
+                Message = "Unable to find registration petition, please try again.";
+                return RedirectToAction("DisplayRegistration");
+            }
+
+            if (regPetition.Registration.Student.Login != User.Identity.Name)
+            {
+                return RedirectToAction("UnauthorizedAccess", "Error");
+            }
+
+            return View(regPetition);
+        }
+
         [HttpPost]
         public ActionResult CancelRegistrationPetition(int id, bool? cancel)
         {
