@@ -1706,7 +1706,7 @@
     <Content Include="Views\Student\RequestVisaLetterOld.aspx" />
     <Content Include="Views\Student\VisaLetterDetails.aspx" />
     <Content Include="Views\Student\VisaLetterDetailsPartial.ascx" />
-    <Content Include="Views\Student\VisaLetterReceipt.aspx" />
+    <Content Include="Views\Student\VisaLetterReceiptOld.aspx" />
     <Content Include="Views\Student\VisaLettersOld.aspx" />
     <Content Include="Views\Survey\Create.aspx" />
     <Content Include="Views\Survey\Edit.aspx" />
@@ -1760,6 +1760,7 @@
     <Content Include="Views\Petition\ExtraTicketPetition.cshtml" />
     <Content Include="Views\Student\VisaLetters.cshtml" />
     <Content Include="Views\Student\RequestVisaLetter.cshtml" />
+    <Content Include="Views\Student\VisaLetterReceipt.cshtml" />
     <None Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

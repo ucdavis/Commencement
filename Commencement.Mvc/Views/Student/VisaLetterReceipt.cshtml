@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "VisaLetterReceipt";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+@section NavButtons
+{
+    <div class="pull-right">
+        @Html.ActionLink("Visa Letters", "VisaLetters", "Student", null, htmlAttributes: new { @class = "btn btn-14 btn-yellow btn-sm" })
+        @Html.ActionLink("Ceremony", "Index", "Home", null, htmlAttributes: new { @class = "btn btn-14 btn-blue btn-sm" })
+        @Html.Partial("_LogonPartial")
+    </div>
+}
+
+
+<div class="banner">
+    <div class="banner_contents">
+        <img src="@Url.Content("~/Images/Media/commencement_welcome.svg")" alt="">
+    </div>
+</div>
+<div class="lead">
+    <div class="lead_contents">
+        <h3>
+            Visa Letter Receipt
+        </h3>
+        <p>Thank you for submitting your request for a visa letter of support.<br />
+            You will receive an email within a week if your letter is approved. The email will include the link to download and print your letter.<br />
+            For information regarding the Commencement ceremony please visit commencement.ucdavis.edu<br /><br />
+            To view the history of letters you have requested please @Html.ActionLink("click Visa Letter", "VisaLetters", "Student")  Home button. <br />
+            <br />
+            Best regards,<br />
+            Commencement Coordinator<br />
+            UC Davis
+        </p>
+    </div>
+</div>
