@@ -309,76 +309,7 @@ namespace Commencement.Controllers
 
             return View(regPetition);
         }
-
-        [PageTrackingFilter]
-        public ActionResult CancelRegistrationPetitionNew(int id)
-        {
-            var regPetition = Repository.OfType<RegistrationPetition>().GetNullableById(id);
-
-            if (regPetition == null)
-            {
-                Message = "Unable to find registration petition, please try again.";
-                return RedirectToAction("DisplayRegistration");
-            }
-
-            if (regPetition.Registration.Student.Login != User.Identity.Name)
-            {
-                return RedirectToAction("UnauthorizedAccess", "Error");
-            }
-
-            return View(regPetition);
-        }
-
-        [HttpPost]
-        public ActionResult CancelRegistrationPetitionNew(int id, bool? cancel)
-        {
-            return RedirectToAction("CancelRegistartionPetitionConfirm");
-
-            var regPetition = Repository.OfType<RegistrationPetition>().GetNullableById(id);
-
-            if (regPetition == null)
-            {
-                Message = "Unable to find registration petition, please try again.";
-                return RedirectToAction("DisplayRegistration");
-            }
-
-            if (regPetition.Registration.Student.Login != User.Identity.Name)
-            {
-                return RedirectToAction("UnauthorizedAccess", "Error");
-            }
-
-            if (cancel.HasValue && cancel.Value)
-            {
-                var emailQueue = Repository.OfType<EmailQueue>().Queryable.Where(a => a.RegistrationPetition == regPetition).ToList();
-                foreach (var queue in emailQueue)
-                {
-                    Repository.OfType<EmailQueue>().Remove(queue);
-                }
-
-                //Clear out any surveys they answered
-                var registrationSurvey = Repository.OfType<RegistrationSurvey>().Queryable.Where(a => a.RegistrationPetition == regPetition).ToList();
-                foreach (var survey in registrationSurvey)
-                {
-                    Repository.OfType<RegistrationSurvey>().Remove(survey);
-                }
-
-                Repository.OfType<RegistrationPetition>().Remove(regPetition);
-
-                // check if we can delete the registration object
-                if (!regPetition.Registration.RegistrationParticipations.Any() &&
-                    !regPetition.Registration.RegistrationPetitions.Any())
-                {
-                    Repository.OfType<Registration>().Remove(regPetition.Registration);
-                }
-
-                Message = "Petition was successfully deleted.";
-                return RedirectToAction("CancelRegistartionPetitionConfirm");
-            }
-
-            Message = "Petition was not deleted.";
-            return RedirectToAction("DisplayRegistration");
-        }
-
+   
         [HttpPost]
         public ActionResult CancelRegistrationPetition(int id, bool? cancel)
         {
@@ -420,7 +351,7 @@ namespace Commencement.Controllers
                 }
 
                 Message = "Petition was successfully deleted.";
-                return RedirectToAction("CancelRegistartionPetitionConfirm");
+                return RedirectToAction("CancelRegistrationPetitionConfirm");
             }
 
             Message = "Petition was not deleted.";
@@ -428,7 +359,7 @@ namespace Commencement.Controllers
         }
 
         [PageTrackingFilter]
-        public ActionResult CancelRegistartionPetitionConfirm()
+        public ActionResult CancelRegistrationPetitionConfirm()
         {
             return View();
         }
