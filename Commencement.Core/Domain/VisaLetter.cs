@@ -74,10 +74,12 @@ namespace Commencement.Core.Domain
         public virtual bool IsCanceled { get; set; }
 
         public virtual string CollegeName { get; set; } //Drop down list for student, try to pick for student
-
+        [Required]
         public virtual string CollegeCode { get; set; } //Drop down list for student, try to pick for student
+        [Required]
         public virtual string MajorName { get; set; } // try to fill out for student
 
+        [Required]
         public virtual string Degree { get; set; } //TODO: Try and get this from banner or a dropdown? or don't include it in the letter?
 
         public virtual DateTime? CeremonyDateTime { get; set; }
