@@ -37,13 +37,13 @@
 </div>
 
 
-@using (Html.BeginForm("RequestVisaLetter", "Student", FormMethod.Post))
+@using (Html.BeginForm("RequestVisaLetterNew", "Student", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     <div class="main">
         <div class="main_contents">
             <div class="register">
-                @Html.ValidationSummary("Please correct all errors below")
+                @Html.ValidationSummary(true,"Please correct all errors below")
                 @Html.HiddenFor(a=>a.Student.StudentId)
                 @Html.HiddenFor(a=>a.Student.Pidm) 
                 
@@ -65,7 +65,7 @@
                     {
                         @Html.TextBoxFor(a => a.StudentFirstName)
                     }
-                    @Html.ValidationMessageFor(a=>a.StudentFirstName)                    
+                    @Html.ValidationMessage("VisaLetter.StudentFirstName")                    
                 </div>
                 <div class="input__group">
                     <label>Last Name</label>
@@ -78,7 +78,7 @@
                     {
                         @Html.TextBoxFor(a => a.StudentLastName)
                     }
-                    @Html.ValidationMessageFor(a => a.StudentLastName)
+                    @Html.ValidationMessage("VisaLetter.StudentLastName")
                 </div>
                 @if (ViewBag.AllowChange != null && ViewBag.AllowChange == false)
                 {
@@ -88,7 +88,7 @@
                             @Model.CollegeName
                             @Html.HiddenFor(a => a.CollegeCode, new {id = "doNotChosen"})
                         </p>
-                        @Html.ValidationMessageFor(a => a.CollegeCode)
+                        @Html.ValidationMessage("VisaLetter.CollegeCode")
                     </div>
                 }
                 else
@@ -97,7 +97,7 @@
                         <label>College Name</label>
                         @Html.DropDownListFor(a => a.CollegeCode, SelectLists.CollegeNames)
 
-                        @Html.ValidationMessageFor(a => a.CollegeCode)
+                        @Html.ValidationMessage("VisaLetter.CollegeCode")
                     </div>
                 }
                 @if (ViewBag.AllowChange != null && ViewBag.AllowChange == false)
@@ -108,7 +108,7 @@
                             @Model.Degree
                             @Html.HiddenFor(a => a.Degree, new {id = "doNotChosen2"})
                         </p>
-                        @Html.ValidationMessageFor(a => a.Degree)
+                        @Html.ValidationMessage("VisaLetter.Degree")
                     </div>
                 }
                 else
@@ -116,7 +116,7 @@
                     <div class="input__group">
                         <label>Degree</label>
                         @Html.DropDownListFor(a => a.Degree, SelectLists.DegreeType)
-                        @Html.ValidationMessageFor(a => a.Degree)
+                        @Html.ValidationMessage("VisaLetter.Degree")
                     </div>
                 }
                 <div class="input__group">
@@ -130,7 +130,7 @@
                     {
                         @Html.TextBoxFor(a => a.MajorName)
                     }
-                    @Html.ValidationMessageFor(a => a.MajorName)
+                    @Html.ValidationMessage("VisaLetter.MajorName")
                 </div>
                 <div class="input__group">
                     <label>Your Gender</label>
@@ -143,7 +143,7 @@
                         <label>@Html.RadioButton("Gender", 'F') Female</label>
                     }
 
-                    @Html.ValidationMessageFor(a=>a.Gender)
+                    @Html.ValidationMessage("VisaLetter.Gender")
                 </div>
                 <div class="input__group">
                     <label>Ceremony</label>
@@ -156,47 +156,48 @@
                         <label>@Html.RadioButton("Ceremony", 'F') Fall</label>
                     } 
 
-                    @Html.ValidationMessageFor(a=>a.Ceremony) 
+                    @Html.ValidationMessage("VisaLetter.Ceremony") 
                 </div>
                 <div class="input__group">
                     <label>Need Hard Copy</label>
                     <label>@Html.RadioButton("HardCopy", 'Y') Yes</label>
                     <label>@Html.RadioButton("HardCopy", 'N') No</label>
 
-                    @Html.ValidationMessageFor(a=>a.HardCopy)
+                    @Html.ValidationMessage("VisaLetter.HardCopy")
                 </div>
 
                 
                 <div class="input__group">
                     <label>Relative's Title:</label>
                     @Html.DropDownListFor(a=>a.RelativeTitle, SelectLists.PersonPrefixes) 
-                    @Html.ValidationMessageFor(a=>a.RelativeTitle) 
+                    @Html.ValidationMessage("VisaLetter.RelativeTitle") 
                 </div>
 
                 <div class="input__group">
                     <label>Relative's First Name:</label>
                     @Html.TextBoxFor(a=>a.RelativeFirstName) 
-                    @Html.ValidationMessageFor(a=>a.RelativeFirstName) 
+                    @Html.ValidationMessage("VisaLetter.RelativeFirstName") 
                 </div>
 
                 <div class="input__group">
                     <label>Relative's Last Name:</label>
                     @Html.TextBoxFor(a=>a.RelativeLastName) 
-                    @Html.ValidationMessageFor(a=>a.RelativeLastName) 
+                    @Html.ValidationMessage("VisaLetter.RelativeLastName") 
                 </div>
 
                 <div class="input__group">
                     <label>Relationship To You:</label>
                     @Html.TextBoxFor(a=>a.RelationshipToStudent) 
-                    @Html.ValidationMessageFor(a=>a.RelationshipToStudent) 
+                    @Html.ValidationMessage("VisaLetter.RelationshipToStudent") 
                 </div>
 
                 <div class="input__group">
                     <label>Relative's Mailing Address:</label>
                     @Html.TextAreaFor(a=>a.RelativeMailingAddress) 
-                    @Html.ValidationMessageFor(a=>a.RelativeMailingAddress) 
+                    @Html.ValidationMessage("VisaLetter.RelativeMailingAddress") 
                 </div>
             </div>
+            <button type="submit" class="btn btn-18 btn-green"><i class="fa fa-ticket" aria-hidden="true"></i> Save </button>
         </div>
     </div>
 }
