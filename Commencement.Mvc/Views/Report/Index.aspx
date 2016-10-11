@@ -125,24 +125,7 @@
             
             <div class="description">Registrar's Report for the selected term.</div>
 
-        </div>
-        
-        <div class="report">
-            
-            <div class="title">
-                <div class="col1"><del>Ticket Sign Out Sheet</del></div>
-                <div class="col2">                  
-                    <% using (Html.BeginForm("GetReport", "Report", FormMethod.Get)) { %>
-                        <a href="#" class="submit_anchor button"><span class="ui-icon ui-icon-disk"></span><del>Download</del></a>
-                        <%= Html.Hidden("Report", ReportController.Report.TicketSignOutSheet) %>
-                        <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class = "term_value"}) %>
-                    <% } %>
-                </div>
-            </div>
-            
-            <div class="description"><del>Ticket sign out sheet for the selected term.</del></div>
-
-        </div>
+        </div>       
         
         <div class="report">
             
