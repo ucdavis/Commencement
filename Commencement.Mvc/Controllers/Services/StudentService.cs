@@ -48,23 +48,25 @@ namespace Commencement.Controllers.Services
         {
             var currentStudent = _studentRepository.Queryable.SingleOrDefault(x => x.Login == currentUser.Identity.Name && x.TermCode == TermService.GetCurrent());
             
-            if (currentStudent == null)
-            {
-                var student = BannerLookupByLogin(currentUser.Identity.Name);
 
-                // student still doesn't exist
-                if (!_studentRepository.Queryable.Any(a => a.Login == currentUser.Identity.Name && a.TermCode == TermService.GetCurrent()))
-                {
-                    if (student != null)
-                    {
-                        student.AddedBy = currentUser.Identity.Name;
-                        _studentRepository.EnsurePersistent(student);
-                        Check.Require(_studentRepository.Queryable.Count(a => a.Login == currentUser.Identity.Name && a.TermCode == TermService.GetCurrent()) == 1, "There were too many students returned.");
-                    }
+            //We are not doing a banner lookup as it should not be necessary as we are grabbing students with 120 units or more
+            //if (currentStudent == null)
+            //{
+            //    var student = BannerLookupByLogin(currentUser.Identity.Name);
 
-                    currentStudent = student;       
-                }
-            }
+            //    // student still doesn't exist
+            //    if (!_studentRepository.Queryable.Any(a => a.Login == currentUser.Identity.Name && a.TermCode == TermService.GetCurrent()))
+            //    {
+            //        if (student != null)
+            //        {
+            //            student.AddedBy = currentUser.Identity.Name;
+            //            _studentRepository.EnsurePersistent(student);
+            //            Check.Require(_studentRepository.Queryable.Count(a => a.Login == currentUser.Identity.Name && a.TermCode == TermService.GetCurrent()) == 1, "There were too many students returned.");
+            //        }
+
+            //        currentStudent = student;       
+            //    }
+            //}
 
             return currentStudent; // if it returns null, the search didn't yield any results
         }
@@ -181,11 +183,12 @@ namespace Commencement.Controllers.Services
         {
             var currentStudent = _studentRepository.Queryable.SingleOrDefault(x => x.Login == currentUser.Identity.Name && x.TermCode == TermService.GetCurrent());
 
-            if (currentStudent == null)
-            {
-                var student = BannerLookupByLogin(currentUser.Identity.Name);
-                if (student != null) _studentRepository.EnsurePersistent(currentStudent);
-            }
+            //We are not doing a banner lookup as it should not be necessary as we are grabbing students with 120 units or more
+            //if (currentStudent == null)
+            //{
+            //    var student = BannerLookupByLogin(currentUser.Identity.Name);
+            //    if (student != null) _studentRepository.EnsurePersistent(currentStudent);
+            //}
 
             return currentStudent;
         }
