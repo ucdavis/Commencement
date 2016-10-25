@@ -122,21 +122,43 @@ namespace Commencement.Controllers
 
 
                 //Dept Admin Account Email
-                var fromAddress = new MailAddress("undergradcommencement@ucdavis.edu", "Commencement (Do Not Reply)");
-                var toAddress = new MailAddress(user.Email);
-                var mail = new MailMessage(fromAddress, toAddress);
+                //var fromAddress = new MailAddress("undergradcommencement@ucdavis.edu", "Commencement (Do Not Reply)");
+                //var toAddress = new MailAddress(user.Email);
+                //var mail = new MailMessage(fromAddress, toAddress);
 
-                mail.Subject = subject;
-                mail.Body = message;
+                //mail.Subject = subject;
+                //mail.Body = message;
 
-                mail.IsBodyHtml = true;                
+                //mail.IsBodyHtml = true;                
 
-                var client = new SmtpClient(); 
-                client.Credentials = new NetworkCredential(CloudConfigurationManager.GetSetting("OppEmail"), CloudConfigurationManager.GetSetting("OppAttachToken"));
-                client.Port = 587; // default port for gmail
-                client.EnableSsl = true;
-                client.Host = "smtp.ucdavis.edu";
-                client.Send(mail);
+                //var client = new SmtpClient(); 
+                //client.Credentials = new NetworkCredential(CloudConfigurationManager.GetSetting("OppEmail"), CloudConfigurationManager.GetSetting("OppAttachToken"));
+                //client.Port = 587; // default port for gmail
+                //client.EnableSsl = true;
+                //client.Host = "smtp.ucdavis.edu";
+                //client.Send(mail);
+
+                var client = new SmtpClient
+                {
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(CloudConfigurationManager.GetSetting("OppEmail"), CloudConfigurationManager.GetSetting("OppAttachToken")),
+                    Port = 587,
+                    Host = "smtp.ucdavis.edu",
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    EnableSsl = true
+                };
+
+                var message2 = new MailMessage
+                {
+                    From = new MailAddress(CloudConfigurationManager.GetSetting("OppEmail"), "FSNEP from SMTP @ UCDavis"),
+                    Subject = subject,
+                    Body = message
+                };
+
+                message2.To.Add("srkirkland@ucdavis.edu");
+                message2.To.Add("jsylvestre@ucdavis.edu");
+
+                client.Send(message2);
 
 
             }

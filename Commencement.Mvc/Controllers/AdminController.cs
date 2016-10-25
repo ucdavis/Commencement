@@ -70,23 +70,49 @@ namespace Commencement.Controllers
         public ActionResult TestEmail()
         {
 
-            var fromAddress = new MailAddress("undergradcommencement@ucdavis.edu", "Commencement (Do Not Reply)");
-            var toAddress = new MailAddress("jsylvestre@ucdavis.edu");
-            var mail = new MailMessage(fromAddress, toAddress);
+            ViewBag.Message = "Your contact page.";
 
-            mail.Subject = "test";
-            mail.Body = "Commencement email";
+            var client = new SmtpClient
+            {
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(CloudConfigurationManager.GetSetting("OppEmail"), CloudConfigurationManager.GetSetting("OppAttachToken")),
+                Port = 587,
+                Host = "smtp.ucdavis.edu",
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                EnableSsl = true
+            };
 
-            mail.IsBodyHtml = true;
+            var message = new MailMessage
+            {
+                From = new MailAddress(CloudConfigurationManager.GetSetting("OppEmail"), "FSNEP from SMTP @ UCDavis"),
+                Subject = "Mail from UCDavis smtp",
+                Body = "Some body text here"
+            };
 
-            var client = new SmtpClient();
-            client.Credentials = new NetworkCredential(CloudConfigurationManager.GetSetting("OppEmail"), CloudConfigurationManager.GetSetting("OppAttachToken"));
-            client.Port = 587; // default port for gmail
-            client.EnableSsl = true;
-            client.Host = "smtp.ucdavis.edu";
-            client.Send(mail);
+            message.To.Add("srkirkland@ucdavis.edu");
+            message.To.Add("jsylvestre@ucdavis.edu");
+
+            client.Send(message);
 
             return null;
+
+            //var fromAddress = new MailAddress("undergradcommencement@ucdavis.edu", "Commencement (Do Not Reply)");
+            //var toAddress = new MailAddress("jsylvestre@ucdavis.edu");
+            //var mail = new MailMessage(fromAddress, toAddress);
+
+            //mail.Subject = "test";
+            //mail.Body = "Commencement email";
+
+            //mail.IsBodyHtml = true;
+
+            //var client = new SmtpClient();
+            //client.Credentials = new NetworkCredential(CloudConfigurationManager.GetSetting("OppEmail"), CloudConfigurationManager.GetSetting("OppAttachToken"));
+            //client.Port = 587; // default port for gmail
+            //client.EnableSsl = true;
+            //client.Host = "smtp.ucdavis.edu";
+            //client.Send(mail);
+
+            //return null;
         }
 
         [AdminOnly]
