@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
@@ -10,6 +12,7 @@ using Commencement.Core.Domain;
 using Commencement.Core.Helpers;
 using Commencement.Core.Resources;
 using Commencement.Resources;
+using Microsoft.WindowsAzure;
 using NHibernate.Mapping;
 using NPOI.SS.Formula.Functions;
 using UCDArch.Core.PersistanceSupport;
@@ -61,6 +64,27 @@ namespace Commencement.Controllers
             ViewBag.PendingLetters = Repository.OfType<VisaLetter>().Queryable.Any(a => a.IsPending && !a.IsCanceled);
 
             return View();
+        }
+
+        public ActionResult TestEmail()
+        {
+            var fromAddress = new MailAddress("undergradcommencement@ucdavis.edu", "Commencement (Do Not Reply)");
+            var toAddress = new MailAddress("jsylvestre@ucdavis.edu");
+            var mail = new MailMessage(fromAddress, toAddress);
+
+            mail.Subject = "test";
+            mail.Body = "Commencement email";
+
+            mail.IsBodyHtml = true;
+
+            var client = new SmtpClient();
+            client.Credentials = new NetworkCredential("oppattach@ucdavis.edu", CloudConfigurationManager.GetSetting("OppAttachToken"));
+            client.Port = 587; // default port for gmail
+            client.EnableSsl = true;
+            client.Host = "smtp.ucdavis.edu";
+            client.Send(mail);
+
+            return null;
         }
 
         [AdminOnly]
