@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -92,28 +93,52 @@ namespace Commencement.Controllers
         [HttpPost]
         public async Task<JsonResult> SendTestEmail(string subject, string message)
         {
+
+
+
             var user = Repository.OfType<vUser>().Queryable.FirstOrDefault(a => a.LoginId == CurrentUser.Identity.Name);
 
             try
             {
-                var emailTransmission = new Transmission
-                {
-                    Content = new Content
-                    {
-                        From =
-                            new Address
-                            {
-                                Email = "noreply@commencement-notify.ucdavis.edu",
-                                Name = "UCD Commencement Notification"
-                            },
-                        Subject = subject,
-                        Html = message
-                    }
-                };
-                emailTransmission.Recipients.Add(new Recipient {Address = new Address {Email = user.Email}});
+                //Spark Email
+                //var emailTransmission = new Transmission
+                //{
+                //    Content = new Content
+                //    {
+                //        From =
+                //            new Address
+                //            {
+                //                Email = "noreply@commencement-notify.ucdavis.edu",
+                //                Name = "UCD Commencement Notification"
+                //            },
+                //        Subject = subject,
+                //        Html = message
+                //    }
+                //};
+                //emailTransmission.Recipients.Add(new Recipient {Address = new Address {Email = user.Email}});
 
-                var client = new Client(CloudConfigurationManager.GetSetting("SparkPostApiKey"));
-                await client.Transmissions.Send(emailTransmission);
+                //var client = new Client(CloudConfigurationManager.GetSetting("SparkPostApiKey"));
+                //await client.Transmissions.Send(emailTransmission);
+
+
+                //Dept Admin Account Email
+                var fromAddress = new MailAddress("undergradcommencement@ucdavis.edu", "Commencement (Do Not Reply)");
+                var toAddress = new MailAddress(user.Email);
+                var mail = new MailMessage(fromAddress, toAddress);
+
+                mail.Subject = subject;
+                mail.Body = message;
+
+                mail.IsBodyHtml = true;
+
+                var client = new SmtpClient(); 
+                client.Credentials = new NetworkCredential("oppattach@ucdavis.edu", CloudConfigurationManager.GetSetting("OppAttachToken"));
+                client.Port = 587; // default port for gmail
+                client.EnableSsl = true;
+                client.Host = "smtp.ucdavis.edu";
+                client.Send(mail);
+
+
             }
             catch (Exception ex)
             {
