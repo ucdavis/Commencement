@@ -80,7 +80,7 @@ namespace Commencement.Controllers
             mail.IsBodyHtml = true;
 
             var client = new SmtpClient();
-            client.Credentials = new NetworkCredential("oppattach@ucdavis.edu", CloudConfigurationManager.GetSetting("OppAttachToken"));
+            client.Credentials = new NetworkCredential(CloudConfigurationManager.GetSetting("OppEmail"), CloudConfigurationManager.GetSetting("OppAttachToken"));
             client.Port = 587; // default port for gmail
             client.EnableSsl = true;
             client.Host = "smtp.ucdavis.edu";
