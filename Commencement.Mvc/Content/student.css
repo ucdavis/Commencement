@@ -735,3 +735,9 @@ fieldset legend a { color: white;}
 .ceremony h2.d-blue {
     background-color: #c79900;
 }
+
+.do-not-break {
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
