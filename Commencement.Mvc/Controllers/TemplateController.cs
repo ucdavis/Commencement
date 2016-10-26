@@ -150,13 +150,12 @@ namespace Commencement.Controllers
 
                 var message2 = new MailMessage
                 {
-                    From = new MailAddress(CloudConfigurationManager.GetSetting("OppEmail"), "FSNEP from SMTP @ UCDavis"),
+                    From = new MailAddress("undergradcommencement@ucdavis.edu", "Commencement (Do Not Reply)"),
                     Subject = subject,
                     Body = message
                 };
 
-                message2.To.Add("srkirkland@ucdavis.edu");
-                message2.To.Add("jsylvestre@ucdavis.edu");
+                message2.To.Add(user.Email);
 
                 client.Send(message2);
 
