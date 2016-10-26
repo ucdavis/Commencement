@@ -19,8 +19,12 @@
 }
 
 <style>
-    .table .btn + .btn {
-        margin-left: 5px;
+
+    .table tr td:first-child .btn {
+        margin-right: 5px;
+    }
+    .table-striped {
+        border: 1px solid #c7c8cc;
     }
 </style>
 
@@ -47,7 +51,7 @@
         <table class="table table-striped one-btn-first-row">
             <thead>
                 <tr>
-                    <td></td>
+                    <td><b>Actions</b></td>
                     <td>Relative First Name</td>
                     <td>Relative Last Name</td>
                     <td>Date Created</td>
