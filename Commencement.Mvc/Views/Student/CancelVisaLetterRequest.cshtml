@@ -21,25 +21,32 @@
     </div>
 </div>
 
+
+
+<div class="lead">
+    <div class="lead_contents">
+
+        @using (Html.BeginForm())
+        {
+
+            @Html.AntiForgeryToken()
+            <h3>Confirm Action</h3>
+
+                    <p>
+                        <strong>Are you sure you want to cancel your Visa Letter Request?</strong>
+                        <label>@Html.RadioButton("Cancel", true) Yes</label>
+                        <label>@Html.RadioButton("Cancel", false) No</label>
+                    </p>
+
+
+                    <p><button type="submit" class="btn btn-18 btn-red"><i class="fa fa-gavel" aria-hidden="true"></i> Confirm </button></p>
+        }
+    </div>
+</div>
+
 <div class="main">
     <div class="main_contents">
-        <div class="register__section">
-            @using (Html.BeginForm())
-            {
-
-                @Html.AntiForgeryToken()
-                <h2>Confirm Action</h2>
-                <div class="form__wrapper">
-                    <div class="result__group">
-                        <p><strong>Are you sure you want to cancel your Visa Letter Request?</strong>
-                            <label>@Html.RadioButton("Cancel", true) Yes</label>
-                            <label>@Html.RadioButton("Cancel", false) No</label>
-                        </p>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-18 btn-red"><i class="fa fa-gavel" aria-hidden="true"></i> Confirm </button>
-            }
+        <div class="instructions">
             @Html.Partial("_VisaLetterDetails")
 
         </div>
