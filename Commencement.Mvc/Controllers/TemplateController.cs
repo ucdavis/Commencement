@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
@@ -101,71 +99,33 @@ namespace Commencement.Controllers
             try
             {
                 //Spark Email
-                //var emailTransmission = new Transmission
-                //{
-                //    Content = new Content
-                //    {
-                //        From =
-                //            new Address
-                //            {
-                //                Email = "noreply@commencement-notify.ucdavis.edu",
-                //                Name = "UCD Commencement Notification"
-                //            },
-                //        Subject = subject,
-                //        Html = message
-                //    }
-                //};
-                //emailTransmission.Recipients.Add(new Recipient {Address = new Address {Email = user.Email}});
-
-                //var client = new Client(CloudConfigurationManager.GetSetting("SparkPostApiKey"));
-                //await client.Transmissions.Send(emailTransmission);
-
-
-                //Dept Admin Account Email
-                //var fromAddress = new MailAddress("undergradcommencement@ucdavis.edu", "Commencement (Do Not Reply)");
-                //var toAddress = new MailAddress(user.Email);
-                //var mail = new MailMessage(fromAddress, toAddress);
-
-                //mail.Subject = subject;
-                //mail.Body = message;
-
-                //mail.IsBodyHtml = true;                
-
-                //var client = new SmtpClient(); 
-                //client.Credentials = new NetworkCredential(CloudConfigurationManager.GetSetting("OppEmail"), CloudConfigurationManager.GetSetting("OppAttachToken"));
-                //client.Port = 587; // default port for gmail
-                //client.EnableSsl = true;
-                //client.Host = "smtp.ucdavis.edu";
-                //client.Send(mail);
-
-                var client = new SmtpClient
+                var emailTransmission = new Transmission
                 {
-                    UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(CloudConfigurationManager.GetSetting("OppEmail"), CloudConfigurationManager.GetSetting("OppAttachToken")),
-                    Port = 587,
-                    Host = "smtp.ucdavis.edu",
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    EnableSsl = true
+                    Content = new Content
+                    {
+                        From =
+                            new Address
+                            {
+                                Email = "noreply@commencement-notify.ucdavis.edu",
+                                Name = "UCD Commencement Notification"
+                            },
+                        Subject = subject,
+                        Html = message
+                    }
                 };
+                emailTransmission.Recipients.Add(new Recipient { Address = new Address { Email = user.Email } });
 
-                var message2 = new MailMessage
-                {
-                    From = new MailAddress("undergradcommencement@ucdavis.edu", "Commencement (Do Not Reply)"),
-                    Subject = subject,
-                    Body = message,
-                    IsBodyHtml = true
-                };
+                var client = new Client(CloudConfigurationManager.GetSetting("SparkPostApiKey"));
+                await client.Transmissions.Send(emailTransmission);
 
-                message2.To.Add(user.Email);
 
-                client.Send(message2);
-
+                //To see example of using SMTP from the cloud, look in Admin/TestEmail
 
             }
             catch (Exception ex)
             {
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
-                //return Json(false, JsonRequestBehavior.AllowGet);
+                //return Json(ex.Message, JsonRequestBehavior.AllowGet); //To Debug exception
+                return Json(false, JsonRequestBehavior.AllowGet);
             }
 
             return Json(true, JsonRequestBehavior.AllowGet);

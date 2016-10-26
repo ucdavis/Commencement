@@ -17,8 +17,6 @@
             <%: Html.SubmitButton("Search", "Search", new { @class="button" })%>
         <% } %>
     </div>
-    
-    <div style="background-color: red">TEST TEST</div>
 
     <div id="term-container" style="float:right;">
         <strong>Term:</strong> <%: TermService.GetCurrent().Name %>

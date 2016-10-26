@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Net.NetworkInformation;
 using System.Web.Mvc;
 using Commencement.Controllers.Filters;
 using Commencement.Controllers.Helpers;
@@ -13,7 +10,6 @@ using Commencement.Core.Domain;
 using Commencement.Core.Helpers;
 using Commencement.Core.Resources;
 using Commencement.Resources;
-using Microsoft.WindowsAzure;
 using NHibernate.Mapping;
 using NPOI.SS.Formula.Functions;
 using UCDArch.Core.PersistanceSupport;
@@ -67,53 +63,35 @@ namespace Commencement.Controllers
             return View();
         }
 
-        public ActionResult TestEmail()
-        {
+        //Email example sending from smtp from the cloud
 
-            ViewBag.Message = "Your contact page.";
+        //public ActionResult TestEmail()
+        //{
 
-            var client = new SmtpClient
-            {
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(CloudConfigurationManager.GetSetting("OppEmail"), CloudConfigurationManager.GetSetting("OppAttachToken")),
-                Port = 587,
-                Host = "smtp.ucdavis.edu",
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                EnableSsl = true
-            };
+        //    var client = new SmtpClient
+        //    {
+        //        UseDefaultCredentials = false,
+        //        Credentials = new NetworkCredential(CloudConfigurationManager.GetSetting("OppEmail"), CloudConfigurationManager.GetSetting("OppAttachToken")),
+        //        Port = 587,
+        //        Host = "smtp.ucdavis.edu",
+        //        DeliveryMethod = SmtpDeliveryMethod.Network,
+        //        EnableSsl = true
+        //    };
 
-            var message = new MailMessage
-            {
-                From = new MailAddress(CloudConfigurationManager.GetSetting("OppEmail"), "FSNEP from SMTP @ UCDavis"),
-                Subject = "Mail from UCDavis smtp",
-                Body = "Some body text here"
-            };
+        //    var message2 = new MailMessage
+        //    {
+        //        From = new MailAddress("undergradcommencement@ucdavis.edu", "Commencement (Do Not Reply)"),
+        //        Subject = "Test",
+        //        Body = "<p>Test</p>",
+        //        IsBodyHtml = true
+        //    };
 
-            message.To.Add("srkirkland@ucdavis.edu");
-            message.To.Add("jsylvestre@ucdavis.edu");
+        //    message2.To.Add("jsylvestre@ucdavis.edu");
 
-            client.Send(message);
+        //    client.Send(message2);
 
-            return null;
-
-            //var fromAddress = new MailAddress("undergradcommencement@ucdavis.edu", "Commencement (Do Not Reply)");
-            //var toAddress = new MailAddress("jsylvestre@ucdavis.edu");
-            //var mail = new MailMessage(fromAddress, toAddress);
-
-            //mail.Subject = "test";
-            //mail.Body = "Commencement email";
-
-            //mail.IsBodyHtml = true;
-
-            //var client = new SmtpClient();
-            //client.Credentials = new NetworkCredential(CloudConfigurationManager.GetSetting("OppEmail"), CloudConfigurationManager.GetSetting("OppAttachToken"));
-            //client.Port = 587; // default port for gmail
-            //client.EnableSsl = true;
-            //client.Host = "smtp.ucdavis.edu";
-            //client.Send(mail);
-
-            //return null;
-        }
+        //    return null;
+        //}
 
         [AdminOnly]
         public ActionResult AdminLanding()
