@@ -152,7 +152,8 @@ namespace Commencement.Controllers
                 {
                     From = new MailAddress("undergradcommencement@ucdavis.edu", "Commencement (Do Not Reply)"),
                     Subject = subject,
-                    Body = message
+                    Body = message,
+                    IsBodyHtml = true
                 };
 
                 message2.To.Add(user.Email);
