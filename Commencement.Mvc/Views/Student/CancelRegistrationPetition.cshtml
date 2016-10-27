@@ -25,10 +25,9 @@
         {
             @Html.AntiForgeryToken()
             <h3>Confirm Action</h3>
-            <p>
-                <strong>Are you sure you want to cancel your registration petition?</strong>
-            <p>@Html.RadioButton("Cancel", true) Yes, I would like to cancel my petition</p>
-            <p>@Html.RadioButton("Cancel", false) No, I would like to keep my petition</p>
+            <p><strong>Are you sure you want to cancel your registration petition?</strong>
+                <p>@Html.RadioButton("Cancel", true) Yes, I would like to cancel my petition</p>
+                <p>@Html.RadioButton("Cancel", false) No, I would like to keep my petition</p>
             </p>
             <button type="submit" class="btn btn-18 btn-red"><i class="fa fa-gavel" aria-hidden="true"></i> Confirm </button>
         }
