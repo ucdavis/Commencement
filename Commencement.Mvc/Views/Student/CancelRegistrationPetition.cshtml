@@ -19,45 +19,45 @@
     </div>
 </div>
 
+<div class="lead">
+    <div class="lead_contents">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <h3>Confirm Action</h3>
+            <p><strong>Are you sure you want to cancel your registration petition?</strong>
+                <p>@Html.RadioButton("Cancel", true) Yes, I would like to cancel my petition</p>
+                <p>@Html.RadioButton("Cancel", false) No, I would like to keep my petition</p>
+            </p>
+            <button type="submit" class="btn btn-18 btn-red"><i class="fa fa-gavel" aria-hidden="true"></i> Confirm </button>
+        }
+    </div>
+</div>
+
 <div class="main">
     <div class="main_contents">
-        <div class="form__wrapper">
-            @using (Html.BeginForm())
-            {
-
-                @Html.AntiForgeryToken()
-                <h2>Confirm Action</h2>
+        <div class="instructions">
+            <div class="do-not-break">
                 <div class="form__wrapper">
+                    <h2>Petition Details</h2>
                     <div class="result__group">
-                        <p>
-                            <strong>Are you sure you want to cancel your registration petition?</strong>
-                        <p>@Html.RadioButton("Cancel", true) Yes, I would like to cancel my petition</p>
-                        <p>@Html.RadioButton("Cancel", false) No, I would like to keep my petition</p>
-                        </p>
+                        <p><strong>Date Submitted:</strong> @Model.DateSubmitted.ToString("g")</p>
                     </div>
-                </div>
-
-                <button type="submit" class="btn btn-18 btn-red"><i class="fa fa-gavel" aria-hidden="true"></i> Confirm </button>
-            }
-            <div class="form__wrapper">
-                <h2>Petition Details</h2>
-                <div class="result__group">
-                    <p><strong>Date Submitted:</strong> @Model.DateSubmitted.ToString("g")</p>
-                </div>
-                <div class="result__group">
-                    <p><strong>Date Decision:</strong> @Html.Encode(Model.DateDecision != null ? Model.DateDecision.ToString() : string.Empty)</p>
-                </div>
-                <div class="result__group">
-                    <p><strong>Status:</strong> @Model.Status</p>
-                </div>
-                <div class="result__group">
-                    <p><strong>Reason for Petition:</strong> @Model.ExceptionReason</p>
-                </div>
-                <div class="result__group">
-                    <p><strong>Transfer Units From:</strong> @Model.TransferUnitsFrom</p>
-                </div>
-                <div class="result__group">
-                    <p><strong>Transfer Units:</strong> @Model.TransferUnits</p>
+                    <div class="result__group">
+                        <p><strong>Date Decision:</strong> @Html.Encode(Model.DateDecision != null ? Model.DateDecision.ToString() : string.Empty)</p>
+                    </div>
+                    <div class="result__group">
+                        <p><strong>Status:</strong> @Model.Status</p>
+                    </div>
+                    <div class="result__group">
+                        <p><strong>Reason for Petition:</strong> @Model.ExceptionReason</p>
+                    </div>
+                    <div class="result__group">
+                        <p><strong>Transfer Units From:</strong> @Model.TransferUnitsFrom</p>
+                    </div>
+                    <div class="result__group">
+                        <p><strong>Transfer Units:</strong> @Model.TransferUnits</p>
+                    </div>
                 </div>
             </div>
         </div>
