@@ -18,8 +18,7 @@ namespace Commencement.Jobs.NotificationsCommon
         static readonly string SparkPostApiKey = CloudConfigurationManager.GetSetting("SparkPostApiKey");
 
         public static void ProcessEmails(IDbService dbService, bool immediate)
-        {
-            LogHelper.ConfigureLogging();
+        {            
             var sendEmail = CloudConfigurationManager.GetSetting("send-email");
             var testEmail = CloudConfigurationManager.GetSetting("send-test-emails");
             var errorCount = 0;
