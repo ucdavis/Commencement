@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Commencement.Core.Services;
+using Commencement.Jobs.Common.Logging;
 using Microsoft.Azure.WebJobs;
 using Microsoft.WindowsAzure;
 using Dapper;
+using Serilog;
 using SparkPost;
 
 namespace Commencement.Jobs.NotificationsCommon
@@ -17,6 +19,7 @@ namespace Commencement.Jobs.NotificationsCommon
 
         public static void ProcessEmails(IDbService dbService, bool immediate)
         {
+            LogHelper.ConfigureLogging();
             var sendEmail = CloudConfigurationManager.GetSetting("send-email");
             var testEmail = CloudConfigurationManager.GetSetting("send-test-emails");
             var errorCount = 0;
@@ -26,6 +29,7 @@ namespace Commencement.Jobs.NotificationsCommon
             if (!string.Equals(sendEmail, "Yes", StringComparison.InvariantCultureIgnoreCase))
             {
                 Console.WriteLine("No emails sent because send-email is not set to 'Yes'");
+                Log.Information("No emails sent because send-email is not set to 'Yes'");
                 return;
             }
 

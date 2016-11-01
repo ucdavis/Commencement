@@ -114,6 +114,10 @@
       <Project>{0BB21F7B-8340-4B6E-A168-7929B0AB8C75}</Project>
       <Name>Commencement.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Commencement.Jobs.Common\Commencement.Jobs.Common.csproj">
+      <Project>{7B58D13E-2558-4E96-89D1-21F7C9C1AC39}</Project>
+      <Name>Commencement.Jobs.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
