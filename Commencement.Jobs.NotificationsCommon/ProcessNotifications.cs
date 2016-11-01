@@ -28,7 +28,7 @@ namespace Commencement.Jobs.NotificationsCommon
             if (!string.Equals(sendEmail, "Yes", StringComparison.InvariantCultureIgnoreCase))
             {
                 Console.WriteLine("No emails sent because send-email is not set to 'Yes'");
-                Log.Information("No emails sent because send-email is not set to 'Yes'");
+                //Log.Information("No emails sent because send-email is not set to 'Yes'");
                 return;
             }
 
