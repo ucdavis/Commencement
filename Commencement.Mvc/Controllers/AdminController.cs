@@ -49,6 +49,11 @@ namespace Commencement.Controllers
             _reportService = reportService;
         }
 
+        public ActionResult TestException()
+        {
+            throw new NotImplementedException("Testing, testing, over the bounty sea.");
+        }
+
         /// <summary>
         /// GET: /Admin/
         /// #1
