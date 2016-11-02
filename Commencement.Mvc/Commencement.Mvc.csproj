@@ -135,6 +135,10 @@
       <HintPath>..\packages\Serilog.Sinks.Stackify.1.0.12.0\lib\net45\Serilog.Sinks.Stackify.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SerilogWeb.Classic, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9462ddd55fbc0e7f, processorArchitecture=MSIL">
+      <HintPath>..\packages\SerilogWeb.Classic.2.0.2\lib\net45\SerilogWeb.Classic.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SparkPost, Version=1.9.1.25082, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SparkPost.1.9.1\lib\net45\SparkPost.dll</HintPath>
       <Private>True</Private>
