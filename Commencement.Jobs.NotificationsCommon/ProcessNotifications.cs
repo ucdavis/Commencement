@@ -24,11 +24,13 @@ namespace Commencement.Jobs.NotificationsCommon
             var errorCount = 0;
             var successCount = 0;
 
+            var log = Log.ForContext("jobid", Guid.NewGuid());
+
             //Don't execute unless email is turned on
             if (!string.Equals(sendEmail, "Yes", StringComparison.InvariantCultureIgnoreCase))
             {
                 Console.WriteLine("No emails sent because send-email is not set to 'Yes'");
-                //Log.Information("No emails sent because send-email is not set to 'Yes'");
+                log.Information("No emails sent because send-email is not set to 'Yes'");
                 return;
             }
 
@@ -41,6 +43,10 @@ namespace Commencement.Jobs.NotificationsCommon
 			            LEFT OUTER JOIN Registrations on registrations.id = EmailQueue.RegistrationId
 		            where Pending = 1 and [immediate] = @immediate", new { immediate }).ToList();
 
+                if (pending.Any())
+                {
+                    log.Information("{count} pending emails found", pending.Count);
+                }
 
                 foreach (var email in pending)
                 {
@@ -86,6 +92,7 @@ namespace Commencement.Jobs.NotificationsCommon
                         // Log.Error(ex, "There was a problem emailing {email}", email.sEmail);
                         //I don't think we care if there are a few problems...
                         errorCount++;
+                        log.Error(ex, ex.GetBaseException().ToString());
                     }
 
                     if (string.IsNullOrWhiteSpace(testEmail))
@@ -109,11 +116,8 @@ namespace Commencement.Jobs.NotificationsCommon
                 }
 
                 Console.WriteLine(string.Format("Sent: {0} Errors: {1}", successCount, errorCount));
+                log.Information("Sent: {successCount} Errors: {errorCount}", successCount, errorCount);
 
-                if (errorCount > 20)
-                {
-                    //Send us a notification?
-                }
             }
         }
     }
