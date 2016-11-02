@@ -54,15 +54,29 @@ namespace Commencement.Jobs.UpdateStudents
                 {
                     //Update the db
                     log.Information("About to execute usp_ProcessStudentsMultiCollege");
-                    connection.Execute(@"usp_ProcessStudentsMultiCollege", transaction: ts, commandType: CommandType.StoredProcedure);
+                    connection.Execute(@"usp_ProcessStudentsMultiCollege", transaction: ts,
+                        commandType: CommandType.StoredProcedure);
                     log.Information("Finished usp_ProcessStudentsMultiCollege");
 
                     log.Information("About to execute usp_ProcessMissingMajors");
-                    connection.Execute(@"usp_ProcessMissingMajors", transaction: ts, commandType: CommandType.StoredProcedure);
+                    connection.Execute(@"usp_ProcessMissingMajors", transaction: ts,
+                        commandType: CommandType.StoredProcedure);
                     log.Information("Finished usp_ProcessMissingMajors");
                     ts.Commit();
                 }
+
+                var numberAdded = connection.Query(@"SELECT count(*)
+                    FROM Students
+                    where cast(DateAdded as date) = @dateAdded", new { dateAdded = DateTime.UtcNow.Date });
+                var numberUpdated = connection.Query(@"SELECT count(*)
+                    FROM Students
+                    where cast(DateUpdated as date) = @dateUpdated", new { dateUpdated = DateTime.UtcNow.Date });
+
+                log.Information("{numberAdded} students added", numberAdded);
+                log.Information("{numberUpdated} students updated", numberUpdated);
             }
+            
+
             log.Information("Done RunUpdateStudentJob");
         }
     }
