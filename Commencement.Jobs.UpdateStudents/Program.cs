@@ -6,10 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Commencement.Core.Services;
 using Commencement.Jobs.Common;
+using Commencement.Jobs.Common.Logging;
 using Microsoft.Azure.WebJobs;
 using Ninject;
 using Dapper;
 using Microsoft.WindowsAzure;
+using Serilog;
 
 namespace Commencement.Jobs.UpdateStudents
 {
@@ -22,6 +24,9 @@ namespace Commencement.Jobs.UpdateStudents
         // AzureWebJobsDashboard and AzureWebJobsStorage
         public static void Main(string[] args)
         {
+            LogHelper.ConfigureLogging();
+            Log.Information("Build Number: {buildNumber}", typeof(Program).Assembly.GetName().Version);
+
             var kernel = ConfigureServices();
             _dbService = kernel.Get<IDbService>();
             var jobHost = new JobHost();
@@ -31,6 +36,7 @@ namespace Commencement.Jobs.UpdateStudents
         [NoAutomaticTrigger]
         public static void UpdateStudentsFromDatamart()
         {
+            var log = Log.ForContext("jobid", Guid.NewGuid());
 
             var runSproc = CloudConfigurationManager.GetSetting("RunUpdateStudentJob");
 
@@ -38,6 +44,7 @@ namespace Commencement.Jobs.UpdateStudents
             if (!string.Equals(runSproc, "Yes", StringComparison.InvariantCultureIgnoreCase))
             {
                 Console.WriteLine("Sproc Not run because RunUpdateStudentJob is not set to 'Yes'");
+                log.Information("Sproc Not run because RunUpdateStudentJob is not set to 'Yes'");
                 return;
             }
             using (var connection = _dbService.GetConnection())
@@ -46,11 +53,17 @@ namespace Commencement.Jobs.UpdateStudents
                 using (var ts = connection.BeginTransaction())
                 {
                     //Update the db
+                    log.Information("About to execute usp_ProcessStudentsMultiCollege");
                     connection.Execute(@"usp_ProcessStudentsMultiCollege", transaction: ts, commandType: CommandType.StoredProcedure);
+                    log.Information("Finished usp_ProcessStudentsMultiCollege");
+
+                    log.Information("About to execute usp_ProcessMissingMajors");
                     connection.Execute(@"usp_ProcessMissingMajors", transaction: ts, commandType: CommandType.StoredProcedure);
+                    log.Information("Finished usp_ProcessMissingMajors");
                     ts.Commit();
                 }
             }
+            log.Information("Done RunUpdateStudentJob");
         }
     }
 }

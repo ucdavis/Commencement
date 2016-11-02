@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Commencement.Core.Services;
 using Commencement.Jobs.Common;
+using Commencement.Jobs.Common.Logging;
 using Commencement.Jobs.NotificationsCommon;
 using Microsoft.Azure.WebJobs;
 using Ninject;
+using Serilog;
 
 namespace Commencement.Jobs.EmailNotificationDaily
 {
@@ -20,6 +22,9 @@ namespace Commencement.Jobs.EmailNotificationDaily
         // AzureWebJobsDashboard and AzureWebJobsStorage
         public static void Main(string[] args)
         {
+            LogHelper.ConfigureLogging();
+            Log.Information("Build Number: {buildNumber}", typeof(Program).Assembly.GetName().Version);
+
             var kernel = ConfigureServices();
             _dbService = kernel.Get<IDbService>();
             var jobHost = new JobHost();
