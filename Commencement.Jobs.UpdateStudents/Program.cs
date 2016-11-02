@@ -64,14 +64,10 @@ namespace Commencement.Jobs.UpdateStudents
                     log.Information("Finished usp_ProcessMissingMajors");
                     ts.Commit();
                 }
-            }
-            
 
-            using (var connection = _dbService.GetConnection())
-            {
                 var numberAdded = connection.Query(@"SELECT count(*)
                     FROM Students
-                    where cast(DateAdded as date) = @dateAdded", new {dateAdded = DateTime.UtcNow.Date});
+                    where cast(DateAdded as date) = @dateAdded", new { dateAdded = DateTime.UtcNow.Date });
                 var numberUpdated = connection.Query(@"SELECT count(*)
                     FROM Students
                     where cast(DateUpdated as date) = @dateUpdated", new { dateUpdated = DateTime.UtcNow.Date });
@@ -79,6 +75,8 @@ namespace Commencement.Jobs.UpdateStudents
                 log.Information("{numberAdded} students added", numberAdded);
                 log.Information("{numberUpdated} students updated", numberUpdated);
             }
+            
+
             log.Information("Done RunUpdateStudentJob");
         }
     }
