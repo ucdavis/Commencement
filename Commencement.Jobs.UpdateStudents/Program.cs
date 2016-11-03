@@ -65,10 +65,10 @@ namespace Commencement.Jobs.UpdateStudents
                     ts.Commit();
                 }
 
-                var numberAdded = connection.Query(@"SELECT count(*)
+                var numberAdded = connection.ExecuteScalar(@"SELECT count(*)
                     FROM Students
                     where cast(DateAdded as date) = @dateAdded", new { dateAdded = DateTime.UtcNow.Date });
-                var numberUpdated = connection.Query(@"SELECT count(*)
+                var numberUpdated = connection.ExecuteScalar(@"SELECT count(*)
                     FROM Students
                     where cast(DateUpdated as date) = @dateUpdated", new { dateUpdated = DateTime.UtcNow.Date });
 
