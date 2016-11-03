@@ -83,6 +83,7 @@ namespace Commencement.Jobs.NotificationsCommon
                     DateTime? sentDateTime = null;
                     try
                     {
+                        throw new NotImplementedException("Need to test the exception here");
                         client.Transmissions.Send(emailTransmission).Wait();
                         sentDateTime = DateTime.UtcNow; //TODO: Pacific time it?
                         successCount++;
