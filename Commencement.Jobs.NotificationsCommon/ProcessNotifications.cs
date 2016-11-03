@@ -70,7 +70,6 @@ namespace Commencement.Jobs.NotificationsCommon
                     if (!string.IsNullOrWhiteSpace(testEmail))
                     {
                         emailTransmission.Recipients.Add(new Recipient { Address = new Address { Email = testEmail } });
-                        throw new NotImplementedException("Test email exc haha haha ha ahah");
                     }
                     else
                     {
