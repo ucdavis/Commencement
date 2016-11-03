@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using Commencement.Core.Services;
 using Commencement.Jobs.Common.Logging;
 using Microsoft.Azure.WebJobs;
@@ -10,6 +11,7 @@ using Microsoft.WindowsAzure;
 using Dapper;
 using Serilog;
 using SparkPost;
+using Content = SparkPost.Content;
 
 namespace Commencement.Jobs.NotificationsCommon
 {
@@ -68,6 +70,7 @@ namespace Commencement.Jobs.NotificationsCommon
                     if (!string.IsNullOrWhiteSpace(testEmail))
                     {
                         emailTransmission.Recipients.Add(new Recipient { Address = new Address { Email = testEmail } });
+                        throw new NotImplementedException("Test email exc haha haha ha ahah");
                     }
                     else
                     {
