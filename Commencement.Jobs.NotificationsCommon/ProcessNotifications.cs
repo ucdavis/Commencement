@@ -70,7 +70,6 @@ namespace Commencement.Jobs.NotificationsCommon
                     if (!string.IsNullOrWhiteSpace(testEmail))
                     {
                         emailTransmission.Recipients.Add(new Recipient { Address = new Address { Email = testEmail } });
-                        throw new NotImplementedException("Test email exc haha haha ha ahah");
                     }
                     else
                     {
@@ -84,6 +83,7 @@ namespace Commencement.Jobs.NotificationsCommon
                     DateTime? sentDateTime = null;
                     try
                     {
+                        throw new NotImplementedException("Need to test the exception here");
                         client.Transmissions.Send(emailTransmission).Wait();
                         sentDateTime = DateTime.UtcNow; //TODO: Pacific time it?
                         successCount++;
