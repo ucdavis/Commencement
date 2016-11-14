@@ -20,7 +20,8 @@ namespace Commencement.Mvc
         public override void OnException(ExceptionContext filterContext)
         {
             // log exception here via stackify
-            Log.Error(filterContext.Exception.Message, filterContext.Exception);
+            //Log.Error(filterContext.Exception.Message, filterContext.Exception);
+            Log.Error(filterContext.Exception, filterContext.Exception.Message);
             base.OnException(filterContext);
         }
     }
