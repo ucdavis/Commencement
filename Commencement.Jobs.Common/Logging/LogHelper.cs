@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Serilog;
+using Serilog.Exceptions.Destructurers;
 
 namespace Commencement.Jobs.Common.Logging
 {
@@ -18,6 +19,7 @@ namespace Commencement.Jobs.Common.Logging
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Stackify()
                 .WriteTo.Console()
+                .Enrich.With<ExceptionEnricher>()
                 .CreateLogger();
 
             AppDomain.CurrentDomain.UnhandledException +=
