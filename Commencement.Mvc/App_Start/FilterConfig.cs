@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using System.Web.Mvc;
+using Serilog;
 
 namespace Commencement.Mvc
 {
@@ -19,6 +20,7 @@ namespace Commencement.Mvc
         public override void OnException(ExceptionContext filterContext)
         {
             // log exception here via stackify
+            Log.Error(filterContext.Exception.Message, filterContext.Exception);
             base.OnException(filterContext);
         }
     }
