@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using System.Web;
+using Serilog;
 using Serilog.Exceptions.Destructurers;
 using SerilogWeb.Classic.Enrichers;
 
@@ -17,6 +18,7 @@ namespace Commencement.Mvc
 
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Stackify()
+                .Filter.ByExcluding(a => a.Exception != null && a.Exception.GetBaseException() is HttpException)
                 .Enrich.With<HttpSessionIdEnricher>()
                 .Enrich.With<UserNameEnricher>()
                 .Enrich.With<ExceptionEnricher>()
