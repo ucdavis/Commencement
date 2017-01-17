@@ -472,11 +472,6 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_DownloadMissingMajors.proc.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_TotalRegisteredStudents.proc.sql">
       <SubType>Code</SubType>
       <AnsiNulls>On</AnsiNulls>
@@ -508,11 +503,6 @@
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_RegistrarReport.proc.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_DownloadStudentsMultiCollege.proc.sql">
       <SubType>Code</SubType>
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
@@ -719,32 +709,60 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\HonorsReports.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\HonorsReports.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Majors.table.sql">
       <SubType>Code</SubType>
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_DownloadMajors.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Attachments.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\TransferRequests.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Attachments.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\TransferRequests.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_CleanupDuplicateStudents.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Surveys.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyFields.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyFieldTypes.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyFieldValidators.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyFieldXSurveyFieldValidators.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyAnswers.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\RegistrationSurveys.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyFieldOptions.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\HonorsCutoffs.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Surveys.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyFields.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyFieldTypes.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyFieldValidators.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyFieldXSurveyFieldValidators.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyAnswers.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\RegistrationSurveys.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SurveyFieldOptions.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\HonorsCutoffs.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_DownloadHonorsCutoffs.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Functions\udf_CalculateEndTerm.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Functions\udf_CalculateStartTerm.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_RegistrationNotMatchingCeremonyMajor.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\CeremonySurveys.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\CeremonySurveys.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Views\vPendingEmail.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\VisaLetters.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\VisaLetters.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Views\CancelledRegistrations.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
@@ -765,10 +783,18 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\AllTermCodes.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Permissions.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Roles.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Users.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\AllTermCodes.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Permissions.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Roles.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Users.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_ProcessMissingMajors.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_ProcessStudentsMultiCollege.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\DatamartStudentMajors.sql" />

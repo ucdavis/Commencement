@@ -1,15 +1,16 @@
-﻿CREATE TABLE [dbo].[TransferRequests]
-(
-	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [RegistrationParticipationId] INT NOT NULL, 
-    [CeremonyId] INT NOT NULL, 
-	[Reason] varchar(200) not null,
-    [DateRequested] DATETIME NOT NULL DEFAULT (getdate()), 
-    [UserId] INT NOT NULL, 
-    [Pending] BIT NOT NULL DEFAULT ((1)), 
-    [MajorCode] VARCHAR(4) NOT NULL, 
-    CONSTRAINT [FK_TransferRequest_RegistrationParticipations] FOREIGN KEY ([RegistrationParticipationId]) REFERENCES [RegistrationParticipations]([Id]), 
-    CONSTRAINT [FK_TransferRequest_Ceremonies] FOREIGN KEY ([CeremonyId]) REFERENCES [Ceremonies]([Id]), 
-    CONSTRAINT [FK_TransferRequests_Majors] FOREIGN KEY ([MajorCode]) REFERENCES [Majors]([Id])
+﻿CREATE TABLE [dbo].[TransferRequests] (
+    [Id]                          INT           IDENTITY (1, 1) NOT NULL,
+    [RegistrationParticipationId] INT           NOT NULL,
+    [CeremonyId]                  INT           NOT NULL,
+    [Reason]                      VARCHAR (200) NOT NULL,
+    [DateRequested]               DATETIME      DEFAULT (getdate()) NOT NULL,
+    [UserId]                      INT           NOT NULL,
+    [Pending]                     BIT           DEFAULT ((1)) NOT NULL,
+    [MajorCode]                   VARCHAR (4)   NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_TransferRequest_Ceremonies] FOREIGN KEY ([CeremonyId]) REFERENCES [dbo].[Ceremonies] ([id]),
+    CONSTRAINT [FK_TransferRequest_RegistrationParticipations] FOREIGN KEY ([RegistrationParticipationId]) REFERENCES [dbo].[RegistrationParticipations] ([id]),
+    CONSTRAINT [FK_TransferRequests_Majors] FOREIGN KEY ([MajorCode]) REFERENCES [dbo].[Majors] ([id])
+);
 
-)
+
