@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[usp_ProcessMailing]
+﻿
+CREATE PROCEDURE [dbo].[usp_ProcessMailing]
 	@immediate bit
 AS
 	
@@ -24,17 +25,18 @@ AS
 
 	while (@@FETCH_STATUS = 0)
 	begin
-	
-		exec msdb.dbo.sp_send_dbmail
-			@profile_name = 'Commencement',
-			@recipients = @emails,
-			@subject = @subject,
-			@body = @body,
-			@body_format = 'HTML';
+
+		-- TODO: NOTE -- Disabled mail send so we can do it through webjob	
+		--exec msdb.dbo.sp_send_dbmail
+		--	@profile_name = 'Commencement',
+		--	@recipients = @emails,
+		--	@subject = @subject,
+		--	@body = @body,
+		--	@body_format = 'HTML';
 		
-		update emailqueue
-		set errorcode = @@ERROR, SentDateTime = GETDATE(), Pending = 0
-		where id = @queueId
+		--update emailqueue
+		--set errorcode = @@ERROR, SentDateTime = GETDATE(), Pending = 0
+		--where id = @queueId
 
 		fetch next from @queue into @queueId, @subject, @body, @emails
 	end
