@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Commencement.Core.Helpers;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -47,7 +48,7 @@ namespace Commencement.Core.Domain
         {
             Id(x => x.Id);
 
-            Map(x => x.BodyText);
+            Map(x => x.BodyText).StringMaxLength();
             Map(x => x.IsActive);
             Map(x => x.Subject);
 

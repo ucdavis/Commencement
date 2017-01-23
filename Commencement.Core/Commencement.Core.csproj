@@ -186,6 +186,7 @@
     <Compile Include="Domain\vTermCode.cs" />
     <Compile Include="Domain\vUsers.cs" />
     <Compile Include="Helpers\DateTimeExtensions.cs" />
+    <Compile Include="Helpers\MappingExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Labels.Designer.cs">
       <AutoGen>True</AutoGen>
