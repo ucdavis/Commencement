@@ -47,7 +47,7 @@ namespace Commencement.Core.Domain
         {
             Id(x => x.Id);
 
-            Map(x => x.BodyText);
+            Map(x => x.BodyText).Length(int.MaxValue);
             Map(x => x.IsActive);
             Map(x => x.Subject);
 
