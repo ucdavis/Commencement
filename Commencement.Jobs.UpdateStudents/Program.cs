@@ -52,15 +52,17 @@ namespace Commencement.Jobs.UpdateStudents
 
                 using (var ts = connection.BeginTransaction())
                 {
+
+
                     //Update the db
                     log.Information("About to execute usp_ProcessStudentsMultiCollege");
                     connection.Execute(@"usp_ProcessStudentsMultiCollege", transaction: ts,
-                        commandType: CommandType.StoredProcedure);
+                        commandType: CommandType.StoredProcedure, commandTimeout: (60 * 10));
                     log.Information("Finished usp_ProcessStudentsMultiCollege");
 
                     log.Information("About to execute usp_ProcessMissingMajors");
                     connection.Execute(@"usp_ProcessMissingMajors", transaction: ts,
-                        commandType: CommandType.StoredProcedure);
+                        commandType: CommandType.StoredProcedure, commandTimeout: (60 * 10));
                     log.Information("Finished usp_ProcessMissingMajors");
                     ts.Commit();
                 }
