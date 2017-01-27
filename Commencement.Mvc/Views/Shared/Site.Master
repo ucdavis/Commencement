@@ -103,7 +103,7 @@
 <% } %>
 <br />
 <span id="ByLine">Developed By The College Of Agricultural And Environmental Science Dean's Office</span><br />
-Copyright The Regents of the University of California, Davis campus, 2005-16. All Rights Reserved.</p>
+Copyright The Regents of the University of California, Davis campus, 2005-17. All Rights Reserved.</p>
 <p id="VersionNumber">Version: <%: ViewData["VersionKey"] %></p>
 </div>
 </div>
