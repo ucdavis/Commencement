@@ -59,6 +59,11 @@ namespace Commencement.Controllers
             // is student registered for the current term, if term not open?
             var term = TermService.GetCurrent();
             var student = GetCurrentStudent();
+            if (student == null)
+            {
+                return this.RedirectToAction<ErrorController>(a => a.NotFound());
+            }
+
             ViewBag.StudentName = student.FirstName;
 
             // check for a current registration, there should only be one
