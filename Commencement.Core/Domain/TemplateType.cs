@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Commencement.Core.Helpers;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -30,7 +31,7 @@ namespace Commencement.Core.Domain
             Id(x => x.Id);
 
             Map(x => x.Name);
-            Map(x => x.Description);
+            Map(x => x.Description).StringMaxLength();
             Map(x => x.Code);
 
             HasMany(x => x.TemplateTokens).Cascade.None().Inverse();

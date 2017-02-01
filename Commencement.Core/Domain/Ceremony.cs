@@ -294,7 +294,7 @@ namespace Commencement.Core.Domain
             Map(x => x.PetitionThreshold);
             Map(x => x.ExtraTicketBegin);
             Map(x => x.HasStreamingTickets);
-            Map(x => x.ConfirmationText);
+            Map(x => x.ConfirmationText).StringMaxLength();
 
             //HasMany(x => x.Registrations).Cascade.AllDeleteOrphan().Inverse();
             HasMany(x => x.RegistrationParticipations).Cascade.None().Inverse(); // jcs
@@ -321,8 +321,8 @@ namespace Commencement.Core.Domain
 
             HasMany(x => x.CeremonySurveys).Inverse().Cascade.SaveUpdate();
 
-            Map(x => x.WebsiteUrl);
-            Map(x => x.SurveyUrl);
+            Map(x => x.WebsiteUrl).StringMaxLength();
+            Map(x => x.SurveyUrl).StringMaxLength();
             References(x => x.Survey);
         }
     }

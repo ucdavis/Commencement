@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Commencement.Core.Helpers;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -25,7 +26,7 @@ namespace Commencement.Core.Domain
             References(x => x.College).Cascade.None();
             References(x => x.Survey).Nullable().Cascade.None();
 
-            Map(x => x.SurveyUrl);
+            Map(x => x.SurveyUrl).StringMaxLength();
         }
     }
 }
