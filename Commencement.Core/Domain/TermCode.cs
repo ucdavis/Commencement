@@ -84,8 +84,8 @@ namespace Commencement.Core.Domain
 
             Map(x => x.Name);
             Map(x => x.IsActive);
-            Map(x => x.LandingText);
-            Map(x => x.RegistrationWelcome);
+            Map(x => x.LandingText).StringMaxLength();
+            Map(x => x.RegistrationWelcome).StringMaxLength();
             Map(x => x.CapAndGownDeadline);
             Map(x => x.FileToGraduateDeadline);
 

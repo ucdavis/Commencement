@@ -101,7 +101,7 @@ namespace Commencement.Core.Domain
 
             References(x => x.RegistrationSurvey);
             References(x => x.SurveyField);
-            Map(x => x.Answer);
+            Map(x => x.Answer).StringMaxLength();
         }
     }
 }

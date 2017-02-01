@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Commencement.Core.Helpers;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -49,7 +50,7 @@ namespace Commencement.Core.Domain
             Id(x => x.Id);
 
             References(x => x.Survey);
-            Map(x => x.Prompt);
+            Map(x => x.Prompt).StringMaxLength();
             References(x => x.SurveyFieldType);
             Map(x => x.Order).Column("`Order`");
             Map(x => x.Hidden);
@@ -110,7 +111,7 @@ namespace Commencement.Core.Domain
 
             Map(x => x.Name);
             Map(x => x.Class);
-            Map(x => x.RegEx);
+            Map(x => x.RegEx).StringMaxLength();
             Map(x => x.ErrorMessage);
         }
     }
@@ -126,7 +127,7 @@ namespace Commencement.Core.Domain
         {
             Id(x => x.Id);
 
-            Map(x => x.Name);
+            Map(x => x.Name).StringMaxLength();
             References(x => x.SurveyField);
         }
     }
