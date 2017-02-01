@@ -64,7 +64,7 @@ namespace Commencement.Core.Domain
             Map(x => x.SentDateTime);
             References(x => x.Template);
             Map(x => x.Subject);
-            Map(x => x.Body);
+            Map(x => x.Body).StringMaxLength(); ;
             Map(x => x.Immediate);
             References(x => x.Registration);
             References(x => x.RegistrationParticipation);
