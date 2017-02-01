@@ -148,6 +148,7 @@ namespace Commencement.Controllers
                         }
                         catch (Exception ex)
                         {
+                            Log.Error(ex, "Error creating email queue for Student Controller QueueRegistrationConfirmation: {ex}", ex);
                             _errorService.ReportError(ex);
                             Message += StaticValues.Student_Email_Problem;
                         }
@@ -162,7 +163,7 @@ namespace Commencement.Controllers
                         }
                         catch (Exception ex)
                         {
-                            Log.Error("Error creating email queue for QueueRegistrationPetition: {ex}", ex);
+                            Log.Error(ex, "Error creating email queue for Student Controller QueueRegistrationPetition: {ex}", ex);
                             _errorService.ReportError(ex); //This will generate an email to me which is good as this is serious...
                             Message += StaticValues.Student_Email_Problem;
                         }
@@ -281,6 +282,7 @@ namespace Commencement.Controllers
                 }
                 catch (Exception ex)
                 {
+                    Log.Error(ex, "Error creating email queue for Student Controller QueueRegistrationConfirmation: {ex}", ex);
                     _errorService.ReportError(ex);
                     Message += StaticValues.Student_Email_Problem;
                 }

@@ -8,6 +8,7 @@ using Commencement.Core.Domain;
 using Commencement.Core.Helpers;
 using Commencement.Core.Resources;
 using FluentNHibernate.Conventions.Inspections;
+using Serilog;
 using UCDArch.Web.ActionResults;
 using UCDArch.Web.Helpers;
 
@@ -116,6 +117,7 @@ namespace Commencement.Controllers
                         }
                         catch (Exception ex)
                         {
+                            Log.Error(ex, "Error creating email queue for TransferRequest Controller QueueRegistrationConfirmation: {ex}", ex);
                             _errorService.ReportError(ex);
                             Message += StaticValues.Student_Email_Problem;
                         }
