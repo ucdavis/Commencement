@@ -13,6 +13,7 @@ using UCDArch.Web.Helpers;
 using Commencement.Controllers.Helpers;
 using Commencement.Core.Helpers;
 using MvcContrib;
+using Serilog;
 
 namespace Commencement.Controllers
 {
@@ -147,6 +148,7 @@ namespace Commencement.Controllers
                         }
                         catch (Exception ex)
                         {
+                            Log.Error(ex, "Error creating email queue for Student Controller QueueRegistrationConfirmation: {ex}", ex);
                             _errorService.ReportError(ex);
                             Message += StaticValues.Student_Email_Problem;
                         }
@@ -161,7 +163,8 @@ namespace Commencement.Controllers
                         }
                         catch (Exception ex)
                         {
-                            _errorService.ReportError(ex);
+                            Log.Error(ex, "Error creating email queue for Student Controller QueueRegistrationPetition: {ex}", ex);
+                            _errorService.ReportError(ex); //This will generate an email to me which is good as this is serious...
                             Message += StaticValues.Student_Email_Problem;
                         }
                         Message += StaticValues.Student_RegistrationPetition_Successful;
@@ -279,6 +282,7 @@ namespace Commencement.Controllers
                 }
                 catch (Exception ex)
                 {
+                    Log.Error(ex, "Error creating email queue for Student Controller QueueRegistrationConfirmation: {ex}", ex);
                     _errorService.ReportError(ex);
                     Message += StaticValues.Student_Email_Problem;
                 }

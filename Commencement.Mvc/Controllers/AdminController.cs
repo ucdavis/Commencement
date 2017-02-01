@@ -15,6 +15,7 @@ using NPOI.SS.Formula.Functions;
 using UCDArch.Core.PersistanceSupport;
 using MvcContrib;
 using UCDArch.Web.Helpers;
+using Log = Serilog.Log;
 
 namespace Commencement.Controllers
 {
@@ -274,6 +275,7 @@ namespace Commencement.Controllers
                     }
                     catch (Exception ex)
                     {
+                        Log.Error(ex, "Error creating email queue for Admin Controller QueueRegistrationConfirmation: {ex}", ex);
                         _errorService.ReportError(ex);
                         Message += StaticValues.Student_Email_Problem;
                     }    
@@ -617,6 +619,7 @@ namespace Commencement.Controllers
                     }
                     catch (Exception ex)
                     {
+                        Log.Error(ex, "Error creating email queue for Admin Controller QueueVisaLetterDecision: {ex}", ex);
                         _errorService.ReportError(ex);
                     }
                 }

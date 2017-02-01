@@ -9,6 +9,7 @@ using Commencement.Core.Domain;
 using Commencement.Core.Helpers;
 using Commencement.Core.Resources;
 using MvcContrib;
+using Serilog;
 
 namespace Commencement.Controllers
 {
@@ -82,6 +83,7 @@ namespace Commencement.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error(ex, "Error creating email queue for Petition Controller QueueExtraTicketPetitionDecision-1: {ex}", ex);
                 _errorService.ReportError(ex);
             }
 
@@ -158,7 +160,7 @@ namespace Commencement.Controllers
                 }
                 catch (Exception ex)
                 {
-                    
+                    Log.Error(ex, "Error creating email queue for Petition Controller QueueExtraTicketPetitionDecision-2: {ex}", ex);
                     _errorService.ReportError(ex);
                 }
                 Repository.OfType<ExtraTicketPetition>().EnsurePersistent(a.ExtraTicketPetition);
@@ -265,6 +267,7 @@ namespace Commencement.Controllers
                     }
                     catch (Exception ex)
                     {
+                        Log.Error(ex, "Error creating email queue for Petition Controller QueueRegistrationPetitionDecision: {ex}", ex);
                         _errorService.ReportError(ex);
                         Message += StaticValues.Student_Email_Problem;
                     }
@@ -383,6 +386,7 @@ namespace Commencement.Controllers
                     }
                     catch (Exception ex)
                     {
+                        Log.Error(ex, "Error creating email queue for Petition Controller QueueExtraTicketPetition: {ex}", ex);
                         _errorService.ReportError(ex);
                         Message += StaticValues.Student_Email_Problem;
                     }
