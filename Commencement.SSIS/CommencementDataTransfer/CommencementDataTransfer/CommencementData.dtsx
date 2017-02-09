@@ -1,0 +1,1257 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/30/2016 3:29:01 PM"
+  DTS:CreationName="SSIS.Package.3"
+  DTS:CreatorComputerName="HYPNOTOAD"
+  DTS:CreatorName="AESDEAN\sukirkland"
+  DTS:DTSID="{768E5B25-D3AB-4D5E-940F-1D8AB35F4FED}"
+  DTS:ExecutableType="SSIS.Package.3"
+  DTS:LastModifiedProductVersion="11.0.5583.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="CommencementData"
+  DTS:PackageType="5"
+  DTS:VersionBuild="10"
+  DTS:VersionGUID="{3DEE486E-27EA-450D-B85C-E155F7DA8DFE}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">6</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[commencement.database.windows.net.Commencement.caes]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{B1913072-354C-4B9F-895C-6009CCB35233}"
+      DTS:ObjectName="commencement.database.windows.net.Commencement.caes">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=commencement.database.windows.net;User ID=caes;Initial Catalog=Commencement;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MxVu/9Jkkax3UYbxAlIoQAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAAAsajDdYyD/g55lV7PjOsSAAAAAAASAAACgAAAAEAAAABrus5ilAMhCsmNW2S8HtmNAAAAACMXK3fT/LKg5dIRCpaUmglrHVy3a+nJ/uVu1ncJV3a8EtklwaZJYllqkbtMo+UCjlLK6cQS9SsLda+0KwpD9qRQAAADASTLFsya0pGBGrDnoglWfwWJDSw</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tinnytim.Commencement]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{720B0DD2-71F6-4EDB-AC38-40A136BC25BD}"
+      DTS:ObjectName="tinnytim.Commencement">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tinnytim;Initial Catalog=Commencement;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tinnytim.SSISDB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{847B5A2E-C4AE-481E-B24D-9D25CC8F7593}"
+      DTS:ObjectName="tinnytim.SSISDB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tinnytim;Initial Catalog=SSISDB;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ucddatamart.database.windows.net.Datamart.caes]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{80A4EE70-2FBF-4DDC-8C64-6173D378839C}"
+      DTS:ObjectName="ucddatamart.database.windows.net.Datamart.caes">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=ucddatamart.database.windows.net;User ID=caes;Initial Catalog=Datamart;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MxVu/9Jkkax3UYbxAlIoQAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAAA98fulI+MowGK14kOYp5iTAAAAAASAAACgAAAAEAAAAJetG9fJL+Dew9vdwkAea0pAAAAAJ7UfjBOZ7USgqS09sXllFcFT7XPXJvUq4YdEODYFzFF7nWFqW2PIwDUj1HYKpJtMGFPRnBbAu6+SNkOCwqShrxQAAACK/H/zkus9RwrZiO5m/83AuX+7+Q</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Copy Tables"
+      DTS:CreationName="SSIS.Pipeline.3"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{E8012349-CE1A-4F67-8753-AFD190292BD5}"
+      DTS:ExecutableType="SSIS.Pipeline.3"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Copy Tables"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Copy Tables\Destination StudentMajors"
+              componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Destination StudentMajors"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[DatamartStudentMajors]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Copy Tables\Destination StudentMajors.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[commencement.database.windows.net.Commencement.caes]"
+                  connectionManagerRefId="Package.ConnectionManagers[commencement.database.windows.net.Commencement.caes]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Copy Tables\Destination StudentMajors.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Copy Tables\Destination StudentMajors.Inputs[OLE DB Destination Input].Columns[zgvlcfs_pidm]"
+                      cachedDataType="numeric"
+                      cachedName="zgvlcfs_pidm"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Copy Tables\Destination StudentMajors.Inputs[OLE DB Destination Input].ExternalColumns[zgvlcfs_pidm]"
+                      lineageId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Output].Columns[zgvlcfs_pidm]" />
+                    <inputColumn
+                      refId="Package\Copy Tables\Destination StudentMajors.Inputs[OLE DB Destination Input].Columns[zgvlcfs_majr_code]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="16"
+                      cachedName="zgvlcfs_majr_code"
+                      externalMetadataColumnId="Package\Copy Tables\Destination StudentMajors.Inputs[OLE DB Destination Input].ExternalColumns[zgvlcfs_majr_code]"
+                      lineageId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Output].Columns[zgvlcfs_majr_code]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Destination StudentMajors.Inputs[OLE DB Destination Input].ExternalColumns[zgvlcfs_pidm]"
+                      dataType="numeric"
+                      name="zgvlcfs_pidm"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Destination StudentMajors.Inputs[OLE DB Destination Input].ExternalColumns[zgvlcfs_majr_code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="16"
+                      name="zgvlcfs_majr_code" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Copy Tables\Destination StudentMajors.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Copy Tables\Destination StudentMajors.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Copy Tables\Destination StudentMajors.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Copy Tables\Destination StudentMajors.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Destination StudentMajors.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Copy Tables\Destination StudentMajors.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Copy Tables\Destination Students"
+              componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Destination Students"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[DatamartStudents]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Copy Tables\Destination Students.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[commencement.database.windows.net.Commencement.caes]"
+                  connectionManagerRefId="Package.ConnectionManagers[commencement.database.windows.net.Commencement.caes]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].Columns[spriden_pidm]"
+                      cachedDataType="numeric"
+                      cachedName="spriden_pidm"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[spriden_pidm]"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[spriden_pidm]" />
+                    <inputColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].Columns[spriden_id]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="36"
+                      cachedName="spriden_id"
+                      externalMetadataColumnId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[spriden_id]"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[spriden_id]" />
+                    <inputColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].Columns[spriden_first_name]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="240"
+                      cachedName="spriden_first_name"
+                      externalMetadataColumnId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[spriden_first_name]"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[spriden_first_name]" />
+                    <inputColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].Columns[spriden_mi]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="240"
+                      cachedName="spriden_mi"
+                      externalMetadataColumnId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[spriden_mi]"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[spriden_mi]" />
+                    <inputColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].Columns[spriden_last_name]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="240"
+                      cachedName="spriden_last_name"
+                      externalMetadataColumnId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[spriden_last_name]"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[spriden_last_name]" />
+                    <inputColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].Columns[earnedunits]"
+                      cachedDataType="numeric"
+                      cachedName="earnedunits"
+                      cachedPrecision="11"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[earnedunits]"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[earnedunits]" />
+                    <inputColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].Columns[currentunits]"
+                      cachedDataType="numeric"
+                      cachedName="currentunits"
+                      cachedPrecision="11"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[currentunits]"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[currentunits]" />
+                    <inputColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].Columns[goremal_email_address]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="512"
+                      cachedName="goremal_email_address"
+                      externalMetadataColumnId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[goremal_email_address]"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[goremal_email_address]" />
+                    <inputColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].Columns[loginid]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="120"
+                      cachedName="loginid"
+                      externalMetadataColumnId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[loginid]"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[loginid]" />
+                    <inputColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].Columns[shrttrm_astd_code_end_of_term]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="shrttrm_astd_code_end_of_term"
+                      externalMetadataColumnId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[shrttrm_astd_code_end_of_term]"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[shrttrm_astd_code_end_of_term]" />
+                    <inputColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].Columns[sja]"
+                      cachedDataType="bool"
+                      cachedName="sja"
+                      externalMetadataColumnId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[sja]"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[sja]" />
+                    <inputColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].Columns[zgvlcfs_majr_code]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="16"
+                      cachedName="zgvlcfs_majr_code"
+                      externalMetadataColumnId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[zgvlcfs_majr_code]"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[zgvlcfs_majr_code]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[spriden_pidm]"
+                      dataType="numeric"
+                      name="spriden_pidm"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[spriden_id]"
+                      codePage="1252"
+                      dataType="str"
+                      length="36"
+                      name="spriden_id" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[spriden_first_name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="240"
+                      name="spriden_first_name" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[spriden_mi]"
+                      codePage="1252"
+                      dataType="str"
+                      length="240"
+                      name="spriden_mi" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[spriden_last_name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="240"
+                      name="spriden_last_name" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[earnedunits]"
+                      dataType="numeric"
+                      name="earnedunits"
+                      precision="11"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[currentunits]"
+                      dataType="numeric"
+                      name="currentunits"
+                      precision="11"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[goremal_email_address]"
+                      codePage="1252"
+                      dataType="str"
+                      length="512"
+                      name="goremal_email_address" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[loginid]"
+                      codePage="1252"
+                      dataType="str"
+                      length="120"
+                      name="loginid" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[shrttrm_astd_code_end_of_term]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="shrttrm_astd_code_end_of_term" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[sja]"
+                      dataType="bool"
+                      name="sja" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input].ExternalColumns[zgvlcfs_majr_code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="16"
+                      name="zgvlcfs_majr_code" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Copy Tables\Destination Students.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Copy Tables\Destination Students.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Copy Tables\Destination Students.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Destination Students.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Copy Tables\Destination Students.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Copy Tables\Source StudentMajors"
+              componentClassID="{165A526D-D5DE-47FF-96A6-F8274C19826B}"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Source StudentMajors"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[StudentMajors]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Copy Tables\Source StudentMajors.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tinnytim.Commencement]"
+                  connectionManagerRefId="Package.ConnectionManagers[tinnytim.Commencement]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Output].Columns[zgvlcfs_pidm]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Output].ExternalColumns[zgvlcfs_pidm]"
+                      lineageId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Output].Columns[zgvlcfs_pidm]"
+                      name="zgvlcfs_pidm"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Output].Columns[zgvlcfs_majr_code]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Output].ExternalColumns[zgvlcfs_majr_code]"
+                      length="16"
+                      lineageId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Output].Columns[zgvlcfs_majr_code]"
+                      name="zgvlcfs_majr_code"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Output].ExternalColumns[zgvlcfs_pidm]"
+                      dataType="numeric"
+                      name="zgvlcfs_pidm"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Output].ExternalColumns[zgvlcfs_majr_code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="16"
+                      name="zgvlcfs_majr_code" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Error Output].Columns[zgvlcfs_pidm]"
+                      dataType="numeric"
+                      lineageId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Error Output].Columns[zgvlcfs_pidm]"
+                      name="zgvlcfs_pidm"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Error Output].Columns[zgvlcfs_majr_code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="16"
+                      lineageId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Error Output].Columns[zgvlcfs_majr_code]"
+                      name="zgvlcfs_majr_code" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Copy Tables\Source Students"
+              componentClassID="{165A526D-D5DE-47FF-96A6-F8274C19826B}"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Source Students"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Students]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from OPENQUERY(SIS, '
+	select ZGVLCFS_PIDM as PIDM
+	from ZGVLCFS
+	where rownum &lt; 100
+')</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Copy Tables\Source Students.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tinnytim.Commencement]"
+                  connectionManagerRefId="Package.ConnectionManagers[tinnytim.Commencement]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[spriden_pidm]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[spriden_pidm]"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[spriden_pidm]"
+                      name="spriden_pidm"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[spriden_id]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[spriden_id]"
+                      length="36"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[spriden_id]"
+                      name="spriden_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[spriden_first_name]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[spriden_first_name]"
+                      length="240"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[spriden_first_name]"
+                      name="spriden_first_name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[spriden_mi]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[spriden_mi]"
+                      length="240"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[spriden_mi]"
+                      name="spriden_mi"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[spriden_last_name]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[spriden_last_name]"
+                      length="240"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[spriden_last_name]"
+                      name="spriden_last_name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[earnedunits]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[earnedunits]"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[earnedunits]"
+                      name="earnedunits"
+                      precision="11"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[currentunits]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[currentunits]"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[currentunits]"
+                      name="currentunits"
+                      precision="11"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[goremal_email_address]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[goremal_email_address]"
+                      length="512"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[goremal_email_address]"
+                      name="goremal_email_address"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[loginid]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[loginid]"
+                      length="120"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[loginid]"
+                      name="loginid"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[shrttrm_astd_code_end_of_term]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[shrttrm_astd_code_end_of_term]"
+                      length="8"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[shrttrm_astd_code_end_of_term]"
+                      name="shrttrm_astd_code_end_of_term"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[sja]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[sja]"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[sja]"
+                      name="sja"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[zgvlcfs_majr_code]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[zgvlcfs_majr_code]"
+                      length="16"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].Columns[zgvlcfs_majr_code]"
+                      name="zgvlcfs_majr_code"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[spriden_pidm]"
+                      dataType="numeric"
+                      name="spriden_pidm"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[spriden_id]"
+                      codePage="1252"
+                      dataType="str"
+                      length="36"
+                      name="spriden_id" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[spriden_first_name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="240"
+                      name="spriden_first_name" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[spriden_mi]"
+                      codePage="1252"
+                      dataType="str"
+                      length="240"
+                      name="spriden_mi" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[spriden_last_name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="240"
+                      name="spriden_last_name" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[earnedunits]"
+                      dataType="numeric"
+                      name="earnedunits"
+                      precision="11"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[currentunits]"
+                      dataType="numeric"
+                      name="currentunits"
+                      precision="11"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[goremal_email_address]"
+                      codePage="1252"
+                      dataType="str"
+                      length="512"
+                      name="goremal_email_address" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[loginid]"
+                      codePage="1252"
+                      dataType="str"
+                      length="120"
+                      name="loginid" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[shrttrm_astd_code_end_of_term]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="shrttrm_astd_code_end_of_term" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[sja]"
+                      dataType="bool"
+                      name="sja" />
+                    <externalMetadataColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output].ExternalColumns[zgvlcfs_majr_code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="16"
+                      name="zgvlcfs_majr_code" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[spriden_pidm]"
+                      dataType="numeric"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[spriden_pidm]"
+                      name="spriden_pidm"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[spriden_id]"
+                      codePage="1252"
+                      dataType="str"
+                      length="36"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[spriden_id]"
+                      name="spriden_id" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[spriden_first_name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="240"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[spriden_first_name]"
+                      name="spriden_first_name" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[spriden_mi]"
+                      codePage="1252"
+                      dataType="str"
+                      length="240"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[spriden_mi]"
+                      name="spriden_mi" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[spriden_last_name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="240"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[spriden_last_name]"
+                      name="spriden_last_name" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[earnedunits]"
+                      dataType="numeric"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[earnedunits]"
+                      name="earnedunits"
+                      precision="11"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[currentunits]"
+                      dataType="numeric"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[currentunits]"
+                      name="currentunits"
+                      precision="11"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[goremal_email_address]"
+                      codePage="1252"
+                      dataType="str"
+                      length="512"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[goremal_email_address]"
+                      name="goremal_email_address" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[loginid]"
+                      codePage="1252"
+                      dataType="str"
+                      length="120"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[loginid]"
+                      name="loginid" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[shrttrm_astd_code_end_of_term]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[shrttrm_astd_code_end_of_term]"
+                      name="shrttrm_astd_code_end_of_term" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[sja]"
+                      dataType="bool"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[sja]"
+                      name="sja" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[zgvlcfs_majr_code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="16"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[zgvlcfs_majr_code]"
+                      name="zgvlcfs_majr_code" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Copy Tables.Paths[OLE DB Source Output]"
+              endId="Package\Copy Tables\Destination Students.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Copy Tables\Source Students.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Copy Tables.Paths[OLE DB Source Output1]"
+              endId="Package\Copy Tables\Destination StudentMajors.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Copy Tables\Source StudentMajors.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Download Commencement Data From Banner"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{ACD21901-18FA-4BF5-9A4B-1441532EA622}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Download Commencement Data From Banner"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{720B0DD2-71F6-4EDB-AC38-40A136BC25BD}"
+          SQLTask:SqlStatementSource="exec usp_DownloadStudents;&#xA;exec usp_DownloadStudentMajors;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Destination Tables"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{E44F93E7-FFFB-4BCB-839D-C0FA78BD1E22}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Destination Tables"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{B1913072-354C-4B9F-895C-6009CCB35233}"
+          SQLTask:SqlStatementSource="truncate table DataMartStudents;&#xA;truncate table DataMartStudentMajors;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{FC43E968-055B-4D6D-AE41-A6F5494F13DD}"
+      DTS:From="Package\Truncate Destination Tables"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Copy Tables" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{911D9E44-B2B5-415C-9B5F-4F037227A739}"
+      DTS:From="Package\Download Commencement Data From Banner"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Truncate Destination Tables" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql11">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="330,42"
+          Id="Package\Copy Tables"
+          TopLeft="247,255" />
+        <NodeLayout
+          Size="325,42"
+          Id="Package\Truncate Destination Tables"
+          TopLeft="251,165" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="412.75,207">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48"
+              Start="0,0"
+              End="0,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="297,42"
+          Id="Package\Download Commencement Data From Banner"
+          TopLeft="263,79" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="412.5,121">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44"
+              Start="0,0"
+              End="0,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Copy Tables">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="178,42"
+          Id="Package\Copy Tables\Destination Students"
+          TopLeft="265,281" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Copy Tables\Source Students"
+          TopLeft="269,158" />
+        <EdgeLayout
+          Id="Package\Copy Tables.Paths[OLE DB Source Output]"
+          TopLeft="351,200">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,81"
+              Start="0,0"
+              End="0,73.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,73.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="184,42"
+          Id="Package\Copy Tables\Source StudentMajors"
+          TopLeft="559,159" />
+        <NodeLayout
+          Size="205,42"
+          Id="Package\Copy Tables\Destination StudentMajors"
+          TopLeft="557,282" />
+        <EdgeLayout
+          Id="Package\Copy Tables.Paths[OLE DB Source Output1]"
+          TopLeft="651,201">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="8.5,81"
+              Start="0,0"
+              End="8.5,73.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,36.5"
+                    Point2="0,40.5"
+                    Point3="4,40.5" />
+                  <mssgle:LineSegment
+                    End="4.5,40.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="4.5,40.5"
+                    Point2="8.5,40.5"
+                    Point3="8.5,44.5" />
+                  <mssgle:LineSegment
+                    End="8.5,73.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Copy Tables\Source Students">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Copy Tables\Destination Students">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Copy Tables\Source StudentMajors">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Copy Tables\Destination StudentMajors">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
