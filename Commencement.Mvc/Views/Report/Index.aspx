@@ -42,6 +42,25 @@
             </div>
 
         </div>
+        
+        <div class="report">
+            
+            <div class="title">
+            <div class="col1"><span>Total (Really) Registered Students</span></div>
+            <div class="col2">
+                    <% using (Html.BeginForm("GetReport", "Report", FormMethod.Get)) { %>
+                        <a href="#" class="submit_anchor button"><span class="ui-icon ui-icon-disk"></span>Download</a>
+                        <%= Html.Hidden("Report", ReportController.Report.TotalRegStudentsForTerm) %>
+                        <%= Html.Hidden("termCode", Model.TermCode.Id, new {@class = "term_value"}) %>
+                    <% } %>
+            </div>
+            </div>
+            
+            <div class="description">
+                List of all registered students for the selected term for ALL Ceremonies, even ones you don't have access to.
+            </div>
+
+        </div>
 
         <div class="report">
             

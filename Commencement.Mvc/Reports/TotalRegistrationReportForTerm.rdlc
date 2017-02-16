@@ -535,7 +535,7 @@
               <Width>1in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>3.92709in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -2246,7 +2246,7 @@
         </SortExpressions>
         <Top>1.84469in</Top>
         <Height>0.48958in</Height>
-        <Width>26.37164in</Width>
+        <Width>29.29873in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -2258,10 +2258,10 @@
     <Height>3.34409in</Height>
     <Style />
   </Body>
-  <Width>26.40289in</Width>
+  <Width>29.29873in</Width>
   <Page>
     <PageHeader>
-      <Height>1.39966in</Height>
+      <Height>1.83716in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -2272,7 +2272,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Total (really) Registered Students </Value>
+                  <Value>Total (really) Registered Students Term: </Value>
                   <Style>
                     <FontSize>20pt</FontSize>
                     <FontWeight>Bold</FontWeight>
@@ -2290,23 +2290,10 @@
                 <TextAlign>Left</TextAlign>
               </Style>
             </Paragraph>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value />
-                  <Style>
-                    <FontWeight>Bold</FontWeight>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style>
-                <TextAlign>Left</TextAlign>
-              </Style>
-            </Paragraph>
           </Paragraphs>
           <rd:DefaultName>ExecutionTime</rd:DefaultName>
           <Top>0.25in</Top>
-          <Height>0.72223in</Height>
+          <Height>0.87501in</Height>
           <Width>4.24404in</Width>
           <Style>
             <Border>
@@ -2396,7 +2383,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Name1</rd:DefaultName>
-          <Top>0.97223in</Top>
+          <Top>1.2639in</Top>
           <Height>0.42743in</Height>
           <Width>4.24404in</Width>
           <ZIndex>2</ZIndex>
