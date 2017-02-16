@@ -553,6 +553,11 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\CommencementRoleProvider.cs" />
+    <Compile Include="ReportDataSets\CommencementDataSet_TotalRegStudentsForTerm.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommencementDataSet_TotalRegStudentsForTerm.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Resources\SelectLists.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1321,6 +1326,17 @@
     <Content Include="Reports\RegistrationMajorMismatch.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="ReportDataSets\CommencementDataSet_TotalRegStudentsForTerm.xsc">
+      <DependentUpon>CommencementDataSet_TotalRegStudentsForTerm.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataSets\CommencementDataSet_TotalRegStudentsForTerm.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CommencementDataSet_TotalRegStudentsForTerm.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ReportDataSets\CommencementDataSet_TotalRegStudentsForTerm.xss">
+      <DependentUpon>CommencementDataSet_TotalRegStudentsForTerm.xsd</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
@@ -2061,6 +2077,11 @@
     <Content Include="App_GlobalResources\EditorLocalization.bg-BG.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>EditorLocalization.bg-BG.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reports\TotalRegistrationReportForTerm.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <PropertyGroup>

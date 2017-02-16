@@ -207,6 +207,7 @@ namespace Commencement.Controllers
         public enum Report { TotalRegisteredStudents=0, TotalRegistrationPetitions
                            , SumOfAllTickets, SpecialNeedsRequest, RegistrarsReport
                            , TicketSignOutSheet, TotalRegisteredByMajor, MajorCountByCeremony, RegistartionMajorMismatch
+                           , TotalRegStudentsForTerm 
                            }
         #endregion
 
