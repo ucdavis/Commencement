@@ -21,6 +21,7 @@ using Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReportTabl
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_SummaryReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_TotalRegisteredByMajorReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_TotalRegistrationReportTableAdapters;
+using Commencement.Mvc.ReportDataSets.CommencementDataSet_TotalRegStudentsForTermTableAdapters;
 using Microsoft.Reporting.WebForms;
 using Microsoft.WindowsAzure;
 using UCDArch.Core.PersistanceSupport;
@@ -69,7 +70,10 @@ namespace Commencement.Controllers
             var parameters = new Dictionary<string, string>();
 
             parameters.Add("term", termCode);
-            parameters.Add("userId", _userService.GetCurrentUser(CurrentUser).Id.ToString());
+            if (report != Report.TotalRegStudentsForTerm)
+            {
+                parameters.Add("userId", _userService.GetCurrentUser(CurrentUser).Id.ToString());
+            }
             DataTable data = null;
             ReportDataSource rs = null;
             switch (report)
@@ -79,6 +83,12 @@ namespace Commencement.Controllers
                     data = new usp_TotalRegisteredStudentsTableAdapter().GetData(parameters["term"], Convert.ToInt32(parameters["userId"]));
                     rs = new ReportDataSource("TotalRegisteredStudents", data);
                     
+                    break;
+                case Report.TotalRegStudentsForTerm:
+                    name = "TotalRegistrationReportForTerm";
+                    data = new usp_TotalRegisteredStudentsForTermTableAdapter().GetData(parameters["term"]);
+                    rs = new ReportDataSource("TotalRegStudentsForTerm", data);
+
                     break;
                 case Report.TotalRegisteredByMajor:
                     name = "TotalRegistrationByMajorReport";
@@ -207,6 +217,7 @@ namespace Commencement.Controllers
         public enum Report { TotalRegisteredStudents=0, TotalRegistrationPetitions
                            , SumOfAllTickets, SpecialNeedsRequest, RegistrarsReport
                            , TicketSignOutSheet, TotalRegisteredByMajor, MajorCountByCeremony, RegistartionMajorMismatch
+                           , TotalRegStudentsForTerm 
                            }
         #endregion
 

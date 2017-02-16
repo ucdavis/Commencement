@@ -801,6 +801,11 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\DatamartStudents.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_TicketingByCeremony.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_TicketingByTerm.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_TotalRegisteredStudentsForTerm.proc.sql">
+      <SubType>Code</SubType>
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
   </ItemGroup>
   <ItemGroup>
     <None Include="Debug.publish.xml" />
