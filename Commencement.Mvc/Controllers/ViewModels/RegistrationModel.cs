@@ -75,7 +75,7 @@ namespace Commencement.Controllers.ViewModels
                 {
                     //Ceremony ceremony = GetCeremony(repository, major);
                     var ceremonyList = ceremonies.Where(a => a.Majors.Contains(major)).ToList();
-                    if (ceremonyList != null)
+                    if (ceremonyList.Any())
                     {
                         foreach (var ceremony in ceremonyList)
                         {
