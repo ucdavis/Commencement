@@ -74,21 +74,20 @@ namespace Commencement.Controllers.ViewModels
                 foreach (var major in student.Majors)
                 {
                     //Ceremony ceremony = GetCeremony(repository, major);
-                    var ceremonyList = ceremonies.Where(a => a.Majors.Contains(major)).ToList();
-                    if (ceremonyList.Any())
+
+                    foreach (var ceremony in ceremonies.Where(a => a.Majors.Contains(major)))
                     {
-                        foreach (var ceremony in ceremonyList)
+                        if (ceremony != null && !participations.Any(a => a.Ceremony == ceremony))
                         {
-                            if (ceremony != null && !participations.Any(a => a.Ceremony == ceremony))
+                            var part = CreateCeremonyParticipation(participations.Count, edit, student, major, ceremony,
+                                registration, null, repository, admin);
+                            if (part != null)
                             {
-                                var part = CreateCeremonyParticipation(participations.Count, edit, student, major, ceremony, registration, null, repository, admin);
-                                if (part != null)
-                                {
-                                    participations.Add(part);
-                                }
+                                participations.Add(part);
                             }
                         }
                     }
+
                 }    
             }
             else
