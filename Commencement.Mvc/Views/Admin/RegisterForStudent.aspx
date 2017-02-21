@@ -44,7 +44,8 @@
 
                     <div class="ceremony ui-corner-all">
                         <div class="title ui-widget-header ui-corner-top">
-                            <%: string.Format("Commencement for {0}", a.Major.Name) %>
+                            <%: string.Format("Commencement for {0} Ceremony - {1}", a.Major.Name, a.Ceremony.CeremonyName) %> <br/>
+                            <%: string.Format("Ceremony {0}", a.Ceremony.CeremonyName) %>
                         </div>
 
                         <%: Html.Hidden(string.Format("ceremonyParticipations[{0}].NeedsPetition", a.Index), a.NeedsPetition) %>
