@@ -1,26 +1,39 @@
 ﻿
+-- =============================================
+-- Author:		Ken Taylor based on previous logic by Alan Lai.
+-- Create date: February 22, 2017
+-- Description:	Search for a student by login.
+--
+-- Usage:
+/*
+	 EXEC usp_SearchStudentByLogin @login = 'ikababse', @IsDebug = 0
+*/
+-- =============================================
 CREATE Procedure usp_SearchStudentByLogin
 	(
-		@login varchar(50)
+		@login varchar(50),
+		@IsDebug bit = 0
 	)
 
 AS
-
 	declare @tsql varchar(max)
 	
 	set @login = upper(@login)
 	
 	set @tsql = '
-		select * from openquery(sis, ''
-			select spriden_pidm as pidm, spriden_id as studentId
-			, spriden_first_name  as firstName, spriden_mi as mi, spriden_last_name as lastName
-			, email.goremal_email_address as email
-			, shrlgpa_hours_earned earnedUnits, 0 as currentUnits
-			, zgvlcfs_majr_code as major
-			, zgvlcfs_term_code_eff as lastTerm
-			, shrttrm_astd_code_end_of_term as astd
-			, lower(wormoth_login_id) as loginid
-			, (case when sjaholds.sprhold_pidm is not null then 1 else 0 end) sja
+		select CONVERT(varchar(8), pidm) pidm, studentId
+			 , firstName, mi, lastName
+			 , email, CONVERT(decimal(6,3), earnedUnits) earnedUnits, CONVERT(decimal(6,3), currentUnits) currentUnits
+			 , major, lastTerm, astd, loginId, CONVERT(bit,sja) sja from openquery(sis, ''
+			select spriden_pidm as "pidm", spriden_id as "studentId"
+			, spriden_first_name  as "firstName", spriden_mi as "mi", spriden_last_name as "lastName"
+			, email.goremal_email_address as "email"
+			, shrlgpa_hours_earned "earnedUnits", 0 as "currentUnits"
+			, zgvlcfs_majr_code as "major"
+			, zgvlcfs_term_code_eff as "lastTerm"
+			, shrttrm_astd_code_end_of_term as "astd"
+			, lower(wormoth_login_id) as "loginId"
+			, (case when sjaholds.sprhold_pidm is not null then 1 else 0 end) "sja"
 		from wormoth
 			inner join zgvlcfs on wormoth_pidm = zgvlcfs_pidm
 			inner join spriden on wormoth_pidm = spriden_pidm
@@ -83,4 +96,7 @@ AS
 	--			and spriden_change_ind is null
 	--	'')'
 
-exec(@tsql)
+	IF @IsDebug = 1
+		PRINT @tsql
+	ELSE
+		exec(@tsql)
