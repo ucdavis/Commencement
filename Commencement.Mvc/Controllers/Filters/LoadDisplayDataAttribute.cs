@@ -13,7 +13,7 @@ namespace Commencement.Controllers.Filters
         public LoadDisplayDataAttribute()
         {
             MajorVersion = 2;
-            VersionKey = "Version";
+            VersionKey = "VersionKey";
         }
 
         private void LoadAssemblyVersion(ActionExecutingContext filterContext)
