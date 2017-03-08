@@ -2,15 +2,15 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
-using Commencement.Controllers.Helpers;
-using Commencement.Controllers.Services;
+using Commencement.MVC.Controllers.Helpers;
+using Commencement.MVC.Controllers.Services;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using UCDArch.Core;
 using UCDArch.Core.PersistanceSupport;
 using System.Linq;
 
-namespace Commencement.Controllers.Filters
+namespace Commencement.MVC.Controllers.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public class StudentsOnly : FilterAttribute, IAuthorizationFilter

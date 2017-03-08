@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Commencement.Controllers.Helpers;
+using Commencement.MVC.Controllers.Helpers;
 using Commencement.Core.Domain;
 
-namespace Commencement.Controllers.ViewModels
+namespace Commencement.MVC.Controllers.ViewModels
 {
     public class AdminVisaLetterListViewModel
     {

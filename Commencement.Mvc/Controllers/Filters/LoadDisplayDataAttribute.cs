@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Caching;
 
-namespace Commencement.Controllers.Filters
+namespace Commencement.MVC.Controllers.Filters
 {
     public class LoadDisplayDataAttribute : ActionFilterAttribute
     {

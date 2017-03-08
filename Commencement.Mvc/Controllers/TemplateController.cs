@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Commencement.Controllers.Filters;
-using Commencement.Controllers.Helpers;
-using Commencement.Controllers.Services;
-using Commencement.Controllers.ViewModels;
+using Commencement.MVC.Controllers.Filters;
+using Commencement.MVC.Controllers.Helpers;
+using Commencement.MVC.Controllers.Services;
+using Commencement.MVC.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Microsoft.WindowsAzure;
 using MvcContrib;
@@ -15,7 +15,7 @@ using UCDArch.Web.ActionResults;
 using UCDArch.Web.Helpers;
 using Template = Commencement.Core.Domain.Template;
 
-namespace Commencement.Controllers
+namespace Commencement.MVC.Controllers
 {
     [AdminOnly]
     public class TemplateController : ApplicationController

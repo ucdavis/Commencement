@@ -9,7 +9,7 @@ using NPOI.HSSF.Util;
 using NPOI.SS.Formula.Functions;
 using NPOI.SS.UserModel;
 
-namespace Commencement.Controllers.Services
+namespace Commencement.MVC.Controllers.Services
 {
     public interface IExcelService
     {

@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<List<Commencement.Core.Domain.RegistrationParticipation>>" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
+<%@ Import Namespace="Commencement.MVC.Controllers.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Retroactive Search

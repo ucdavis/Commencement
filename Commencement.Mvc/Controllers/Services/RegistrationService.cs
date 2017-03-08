@@ -6,7 +6,7 @@ using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
 
-namespace Commencement.Controllers.Services
+namespace Commencement.MVC.Controllers.Services
 {
     public interface IRegistrationService
     {

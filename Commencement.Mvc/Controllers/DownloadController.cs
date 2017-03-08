@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 
-namespace Commencement.Controllers
+namespace Commencement.MVC.Controllers
 {
     public class DownloadController : ApplicationController
     {

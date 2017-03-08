@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using Commencement.Core.Domain;
 using UCDArch.Data.NHibernate;
 
-namespace Commencement.Controllers.Filters
+namespace Commencement.MVC.Controllers.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AdminOnlyAttribute : AuthorizeAttribute

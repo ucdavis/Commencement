@@ -7,7 +7,7 @@ using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using UCDArch.Core.Utils;
 
-namespace Commencement.Controllers.Helpers
+namespace Commencement.MVC.Controllers.Helpers
 {
     public interface ILetterGenerator
     {

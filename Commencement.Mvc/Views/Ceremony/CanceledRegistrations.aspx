@@ -1,6 +1,6 @@
-﻿<%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.CanceledRegistrationsViewModel>" MasterPageFile="~/Views/Shared/Site.Master" %>
-<%@ Import Namespace="Commencement.Controllers" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
+﻿<%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.MVC.Controllers.ViewModels.CanceledRegistrationsViewModel>" MasterPageFile="~/Views/Shared/Site.Master" %>
+<%@ Import Namespace="Commencement.MVC.Controllers" %>
+<%@ Import Namespace="Commencement.MVC.Controllers.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Canceled Registrations

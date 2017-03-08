@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Core.Domain.RegistrationParticipation>" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
+<%@ Import Namespace="Commencement.MVC.Controllers.Helpers" %>
 
 <div class="ceremony ui-corner-all">
 

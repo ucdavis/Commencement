@@ -7,8 +7,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
-using Commencement.Controllers.Filters;
-using Commencement.Controllers.Services;
+using Commencement.MVC.Controllers.Filters;
+using Commencement.MVC.Controllers.Services;
 using Commencement.Core.Domain;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_TicketingByCeremonyReportTableAdapters;
 using Commencement.Mvc.ReportDataSets.CommencementDataSet_TicketingByTermReportTableAdapters;
@@ -16,7 +16,7 @@ using Microsoft.Reporting.WebForms;
 using Microsoft.WindowsAzure;
 using UCDArch.Core.Utils;
 
-namespace Commencement.Controllers
+namespace Commencement.MVC.Controllers
 {
     [Ticketing]
     public class TicketController : ApplicationController

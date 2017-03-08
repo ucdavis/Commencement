@@ -1,5 +1,5 @@
-<%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.RegistrationModel>" MasterPageFile="~/Views/Shared/Site.Master" %>
-<%@ Import Namespace="Commencement.Controllers" %>
+<%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<Commencement.MVC.Controllers.ViewModels.RegistrationModel>" MasterPageFile="~/Views/Shared/Site.Master" %>
+<%@ Import Namespace="Commencement.MVC.Controllers" %>
 <asp:Content runat="server" ID="Content" ContentPlaceHolderID="TitleContent">Edit registration</asp:Content>
 <asp:Content runat="server" ID="Content1" ContentPlaceHolderID="HeaderContent">
     

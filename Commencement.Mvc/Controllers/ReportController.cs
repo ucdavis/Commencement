@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Web.Hosting;
 using System.Web.Mvc;
-using Commencement.Controllers.Filters;
-using Commencement.Controllers.Helpers;
-using Commencement.Controllers.Services;
-using Commencement.Controllers.ViewModels;
+using Commencement.MVC.Controllers.Filters;
+using Commencement.MVC.Controllers.Helpers;
+using Commencement.MVC.Controllers.Services;
+using Commencement.MVC.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using Commencement.Mvc;
@@ -28,7 +28,7 @@ using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
 using UCDArch.Web.ActionResults;
 
-namespace Commencement.Controllers
+namespace Commencement.MVC.Controllers
 {
     [AnyoneWithRole]
     public class ReportController : ApplicationController

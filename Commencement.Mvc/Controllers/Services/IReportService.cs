@@ -13,7 +13,7 @@ using UCDArch.Core.Utils;
 using Font = iTextSharp.text.Font;
 using Image = iTextSharp.text.Image;
 
-namespace Commencement.Controllers.Services
+namespace Commencement.MVC.Controllers.Services
 {
     public interface IReportService
     {
