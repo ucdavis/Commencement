@@ -65,15 +65,9 @@
   <ItemGroup>
     <Build Include="dbo\Tables\Students.sql" />
     <Build Include="dbo\Tables\StudentMajors.sql" />
-    <Build Include="dbo\Stored Procedures\usp_SearchStudentByLogin_20170222_bak.sql" />
     <Build Include="dbo\Stored Procedures\usp_SearchStudentByLogin.sql" />
-    <Build Include="dbo\Stored Procedures\usp_SearchStudent_20170308_bak.sql" />
-    <Build Include="dbo\Stored Procedures\usp_SearchStudent_20170222_bak.sql" />
     <Build Include="dbo\Stored Procedures\usp_SearchStudent.sql" />
-    <Build Include="dbo\Stored Procedures\usp_DownloadStudents_20170307b_bak.sql" />
-    <Build Include="dbo\Stored Procedures\usp_DownloadStudents_20170307_bak.sql" />
     <Build Include="dbo\Stored Procedures\usp_DownloadStudents.sql" />
-    <Build Include="dbo\Stored Procedures\usp_DownloadStudentMajors_20170307_bak.sql" />
     <Build Include="dbo\Stored Procedures\usp_DownloadStudentMajors.sql" />
   </ItemGroup>
   <ItemGroup>
