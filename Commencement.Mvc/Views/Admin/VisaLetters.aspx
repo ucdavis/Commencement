@@ -1,6 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.AdminVisaLetterListViewModel>" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
-<%@ Import Namespace="Commencement.Controllers" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.MVC.Controllers.ViewModels.AdminVisaLetterListViewModel>" %>
+<%@ Import Namespace="Commencement.MVC.Controllers.Helpers" %>
+<%@ Import Namespace="Commencement.MVC.Controllers" %>
 <%@ Import Namespace="Commencement.Resources" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">

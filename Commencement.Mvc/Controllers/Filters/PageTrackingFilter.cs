@@ -5,7 +5,7 @@ using Commencement.Core.Resources;
 using UCDArch.Core;
 using UCDArch.Core.PersistanceSupport;
 
-namespace Commencement.Controllers.Filters
+namespace Commencement.MVC.Controllers.Filters
 {
     public class PageTrackingFilter : ActionFilterAttribute
     {

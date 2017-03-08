@@ -1,7 +1,7 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.Controllers.ViewModels.RegistrationModel>" %>
-<%@ Import Namespace="Commencement.Controllers" %>
-<%@ Import Namespace="Commencement.Controllers.Filters" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Commencement.MVC.Controllers.ViewModels.RegistrationModel>" %>
+<%@ Import Namespace="Commencement.MVC.Controllers" %>
+<%@ Import Namespace="Commencement.MVC.Controllers.Filters" %>
+<%@ Import Namespace="Commencement.MVC.Controllers.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Commencement | Student Details

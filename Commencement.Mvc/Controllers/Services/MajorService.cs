@@ -3,7 +3,7 @@ using System.Linq;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 
-namespace Commencement.Controllers.Services
+namespace Commencement.MVC.Controllers.Services
 {
     public interface IMajorService
     {

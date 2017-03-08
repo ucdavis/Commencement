@@ -5,7 +5,7 @@ using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
 
-namespace Commencement.Controllers.ViewModels
+namespace Commencement.MVC.Controllers.ViewModels
 {
     public class StudentDisplayRegistrationViewModel
     {

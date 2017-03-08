@@ -4,7 +4,7 @@ using System.Net.Mail;
 using System.Runtime.ConstrainedExecution;
 using System.Web;
 using System.Web.Mvc;
-using Commencement.Controllers.Helpers;
+using Commencement.MVC.Controllers.Helpers;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using UCDArch.Core.PersistanceSupport;
@@ -12,7 +12,7 @@ using UCDArch.Core.Utils;
 using UCDArch.Data.NHibernate;
 using Queryable = System.Linq.Queryable;
 
-namespace Commencement.Controllers.Services
+namespace Commencement.MVC.Controllers.Services
 {
     public interface IEmailService
     {

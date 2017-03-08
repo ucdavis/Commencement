@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Commencement.Controllers.Filters;
-using Commencement.Controllers.Services;
+using Commencement.MVC.Controllers.Filters;
+using Commencement.MVC.Controllers.Services;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 
-namespace Commencement.Controllers
+namespace Commencement.MVC.Controllers
 {
     
     public class SurveyController : ApplicationController

@@ -11,7 +11,7 @@ using Microsoft.WindowsAzure;
 using Newtonsoft.Json;
 using UCDArch.Core.PersistanceSupport;
 
-namespace Commencement.Controllers.Helpers
+namespace Commencement.MVC.Controllers.Helpers
 {
     public class ReportRequestHandler
     {

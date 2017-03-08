@@ -6,7 +6,7 @@ using Commencement.Core.Domain;
 using Commencement.Core.Helpers;
 using UCDArch.Core.PersistanceSupport;
 
-namespace Commencement.Controllers.ViewModels
+namespace Commencement.MVC.Controllers.ViewModels
 {
     public class TermcodeViewModel
     {

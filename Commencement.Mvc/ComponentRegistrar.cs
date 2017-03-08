@@ -7,8 +7,8 @@ using UCDArch.Core.DataAnnotationsValidator.CommonValidatorAdapter;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Data.NHibernate;
 using Castle.MicroKernel.Registration;
-using Commencement.Controllers.Helpers;
-using Commencement.Controllers.Services;
+using Commencement.MVC.Controllers.Helpers;
+using Commencement.MVC.Controllers.Services;
 using Commencement.Core.Services;
 
 namespace Commencement.Mvc

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Web.Mvc;
-using Commencement.Controllers.Filters;
+using Commencement.MVC.Controllers.Filters;
 using Commencement.Core.Domain;
 using MvcContrib;
 using UCDArch.Web.Validator;
 
-namespace Commencement.Controllers
+namespace Commencement.MVC.Controllers
 {
     [AdminOnly]
     public class SpecialNeedsController : ApplicationController

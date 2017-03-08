@@ -3,7 +3,7 @@ using System.Linq;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 
-namespace Commencement.Controllers.Helpers
+namespace Commencement.MVC.Controllers.Helpers
 {
     public static class CeremonyMajorCheck
     {

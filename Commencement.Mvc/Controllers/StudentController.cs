@@ -2,20 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Commencement.Controllers.Filters;
-using Commencement.Controllers.Services;
-using Commencement.Controllers.ViewModels;
+using Commencement.MVC.Controllers.Filters;
+using Commencement.MVC.Controllers.Services;
+using Commencement.MVC.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Resources;
 using Commencement.Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Helpers;
-using Commencement.Controllers.Helpers;
+using Commencement.MVC.Controllers.Helpers;
 using Commencement.Core.Helpers;
 using MvcContrib;
 using Serilog;
 
-namespace Commencement.Controllers
+namespace Commencement.MVC.Controllers
 {
     [StudentsOnly]
     [SessionExpirationFilter]

@@ -1,6 +1,6 @@
 using System.Web.Mvc;
 using Castle.Windsor;
-using Commencement.Controllers;
+using Commencement.MVC.Controllers;
 using Commencement.Core.Domain;
 using Microsoft.Practices.ServiceLocation;
 using Commencement.Mvc.App_Start;

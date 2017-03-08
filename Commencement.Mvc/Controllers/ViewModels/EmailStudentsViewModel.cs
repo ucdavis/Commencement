@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Commencement.Controllers.Services;
+using Commencement.MVC.Controllers.Services;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
 
-namespace Commencement.Controllers.ViewModels
+namespace Commencement.MVC.Controllers.ViewModels
 {
     public class EmailStudentsViewModel
     {

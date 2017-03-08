@@ -1,5 +1,5 @@
-<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.ViewModels.CeremonyViewModel>" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
+<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.MVC.Controllers.ViewModels.CeremonyViewModel>" %>
+<%@ Import Namespace="Commencement.MVC.Controllers.Helpers" %>
 
     <link href="<%= Url.Content("~/Content/ui.multiselect.css") %>" type="text/css" rel="Stylesheet" />
     

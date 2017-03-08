@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace Commencement.Controllers.Helpers
+namespace Commencement.MVC.Controllers.Helpers
 {
     public static class StringExtension
     {

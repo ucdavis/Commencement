@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using Commencement.Controllers.Filters;
-using Commencement.Controllers.Services;
-using Commencement.Controllers.ViewModels;
+using Commencement.MVC.Controllers.Filters;
+using Commencement.MVC.Controllers.Services;
+using Commencement.MVC.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Helpers;
 using Commencement.Core.Resources;
@@ -12,7 +12,7 @@ using Serilog;
 using UCDArch.Web.ActionResults;
 using UCDArch.Web.Helpers;
 
-namespace Commencement.Controllers
+namespace Commencement.MVC.Controllers
 {
     [AnyoneWithRole]
     public class TransferRequestController : ApplicationController

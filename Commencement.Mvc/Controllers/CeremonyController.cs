@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Commencement.Controllers.Filters;
-using Commencement.Controllers.Services;
-using Commencement.Controllers.ViewModels;
+using Commencement.MVC.Controllers.Filters;
+using Commencement.MVC.Controllers.Services;
+using Commencement.MVC.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -12,7 +12,7 @@ using UCDArch.Web.ActionResults;
 using UCDArch.Web.Helpers;
 using MvcContrib;
 
-namespace Commencement.Controllers
+namespace Commencement.MVC.Controllers
 {
     [AnyoneWithRole]
     public class CeremonyController : ApplicationController

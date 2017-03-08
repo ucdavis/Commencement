@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Commencement.Controllers.Filters;
-using Commencement.Controllers.Services;
-using Commencement.Controllers.ViewModels;
+using Commencement.MVC.Controllers.Filters;
+using Commencement.MVC.Controllers.Services;
+using Commencement.MVC.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Helpers;
 using Commencement.Core.Resources;
 using MvcContrib;
 using Serilog;
 
-namespace Commencement.Controllers
+namespace Commencement.MVC.Controllers
 {
     
     public class PetitionController : ApplicationController

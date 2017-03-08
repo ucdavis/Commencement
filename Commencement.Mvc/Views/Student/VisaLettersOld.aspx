@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IList<Commencement.Core.Domain.VisaLetter>>" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
-<%@ Import Namespace="Commencement.Controllers" %>
+<%@ Import Namespace="Commencement.MVC.Controllers.Helpers" %>
+<%@ Import Namespace="Commencement.MVC.Controllers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Visa Letters

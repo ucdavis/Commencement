@@ -1,5 +1,5 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Core.Domain.VisaLetter>" %>
-<%@ Import Namespace="Commencement.Controllers" %>
+<%@ Import Namespace="Commencement.MVC.Controllers" %>
 <%@ Import Namespace="NPOI.HSSF.Model" %>
 <%@ Import Namespace="NPOI.SS.Formula.Functions" %>
 

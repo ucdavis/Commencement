@@ -1,5 +1,5 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.Controllers.ViewModels.AdminEditStudentViewModel>" %>
-<%@ Import Namespace="Commencement.Controllers.Helpers" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Commencement.MVC.Controllers.ViewModels.AdminEditStudentViewModel>" %>
+<%@ Import Namespace="Commencement.MVC.Controllers.Helpers" %>
 
     <%: Html.ValidationSummary() %>
 
