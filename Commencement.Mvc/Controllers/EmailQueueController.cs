@@ -63,7 +63,10 @@ namespace Commencement.Controllers
                 throw new Exception("Id not supplied");
             }
 
-            var queue = _emailQueueRepository.Queryable.Where(a => a.Student.StudentId == id).ToArray();
+            var studentList = _studentRepository.Queryable.Where(a => a.StudentId == id).Select(s => s.Id).ToArray();
+
+
+            var queue = _emailQueueRepository.Queryable.Where(a => studentList.Contains(a.Student.Id)).ToArray();
 
             return View(queue);
         }
