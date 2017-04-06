@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IQueryable<Commencement.Core.Domain.EmailQueue>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<Commencement.Core.Domain.EmailQueue>>" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 <%@ Import Namespace="Commencement.Controllers" %>
 

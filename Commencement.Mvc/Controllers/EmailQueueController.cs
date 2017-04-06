@@ -53,7 +53,7 @@ namespace Commencement.Controllers
 
             if (!showAll) queue = queue.Where(a => a.Pending);
 
-            return View(queue);
+            return View(queue.ToArray());
         }
 
         public ActionResult AllStudentEmail(string id)
@@ -63,7 +63,7 @@ namespace Commencement.Controllers
                 throw new Exception("Id not supplied");
             }
 
-            var queue = _emailQueueRepository.Queryable.Where(a => a.Student.StudentId == id);
+            var queue = _emailQueueRepository.Queryable.Where(a => a.Student.StudentId == id).ToArray();
 
             return View(queue);
         }
