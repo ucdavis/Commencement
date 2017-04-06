@@ -56,6 +56,18 @@ namespace Commencement.Controllers
             return View(queue);
         }
 
+        public ActionResult AllStudentEmail(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                throw new Exception("Id not supplied");
+            }
+
+            var queue = _emailQueueRepository.Queryable.Where(a => a.Student.StudentId == id);
+
+            return View(queue);
+        }
+
         [HttpPost]
         public JsonResult Cancel(int id)
         {
@@ -213,15 +225,23 @@ namespace Commencement.Controllers
             return View(viewModel);
         }
 
-        public ActionResult Details(int id)
+        public ActionResult Details(int id, bool fromStudent = false, string studentId = null)
         {
             var emailQueue = _emailQueueRepository.GetNullableById(id);
 
             if (emailQueue == null)
             {
                 Message = "Email queue message not found.";
+                if (fromStudent && studentId != null)
+                {
+                    return RedirectToAction("AllStudentEmail", new {id = studentId});
+                }
                 return RedirectToAction("Index");
             }
+
+            ViewBag.fromStudent = fromStudent;
+            ViewBag.studentId = studentId;
+
 
             return View(emailQueue);
         }
