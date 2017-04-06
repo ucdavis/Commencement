@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<Commencement.Core.Domain.EmailQueue>>" %>
 <%@ Import Namespace="Commencement.Controllers.Helpers" %>
 <%@ Import Namespace="Commencement.Controllers" %>
+<%@ Import Namespace="Commencement.Core.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Commencement | Email Queue
@@ -30,6 +31,9 @@
                             col.Bound("Student.FullName").Title("Name");
                             col.Bound("Subject");
                             col.Bound("Created");
+                            col.Add(a => {%>
+                                <%: a.SentDateTime.ToPacificTime() %>
+                            <% }).Title("Sent");
                             col.Bound("Id");
                             col.Bound(a => a.Attachment.Id).Title("Attachment Id");
                             col.Add(a => { %>
