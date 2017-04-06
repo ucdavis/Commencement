@@ -147,6 +147,10 @@
       <HintPath>..\packages\SparkPost.1.9.1\lib\net45\SparkPost.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="StackifyHttpTracer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=93c44ce23f2048dd, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackifyHttpModule.1.0.28.0\lib\net45\StackifyHttpTracer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="StackifyLib, Version=1.12.5589.24146, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\StackifyLib.1.12.0.0\lib\StackifyLib.dll</HintPath>
       <Private>True</Private>
