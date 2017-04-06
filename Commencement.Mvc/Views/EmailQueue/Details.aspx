@@ -11,7 +11,11 @@
     <div class="page_bar">
         <div class="col1"><h2>Email Queue Details</h2></div>
         <div class="col2">
-            <%: Html.ActionLink("Back to List", "Index", "EmailQueue", new {@class="button"}) %>
+            <%if(ViewBag.fromStudent != null && ViewBag.fromStudent == true) {%>
+            <%: Html.ActionLink("Back to Student List", "AllStudentEmail", "EmailQueue", new {id = ViewBag.studentId}, new {@class="button"}) %>
+            <% } else {%>
+            <%: Html.ActionLink("Back to List", "Index", "EmailQueue",null, new {@class="button"}) %>
+            <% } %>
         </div>
     </div>
     

@@ -13,17 +13,7 @@
     </ul>
 
     <div class="page_bar">
-        <div class="col1"><h2>Email Queue</h2></div>
-        <div class="col2">
-            <% if (Convert.ToBoolean(Request.QueryString["showAll"])) { %>
-                <%: Html.ActionLink<EmailQueueController>(a => a.Index(false, false, false), "Show Pending", new { @class = "button" })%>
-            <% } else { %>
-                <%: Html.ActionLink<EmailQueueController>(a => a.Index(true, false, false), "Show All", new { @class = "button" })%>
-                <%: Html.ActionLink<EmailQueueController>(a => a.Index(true, true, false), "Show All Current Term", new { @class = "button" })%>
-            <%: Html.ActionLink<EmailQueueController>(a => a.Index(true, true, true), "Everything Else", new { @class = "button" })%>
-            <% } %>
-            <%: Html.ActionLink<EmailQueueController>(a => a.EmailStudents(), "Mass Email", new { @class="button" })%>
-        </div>
+        <div class="col1"><h2>Student's Email Queue</h2></div>
     </div>
 
     
@@ -34,7 +24,7 @@
            .Columns(col =>
                         {
                             col.Add(a => { %>
-                                        <%: Html.ActionLink("Details", "Details", new {id=a.Id}, new {@class="button"}) %>  <%if(!a.Pending) {%><img class="resend" src="<%: Url.Content("~/Images/resend.png") %>" data-id='<%: a.Id %>' title="Resend Email"  style="padding-top: 0px; margin-top: 1px; border-top-width: 0px; margin-bottom: -11px;"/><%} %>
+                                        <%: Html.ActionLink("Details", "Details", new {id=a.Id, fromStudent = true, studentId = a.Student.StudentId}, new {@class="button"}) %>  <%if(!a.Pending) {%><img class="resend" src="<%: Url.Content("~/Images/resend.png") %>" data-id='<%: a.Id %>' title="Resend Email"  style="padding-top: 0px; margin-top: 1px; border-top-width: 0px; margin-bottom: -11px;"/><%} %>
                                         <% });
                             col.Bound("Student.StudentId");
                             col.Bound("Student.FullName").Title("Name");
