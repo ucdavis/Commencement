@@ -26,25 +26,55 @@
     </div>
 </header>
 <div class="body-content">
+    @if (!string.IsNullOrWhiteSpace(ViewBag.ErrorMessage))
+    {
+        <div class="boundary">
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                @ViewBag.ErrorMessage
+            </div>
+        </div>
+    }
+    @if (!string.IsNullOrWhiteSpace(TempData["ErrorMessage"] as string))
+    {
+        <div class="boundary">
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                @TempData["ErrorMessage"]
+            </div>
+        </div>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(TempData["Message"] as string))
+    {
+        <div class="boundary">
+            <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                @TempData["Message"]
+            </div>
+        </div>
+    }
     @RenderBody()
 
-    <footer id="footer"><div class="footer_contents">
-    <hr />
-    <p>
-        @Html.ActionLink("Home", "Index", "Admin", null, htmlAttributes: new { style = "color:white; text-decoration:none;" })
-        @if (Context.User.IsInRole(Role.Codes.Admin) || Context.User.IsInRole(Role.Codes.User))
-            {
-            <span> | </span>
-                <a href="https://secure.caes.ucdavis.edu/help/ticket/submit?appName=Commencement" target="_blank" style="color: white; text-decoration: none;">Questions or Comments</a> <span> | </span>
-                <a href="https://secure.caes.ucdavis.edu/help/Help?appName=Commencement" target="_blank" style="color: white; text-decoration: none;">FAQ</a>
-        }
+    <footer id="footer">
+        <div class="footer_contents">
+            <hr/>
+            <p>
+                @Html.ActionLink("Home", "Index", "Admin", null, htmlAttributes: new {style = "color:white; text-decoration:none;"})
+                @if (Context.User.IsInRole(Role.Codes.Admin) || Context.User.IsInRole(Role.Codes.User))
+                {
+                    <span> | </span>
+                    <a href="https://secure.caes.ucdavis.edu/help/ticket/submit?appName=Commencement" target="_blank" style="color: white; text-decoration: none;">Questions or Comments</a>
+                    <span> | </span>
+                    <a href="https://secure.caes.ucdavis.edu/help/Help?appName=Commencement" target="_blank" style="color: white; text-decoration: none;">FAQ</a>
+                }
 
-        <br />
-        <span id="ByLine">Developed By The College Of Agricultural And Environmental Science Dean's Office</span><br />
-        Copyright The Regents of the University of California, Davis campus, 2005-17. All Rights Reserved.
-    </p>
-    <p id="VersionNumber">Version: @ViewData["VersionKey"]</p>
-</div>
+                <br/>
+                <span id="ByLine">Developed By The College Of Agricultural And Environmental Science Dean's Office</span><br/>
+                Copyright The Regents of the University of California, Davis campus, 2005-17. All Rights Reserved.
+            </p>
+            <p id="VersionNumber">Version: @ViewData["VersionKey"]</p>
+        </div>
 
     </footer>
 </div>
