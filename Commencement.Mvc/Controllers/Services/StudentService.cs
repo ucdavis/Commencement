@@ -106,7 +106,7 @@ namespace Commencement.Controllers.Services
             {
                 return null;
             }
-            using (var webClient = new WebClient())
+            using (var webClient = new MyWebClient())
             {
                 var parameters = new List<KeyValuePair<string, string>>
                 {
@@ -128,6 +128,15 @@ namespace Commencement.Controllers.Services
             //var result = searchQuery.List<BannerStudent>();
             //return ExtractStudentFromResult(result);
         }
+        private class MyWebClient : WebClient
+        {
+            protected override WebRequest GetWebRequest(Uri uri)
+            {
+                WebRequest w = base.GetWebRequest(uri);
+                w.Timeout = 300000; //5 minutes
+                return w;
+            }
+        }
 
         public Student BannerLookup(string studentId)
         {
@@ -135,8 +144,9 @@ namespace Commencement.Controllers.Services
             {
                 return null;
             }
-            using (var webClient = new WebClient())
+            using (var webClient = new MyWebClient())
             {
+                
                 var parameters = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("studentid", studentId),
