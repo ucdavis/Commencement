@@ -138,11 +138,13 @@ namespace Commencement.Controllers
             if (student == null)
             {
                 Message = string.Format("Unable to find student with id {0}", studentId);
-                return this.RedirectToAction(a => a.Index());
+                return this.RedirectToAction(a => a.AddStudent(null));
             }
 
             return this.RedirectToAction(a => a.StudentDetails(student.Id, false));
         }
+
+
         /// <summary>
         /// Students the details.
         /// </summary>
@@ -336,7 +338,15 @@ namespace Commencement.Controllers
         #region Add Student Functions
         public ActionResult AddStudent(string studentId)
         {
-            var student = _studentService.BannerLookup(studentId);
+            Student student = null;
+            if (!string.IsNullOrWhiteSpace(studentId))
+            {
+                student = _studentService.BannerLookup(studentId);
+                if (student == null)
+                {
+                    Message = string.Format("Student not found: {0}", studentId);
+                }
+            }
             var viewModel = AdminEditStudentViewModel.Create(Repository, _ceremonyService, student, CurrentUser.Identity.Name);
             return View(viewModel);
         }
