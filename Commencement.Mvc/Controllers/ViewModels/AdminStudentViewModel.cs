@@ -47,6 +47,13 @@ namespace Commencement.Controllers.ViewModels
                     && (a.LastName.Contains(string.IsNullOrEmpty(lastName) ? string.Empty : lastName.Trim()))
                     && (a.FirstName.Contains(string.IsNullOrEmpty(firstName) ? string.Empty : firstName.Trim()))
                     );
+            if (string.IsNullOrWhiteSpace(studentid) && string.IsNullOrWhiteSpace(lastName) &&
+                string.IsNullOrWhiteSpace(firstName) && string.IsNullOrWhiteSpace(majorCode) &&
+                string.IsNullOrWhiteSpace(college))
+            {
+                //If they have not filtered the list, only take 10.
+                query = query.Take(10);
+            }
 
             // get the list of students with optional filters
             var students = query.ToList();

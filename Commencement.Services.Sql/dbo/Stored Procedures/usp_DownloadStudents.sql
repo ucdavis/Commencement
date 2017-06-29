@@ -19,7 +19,7 @@
 -- =============================================
 CREATE PROCEDURE [dbo].[usp_DownloadStudents] 
 	-- Add the parameters for the stored procedure here
-	@minUnits int = 120,
+	@minUnits int = 135,
 	@IsDebug bit = 0
 AS
 BEGIN
