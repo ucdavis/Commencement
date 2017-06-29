@@ -118,6 +118,12 @@ namespace Commencement.Controllers
         {
             // get the newest active term
             var term = TermService.GetCurrent();
+            if (string.IsNullOrWhiteSpace(studentid) && string.IsNullOrWhiteSpace(lastName) &&
+                string.IsNullOrWhiteSpace(firstName) && string.IsNullOrWhiteSpace(majorCode) &&
+                string.IsNullOrWhiteSpace(college))
+            {
+                Message = "Please select a filter to view more than 10 results"; //I do a take 10 in the model below
+            }
 
             var viewModel = AdminStudentViewModel.Create(Repository, _majorService, _ceremonyService, term, studentid, lastName, firstName, majorCode, college, CurrentUser.Identity.Name);
 
