@@ -26,7 +26,12 @@ AS
 			 , email, CONVERT(decimal(6,3), earnedUnits) earnedUnits, CONVERT(decimal(6,3), currentUnits) currentUnits
 			 , major, lastTerm, astd, loginId, CONVERT(bit,sja) sja from openquery(sis, ''
 			select spriden_pidm as "pidm", spriden_id as "studentId"
-			, spriden_first_name  as "firstName", spriden_mi as "mi", spriden_last_name as "lastName"
+			,(CASE 
+				WHEN ZPVPREF_PREF_FIRST_NAME IS NOT NULL
+				THEN ZPVPREF_PREF_FIRST_NAME 
+				ELSE SPRIDEN_FIRST_NAME 
+			END) as "firstName"
+			, spriden_mi as "mi", spriden_last_name as "lastName"
 			, email.goremal_email_address as "email"
 			, shrlgpa_hours_earned "earnedUnits", 0 as "currentUnits"
 			, zgvlcfs_majr_code as "major"
@@ -37,6 +42,7 @@ AS
 		from wormoth
 			inner join zgvlcfs on wormoth_pidm = zgvlcfs_pidm
 			inner join spriden on wormoth_pidm = spriden_pidm
+			LEFT OUTER JOIN ZPVPREF ON zgvlcfs_pidm = ZPVPREF_PIDM
 			inner join shrlgpa on wormoth_pidm = shrlgpa_pidm
 			left outer join shrttrm on wormoth_pidm = shrttrm_pidm
 			left outer join (

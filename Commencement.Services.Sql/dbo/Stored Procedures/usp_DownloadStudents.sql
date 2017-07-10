@@ -59,7 +59,13 @@ BEGIN
 			, sja
 			, zgvlcfs_majr_code
 		from openquery(sis, ''
-			select distinct spriden_pidm, spriden_id, spriden_first_name, spriden_mi, spriden_last_name
+			select distinct spriden_pidm, spriden_id, 
+			(CASE 
+				WHEN ZPVPREF_PREF_FIRST_NAME IS NOT NULL
+				THEN ZPVPREF_PREF_FIRST_NAME 
+				ELSE SPRIDEN_FIRST_NAME 
+			END) spriden_first_name,
+			spriden_mi, spriden_last_name
 				, EarnedUnits.shrlgpa_hours_earned as EarnedUnits
 				, 0 as CurrentUnits
 				, email.goremal_email_address
@@ -69,6 +75,7 @@ BEGIN
 				, zgvlcfs_majr_code
 			from zgvlcfs
 				inner join spriden on spriden_pidm = zgvlcfs_pidm
+				LEFT OUTER JOIN ZPVPREF ON zgvlcfs_pidm = ZPVPREF_PIDM 
 				inner join shrlgpa earnedUnits on earnedUnits.shrlgpa_pidm = zgvlcfs_pidm
 				left outer join (
 					select goremal_pidm, goremal_email_address
