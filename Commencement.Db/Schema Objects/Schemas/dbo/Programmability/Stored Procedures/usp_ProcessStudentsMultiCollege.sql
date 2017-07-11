@@ -33,8 +33,8 @@ using (	select distinct spriden_pidm pidm, spriden_id studentid, spriden_first_n
         from DatamartStudents where (shrttrm_astd_code_end_of_term is null or shrttrm_astd_code_end_of_term <> 'DS')) s
 on t.pidm = s.pidm and t.termcode = s.termcode
 when matched then update
-	-- only update the units
-	set t.earnedunits = s.earnedunits, t.currentunits = s.currentunits, dateupdated = getdate(), sjablock = s.sja
+	-- only update the units and firstName
+	set t.earnedunits = s.earnedunits, t.currentunits = s.currentunits, t.firstname = s.firstname, dateupdated = getdate(), sjablock = s.sja
 when not matched then
     insert (pidm, studentid, firstname, mi, lastname, earnedunits, CurrentUnits, email, termcode, [login], sjablock)
     values(s.pidm, s.studentid, s.firstname, s.mi, s.lastname, s.earnedunits, s.currentunits, s.email, s.termcode, s.[loginId], s.sja);
