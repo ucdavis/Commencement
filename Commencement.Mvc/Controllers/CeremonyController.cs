@@ -39,6 +39,10 @@ namespace Commencement.Controllers
         public ActionResult Index()
         {
             var viewModel = CommencementViewModel.Create(Repository, _ceremonyService, User.Identity.Name);
+            if (User.IsInRole(Role.Codes.System))
+            {
+                viewModel.Ceremonies = Repository.OfType<Ceremony>().GetAll();
+            }
             return View(viewModel);
         }
 
@@ -111,7 +115,7 @@ namespace Commencement.Controllers
                 Message = "Unable to find ceremony.";
                 return this.RedirectToAction(a => a.Index());
             }
-            if (!ceremony.IsEditor(User.Identity.Name))
+            if (!ceremony.IsEditor(User.Identity.Name) && !User.IsInRole(Role.Codes.System))
             {
                 Message = "You do not have permission to edit selected ceremony.";
                 return this.RedirectToAction(a => a.Index());
@@ -181,7 +185,7 @@ namespace Commencement.Controllers
         {
             var ceremony = Repository.OfType<Ceremony>().GetNullableById(id);
             if (ceremony == null) return this.RedirectToAction(a => a.Index());
-            if (!ceremony.IsEditor(User.Identity.Name))
+            if (!ceremony.IsEditor(User.Identity.Name) && !User.IsInRole(Role.Codes.System))
             {
                 Message = "You do not have permission to edit selected ceremony.";
                 return this.RedirectToAction(a => a.Index());
