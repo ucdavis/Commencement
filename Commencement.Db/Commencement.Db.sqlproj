@@ -227,21 +227,6 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_PageTracking_DateTime.defconst.sql">
       <SubType>Code</SubType>
     </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_EmailQueue_Immediate.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_EmailQueue_Pending.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_RegistrationParticipations_DateRegistered.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_RegistrationParticipations_LabelPrinted.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_RegistrationParticipations_Cancelled.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_RegistrationPetitions_DateSubmitted.defconst.sql">
       <SubType>Code</SubType>
     </Build>
@@ -251,28 +236,7 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_RegistrationPetitions_IsPending.defconst.sql">
       <SubType>Code</SubType>
     </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Registrations_GradTrack.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Registrations_MailTickets.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_CommencementEditors_Owner.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Students_Removed.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Students_SJABlock.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Students_DateUpdated.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Students_DatedAdded.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Students_Id.defconst.sql">
       <SubType>Code</SubType>
     </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Templates_IsActive.defconst.sql">
@@ -302,33 +266,6 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_ExtraTicketPetitions_IsPending.defconst.sql">
       <SubType>Code</SubType>
     </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_EmailQueue_Templates.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_EmailQueue_Students.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_EmailQueue_Registrations.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_EmailQueue_RegistrationPetitions.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_EmailQueue_RegistrationParticipations.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_EmailQueue_ExtraTicketPetitions.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_RegistrationParticipations_Registrations.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_RegistrationParticipations_ExtraTicketPetitions.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_RegistrationParticipations_Ceremonies.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_RegistrationPetitions_RegistrationPetitions.fkey.sql">
       <SubType>Code</SubType>
     </Build>
@@ -347,18 +284,6 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_StudentMajors_Majors.fkey.sql">
       <SubType>Code</SubType>
     </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Registrations_TermCodes.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Registrations_Students.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Registrations_States.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Registrations_Registrations.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_CeremonyColleges_Colleges.fkey.sql">
       <SubType>Code</SubType>
     </Build>
@@ -372,9 +297,6 @@
       <SubType>Code</SubType>
     </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_CeremonyMajors_Majors.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Students_Ceremonies.fkey.sql">
       <SubType>Code</SubType>
     </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Templates_TemplateTypes.fkey.sql">
@@ -404,12 +326,6 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_PageTracking.pkey.sql">
       <SubType>Code</SubType>
     </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_EmailQueue.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_RegistrationParticipations.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_RegistrationPetitions.pkey.sql">
       <SubType>Code</SubType>
     </Build>
@@ -419,9 +335,6 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_StudentMajors.pkey.sql">
       <SubType>Code</SubType>
     </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Registrations.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_CeremonyColleges.pkey.sql">
       <SubType>Code</SubType>
     </Build>
@@ -429,9 +342,6 @@
       <SubType>Code</SubType>
     </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_CommencementMajors.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Students.pkey.sql">
       <SubType>Code</SubType>
     </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Templates.pkey.sql">
@@ -796,7 +706,10 @@
       <AnsiNulls>Off</AnsiNulls>
     </Build>
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_ProcessMissingMajors.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_ProcessStudentsMultiCollege.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_ProcessStudentsMultiCollege.sql">
+      <AnsiNulls>Off</AnsiNulls>
+      <QuotedIdentifier>Off</QuotedIdentifier>
+    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\DatamartStudentMajors.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\DatamartStudents.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_TicketingByCeremony.sql" />
