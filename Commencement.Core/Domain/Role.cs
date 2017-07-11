@@ -23,6 +23,7 @@ namespace Commencement.Core.Domain
             public const string User = "US";
             public const string Emulation = "EM";
             public const string Ticketing = "TK";
+            public const string System = "SY";
         }
     }
 
