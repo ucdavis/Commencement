@@ -14,6 +14,16 @@
    
 
     <h2>Visa Letter Request</h2>
+    <% if (Model.VisaLetter.Student.SjaBlock) { %>
+        <div class="ui-state-error ui-corner-all message">
+            SJA has asked that we not allow this student to walk.
+        </div>
+    <% } %>
+    <% if (Model.VisaLetter.Student.Blocked) { %>
+        <div class="ui-state-error ui-corner-all message">
+            Student has been blocked from registration.
+        </div>
+    <% } %>
     
     <% Html.RenderPartial("VisaLetterDetailsPartial", Model.VisaLetter); %>
     <fieldset>
