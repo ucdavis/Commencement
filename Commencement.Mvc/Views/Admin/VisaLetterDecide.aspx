@@ -14,6 +14,16 @@
     </ul>
 
     <h2>Edit <%: Model.Student.FullName %></h2>
+    <% if (Model.Student.SjaBlock) { %>
+        <div class="ui-state-error ui-corner-all message">
+            SJA has asked that we not allow this student to walk.
+        </div>
+    <% } %>
+    <% if (Model.Student.Blocked) { %>
+        <div class="ui-state-error ui-corner-all message">
+            Student has been blocked from registration.
+        </div>
+    <% } %>
     
     <% using (Html.BeginForm()) { %>
     <%: Html.AntiForgeryToken() %>
