@@ -69,7 +69,7 @@
                     <%= Html.Encode(Model.RelativeTitle) %> <%= Html.Encode(Model.RelativeFirstName) %> <%= Html.Encode(Model.RelativeLastName) %>
 
                 </li>
-                <li><strong>Relative Address:</strong>
+                <li><strong>Relative's Physical International Mailing Address:</strong>
                     <%= Html.Encode(Model.RelativeMailingAddress) %>
                 </li>
             </ul>

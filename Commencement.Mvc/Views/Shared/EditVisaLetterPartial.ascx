@@ -119,7 +119,7 @@
             <%= Html.ValidationMessageFor(a=>a.RelationshipToStudent) %>
         </li>
 
-        <li><strong>Relative's Mailing Address:</strong>
+        <li><strong>Relative's Physical International Mailing Address:</strong>
             <%: Html.TextAreaFor(a=>a.RelativeMailingAddress) %>
             <%= Html.ValidationMessageFor(a=>a.RelativeMailingAddress) %>
         </li>
