@@ -84,6 +84,12 @@
                             <div class="change-warning">Ticket count has been reduced from original request of <%: Model.RegistrationParticipation.ExtraTicketPetition.NumberTicketsRequested %></div>
                         </li>
                     <% } else { %>
+                        <li class="prefilled"><strong>Extra Tickets Requested</strong>
+                            <span class="tickets">
+                                <strong>Pavilion:</strong>
+                                <%: Model.Ceremony.ExtraTicketPerStudent %>
+                            </span>                            
+                        </li>
                     <% } %>
 
 

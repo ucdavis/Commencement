@@ -66,6 +66,7 @@ namespace Commencement.Jobs.NotificationsCommon
                             Html = email.body
                         }
                     };
+                    emailTransmission.Options.Transactional = true;
 
                     if (!string.IsNullOrWhiteSpace(testEmail))
                     {
