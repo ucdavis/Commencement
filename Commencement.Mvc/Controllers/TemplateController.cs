@@ -113,6 +113,7 @@ namespace Commencement.Controllers
                         Html = message
                     }
                 };
+                emailTransmission.Options.Transactional = true;
                 emailTransmission.Recipients.Add(new Recipient { Address = new Address { Email = user.Email } });
 
                 var client = new Client(CloudConfigurationManager.GetSetting("SparkPostApiKey"));
