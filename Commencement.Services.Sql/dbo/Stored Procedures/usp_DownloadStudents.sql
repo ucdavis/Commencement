@@ -98,7 +98,7 @@ BEGIN
 				left outer join (
 					select distinct sprhold_pidm
 					from sprhold
-					where sprhold_hldd_code in (''''BA'''', ''''BB'''', ''''RG'''')
+					where sprhold_hldd_code in (''''RG'''')
 					  and sprhold_from_date < sysdate
 					  and sprhold_to_date > sysdate
 				) sjaholds on sjaholds.sprhold_pidm = zgvlcfs_pidm
