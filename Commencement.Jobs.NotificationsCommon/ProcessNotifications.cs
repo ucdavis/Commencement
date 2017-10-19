@@ -38,12 +38,28 @@ namespace Commencement.Jobs.NotificationsCommon
 
             using (var connection = dbService.GetConnection())
             {
-                List<dynamic> pending = connection.Query(@"
+                List<dynamic> pending = null;
+                try
+                {
+                    if (!immediate)
+                    {
+                        throw new Exception("Test Test Test");
+                    }
+                    pending = connection.Query(@"
                     select emailqueue.id as id, [subject], [body], students.email as sEmail, registrations.email as rEmail
 		            from emailqueue
 			            inner join Students on students.Id = EmailQueue.Student_Id
 			            LEFT OUTER JOIN Registrations on registrations.id = EmailQueue.RegistrationId
-		            where Pending = 1 and [immediate] = @immediate", new { immediate }).ToList();
+		            where Pending = 1 and [immediate] = @immediate", new { immediate }, commandTimeout:300).ToList();
+                }
+                catch (Exception e)
+                {
+                    NotifyAdminOnError(immediate, e);
+
+                    //re-throw it.
+                    throw e;
+                }
+
 
                 if (pending.Any())
                 {
@@ -121,6 +137,45 @@ namespace Commencement.Jobs.NotificationsCommon
                 Console.WriteLine(string.Format("Sent: {0} Errors: {1}", successCount, errorCount));
                 log.Information("Sent: {successCount} Errors: {errorCount}", successCount, errorCount);
 
+            }
+        }
+
+        private static void NotifyAdminOnError(bool immediate, Exception e)
+        {
+            if (!immediate)
+            {
+                //Email App dev
+                try
+                {
+                    var emailTransmission = new Transmission
+                    {
+                        Content = new Content
+                        {
+                            From =
+                                new Address
+                                {
+                                    Email = "noreply@commencement-notify.ucdavis.edu",
+                                    Name = "UCD Commencement Notification"
+                                },
+                            Subject = "Commencement Job Error",
+                            Html = string.Format("There was an exception with the Commencement Email Daily job {0}",
+                                e.InnerException)
+                        }
+                    };
+                    emailTransmission.Options.Transactional = true;
+
+                    emailTransmission.Recipients.Add(new Recipient
+                    {
+                        Address = new Address {Email = "AppRequests@caes.ucdavis.edu"}
+                    });
+                    emailTransmission.Recipients.Add(new Recipient {Address = new Address {Email = "jsylvestre@ucdavis.edu"}});
+                    var client = new Client(SparkPostApiKey);
+                    client.Transmissions.Send(emailTransmission).Wait();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(string.Format("Exception Detected: {0}", ex.GetBaseException()));
+                }
             }
         }
     }
