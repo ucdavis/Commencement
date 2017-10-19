@@ -46,7 +46,7 @@ namespace Commencement.Jobs.NotificationsCommon
 		            from emailqueue
 			            inner join Students on students.Id = EmailQueue.Student_Id
 			            LEFT OUTER JOIN Registrations on registrations.id = EmailQueue.RegistrationId
-		            where Pending = 1 and [immediate] = @immediate", new { immediate }).ToList();
+		            where Pending = 1 and [immediate] = @immediate", new { immediate }, commandTimeout:300).ToList();
                 }
                 catch (Exception e)
                 {
