@@ -41,10 +41,6 @@ namespace Commencement.Jobs.NotificationsCommon
                 List<dynamic> pending = null;
                 try
                 {
-                    if (!immediate)
-                    {
-                        throw new Exception("Test Test Test");
-                    }
                     pending = connection.Query(@"
                     select emailqueue.id as id, [subject], [body], students.email as sEmail, registrations.email as rEmail
 		            from emailqueue
