@@ -99,6 +99,22 @@ namespace Commencement.Jobs.NotificationsCommon
                         client.Transmissions.Send(emailTransmission).Wait();
                         sentDateTime = DateTime.UtcNow; //TODO: Pacific time it?
                         successCount++;
+
+                        if (string.IsNullOrWhiteSpace(testEmail))
+                        {
+                            using (var ts = connection.BeginTransaction())
+                            {
+                                //Update the db
+                                connection.Execute(@"
+                            UPDATE EmailQueue
+                            SET 
+                                 [Pending] = 0
+                                ,[SentDateTime] = @sentDateTime      
+                            WHERE id = @id", new { sentDateTime, id = email.id }, ts);
+
+                                ts.Commit();
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -109,24 +125,6 @@ namespace Commencement.Jobs.NotificationsCommon
                         errorCount++;
                         log.Error(ex, ex.GetBaseException().ToString());
                     }
-
-                    if (string.IsNullOrWhiteSpace(testEmail))
-                    {
-                        using (var ts = connection.BeginTransaction())
-                        {
-                            //Update the db
-                            connection.Execute(@"
-                            UPDATE EmailQueue
-                            SET 
-                                 [Pending] = 0
-                                ,[SentDateTime] = @sentDateTime      
-                            WHERE id = @id", new { sentDateTime, id = email.id }, ts);
-
-                            ts.Commit();
-                        }
-                    }
-
-
 
                 }
 
