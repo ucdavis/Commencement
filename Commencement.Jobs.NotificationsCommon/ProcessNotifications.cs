@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
@@ -100,6 +101,19 @@ namespace Commencement.Jobs.NotificationsCommon
                         sentDateTime = DateTime.UtcNow; //TODO: Pacific time it?
                         successCount++;
                     }
+                    catch (ResponseException se)
+                    {
+                        Console.WriteLine(string.Format("Exception Detected: {0}", se.GetBaseException()));
+                        // Log.Error(ex, "There was a problem emailing {email}", email.sEmail);
+                        //I don't think we care if there are a few problems...
+                        errorCount++;
+                        log.Error(se, se.GetBaseException().ToString());
+                        
+                        if (se.Response.StatusCode != HttpStatusCode.BadRequest)
+                        {
+                            continue;
+                        }
+                    }
                     catch (Exception ex)
                     {
                         //TODO: Logging.
@@ -108,8 +122,9 @@ namespace Commencement.Jobs.NotificationsCommon
                         //I don't think we care if there are a few problems...
                         errorCount++;
                         log.Error(ex, ex.GetBaseException().ToString());
+                        continue;
                     }
-
+                    
                     if (string.IsNullOrWhiteSpace(testEmail))
                     {
                         using (var ts = connection.BeginTransaction())
@@ -125,8 +140,6 @@ namespace Commencement.Jobs.NotificationsCommon
                             ts.Commit();
                         }
                     }
-
-
 
                 }
 
