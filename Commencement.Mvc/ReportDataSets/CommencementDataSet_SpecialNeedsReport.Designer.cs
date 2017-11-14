@@ -1180,6 +1180,7 @@ namespace Commencement.Mvc.ReportDataSets.CommencementDataSet_SpecialNeedsReport
                 this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
             CommencementDataSet_SpecialNeedsReport.usp_SpecialNeedsReportDataTable dataTable = new CommencementDataSet_SpecialNeedsReport.usp_SpecialNeedsReportDataTable();
+            this.Adapter.SelectCommand.CommandTimeout = 300;
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
