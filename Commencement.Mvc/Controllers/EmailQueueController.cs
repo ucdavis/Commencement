@@ -40,6 +40,8 @@ namespace Commencement.Controllers
 
         public ActionResult Index(bool showAll = false, bool showAllCurrentTerm = false, bool showAllWithoutRegistration = false)
         {
+            var totalPending = _emailQueueRepository.Queryable.Count(a => a.Immediate);
+
             if (showAllWithoutRegistration)
             {
                 var last6Months = DateTime.UtcNow.ToPacificTime().AddMonths(-6);
@@ -51,7 +53,14 @@ namespace Commencement.Controllers
             var queue = _emailQueueRepository.Queryable.Where(a => (ceremonies.Contains(a.RegistrationParticipation.Ceremony) 
                                                                 || ceremonies.Contains(a.RegistrationPetition.Ceremony)));
 
-            if (!showAll) queue = queue.Where(a => a.Pending);
+            if (!showAll)
+            {
+                queue = queue.Where(a => a.Pending).OrderByDescending(a => a.Created).Take(100);
+                Message = "Only a maximum of the last 100 pending emails displayed.";
+            }
+
+            ViewBag.TotalPending = totalPending;
+            
 
             return View(queue.ToArray());
         }
