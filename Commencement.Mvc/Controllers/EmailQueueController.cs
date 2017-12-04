@@ -40,7 +40,7 @@ namespace Commencement.Controllers
 
         public ActionResult Index(bool showAll = false, bool showAllCurrentTerm = false, bool showAllWithoutRegistration = false)
         {
-            var totalPending = _emailQueueRepository.Queryable.Count(a => a.Immediate);
+            var totalPending = _emailQueueRepository.Queryable.Count(a => a.Pending);
 
             if (showAllWithoutRegistration)
             {
