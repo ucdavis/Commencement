@@ -13,7 +13,7 @@
     </ul>
 
     <div class="page_bar">
-        <h1>(Test All Immediate) Total Pending Emails:<%=ViewBag.TotalPending%></h1>
+        <h1>Total Pending Emails:<%=ViewBag.TotalPending%></h1>
         <div class="col1"><h2>Email Queue</h2></div>
         <div class="col2">
             <% if (Convert.ToBoolean(Request.QueryString["showAll"])) { %>
