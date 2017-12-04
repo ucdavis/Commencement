@@ -68,7 +68,7 @@ namespace Commencement.Controllers
             if (!showAll)
             {
                 queue = queue.Where(a => a.Pending).OrderByDescending(a => a.Created).Take(100);
-                Message = "Only last 100 pending emails displayed.";
+                Message = "Only a maximum of the last 100 pending emails displayed.";
             }
 
             ViewBag.TotalPending = totalPending;
