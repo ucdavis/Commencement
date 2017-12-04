@@ -11,9 +11,12 @@ using Commencement.Controllers.ViewModels;
 using Commencement.Core.Domain;
 using Commencement.Core.Helpers;
 using Commencement.Core.Resources;
+using Commencement.Core.Services;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.ActionResults;
 using UCDArch.Web.Controller;
+using Dapper;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Commencement.Controllers
 {
@@ -27,12 +30,15 @@ namespace Commencement.Controllers
 
         private readonly List<string> _massEmailTemplates = new List<string>(new string[4] { StaticValues.Template_NotifyOpenTicketPetitions, StaticValues.Template_RemainingTickets, StaticValues.Template_ElectronicTicketDistribution, StaticValues.Template_TicketPetition_Decision });
 
+        protected IDbService DbService { get; set; }
+
         public EmailQueueController(IRepository<EmailQueue> emailQueueRepository, IRepositoryWithTypedId<Student, Guid> studentRepository , ICeremonyService ceremonyService, ILetterGenerator letterGenerator)
         {
             _emailQueueRepository = emailQueueRepository;
             _studentRepository = studentRepository;
             _ceremonyService = ceremonyService;
             _letterGenerator = letterGenerator;
+            DbService = ServiceLocator.Current.GetInstance<IDbService>();
         }
 
         //
@@ -40,6 +46,14 @@ namespace Commencement.Controllers
 
         public ActionResult Index(bool showAll = false, bool showAllCurrentTerm = false, bool showAllWithoutRegistration = false)
         {
+            var totalPending = 0;
+            using (var conn = DbService.GetConnection())
+            {
+                var result = conn.Query<int>(@"select count(Immediate) from EmailQueue where Immediate = 1 ");
+                totalPending = result.Single();
+            }
+
+
             if (showAllWithoutRegistration)
             {
                 var last6Months = DateTime.UtcNow.ToPacificTime().AddMonths(-6);
@@ -51,7 +65,14 @@ namespace Commencement.Controllers
             var queue = _emailQueueRepository.Queryable.Where(a => (ceremonies.Contains(a.RegistrationParticipation.Ceremony) 
                                                                 || ceremonies.Contains(a.RegistrationPetition.Ceremony)));
 
-            if (!showAll) queue = queue.Where(a => a.Pending);
+            if (!showAll)
+            {
+                queue = queue.Where(a => a.Pending).OrderByDescending(a => a.Created).Take(100);
+                Message = "Only last 100 pending emails displayed.";
+            }
+
+            ViewBag.TotalPending = totalPending;
+            
 
             return View(queue.ToArray());
         }
