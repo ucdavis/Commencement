@@ -89,7 +89,6 @@ namespace Commencement.Core.Domain
 
         public virtual Guid ReferenceGuid { get; set; }
 
-        [Required]
         public virtual string HardCopy { get; set; }
 
         //Not a DB field

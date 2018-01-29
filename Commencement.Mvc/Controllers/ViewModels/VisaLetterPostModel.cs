@@ -46,7 +46,6 @@ namespace Commencement.Controllers.ViewModels
         [Required]
         public string Degree { get; set; }
 
-        [Required]
         public string HardCopy { get; set; }
     }
 
