@@ -64,13 +64,7 @@
                 }
             </p>
         </div>
-        <div class="result__group">
-            <p>
-                <strong>Need Hard Copy:</strong>
-                <span>@Html.RadioButton("HardCopy", 'Y', new { @disabled = "disabled" }) Yes</span>
-                <span>@Html.RadioButton("HardCopy", 'N', new { @disabled = "disabled" }) No</span>
-            </p>
-        </div>
+
         @if (Model.DateDecided.HasValue)
         {
             <div class="result__group">

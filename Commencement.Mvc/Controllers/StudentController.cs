@@ -490,7 +490,7 @@ namespace Commencement.Controllers
                 visaLetter.CollegeName = SelectLists.CollegeNames.Single(a => a.Value == visaLetter.CollegeCode).Text;
             }            
             visaLetter.Degree = model.Degree;
-            visaLetter.HardCopy = model.HardCopy;
+            visaLetter.HardCopy = "N";
 
             var termCode = TermService.GetCurrent();
             var currentReg = _registrationRepository.Queryable.SingleOrDefault(a => a.Student == student && a.TermCode.Id == termCode.Id);
