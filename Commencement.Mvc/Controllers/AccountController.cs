@@ -12,11 +12,11 @@ namespace Commencement.Controllers
     {
         public ActionResult LogOn(string returnUrl)
         {
-            string resultUrl = CASHelper.Login(); //Do the CAS Login
+            var actionResult = CASHelper.LoginMvc(); //Do the CAS Login
 
-            if (resultUrl != null)
+            if (actionResult != null)
             {
-                return Redirect(resultUrl);
+                return actionResult;
             }
 
             TempData["URL"] = returnUrl;
@@ -27,8 +27,7 @@ namespace Commencement.Controllers
 
         public ActionResult LogOut()
         {
-            FormsAuthentication.SignOut();
-            return Redirect("https://cas.ucdavis.edu/cas/logout");
+            return Redirect(CASHelper.Logout());
         }
 
         public ActionResult NotCAESStudent()
