@@ -20,7 +20,7 @@ namespace Commencement.Controllers.ViewModels
             var viewModel = new AddEditorViewModel()
                                 {
                                     Ceremony = ceremony,
-                                    Users = repository.OfType<vUser>().Queryable.OrderBy(a => a.LastName).ToList()
+                                    Users = repository.OfType<vUser>().Queryable.Where(w => w.IsActive).OrderBy(a => a.LastName).ToList()
                                 };
 
             return viewModel;
