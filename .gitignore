@@ -38,3 +38,5 @@ Catbert3.Db/sandbox/*
 Commencement.Db/sql/Test/*.dacpac
 Commencement.Db/sql/Test/*.dll
 .vs/
+/Commencement.Db/Commencement.Db.jfm
+/Commencement.Services.Sql/Commencement.Services.Sql.jfm
