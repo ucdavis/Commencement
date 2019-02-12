@@ -340,6 +340,8 @@ namespace Commencement.Controllers
 
             var ceremonyParticipations = new List<RegistrationParticipation>();
 
+            ModelState.Clear();
+
             foreach (var a in extraTicketPetitions.Where(b=>b.NumberTickets > 0 || b.NumberStreamingTickets > 0))
             {
                 var tickets = a.Ceremony.HasStreamingTickets ? a.NumberTickets + a.NumberStreamingTickets : a.NumberTickets;
@@ -372,6 +374,11 @@ namespace Commencement.Controllers
                     ceremonyParticipations.Add(a.RegistrationParticipation);
                 }
 
+            }
+
+            if (extraTicketPetitions.All(a => a.NumberTickets <= 0 && a.NumberStreamingTickets <= 0))
+            {
+                ModelState.AddModelError("NumberTickets", "You must specify the number of extra tickets.");
             }
 
             if (ModelState.IsValid)
