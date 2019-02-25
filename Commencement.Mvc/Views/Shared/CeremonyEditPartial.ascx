@@ -84,7 +84,7 @@
                 <li>
                     <strong>Date/Time: </strong> 
                     <%: a.Ceremony.DateTime.ToString("g") %>
-                    <span class="time_disclaimer">*The time of your ceremony is not guaranteed.</span>
+                    <span class="time_disclaimer">The time of your ceremony is not guaranteed. Ceremony times are predicated upon majors.</span>
                 </li>
 
                 <li>
