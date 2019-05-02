@@ -10,11 +10,12 @@
 
     <ul class="btn">
         <li><%: Html.ActionLink("Back to List", "Index") %></li>
+        <li><a href="https://computing.caes.ucdavis.edu/documentation/commencement/mass-email-options" target="_blank">Email FAQ</a></li>
     </ul>
 
     <h2>Email Students</h2>
 
-    <%= Html.ValidationSummary("Please correct the erros and try again.") %>
+    <%= Html.ValidationSummary("Please correct the errors and try again.") %>
 
     <% using (Html.BeginForm("EmailStudents", "EmailQueue", FormMethod.Post, new {enctype="multipart/form-data"})) { %>
     
