@@ -4,6 +4,9 @@ VS 2013 (Need the report business intelligence Data Tools installed)
 -- Update
 Current version is VS 2015, and still need the business intelligence data tools installed.
 
+For Reports in VS 2015, need this installed:
+https://docs.microsoft.com/en-us/previous-versions/mt186501(v=msdn.10)
+
 
 UC Davis Undergraduate Commencement Registration Application.
 
