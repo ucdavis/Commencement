@@ -41,6 +41,12 @@
             @Html.TextBoxFor(x => x.Registration.Phonetic, new { placeholder = "Phonetic Pronunciation", maxlength = 150 })
             @Html.ValidationMessageFor(x => x.Registration.Phonetic)
         </div>
+        <div class="input__group">
+            <label>Cell Number for Texts</label>
+            @Html.TextBoxFor(x => x.Registration.CellNumberForText, new { placeholder = "530555555", maxlength = 10 })
+            @Html.ValidationMessageFor(x => x.Registration.CellNumberForText)
+            <div>Data charges may apply.</div>
+        </div>
     </div>
 </div>
 
