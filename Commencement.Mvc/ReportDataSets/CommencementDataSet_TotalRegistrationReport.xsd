@@ -9,7 +9,7 @@
         <Tables>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="usp_TotalRegisteredStudentsTableAdapter" GeneratorDataComponentClassName="usp_TotalRegisteredStudentsTableAdapter" Name="usp_TotalRegisteredStudents" UserDataComponentName="usp_TotalRegisteredStudentsTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="MainDB (Web.config)" DbObjectName="Commencement.dbo.usp_TotalRegisteredStudents" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+              <DbSource ConnectionRef="MainDB (Web.config)" DbObjectName="Commencement.dbo.usp_TotalRegisteredStudents" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
                     <CommandText>dbo.usp_TotalRegisteredStudents</CommandText>
@@ -46,6 +46,7 @@
               <Mapping SourceColumn="dateregistered" DataSetColumn="dateregistered" />
               <Mapping SourceColumn="CeremonyTime" DataSetColumn="CeremonyTime" />
               <Mapping SourceColumn="GradImages" DataSetColumn="GradImages" />
+              <Mapping SourceColumn="CellNumberForText" DataSetColumn="CellNumberForText" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -182,6 +183,13 @@
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CellNumberForText" msprop:Generator_ColumnVarNameInTable="columnCellNumberForText" msprop:Generator_ColumnPropNameInRow="CellNumberForText" msprop:Generator_ColumnPropNameInTable="CellNumberForTextColumn" msprop:Generator_UserColumnName="CellNumberForText" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
