@@ -111,6 +111,19 @@
                 </div>
                 <div class="result__group">
                     <p>
+                        <strong>Cell Phone for Texts (Data rates may Apply):</strong>
+                        @if (!string.IsNullOrWhiteSpace(Model.Registration.CellNumberForText)) { 
+                            @Html.DisplayFor(x => x.Registration.CellNumberForText)
+                        }
+                        else
+                        {
+                            <span>Not Supplied</span>
+                        }
+
+                    </p>
+                </div>
+                <div class="result__group">
+                    <p>
                         <strong>Special Needs:</strong>
                         @string.Join(", ", Model.Registration.SpecialNeeds.Select(a => a.Name))
                     </p>

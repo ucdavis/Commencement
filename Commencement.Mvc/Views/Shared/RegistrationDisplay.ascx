@@ -27,6 +27,13 @@
     <li><strong>How To Say Your Name Phonetically:</strong>
         <span><%= Html.Encode(Model.Phonetic)%></span>
     </li>
+    <li><strong>Cell Phone for Texts (Data rates may Apply):</strong>
+        <% if (!string.IsNullOrWhiteSpace(Model.CellNumberForText)) { %>
+        <span><%= Html.Encode(Model.CellNumberForText) %></span>
+        <% } else { %>
+        <span>Not Supplied</span>
+        <% } %>
+    </li>
     <li>
         <strong>Special Needs: </strong>
         <%: string.Join(", ", Model.SpecialNeeds.Select(a=>a.Name)) %>

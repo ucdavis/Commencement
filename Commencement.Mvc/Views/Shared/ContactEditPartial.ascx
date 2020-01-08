@@ -61,4 +61,9 @@
             <%= Html.TextBoxFor(x=>x.Registration.Phonetic, new { maxlength = 150}) %>
             <%= Html.ValidationMessageFor(x=>x.Registration.Phonetic) %>
         </li>
+        <li><strong>Cell Number for Texts:</strong>
+            <%= Html.TextBoxFor(x=>x.Registration.CellNumberForText, new { maxlength = 10}) %>
+            <%= Html.ValidationMessageFor(x=>x.Registration.CellNumberForText) %>
+            <span>Data charges may apply.</span>
+        </li>
     </ul>
