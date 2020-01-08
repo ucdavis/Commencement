@@ -57,6 +57,9 @@ namespace Commencement.Core.Domain
         public virtual IList<SpecialNeed> SpecialNeeds { get; set; }
         [StringLength(150)]
         public virtual string Phonetic { get; set; }
+
+        [StringLength(10)]
+        public virtual string CellNumberForText { get; set; }
         #endregion
 
         #region Fields to Remove
@@ -144,6 +147,7 @@ namespace Commencement.Core.Domain
             Map(x => x.GradTrack);
             Map(x => x.TicketPassword);
             Map(x => x.Phonetic);
+            Map(x => x.CellNumberForText);
 
             HasMany(a => a.RegistrationParticipations).Inverse().Cascade.AllDeleteOrphan();
             HasMany(a => a.RegistrationPetitions).Inverse().Cascade.AllDeleteOrphan();
