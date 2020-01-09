@@ -58,7 +58,8 @@ namespace Commencement.Core.Domain
         [StringLength(150)]
         public virtual string Phonetic { get; set; }
 
-        [StringLength(10)]
+        [StringLength(20)]
+        [RegularExpression("^\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}$", ErrorMessage = "Number must be in the format (###) ###-####")]
         public virtual string CellNumberForText { get; set; }
         #endregion
 

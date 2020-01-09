@@ -12,7 +12,7 @@
     [GradTrack]         BIT              CONSTRAINT [DF_Registrations_GradTrack] DEFAULT ((0)) NOT NULL,
     [TicketPassword]    VARCHAR (50)     NULL,
     [Phonetic]          VARCHAR (150)    NULL,
-    [CellNumberForText] VARCHAR (10)     NULL,
+    [CellNumberForText] VARCHAR (20)     NULL,
     [CellCarrier]       VARCHAR (25)     NULL,
     CONSTRAINT [PK_Registrations] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_Registrations_Registrations] FOREIGN KEY ([id]) REFERENCES [dbo].[Registrations] ([id]),

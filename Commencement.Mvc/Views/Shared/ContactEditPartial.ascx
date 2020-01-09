@@ -49,6 +49,11 @@
             <%= Html.TextBoxFor(x => x.Registration.Zip, new { maxlength = 15, size = 5 }) %>
             <%= Html.ValidationMessageFor(x=>x.Registration.Zip) %>
         </li>
+        <li><strong>Cell Number for Texts:</strong>
+            <%= Html.TextBoxFor(x=>x.Registration.CellNumberForText, new { maxlength = 20}) %>
+            <%= Html.ValidationMessageFor(x=>x.Registration.CellNumberForText) %>
+            <span>Carrier messaging and data rates may apply.</span>
+        </li>
         <li class="prefilled"><strong>Email:</strong>
             <span><%= Html.Encode(Model.Student.Email) %></span>
         </li>
@@ -60,10 +65,5 @@
         <li><strong>How To Say Your Name Phonetically:</strong>
             <%= Html.TextBoxFor(x=>x.Registration.Phonetic, new { maxlength = 150}) %>
             <%= Html.ValidationMessageFor(x=>x.Registration.Phonetic) %>
-        </li>
-        <li><strong>Cell Number for Texts:</strong>
-            <%= Html.TextBoxFor(x=>x.Registration.CellNumberForText, new { maxlength = 10}) %>
-            <%= Html.ValidationMessageFor(x=>x.Registration.CellNumberForText) %>
-            <span>Data charges may apply.</span>
         </li>
     </ul>
