@@ -29,6 +29,8 @@
 
 
 
+
+
 GO
 CREATE NONCLUSTERED INDEX [nci_wi_EmailQueue_C00F412CE52B3AFF59024CF718AD2826]
     ON [dbo].[EmailQueue]([RegistrationPetitionId] ASC)
@@ -43,5 +45,24 @@ CREATE NONCLUSTERED INDEX [nci_idx_EmailQueue_Student_ID]
 
 GO
 CREATE NONCLUSTERED INDEX [IX_EmailQueue_Pending]
-    ON [dbo].[EmailQueue]([Pending] DESC, [Immediate] ASC);
+    ON [dbo].[EmailQueue]([Pending] DESC, [Immediate] ASC)
+    INCLUDE([RegistrationId], [Student_Id]);
+
+
+
+
+GO
+CREATE NONCLUSTERED INDEX [nci_EmailQueue_RegistrationId]
+    ON [dbo].[EmailQueue]([RegistrationId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [nci_EmailQueue_IsPendingImmediateCvrRegId]
+    ON [dbo].[EmailQueue]([Pending] DESC, [Immediate] ASC)
+    INCLUDE([id], [Student_Id], [RegistrationId]);
+
+
+GO
+CREATE NONCLUSTERED INDEX [nci_EmailQueue_Id]
+    ON [dbo].[EmailQueue]([id] ASC);
 

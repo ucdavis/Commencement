@@ -24,7 +24,10 @@
 
 
 
+
+
 GO
-CREATE NONCLUSTERED INDEX [nci_wi_Registrations_93976C1EE181331E058E1D188A03DDB0]
+CREATE NONCLUSTERED INDEX [nci_Registrations_Student_Id]
     ON [dbo].[Registrations]([Student_Id] ASC);
+GO
 

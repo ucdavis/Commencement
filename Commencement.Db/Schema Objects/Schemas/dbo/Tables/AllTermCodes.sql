@@ -7,3 +7,5 @@
     CONSTRAINT [PK_AllTermCodes] PRIMARY KEY CLUSTERED ([id] ASC)
 );
 
+
+
