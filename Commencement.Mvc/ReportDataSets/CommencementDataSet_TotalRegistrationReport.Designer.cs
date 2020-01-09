@@ -767,7 +767,7 @@ namespace Commencement.Mvc.ReportDataSets {
                 this.columnCeremonyTime.AllowDBNull = false;
                 this.columnGradImages.ReadOnly = true;
                 this.columnGradImages.MaxLength = 3;
-                this.columnCellNumberForText.MaxLength = 10;
+                this.columnCellNumberForText.MaxLength = 20;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

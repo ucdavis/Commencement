@@ -58,7 +58,7 @@
   <xs:element name="CommencementDataSet_TotalRegistrationReport" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="CommencementDataSet_TotalRegistrationReport" msprop:Generator_UserDSName="CommencementDataSet_TotalRegistrationReport">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="usp_TotalRegisteredStudents" msprop:Generator_TableClassName="usp_TotalRegisteredStudentsDataTable" msprop:Generator_TableVarName="tableusp_TotalRegisteredStudents" msprop:Generator_TablePropName="usp_TotalRegisteredStudents" msprop:Generator_RowDeletingName="usp_TotalRegisteredStudentsRowDeleting" msprop:Generator_RowChangingName="usp_TotalRegisteredStudentsRowChanging" msprop:Generator_RowEvHandlerName="usp_TotalRegisteredStudentsRowChangeEventHandler" msprop:Generator_RowDeletedName="usp_TotalRegisteredStudentsRowDeleted" msprop:Generator_UserTableName="usp_TotalRegisteredStudents" msprop:Generator_RowChangedName="usp_TotalRegisteredStudentsRowChanged" msprop:Generator_RowEvArgName="usp_TotalRegisteredStudentsRowChangeEvent" msprop:Generator_RowClassName="usp_TotalRegisteredStudentsRow">
+        <xs:element name="usp_TotalRegisteredStudents" msprop:Generator_TableClassName="usp_TotalRegisteredStudentsDataTable" msprop:Generator_TableVarName="tableusp_TotalRegisteredStudents" msprop:Generator_RowChangedName="usp_TotalRegisteredStudentsRowChanged" msprop:Generator_TablePropName="usp_TotalRegisteredStudents" msprop:Generator_RowDeletingName="usp_TotalRegisteredStudentsRowDeleting" msprop:Generator_RowChangingName="usp_TotalRegisteredStudentsRowChanging" msprop:Generator_RowEvHandlerName="usp_TotalRegisteredStudentsRowChangeEventHandler" msprop:Generator_RowDeletedName="usp_TotalRegisteredStudentsRowDeleted" msprop:Generator_RowClassName="usp_TotalRegisteredStudentsRow" msprop:Generator_UserTableName="usp_TotalRegisteredStudents" msprop:Generator_RowEvArgName="usp_TotalRegisteredStudentsRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="lastname" msprop:Generator_ColumnVarNameInTable="columnlastname" msprop:Generator_ColumnPropNameInRow="lastname" msprop:Generator_ColumnPropNameInTable="lastnameColumn" msprop:Generator_UserColumnName="lastname" minOccurs="0">
@@ -189,7 +189,7 @@
               <xs:element name="CellNumberForText" msprop:Generator_ColumnVarNameInTable="columnCellNumberForText" msprop:Generator_ColumnPropNameInRow="CellNumberForText" msprop:Generator_ColumnPropNameInTable="CellNumberForTextColumn" msprop:Generator_UserColumnName="CellNumberForText" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
-                    <xs:maxLength value="10" />
+                    <xs:maxLength value="20" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
