@@ -317,6 +317,10 @@ namespace Commencement.Mvc.ReportDataSets {
             
             private global::System.Data.DataColumn columnCeremonyTime;
             
+            private global::System.Data.DataColumn columnCellNumberForText;
+            
+            private global::System.Data.DataColumn columnPhonetic;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public usp_TotalRegisteredByMajorDataTable() {
@@ -504,6 +508,22 @@ namespace Commencement.Mvc.ReportDataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn CellNumberForTextColumn {
+                get {
+                    return this.columnCellNumberForText;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn PhoneticColumn {
+                get {
+                    return this.columnPhonetic;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -558,7 +578,9 @@ namespace Commencement.Mvc.ReportDataSets {
                         string term, 
                         string DistributionMethod, 
                         System.DateTime dateregistered, 
-                        System.DateTime CeremonyTime) {
+                        System.DateTime CeremonyTime, 
+                        string CellNumberForText, 
+                        string Phonetic) {
                 usp_TotalRegisteredByMajorRow rowusp_TotalRegisteredByMajorRow = ((usp_TotalRegisteredByMajorRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         lastname,
@@ -579,7 +601,9 @@ namespace Commencement.Mvc.ReportDataSets {
                         term,
                         DistributionMethod,
                         dateregistered,
-                        CeremonyTime};
+                        CeremonyTime,
+                        CellNumberForText,
+                        Phonetic};
                 rowusp_TotalRegisteredByMajorRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowusp_TotalRegisteredByMajorRow);
                 return rowusp_TotalRegisteredByMajorRow;
@@ -621,6 +645,8 @@ namespace Commencement.Mvc.ReportDataSets {
                 this.columnDistributionMethod = base.Columns["DistributionMethod"];
                 this.columndateregistered = base.Columns["dateregistered"];
                 this.columnCeremonyTime = base.Columns["CeremonyTime"];
+                this.columnCellNumberForText = base.Columns["CellNumberForText"];
+                this.columnPhonetic = base.Columns["Phonetic"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -664,6 +690,10 @@ namespace Commencement.Mvc.ReportDataSets {
                 base.Columns.Add(this.columndateregistered);
                 this.columnCeremonyTime = new global::System.Data.DataColumn("CeremonyTime", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCeremonyTime);
+                this.columnCellNumberForText = new global::System.Data.DataColumn("CellNumberForText", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCellNumberForText);
+                this.columnPhonetic = new global::System.Data.DataColumn("Phonetic", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPhonetic);
                 this.columnlastname.MaxLength = 50;
                 this.columnfirstname.MaxLength = 50;
                 this.columnstudentid.AllowDBNull = false;
@@ -687,6 +717,8 @@ namespace Commencement.Mvc.ReportDataSets {
                 this.columnDistributionMethod.MaxLength = 6;
                 this.columndateregistered.AllowDBNull = false;
                 this.columnCeremonyTime.AllowDBNull = false;
+                this.columnCellNumberForText.MaxLength = 20;
+                this.columnPhonetic.MaxLength = 150;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1106,6 +1138,39 @@ namespace Commencement.Mvc.ReportDataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string CellNumberForText {
+                get {
+                    try {
+                        return ((string)(this[this.tableusp_TotalRegisteredByMajor.CellNumberForTextColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CellNumberForText\' in table \'usp_TotalRegisteredByMajor\' is" +
+                                " DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableusp_TotalRegisteredByMajor.CellNumberForTextColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Phonetic {
+                get {
+                    try {
+                        return ((string)(this[this.tableusp_TotalRegisteredByMajor.PhoneticColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Phonetic\' in table \'usp_TotalRegisteredByMajor\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableusp_TotalRegisteredByMajor.PhoneticColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IslastnameNull() {
                 return this.IsNull(this.tableusp_TotalRegisteredByMajor.lastnameColumn);
             }
@@ -1246,6 +1311,30 @@ namespace Commencement.Mvc.ReportDataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetDistributionMethodNull() {
                 this[this.tableusp_TotalRegisteredByMajor.DistributionMethodColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsCellNumberForTextNull() {
+                return this.IsNull(this.tableusp_TotalRegisteredByMajor.CellNumberForTextColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetCellNumberForTextNull() {
+                this[this.tableusp_TotalRegisteredByMajor.CellNumberForTextColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsPhoneticNull() {
+                return this.IsNull(this.tableusp_TotalRegisteredByMajor.PhoneticColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetPhoneticNull() {
+                this[this.tableusp_TotalRegisteredByMajor.PhoneticColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -1427,6 +1516,8 @@ namespace Commencement.Mvc.ReportDataSets.CommencementDataSet_TotalRegisteredByM
             tableMapping.ColumnMappings.Add("DistributionMethod", "DistributionMethod");
             tableMapping.ColumnMappings.Add("dateregistered", "dateregistered");
             tableMapping.ColumnMappings.Add("CeremonyTime", "CeremonyTime");
+            tableMapping.ColumnMappings.Add("CellNumberForText", "CellNumberForText");
+            tableMapping.ColumnMappings.Add("Phonetic", "Phonetic");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
