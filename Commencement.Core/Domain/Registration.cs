@@ -59,7 +59,7 @@ namespace Commencement.Core.Domain
         public virtual string Phonetic { get; set; }
 
         [StringLength(20)]
-        [RegularExpression("^\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}$", ErrorMessage = "Number must be in the format (###) ###-####")]
+        [RegularExpression("^(\\+?1-?)?(\\([2-9]([02-9]\\d|1[02-9])\\)|[2-9]([02-9]\\d|1[02-9]))-?[2-9]\\d{2}-?\\d{4}$", ErrorMessage = "Invalid phone format. ###-###-#### or similar")]
         public virtual string CellNumberForText { get; set; }
         #endregion
 
