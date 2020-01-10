@@ -87,16 +87,29 @@
                 </div>
                 <div class="result__group">
                     <p>
-                        <strong>Email Address:</strong>
-                        @Html.DisplayFor(x => x.Registration.Student.Email)
+                        <strong>Cell Number for Texts (Carrier messaging and data rates may apply):</strong>
+                        @if (!string.IsNullOrWhiteSpace(Model.Registration.CellNumberForText)) { 
+                            @Html.DisplayFor(x => x.Registration.CellNumberForText)
+                        }
+                        else
+                        {
+                            <span>Not Supplied</span>
+                        }
+
                     </p>
                 </div>
                 <div class="result__group">
                     <p>
+                        <strong>Email Address:</strong>
+                        @Html.DisplayFor(x => x.Registration.Student.Email)
+                    </p>
+                </div>
+                @*<div class="result__group">
+                    <p>
                         <strong>Ticket Password:</strong>
                         @Html.DisplayFor(x => x.Registration.TicketPassword)
                     </p>
-                </div>
+                </div>*@
                 <div class="result__group">
                     <p>
                         <strong>Additional Recipients Email:</strong>
@@ -107,19 +120,6 @@
                     <p>
                         <strong>How To Say Your Name Phonetically:</strong>
                         @Html.DisplayFor(x => x.Registration.Phonetic)
-                    </p>
-                </div>
-                <div class="result__group">
-                    <p>
-                        <strong>Cell Phone for Texts (Data rates may Apply):</strong>
-                        @if (!string.IsNullOrWhiteSpace(Model.Registration.CellNumberForText)) { 
-                            @Html.DisplayFor(x => x.Registration.CellNumberForText)
-                        }
-                        else
-                        {
-                            <span>Not Supplied</span>
-                        }
-
                     </p>
                 </div>
                 <div class="result__group">
