@@ -327,6 +327,8 @@ namespace Commencement.Mvc.ReportDataSets {
             
             private global::System.Data.DataColumn columnName;
             
+            private global::System.Data.DataColumn columnCellNumberForText;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public usp_TotalRegisteredStudentsForTermDataTable() {
@@ -554,6 +556,14 @@ namespace Commencement.Mvc.ReportDataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn CellNumberForTextColumn {
+                get {
+                    return this.columnCellNumberForText;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -613,7 +623,8 @@ namespace Commencement.Mvc.ReportDataSets {
                         System.DateTime dateregistered, 
                         System.DateTime CeremonyTime, 
                         string GradImages, 
-                        string Name) {
+                        string Name, 
+                        string CellNumberForText) {
                 usp_TotalRegisteredStudentsForTermRow rowusp_TotalRegisteredStudentsForTermRow = ((usp_TotalRegisteredStudentsForTermRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         lastname,
@@ -639,7 +650,8 @@ namespace Commencement.Mvc.ReportDataSets {
                         dateregistered,
                         CeremonyTime,
                         GradImages,
-                        Name};
+                        Name,
+                        CellNumberForText};
                 rowusp_TotalRegisteredStudentsForTermRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowusp_TotalRegisteredStudentsForTermRow);
                 return rowusp_TotalRegisteredStudentsForTermRow;
@@ -686,6 +698,7 @@ namespace Commencement.Mvc.ReportDataSets {
                 this.columnCeremonyTime = base.Columns["CeremonyTime"];
                 this.columnGradImages = base.Columns["GradImages"];
                 this.columnName = base.Columns["Name"];
+                this.columnCellNumberForText = base.Columns["CellNumberForText"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -739,6 +752,8 @@ namespace Commencement.Mvc.ReportDataSets {
                 base.Columns.Add(this.columnGradImages);
                 this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnName);
+                this.columnCellNumberForText = new global::System.Data.DataColumn("CellNumberForText", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCellNumberForText);
                 this.columnlastname.MaxLength = 50;
                 this.columnfirstname.MaxLength = 50;
                 this.columnstudentid.AllowDBNull = false;
@@ -768,6 +783,7 @@ namespace Commencement.Mvc.ReportDataSets {
                 this.columnGradImages.ReadOnly = true;
                 this.columnGradImages.MaxLength = 3;
                 this.columnName.MaxLength = 100;
+                this.columnCellNumberForText.MaxLength = 20;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1276,6 +1292,23 @@ namespace Commencement.Mvc.ReportDataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string CellNumberForText {
+                get {
+                    try {
+                        return ((string)(this[this.tableusp_TotalRegisteredStudentsForTerm.CellNumberForTextColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CellNumberForText\' in table \'usp_TotalRegisteredStudentsFor" +
+                                "Term\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableusp_TotalRegisteredStudentsForTerm.CellNumberForTextColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IslastnameNull() {
                 return this.IsNull(this.tableusp_TotalRegisteredStudentsForTerm.lastnameColumn);
             }
@@ -1477,6 +1510,18 @@ namespace Commencement.Mvc.ReportDataSets {
             public void SetNameNull() {
                 this[this.tableusp_TotalRegisteredStudentsForTerm.NameColumn] = global::System.Convert.DBNull;
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsCellNumberForTextNull() {
+                return this.IsNull(this.tableusp_TotalRegisteredStudentsForTerm.CellNumberForTextColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetCellNumberForTextNull() {
+                this[this.tableusp_TotalRegisteredStudentsForTerm.CellNumberForTextColumn] = global::System.Convert.DBNull;
+            }
         }
         
         /// <summary>
@@ -1662,6 +1707,7 @@ namespace Commencement.Mvc.ReportDataSets.CommencementDataSet_TotalRegStudentsFo
             tableMapping.ColumnMappings.Add("CeremonyTime", "CeremonyTime");
             tableMapping.ColumnMappings.Add("GradImages", "GradImages");
             tableMapping.ColumnMappings.Add("Name", "Name");
+            tableMapping.ColumnMappings.Add("CellNumberForText", "CellNumberForText");
             this._adapter.TableMappings.Add(tableMapping);
         }
         

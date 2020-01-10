@@ -465,7 +465,6 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>TotalRegStudentsForTerm</DataSetName>
-        <Top>0in</Top>
         <Height>1.81344in</Height>
         <Width>3.24404in</Width>
         <Style>
@@ -512,6 +511,9 @@
             </TablixColumn>
             <TablixColumn>
               <Width>0.46875in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.59896in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>2.76042in</Width>
@@ -1050,6 +1052,48 @@
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox25</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>None</Style>
+                          <Width>1.5pt</Width>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <BackgroundColor>LightSteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox13">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Cell Number For Text</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Navy</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox13</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>DimGray</Color>
@@ -1873,6 +1917,42 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
+                    <Textbox Name="CellNumberForText">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!CellNumberForText.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>CellNumberForText</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
                     <Textbox Name="PrimaryEmail">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -2209,6 +2289,7 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
+            <TablixMember />
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
@@ -2246,7 +2327,7 @@
         </SortExpressions>
         <Top>1.84469in</Top>
         <Height>0.48958in</Height>
-        <Width>29.29873in</Width>
+        <Width>30.89769in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -2258,7 +2339,7 @@
     <Height>3.34409in</Height>
     <Style />
   </Body>
-  <Width>29.29873in</Width>
+  <Width>30.89769in</Width>
   <Page>
     <PageHeader>
       <Height>1.83716in</Height>
@@ -2538,10 +2619,14 @@
           <DataField>Name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="CellNumberForText">
+          <DataField>CellNumberForText</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>CommencementDataSet_TotalRegStudentsForTerm</rd:DataSetName>
-        <rd:SchemaPath>C:\GitProjects\Commencement\Commencement.Mvc\ReportDataSets\CommencementDataSet_TotalRegStudentsForTerm.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Work\GitProjects\Commencement\Commencement.Mvc\ReportDataSets\CommencementDataSet_TotalRegStudentsForTerm.xsd</rd:SchemaPath>
         <rd:TableName>usp_TotalRegisteredStudentsForTerm</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
