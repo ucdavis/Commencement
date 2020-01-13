@@ -11,7 +11,7 @@ select s.lastname, s.firstname, s.studentid
 		else rp.MajorCode
 		end major
 	, r.address1, r.address2, r.city, r.[state], r.zip, s.email as PrimaryEmail
-	, r.email as SecondaryEmail, rp.numbertickets
+	, r.email as SecondaryEmail, rp.numbertickets, r.CellNumberForText, r.Phonetic
 	, etp.numbertickets as ExtraTickets, etp.numberticketsstreaming as ExtraStreamingTickets
 	, case
 		when etp.numbertickets is null then rp.numbertickets

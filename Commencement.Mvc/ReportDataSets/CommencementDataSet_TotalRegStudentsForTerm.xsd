@@ -46,6 +46,7 @@
               <Mapping SourceColumn="CeremonyTime" DataSetColumn="CeremonyTime" />
               <Mapping SourceColumn="GradImages" DataSetColumn="GradImages" />
               <Mapping SourceColumn="Name" DataSetColumn="Name" />
+              <Mapping SourceColumn="CellNumberForText" DataSetColumn="CellNumberForText" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -57,7 +58,7 @@
   <xs:element name="CommencementDataSet_TotalRegStudentsForTerm" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="CommencementDataSet_TotalRegStudentsForTerm" msprop:Generator_UserDSName="CommencementDataSet_TotalRegStudentsForTerm">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="usp_TotalRegisteredStudentsForTerm" msprop:Generator_TableClassName="usp_TotalRegisteredStudentsForTermDataTable" msprop:Generator_TableVarName="tableusp_TotalRegisteredStudentsForTerm" msprop:Generator_TablePropName="usp_TotalRegisteredStudentsForTerm" msprop:Generator_RowDeletingName="usp_TotalRegisteredStudentsForTermRowDeleting" msprop:Generator_RowChangingName="usp_TotalRegisteredStudentsForTermRowChanging" msprop:Generator_RowEvHandlerName="usp_TotalRegisteredStudentsForTermRowChangeEventHandler" msprop:Generator_RowDeletedName="usp_TotalRegisteredStudentsForTermRowDeleted" msprop:Generator_UserTableName="usp_TotalRegisteredStudentsForTerm" msprop:Generator_RowChangedName="usp_TotalRegisteredStudentsForTermRowChanged" msprop:Generator_RowEvArgName="usp_TotalRegisteredStudentsForTermRowChangeEvent" msprop:Generator_RowClassName="usp_TotalRegisteredStudentsForTermRow">
+        <xs:element name="usp_TotalRegisteredStudentsForTerm" msprop:Generator_TableClassName="usp_TotalRegisteredStudentsForTermDataTable" msprop:Generator_TableVarName="tableusp_TotalRegisteredStudentsForTerm" msprop:Generator_RowChangedName="usp_TotalRegisteredStudentsForTermRowChanged" msprop:Generator_TablePropName="usp_TotalRegisteredStudentsForTerm" msprop:Generator_RowDeletingName="usp_TotalRegisteredStudentsForTermRowDeleting" msprop:Generator_RowChangingName="usp_TotalRegisteredStudentsForTermRowChanging" msprop:Generator_RowEvHandlerName="usp_TotalRegisteredStudentsForTermRowChangeEventHandler" msprop:Generator_RowDeletedName="usp_TotalRegisteredStudentsForTermRowDeleted" msprop:Generator_RowClassName="usp_TotalRegisteredStudentsForTermRow" msprop:Generator_UserTableName="usp_TotalRegisteredStudentsForTerm" msprop:Generator_RowEvArgName="usp_TotalRegisteredStudentsForTermRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="lastname" msprop:Generator_ColumnVarNameInTable="columnlastname" msprop:Generator_ColumnPropNameInRow="lastname" msprop:Generator_ColumnPropNameInTable="lastnameColumn" msprop:Generator_UserColumnName="lastname" minOccurs="0">
@@ -189,6 +190,13 @@
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CellNumberForText" msprop:Generator_ColumnVarNameInTable="columnCellNumberForText" msprop:Generator_ColumnPropNameInRow="CellNumberForText" msprop:Generator_ColumnPropNameInTable="CellNumberForTextColumn" msprop:Generator_UserColumnName="CellNumberForText" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>

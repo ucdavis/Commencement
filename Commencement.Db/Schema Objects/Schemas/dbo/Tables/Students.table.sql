@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[Students] (
+CREATE TABLE [dbo].[Students] (
     [Id]           UNIQUEIDENTIFIER CONSTRAINT [DF_Students_Id] DEFAULT (newid()) NOT NULL,
     [Pidm]         VARCHAR (8)      NOT NULL,
     [StudentId]    VARCHAR (9)      NOT NULL,
@@ -23,7 +23,9 @@
 
 
 
+
+
 GO
-CREATE NONCLUSTERED INDEX [nci_idx_Students_StudentId]
+CREATE NONCLUSTERED INDEX [nci_Students_StudentId]
     ON [dbo].[Students]([StudentId] ASC);
 

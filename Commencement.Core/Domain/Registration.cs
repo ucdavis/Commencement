@@ -57,6 +57,10 @@ namespace Commencement.Core.Domain
         public virtual IList<SpecialNeed> SpecialNeeds { get; set; }
         [StringLength(150)]
         public virtual string Phonetic { get; set; }
+
+        [StringLength(20)]
+        [RegularExpression("^(\\+?1-?)?(\\([2-9]([02-9]\\d|1[02-9])\\)|[2-9]([02-9]\\d|1[02-9]))-?[2-9]\\d{2}-?\\d{4}$", ErrorMessage = "Invalid phone format. ###-###-#### or similar")]
+        public virtual string CellNumberForText { get; set; }
         #endregion
 
         #region Fields to Remove
@@ -144,6 +148,7 @@ namespace Commencement.Core.Domain
             Map(x => x.GradTrack);
             Map(x => x.TicketPassword);
             Map(x => x.Phonetic);
+            Map(x => x.CellNumberForText);
 
             HasMany(a => a.RegistrationParticipations).Inverse().Cascade.AllDeleteOrphan();
             HasMany(a => a.RegistrationPetitions).Inverse().Cascade.AllDeleteOrphan();

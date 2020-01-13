@@ -12,7 +12,7 @@
     [GradTrack]         BIT              CONSTRAINT [DF_Registrations_GradTrack] DEFAULT ((0)) NOT NULL,
     [TicketPassword]    VARCHAR (50)     NULL,
     [Phonetic]          VARCHAR (150)    NULL,
-    [CellNumberForText] VARCHAR (10)     NULL,
+    [CellNumberForText] VARCHAR (20)     NULL,
     [CellCarrier]       VARCHAR (25)     NULL,
     CONSTRAINT [PK_Registrations] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_Registrations_Registrations] FOREIGN KEY ([id]) REFERENCES [dbo].[Registrations] ([id]),
@@ -24,7 +24,10 @@
 
 
 
+
+
 GO
-CREATE NONCLUSTERED INDEX [nci_wi_Registrations_93976C1EE181331E058E1D188A03DDB0]
+CREATE NONCLUSTERED INDEX [nci_Registrations_Student_Id]
     ON [dbo].[Registrations]([Student_Id] ASC);
+GO
 

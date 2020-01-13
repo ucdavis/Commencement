@@ -31,6 +31,12 @@
             @Html.ValidationMessageFor(x => x.Registration.Zip)
         </div>
         <div class="input__group">
+            <label>Cell Number for Texts</label>
+            @Html.TextBoxFor(x => x.Registration.CellNumberForText, new { placeholder = "###-###-####", maxlength = 20 })
+            @Html.ValidationMessageFor(x => x.Registration.CellNumberForText)
+            <div>Carrier messaging and data rates may apply.</div>
+        </div>
+        <div class="input__group">
             <label>Additional Recipients Email</label>
             @Html.TextBoxFor(x => x.Registration.Email, new { placeholder = "Additional Recipients Email", maxlength = 100 })
             @Html.ValidationMessageFor(x => x.Registration.Email)

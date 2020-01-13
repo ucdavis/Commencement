@@ -9,7 +9,7 @@
         <Tables>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="usp_TotalRegisteredByMajorTableAdapter" GeneratorDataComponentClassName="usp_TotalRegisteredByMajorTableAdapter" Name="usp_TotalRegisteredByMajor" UserDataComponentName="usp_TotalRegisteredByMajorTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="MainDB (Web.config)" DbObjectName="Commencement.dbo.usp_TotalRegisteredByMajor" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+              <DbSource ConnectionRef="MainDB (Web.config)" DbObjectName="Commencement.dbo.usp_TotalRegisteredByMajor" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
                     <CommandText>dbo.usp_TotalRegisteredByMajor</CommandText>
@@ -43,6 +43,8 @@
               <Mapping SourceColumn="DistributionMethod" DataSetColumn="DistributionMethod" />
               <Mapping SourceColumn="dateregistered" DataSetColumn="dateregistered" />
               <Mapping SourceColumn="CeremonyTime" DataSetColumn="CeremonyTime" />
+              <Mapping SourceColumn="CellNumberForText" DataSetColumn="CellNumberForText" />
+              <Mapping SourceColumn="Phonetic" DataSetColumn="Phonetic" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -54,7 +56,7 @@
   <xs:element name="CommencementDataSet_TotalRegisteredByMajorReport" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="CommencementDataSet_TotalRegisteredByMajorReport" msprop:Generator_UserDSName="CommencementDataSet_TotalRegisteredByMajorReport">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="usp_TotalRegisteredByMajor" msprop:Generator_TableClassName="usp_TotalRegisteredByMajorDataTable" msprop:Generator_TableVarName="tableusp_TotalRegisteredByMajor" msprop:Generator_TablePropName="usp_TotalRegisteredByMajor" msprop:Generator_RowDeletingName="usp_TotalRegisteredByMajorRowDeleting" msprop:Generator_RowChangingName="usp_TotalRegisteredByMajorRowChanging" msprop:Generator_RowEvHandlerName="usp_TotalRegisteredByMajorRowChangeEventHandler" msprop:Generator_RowDeletedName="usp_TotalRegisteredByMajorRowDeleted" msprop:Generator_UserTableName="usp_TotalRegisteredByMajor" msprop:Generator_RowChangedName="usp_TotalRegisteredByMajorRowChanged" msprop:Generator_RowEvArgName="usp_TotalRegisteredByMajorRowChangeEvent" msprop:Generator_RowClassName="usp_TotalRegisteredByMajorRow">
+        <xs:element name="usp_TotalRegisteredByMajor" msprop:Generator_TableClassName="usp_TotalRegisteredByMajorDataTable" msprop:Generator_TableVarName="tableusp_TotalRegisteredByMajor" msprop:Generator_RowChangedName="usp_TotalRegisteredByMajorRowChanged" msprop:Generator_TablePropName="usp_TotalRegisteredByMajor" msprop:Generator_RowDeletingName="usp_TotalRegisteredByMajorRowDeleting" msprop:Generator_RowChangingName="usp_TotalRegisteredByMajorRowChanging" msprop:Generator_RowEvHandlerName="usp_TotalRegisteredByMajorRowChangeEventHandler" msprop:Generator_RowDeletedName="usp_TotalRegisteredByMajorRowDeleted" msprop:Generator_RowClassName="usp_TotalRegisteredByMajorRow" msprop:Generator_UserTableName="usp_TotalRegisteredByMajor" msprop:Generator_RowEvArgName="usp_TotalRegisteredByMajorRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="lastname" msprop:Generator_ColumnVarNameInTable="columnlastname" msprop:Generator_ColumnPropNameInRow="lastname" msprop:Generator_ColumnPropNameInTable="lastnameColumn" msprop:Generator_UserColumnName="lastname" minOccurs="0">
@@ -154,6 +156,20 @@
               </xs:element>
               <xs:element name="dateregistered" msprop:Generator_ColumnVarNameInTable="columndateregistered" msprop:Generator_ColumnPropNameInRow="dateregistered" msprop:Generator_ColumnPropNameInTable="dateregisteredColumn" msprop:Generator_UserColumnName="dateregistered" type="xs:dateTime" />
               <xs:element name="CeremonyTime" msprop:Generator_ColumnVarNameInTable="columnCeremonyTime" msprop:Generator_ColumnPropNameInRow="CeremonyTime" msprop:Generator_ColumnPropNameInTable="CeremonyTimeColumn" msprop:Generator_UserColumnName="CeremonyTime" type="xs:dateTime" />
+              <xs:element name="CellNumberForText" msprop:Generator_ColumnVarNameInTable="columnCellNumberForText" msprop:Generator_ColumnPropNameInRow="CellNumberForText" msprop:Generator_ColumnPropNameInTable="CellNumberForTextColumn" msprop:Generator_UserColumnName="CellNumberForText" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Phonetic" msprop:Generator_ColumnVarNameInTable="columnPhonetic" msprop:Generator_ColumnPropNameInRow="Phonetic" msprop:Generator_ColumnPropNameInTable="PhoneticColumn" msprop:Generator_UserColumnName="Phonetic" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="150" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
