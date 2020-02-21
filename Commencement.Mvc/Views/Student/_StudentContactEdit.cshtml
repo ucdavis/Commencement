@@ -44,7 +44,7 @@
         </div>
         <div class="input__group">
             <label>How To Say Your Name Phonetically</label>
-            @Html.TextBoxFor(x => x.Registration.Phonetic, new { placeholder = "Phonetic Pronunciation", maxlength = 150 })
+            @Html.TextBoxFor(x => x.Registration.Phonetic, new { placeholder = "Phonetic Pronunciation", maxlength = 150, autocomplete = "off" })
             @Html.ValidationMessageFor(x => x.Registration.Phonetic)
         </div>
     </div>
