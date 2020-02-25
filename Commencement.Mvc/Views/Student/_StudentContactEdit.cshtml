@@ -7,44 +7,44 @@
     <div class="form__wrapper">
         <div class="input__group">
             <label>Address Line 1</label>
-            @Html.TextBoxFor(a => a.Registration.Address1, new {PlaceHolder = "Address Line 1", maxlength = 200 })
+            @Html.TextBoxFor(a => a.Registration.Address1, new {PlaceHolder = "Address Line 1", maxlength = 200, autocomplete = "new-password" })
             @Html.ValidationMessageFor(x=>x.Registration.Address1)
         </div>
         <div class="input__group">
             <label>Address Line 2</label>
-            @Html.TextBoxFor(a => a.Registration.Address2, new { PlaceHolder = "Address Line 2", maxlength = 200 })
+            @Html.TextBoxFor(a => a.Registration.Address2, new { PlaceHolder = "Address Line 2", maxlength = 200, autocomplete = "new-password" })
             @Html.ValidationMessageFor(x => x.Registration.Address2)
         </div>
         <div class="input__group">
             <label>City</label>
-            @Html.TextBoxFor(a => a.Registration.City, new { PlaceHolder = "City", maxlength = 100 })
+            @Html.TextBoxFor(a => a.Registration.City, new { PlaceHolder = "City", maxlength = 100, autocomplete = "new-password" })
             @Html.ValidationMessageFor(x => x.Registration.City)
         </div>
         <div class="input__group">
             <label>State</label>
-            @Html.DropDownListFor(a => a.Registration.State, new SelectList(Model.States, "id", "name", "CA"))
+            @Html.DropDownListFor(a => a.Registration.State, new SelectList(Model.States, "id", "name", "CA"), new { autocomplete = "new-password" })
 
         </div>
         <div class="input__group">
             <label>Zip Code</label>
-            @Html.TextBoxFor(x => x.Registration.Zip, new { placeholder = "Zip Code", maxlength = 15, size = 5 })
+            @Html.TextBoxFor(x => x.Registration.Zip, new { placeholder = "Zip Code", maxlength = 15, size = 5, autocomplete = "new-password" })
             @Html.ValidationMessageFor(x => x.Registration.Zip)
         </div>
         <div class="input__group">
             <label>Cell Number for Texts</label>
-            @Html.TextBoxFor(x => x.Registration.CellNumberForText, new { placeholder = "###-###-####", maxlength = 20 })
+            @Html.TextBoxFor(x => x.Registration.CellNumberForText, new { placeholder = "###-###-####", maxlength = 20, autocomplete = "new-password" })
             @Html.ValidationMessageFor(x => x.Registration.CellNumberForText)
             <div>Carrier messaging and data rates may apply.</div>
         </div>
         <div class="input__group">
             <label>Additional Recipients Email</label>
-            @Html.TextBoxFor(x => x.Registration.Email, new { placeholder = "Additional Recipients Email", maxlength = 100 })
+            @Html.TextBoxFor(x => x.Registration.Email, new { placeholder = "Additional Recipients Email", maxlength = 100, autocomplete = "new-password" })
             @Html.ValidationMessageFor(x => x.Registration.Email)
             <div>You can list a family member or others email address to receive copies of all your commencement email notifications.</div>
         </div>
         <div class="input__group">
-            <label>How To Say Your Name Phonetically</label>
-            @Html.TextBoxFor(x => x.Registration.Phonetic, new { placeholder = "Phonetic Pronunciation", maxlength = 150, autocomplete = "off" })
+            <label>How would you like us to pronounce your name?</label>
+            @Html.TextBoxFor(x => x.Registration.Phonetic, new { placeholder = "Pronunciation", maxlength = 150, autocomplete = "new-password" })
             @Html.ValidationMessageFor(x => x.Registration.Phonetic)
         </div>
     </div>
