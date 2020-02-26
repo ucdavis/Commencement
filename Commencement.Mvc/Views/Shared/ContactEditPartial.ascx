@@ -43,7 +43,7 @@
             <%= Html.ValidationMessageFor(x=>x.Registration.City) %>
         </li>
         <li><strong>State:<span>*</span></strong>
-            <%= this.Select("Registration.State").Options(Model.States, x => x.Id, x => x.Name).Selected("CA")%>
+            <%= this.Select("Registration.State").Options(Model.States, x => x.Id, x => x.Name).Selected(Model != null && Model.Registration != null && Model.Registration.State != null ? Model.Registration.State.Id : "CA")%>
         </li>
         <li><strong>Zip Code:<span>*</span></strong>
             <%= Html.TextBoxFor(x => x.Registration.Zip, new { maxlength = 15, size = 5 }) %>
