@@ -565,6 +565,9 @@
     <Compile Include="Resources\SelectLists.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app_offline.htm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="App_Readme\Elmah.txt" />
     <Content Include="Content\2013.2.611\Black\editor.png" />
     <Content Include="Content\2013.2.611\Black\imagebrowser.png" />
